@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Orsaker till den industriella revolutionen</title>
+  <style>
+    :root {
+      --ink: #0d1117;
+      --ink-2: #141b24;
+      --steel: #8ea0b5;
+      --coal: #1f2630;
+      --paper: #f2eadb;
+      --paper-soft: #dfd4c1;
+      --brass: #c89c53;
+      --copper: #9f5a33;
+      --ember: #d67d45;
+      --line: rgba(200, 156, 83, 0.18);
+      --mist: rgba(255,255,255,0.05);
+      --text: #eadfcd;
+      --text-dim: rgba(234,223,205,0.72);
+      --good: rgba(101,182,122,0.18);
+      --bad: rgba(214,112,88,0.18);
+      --shadow: 0 22px 60px rgba(0,0,0,0.45);
+      --mono: "Courier New", monospace;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --max: 860px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: var(--serif);
+      font-size: 21px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; }
+    strong { color: var(--paper); }
+    em { color: var(--brass); }
+    p { margin-bottom: 24px; }
+    p:last-child { margin-bottom: 0; }
+
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--copper), var(--brass), var(--steel));
+      transition: width 0.08s;
+    }
+
+    .tooltip {
+      position: fixed;
+      z-index: 1200;
+      display: none;
+      max-width: 280px;
+      padding: 12px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      background: #10161e;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.55;
+      box-shadow: var(--shadow);
+      pointer-events: none;
+    }
+
+    .glossary-term {
+      border-bottom: 2px dotted rgba(200,156,83,0.45);
+      cursor: help;
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 72px 36px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 25%, rgba(214,125,69,0.16), transparent 26%),
+        radial-gradient(circle at 15% 78%, rgba(142,160,181,0.10), transparent 24%),
+        linear-gradient(180deg, #161c25 0%, #090c11 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E");
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 34%, rgba(0,0,0,0.86) 100%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 980px;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 88px);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+      color: var(--paper);
+      margin-bottom: 18px;
+      text-shadow: 0 0 70px rgba(214,125,69,0.18);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.45s forwards;
+    }
+
+    .hero-sub {
+      max-width: 760px;
+      margin: 0 auto 38px;
+      font-size: 24px;
+      line-height: 1.55;
+      color: var(--text-dim);
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s forwards;
+    }
+
+    .hero-counters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 0 auto 38px;
+      max-width: 940px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.95s forwards;
+    }
+
+    .counter-card {
+      border: 1px solid var(--line);
+      background: rgba(242,234,219,0.035);
+      padding: 18px 14px;
+      border-radius: 4px;
+      backdrop-filter: blur(2px);
+    }
+
+    .counter-card strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin-bottom: 8px;
+    }
+
+    .counter-card span {
+      display: block;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--text-dim);
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.2s forwards;
+    }
+
+    .hero-btn, .ep-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-dim);
+    }
+
+    .hero-btn:hover, .ep-link:hover {
+      transform: translateY(-2px);
+      border-color: var(--brass);
+      color: var(--paper);
+      background: rgba(200,156,83,0.09);
+    }
+
+    .hero-btn.primary {
+      background: rgba(159,90,51,0.18);
+      border-color: rgba(159,90,51,0.4);
+      color: var(--paper);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0;
+      animation: fadeUp 0.9s 1.45s forwards;
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 52px;
+      background: linear-gradient(to bottom, var(--brass), transparent);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .article {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 88px 36px;
+    }
+
+    .intro {
+      font-size: 24px;
+      line-height: 1.62;
+      font-style: italic;
+      color: var(--paper);
+      margin-bottom: 42px;
+    }
+
+    .section-marker {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 84px 0 30px;
+    }
+
+    .section-marker::before,
+    .section-marker::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .section-marker span {
+      white-space: nowrap;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--brass);
+    }
+
+    h2 {
+      font-size: clamp(30px, 4.4vw, 50px);
+      line-height: 1.12;
+      color: var(--paper);
+      margin-bottom: 28px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--brass);
+      margin: 40px 0 14px;
+    }
+
+    .fact-box {
+      margin: 34px 0;
+      padding: 22px 24px;
+      background: rgba(200,156,83,0.06);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--brass);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .fact-box-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin-bottom: 8px;
+    }
+
+    .fact-box p {
+      margin: 0;
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    .pullquote {
+      margin: 62px -74px;
+      padding: 38px 54px;
+      background: linear-gradient(135deg, rgba(159,90,51,0.12), transparent);
+      border-left: 4px solid var(--copper);
+      position: relative;
+    }
+
+    .pullquote::before {
+      content: '“';
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      font-size: 160px;
+      line-height: 0.8;
+      color: rgba(159,90,51,0.18);
+      pointer-events: none;
+    }
+
+    .pullquote p {
+      position: relative;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.42;
+      color: var(--paper);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .pullquote cite {
+      display: block;
+      margin-top: 16px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brass);
+      font-style: normal;
+    }
+
+    .full-bleed {
+      margin: 82px -100vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 90px 36px;
+      background:
+        radial-gradient(circle at 50% 20%, rgba(200,156,83,0.10), transparent 25%),
+        linear-gradient(180deg, #121821 0%, #0c1016 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .full-bleed-inner {
+      max-width: 1020px;
+      margin: 0 auto;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .timeline-card {
+      border: 1px solid var(--line);
+      background: rgba(242,234,219,0.03);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .timeline-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--paper);
+      text-align: left;
+      padding: 18px 20px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+    }
+
+    .timeline-btn span {
+      display: block;
+      margin-bottom: 6px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brass);
+    }
+
+    .timeline-more {
+      display: none;
+      padding: 0 20px 18px;
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .timeline-card.open .timeline-more { display: block; }
+
+    .machine-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      align-items: stretch;
+      margin-top: 26px;
+    }
+
+    .panel {
+      background: rgba(242,234,219,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px;
+    }
+
+    .panel h3 { margin-top: 0; }
+
+    .cause-buttons {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .cause-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(242,234,219,0.03);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 15px 16px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+      transition: 0.2s ease;
+    }
+
+    .cause-btn:hover,
+    .cause-btn.active {
+      border-color: var(--brass);
+      background: rgba(200,156,83,0.10);
+      color: var(--paper);
+    }
+
+    .cause-display {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cause-kicker {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin-bottom: 10px;
+    }
+
+    .cause-display h3 {
+      margin: 0 0 12px;
+      font-size: 30px;
+      color: var(--paper);
+    }
+
+    .cause-display p {
+      font-size: 17px;
+      line-height: 1.72;
+      color: var(--text-dim);
+    }
+
+    .key-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .key-card {
+      background: rgba(242,234,219,0.03);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 16px;
+    }
+
+    .key-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 18px;
+      color: var(--paper);
+    }
+
+    .key-card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--text-dim);
+    }
+
+    .accordion {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .accordion-item {
+      border: 1px solid var(--line);
+      background: rgba(242,234,219,0.03);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .accordion-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 18px 20px;
+      color: var(--paper);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .accordion-sign {
+      color: var(--brass);
+      font-family: var(--mono);
+      flex-shrink: 0;
+    }
+
+    .accordion-content {
+      display: none;
+      padding: 0 20px 18px;
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .accordion-item.open .accordion-content { display: block; }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .compare-card {
+      background: rgba(242,234,219,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 22px;
+    }
+
+    .compare-card h3 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .compare-card ul {
+      padding-left: 18px;
+      color: var(--text-dim);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .compare-card li + li { margin-top: 8px; }
+
+    .teacher-section {
+      background: #0b0f14;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 86px 36px;
+      margin-top: 40px;
+    }
+
+    .teacher-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .teacher-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin-bottom: 14px;
+    }
+
+    .teacher-title {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      color: var(--paper);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .teacher-intro {
+      max-width: 720px;
+      margin-bottom: 28px;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--text-dim);
+    }
+
+    .teacher-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .t-tab {
+      background: rgba(242,234,219,0.04);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .t-tab:hover,
+    .t-tab.active {
+      border-color: var(--brass);
+      color: var(--brass);
+      background: rgba(200,156,83,0.10);
+    }
+
+    .t-panel { display: none; }
+    .t-panel.active { display: block; }
+
+    .t-panel-intro {
+      font-size: 16px;
+      color: var(--text-dim);
+      font-style: italic;
+      border-left: 2px solid var(--line);
+      padding-left: 16px;
+      margin-bottom: 34px;
+      line-height: 1.7;
+    }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .question-card,
+    .write-card,
+    .source-card,
+    .lgr-card {
+      background: rgba(242,234,219,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 22px;
+    }
+
+    .question-card h4,
+    .write-card h4,
+    .source-card h4,
+    .lgr-card h4 {
+      font-size: 19px;
+      color: var(--paper);
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+
+    .question-card p,
+    .write-card p,
+    .source-card p,
+    .lgr-card p {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--text-dim);
+      margin-bottom: 0;
+    }
+
+    .mc-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .mc-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(242,234,219,0.03);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+      transition: 0.2s ease;
+    }
+
+    .mc-btn:hover {
+      border-color: var(--brass);
+      background: rgba(200,156,83,0.08);
+    }
+
+    .mc-btn.correct {
+      border-color: rgba(101,182,122,0.55);
+      background: var(--good);
+    }
+
+    .mc-btn.wrong {
+      border-color: rgba(214,112,88,0.52);
+      background: var(--bad);
+    }
+
+    .mc-feedback {
+      min-height: 22px;
+      margin-top: 12px;
+      font-size: 15px;
+      color: var(--paper-soft);
+    }
+
+    .source-badge,
+    .write-badge,
+    .lgr-subject {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      border: 1px solid rgba(200,156,83,0.22);
+      background: rgba(200,156,83,0.09);
+      color: var(--brass);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .source-quote {
+      margin: 16px 0 18px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--brass);
+      background: rgba(242,234,219,0.03);
+      color: var(--text-dim);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .task-item {
+      padding: 14px 16px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: rgba(242,234,219,0.03);
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .write-stack,
+    .lgr-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .lgr-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .write-tip {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-left: 2px solid var(--copper);
+      background: rgba(159,90,51,0.08);
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .write-tip strong {
+      display: block;
+      margin-bottom: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--brass);
+    }
+
+    .epilogue {
+      margin: 0 -100vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 100px 36px 120px;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(159,90,51,0.16) 0%, transparent 72%);
+    }
+
+    .epilogue h2 {
+      margin-bottom: 22px;
+    }
+
+    .epilogue p {
+      max-width: 720px;
+      margin: 0 auto 22px;
+      color: var(--text-dim);
+      font-size: 21px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .ep-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-counters,
+      .question-grid,
+      .lgr-grid,
+      .machine-grid,
+      .key-grid,
+      .compare-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      body { font-size: 19px; }
+      .hero, .article, .full-bleed, .teacher-section, .epilogue { padding-left: 24px; padding-right: 24px; }
+      .hero-counters,
+      .question-grid,
+      .lgr-grid,
+      .machine-grid,
+      .key-grid,
+      .compare-grid { grid-template-columns: 1fr; }
+      .pullquote { margin: 42px 0; padding: 28px 24px; }
+      .pullquote::before { font-size: 110px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+  <div class="tooltip" id="tooltip"></div>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-label">SO-portalen · Fördjupning · Historia · Industrialisering</div>
+      <h1>Orsaker till den<br><em>industriella revolutionen</em></h1>
+      <p class="hero-sub">Industrialiseringen började inte med en enda maskin. Den tog fart när jordbruk, befolkning, teknik, råvaror, kapital och politik började förstärka varandra samtidigt.</p>
+
+      <div class="hero-counters">
+        <div class="counter-card"><strong>Jordbruk</strong><span>Mer mat frigjorde arbetskraft och förbättrade försörjningen.</span></div>
+        <div class="counter-card"><strong>Befolkning</strong><span>Fler människor gav både fler arbetare och större marknader.</span></div>
+        <div class="counter-card"><strong>Teknik</strong><span>Spinnmaskiner och ångmaskiner ökade takten i produktionen.</span></div>
+        <div class="counter-card"><strong>Resurser</strong><span>Kol, järn och kapital gjorde storskalig industri möjlig.</span></div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="hero-btn primary" href="#artikelstart">Börja läsa</a>
+        <a class="hero-btn" href="#lararsektion">Frågor och övningar</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scrolla för att läsa</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <article class="article" id="artikelstart">
+    <p class="intro">Den industriella revolutionen förändrade hur människor arbetade, bodde och producerade varor. Men den uppstod inte av en slump. För att förstå varför fabriker och maskiner slog igenom måste vi titta på flera orsaker samtidigt – och på hur de hakade i varandra.</p>
+
+    <p>Före industrialiseringen tillverkades många varor för hand i hemmen eller i små verkstäder. Det gick långsamt, krävde mycket mänskligt arbete och gjorde det svårt att producera i riktigt stor skala. Under slutet av 1700-talet och början av 1800-talet förändrades detta. Maskiner började ta över delar av arbetet, produktionen samlades i fabriker och nya energikällor gav en helt annan kraft än människor och djur kunde ge.</p>
+
+    <p>Men fabriker uppstår inte bara för att någon uppfinner en maskin. De kräver <span class="glossary-term" data-definition="Pengar som kan satsas för att starta och utveckla verksamheter, till exempel fabriker, maskiner och handel.">kapital</span>, tillgång till arbetskraft, råvaror, efterfrågan på varor och ett samhälle där investeringar och företagande faktiskt är möjliga. Därför måste industrialiseringen förstås som ett samspel mellan ekonomi, teknik och samhällsförändringar.</p>
+
+    <div class="section-marker"><span>Del 1 · Grunden läggs</span></div>
+    <h2>Jordbrukets förändring –<br><em>när mer mat skapade nya möjligheter</em></h2>
+
+    <p>En av de viktigaste förutsättningarna för industrialiseringen var förändringarna inom jordbruket. Under 1700-talet blev jordbruket effektivare genom nya odlingsmetoder, bättre redskap och mer planerad användning av marken. Växelbruk förbättrade jordens näringsinnehåll, och grödor som potatis och klöver gav både större skördar och bättre djurfoder.</p>
+
+    <p>Detta ledde till att fler människor kunde försörjas. När jordbruket producerade mer mat minskade risken för svält, och fler barn överlevde uppväxten. Men förändringarna fick också en annan viktig effekt: färre människor behövdes på landsbygden. När jordbruket blev effektivare frigjordes arbetskraft som i stället kunde söka arbete i städer, gruvor och fabriker.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-label">Nyckeln här</div>
+      <p>Det effektivare jordbruket gav inte bara mer mat. Det skapade också både människor och resurser som kunde flyttas över till industrin.</p>
+    </div>
+
+    <p>Just därför var jordbruksförändringarna så avgörande. Industrin behövde arbetare – och någon måste samtidigt kunna producera mat åt dem. Om jordbruket inte hade blivit mer effektivt hade samhället haft mycket svårare att försörja växande städer och fabriksarbetare.</p>
+
+    <div class="pullquote">
+      <p>Industrialiseringen började inte i fabriken. Den började på åkern.</p>
+      <cite>Artikelns huvudpoäng i en mening</cite>
+    </div>
+
+    <div class="section-marker"><span>Del 2 · Fler människor, större marknad</span></div>
+    <h2>Befolkningstillväxt –<br><em>arbetskraft och efterfrågan på samma gång</em></h2>
+
+    <p>När tillgången till mat förbättrades växte också befolkningen. Under 1700- och 1800-talen ökade Europas befolkning snabbt. Det betydde att det fanns fler människor som kunde arbeta i fabrikerna, men också fler människor som behövde köpa kläder, redskap, husgeråd och andra vardagsvaror.</p>
+
+    <p>Det här är viktigt eftersom industrialiseringen inte bara handlade om att producera mer – den handlade också om att det blev lönsamt att producera mer. När marknaden växte blev storskalig tillverkning attraktiv. En fabrik kunde producera tusentals varor och sälja dem till en växande befolkning. På så vis drev befolkningstillväxten både utbud och efterfrågan.</p>
+
+    <p>Det skapade en tydlig kedja: mer mat gav större befolkning, större befolkning gav mer arbetskraft och större efterfrågan, och detta gjorde investeringar i maskiner och fabriker mer lönsamma.</p>
+  </article>
+
+  <section class="full-bleed">
+    <div class="full-bleed-inner">
+      <div class="section-marker"><span>Interaktiv fördjupning</span></div>
+      <h2>Orsakskedjan –<br><em>klicka dig genom utvecklingen</em></h2>
+
+      <div class="timeline">
+        <div class="timeline-card open">
+          <button class="timeline-btn" type="button"><span>Steg 1</span>Jordbruket blir effektivare</button>
+          <div class="timeline-more">Nya odlingsmetoder, bättre redskap och växelbruk gör att mer mat kan produceras med färre händer.</div>
+        </div>
+        <div class="timeline-card">
+          <button class="timeline-btn" type="button"><span>Steg 2</span>Befolkningen växer</button>
+          <div class="timeline-more">När fler överlever och försörjningen blir stabilare växer befolkningen. Samhället får både fler arbetare och fler konsumenter.</div>
+        </div>
+        <div class="timeline-card">
+          <button class="timeline-btn" type="button"><span>Steg 3</span>Efterfrågan på varor ökar</button>
+          <div class="timeline-more">Fler människor behöver kläder, verktyg, husgeråd och byggmaterial. Det blir lönsamt att producera i större mängder.</div>
+        </div>
+        <div class="timeline-card">
+          <button class="timeline-btn" type="button"><span>Steg 4</span>Maskiner och fabriker slår igenom</button>
+          <div class="timeline-more">När arbetskraft, marknad, kapital och teknik möts kan produktionen flyttas från hem och verkstäder till fabriker.</div>
+        </div>
+      </div>
+
+      <div class="machine-grid">
+        <div class="panel">
+          <h3>Vilken faktor vill du undersöka?</h3>
+          <p style="font-size:16px; color:var(--text-dim); line-height:1.7;">Klicka på en orsak för att se vad den bidrog med. Tanken är att eleverna ska märka att ingen faktor räcker ensam.</p>
+          <div class="cause-buttons">
+            <button class="cause-btn active" data-title="Jordbruket" data-kicker="Orsak 1" data-text="Det effektivare jordbruket skapade mer mat, frigjorde arbetskraft och gjorde det möjligt för fler människor att bo i städer. Utan denna grund hade det varit svårt att försörja en växande industriarbetarbefolkning.">Jordbrukets förändring</button>
+            <button class="cause-btn" data-title="Befolkningen" data-kicker="Orsak 2" data-text="Befolkningstillväxten gav fabrikerna arbetare och industrin kunder. Det var alltså inte bara en tillgång på människor – det var också en växande marknad som gjorde storskalig produktion lönsam.">Befolkningstillväxt</button>
+            <button class="cause-btn" data-title="Tekniken" data-kicker="Orsak 3" data-text="Nya maskiner som Spinning Jenny, flygande skytteln och ångmaskinen ökade produktionen kraftigt. Tekniken gjorde att samma mängd arbete kunde ge betydligt större resultat än tidigare.">Tekniska uppfinningar</button>
+            <button class="cause-btn" data-title="Resurser och pengar" data-kicker="Orsak 4" data-text="Kol gav energi, järn användes till maskiner och järnvägar, och kapital gjorde det möjligt att bygga fabriker och köpa dyr utrustning. Industrialisering krävde därför både naturresurser och investeringar.">Kol, järn och kapital</button>
+            <button class="cause-btn" data-title="Samhället" data-kicker="Orsak 5" data-text="Politiskt skydd för äganderätt, handel och investeringar skapade ett klimat där entreprenörer kunde ta risker. Samhällssystemet var därför också en viktig del av industrialiseringens genombrott.">Politik och ekonomi</button>
+          </div>
+        </div>
+
+        <div class="panel cause-display">
+          <div class="cause-kicker" id="causeKicker">Orsak 1</div>
+          <h3 id="causeTitle">Jordbruket</h3>
+          <p id="causeText">Det effektivare jordbruket skapade mer mat, frigjorde arbetskraft och gjorde det möjligt för fler människor att bo i städer. Utan denna grund hade det varit svårt att försörja en växande industriarbetarbefolkning.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <article class="article">
+    <div class="section-marker"><span>Del 3 · Maskinerna förändrar tempot</span></div>
+    <h2>Tekniska uppfinningar –<br><em>när produktionen tog fart på riktigt</em></h2>
+
+    <p>Tekniken var en central del av den industriella revolutionen. Under 1700-talet förbättrades och uppfanns flera maskiner, särskilt inom textilindustrin. Spinnmaskiner och vävstolar gjorde det möjligt att producera garn och tyg mycket snabbare än för hand. Det ledde till att tillverkningen kunde samlas i fabriker där maskinerna stod på samma plats och kunde övervakas av många arbetare samtidigt.</p>
+
+    <p>Särskilt viktig var utvecklingen av ångmaskinen. Med hjälp av ånga kunde man omvandla värme till rörelseenergi. Det innebar att fabriker inte längre behövde ligga vid forsar och vattendrag för att få kraft. De kunde placeras där arbetskraft, råvaror och transporter fanns. Det gav städerna en ny betydelse och bidrog starkt till urbaniseringen.</p>
+
+    <div class="key-grid">
+      <div class="key-card">
+        <strong>Spinning Jenny</strong>
+        <p>En spinnmaskin som gjorde att en arbetare kunde spinna flera trådar samtidigt.</p>
+      </div>
+      <div class="key-card">
+        <strong>Ångmaskinen</strong>
+        <p>Gav fabriker och transporter en kraftkälla som inte var beroende av vind eller vatten.</p>
+      </div>
+      <div class="key-card">
+        <strong>Fabriken</strong>
+        <p>Samlar arbetskraft, maskiner och energi på en plats och ökar kontrollen över produktionen.</p>
+      </div>
+    </div>
+
+    <p>Tekniken gjorde alltså inte bara arbetet snabbare. Den förändrade hela sättet att organisera produktionen. Industrialiseringen blev därför lika mycket en organisationsrevolution som en maskinrevolution.</p>
+
+    <div class="section-marker"><span>Del 4 · Resurser och investeringar</span></div>
+    <h2>Kol, järn och kapital –<br><em>industrins råmaterial och bränsle</em></h2>
+
+    <p>Maskiner räcker inte långt om det saknas energi och råvaror. Därför blev tillgången till kol och järn avgörande. Kol användes för att driva ångmaskiner och för att hetta upp masugnar. Järn behövdes till verktyg, maskiner, broar, järnvägar och fabriksbyggnader. Ett land som hade gott om dessa resurser hade ett stort försprång.</p>
+
+    <p>Men industrin krävde också pengar. Att starta en fabrik var dyrt. Man behövde lokaler, maskiner, transporter och arbetskraft. Därför blev <span class="glossary-term" data-definition="Ekonomiska investeringar som används för att bygga upp produktion, handel eller annan verksamhet.">kapital</span> en viktig förutsättning. Genom handel, banker och tidigare ekonomisk tillväxt hade vissa länder samlat rikedomar som kunde investeras i ny teknik och nya företag.</p>
+
+    <p>När naturresurser, pengar och teknik fanns på samma plats blev industrialiseringen mycket lättare att genomföra. Det är därför vi inte bara ska fråga <em>vad</em> som uppfanns, utan också <em>vem</em> som hade råd att bygga upp hela systemet runt uppfinningarna.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-label">Viktigt att tänka på</div>
+      <p>En uppfinning blir historiskt avgörande först när samhället har resurser att använda den i stor skala.</p>
+    </div>
+
+    <div class="section-marker"><span>Del 5 · Varför Storbritannien?</span></div>
+    <h2>Det brittiska försprånget –<br><em>när många fördelar sammanföll</em></h2>
+
+    <p>Den industriella revolutionen började i Storbritannien. Det berodde inte på att britterna var mer uppfinningsrika än andra människor, utan på att många viktiga förutsättningar sammanföll där. Landet hade gott om kol och järn, ett effektivare jordbruk, växande städer och ett välutvecklat handelsnätverk.</p>
+
+    <p>Storbritannien hade också tillgång till kapital från handel och kolonialism. Samtidigt fanns en politisk stabilitet och ett ekonomiskt system som gjorde det lättare att investera, låna pengar och bygga upp företag. Det fanns alltså både resurser, marknader och ett samhällssystem som gynnade industrialisering.</p>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <h3>Storbritannien hade…</h3>
+        <ul>
+          <li>gott om kol och järn</li>
+          <li>växande handelsstäder</li>
+          <li>kapital från handel och imperium</li>
+          <li>jordbruk som frigjorde arbetskraft</li>
+          <li>ett system som gynnade företagande</li>
+        </ul>
+      </div>
+      <div class="compare-card">
+        <h3>Det ledde till…</h3>
+        <ul>
+          <li>tidiga fabriker och maskininvesteringar</li>
+          <li>snabb urbanisering</li>
+          <li>effektivare transporter och produktion</li>
+          <li>ökad export och större marknader</li>
+          <li>ett försprång gentemot andra länder</li>
+        </ul>
+      </div>
+    </div>
+
+    <p>Det är just detta som gör industrialiseringen så viktig att undervisa om: den visar hur historiska förändringar nästan alltid växer fram genom flera samverkande orsaker. När jordbruk, befolkning, teknik, resurser, kapital och politik förstärkte varandra uppstod något helt nytt – det moderna industrisamhället.</p>
+
+    <div class="section-marker"><span>Del 6 · Slutsatsen</span></div>
+    <h2>Flera orsaker samverkade –<br><em>och därför förändrades världen</em></h2>
+
+    <p>Den industriella revolutionen kan alltså inte förklaras med en enda faktor. Det räcker inte att säga att allt berodde på ångmaskinen, eller på jordbruket, eller på befolkningstillväxten. Det avgörande var att flera förändringar sammanföll och förstärkte varandra.</p>
+
+    <p>Det är därför industrialiseringen blev så omvälvande. Den förändrade inte bara hur människor producerade varor. Den förändrade också städerna, arbetslivet, familjelivet, klassamhället och människors sätt att tänka kring arbete, teknik och ekonomi. Många av de strukturer vi fortfarande lever med i dag – fabriksarbete, urbanisering, massproduktion och tekniktro – har sina rötter här.</p>
+
+    <div class="accordion">
+      <div class="accordion-item">
+        <button class="accordion-btn" type="button"><span>Varför räcker det inte att säga "ångmaskinen förändrade allt"?</span><span class="accordion-sign">+</span></button>
+        <div class="accordion-content">Därför att ångmaskinen bara kunde få verklig betydelse i ett samhälle som hade råvaror, pengar, arbetskraft, efterfrågan och företagare som kunde använda den. Tekniken var viktig – men den verkade tillsammans med andra faktorer.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" type="button"><span>Varför blir Storbritannien så viktigt i historien?</span><span class="accordion-sign">+</span></button>
+        <div class="accordion-content">Storbritannien var det land där flera avgörande förutsättningar sammanföll tidigt. Därför blev landet först med att bygga upp ett industrisamhälle i stor skala.</div>
+      </div>
+      <div class="accordion-item">
+        <button class="accordion-btn" type="button"><span>Vad är den viktigaste historiska lärdomen?</span><span class="accordion-sign">+</span></button>
+        <div class="accordion-content">Att stora samhällsförändringar sällan har en enda orsak. Historien blir tydligare när vi undersöker hur olika faktorer påverkar varandra.</div>
+      </div>
+    </div>
+  </article>
+
+  <section class="teacher-section" id="lararsektion">
+    <div class="teacher-inner">
+      <div class="teacher-label">Lärarsektion</div>
+      <h2 class="teacher-title">Frågor och material<br><em>till texten</em></h2>
+      <p class="teacher-intro">Här finns en färdig övningsdel i samma anda som exemplen: quiz med direkt feedback, skrivuppgifter, källövning och kopplingar till undervisningen. Allt är gjort för att fungera direkt i klassrummet.</p>
+
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTab('quiz', this)">Quiz</button>
+        <button class="t-tab" onclick="showTab('kallor', this)">Källövning</button>
+        <button class="t-tab" onclick="showTab('skriv', this)">Skrivfrågor</button>
+        <button class="t-tab" onclick="showTab('lgr', this)">Undervisning</button>
+      </div>
+
+      <div class="t-panel active" id="tab-quiz">
+        <div class="t-panel-intro">Åtta frågor som tränar både faktakunskap och förståelse av samband. Eleverna får direkt återkoppling när de klickar.</div>
+        <div class="question-grid">
+          <div class="question-card">
+            <h4>1. Varför var jordbrukets förändring så viktig?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="1" data-correct="true">Den gav mer mat och frigjorde arbetskraft till andra delar av samhället.</button>
+              <button class="mc-btn" data-q="1" data-correct="false">Den gjorde att alla bönder blev rika på kort tid.</button>
+              <button class="mc-btn" data-q="1" data-correct="false">Den gjorde att fabriker inte längre behövdes.</button>
+            </div>
+            <div class="mc-feedback" id="f1"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>2. Vad betydde befolkningstillväxten för industrialiseringen?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="2" data-correct="false">Den minskade behovet av att producera varor snabbt.</button>
+              <button class="mc-btn" data-q="2" data-correct="true">Den skapade både fler arbetare och en större marknad för varor.</button>
+              <button class="mc-btn" data-q="2" data-correct="false">Den gjorde att jordbruket blev oviktigt.</button>
+            </div>
+            <div class="mc-feedback" id="f2"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>3. Vad gjorde ångmaskinen särskilt viktig?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="3" data-correct="false">Den gjorde att fabriker bara kunde ligga vid vatten.</button>
+              <button class="mc-btn" data-q="3" data-correct="false">Den ersatte behovet av kol och järn.</button>
+              <button class="mc-btn" data-q="3" data-correct="true">Den gav fabriker en kraftkälla som gjorde dem mindre beroende av vattenkraft.</button>
+            </div>
+            <div class="mc-feedback" id="f3"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>4. Vilken kombination var viktigast för att bygga industrin?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="4" data-correct="false">Bara fler människor.</button>
+              <button class="mc-btn" data-q="4" data-correct="true">Råvaror, energi, arbetskraft, kapital och teknik.</button>
+              <button class="mc-btn" data-q="4" data-correct="false">En enda uppfinnare med en bra idé.</button>
+            </div>
+            <div class="mc-feedback" id="f4"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>5. Varför var kol så viktigt?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="5" data-correct="true">Det användes som energikälla i ångmaskiner och industri.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">Det användes främst som mat för boskap.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">Det ersatte behovet av järn.</button>
+            </div>
+            <div class="mc-feedback" id="f5"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>6. Vad menas med kapital i texten?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="6" data-correct="false">Att ett land har en huvudstad.</button>
+              <button class="mc-btn" data-q="6" data-correct="true">Pengar som kan investeras i fabriker, maskiner och handel.</button>
+              <button class="mc-btn" data-q="6" data-correct="false">Alla människor som bor i städer.</button>
+            </div>
+            <div class="mc-feedback" id="f6"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>7. Varför började industrialiseringen i Storbritannien?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="7" data-correct="false">För att landet helt saknade jordbruk.</button>
+              <button class="mc-btn" data-q="7" data-correct="false">För att landet inte hade någon handel.</button>
+              <button class="mc-btn" data-q="7" data-correct="true">För att flera avgörande förutsättningar fanns där samtidigt.</button>
+            </div>
+            <div class="mc-feedback" id="f7"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>8. Vad är artikelns viktigaste huvudidé?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="8" data-correct="true">Att industrialiseringen växte fram genom flera samverkande orsaker.</button>
+              <button class="mc-btn" data-q="8" data-correct="false">Att allt kan förklaras av en enda uppfinning.</button>
+              <button class="mc-btn" data-q="8" data-correct="false">Att industrialiseringen främst var en slump.</button>
+            </div>
+            <div class="mc-feedback" id="f8"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-kallor">
+        <div class="t-panel-intro">En enkel källövning som tränar eleverna i att skilja mellan vad en källa säger direkt och vad de själva måste tolka utifrån sina historiska kunskaper.</div>
+
+        <div class="source-card">
+          <div class="source-badge">Källövning</div>
+          <h4>En fabriksägare förklarar sin syn</h4>
+          <div class="source-quote">"Med maskinerna kan vi framställa mer garn på en vecka än vad skickliga händer tidigare hann på flera månader. Den som vill lyckas i framtiden måste investera i teknik och hålla produktionen i gång utan avbrott."</div>
+          <div class="task-list">
+            <div class="task-item"><strong>1.</strong> Vilka fördelar med maskiner lyfts fram direkt i källan?</div>
+            <div class="task-item"><strong>2.</strong> Vilket perspektiv saknas i citatet – vilka människor kommer inte till tals?</div>
+            <div class="task-item"><strong>3.</strong> Hur märks sambandet mellan teknik och kapital i källan?</div>
+            <div class="task-item"><strong>4.</strong> Vad behöver du veta mer om för att avgöra hur representativ denna källa är?</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-skriv">
+        <div class="t-panel-intro">Skrivuppgifterna är gjorda för att träna förklaringar, orsakskedjor och historiska resonemang på olika nivåer.</div>
+
+        <div class="write-stack">
+          <div class="write-card">
+            <div class="write-badge">Förklarande</div>
+            <h4>Varför började industrialiseringen inte tidigare?</h4>
+            <p>Skriv ett resonemang där du förklarar varför industrialiseringen tog fart just under slutet av 1700-talet och början av 1800-talet. Använd flera orsaker från artikeln.</p>
+            <div class="write-tip"><strong>Lärartips</strong>Passar bra när du vill träna eleverna i att bygga förklaringar med flera led i stället för att fastna i en enda orsak.</div>
+          </div>
+
+          <div class="write-card">
+            <div class="write-badge">Analytisk</div>
+            <h4>Vilken faktor var viktigast?</h4>
+            <p>Välj en faktor – jordbruk, befolkning, teknik, resurser eller kapital – och argumentera för att just den var viktigast. Förklara samtidigt varför den ändå inte räckte ensam.</p>
+            <div class="write-tip"><strong>Lärartips</strong>Denna uppgift passar för mer utvecklade resonemang eftersom eleven både måste välja, motivera och nyansera.</div>
+          </div>
+
+          <div class="write-card">
+            <div class="write-badge">Perspektiv</div>
+            <h4>En dag i förändringens tid</h4>
+            <p>Skriv en kort text ur perspektivet av en person som lämnar landsbygden för att börja arbeta i en stad under industrialiseringens början. Hur märks de stora historiska orsakerna i en enskild människas liv?</p>
+            <div class="write-tip"><strong>Lärartips</strong>Här går det att kombinera historisk empati med faktakunskaper om urbanisering och arbetsliv.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-lgr">
+        <div class="t-panel-intro">Förslag på hur artikeln kan användas i undervisningen i historia och ämnesövergripande arbete.</div>
+        <div class="lgr-grid">
+          <div class="lgr-card">
+            <div class="lgr-subject">Historia</div>
+            <h4>Industrialisering, samhällsförändring och levnadsvillkor</h4>
+            <p>Texten tränar eleverna i att förstå industrialiseringens orsaker och i att analysera hur ekonomiska, tekniska och sociala förändringar hänger samman.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Historia</div>
+            <h4>Orsak och konsekvens</h4>
+            <p>Artikeln är särskilt lämplig för att arbeta med historiska förklaringar: hur flera orsaker samverkar och leder till stora samhällsförändringar.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Svenska</div>
+            <h4>Läsa, tolka och resonera</h4>
+            <p>Quiz, skrivfrågor och källövning gör sidan användbar även för att träna läsförståelse, resonemang och ämnesspråk.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Samhällskunskap</div>
+            <h4>Ekonomi, arbete och samhällsstruktur</h4>
+            <p>Industrialismen öppnar för diskussioner om arbetsmarknad, urbanisering, sociala skillnader och hur ekonomi påverkar samhällsutvecklingen.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="epilogue">
+    <h2>Industrialiseringen började alltså inte<br><em>med en enda maskin</em></h2>
+    <p>Den tog fart när jordbruket effektiviserades, befolkningen växte, marknaderna blev större och ny teknik kunde kopplas ihop med råvaror, kapital och företagande.</p>
+    <p>När allt detta sammanföll förändrades världen i grunden – och det moderna industrisamhället började växa fram.</p>
+    <div class="ep-links">
+      <a class="ep-link" href="#top">Till toppen</a>
+      <a class="ep-link" href="#lararsektion">Till frågorna</a>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const el = document.documentElement;
+      const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+    });
+
+    document.querySelectorAll('.timeline-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.parentElement.classList.toggle('open');
+      });
+    });
+
+    document.querySelectorAll('.accordion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('open');
+        btn.querySelector('.accordion-sign').textContent = item.classList.contains('open') ? '–' : '+';
+      });
+    });
+
+    function showTab(id, btn) {
+      document.querySelectorAll('.t-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.t-tab').forEach(tab => tab.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    document.querySelectorAll('.mc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.q;
+        const options = document.querySelectorAll(`.mc-btn[data-q="${q}"]`);
+        const correct = btn.dataset.correct === 'true';
+        const feedback = document.getElementById('f' + q);
+
+        options.forEach(option => {
+          option.disabled = true;
+          if (option.dataset.correct === 'true') option.classList.add('correct');
+        });
+
+        if (!correct) btn.classList.add('wrong');
+        feedback.textContent = correct
+          ? 'Rätt. Du har fångat huvudtanken i resonemanget.'
+          : 'Inte riktigt. Gå tillbaka till hur flera orsaker samverkade.';
+      });
+    });
+
+    const causeKicker = document.getElementById('causeKicker');
+    const causeTitle = document.getElementById('causeTitle');
+    const causeText = document.getElementById('causeText');
+
+    document.querySelectorAll('.cause-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.cause-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        causeKicker.textContent = btn.dataset.kicker;
+        causeTitle.textContent = btn.dataset.title;
+        causeText.textContent = btn.dataset.text;
+      });
+    });
+
+    const tooltip = document.getElementById('tooltip');
+    document.querySelectorAll('.glossary-term').forEach(term => {
+      term.addEventListener('mouseenter', () => {
+        tooltip.textContent = term.dataset.definition;
+        tooltip.style.display = 'block';
+      });
+      term.addEventListener('mousemove', e => {
+        tooltip.style.left = `${e.clientX + 16}px`;
+        tooltip.style.top = `${e.clientY + 16}px`;
+      });
+      term.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
