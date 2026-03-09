@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Begreppsträning – Buddhism</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:    #1A2744;
+  --gold:    #B8860B;
+  --gold-lt: #FBF4E0;
+  --sand:    #F8F5EF;
+  --text:    #1E1A12;
+  --muted:   #6A5F4B;
+  --border:  #E4DCCF;
+  --green:   #1A5C2A;
+  --green-lt:#EAF6EA;
+  --red:     #8B1A1A;
+  --red-lt:  #FDF0F0;
+  --purple:  #3A1A6A;
+  --purple-lt:#F2EDFA;
+  --teal:    #1A4A4A;
+  --teal-lt: #EBF5F5;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Source Serif 4', Georgia, serif; background: var(--sand); color: var(--text); line-height: 1.7; min-height: 100vh; }
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--navy); color: white; padding: 28px 40px 24px;
+  background-image: radial-gradient(ellipse at 90% 50%, rgba(184,134,11,0.18) 0%, transparent 60%);
+}
+.site-header .label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #D4A843; margin-bottom: 8px; }
+.site-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 4vw, 36px); font-weight: 900; line-height: 1.1; }
+.site-header h1 span { color: #D4A843; }
+.site-header p { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 6px; }
+
+/* ── TOTAL PROGRESS BAR ── */
+.total-progress {
+  background: rgba(255,255,255,0.1); padding: 14px 40px 16px;
+  display: flex; align-items: center; gap: 16px;
+}
+.total-progress-label { font-size: 12px; color: rgba(255,255,255,0.6); white-space: nowrap; letter-spacing: 0.5px; }
+.total-bar-wrap { flex: 1; height: 6px; background: rgba(255,255,255,0.15); border-radius: 3px; }
+.total-bar { height: 100%; background: linear-gradient(90deg, #D4A843, #FFD700); border-radius: 3px; transition: width 0.6s ease; }
+.total-pct { font-size: 13px; font-weight: 700; color: #D4A843; white-space: nowrap; min-width: 36px; text-align: right; }
+
+/* ── MAIN CONTENT ── */
+.main { max-width: 860px; margin: 0 auto; padding: 40px; }
+
+/* ── DASHBOARD ── */
+.dashboard-intro { font-size: 16px; color: var(--muted); margin-bottom: 32px; font-style: italic; }
+.level-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 40px; }
+.level-card {
+  background: white; border: 1px solid var(--border); border-radius: 12px;
+  padding: 28px 24px; display: flex; flex-direction: column; gap: 12px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.level-card:hover { box-shadow: 0 4px 24px rgba(26,39,68,0.1); transform: translateY(-2px); }
+.level-card .lc-icon { font-size: 36px; }
+.level-card .lc-num { font-family: 'Playfair Display', serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.level-card h3 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+.level-card p { font-size: 13px; color: var(--muted); line-height: 1.55; flex: 1; }
+.lc-progress { }
+.lc-progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 5px; }
+.lc-bar-wrap { height: 5px; background: var(--border); border-radius: 3px; }
+.lc-bar { height: 100%; background: linear-gradient(90deg, var(--navy), var(--gold)); border-radius: 3px; transition: width 0.6s ease; }
+.lc-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--navy); color: white; border: none;
+  font-family: 'Source Serif 4', serif; font-size: 13px; font-weight: 600;
+  padding: 10px 20px; border-radius: 6px; cursor: pointer;
+  transition: background 0.15s, transform 0.1s; align-self: flex-start;
+}
+.lc-btn:hover { background: #243360; transform: translateY(-1px); }
+.lc-btn.done { background: var(--green); }
+
+/* Term grid */
+.term-grid-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 16px; }
+.term-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 8px; }
+.term-chip {
+  padding: 8px 10px; border-radius: 6px; border: 1px solid var(--border);
+  background: white; font-size: 12px; font-weight: 600; color: var(--muted);
+  text-align: center; display: flex; align-items: center; justify-content: center;
+  gap: 5px; line-height: 1.3;
+}
+.term-chip.cleared-1 { border-color: #90CAF9; background: #E3F2FD; color: #1565C0; }
+.term-chip.cleared-2 { border-color: #A5D6A7; background: #E8F5E9; color: #2E7D32; }
+.term-chip.cleared-3 { border-color: var(--gold); background: var(--gold-lt); color: var(--gold); }
+.term-chip .star { font-size: 10px; }
+.chip-legend { display: flex; gap: 16px; margin-top: 8px; flex-wrap: wrap; }
+.chip-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.chip-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+/* Reset button */
+.reset-wrap { text-align: right; margin-top: -8px; margin-bottom: 24px; }
+.reset-btn { background: none; border: 1px solid var(--border); color: var(--muted); font-family: 'Source Serif 4', serif; font-size: 12px; padding: 6px 14px; border-radius: 5px; cursor: pointer; transition: border-color 0.15s, color 0.15s; }
+.reset-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ── EXERCISE VIEW ── */
+.ex-view { display: none; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  font-family: 'Source Serif 4', serif; font-size: 13px; padding: 8px 16px;
+  border-radius: 6px; cursor: pointer; margin-bottom: 28px; transition: all 0.15s;
+}
+.back-btn:hover { border-color: var(--navy); color: var(--navy); }
+.ex-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
+.ex-header-left h2 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+.ex-header-left p { font-size: 13px; color: var(--muted); }
+.ex-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; }
+.badge-l1 { background: #E3F2FD; color: #1565C0; }
+.badge-l2 { background: var(--purple-lt); color: var(--purple); }
+.badge-l3 { background: var(--teal-lt); color: var(--teal); }
+.ex-progress-bar-wrap { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 32px; }
+.ex-progress-bar { height: 100%; background: linear-gradient(90deg, var(--navy), var(--gold)); border-radius: 2px; transition: width 0.4s ease; }
+.ex-count { font-size: 12px; color: var(--muted); margin-bottom: 6px; text-align: right; letter-spacing: 0.5px; }
+
+/* ── FLASHCARD (L1) ── */
+.fc-card {
+  background: white; border: 1px solid var(--border); border-radius: 14px;
+  padding: 36px 40px; margin-bottom: 28px; text-align: center;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+}
+.fc-category { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.fc-term { font-family: 'Playfair Display', serif; font-size: clamp(28px,5vw,48px); font-weight: 900; color: var(--navy); line-height: 1.1; }
+.fc-opts { display: flex; flex-direction: column; gap: 10px; }
+.fc-opt {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 14px 18px; border: 1.5px solid var(--border); border-radius: 8px;
+  background: white; cursor: pointer; font-family: 'Source Serif 4', serif;
+  font-size: 14.5px; text-align: left; color: var(--text); line-height: 1.55;
+  transition: border-color 0.15s, background 0.15s;
+}
+.fc-opt:hover:not(:disabled) { border-color: var(--navy); background: #EEF1FA; }
+.fc-opt.correct { border-color: var(--green); background: var(--green-lt); }
+.fc-opt.wrong { border-color: var(--red); background: var(--red-lt); }
+.fc-opt:disabled { cursor: default; }
+.opt-letter { font-weight: 700; color: var(--muted); min-width: 18px; flex-shrink: 0; }
+.fc-opt.correct .opt-letter { color: var(--green); }
+.fc-opt.wrong .opt-letter { color: var(--red); }
+
+/* ── EXERCISE CARD ── */
+.ex-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 32px 36px; margin-bottom: 24px; }
+.ex-type-label { font-size: 10px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
+.ex-type-hittafelet { color: var(--red); }
+.ex-type-vemharratt { color: var(--purple); }
+.ex-type-koppling { color: var(--teal); }
+.ex-type-scenario { color: var(--gold); }
+.ex-type-kategori { color: var(--navy); }
+
+.ex-term-badge { display: inline-block; background: var(--gold-lt); border: 1px solid var(--gold); color: var(--gold); font-size: 12px; font-weight: 700; padding: 3px 12px; border-radius: 4px; margin-bottom: 16px; }
+.ex-statement { font-size: 16px; line-height: 1.8; color: var(--text); background: var(--sand); border-left: 3px solid var(--border); padding: 16px 20px; border-radius: 0 8px 8px 0; margin-bottom: 20px; }
+.ex-question { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy); margin-bottom: 18px; line-height: 1.4; }
+
+/* Student cards for Vem har rätt */
+.students { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.student-card {
+  border: 1.5px solid var(--border); border-radius: 8px; padding: 16px 18px;
+  display: flex; gap: 14px; align-items: flex-start; cursor: pointer;
+  background: white; transition: border-color 0.15s, background 0.15s;
+}
+.student-card:hover:not(.locked) { border-color: var(--navy); background: #EEF1FA; }
+.student-card.correct { border-color: var(--green); background: var(--green-lt); }
+.student-card.wrong { border-color: var(--red); background: var(--red-lt); }
+.student-card.locked { cursor: default; }
+.student-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: var(--sand); }
+.student-name { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.student-text { font-size: 14.5px; color: var(--text); line-height: 1.6; }
+
+/* Koppling */
+.koppling-terms { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; flex-wrap: wrap; }
+.koppling-term { background: var(--navy); color: white; font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; padding: 10px 20px; border-radius: 6px; }
+.koppling-plus { font-size: 22px; color: var(--gold); font-weight: 700; }
+
+/* Scenario box */
+.scenario-box { background: rgba(26,74,74,0.06); border: 1px solid rgba(26,74,74,0.2); border-radius: 8px; padding: 18px 22px; margin-bottom: 20px; }
+.scenario-box p { font-size: 15px; line-height: 1.75; color: var(--text); margin: 0; font-style: italic; }
+
+/* Options */
+.opts { display: flex; flex-direction: column; gap: 9px; }
+.opt-btn {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 13px 16px; border: 1.5px solid var(--border); border-radius: 8px;
+  background: white; cursor: pointer; font-family: 'Source Serif 4', serif;
+  font-size: 14px; text-align: left; color: var(--text); line-height: 1.5;
+  transition: border-color 0.15s, background 0.15s;
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--navy); background: #EEF1FA; }
+.opt-btn.correct { border-color: var(--green); background: var(--green-lt); }
+.opt-btn.wrong { border-color: var(--red); background: var(--red-lt); }
+.opt-btn:disabled { cursor: default; }
+
+/* Kategori buttons */
+.kat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.kat-btn {
+  padding: 18px 14px; border: 2px solid var(--border); border-radius: 8px;
+  background: white; font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600;
+  color: var(--navy); cursor: pointer; text-align: center; transition: all 0.15s;
+}
+.kat-btn:hover:not(:disabled) { border-color: var(--gold); background: var(--gold-lt); }
+.kat-btn.correct { border-color: var(--green); background: var(--green-lt); color: var(--green); }
+.kat-btn.wrong { border-color: var(--red); background: var(--red-lt); color: var(--red); }
+.kat-btn:disabled { cursor: default; }
+.kat-term { text-align: center; font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--navy); margin-bottom: 8px; }
+.kat-question { text-align: center; font-size: 15px; color: var(--muted); margin-bottom: 20px; }
+
+/* Feedback */
+.feedback {
+  display: none; padding: 16px 20px; border-radius: 0 8px 8px 0;
+  border-left: 3px solid; font-size: 14px; line-height: 1.7; margin: 16px 0;
+  animation: fadeIn 0.25s ease;
+}
+.feedback.correct { background: var(--green-lt); border-color: var(--green); }
+.feedback.wrong { background: var(--red-lt); border-color: var(--red); }
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+/* Next button */
+.next-btn {
+  background: var(--navy); color: white; border: none;
+  font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600;
+  padding: 12px 28px; border-radius: 8px; cursor: pointer;
+  transition: background 0.15s, transform 0.1s; display: none; margin-top: 8px;
+}
+.next-btn:hover { background: #243360; transform: translateY(-1px); }
+
+/* ── LEVEL COMPLETE ── */
+.level-complete {
+  text-align: center; padding: 48px 32px; background: white;
+  border: 1px solid var(--border); border-radius: 14px;
+}
+.lc-trophy { font-size: 64px; margin-bottom: 16px; }
+.level-complete h2 { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; color: var(--navy); margin-bottom: 8px; }
+.level-complete p { font-size: 15px; color: var(--muted); margin-bottom: 28px; }
+.lc-score-ring { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, var(--navy), #243360); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 8px 32px rgba(26,39,68,0.25); }
+.lc-score-ring .score-n { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 900; color: white; line-height: 1; }
+.lc-score-ring .score-d { font-size: 12px; color: rgba(255,255,255,0.55); }
+.lc-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.lc-repeat { background: transparent; border: 1.5px solid var(--navy); color: var(--navy); font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600; padding: 11px 24px; border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+.lc-repeat:hover { background: var(--navy); color: white; }
+.lc-back { background: var(--navy); color: white; border: none; font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600; padding: 11px 24px; border-radius: 8px; cursor: pointer; transition: background 0.15s; }
+.lc-back:hover { background: #243360; }
+
+@media (max-width: 680px) {
+  .main { padding: 24px 18px; }
+  .level-cards { grid-template-columns: 1fr; }
+  .term-grid { grid-template-columns: repeat(3,1fr); }
+  .fc-card { padding: 24px 20px; }
+  .ex-card { padding: 22px 18px; }
+  .koppling-terms { gap: 10px; }
+  .kat-grid { grid-template-columns: 1fr; }
+  .total-progress { padding: 12px 20px; }
+  .site-header { padding: 24px 20px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="label">SO-Portalen · Buddhism · Begreppsträning</div>
+  <h1>Lär dig begreppen <span>på djupet</span></h1>
+  <p>22 begrepp · 3 nivåer · Från igenkänning till förståelse</p>
+  <div class="total-progress">
+    <span class="total-progress-label">Din totala progress</span>
+    <div class="total-bar-wrap"><div class="total-bar" id="total-bar" style="width:0%"></div></div>
+    <span class="total-pct" id="total-pct">0%</span>
+  </div>
+</div>
+
+<!-- ═════════════════════════════
+     DASHBOARD
+═════════════════════════════ -->
+<div class="main" id="view-dashboard">
+  <p class="dashboard-intro">Välj en nivå och börja träna. Varje nivå testar din förståelse på ett djupare sätt än den föregående.</p>
+
+  <div class="level-cards">
+    <div class="level-card">
+      <div class="lc-icon">🃏</div>
+      <div class="lc-num">Nivå 1</div>
+      <h3>Känner igen</h3>
+      <p>Se ett begrepp – välj rätt förklaring bland fyra alternativ. Grundläggande igenkänning.</p>
+      <div class="lc-progress">
+        <div class="lc-progress-label"><span>Begrepp klarade</span><span id="l1-label">0 / 22</span></div>
+        <div class="lc-bar-wrap"><div class="lc-bar" id="l1-bar" style="width:0%"></div></div>
+      </div>
+      <button class="lc-btn" id="l1-btn" onclick="startLevel(1)">Starta Nivå 1 →</button>
+    </div>
+    <div class="level-card">
+      <div class="lc-icon">🔍</div>
+      <div class="lc-num">Nivå 2</div>
+      <h3>Förstår</h3>
+      <p>Hitta fel i påståenden. Avgör vem av tre elever som har rätt – och förklara vad de andra missar.</p>
+      <div class="lc-progress">
+        <div class="lc-progress-label"><span>Övningar klarade</span><span id="l2-label">0 / 12</span></div>
+        <div class="lc-bar-wrap"><div class="lc-bar" id="l2-bar" style="width:0%"></div></div>
+      </div>
+      <button class="lc-btn" id="l2-btn" onclick="startLevel(2)">Starta Nivå 2 →</button>
+    </div>
+    <div class="level-card">
+      <div class="lc-icon">⚡</div>
+      <div class="lc-num">Nivå 3</div>
+      <h3>Kan använda</h3>
+      <p>Koppla ihop begrepp, identifiera dem i verkliga scenarier och sortera dem rätt.</p>
+      <div class="lc-progress">
+        <div class="lc-progress-label"><span>Övningar klarade</span><span id="l3-label">0 / 15</span></div>
+        <div class="lc-bar-wrap"><div class="lc-bar" id="l3-bar" style="width:0%"></div></div>
+      </div>
+      <button class="lc-btn" id="l3-btn" onclick="startLevel(3)">Starta Nivå 3 →</button>
+    </div>
+  </div>
+
+  <div class="reset-wrap">
+    <button class="reset-btn" onclick="confirmReset()">↺ Nollställ all progress</button>
+  </div>
+
+  <div class="term-grid-title">Alla 22 begrepp</div>
+  <div class="term-grid" id="term-grid"></div>
+  <div class="chip-legend">
+    <div class="chip-legend-item"><div class="chip-dot" style="background:#ddd;"></div>Inte tränat</div>
+    <div class="chip-legend-item"><div class="chip-dot" style="background:#90CAF9;"></div>Nivå 1 klar</div>
+    <div class="chip-legend-item"><div class="chip-dot" style="background:#A5D6A7;"></div>Nivå 2 klar</div>
+    <div class="chip-legend-item"><div class="chip-dot" style="background:var(--gold);"></div>Alla nivåer klara ⭐</div>
+  </div>
+</div>
+
+<!-- ═════════════════════════════
+     EXERCISE VIEW (L1 / L2 / L3)
+═════════════════════════════ -->
+<div class="main ex-view" id="view-exercise">
+  <button class="back-btn" onclick="goBack()">← Tillbaka till översikt</button>
+  <div class="ex-header">
+    <div class="ex-header-left">
+      <h2 id="ex-title"></h2>
+      <p id="ex-subtitle"></p>
+    </div>
+    <span class="ex-badge" id="ex-badge"></span>
+  </div>
+  <div class="ex-count" id="ex-count"></div>
+  <div class="ex-progress-bar-wrap"><div class="ex-progress-bar" id="ex-bar" style="width:0%"></div></div>
+  <div id="ex-content"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════
+const terms = [
+  { id:'samsara',      term:'Samsara',                  short:'Återfödelsernas kretslopp',      def:'Återfödelsernas kretslopp – den ständiga cykeln av liv, död och ny födelse som allt levande är fast i tills befrielse uppnås.',                                          cat:'Grundbegrepp' },
+  { id:'karma',        term:'Karma',                    short:'Orsak och verkan i moral',       def:'Orsak och verkan i moralisk mening. Hur man lever i detta liv avgör förutsättningarna för nästa återfödelse.',                                                            cat:'Grundbegrepp' },
+  { id:'nirvana',      term:'Nirvana',                  short:'Befrielse från lidandet',        def:'Befrielse från lidandet och återfödelsernas kretslopp. Ordet betyder ungefär "utsläcknande" – som när en eld äntligen slocknar.',                                         cat:'Grundbegrepp' },
+  { id:'buddha',       term:'Buddha',                   short:'Den uppvaknade',                 def:'En individ som uppnått fullständig insikt om verklighetens natur. Ingen gud – en människa som funnit vägen till befrielse.',                                              cat:'Grundbegrepp' },
+  { id:'dharma',       term:'Dharma',                   short:'Buddhas lära',                   def:'Buddhas lära och undervisning – det rätta sättet att leva och tänka. Ett av de tre juvelerna i de tre tillflykterna.',                                                    cat:'Grundbegrepp' },
+  { id:'sangha',       term:'Sangha',                   short:'Den buddhistiska gemenskapen',   def:'Den buddhistiska gemenskapen – ursprungligen klostergemenskapen av munkar och nunnor som följde Buddha.',                                                                   cat:'Grundbegrepp' },
+  { id:'fyraadla',     term:'De fyra ädla sanningarna', short:'Kärnan i Buddhas lära',          def:'Kärnan i Buddhas lära: (1) allt är lidande, (2) lidandet beror på begäret, (3) lidandet kan upphöra, (4) det finns en väg dit.',                                          cat:'Grundbegrepp' },
+  { id:'attafaldiga',  term:'Den åttafaldiga vägen',    short:'Den praktiska vägen till nirvana', def:'Den praktiska vägen till nirvana med åtta steg: rätt förståelse, avsikt, tal, handlande, levnadssätt, ansträngning, medvetande och meditation.',                        cat:'Grundbegrepp' },
+  { id:'bodhi',        term:'Bodhi',                    short:'Uppvaknandet',                   def:'Uppvaknandet – den fullständiga insikt och upplysning som Siddhartha uppnådde under trädet i Bodh Gaya, och som förvandlade honom till Buddha.',                          cat:'Grundbegrepp' },
+  { id:'ahimsa',       term:'Ahimsa',                   short:'Ickevåld',                       def:'Ickevåld – principen att inte skada levande varelser. Viktig i buddhism men också i hinduism och jainism.',                                                                cat:'Grundbegrepp' },
+  { id:'tripitaka',    term:'Tripitaka',                short:'De tre korgarna',                def:'Buddhismens viktigaste textsamling, skriven på pali. Innehåller ca 40 böcker och är elva gånger längre än Bibeln.',                                                        cat:'Historia & texter' },
+  { id:'pali',         term:'Pali',                     short:'Buddhismens heliga språk',       def:'Det forntida indiska språk på vilket de äldsta buddhistiska texterna skrevs ned. Används fortfarande i religiösa sammanhang trots att ingen talar det till vardags.',      cat:'Historia & texter' },
+  { id:'jataka',       term:'Jataka',                   short:'Berättelser om tidigare liv',    def:'Berättelser i Tripitaka om Siddharthas många tidigare liv. Används för att illustrera moraliska principer och buddhistiska dygder.',                                       cat:'Historia & texter' },
+  { id:'ashoka',       term:'Ashoka',                   short:'Buddhismens spridare',           def:'Indisk kejsare på 200-talet f.v.t. som konverterade till buddhism och bidrog avgörande till religionens spridning utanför Indien via missionärer och stupor.',             cat:'Historia & texter' },
+  { id:'stupa',        term:'Stupa',                    short:'Buddhistisk kultkupol',          def:'En rund kupoldformad byggnad för buddhistisk kult. Vissa stupor anses innehålla reliker av Buddha eller hans lärjungar.',                                                   cat:'Historia & texter' },
+  { id:'theravada',    term:'Theravada',                short:'De äldstes lära',                def:'"De äldstes lära" – den äldsta buddhistiska riktningen. Dominant i Sri Lanka, Myanmar och Thailand. Betonar munkens individuella väg och Siddharthas lära på pali.',      cat:'Riktningar' },
+  { id:'mahayana',     term:'Mahayana',                 short:'Det stora fordonet',             def:'"Det stora fordonet" – buddhistisk riktning dominerande i Kina, Japan och Korea. Betonar bodhisattvan och hjälpen till alla levande varelser.',                            cat:'Riktningar' },
+  { id:'bodhisattva',  term:'Bodhisattva',              short:'Den som väntar för andras skull', def:'I mahayana: en upplyst varelse som frivilligt avstår från att gå in i nirvana för att stanna kvar och hjälpa alla andra levande varelser uppnå befrielse.',               cat:'Riktningar' },
+  { id:'synkretism',   term:'Synkretism',               short:'Religiös blandning',             def:'Blandning av olika religiösa traditioner. Vanligt i Kina och Japan, där buddhism, konfucianism och daoism länge levt sida vid sida.',                                      cat:'Riktningar' },
+  { id:'tretillflykt', term:'De tre tillflykterna',     short:'Buddhismens grundbekännelse',    def:'Buddhismens grundbekännelse: "Jag tar min tillflykt till Buddha, dharma och sangha." Nämner ingen skapargud – en viktig markering om buddhismens karaktär.',               cat:'Ritual & praktik' },
+  { id:'vesak',        term:'Vesak',                    short:'Buddhismens viktigaste högtid',  def:'Buddhismens viktigaste högtid, firad vid fullmåne i april–maj. I theravada firas Buddhas födelse, uppvaknande och nirvana samtigt.',                                       cat:'Ritual & praktik' },
+  { id:'maghapuja',    term:'Magha-puja',               short:'Sanghadagen',                    def:'Högtid till minne av Buddhas möte med 1 250 lärjungar, då munkreglerna delgavs. Kallas även Sanghadagen. Firas stort i Thailand och i väst.',                             cat:'Ritual & praktik' },
+];
+
+// ── LEVEL 2 EXERCISES ──
+const l2 = [
+  // HITTA FELET
+  {
+    type:'hittafelet', termLabel:'Nirvana',
+    statement:'Nirvana är buddhismens yttersta mål – ett paradis i en annan värld dit goda buddhister kommer efter döden, där de lever i evig lycka tillsammans med Buddha.',
+    question:'Vad är fel i påståendet ovan?',
+    opts:['A) "buddhismens yttersta mål" – nirvana är inte ett mål utan ett startläge.','B) "paradis i en annan värld" – nirvana är befrielse från återfödelsecykeln, inte ett himmelrike man lever i.','C) "goda buddhister" – nirvana är möjligt för alla, inte bara de som uppfört sig väl.','D) "efter döden" – nirvana uppnås alltid under livet, aldrig efter.'],
+    correct:1, explanation:'Nirvana är inte ett paradis man reser till – det är ett tillstånd av befrielse från lidandet och återfödelsernas kretslopp. Att beskriva det som ett "himmelrike med Buddha" är en vanlig förväxling med kristendomens himmel.'
+  },
+  {
+    type:'hittafelet', termLabel:'Theravada',
+    statement:'I theravada är det centrala idealet bodhisattvan – en upplyst varelse som stannar kvar i världen för att hjälpa alla levande nå nirvana istället för att söka sin egen befrielse.',
+    question:'Vad är fel i påståendet ovan?',
+    opts:['A) "stanna kvar i världen" – theravadabuddhister stannar alltid i klostret.','B) "bodhisattvan" – det är mahayanas ideal, inte theravadas. I theravada fokuserar man på munkens individuella väg.','C) "hjälpa alla levande" – theravada anser att man bara ska hjälpa munkar, inte lekmän.','D) "upplyst varelse" – theravada erkänner inte begreppet upplysning.'],
+    correct:1, explanation:'Bodhisattvan är mahayanas centrala ideal. I theravada är fokus på munkens individuella väg mot befrielse – att följa Siddharthas lära och uppnå sin egen nirvana.'
+  },
+  {
+    type:'hittafelet', termLabel:'De fyra ädla sanningarna',
+    statement:'Enligt den andra ädla sanningen beror lidandet på åldrande, sjukdom och döden – de oundvikliga delarna av ett mänskligt liv som ingen kan undkomma.',
+    question:'Vad är fel i påståendet ovan?',
+    opts:['A) "oundvikliga delar" – buddhism menar att åldrande och sjukdom faktiskt kan undvikas.','B) Åldrande, sjukdom och döden nämns i den FÖRSTA sanningen. Den ANDRA säger att lidandet beror på begäret.','C) "ett mänskligt liv" – de fyra sanningarna gäller bara munkar, inte lekmän.','D) Det stämmer – det är exakt vad den andra sanningen säger.'],
+    correct:1, explanation:'Den första sanningen konstaterar att allt levande präglas av lidande – inklusive åldrande och döden. Den andra sanningen pekar ut orsaken: det är begäret, vår ständiga önskan om något annat, som håller oss fast i lidandet.'
+  },
+  {
+    type:'hittafelet', termLabel:'Ashoka',
+    statement:'Kejsar Ashoka var en indisk regent som grundade buddhismen och skapade de första buddhistiska texterna på 200-talet f.v.t., varefter religionen snabbt spreds utanför Indien.',
+    question:'Vad är fel i påståendet ovan?',
+    opts:['A) "snabbt spreds utanför Indien" – buddhismen spred sig faktiskt mycket långsamt.','B) "grundade buddhismen" – Ashoka grundade inte buddhismen. Den uppstod med Siddhartha Gautama ca 200–300 år tidigare. Ashoka bidrog till spridningen, inte uppkomsten.','C) "indisk regent" – Ashoka var faktiskt från Nepal, inte Indien.','D) "200-talet f.v.t." – datumet stämmer faktiskt.'],
+    correct:1, explanation:'Siddhartha Gautama grundade buddhismen ca 500 f.v.t. – hundratals år innan Ashoka levde. Ashokas roll var att sprida och stärka religionen, inte att starta den.'
+  },
+  {
+    type:'hittafelet', termLabel:'De tre tillflykterna',
+    statement:'De tre tillflykterna – Buddha, dharma och sangha – fungerar som buddhismens grundbekännelse. En viktig likhet med kristendomens trosbekännelse är att båda uttryckligen nämner en gudomlig skapare.',
+    question:'Vad är fel i påståendet ovan?',
+    opts:['A) "Buddha, dharma och sangha" – ordningen är fel, det ska vara sangha, dharma, Buddha.','B) "grundbekännelse" – de tre tillflykterna är egentligen en konverteringsritual, inte en bekännelse.','C) "nämner en gudomlig skapare" – de tre tillflykterna nämner ingen skapargud. Det är en avgörande skillnad mot kristendomens trosbekännelse.','D) Påståendet stämmer – Buddhism erkänner en skapargud precis som kristendomen.'],
+    correct:2, explanation:'De tre tillflykterna nämner just ingen skapargud – detta är faktiskt en av de mest markanta skillnaderna mot kristendomens trosbekännelse och vittnesbördet i islam. Buddhism är inte teistisk i traditionell mening.'
+  },
+  {
+    type:'hittafelet', termLabel:'Tripitaka',
+    statement:'Tripitaka är buddhismens heliga textsamling. Den skrevs ned direkt efter Buddhas död av hans närmaste lärjungar, som ville säkra att hans exakta ord bevarades för framtiden.',
+    question:'Vad är fel i påståendet ovan?',
+    opts:['A) "heliga textsamling" – Tripitaka räknas som viktig men är inte helig i buddhistisk mening.','B) "skrevs ned direkt efter Buddhas död" – Tripitaka förmedlades muntligt i generationer och skrevs ned på pali först under de första århundradena av vår tideräkning, hundratals år efter Buddhas liv.','C) "hans närmaste lärjungar" – det var faktiskt kejsar Ashoka som skrev texterna.','D) Påståendet stämmer helt.'],
+    correct:1, explanation:'Buddhas lära spreds muntligt från munk till munk i flera hundra år. Det var inte förrän under de första århundradena av vår tideräkning som texterna skrevs ned på pali. Att texterna fördröjts gör dem intressanta som källkritisk fråga.'
+  },
+  // VEM HAR RÄTT
+  {
+    type:'vemharratt',
+    topic:'Vad är en bodhisattva?',
+    students:[
+      { name:'Alva', avatar:'👧', text:'En bodhisattva är en munk inom theravada som avlagt alla 227 löften och levt ett exemplariskt asketiskt liv.' },
+      { name:'Bo', avatar:'👦', text:'En bodhisattva är inom mahayana en upplyst varelse som frivilligt väljer att inte gå in i nirvana, utan stannar kvar i världen för att hjälpa alla levande nå befrielse.' },
+      { name:'Cecilia', avatar:'🧒', text:'Bodhisattva är ett annat ord för Buddha – de är exakt samma sak, bara olika namn.' }
+    ],
+    correct:1, explanation:'Bo har rätt! Bodhisattvan är mahayanas centrala ideal. Det som gör begreppet unikt är just att varelsen frivilligt VÄNTAR med nirvana. Alvas svar blandar ihop begreppet med theravadas munkideal, och Cecilia misstar bodhisattvan för att vara synonymt med Buddha.'
+  },
+  {
+    type:'vemharratt',
+    topic:'Vad innebär karma?',
+    students:[
+      { name:'Alva', avatar:'👧', text:'Karma är ett straff från gudarna för dåliga handlingar. Om något dåligt händer dig i livet är det karma som bestraffar dig.' },
+      { name:'Bo', avatar:'👦', text:'Karma innebär att ens handlingar har konsekvenser för kommande återfödelse. Det är en neutral princip om orsak och verkan – inte ett straff, utan ett naturligt samband.' },
+      { name:'Cecilia', avatar:'🧒', text:'Karma handlar om tur och otur i vardagen och har egentligen ingenting med religion att göra.' }
+    ],
+    correct:1, explanation:'Bo har rätt! Karma är inte ett gudomligt straff – det är en opersonlig lag om konsekvenser, mer lik naturlagarna. Alvas svar projicerar en västerländsk syn på straff och belöning. Cecilias vardagsanvändning av "karma" är ett exempel på hur religiösa begrepp förflackas i populärkulturen.'
+  },
+  {
+    type:'vemharratt',
+    topic:'Vad innebär Siddhartha Gautamas uppvaknande – bodhi?',
+    students:[
+      { name:'Alva', avatar:'👧', text:'Bodhi innebär att Siddhartha dog under trädet och återföddes som en gudomlig varelse med övernaturliga krafter.' },
+      { name:'Bo', avatar:'👦', text:'Bodhi är det uppvaknande – den fullständiga insikten – som Siddhartha uppnådde under meditationen vid trädet i Bodh Gaya. Det förvandlade honom till Buddha, men han var fortfarande en människa, inte en gud.' },
+      { name:'Cecilia', avatar:'🧒', text:'Bodhi är ett träd – det träd som Siddhartha planterade som symbol för sin lära.' }
+    ],
+    correct:1, explanation:'Bo har rätt! Bodhi är ett tillstånd av insikt, inte ett träd eller en gudaförvandling. Bodhi-trädet (fikusträdet) är platsen där det hände, men bodhi i sig är uppvaknandet. En central poäng: Buddha är inte en gud utan en människa som uppnått fullständig visdom.'
+  },
+  {
+    type:'vemharratt',
+    topic:'Varför fördes Tripitaka vidare muntligt innan den skrevs ned?',
+    students:[
+      { name:'Alva', avatar:'👧', text:'Buddha förbjöd att hans lära skrevs ned. Han menade att läran bara var sann om den lärdes ut personligen från lärare till elev.' },
+      { name:'Bo', avatar:'👦', text:'Det var ett vanligt sätt att bevara religiösa och filosofiska traditioner i den tidens Indien. Texterna memorerades och reciterades av munkar, generation för generation, vilket ansågs ge dem en levande och autentisk karaktär.' },
+      { name:'Cecilia', avatar:'🧒', text:'Skriftspråket existerade inte i Indien på Buddhas tid, så det var omöjligt att skriva ned läran förrän senare.' }
+    ],
+    correct:1, explanation:'Bo har rätt! Muntlig traditionsförmedling var en respekterad och etablerad metod i Indiens lärdomstradition. Cecilia har fel – skriftspråk fanns i Indien men muntlig traditionsförmedling var ändå dominerande i religiösa sammanhang. Alvas påstående finns inte belagd i källorna.'
+  },
+  {
+    type:'vemharratt',
+    topic:'Vad är skillnaden mellan theravada och mahayana?',
+    students:[
+      { name:'Alva', avatar:'👧', text:'Theravada är den moderna, progressiva grenen, vanlig i Japan och Kina. Mahayana är den äldsta och mer konservativa, vanlig i Sri Lanka och Thailand.' },
+      { name:'Bo', avatar:'👦', text:'Det är tvärtom: theravada är den äldsta grenen och dominerar i Sri Lanka, Myanmar och Thailand. Mahayana är utbredd i Japan, Kina och Korea. De skiljer sig i idealet: munkens väg mot bodhisattvans väg.' },
+      { name:'Cecilia', avatar:'🧒', text:'Det finns egentligen ingen meningsfull skillnad mellan dem – de tror på exakt samma saker och skillnaderna är bara ytliga kulturella variationer.' }
+    ],
+    correct:1, explanation:'Bo har rätt på alla punkter! Theravada är äldre och dominerar i Sydostasien. Mahayana dominerar i Östasien. Skillnaderna är verkliga och djupa – bodhisattvaidealet vs munkidealet, syn på antal buddhor, roll av gudsdyrkan m.m.'
+  },
+  {
+    type:'vemharratt',
+    topic:'Vad händer med en buddhist som uppnår nirvana?',
+    students:[
+      { name:'Alva', avatar:'👧', text:'Man uppstår till ett evigt paradisliv i en himmelsk värld tillsammans med Buddha och alla andra upplysta.' },
+      { name:'Bo', avatar:'👦', text:'Återfödelsecykeln upphör. Lidandet och de ständiga återfödelserna slocknar – som en eld som inte längre har något att brinna på. Det är inte en plats man reser till utan befrielse från kretsloppet.' },
+      { name:'Cecilia', avatar:'🧒', text:'Man dör permanent och existerar inte längre – nirvana är bara ett poetiskt ord för total utplåning.' }
+    ],
+    correct:1, explanation:'Bo har rätt! Nirvanas natur är avsiktligt svår att beskriva i vanliga ord – det är varken ett paradis (som Alva säger) eller total utplåning (som Cecilia säger). Det brukar beskrivas som befrielse, som att en eld slocknar. Vad som återstår är inte "ingenting" men heller inte ett personligt "jag".'
+  },
+];
+
+// ── LEVEL 3 EXERCISES ──
+const l3 = [
+  // KOPPLINGAR
+  {
+    type:'koppling', terms:['Karma', 'Samsara'],
+    question:'Hur hänger karma och samsara ihop?',
+    opts:[
+      'A) De är varandras motsatser – karma leder till befrielse, samsara till lidande.',
+      'B) Karma bestämmer hur man återföds inom samsara – goda handlingar ger bättre förutsättningar i nästa liv i kretsloppet.',
+      'C) Det är samma begrepp med olika namn.',
+      'D) Samsara är orsaken, karma är dess verkan.'
+    ],
+    correct:1, explanation:'Karma och samsara hänger intimt ihop: samsara är kretsloppet av återfödelser, och karma är lagen som styr hur man återföds inom det kretsloppet. Goda handlingar ger bättre karma och bättre förutsättningar, men befrielse kräver mer – att sluta begära och uppnå nirvana.'
+  },
+  {
+    type:'koppling', terms:['Den åttafaldiga vägen', 'Nirvana'],
+    question:'Hur hänger den åttafaldiga vägen och nirvana ihop?',
+    opts:[
+      'A) De åttafaldiga vägen och nirvana är varandras motsatser.',
+      'B) Nirvana är startpunkten – man måste uppnå nirvana för att börja vandra den åttafaldiga vägen.',
+      'C) Den åttafaldiga vägen är metoden, ett detaljerat program för hur man lever och tänker – vars mål är att uppnå nirvana.',
+      'D) De är oberoende av varandra och används i olika buddhistiska riktningar.'
+    ],
+    correct:2, explanation:'Den åttafaldiga vägen är Buddhas praktiska svar på den fjärde ädla sanningen: "det finns en väg bort från lidandet." Den specificerar hur man faktiskt lever och tänker för att till slut uppnå nirvana. Vägen är medlet, nirvana är målet.'
+  },
+  {
+    type:'koppling', terms:['Bodhi', 'Siddhartha Gautama'],
+    question:'Hur hänger bodhi och Siddhartha Gautama ihop?',
+    opts:[
+      'A) Bodhi är ett träd som Siddhartha planterade som en symbol för sin lära.',
+      'B) Bodhi var Siddharthas verkliga namn innan han antog titeln Buddha.',
+      'C) Bodhi var det uppvaknande som Siddhartha uppnådde under meditationen, vilket förvandlade honom till Buddha.',
+      'D) Siddhartha sökte bodhi men misslyckades – det är nirvana han uppnådde istället.'
+    ],
+    correct:2, explanation:'Bodhi är uppvaknandet – den fullständiga insikten om verklighetens natur som Siddhartha uppnådde under meditationen vid trädet i Bodh Gaya. Det var just detta bodhi som förvandlade honom från prinsen Siddhartha till Buddha – "den uppvaknade".'
+  },
+  {
+    type:'koppling', terms:['Sangha', 'De tre tillflykterna'],
+    question:'Hur hänger sangha och de tre tillflykterna ihop?',
+    opts:[
+      'A) Sangha och de tre tillflykterna har inget direkt samband.',
+      'B) Sangha är ett av de tre juvelerna i de tre tillflykterna. Gemenskapen är nödvändig – utan den riskerar läran att missförstås eller glömmas bort.',
+      'C) De tre tillflykterna är en ritual som bara utförs av sangha-medlemmar, aldrig av vanliga lekmän.',
+      'D) Sangha ersatte de tre tillflykterna i den moderna buddhismens praktik.'
+    ],
+    correct:1, explanation:'"Jag tar min tillflykt till sangha" är den tredje av de tre tillflykterna. Gemenskapen (sangha) är en av religionens tre grundpelare: utan lärare ingen lära, utan gemenskap riskerar läran att försvinna. Alla tre hänger ihop.'
+  },
+  {
+    type:'koppling', terms:['Theravada', 'Mahayana'],
+    question:'Vad är den viktigaste skillnaden mellan theravada och mahayana?',
+    opts:[
+      'A) Theravada och mahayana tror på exakt samma saker – skillnaderna är bara kulturella.',
+      'B) I theravada är idealet munkens individuella väg mot befrielse; i mahayana är idealet bodhisattvan som väntar med nirvana för att hjälpa alla levande.',
+      'C) Theravada är den nyare och mer moderna riktningen; mahayana är den äldsta.',
+      'D) Mahayana erkänner inte Siddhartha Gautama som Buddha, det gör bara theravada.'
+    ],
+    correct:1, explanation:'Den djupaste skiljelinjen handlar om idealet: vems befrielse strävar man mot? I theravada är det munkens egen nirvana. I mahayana är det bodhisattvans kärleksfulla beslut att stanna kvar och hjälpa alla andra – en dramatisk etisk skillnad.'
+  },
+
+  // SCENARIO-KORT
+  {
+    type:'scenario',
+    scenario:'En munk i Thailand inleder varje morgon med att recitiera tre meningar på pali: "Buddham saranam gacchami. Dhammam saranam gacchami. Sangham saranam gacchami." Han förklarar att dessa ord är en sammanfattning av hela religionen.',
+    question:'Vilket begrepp beskriver exakt vad munken gör?',
+    opts:['A) De fyra ädla sanningarna','B) Tripitaka-recitation','C) De tre tillflykterna','D) Den åttafaldiga vägen'],
+    correct:2, explanation:'Munkens tre meningar är de tre tillflykterna (Buddha, dharma, sangha) – buddhismens grundbekännelse. "Saranam gacchami" betyder ungefär "jag tar min tillflykt till". Att de sägs på pali, det forntida heliga språket, ger en känsla av kontinuitet med de allra äldsta buddhisterna.'
+  },
+  {
+    type:'scenario',
+    scenario:'Lena bestämmer sig för att sluta äta kött och att behandla alla levande varelser med respekt och omsorg. Hon förklarar att hon inte vill bidra till djurs lidande, och att det är en av de viktigaste principerna hon lärt sig av sin buddhistiske lärare.',
+    question:'Vilket begrepp styr Lenas beslut?',
+    opts:['A) Karma','B) Ahimsa','C) Sangha','D) Bodhi'],
+    correct:1, explanation:'Lenas val styrs av ahimsa – principen om ickevåld mot alla levande varelser. Det är viktigt att skilja ahimsa från karma: karma handlar om konsekvenser för återfödelsen, ahimsa handlar om den etiska principen att inte skada. Lena tar ahimsa som en etisk vägledning, inte som en kalkyl.'
+  },
+  {
+    type:'scenario',
+    scenario:'På ett museum ser du en rund kupoldformad byggnad. Guiden berättar att liknande byggnader byggdes av kejsar Ashoka på 200-talet f.v.t. och att de innehåller reliker från Buddha och hans lärjungar. Pilgrimer går runt dem medurs och offrar blommor.',
+    question:'Vad heter denna typ av byggnad?',
+    opts:['A) Jinja','B) Tempel','C) Stupa','D) Sangha'],
+    correct:2, explanation:'Det är en stupa – den karakteristiska rundt kupolformade byggnaden inom buddhism. Ashoka lät bygga ett stort antal stupor för att sprida reliker och stärka gemenskapen bland buddhister i sitt rike. Att gå runt stupan medurs (pradakshina) är en vanlig ritual.'
+  },
+  {
+    type:'scenario',
+    scenario:'En historiker berättar om en man i Indien på 200-talet f.v.t. som reste pelare med moraliska budskap, sände missionärer till Sri Lanka, lät bygga det första stora buddhisttemplet och samlade de ledande buddhisterna för att enas om lärans kärna.',
+    question:'Vem beskrivs?',
+    opts:['A) Siddhartha Gautama','B) Kejsar Ashoka','C) Lao Zi','D) Konfucius'],
+    correct:1, explanation:'Det är kejsar Ashoka – en av historiens mest inflytelserika kungliga buddhistiska mecenater. Utan Ashoka hade buddhismen möjligen stannat som en lokal nordindisk rörelse. Hans beslut att aktivt sprida läran formade en av världens stora religioner.'
+  },
+  {
+    type:'scenario',
+    scenario:'Amina läser om en buddhistisk riktning där man tror att det finns otaliga buddhor och gudomliga väsen som kan hjälpa troende, och att det högsta idealet är en varelse som väljer att dela världens lidande snarare än att fly från det.',
+    question:'Vilken buddhistisk riktning är det?',
+    opts:['A) Theravada – "de äldstes lära"','B) Pali-traditionen','C) Mahayana – "det stora fordonet"','D) Ashokas tidiga buddhism'],
+    correct:2, explanation:'Det är mahayana – "det stora fordonet". Det som utmärker mahayana är just de otaliga gudaväsendena, buddhornas mångfald och bodhisattvans ideal: att dela världens lidande istället för att söka personlig befrielse. Theravada har ett mer asketiskt och striktare monastiskt fokus.'
+  },
+
+  // KATEGORISERING
+  { type:'kategori', term:'Samsara',    termId:'samsara',   correct:'Grundbegrepp',     opts:['Grundbegrepp','Historia & texter','Riktningar','Ritual & praktik'] },
+  { type:'kategori', term:'Tripitaka',  termId:'tripitaka',  correct:'Historia & texter', opts:['Grundbegrepp','Historia & texter','Riktningar','Ritual & praktik'] },
+  { type:'kategori', term:'Bodhisattva', termId:'bodhisattva', correct:'Riktningar',     opts:['Grundbegrepp','Historia & texter','Riktningar','Ritual & praktik'] },
+  { type:'kategori', term:'Vesak',      termId:'vesak',      correct:'Ritual & praktik', opts:['Grundbegrepp','Historia & texter','Riktningar','Ritual & praktik'] },
+  { type:'kategori', term:'Karma',      termId:'karma',      correct:'Grundbegrepp',     opts:['Grundbegrepp','Historia & texter','Riktningar','Ritual & praktik'] },
+];
+
+// ══════════════════════════════════════════════
+//  PROGRESS STATE
+// ══════════════════════════════════════════════
+let prog = { l1:[], l2:[], l3:[] };
+try { const s = localStorage.getItem('buddhismProg2'); if(s) prog = JSON.parse(s); } catch(e){}
+
+function saveProg() { try { localStorage.setItem('buddhismProg2', JSON.stringify(prog)); } catch(e){} }
+
+function confirmReset() {
+  if (confirm('Nollställ all progress? Du börjar om från noll.')) {
+    prog = { l1:[], l2:[], l3:[] }; saveProg(); updateDashboard();
+  }
+}
+
+// ══════════════════════════════════════════════
+//  DASHBOARD
+// ══════════════════════════════════════════════
+function updateDashboard() {
+  const l1c = prog.l1.length, l2c = prog.l2.length, l3c = prog.l3.length;
+  const total = l1c + l2c + l3c, max = 22 + 12 + 15;
+  document.getElementById('l1-label').textContent = `${l1c} / 22`;
+  document.getElementById('l2-label').textContent = `${l2c} / 12`;
+  document.getElementById('l3-label').textContent = `${l3c} / 15`;
+  document.getElementById('l1-bar').style.width = (l1c/22*100)+'%';
+  document.getElementById('l2-bar').style.width = (l2c/12*100)+'%';
+  document.getElementById('l3-bar').style.width = (l3c/15*100)+'%';
+  const pct = Math.round(total/max*100);
+  document.getElementById('total-bar').style.width = pct+'%';
+  document.getElementById('total-pct').textContent = pct+'%';
+
+  if (l1c===22) { document.getElementById('l1-btn').textContent = '✓ Klar! Upprepa →'; document.getElementById('l1-btn').className='lc-btn done'; }
+  if (l2c===12) { document.getElementById('l2-btn').textContent = '✓ Klar! Upprepa →'; document.getElementById('l2-btn').className='lc-btn done'; }
+  if (l3c===15) { document.getElementById('l3-btn').textContent = '✓ Klar! Upprepa →'; document.getElementById('l3-btn').className='lc-btn done'; }
+
+  // term chips
+  const grid = document.getElementById('term-grid');
+  grid.innerHTML = '';
+  terms.forEach(t => {
+    const l1done = prog.l1.includes(t.id);
+    const l2done = prog.l2.some(i => l2[i] && l2[i].termLabel === t.term);
+    const l3done = prog.l3.some(i => l3[i] && (l3[i].termId === t.id || l3[i].terms && l3[i].terms.includes(t.term)));
+    const allDone = l1done && l2done && l3done;
+    let cls = 'term-chip';
+    if (allDone) cls += ' cleared-3';
+    else if (l2done || l3done) cls += ' cleared-2';
+    else if (l1done) cls += ' cleared-1';
+    grid.innerHTML += `<div class="${cls}">${t.term}${allDone?' <span class="star">⭐</span>':''}</div>`;
+  });
+}
+
+// ══════════════════════════════════════════════
+//  VIEW MANAGEMENT
+// ══════════════════════════════════════════════
+function showView(id) {
+  ['view-dashboard','view-exercise'].forEach(v => {
+    document.getElementById(v).style.display = v===id ? 'block' : 'none';
+  });
+  if (id==='view-exercise') document.getElementById('view-exercise').style.display='block';
+}
+function goBack() { showView('view-dashboard'); updateDashboard(); }
+
+// ══════════════════════════════════════════════
+//  LEVEL STATE
+// ══════════════════════════════════════════════
+let curLevel = 0, curQueue = [], curIdx = 0, curScore = 0;
+// For L1: shuffled term indices. For L2/L3: shuffled exercise indices.
+// Current option mapping (for L1 random opts)
+let curOpts = [], curCorrectIdx = 0;
+
+function startLevel(n) {
+  curLevel = n;
+  curIdx = 0;
+  curScore = 0;
+  if (n===1) {
+    curQueue = [...Array(terms.length).keys()].sort(() => Math.random()-0.5);
+    document.getElementById('ex-title').textContent = 'Nivå 1 – Flashcards';
+    document.getElementById('ex-subtitle').textContent = 'Se begreppet – välj rätt definition';
+    document.getElementById('ex-badge').textContent = 'Nivå 1';
+    document.getElementById('ex-badge').className = 'ex-badge badge-l1';
+  } else if (n===2) {
+    curQueue = [...Array(l2.length).keys()].sort(() => Math.random()-0.5);
+    document.getElementById('ex-title').textContent = 'Nivå 2 – Fördjupning';
+    document.getElementById('ex-subtitle').textContent = 'Hitta felet · Vem har rätt?';
+    document.getElementById('ex-badge').textContent = 'Nivå 2';
+    document.getElementById('ex-badge').className = 'ex-badge badge-l2';
+  } else {
+    curQueue = [...Array(l3.length).keys()].sort(() => Math.random()-0.5);
+    document.getElementById('ex-title').textContent = 'Nivå 3 – Använda begreppen';
+    document.getElementById('ex-subtitle').textContent = 'Kopplingar · Scenarier · Kategorisering';
+    document.getElementById('ex-badge').textContent = 'Nivå 3';
+    document.getElementById('ex-badge').className = 'ex-badge badge-l3';
+  }
+  showView('view-exercise');
+  renderExercise();
+}
+
+function renderExercise() {
+  const total = curQueue.length;
+  const pct = Math.round(curIdx/total*100);
+  document.getElementById('ex-count').textContent = `Övning ${curIdx+1} av ${total}`;
+  document.getElementById('ex-bar').style.width = pct+'%';
+  const el = document.getElementById('ex-content');
+
+  if (curLevel===1) renderL1(el);
+  else if (curLevel===2) renderL2(el);
+  else renderL3(el);
+}
+
+// ══════════════════════════════════════════════
+//  LEVEL 1 – FLASHCARDS
+// ══════════════════════════════════════════════
+function renderL1(el) {
+  const tIdx = curQueue[curIdx];
+  const t = terms[tIdx];
+  // 3 distractors
+  const others = terms.filter((_,i) => i!==tIdx).sort(() => Math.random()-0.5).slice(0,3);
+  const opts = [t.def, ...others.map(o=>o.def)];
+  // shuffle
+  const shuffled = opts.map((o,i)=>({o,orig:i})).sort(()=>Math.random()-0.5);
+  curOpts = shuffled.map(s=>s.o);
+  curCorrectIdx = shuffled.findIndex(s=>s.orig===0);
+  const letters = ['A','B','C','D'];
+
+  el.innerHTML = `
+    <div class="fc-card">
+      <div class="fc-category">${t.cat}</div>
+      <div class="fc-term">${t.term}</div>
+    </div>
+    <div class="fc-opts" id="fc-opts">
+      ${curOpts.map((o,i)=>`
+        <button class="fc-opt" onclick="answerL1(${i})">
+          <span class="opt-letter">${letters[i]}</span>${o}
+        </button>`).join('')}
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="next-btn" onclick="nextExercise()">Nästa begrepp →</button>`;
+}
+
+function answerL1(chosen) {
+  const btns = document.querySelectorAll('.fc-opt');
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if (i===curCorrectIdx) b.classList.add('correct');
+    else if (i===chosen && chosen!==curCorrectIdx) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('feedback');
+  const tIdx = curQueue[curIdx];
+  const t = terms[tIdx];
+  if (chosen===curCorrectIdx) {
+    curScore++;
+    if (!prog.l1.includes(t.id)) { prog.l1.push(t.id); saveProg(); }
+    fb.className='feedback correct'; fb.style.display='block';
+    fb.innerHTML='<strong>✅ Rätt!</strong> ' + t.def;
+  } else {
+    fb.className='feedback wrong'; fb.style.display='block';
+    fb.innerHTML='<strong>❌ Fel.</strong> Rätt svar: <em>' + t.def + '</em>';
+  }
+  document.getElementById('next-btn').style.display='inline-block';
+  const nl = curIdx+1;
+  document.getElementById('next-btn').textContent = nl<curQueue.length ? 'Nästa begrepp →' : 'Se resultat →';
+}
+
+// ══════════════════════════════════════════════
+//  LEVEL 2 – FÖRDJUPNING
+// ══════════════════════════════════════════════
+function renderL2(el) {
+  const eIdx = curQueue[curIdx];
+  const ex = l2[eIdx];
+  const letters = ['A','B','C','D'];
+
+  if (ex.type==='hittafelet') {
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-hittafelet">🔍 Hitta felet</div>
+        <div class="ex-term-badge">${ex.termLabel}</div>
+        <div class="ex-statement">"${ex.statement}"</div>
+        <div class="ex-question">${ex.question}</div>
+        <div class="opts" id="opts">
+          ${ex.opts.map((o,i)=>`
+            <button class="opt-btn" onclick="answerL2(${i},${ex.correct})">
+              <span class="opt-letter">${letters[i]}</span>${o.substring(3)}
+            </button>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextExercise()">Nästa övning →</button>`;
+  } else {
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-vemharratt">🗣️ Vem har rätt?</div>
+        <div class="ex-question">Ämne: <strong>${ex.topic}</strong><br><span style="font-size:14px;color:var(--muted);font-family:'Source Serif 4',serif;font-weight:400;">Klicka på den elev som har rätt.</span></div>
+        <div class="students" id="students">
+          ${ex.students.map((s,i)=>`
+            <div class="student-card" onclick="answerVem(${i},${ex.correct})">
+              <div class="student-avatar">${s.avatar}</div>
+              <div><div class="student-name">${s.name}</div><div class="student-text">${s.text}</div></div>
+            </div>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextExercise()">Nästa övning →</button>`;
+  }
+}
+
+function answerL2(chosen, correct) {
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach((b,i) => {
+    b.disabled=true;
+    if (i===correct) b.classList.add('correct');
+    else if (i===chosen && chosen!==correct) b.classList.add('wrong');
+  });
+  finishL2(chosen===correct);
+}
+
+function answerVem(chosen, correct) {
+  const cards = document.querySelectorAll('.student-card');
+  cards.forEach((c,i) => {
+    c.classList.add('locked');
+    if (i===correct) c.classList.add('correct');
+    else if (i===chosen && chosen!==correct) c.classList.add('wrong');
+  });
+  finishL2(chosen===correct);
+}
+
+function finishL2(correct) {
+  const eIdx = curQueue[curIdx];
+  const ex = l2[eIdx];
+  const fb = document.getElementById('feedback');
+  if (correct) {
+    curScore++;
+    if (!prog.l2.includes(eIdx)) { prog.l2.push(eIdx); saveProg(); }
+    fb.className='feedback correct'; fb.style.display='block';
+    fb.innerHTML='<strong>✅ Rätt!</strong> ' + ex.explanation;
+  } else {
+    fb.className='feedback wrong'; fb.style.display='block';
+    fb.innerHTML='<strong>❌ Fel.</strong> ' + ex.explanation;
+  }
+  const nb = document.getElementById('next-btn');
+  nb.style.display='inline-block';
+  nb.textContent = curIdx+1<curQueue.length ? 'Nästa övning →' : 'Se resultat →';
+}
+
+// ══════════════════════════════════════════════
+//  LEVEL 3 – ANVÄNDA BEGREPPEN
+// ══════════════════════════════════════════════
+function renderL3(el) {
+  const eIdx = curQueue[curIdx];
+  const ex = l3[eIdx];
+  const letters = ['A','B','C','D'];
+
+  if (ex.type==='koppling') {
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-koppling">🔗 Koppla begreppen</div>
+        <div class="koppling-terms">
+          <div class="koppling-term">${ex.terms[0]}</div>
+          <div class="koppling-plus">+</div>
+          <div class="koppling-term">${ex.terms[1]}</div>
+        </div>
+        <div class="ex-question">${ex.question}</div>
+        <div class="opts" id="opts">
+          ${ex.opts.map((o,i)=>`
+            <button class="opt-btn" onclick="answerL3(${i},${ex.correct})">
+              <span class="opt-letter">${letters[i]}</span>${o.substring(3)}
+            </button>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextExercise()">Nästa övning →</button>`;
+
+  } else if (ex.type==='scenario') {
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-scenario">🎭 Scenario</div>
+        <div class="scenario-box"><p>${ex.scenario}</p></div>
+        <div class="ex-question">${ex.question}</div>
+        <div class="opts" id="opts">
+          ${ex.opts.map((o,i)=>`
+            <button class="opt-btn" onclick="answerL3(${i},${ex.correct})">
+              <span class="opt-letter">${letters[i]}</span>${o.substring(3)}
+            </button>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextExercise()">Nästa övning →</button>`;
+
+  } else { // kategori
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-kategori">🗂️ Kategorisering</div>
+        <div class="kat-term">${ex.term}</div>
+        <div class="kat-question">Vilken kategori hör detta begrepp till?</div>
+        <div class="kat-grid" id="kat-grid">
+          ${ex.opts.map(o=>`
+            <button class="kat-btn" onclick="answerKat(this,'${o}','${ex.correct}')">${o}</button>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextExercise()">Nästa övning →</button>`;
+  }
+}
+
+function answerL3(chosen, correct) {
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach((b,i) => {
+    b.disabled=true;
+    if (i===correct) b.classList.add('correct');
+    else if (i===chosen && chosen!==correct) b.classList.add('wrong');
+  });
+  finishL3(chosen===correct);
+}
+
+function answerKat(btn, chosen, correct) {
+  document.querySelectorAll('.kat-btn').forEach(b => {
+    b.disabled=true;
+    if (b.textContent===correct) b.classList.add('correct');
+    else if (b===btn && chosen!==correct) b.classList.add('wrong');
+  });
+  finishL3(chosen===correct);
+}
+
+function finishL3(correct) {
+  const eIdx = curQueue[curIdx];
+  const ex = l3[eIdx];
+  const fb = document.getElementById('feedback');
+  if (correct) {
+    curScore++;
+    if (!prog.l3.includes(eIdx)) { prog.l3.push(eIdx); saveProg(); }
+    fb.className='feedback correct'; fb.style.display='block';
+    fb.innerHTML='<strong>✅ Rätt!</strong> ' + ex.explanation;
+  } else {
+    fb.className='feedback wrong'; fb.style.display='block';
+    fb.innerHTML='<strong>❌ Fel.</strong> ' + ex.explanation;
+  }
+  const nb = document.getElementById('next-btn');
+  nb.style.display='inline-block';
+  nb.textContent = curIdx+1<curQueue.length ? 'Nästa övning →' : 'Se resultat →';
+}
+
+// ══════════════════════════════════════════════
+//  NEXT / COMPLETE
+// ══════════════════════════════════════════════
+function nextExercise() {
+  curIdx++;
+  if (curIdx >= curQueue.length) showComplete();
+  else renderExercise();
+}
+
+function showComplete() {
+  const total = curQueue.length;
+  const pct = Math.round(curScore/total*100);
+  let emoji, title, msg;
+  if (pct>=90){emoji='🏆';title='Lysande!';msg='Du behärskar det här materialet riktigt väl.';}
+  else if(pct>=70){emoji='⭐';title='Bra jobbat!';msg='Riktigt bra! Gå igenom de du missat och försök igen.';}
+  else if(pct>=50){emoji='📚';title='På rätt väg!';msg='Du kan grunderna – men det finns mer att lära. Försök igen!';}
+  else{emoji='💪';title='Kämpa på!';msg='Gå tillbaka till texten och läs igenom begreppen, sedan klarar du det!';}
+  const lvlName = curLevel===1?'Flashcards':curLevel===2?'Fördjupning':'Använda begreppen';
+  document.getElementById('ex-content').innerHTML=`
+    <div class="level-complete">
+      <div class="lc-trophy">${emoji}</div>
+      <div class="lc-score-ring"><div class="score-n">${curScore}</div><div class="score-d">av ${total}</div></div>
+      <h2>${title}</h2>
+      <p>${msg}</p>
+      <div class="lc-btns">
+        <button class="lc-repeat" onclick="startLevel(${curLevel})">↺ Kör igen</button>
+        <button class="lc-back" onclick="goBack()">← Tillbaka till översikt</button>
+      </div>
+    </div>`;
+  document.getElementById('ex-count').textContent = '';
+  document.getElementById('ex-bar').style.width = '100%';
+}
+
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
+showView('view-dashboard');
+updateDashboard();
+</script>
+</body>
+</html>
