@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tekniska uppfinningar som förändrade världen</title>
+  <style>
+    :root {
+      --ink: #0f1115;
+      --ink-2: #151922;
+      --paper: #f5efe3;
+      --paper-soft: #e7dcc6;
+      --gold: #c9a76a;
+      --rust: #9a4e2f;
+      --steel: #88a4b8;
+      --coal: #5f6670;
+      --line: rgba(201,167,106,0.18);
+      --text: #eadfcd;
+      --text-dim: rgba(234,223,205,0.68);
+      --serif: Georgia, "Times New Roman", serif;
+      --mono: "Courier New", monospace;
+      --shadow: 0 22px 60px rgba(0,0,0,0.45);
+      --max: 860px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: var(--serif);
+      font-size: 21px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--rust), var(--gold));
+      transition: width 0.08s;
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 36px;
+      overflow: hidden;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(136,164,184,0.10), transparent 24%),
+        radial-gradient(circle at 20% 80%, rgba(154,78,47,0.10), transparent 22%),
+        linear-gradient(180deg, #12161d 0%, #0b0d12 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 34%, rgba(0,0,0,0.82) 100%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1060px;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 92px);
+      line-height: 0.98;
+      font-weight: 700;
+      color: var(--paper);
+      letter-spacing: -0.035em;
+      margin-bottom: 18px;
+      text-shadow: 0 0 60px rgba(136,164,184,0.18);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.45s forwards;
+    }
+
+    .hero h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      max-width: 760px;
+      margin: 0 auto 34px;
+      color: var(--text-dim);
+      font-size: 23px;
+      line-height: 1.55;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s forwards;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 1000px;
+      margin: 0 auto 38px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.95s forwards;
+    }
+
+    .hero-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.035);
+      padding: 18px 14px;
+      border-radius: 4px;
+      backdrop-filter: blur(2px);
+    }
+
+    .hero-card strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .hero-card span {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.5;
+      display: block;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.15s forwards;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-dim);
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+      color: var(--paper);
+      background: rgba(201,167,106,0.08);
+    }
+
+    .hero-btn.primary {
+      background: rgba(154,78,47,0.18);
+      border-color: rgba(154,78,47,0.42);
+      color: var(--paper);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 38px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.45s forwards;
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 52px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .article {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 88px 36px;
+    }
+
+    p { margin-bottom: 24px; color: var(--text); }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--paper); }
+    em { color: var(--gold); }
+
+    .intro {
+      font-size: 24px;
+      font-style: italic;
+      color: var(--paper);
+      line-height: 1.62;
+      margin-bottom: 42px;
+    }
+
+    .section-marker {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 84px 0 30px;
+    }
+
+    .section-marker::before,
+    .section-marker::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .section-marker span {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    h2 {
+      font-size: clamp(30px, 4.4vw, 50px);
+      line-height: 1.12;
+      color: var(--paper);
+      margin-bottom: 28px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 40px 0 14px;
+    }
+
+    .pullquote {
+      margin: 62px -74px;
+      padding: 38px 54px;
+      background: linear-gradient(135deg, rgba(136,164,184,0.12), transparent);
+      border-left: 4px solid var(--steel);
+      position: relative;
+    }
+
+    .pullquote::before {
+      content: '“';
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      font-size: 160px;
+      line-height: 0.8;
+      color: rgba(136,164,184,0.16);
+      pointer-events: none;
+    }
+
+    .pullquote p {
+      position: relative;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.42;
+      color: var(--paper);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .pullquote cite {
+      display: block;
+      margin-top: 16px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .fact-box {
+      margin: 34px 0;
+      padding: 22px 24px;
+      background: rgba(201,167,106,0.06);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .fact-box-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .fact-box p {
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .full-bleed {
+      margin: 82px -100vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 90px 36px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(136,164,184,0.10), transparent 24%),
+        linear-gradient(180deg, #12161d 0%, #0f1115 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .full-bleed-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .flow-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.035);
+      border-radius: 6px;
+      padding: 20px;
+      position: relative;
+      min-height: 210px;
+    }
+
+    .flow-card strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--paper);
+      font-size: 20px;
+    }
+
+    .flow-card p {
+      margin: 0;
+      color: var(--text-dim);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .flow-card::after {
+      content: "→";
+      position: absolute;
+      right: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-size: 30px;
+    }
+
+    .flow-card:last-child::after { display: none; }
+
+    .switcher {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .switcher-menu {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .s-btn {
+      text-align: left;
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.035);
+      color: var(--text-dim);
+      padding: 16px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+      transition: 0.2s ease;
+    }
+
+    .s-btn strong {
+      display: block;
+      color: var(--paper);
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .s-btn small { color: var(--text-dim); line-height: 1.45; }
+    .s-btn:hover, .s-btn.active { border-color: var(--gold); background: rgba(201,167,106,0.10); color: var(--paper); }
+
+    .switcher-panel {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.035);
+      border-radius: 6px;
+      padding: 28px;
+      min-height: 360px;
+    }
+
+    .machine-view { display: none; }
+    .machine-view.active { display: block; }
+
+    .machine-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      border: 1px solid rgba(201,167,106,0.28);
+      color: var(--gold);
+      background: rgba(201,167,106,0.08);
+    }
+
+    .machine-title {
+      font-size: 30px;
+      color: var(--paper);
+      margin-bottom: 14px;
+      line-height: 1.16;
+    }
+
+    .machine-copy p {
+      color: var(--text-dim);
+      font-size: 18px;
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .before-after {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .ba-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      padding: 18px;
+    }
+
+    .ba-card h4 {
+      font-size: 18px;
+      color: var(--paper);
+      margin-bottom: 8px;
+    }
+
+    .ba-card p {
+      margin: 0;
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px;
+    }
+
+    .panel h3 { margin-top: 0; font-size: 22px; }
+
+    .meter-wrap {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .meter-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .meter-row strong {
+      font-size: 16px;
+      color: var(--paper);
+    }
+
+    .meter-track {
+      height: 16px;
+      background: rgba(245,239,227,0.06);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--rust), var(--gold));
+      border-radius: 999px;
+    }
+
+    .accordion {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .accordion-item {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .accordion-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--paper);
+      text-align: left;
+      padding: 18px 20px;
+      font: inherit;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .accordion-content {
+      display: none;
+      padding: 0 20px 18px;
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .accordion-item.open .accordion-content { display: block; }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .timeline-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .timeline-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--paper);
+      text-align: left;
+      padding: 18px 20px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+    }
+
+    .timeline-btn span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .timeline-more {
+      display: none;
+      padding: 0 20px 18px;
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .timeline-card.open .timeline-more { display: block; }
+
+    .teacher-section {
+      background: #0b0d12;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 86px 36px;
+      margin-top: 40px;
+    }
+
+    .teacher-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .teacher-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .teacher-title {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      color: var(--paper);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .teacher-title em { color: var(--gold); font-style: italic; }
+
+    .teacher-intro {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 740px;
+      margin-bottom: 28px;
+    }
+
+    .teacher-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .t-tab {
+      background: rgba(245,239,227,0.04);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .t-tab:hover, .t-tab.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,167,106,0.10);
+    }
+
+    .t-panel { display: none; }
+    .t-panel.active { display: block; }
+
+    .t-panel-intro {
+      font-size: 16px;
+      color: var(--text-dim);
+      font-style: italic;
+      border-left: 2px solid var(--line);
+      padding-left: 16px;
+      margin-bottom: 34px;
+      line-height: 1.7;
+    }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .question-card {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 22px;
+    }
+
+    .question-card h4 {
+      font-size: 19px;
+      color: var(--paper);
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+
+    .mc-list { display: grid; gap: 8px; margin-top: 14px; }
+
+    .mc-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(245,239,227,0.03);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+      transition: 0.2s ease;
+    }
+
+    .mc-btn:hover { border-color: var(--gold); background: rgba(201,167,106,0.08); }
+    .mc-btn.correct { border-color: rgba(101,182,122,0.55); background: rgba(101,182,122,0.14); }
+    .mc-btn.wrong { border-color: rgba(214,112,88,0.52); background: rgba(214,112,88,0.14); }
+
+    .mc-feedback {
+      margin-top: 12px;
+      font-size: 15px;
+      color: var(--paper-soft);
+      min-height: 22px;
+    }
+
+    .source-card, .write-card {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 26px;
+      margin-bottom: 18px;
+    }
+
+    .source-badge, .write-badge {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border: 1px solid rgba(201,167,106,0.22);
+      background: rgba(201,167,106,0.09);
+      color: var(--gold);
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .source-card h4, .write-card h4 {
+      font-size: 22px;
+      color: var(--paper);
+      margin-bottom: 12px;
+    }
+
+    .source-quote {
+      margin: 16px 0 18px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--gold);
+      background: rgba(245,239,227,0.03);
+      color: var(--text-dim);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .task-list { display: grid; gap: 10px; margin-top: 16px; }
+
+    .task-item {
+      padding: 14px 16px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .write-tip {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-left: 2px solid var(--rust);
+      background: rgba(154,78,47,0.08);
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .write-tip strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .epilogue {
+      margin: 0 -100vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 100px 36px 120px;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(136,164,184,0.16) 0%, transparent 72%);
+    }
+
+    .epilogue h2 { margin-bottom: 22px; }
+
+    .epilogue p {
+      max-width: 740px;
+      margin: 0 auto 22px;
+      color: var(--text-dim);
+      font-size: 21px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .ep-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    .ep-link {
+      text-decoration: none;
+      padding: 14px 24px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      background: rgba(245,239,227,0.03);
+    }
+
+    .ep-link:hover { border-color: var(--gold); background: rgba(201,167,106,0.10); }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .question-grid,
+      .impact-grid,
+      .flow-grid,
+      .switcher,
+      .before-after { grid-template-columns: 1fr; }
+      .flow-card::after { display: none; }
+    }
+
+    @media (max-width: 700px) {
+      body { font-size: 19px; }
+      .article, .teacher-section, .full-bleed, .epilogue, .hero { padding-left: 24px; padding-right: 24px; }
+      .pullquote { margin: 42px 0; padding: 28px 24px; }
+      .pullquote::before { font-size: 110px; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .meter-row { grid-template-columns: 1fr; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-label">SO-portalen · Fördjupning · Historia · Industriella revolutionen</div>
+      <h1>Tekniska uppfinningar<br>som <em>förändrade världen</em></h1>
+      <p class="hero-sub">Under den industriella revolutionen blev produktionen snabbare, maskindriven och storskalig. Det förändrade inte bara hur varor tillverkades – utan också hur människor arbetade, bodde och levde.</p>
+
+      <div class="hero-grid">
+        <div class="hero-card"><strong>Textil</strong><span>Maskiner som Spinning Jenny gjorde produktionen mycket snabbare.</span></div>
+        <div class="hero-card"><strong>Energi</strong><span>Ångmaskinen gjorde fabriker mindre beroende av vattenkraft.</span></div>
+        <div class="hero-card"><strong>Material</strong><span>Järn och kol möjliggjorde starkare maskiner och nya byggnader.</span></div>
+        <div class="hero-card"><strong>Transport</strong><span>Järnvägar och ångfartyg knöt samman ekonomier och människor.</span></div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="hero-btn primary" href="#artikelstart">Börja läsa</a>
+        <a class="hero-btn" href="#lararsektion">Frågor till texten</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scrolla för att läsa</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <article class="article" id="artikelstart">
+    <p class="intro">Under den industriella revolutionen förändrades världen av maskiner, nya energikällor och bättre transporter. Produktionen gick från att vara långsam och hantverksbaserad till att bli snabb, maskindriven och storskalig. Samtidigt förändrades arbetslivet, städerna växte och människors vardag påverkades i grunden.</p>
+
+    <p>De tekniska uppfinningarna ökade effektiviteten, sänkte kostnaderna och gjorde det möjligt att tillverka varor i mängder som tidigare hade varit otänkbara. Men de skapade inte bara ekonomisk tillväxt. De skapade också nya sociala problem, nya arbetsformer och ett samhälle som blev allt mer beroende av industri och teknik.</p>
+
+    <p>För att förstå industrialiseringen räcker det därför inte att bara kunna namnen på några uppfinningar. Man måste också förstå <strong>hur de hängde ihop</strong> och varför de tillsammans förändrade samhället.</p>
+
+    <div class="section-marker"><span>Del 1 · Startpunkten</span></div>
+    <h2>Textilindustrin –<br><em>där industrialiseringen tog fart</em></h2>
+
+    <p>Textilindustrin var den bransch där de tekniska förändringarna först fick stort genomslag. Tidigare hade spinning och vävning skett för hand i hemmen. Det var långsamt, arbetskrävande och ineffektivt. Under 1700-talet började flera uppfinningar förändra detta.</p>
+
+    <p>En av de viktigaste var <strong>Spinning Jenny</strong>. Den gjorde det möjligt för en enda arbetare att spinna flera trådar samtidigt. Produktionen av garn ökade kraftigt och kostnaderna sjönk. Kort därefter utvecklades mekaniska vävstolar som kunde drivas av vatten eller ånga.</p>
+
+    <p>Detta gjorde att textilproduktionen flyttade från hemmen till fabriker. Där kunde maskiner och arbetskraft samlas på ett ställe. Det blev ett kännetecken för det nya industrisamhället.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-label">Kärnidén här</div>
+      <p>När en maskin gjorde en uppgift snabbare förändrades inte bara produktionen. Hela sättet att organisera arbete förändrades – från hem och hantverk till fabriker och arbetspass.</p>
+    </div>
+
+    <div class="pullquote">
+      <p>Industrialiseringen började inte med en enda maskin. Den började när maskiner gjorde det lönsamt att samla både arbete och produktion i fabriker.</p>
+      <cite>Sammanfattning av textens huvudidé</cite>
+    </div>
+  </article>
+
+  <section class="full-bleed">
+    <div class="full-bleed-inner">
+      <div class="section-marker"><span>Interaktiv fördjupning</span></div>
+      <h2>Så hängde tekniken ihop –<br><em>från uppfinning till samhällsförändring</em></h2>
+
+      <div class="flow-grid">
+        <div class="flow-card"><strong>Ny maskin</strong><p>En uppfinning gör arbetet snabbare eller effektivare.</p></div>
+        <div class="flow-card"><strong>Ökad produktion</strong><p>Fler varor kan tillverkas på kortare tid och till lägre kostnad.</p></div>
+        <div class="flow-card"><strong>Fabriker växer fram</strong><p>Maskiner och arbetskraft samlas på samma plats.</p></div>
+        <div class="flow-card"><strong>Samhället förändras</strong><p>Arbetsliv, städer, transporter och människors vardag påverkas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <article class="article">
+    <div class="section-marker"><span>Del 2 · Maskinerna</span></div>
+    <h2>Klicka på en uppfinning –<br><em>och se vad den förändrade</em></h2>
+
+    <div class="switcher">
+      <div class="switcher-menu">
+        <button class="s-btn active" type="button" data-machine="spinning"><strong>Spinning Jenny</strong><small>Mer garn, snabbare produktion och början på fabrikssystemet.</small></button>
+        <button class="s-btn" type="button" data-machine="steam"><strong>Ångmaskinen</strong><small>Industrialismens viktigaste energikälla.</small></button>
+        <button class="s-btn" type="button" data-machine="iron"><strong>Järn och kol</strong><small>Starkare material och mer hållbara maskiner.</small></button>
+        <button class="s-btn" type="button" data-machine="transport"><strong>Lok och fartyg</strong><small>Snabbare transporter knöt ihop världen.</small></button>
+      </div>
+
+      <div class="switcher-panel">
+        <div class="machine-view active" id="machine-spinning">
+          <div class="machine-badge">Textilindustrin</div>
+          <div class="machine-title">Spinning Jenny förändrade tempot</div>
+          <div class="machine-copy">
+            <p>Spinning Jenny gjorde det möjligt för en person att spinna flera trådar samtidigt. Det ökade produktionen av garn kraftigt och gjorde textilarbetet snabbare än tidigare.</p>
+            <p>När fler liknande maskiner utvecklades blev det svårt att fortsätta arbeta hemma i samma takt. Fabriker blev mer effektiva än små hushållsverkstäder.</p>
+          </div>
+          <div class="before-after">
+            <div class="ba-card"><h4>Före</h4><p>Spinning och vävning skedde för hand i hemmen. Arbetet var långsamt och beroende av hantverksskicklighet.</p></div>
+            <div class="ba-card"><h4>Efter</h4><p>Maskiner ökade tempot, sänkte kostnaderna och flyttade produktionen till fabriker.</p></div>
+          </div>
+        </div>
+
+        <div class="machine-view" id="machine-steam">
+          <div class="machine-badge">Energi</div>
+          <div class="machine-title">Ångmaskinen blev industrialiseringens motor</div>
+          <div class="machine-copy">
+            <p>Ångmaskinen var den viktigaste energikällan under industrialiseringen. Tidigare hade människor varit beroende av muskelkraft, vatten och vind. Nu gick det att driva maskiner nästan var som helst där det fanns bränsle.</p>
+            <p>Det gjorde fabriker mindre beroende av floder och vattenfall. De kunde istället byggas där arbetskraft fanns – ofta i växande städer.</p>
+          </div>
+          <div class="before-after">
+            <div class="ba-card"><h4>Före</h4><p>Produktion var beroende av naturens krafter och av var fabriken kunde placeras.</p></div>
+            <div class="ba-card"><h4>Efter</h4><p>Ångkraft gav större frihet, mer kontinuerlig drift och fler användningsområden i både fabriker, gruvor och transporter.</p></div>
+          </div>
+        </div>
+
+        <div class="machine-view" id="machine-iron">
+          <div class="machine-badge">Material</div>
+          <div class="machine-title">Järn och kol byggde det nya samhället</div>
+          <div class="machine-copy">
+            <p>Den tekniska utvecklingen krävde material som tålde hård belastning och höga temperaturer. Därför blev järn avgörande. Med bättre metoder kunde järn framställas billigare och i större mängder.</p>
+            <p>Kol blev samtidigt viktigt både som bränsle och i metallframställning. Tillsammans gjorde järn och kol det möjligt att bygga starkare maskiner, fabriker, broar och järnvägar.</p>
+          </div>
+          <div class="before-after">
+            <div class="ba-card"><h4>Före</h4><p>Verktyg och konstruktioner hade större begränsningar i hållbarhet och skala.</p></div>
+            <div class="ba-card"><h4>Efter</h4><p>Maskiner och byggnader kunde bli större, starkare och mer avancerade än tidigare.</p></div>
+          </div>
+        </div>
+
+        <div class="machine-view" id="machine-transport">
+          <div class="machine-badge">Transporter</div>
+          <div class="machine-title">Lok och fartyg band samman världen</div>
+          <div class="machine-copy">
+            <p>Ångdrivna lok och fartyg gjorde transporterna snabbare, billigare och mer tillförlitliga. Råvaror kunde föras till fabriker och färdiga varor till marknader i större skala än tidigare.</p>
+            <p>Järnvägar knöt samman städer och industriregioner, medan ångfartyg gjorde handeln över haven mer effektiv. Det ökade rörligheten för både människor och varor.</p>
+          </div>
+          <div class="before-after">
+            <div class="ba-card"><h4>Före</h4><p>Transporter var långsamma, osäkra och ofta dyra.</p></div>
+            <div class="ba-card"><h4>Efter</h4><p>Ekonomier bands samman och urbaniseringen gick snabbare när fler kunde flytta och fler varor kunde färdas.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-marker"><span>Del 3 · Konsekvenser</span></div>
+    <h2>Vad förändrades mest?<br><em>Produktion, arbete och rörelse</em></h2>
+
+    <div class="impact-grid">
+      <div class="panel">
+        <h3>Det tekniken gjorde lättare</h3>
+        <div class="meter-wrap">
+          <div class="meter-row"><strong>Massproduktion</strong><div class="meter-track"><div class="meter-fill" style="width:94%"></div></div></div>
+          <div class="meter-row"><strong>Snabbare transporter</strong><div class="meter-track"><div class="meter-fill" style="width:88%"></div></div></div>
+          <div class="meter-row"><strong>Lägre kostnader</strong><div class="meter-track"><div class="meter-fill" style="width:84%"></div></div></div>
+          <div class="meter-row"><strong>Större handel</strong><div class="meter-track"><div class="meter-fill" style="width:86%"></div></div></div>
+        </div>
+        <p style="margin-top:18px; color: var(--text-dim); font-size: 16px;">Staplarna visar vilka förändringar som texten betonar starkast, inte exakta siffror.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Det tekniken också skapade</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-btn" type="button"><span>Monotont fabriksarbete</span><span>+</span></button>
+            <div class="accordion-content">Maskiner ökade produktiviteten, men många arbetsuppgifter blev mer ensidiga. Arbetare fick följa maskinernas tempo snarare än sitt eget.</div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-btn" type="button"><span>Långa arbetsdagar</span><span>+</span></button>
+            <div class="accordion-content">I fabrikerna blev arbetstiderna ofta långa. Teknikens effektivitet innebar inte automatiskt bättre villkor för arbetarna.</div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-btn" type="button"><span>Barnarbete och låg skicklighetsnivå</span><span>+</span></button>
+            <div class="accordion-content">När maskiner tog över delar av hantverkskunskapen blev det lättare att anställa oerfarna arbetare och barn, ofta till låg lön.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fact-box">
+      <div class="fact-box-label">Det centrala sambandet</div>
+      <p>Teknik skapade ekonomisk tillväxt, men också nya sociala problem. Därför måste industrialiseringen förstås både som en teknisk revolution och som en samhällsförändring.</p>
+    </div>
+
+    <div class="section-marker"><span>Del 4 · Den större bilden</span></div>
+    <h2>Teknik som drev samhällsförändring</h2>
+
+    <p>De tekniska uppfinningarna under den industriella revolutionen förändrade världen i grunden. Maskiner inom textilindustrin, ångmaskinen, utvecklingen av järn samt nya transportmedel gjorde det möjligt att producera mer, snabbare och billigare än tidigare.</p>
+
+    <p>Samtidigt växte städerna, arbetslivet förändrades och samhället blev allt mer beroende av industri och teknik. Det var inte bara fabrikerna som blev nya. Hela samhällsmodellen förändrades.</p>
+
+    <div class="timeline">
+      <div class="timeline-card">
+        <button class="timeline-btn" type="button"><span>Steg 1</span>Ny teknik ökar produktionen</button>
+        <div class="timeline-more">När maskiner gjorde arbetet snabbare kunde fler varor produceras på kortare tid.</div>
+      </div>
+      <div class="timeline-card">
+        <button class="timeline-btn" type="button"><span>Steg 2</span>Fabriker växer och arbetslivet förändras</button>
+        <div class="timeline-more">Arbete flyttas från hem och små verkstäder till större fabriker där maskinerna finns.</div>
+      </div>
+      <div class="timeline-card">
+        <button class="timeline-btn" type="button"><span>Steg 3</span>Transporter binder ihop ekonomin</button>
+        <div class="timeline-more">Järnvägar och fartyg gör det lättare att frakta råvaror, varor och människor mellan olika platser.</div>
+      </div>
+      <div class="timeline-card">
+        <button class="timeline-btn" type="button"><span>Steg 4</span>Det moderna industrisamhället tar form</button>
+        <div class="timeline-more">Samhället blir mer urbaniserat, mer marknadsinriktat och mer beroende av teknik i vardagen.</div>
+      </div>
+    </div>
+  </article>
+
+  <section class="teacher-section" id="lararsektion">
+    <div class="teacher-inner">
+      <div class="teacher-label">Lärarsektion</div>
+      <h2 class="teacher-title">Frågor och material<br><em>till texten</em></h2>
+      <p class="teacher-intro">Här finns en tydlig lärardel med åtta quizfrågor, källövning och skrivuppgifter. Fokus ligger på att eleverna ska förstå hur tekniska uppfinningar hängde ihop med större förändringar i samhälle och arbetsliv.</p>
+
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTab('quiz', this)">Quiz</button>
+        <button class="t-tab" onclick="showTab('kallor', this)">Källövning</button>
+        <button class="t-tab" onclick="showTab('skriv', this)">Skrivfrågor</button>
+      </div>
+
+      <div class="t-panel active" id="tab-quiz">
+        <div class="t-panel-intro">Åtta frågor som testar både faktakunskaper och förståelse av samband mellan teknik och samhällsförändring.</div>
+        <div class="question-grid">
+          <div class="question-card">
+            <h4>1. Vad är artikelns viktigaste huvudpoäng?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="1" data-correct="false">Att industrialiseringen bara handlade om nya maskiner i textilindustrin.</button>
+              <button class="mc-btn" data-q="1" data-correct="true">Att tekniska uppfinningar förändrade både produktionen och samhället i stort.</button>
+              <button class="mc-btn" data-q="1" data-correct="false">Att industrialiseringen främst gjorde arbetet lugnare och enklare för alla.</button>
+            </div>
+            <div class="mc-feedback" id="f1"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>2. Varför blev textilindustrin tidigt viktig under industrialiseringen?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="2" data-correct="true">Där fick maskiner som Spinning Jenny tidigt stort genomslag och ökade produktionen kraftigt.</button>
+              <button class="mc-btn" data-q="2" data-correct="false">För att textilier inte hade tillverkats alls tidigare.</button>
+              <button class="mc-btn" data-q="2" data-correct="false">För att textilindustrin inte behövde några arbetare.</button>
+            </div>
+            <div class="mc-feedback" id="f2"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>3. Vad gjorde Spinning Jenny?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="3" data-correct="true">Den gjorde det möjligt att spinna flera trådar samtidigt.</button>
+              <button class="mc-btn" data-q="3" data-correct="false">Den ersatte all vävning med handarbete.</button>
+              <button class="mc-btn" data-q="3" data-correct="false">Den användes främst för att bygga järnvägar.</button>
+            </div>
+            <div class="mc-feedback" id="f3"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>4. Varför var ångmaskinen så viktig?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="4" data-correct="false">För att den gjorde vattenkraft onödig i hela världen direkt.</button>
+              <button class="mc-btn" data-q="4" data-correct="true">För att den gav en kraftkälla som kunde användas på många platser där det fanns bränsle.</button>
+              <button class="mc-btn" data-q="4" data-correct="false">För att den bara användes i jordbruket.</button>
+            </div>
+            <div class="mc-feedback" id="f4"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>5. Vilken roll spelade järn under industrialiseringen?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="5" data-correct="true">Det gjorde det möjligt att bygga starkare maskiner, verktyg, broar och järnvägar.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">Det ersatte helt behovet av kol.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">Det användes nästan bara till smycken och dekorationer.</button>
+            </div>
+            <div class="mc-feedback" id="f5"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>6. Hur påverkade nya transporter samhället?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="6" data-correct="true">De gjorde det lättare att flytta råvaror, varor och människor och ökade handeln.</button>
+              <button class="mc-btn" data-q="6" data-correct="false">De gjorde att städerna blev mindre viktiga.</button>
+              <button class="mc-btn" data-q="6" data-correct="false">De påverkade bara resor till havs, inte på land.</button>
+            </div>
+            <div class="mc-feedback" id="f6"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>7. Hur förändrades arbetet i fabrikerna?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="7" data-correct="true">Arbetet blev ofta mer monot
