@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buddhism & Östasiatiska religioner – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:    #1A2744;
+    --gold:    #B8860B;
+    --gold-lt: #FBF4E0;
+    --sand:    #F8F5EF;
+    --text:    #1E1A12;
+    --muted:   #6A5F4B;
+    --border:  #E4DCCF;
+    --rust:    #8B3A1A;
+    --rust-lt: #FDF3EE;
+    --teal:    #1A4A4A;
+    --teal-lt: #EBF5F5;
+    --purple:  #3A1A5C;
+    --purple-lt:#F0EBFA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Serif 4', Georgia, serif; background: var(--sand); color: var(--text); line-height: 1.75; }
+
+  /* HERO */
+  .hero {
+    background: var(--navy);
+    background-image:
+      radial-gradient(ellipse at 10% 70%, rgba(184,134,11,0.22) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 20%, rgba(58,26,92,0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at 55% 110%, rgba(26,74,74,0.25) 0%, transparent 50%);
+    color: white; padding: 60px 40px 50px; position: relative; overflow: hidden;
+  }
+  .hero::before { content: "☸️"; position: absolute; right: 40px; top: 50%; transform: translateY(-50%); font-size: 130px; opacity: 0.07; pointer-events: none; }
+  .hero-label { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #D4A843; margin-bottom: 14px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 52px); font-weight: 900; line-height: 1.1; margin-bottom: 16px; }
+  .hero h1 span { color: #D4A843; }
+  .hero p { font-size: 16px; color: rgba(255,255,255,0.7); max-width: 620px; margin-bottom: 28px; }
+  .hero-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero-tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); padding: 5px 14px; border-radius: 20px; font-size: 13px; }
+
+  /* NAV */
+  .nav-tabs { background: white; border-bottom: 2px solid var(--border); display: flex; overflow-x: auto; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .nav-tab { padding: 16px 22px; font-family: 'Source Serif 4', serif; font-size: 13.5px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+  .nav-tab:hover { color: var(--navy); background: #EEF1FA; }
+  .nav-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+
+  /* SECTIONS */
+  .section { display: none; padding: 44px 40px; max-width: 900px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* TYPOGRAPHY */
+  .section h2 { font-family: 'Playfair Display', serif; font-size: clamp(24px, 3.5vw, 36px); font-weight: 900; color: var(--navy); margin-bottom: 8px; line-height: 1.2; }
+  .section h2.with-sub { margin-bottom: 4px; }
+  .section .sub { font-size: 15px; color: var(--muted); font-style: italic; margin-bottom: 28px; }
+  .section h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin: 36px 0 14px; padding-top: 36px; border-top: 1px solid var(--border); }
+  .section h3:first-of-type { border-top: none; padding-top: 0; margin-top: 28px; }
+  .section p { margin-bottom: 20px; font-size: 16px; line-height: 1.8; color: var(--text); }
+  .section p:last-child { margin-bottom: 0; }
+  .lead { font-size: 18px !important; font-style: italic; color: var(--navy) !important; line-height: 1.7 !important; margin-bottom: 28px !important; }
+
+  /* FACT BOX */
+  .fact-box { background: var(--gold-lt); border-left: 4px solid var(--gold); border-radius: 0 8px 8px 0; padding: 18px 22px; margin: 24px 0; }
+  .fact-box-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .fact-box p { font-size: 14.5px; color: var(--text); margin: 0; line-height: 1.7; }
+
+  /* QUOTE BOX */
+  .quote-box { background: rgba(26,39,68,0.05); border-left: 4px solid var(--navy); padding: 18px 22px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+  .quote-box p { font-style: italic; font-size: 16px; color: var(--navy); margin: 0 0 6px; }
+  .quote-box cite { font-size: 12px; color: var(--muted); font-weight: 600; letter-spacing: 0.5px; font-style: normal; text-transform: uppercase; }
+
+  /* NUMBERED LIST */
+  .numbered-list { list-style: none; padding: 0; margin: 20px 0; counter-reset: item; }
+  .numbered-list li { counter-increment: item; display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
+  .numbered-list li::before { content: counter(item); min-width: 28px; height: 28px; background: var(--navy); color: white; font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .numbered-list li span { font-size: 15.5px; line-height: 1.7; color: var(--text); }
+
+  /* BULLET LIST */
+  .bullet-list { list-style: none; padding: 0; margin: 16px 0; }
+  .bullet-list li { padding-left: 22px; position: relative; margin-bottom: 10px; font-size: 15.5px; line-height: 1.7; color: var(--text); }
+  .bullet-list li::before { content: "→"; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+
+  /* COLOR GRID */
+  .flag-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 20px 0; }
+  .flag-item { border-radius: 8px; padding: 14px 10px; text-align: center; }
+  .flag-item .flag-color { width: 36px; height: 36px; border-radius: 50%; margin: 0 auto 8px; border: 2px solid rgba(255,255,255,0.3); }
+  .flag-item p { font-size: 12px; font-weight: 600; color: var(--navy); line-height: 1.4; margin: 0; }
+
+  /* TWO COL */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 24px 0; }
+  .col-card { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 20px 22px; }
+  .col-card h4 { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 10px; }
+  .col-card p { font-size: 14px; color: var(--muted); line-height: 1.65; margin: 0; }
+
+  /* TASKS */
+  .tasks-heading { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin: 44px 0 16px; padding-top: 36px; border-top: 2px solid var(--border); }
+  .task-list { display: flex; flex-direction: column; gap: 10px; }
+  .task { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: white; }
+  .task-header { display: flex; align-items: center; gap: 10px; padding: 14px 16px; cursor: pointer; user-select: none; }
+  .task-type-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; padding: 3px 10px; border-radius: 10px; flex-shrink: 0; }
+  .type-disk { background: var(--purple-lt); color: var(--purple); }
+  .type-write { background: var(--gold-lt); color: var(--gold); }
+  .type-source { background: var(--teal-lt); color: var(--teal); }
+  .type-compare { background: var(--rust-lt); color: var(--rust); }
+  .task-title-text { font-family: 'Playfair Display', serif; font-size: 14.5px; font-weight: 700; color: var(--navy); flex: 1; }
+  .task-chev { color: var(--muted); font-size: 14px; transition: transform 0.25s; flex-shrink: 0; }
+  .task.open .task-chev { transform: rotate(180deg); }
+  .task-body { display: none; padding: 0 18px 18px; border-top: 1px solid var(--border); }
+  .task.open .task-body { display: block; }
+  .task-inner { padding-top: 14px; }
+  .task-desc { font-size: 14.5px; color: var(--text); line-height: 1.78; margin-bottom: 14px; }
+  .q-list { list-style: none; padding: 0; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .q-list li { padding: 10px 14px 10px 36px; position: relative; font-size: 14px; line-height: 1.65; border-bottom: 1px solid var(--border); }
+  .q-list li:last-child { border-bottom: none; }
+  .q-list li::before { content: "→"; position: absolute; left: 12px; color: var(--gold); font-weight: 700; }
+
+  /* BEGREPP */
+  .begrepp-search-wrap { position: relative; margin-bottom: 24px; }
+  .begrepp-search { width: 100%; padding: 12px 16px 12px 44px; border: 1px solid var(--border); border-radius: 8px; font-family: 'Source Serif 4', serif; font-size: 15px; background: white; color: var(--text); outline: none; }
+  .begrepp-search:focus { border-color: var(--gold); }
+  .begrepp-search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 16px; pointer-events: none; }
+  .begrepp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .begrepp-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; transition: border-color 0.2s; }
+  .begrepp-card:hover { border-color: var(--gold); }
+  .begrepp-card h4 { font-size: 14.5px; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+  .begrepp-card p { font-size: 13px; color: var(--muted); line-height: 1.55; margin: 0; }
+  .begrepp-card.hidden { display: none; }
+  .begrepp-section-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--navy); margin: 32px 0 14px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .begrepp-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
+  /* QUIZ */
+  .quiz-wrap { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 36px; }
+  .quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .quiz-wrap > p { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .quiz-start-btn { background: var(--navy); color: white; font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600; padding: 14px 36px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.15s, transform 0.15s; }
+  .quiz-start-btn:hover { background: #243360; transform: translateY(-1px); }
+  .quiz-progress-label { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .quiz-progress-bar-wrap { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 28px; }
+  .quiz-progress-bar { height: 100%; background: linear-gradient(90deg, var(--navy), var(--gold)); border-radius: 2px; transition: width 0.4s ease; }
+  .quiz-question-text { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 24px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .quiz-option { display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px; border: 1.5px solid var(--border); border-radius: 8px; background: white; cursor: pointer; font-family: 'Source Serif 4', serif; font-size: 14px; text-align: left; color: var(--text); line-height: 1.5; transition: border-color 0.15s, background 0.15s; }
+  .quiz-option:hover:not(:disabled) { border-color: var(--navy); background: #EEF1FA; }
+  .opt-letter { font-weight: 700; color: var(--muted); min-width: 18px; }
+  .quiz-option.correct { border-color: #2A7A2A; background: #EAF6EA; color: #1A4A1A; }
+  .quiz-option.correct .opt-letter { color: #2A7A2A; }
+  .quiz-option.wrong { border-color: var(--rust); background: var(--rust-lt); color: #7A1A1A; }
+  .quiz-option.wrong .opt-letter { color: var(--rust); }
+  .quiz-option:disabled { cursor: default; }
+  .quiz-feedback { background: var(--gold-lt); border-left: 3px solid var(--gold); border-radius: 0 8px 8px 0; padding: 16px 20px; font-size: 14px; color: var(--text); line-height: 1.65; margin-bottom: 16px; animation: fadeIn 0.25s ease; }
+  .quiz-next-btn { background: var(--navy); color: white; font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600; padding: 12px 28px; border-radius: 8px; border: none; cursor: pointer; transition: background 0.15s; }
+  .quiz-next-btn:hover { background: #243360; }
+  .quiz-score { text-align: center; padding: 20px 0; }
+  .score-circle { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, var(--navy), #243360); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 8px 32px rgba(26,39,68,0.3); }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: white; line-height: 1; }
+  .score-den { font-size: 13px; color: rgba(255,255,255,0.6); }
+  .score-emoji { font-size: 36px; margin-bottom: 10px; }
+  .score-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .score-msg { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .quiz-retry-btn { background: transparent; border: 1.5px solid var(--navy); color: var(--navy); font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600; padding: 11px 28px; border-radius: 8px; cursor: pointer; transition: background 0.15s, color 0.15s; }
+  .quiz-retry-btn:hover { background: var(--navy); color: white; }
+
+  @media (max-width: 680px) {
+    .hero { padding: 40px 20px 36px; }
+    .section { padding: 28px 18px; }
+    .two-col { grid-template-columns: 1fr; }
+    .begrepp-grid { grid-template-columns: 1fr; }
+    .flag-grid { grid-template-columns: repeat(3, 1fr); }
+    .quiz-wrap { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">SO-Portalen · Religion · Världsreligioner</div>
+  <h1>Buddhism &<br><span>östasiatiska religioner</span></h1>
+  <p>Från Indiens skogar och Siddharthas uppvaknande till konfucianismens fem relationer och daoismens väg – en guide genom tre tusen år av andlig tradition.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">☸️ Buddhism</span>
+    <span class="hero-tag">🏮 Konfucianism</span>
+    <span class="hero-tag">☯️ Daoism</span>
+    <span class="hero-tag">⛩️ Shinto</span>
+    <span class="hero-tag">📖 Begrepp</span>
+    <span class="hero-tag">✅ Quiz</span>
+    <span class="hero-tag">🏫 Åk 7–9</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('grunder', this)">☸️ Buddhismens grunder</button>
+  <button class="nav-tab" onclick="showTab('siddhartha', this)">👤 Siddharthas liv</button>
+  <button class="nav-tab" onclick="showTab('riktningar', this)">🌍 Riktningar & historia</button>
+  <button class="nav-tab" onclick="showTab('praktik', this)">🙏 Ritual & högtider</button>
+  <button class="nav-tab" onclick="showTab('ostasien', this)">🏮 Östasiens religioner</button>
+  <button class="nav-tab" onclick="showTab('quiz', this)">✅ Quiz</button>
+  <button class="nav-tab" onclick="showTab('begrepp', this)">📖 Begrepp</button>
+</div>
+
+<!-- ═══ GRUNDER ═══ -->
+<div class="section active" id="tab-grunder">
+  <h2 class="with-sub">Buddhismens grunder</h2>
+  <p class="sub">En världsreligion som börjar med en fråga: Varför lider vi?</p>
+
+  <p class="lead">Buddhism är idag världens fjärde största religion med ungefär en halv miljard utövare. Den uppstod i norra Indien för mer än 2 500 år sedan och är nära besläktad med hinduismen – men har också drag som gör den unik bland världsreligionerna.</p>
+
+  <h3>Var lever buddhister idag?</h3>
+  <p>Buddhismens geografiska hemvist har förändrats dramatiskt sedan religionen skapades. I Indien, där den en gång uppstod, är buddhister idag en liten minoritet. Istället dominerar religionen i länder som Sri Lanka, Myanmar, Thailand, Kambodja, Laos och Vietnam i söder, samt i Kina, Japan och Korea i öster.</p>
+  <p>Det var sjöfarare, handelsmän och missionärer från Indien som förde läran vidare till dessa regioner. Idag finns det dessutom miljontals buddhister i Nordamerika och Europa – dels invandrare från Asien, dels människor i väst som konverterat.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Snabbfakta</div>
+    <p>Ungefär <strong>500 miljoner</strong> buddhister finns i världen. De flesta lever i östra och sydöstra Asien. Det finns <strong>tre huvudgrenar</strong>: sydbuddhism (theravada), östbuddhism (mahayana) och nordbuddhism (vajrayana). Religionen är nära besläktad med hinduismen men skiljer sig på avgörande punkter.</p>
+  </div>
+
+  <h3>Vad tror buddhister?</h3>
+  <p>Buddhism delar flera grundidéer med hinduismen. Båda religionerna utgår från att levande varelser föds om efter döden – en tanke som kallas <strong>samsara</strong>. Och i båda religiösa traditionerna styr <strong>karma</strong> hur återfödelsen ser ut: hur man lever i det nuvarande livet avgör förutsättningarna för nästa. Målet är att en dag slippa hela detta kretslopp av upprepade återfödelser.</p>
+  <p>Men det finns en viktig skillnad. I buddhismen finns inget begrepp om en personlig skapargud. Istället finns det gudar och andar av många slag – men ingen av dem skapade universum. Det som gör en människa till buddha är att hon uppnår fullständig förståelse om tillvarons natur och vägen bort från lidandet.</p>
+
+  <h3>De fyra ädla sanningarna</h3>
+  <p>Det centrala i Buddhas lära sammanfattas ofta i <strong>de fyra ädla sanningarna</strong>. De påminner om hur en läkare ställer en diagnos: identifiera problemet, hitta orsaken, konstatera att bot är möjlig och ordinera behandling.</p>
+
+  <ol class="numbered-list">
+    <li><span><strong>Allt levande präglas av lidande.</strong> Sjukdom, åldrande och döden är oundvikliga – det gäller alla varelser.</span></li>
+    <li><span><strong>Lidandet har en orsak: begäret.</strong> Vår ständiga önskan om att ha mer och vara annorlunda håller oss fast i återfödelsens hjul.</span></li>
+    <li><span><strong>Lidandet kan upphöra.</strong> Det finns ett tillstånd bortom lidandet – nirvana.</span></li>
+    <li><span><strong>Det finns en väg dit.</strong> Den åttafaldiga vägen leder bort från lidandet – om man har styrkan och tålamodet att gå den.</span></li>
+  </ol>
+
+  <h3>Nirvana – målet</h3>
+  <p>Ordet nirvana betyder ungefär "utsläcknande" – som när en låga till sist slocknar. Buddhister brukar jämföra livets lidanden med en eld som aldrig går att släcka så länge begäret brinner. Nirvana är den totala befrielsen från denna eld: en fullkomlig inre frihet där återfödelsernas kretslopp äntligen upphör.</p>
+
+  <div class="quote-box">
+    <p>Den som rest färdigt, är utan sorg, befriat sig från allt och lämnat alla bojor – han brinner inte.</p>
+    <cite>Dhammapada, ur textsamlingen Tripitaka</cite>
+  </div>
+
+  <h3>Buddha – läraren, inte guden</h3>
+  <p>Inom buddhismen kan en individ bli en <strong>buddha</strong> – det vill säga en som uppnått fullständig insikt om verklighetens natur. Det är inte en gud utan en människa som nått det högsta möjliga tillståndet av visdom. Den buddha som religionen bygger på heter <strong>Siddhartha Gautama</strong>, som levde i norra Indien för ungefär 2 500 år sedan. Han kallas ofta bara "Buddha" med stort B, för att skilja honom från andra buddhor.</p>
+  <p>Buddhister tillber Buddha och ber vid hans statyer – men det handlar om att hedra hans lära och söka bättre karma, inte om att be en gud om mirakel. Buddha kan inte ingripa i världen; hans lära är det som hjälper.</p>
+
+  <div class="tasks-heading">📝 Uppgifter – Buddhismens grunder</div>
+  <div class="task-list">
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-disk">Diskussion</span>
+        <span class="task-title-text">Är lidande ett bra utgångspunkt för en religion?</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Buddhas första ädla sanning är att allt levande präglas av lidande. Det låter dystert – men är det egentligen pessimistiskt eller realistiskt?</div>
+        <ul class="q-list">
+          <li>Håller du med om att lidande är en grundläggande del av livet? Ge egna exempel.</li>
+          <li>Jämför med kristendomen eller islam – hur ser de på lidandets roll?</li>
+          <li>Är det skillnad på att acceptera lidandet och att ge upp hoppet?</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-write">Skrivuppgift</span>
+        <span class="task-title-text">Läkardiagnosen – buddhism som medicin</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">De fyra ädla sanningarna liknar en läkardiagnos. Skriv en korttext (ca 100 ord) där du presenterar ett eget "samhällsproblem" med samma struktur: problemet, orsaken, möjligheten till lösning och vägen dit.</div>
+        <ul class="q-list">
+          <li>Välj ett problem du bryr dig om – klimat, ensamhet, stress, ojämlikhet...</li>
+          <li>Följ de fyra stegen: symptom → orsak → bot möjlig → vägen dit.</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-compare">Jämförelse</span>
+        <span class="task-title-text">Karma och samsara – hinduism och buddhism</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Både hinduism och buddhism använder begreppen karma och samsara – men på lite olika sätt.</div>
+        <ul class="q-list">
+          <li>Vad innebär karma i respektive religion?</li>
+          <li>Vad är det avgörande som skiljer en buddhas väg till befrielse från en hindus?</li>
+          <li>Varför tror du att dessa idéer uppstod i samma geografiska område?</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SIDDHARTHA ═══ -->
+<div class="section" id="tab-siddhartha">
+  <h2 class="with-sub">Siddharthas liv</h2>
+  <p class="sub">Prinsen som gav upp allt för att förstå lidandets natur</p>
+
+  <p class="lead">Berättelserna om Buddha är religiösa legender – de är inte historiska dokument utan texter formade för att visa hur en man blev upplyst. Ändå är de viktiga: de förklarar vad buddhism innerst inne handlar om.</p>
+
+  <h3>Den historiske personen</h3>
+  <p>Exakt när Siddhartha Gautama levde är inte helt klarlagt. De flesta forskare är övertygade om att han var en verklig historisk person som verkade i norra Indien, troligen under 400- eller 500-talet f.v.t. Vissa daterar hans död till mitten av 300-talet f.v.t.</p>
+  <p>Det religiösa källmaterialet om honom, textsamlingen <strong>Tripitaka</strong> ("de tre korgarna"), innehåller ungefär 40 böcker och är elva gånger längre än Bibeln. Men texterna är i första hand skrivna för att sprida läran – inte för att ge en historisk biografi. Ursprungligen förmedlades berättelserna muntligt, generation för generation, innan de skrevs ned på språket <strong>pali</strong> under de första århundradena av vår tideräkning.</p>
+
+  <h3>Miljön han föddes i</h3>
+  <p>Norra Indien under Siddharthas tid var religiöst rik och turbulent. Flera konkurrerande andliga rörelser kämpade om anhängare. Gemensamt för många av dem var att de ifrågasatte de gamla offren och gudabönerna, förespråkade <strong>ahimsa</strong> (ickevåld) och höll upp ett asketiskt levnadssätt som ideal. Grupper av tiggarmunkar levde utan ägodelar och sökte andlig befrielse. Det var i denna miljö som buddhism, men också jainism, uppstod.</p>
+
+  <h3>Prinsens skyddade barndom</h3>
+  <p>Enligt legenden var Siddhartha son till kungen i ett litet rike i det som idag är gränstrakterna mellan Indien och Nepal. Vid hans födelse spådde en vis man att pojken antingen skulle bli en stor härskare – eller en ännu större andlig ledare. Fadern, som önskade en tronarvinge, valde att skydda sonen från all erfarenhet av lidande och elände. Siddhartha växte upp i välstånd och lyx, skyddad från sjukdom, ålderdom och det vanliga livets mödor.</p>
+
+  <h3>De fyra mötena som förändrade allt</h3>
+  <p>Men en dag fick prinsen lämna palatsets murar. Under dessa utflykter mötte han enligt legenden fyra syner som for in i hans medvetande och förändrade honom för alltid:</p>
+
+  <ul class="bullet-list">
+    <li>En gammal man som krökte sig under ålderdomens börda</li>
+    <li>En svårt sjuk person i stor plåga</li>
+    <li>Ett lik som bars till begravningen</li>
+    <li>En fredsam asket i orange kläder – fattig men tydligt i inre frid</li>
+  </ul>
+
+  <p>De tre första synerna visade Siddhartha livets oundvikliga mörker. Den fjärde visade att det kanske fanns en väg bortom det. Han lämnade sin fru, sitt lilla barn och sin rika tillvaro och gav sig av som tiggarmunk.</p>
+
+  <h3>Sökandet och uppvaknandet</h3>
+  <p>I flera år levde Siddhartha ett extremt asketiskt liv och svalt sig nästan till döds. Men han fann ingen befrielse. Han insåg att varken lyx eller extrem askes leder till visdom – det behövdes en medelväg. Han satte sig under ett träd i Bodh Gaya och mediterade. Efter en tid av djup kontemplation uppnådde han det som kallas <strong>bodhi</strong> – uppvaknandet. Han förstod hur verkligheten fungerar och fann vägen bort från lidandet.</p>
+
+  <p>Från den dagen reste Buddha runt och predikade sin lära. Hans första predikan hölls i Sarnath för fem av sina gamla asketskollegor. Dessa fem lärlingar bildade kärnan i den första buddhistiska rörelsen.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Jataka – tidigare liv</div>
+    <p>En del av Tripitaka kallas <strong>jataka</strong> och innehåller berättelser om Siddharthas hundratals tidigare liv – enligt vissa traditioner återföddes han 550 gånger innan han slutligen blev Buddha. Dessa berättelser används för att illustrera moraliska principer och buddhistiska dygder.</p>
+  </div>
+
+  <div class="tasks-heading">📝 Uppgifter – Siddharthas liv</div>
+  <div class="task-list">
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-disk">Diskussion</span>
+        <span class="task-title-text">Att lämna allt – frihet eller flykt?</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Siddhartha lämnade sin familj – inklusive sin baby – för att söka andlig sanning. Inom buddhismen ses detta som ett modigt och nödvändigt steg. Ur ett annat perspektiv kan det uppfattas som att man smiter från ansvar.</div>
+        <ul class="q-list">
+          <li>Vad tycker du? Var det rätt av Siddhartha att lämna sin familj?</li>
+          <li>Kan en person vara ett andligt ideal för miljarder människor och ändå ha gjort val du ogillar?</li>
+          <li>Jämför med profeter eller helgon i andra religioner – verkar det finnas ett mönster?</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-source">Källanalys</span>
+        <span class="task-title-text">Legend eller historia – hur tolkar vi Tripitaka?</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Tripitaka skrevs ned hundratals år efter Buddhas liv, utifrån muntlig tradition. Det ger texterna en speciell karaktär som historisk källa.</div>
+        <ul class="q-list">
+          <li>Vad är skillnaden mellan en legend och en historisk källa?</li>
+          <li>Kan en religiös text vara "sann" utan att vara historiskt exakt?</li>
+          <li>Jämför med Bibeln eller Koranen – hur förhåller sig troende till frågan om historisk noggrannhet?</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ RIKTNINGAR ═══ -->
+<div class="section" id="tab-riktningar">
+  <h2 class="with-sub">Riktningar & historia</h2>
+  <p class="sub">Från Indiens skogar till ett halvt Asien – hur buddhismen spreds och delades</p>
+
+  <p class="lead">Buddhism har aldrig been en enhetlig rörelse. Redan under Buddhas livstid uppstod tolkningsskiljaktigheter, och under 2 500 år har religionen delats i hundratals grenar och anpassats till de kulturer och religioner den mötte längs vägen.</p>
+
+  <h3>Kejsar Ashoka – den stora spridaren</h3>
+  <p>Den första stora spridningen av Buddhas lära skedde kring 200-talet f.v.t., ett sekel eller mer efter Buddhas död. Drivkraften var <strong>kejsar Ashoka</strong>, som styrde ett enormt rike över större delen av den indiska halvön. Han hade stött flera asketiska rörelser men verkar till sist ha blivit buddhist.</p>
+  <p>Ashoka lät rista in budskap på stenpelare och bergväggar runt om i sitt rike – en sorts antik informationskampanj för buddhismens kärnvärden. Han sände ut missionärer till Sri Lanka och vidare österut. Han lät bygga de första stora buddhistiska templen och samlade in delar av askan efter den kremerade Buddha och placerade dem i en ny typ av byggnad: <strong>stupornas</strong> runda kupoltempel.</p>
+
+  <div class="quote-box">
+    <p>Läran är god, men vad består den av? Minsta möjliga ondska, men mycket av godhet, givmildhet, sanning och renhet.</p>
+    <cite>Kejsar Ashokas inskription på stenpelare, ca 250 f.v.t.</cite>
+  </div>
+
+  <h3>Buddhismens försvinnande från Indien</h3>
+  <p>Ironiskt nog är Buddhism i dag en minoritetsreligion i landet där den uppstod. Efter Ashokas tid splittrades hans rike, och med de politiska förändringarna försvagades buddhismens ställning gradvis. Invasioner, politiska omvälvningar och uppgången av det vi idag kallar hinduism bidrog till att buddhismen i praktiken försvann från Indien från 1100-talet och fram till 1900-talet.</p>
+  <p>En nutida återkomst skedde delvis tack vare politikern <strong>B.R. Ambedkar</strong> (1891–1956), som var dalit (lägst i det hinduiska kastsystemet) och konverterade till buddhism som en politisk protest mot kastsystemet. Hundratusentals daliter följde hans exempel.</p>
+
+  <h3>Theravada – "de äldstes lära"</h3>
+  <p>Den äldsta och i sina egna ögon mest ursprungliga gren av buddhism kallas <strong>theravada</strong> – "de äldstes lära". Den är idag dominerande i Sri Lanka, Myanmar, Thailand, Kambodja och Laos.</p>
+  <p>En central princip i theravada är att det bara kan finnas en buddha i taget. Den nuvarande tidsålderns buddha är Siddhartha Gautama, och han har lämnat världen. Det handlar alltså om att följa <em>hans lära</em> – inte om en levande gudom man kan be till. Munkar spelar en central roll och texterna på pali ses som de mest auktoritativa.</p>
+
+  <h3>Mahayana – "det stora fordonet"</h3>
+  <p><strong>Mahayana</strong> ("det stora fordonet") uppstod som en reaktion mot vad man uppfattade som theravadas för snäva fokus på individuell befrielse. I mahayana är idealet <strong>bodhisattvan</strong> – en upplyst varelse som frivilligt väljer att stanna kvar i världen och hjälpa alla levande varelser att nå nirvana, snarare än att bara befria sig själv.</p>
+  <p>Mahayana är dominerande i Kina, Japan, Korea, Tibet, Nepal och Vietnam. I denna tradition finns det otaliga buddhor och bodhisattvor som kan hjälpa troende – religionen har fler inslag av gudsdyrkan än theravada. Den tibetanska buddhismen (vajrayana) räknas ibland som en tredje huvudgren.</p>
+
+  <div class="two-col">
+    <div class="col-card">
+      <h4>☸️ Theravada</h4>
+      <p>Sydostasien. Fokus på individens väg, munkens ideal, Siddharthas lära på pali. En buddha i taget. Strängt monastisk tradition.</p>
+    </div>
+    <div class="col-card">
+      <h4>🪷 Mahayana</h4>
+      <p>Östasien. Bodhisattvan hjälper alla. Otaliga buddhor och gudomliga väsen. Mer varierad gudsdyrkan. Inkluderar tibetansk buddhism (vajrayana).</p>
+    </div>
+  </div>
+
+  <div class="tasks-heading">📝 Uppgifter – Riktningar & historia</div>
+  <div class="task-list">
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-disk">Diskussion</span>
+        <span class="task-title-text">Rädda sig själv eller rädda alla?</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">I theravada är idealet munken som söker sin egen befrielse. I mahayana är idealet bodhisattvan som stannar kvar för att hjälpa alla andra. Det är en djup etisk skiljelinje.</div>
+        <ul class="q-list">
+          <li>Vilket ideal tycker du är finast – att fokusera på sin egen väg eller att ge upp sin befrielse för andras skull?</li>
+          <li>Kan du hitta liknande spänningar i andra etiska system eller religioner?</li>
+          <li>Vilken av de två synsätten liknar mer hur du tänker kring ansvar gentemot andra?</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-compare">Jämförelse</span>
+        <span class="task-title-text">Kastsystemet och buddhismens protest</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">B.R. Ambedkar konverterade till buddhism som en politisk akt mot kastsystemet. Det är ett ovanligt exempel på religionsskifte som medveten samhällskritik.</div>
+        <ul class="q-list">
+          <li>Varför valde han buddhism specifikt – vad i läran talade mot kastsystemet?</li>
+          <li>Kan religionsbyte vara en politisk handling? Ge andra historiska exempel.</li>
+          <li>Jämför: Har religion i Sverige någonsin använts som protest mot orättvisor?</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PRAKTIK ═══ -->
+<div class="section" id="tab-praktik">
+  <h2 class="with-sub">Ritual & högtider</h2>
+  <p class="sub">Från de tre juvelerna till vesak – hur buddhister praktiserar sin tro</p>
+
+  <p class="lead">Buddhism praktiseras på otaliga sätt beroende på land, tradition och kulturell bakgrund. Men det finns gemensamma trådar som håller ihop religionen – ord, ritualer och högtider som buddhister delar tvärs över kontinenter och sekter.</p>
+
+  <h3>De tre tillflykterna – religionens kärna</h3>
+  <p>Den mest grundläggande bekännelsen i all buddhism kallas <strong>de tre tillflykterna</strong>, också kallade de tre juvelerna. Det är ord som reciteras av buddhister världen över, och de fungerar ungefär som en trosbekännelse. Att uttala dem är också sättet man konverterar till buddhism.</p>
+
+  <ul class="bullet-list">
+    <li><strong>Jag tar min tillflykt till Buddha</strong> – läraren som visade vägen</li>
+    <li><strong>Jag tar min tillflykt till dharma</strong> – läran, Buddhas budskap</li>
+    <li><strong>Jag tar min tillflykt till sangha</strong> – den religiösa gemenskapen</li>
+  </ul>
+
+  <p>En viktig observation: Till skillnad från kristendomen trosbekännelse eller islams vittnesbörd nämner de tre tillflykterna ingen gud. Det är en påminnelse om att buddhism inte är en teistisk religion i traditionell mening.</p>
+
+  <h3>Sangha – den buddhistiska gemenskapen</h3>
+  <p>Sangha syftar ursprungligen på klostergemenskapen av munkar och nunnor. Det var den allra första gruppen – de lärjungar som följde Buddha och levde ett asketiskt liv enligt medelvägens principer.</p>
+  <p>Att antas i en sangha innebar att avge ett antal löften och ta emot ett enkelt levnadssätt: en madrass att sova på, ett enkelt kläde, en rakkniv och en tiggarskål. Munkarna lovade att bland annat avstå från kött efter middagstid, lyxiga sovplatser, sexuella relationer, dans och smycken. Munkreglerna formulerades tidigt – 227 regler för munkar och 311 för nunnor.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Munkar i Thailand</div>
+    <p>I Thailand är det relativt vanligt att pojkar under en period – ibland bara några veckor – lever som munkar. Det ses som en viktig del av att växa upp och en akt av tacksamhet gentemot föräldrarna. Munkarna samlar sina tiggarskålar på morgonen och invånarna ger mat som ett sätt att samla god karma.</p>
+  </div>
+
+  <h3>Vesak – den viktigaste högtiden</h3>
+  <p>Vid fullmåne under månaden vesak (som infaller i april–maj) firas <strong>vesak</strong>, buddhismens viktigaste högtid. I theravadatraditionen firas tre saker samtigt: Buddhas födelse, hans uppvaknande och hans inträde i nirvana. Husen smyckas med blommor och lampor eller lyktor tänds – ett symbol för det ljus som Buddhas lära spred.</p>
+  <p>I Japan heter samma högtid <strong>Hana Matsuri</strong> – blomsterfestivalen. Människor klär sig i kimonor och går i parader med blomsterprydda vagnar. Blommor offras vid Buddhastatyer i templen.</p>
+
+  <h3>Buddhismens flagga</h3>
+  <p>En gemensam symbol för buddhism är den buddhistiska flaggan, som används i många länder och särskilt vid vesakfiranden. Varje färg bär en mening:</p>
+
+  <div class="flag-grid">
+    <div class="flag-item" style="background:#EEF5FB;">
+      <div class="flag-color" style="background:#1A5CA8;"></div>
+      <p>Blått<br>Medlidande</p>
+    </div>
+    <div class="flag-item" style="background:#FDFAED;">
+      <div class="flag-color" style="background:#D4A843;"></div>
+      <p>Gult<br>Medelvägen</p>
+    </div>
+    <div class="flag-item" style="background:#FDF0F0;">
+      <div class="flag-color" style="background:#C0392B;"></div>
+      <p>Rött<br>Välsignelse</p>
+    </div>
+    <div class="flag-item" style="background:#FAFAFA;">
+      <div class="flag-color" style="background:#EEEEEE; border-color:#ccc;"></div>
+      <p>Vitt<br>Renhet</p>
+    </div>
+    <div class="flag-item" style="background:#FDF5EE;">
+      <div class="flag-color" style="background:#E67E22;"></div>
+      <p>Orange<br>Visdom</p>
+    </div>
+  </div>
+
+  <h3>Andra högtider</h3>
+  <p><strong>Dharmadagen</strong> firas i juli till minne av Buddhas första predikan i Sarnath – det ögonblick när han för första gången delade sin lära med sina fem lärjungar. I Sri Lanka firas dessutom <strong>poson</strong> i juni, till minne av att missionären Mahinda förde läran till ön för över 2 000 år sedan.</p>
+  <p><strong>Magha-puja</strong> hedrar ett möte där Buddha enligt traditionen samlade 1 250 lärjungar och delade de 227 munkreglerna. Högtiden firas stort i Thailand, Myanmar, Kambodja och Laos. I väst har magha-puja, eller sanghadagen, blivit populär och förknippas med gåvogivande.</p>
+  <p>I Thailand firas också det buddhistiska nyåret under högtiden <strong>songkran</strong> – en fest av rening och förnyelse, där man tvättar buddhastatyer och leker med vatten på gatorna.</p>
+
+  <h3>Ritualer kring liv och död</h3>
+  <p>Äktenskap har ingen strikt religiös ram i buddhism – det handlar mer om personliga löften och familjetraditioner, ibland välsignade av en munk. Det är dock vanligt med tillbedjan framför en buddhastaty under bröllopsceremonin.</p>
+  <p>Döden betraktas av buddhister som en naturlig och oundviklig del av tillvaron – en bekräftelse på att allt är föränderligt, en av religionens grundtankar. Inför döden söker man lugn. Mantran reciteras och ibland läses texter högt. Begravning sker med antingen kremering eller kistbegravning, och på buddhistiska begravningsplatser finns ofta en gemensam stupa.</p>
+
+  <div class="tasks-heading">📝 Uppgifter – Ritual & högtider</div>
+  <div class="task-list">
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-compare">Jämförelse</span>
+        <span class="task-title-text">Tre tillflykter och trosbekännelsen</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Jämför de tre tillflykterna i buddhism med kristendomens trosbekännelse och islams shahada (vittnesbördet: "Det finns ingen gud utom Allah och Muhammed är hans profet").</div>
+        <ul class="q-list">
+          <li>Vilka likheter finns i funktion och syfte?</li>
+          <li>Vad är den avgörande skillnaden? (Tänk: vad saknas i de tre tillflykterna?)</li>
+          <li>Vad säger denna skillnad om hur buddhism förstår sig själv som religion?</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-disk">Diskussion</span>
+        <span class="task-title-text">Jämställdhet i buddhismen</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Tripitaka anger att kvinnor har samma möjlighet till uppvaknande som män. Ändå har munkar alltid haft högre status än nunnor i praktiken, och kvinnor har i större utsträckning utövat sin religion i hemmet.</div>
+        <ul class="q-list">
+          <li>Vad är skillnaden mellan en religions ideal och dess praktik?</li>
+          <li>Är det rättvist att döma en religion efter sina ideal eller efter sin faktiska historik?</li>
+          <li>Finns liknande spänningar i andra världsreligioner?</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ÖSTASIEN ═══ -->
+<div class="section" id="tab-ostasien">
+  <h2 class="with-sub">Östasiens religioner</h2>
+  <p class="sub">Konfucianism, daoism och shinto – tre traditioner som mötte buddhismen</p>
+
+  <p class="lead">När buddhismen nådde Kina och Japan mötte den levande religiösa traditioner som redan format dessa civilisationer i hundratals år. Det uppstod ett spännande möte – ibland konflikt, oftare samexistens och ömsesidig påverkan.</p>
+
+  <h3>Konfucianism – samhällets klistra</h3>
+  <p>Den livsåskådning som format Kina mer än någon annan kallas <strong>konfucianism</strong>, uppkallad efter filosofen <strong>Konfucius</strong> (på kinesiska: "mästaren Kong"), som levde på 500-talet f.v.t. – ungefär samtid med Buddha. Hans lärdom riktade sig primärt till statens tjänstemän, och ända in på 1900-talets början var konfucianska skrifter obligatoriska för kinesiska ämbetsmän.</p>
+
+  <p>Konfucianismens kärna handlar om att göra samhället stabilt och harmoniskt genom tydliga relationer och ömsesidiga skyldigheter. De fem viktigaste relationerna är:</p>
+
+  <ul class="bullet-list">
+    <li><strong>Härskare – folk:</strong> kungen fattar kloka beslut, folket lyder och är lojalt</li>
+    <li><strong>Far – son:</strong> fadern visar kärlek, sonen visar respekt</li>
+    <li><strong>Äldre – yngre:</strong> välvilja mot den yngre, vördnad mot den äldre</li>
+    <li><strong>Man – hustru:</strong> rättvisa och kärlek respektive lydnad (en historisk spegelbild av sin tid)</li>
+    <li><strong>Vänner:</strong> trofast mot varandra, utan rangskillnad</li>
+  </ul>
+
+  <p>Konfucius formulerade också en version av den gyllene regeln: "Vad du inte vill att andra ska göra mot dig, ska du inte göra mot dem." I konfucianismens världsbild finns "Himlen" som en sorts övre moralisk ordning, men ingen personlig skapargud.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Synkretism</div>
+    <p>I Kina och Japan är det vanligt att troende <em>blandar</em> religiösa traditioner – man kan vara konfucian, daoist och buddhist på en gång, beroende på livsläget. Det kallas synkretism. Konfucianism hanterar det sociala livet, daoism det andliga, och buddhism döden och befrielsen.</p>
+  </div>
+
+  <h3>Daoism – naturens väg</h3>
+  <p>En annan inflytelserik kinesisk tradition är <strong>daoism</strong> (ibland stavat taoism). Den kopplas till den halvlegendariske vise mannen <strong>Lao Zi</strong> ("mästaren Lao"), som levde ungefär samtid med Konfucius – eller möjligen ännu tidigare. Han tillskrivs boken <strong>Daodejing</strong> ("Boken om vägen"), ett av världslitteraturens mest lästa och tolkade verk.</p>
+
+  <p>Daodejing är medvetet paradoxal och poetisk. Dess budskap står på många sätt i kontrast till konfucianismens ordning och struktur:</p>
+
+  <div class="quote-box">
+    <p>Problemet är att samhället är alldeles för organiserat. Människan har tvingats anpassa sig till regler och förlorat kontakten med naturen.</p>
+    <cite>Daodejings grundtanke, parafraserad</cite>
+  </div>
+
+  <p>Dao ("vägen") är det outtalade, orörliga, naturliga tillståndet bakom alla ting. Idealet är <strong>wu wei</strong> – icke-handlande, att låta saker ske i enlighet med deras natur snarare än att tvinga och kontrollera. Daoismen uppmuntrar enkelhet, naturnärhet och meditation snarare än social karriär och ambition.</p>
+
+  <p><strong>Yin och Yang</strong> är ett begrepp som vuxit samman med daoismen. De två krafterna – yang (ljus, aktivitet, det manliga) och yin (mörker, passivitet, det kvinnliga) – är inte varandras motpoler utan komplement. De behöver varandra och innehåller alltid en kärna av den andre. Allt i universum rör sig i en cykel av yin och yang.</p>
+
+  <h3>Shinto – Japans ursprungsreligion</h3>
+  <p><strong>Shinto</strong> (ungefär "gudarnas väg") är Japans inhemska religion och har inga tydliga grundare eller heliga skrifter i traditionell mening. Den bygger på vördnad för <strong>kami</strong> – andar och gudomliga krafter som bor i naturen: i träd, klippor, floder, berg och himmelska fenomen.</p>
+
+  <p>Solen är central i shinto. Solguddinnan <strong>Amaterasu</strong> är den mäktigaste av kami, och den japanske kejsaren ansågs historiskt vara hennes ättling – därav begreppet "kejsarkult". Shintotempel, kallade <strong>jinja</strong>, är ofta placerade i naturens mitt och markeras av en <strong>torii</strong> – en portal av trä eller sten som markerar gränsen mellan det heliga och det vardagliga.</p>
+
+  <p>Under 1900-talets första hälft användes shinto av den japanska staten som ett nationalismens verktyg, kopplat till militarism och kejsardyrkan. Efter andra världskriget separerades shinto officiellt från staten. Idag praktiseras det som en levande lokal tradition med besök vid helgedomar, böneceremonier och högtider knutna till naturens årstider.</p>
+
+  <div class="tasks-heading">📝 Uppgifter – Östasiens religioner</div>
+  <div class="task-list">
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-compare">Jämförelse</span>
+        <span class="task-title-text">Konfucianism vs daoism – ordning eller natur?</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Konfucianism och daoism är nästan varandras motpoler: den ena förespråkar ordning, hierarki och socialt ansvar; den andra förespråkar naturlighet, enkelhet och icke-handlande.</div>
+        <ul class="q-list">
+          <li>Vilket synsätt tilltalar dig mest – och varför?</li>
+          <li>Kan man vara daoist och konfucian samtidigt? Hur?</li>
+          <li>Jämför med västerländska filosofier – vilka liknar konfucianismen, vilka liknar daoismen?</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-source">Källanalys</span>
+        <span class="task-title-text">Den gyllene regeln – en universell princip?</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Konfucius formulerade: "Vad du inte vill att andra ska göra mot dig, ska du inte göra mot dem." Jesus sa: "Allt vad ni vill att människorna skall göra er, det skall ni också göra dem." Islam har en liknande princip. Det är närmast identiska tankar från kulturellt helt åtskilda traditioner.</div>
+        <ul class="q-list">
+          <li>Vad säger det att så skilda kulturer kommit till samma etiska princip?</li>
+          <li>Är den gyllene regeln tillräcklig som moralisk guide – eller finns den situationer där den inte räcker?</li>
+          <li>Ge ett exempel där regeln är lätt att tillämpa och ett där det är svårt.</li>
+        </ul>
+      </div></div>
+    </div>
+    <div class="task" onclick="toggleTask(event,this)">
+      <div class="task-header">
+        <span class="task-type-badge type-write">Skrivuppgift</span>
+        <span class="task-title-text">Yin och yang i ditt eget liv</span>
+        <span class="task-chev">▼</span>
+      </div>
+      <div class="task-body"><div class="task-inner">
+        <div class="task-desc">Yin och yang handlar om att motsatser inte utesluter varandra utan behöver varandra. Skriv ett kort resonemang (ca 100 ord) om en "yin-yang-balans" i ditt eget liv eller i samhället.</div>
+        <ul class="q-list">
+          <li>Exempel: Arbete och vila. Trygghet och frihet. Individualism och gemenskap.</li>
+          <li>Vilket par av motsatser är svårast att balansera – och varför?</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ QUIZ ═══ -->
+<div class="section" id="tab-quiz">
+  <h2>Quiz – Testa dina kunskaper</h2>
+  <p style="color:var(--muted); margin-bottom:32px;">20 frågor om buddhism, konfucianism, daoism och shinto. Välj ett avsnitt att börja med.</p>
+
+  <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:36px;">
+    <button class="quiz-start-btn" onclick="startQuiz('del1')" style="font-size:14px; padding:12px 24px;">Del 1: Grunder & Siddhartha (10 frågor)</button>
+    <button class="quiz-start-btn" onclick="startQuiz('del2')" style="font-size:14px; padding:12px 24px; background:var(--teal);">Del 2: Riktningar & Östasien (10 frågor)</button>
+  </div>
+
+  <div class="quiz-wrap">
+    <div id="quiz-start-del1"><p style="color:var(--muted); font-size:14px;">Klicka på "Del 1" ovan för att starta quizet.</p></div>
+    <div id="quiz-play-del1" style="display:none;"></div>
+    <div id="quiz-score-del1" style="display:none;"></div>
+    <div id="quiz-start-del2" style="display:none;"></div>
+    <div id="quiz-play-del2" style="display:none;"></div>
+    <div id="quiz-score-del2" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- ═══ BEGREPP ═══ -->
+<div class="section" id="tab-begrepp">
+  <h2>Begrepp</h2>
+  <p style="color:var(--muted); margin-bottom:24px;">Sök bland alla centrala begrepp från kapitlet.</p>
+
+  <div class="begrepp-search-wrap">
+    <span class="begrepp-search-icon">🔍</span>
+    <input class="begrepp-search" type="text" placeholder="Sök begrepp..." oninput="filterBegrepp(this.value)">
+  </div>
+
+  <div id="begrepp-container">
+    <div class="begrepp-section-title">Buddhism – grundbegrepp</div>
+    <div class="begrepp-grid">
+      <div class="begrepp-card"><h4>Samsara</h4><p>Återfödelsernas kretslopp – den ständiga cykeln av liv, död och ny födelse som allt levande är fast i tills befrielse uppnås.</p></div>
+      <div class="begrepp-card"><h4>Karma</h4><p>Orsak och verkan i moralisk mening. Hur man lever i detta liv avgör förutsättningarna för nästa återfödelse.</p></div>
+      <div class="begrepp-card"><h4>Nirvana</h4><p>Det ultimata målet – total befrielse från lidandet och återfödelsernas kretslopp. Ordet betyder ungefär "utsläcknande".</p></div>
+      <div class="begrepp-card"><h4>Buddha</h4><p>En individ som uppnått fullständig insikt om verklighetens natur och vägen till befrielse. Siddhartha Gautama är den främste i vår tidsålder.</p></div>
+      <div class="begrepp-card"><h4>Dharma</h4><p>Buddhas lära och undervisning – det rätta sättet att leva och tänka. Också ett av de tre juvelerna i de tre tillflykterna.</p></div>
+      <div class="begrepp-card"><h4>Sangha</h4><p>Den buddhistiska gemenskapen – ursprungligen klostergemenskapen av munkar och nunnor, men ibland i vidare mening alla buddhister.</p></div>
+      <div class="begrepp-card"><h4>De fyra ädla sanningarna</h4><p>Kärnan i Buddhas lära: (1) allt är lidande, (2) lidandet beror på begäret, (3) lidandet kan upphöra, (4) det finns en väg dit.</p></div>
+      <div class="begrepp-card"><h4>Den åttafaldiga vägen</h4><p>Den praktiska vägen till nirvana: rätt förståelse, rätt avsikt, rätt tal, rätt handlande, rätt levnadssätt, rätt ansträngning, rätt medvetande, rätt meditation.</p></div>
+      <div class="begrepp-card"><h4>Bodhi</h4><p>Uppvaknandet – det tillstånd av fullständig insikt och upplysning som Siddhartha uppnådde under trädet i Bodh Gaya.</p></div>
+      <div class="begrepp-card"><h4>Ahimsa</h4><p>Ickevåld – principen att inte skada levande varelser. Viktig inom buddhism men också i hinduism och jainism.</p></div>
+    </div>
+
+    <div class="begrepp-section-title">Buddhism – historik & riktningar</div>
+    <div class="begrepp-grid">
+      <div class="begrepp-card"><h4>Tripitaka</h4><p>Buddhismens viktigaste textsamling, skriven på pali. Innehåller ca 40 böcker och är elva gånger längre än Bibeln.</p></div>
+      <div class="begrepp-card"><h4>Pali</h4><p>Det forntida indiska språk på vilket theravadatexterna skrevs ned. Talas inte längre till vardags men används i religiösa sammanhang.</p></div>
+      <div class="begrepp-card"><h4>Theravada</h4><p>"De äldstes lära" – den äldsta buddhistiska riktningen, dominant i Sri Lanka, Myanmar och Thailand. Betonar munkens väg och Siddharthas lära.</p></div>
+      <div class="begrepp-card"><h4>Mahayana</h4><p>"Det stora fordonet" – den buddhistiska riktningen dominerande i Kina, Japan och Korea. Betonar bodhisattvan och hjälpen till alla levande varelser.</p></div>
+      <div class="begrepp-card"><h4>Bodhisattva</h4><p>I mahayana: en upplyst varelse som frivilligt avstår från att gå in i nirvana för att istället hjälpa alla andra levande varelser att uppnå befrielse.</p></div>
+      <div class="begrepp-card"><h4>Stupa</h4><p>En rund kupoldformad byggnad som används för buddhistisk kult. Enligt traditionen innehåller vissa stupor delar av Buddhas aska.</p></div>
+      <div class="begrepp-card"><h4>Ashoka</h4><p>Indisk kejsare på 200-talet f.v.t. som konverterade till buddhism och bidrog avgörande till religionens första stora spridning utanför Indien.</p></div>
+      <div class="begrepp-card"><h4>Synkretism</h4><p>Blandning av olika religiösa traditioner. Vanligt i Kina och Japan där konfucianism, daoism och buddhism länge levt sida vid sida.</p></div>
+    </div>
+
+    <div class="begrepp-section-title">Ritual, högtider & praktik</div>
+    <div class="begrepp-grid">
+      <div class="begrepp-card"><h4>De tre tillflykterna</h4><p>Buddhismens grundbekännelse: "Jag tar min tillflykt till Buddha, dharma och sangha." Nämner ingen gud – en viktig markering om buddhismens karaktär.</p></div>
+      <div class="begrepp-card"><h4>Vesak</h4><p>Buddhismens viktigaste högtid, firad vid fullmåne i april–maj. I theravada firas Buddhas födelse, uppvaknande och inträde i nirvana samtigt.</p></div>
+      <div class="begrepp-card"><h4>Magha-puja / Sanghadagen</h4><p>Högtid till minne av Buddhas möte med 1 250 lärjungar, då munkreglerna delgavs. Stor i Thailand och populär bland buddhister i väst.</p></div>
+      <div class="begrepp-card"><h4>Jataka</h4><p>Berättelser om Siddharthas tidigare liv i Tripitaka. Används för att illustrera moraliska principer och buddhistiska dygder.</p></div>
+    </div>
+
+    <div class="begrepp-section-title">Konfucianism, daoism & shinto</div>
+    <div class="begrepp-grid">
+      <div class="begrepp-card"><h4>Konfucianism</h4><p>Kinesisk livsåskådning grundad av Konfucius (500-talet f.v.t.). Betonar socialt ansvar, de fem relationerna och harmoni i samhället.</p></div>
+      <div class="begrepp-card"><h4>De fem relationerna</h4><p>Konfucianismens kärna: de ömsesidiga skyldigheterna mellan härskare–folk, far–son, äldre–yngre, man–hustru, och vänner emellan.</p></div>
+      <div class="begrepp-card"><h4>Daoism</h4><p>Kinesisk livsåskådning kopplad till Lao Zi och boken Daodejing. Förespråkar naturlighet, enkelhet och wu wei (icke-handlande).</p></div>
+      <div class="begrepp-card"><h4>Dao</h4><p>"Vägen" – det outtalade, naturliga tillståndet bakom alla ting. Kärnbegreppet i daoismen.</p></div>
+      <div class="begrepp-card"><h4>Wu wei</h4><p>Icke-handlande – daoismens ideal om att handla i harmoni med naturens flöde snarare än att forcera och kontrollera.</p></div>
+      <div class="begrepp-card"><h4>Yin och Yang</h4><p>De kompletterande krafterna i daoismen: yin (mörker, passivitet, det kvinnliga) och yang (ljus, aktivitet, det manliga) – aldrig helt åtskilda.</p></div>
+      <div class="begrepp-card"><h4>Shinto</h4><p>Japans inhemska religion, byggd på vördnad för kami (naturandar). Ingen tydlig grundare. Solguddinnan Amaterasu är central.</p></div>
+      <div class="begrepp-card"><h4>Kami</h4><p>Andar och gudomliga krafter i shinto som bor i naturens element – träd, floder, berg, himmelska fenomen.</p></div>
+      <div class="begrepp-card"><h4>Torii</h4><p>Den karakteristiska portalen som markerar ingången till shintotempel (jinja) och heliga platser i Japan.</p></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── NAVIGATION ──
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function toggleTask(e, task) { e.stopPropagation(); task.classList.toggle('open'); }
+
+// ── BEGREPP SEARCH ──
+function filterBegrepp(val) {
+  const q = val.toLowerCase();
+  document.querySelectorAll('.begrepp-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.classList.toggle('hidden', q.length > 0 && !text.includes(q));
+  });
+}
+
+// ── QUIZ DATA ──
+const quizData = {
+  del1: [
+    { q: "Vilket land är buddhismens ursprungsland?", opts: ["Kina", "Thailand", "Indien", "Japan"], correct: 2, feedback: "Rätt! Buddhism uppstod i norra Indien för ungefär 2 500 år sedan, i samma miljö som också gav upphov till hinduism och jainism." },
+    { q: "Vad innebär begreppet 'nirvana'?", opts: ["Paradiset där goda människor belönas", "Befrielse från återfödelsernas kretslopp och lidandet", "En meditationsövning", "Buddhas himmelska hemvist"], correct: 1, feedback: "Rätt! Nirvana – som ungefär betyder utsläcknande – är buddhismens ultimata mål: befrielsen från lidandet och återfödelsernas kretslopp." },
+    { q: "Vad heter den viktiga buddhistiska textsamlingen som är elva gånger längre än Bibeln?", opts: ["Upanishaderna", "Bhagavad Gita", "Tripitaka", "Daodejing"], correct: 2, feedback: "Rätt! Tripitaka ('de tre korgarna') är buddhismens viktigaste textsamling, skriven på pali och innehållande ca 40 böcker." },
+    { q: "Vad är den första av de fyra ädla sanningarna?", opts: ["Lidandet beror på begäret", "Nirvana är möjligt", "Allt levande präglas av lidande", "Det finns en väg bort från lidandet"], correct: 2, feedback: "Rätt! Den första sanningen konstaterar problemet: sjukdom, åldrande och döden är oundvikliga för allt levande." },
+    { q: "Vad heter Buddhas biologiska namn?", opts: ["Ashoka Gautama", "Siddhartha Gautama", "Rahula Gautama", "Ananda Gautama"], correct: 1, feedback: "Rätt! Siddhartha Gautama var hans namn som prins. 'Buddha' är en titel som betyder 'den uppvaknade'." },
+    { q: "Varför lämnade Siddhartha sina palats?", opts: ["Han förvisades av sin far", "Han ville erövra grannriket", "Han mötte syner av åldrande, sjukdom och död – och en fredlig asket", "Han förlorade arvet till tronen"], correct: 2, feedback: "Rätt! De tre synerna av ålderdom, sjukdom och död chockade honom – och asketen visade att inre frid var möjlig. Det förändrade allt." },
+    { q: "Vad innebär karma?", opts: ["Att vara snäll mot djur", "Att bete sig väl inför Guds dom", "Orsak och verkan i moralisk mening – hur man lever påverkar nästa återfödelse", "Att meditera dagligen"], correct: 2, feedback: "Rätt! Karma är principen om att moraliska handlingar har konsekvenser – inte bara i detta liv utan i kommande återfödelser." },
+    { q: "Vad kallar buddhister bekännelsen 'Jag tar min tillflykt till Buddha, dharma och sangha'?", opts: ["De tre juvelerna / De tre tillflykterna", "Det åttafaldiga löftet", "Tripitaka-recitationen", "De fyra ädla sanningarna"], correct: 0, feedback: "Rätt! De tre tillflykterna (eller juvelerna) är buddhismens grundbekännelse. De fungerar som en trosbekännelse – men nämner ingen gud." },
+    { q: "Vad innebär begreppet 'ahimsa'?", opts: ["Meditation", "Ickevåld – att inte skada levande varelser", "Tiggeriet som munkar praktiserar", "Den buddhistiska pilgrimsfärden"], correct: 1, feedback: "Rätt! Ahimsa – ickevåld – är en central princip i både buddhism, hinduism och jainism som uppstod i samma andliga miljö i norra Indien." },
+    { q: "Vilket språk skrevs de tidiga buddhistiska texterna på?", opts: ["Sanskrit", "Hindi", "Pali", "Kinesiska"], correct: 2, feedback: "Rätt! De äldsta buddhistiska texterna skrevs på pali, ett forntida indiskt språk besläktat med sanskrit. Det används fortfarande i rituella sammanhang." }
+  ],
+  del2: [
+    { q: "Vilken kejsare bidrog mest till buddhismens tidiga spridning utanför Indien?", opts: ["Kejsar Qin Shi Huang", "Kejsar Augustus", "Kejsar Ashoka", "Kejsar Akbar"], correct: 2, feedback: "Rätt! Kejsar Ashoka på 200-talet f.v.t. sände ut missionärer, lät bygga stupor och ristade in buddhistiska budskap på pelare runt om i Indien." },
+    { q: "Vad är skillnaden mellan theravada och mahayana?", opts: ["Theravada är nyare; mahayana äldre", "I theravada är idealet individens befrielse; i mahayana är idealet bodhisattvan som hjälper alla", "Mahayana finns bara i Indien; theravada i resten av Asien", "De har helt olika uppfattningar om vem Buddha var"], correct: 1, feedback: "Rätt! Den centrala skillnaden är idealet: individens väg (theravada) mot bodhisattvan som stannar kvar för alla andras skull (mahayana)." },
+    { q: "Vad är en bodhisattva?", opts: ["En budd histisk munk som avlagt alla löften", "En upplyst varelse som väljer att hjälpa alla levande istället för att gå in i nirvana", "En heligt tempel i mahayantraditionen", "En student som just börjat studera buddhism"], correct: 1, feedback: "Rätt! Bodhisattvan är mahayanas ideal – en som uppnått upplysning men frivilligt väntar med nirvana för att hjälpa alla andra varelser." },
+    { q: "Vad heter buddhismens viktigaste högtid?", opts: ["Diwali", "Vesak", "Holi", "Magha-puja"], correct: 1, feedback: "Rätt! Vesak firas vid fullmåne i april–maj. I theravada firas Buddhas födelse, uppvaknande och nirvana samtigt under denna högtid." },
+    { q: "Vem var Konfucius?", opts: ["En kinesisk kejsare på 200-talet f.v.t.", "En japansk religionsgrundare", "En kinesisk filosof på 500-talet f.v.t. vars lära formade Kina i årtusenden", "En buddhistisk munk som förde läran till Kina"], correct: 2, feedback: "Rätt! Konfucius levde på 500-talet f.v.t. – ungefär samtid med Buddha – och hans lära om sociala relationer och harmoni dominerade Kina fram till 1900-talet." },
+    { q: "Vad är 'de fem relationerna' i konfucianismen?", opts: ["Fem steg mot upplysning", "De fem viktiga sociala banden med ömsesidiga skyldigheter som gör samhället harmoniskt", "Fem gudar som konfucianister dyrkar", "Fem texter som konfucianister måste memorera"], correct: 1, feedback: "Rätt! De fem relationerna (härskare–folk, far–son, äldre–yngre, man–hustru, vänner) är kärnan i konfucianismens samhällssyn." },
+    { q: "Vad innebär 'wu wei' i daoismen?", opts: ["En meditationsövning", "Icke-handlande – att låta saker ske i harmoni med naturens flöde", "Respekt för förfäderna", "Studiet av Daodejing"], correct: 1, feedback: "Rätt! Wu wei – icke-handlande – är daoismens ideal: att sluta forcera och kontrollera, och istället låta saker ske i sin naturliga ordning." },
+    { q: "Vilken gudom är central i shinto?", opts: ["Brahma, skaparguden", "Konfucius ande", "Amaterasu, solguddinnan", "Gautama Buddha"], correct: 2, feedback: "Rätt! Amaterasu är shintots mäktigaste kami. Den japanske kejsaren ansågs historiskt vara hennes ättling – därav 'kejsarkulten'." },
+    { q: "Vad är en torii?", opts: ["En buddhistisk stupa i Japan", "En konfuciansk lärdomsskola", "En portal som markerar ingången till en shintohellgedomar", "En japansk meditationsövning"], correct: 2, feedback: "Rätt! Torii är de karakteristiska portarna som markerar gränsen mellan det heliga och det vardagliga vid shintotempel (jinja)." },
+    { q: "Vad innebär synkretism?", opts: ["Att förbjuda blandning av religioner", "En strikt tolkning av en enda religiös text", "Blandning av olika religiösa traditioner – vanligt i Kina och Japan", "Att konvertera från en religion till en annan"], correct: 2, feedback: "Rätt! Synkretism – religiös blandning – är vanligt i Östasien. Samma person kan vara konfucian i samhällslivet, daoist i naturen och buddhist inför döden." }
+  ]
+};
+
+const quizState = {};
+
+function startQuiz(ep) {
+  document.getElementById('quiz-start-' + ep).style.display = 'none';
+  quizState[ep] = { current: 0, score: 0, answered: false };
+  document.getElementById('quiz-play-' + ep).style.display = 'block';
+  renderQuestion(ep);
+}
+
+function renderQuestion(ep) {
+  const state = quizState[ep];
+  const qs = quizData[ep];
+  const q = qs[state.current];
+  const total = qs.length;
+  const pct = Math.round((state.current / total) * 100);
+  const letters = ['A','B','C','D'];
+  const optsHtml = q.opts.map((o,i) =>
+    `<button class="quiz-option" onclick="selectAnswer('${ep}',${i})">
+      <span class="opt-letter">${letters[i]}</span>${o}
+    </button>`).join('');
+  document.getElementById('quiz-play-'+ep).innerHTML = `
+    <div class="quiz-progress-label">Fråga ${state.current+1} av ${total}</div>
+    <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" style="width:${pct}%"></div></div>
+    <div class="quiz-question-text">${q.q}</div>
+    <div class="quiz-options" id="opts-${ep}">${optsHtml}</div>
+    <div id="feedback-${ep}" style="display:none"></div>
+    <div id="next-wrap-${ep}" style="display:none; margin-top:8px;">
+      <button class="quiz-next-btn" onclick="nextQuestion('${ep}')">
+        ${state.current+1 < total ? 'Nästa fråga →' : 'Se resultat →'}
+      </button>
+    </div>`;
+  state.answered = false;
+}
+
+function selectAnswer(ep, chosen) {
+  const state = quizState[ep];
+  if (state.answered) return;
+  state.answered = true;
+  const q = quizData[ep][state.current];
+  document.querySelectorAll(`#opts-${ep} .quiz-option`).forEach((btn,i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === chosen && chosen !== q.correct) btn.classList.add('wrong');
+  });
+  if (chosen === q.correct) state.score++;
+  const fb = document.getElementById('feedback-'+ep);
+  fb.style.display = 'block';
+  fb.className = 'quiz-feedback';
+  fb.innerHTML = `<strong>${chosen === q.correct ? '✅ Rätt!' : '❌ Fel.'}</strong> ${q.feedback}`;
+  document.getElementById('next-wrap-'+ep).style.display = 'block';
+}
+
+function nextQuestion(ep) {
+  quizState[ep].current++;
+  if (quizState[ep].current < quizData[ep].length) renderQuestion(ep);
+  else showScore(ep);
+}
+
+function showScore(ep) {
+  document.getElementById('quiz-play-'+ep).style.display = 'none';
+  const { score } = quizState[ep];
+  const total = quizData[ep].length;
+  const pct = Math.round((score/total)*100);
+  let emoji, title, msg;
+  if (pct >= 90) { emoji='🏆'; title='Utmärkt!'; msg='Imponerande koll på religionskunskapen!'; }
+  else if (pct >= 70) { emoji='🌟'; title='Bra jobbat!'; msg='Riktigt bra! Läs igenom begreppen för att fånga det du missat.'; }
+  else if (pct >= 50) { emoji='📚'; title='Hyggligt!'; msg='Du kan grunderna. Gå igenom texterna och försök igen!'; }
+  else { emoji='🎧'; title='Försök igen!'; msg='Gå tillbaka och läs avsnitten noggrant, sedan klarar du det!'; }
+  document.getElementById('quiz-score-'+ep).style.display = 'block';
+  document.getElementById('quiz-score-'+ep).innerHTML = `<div class="quiz-score">
+    <div class="score-emoji">${emoji}</div>
+    <div class="score-circle"><div class="score-num">${score}</div><div class="score-den">av ${total}</div></div>
+    <div class="score-title">${title}</div>
+    <div class="score-msg">${msg}</div>
+    <button class="quiz-retry-btn" onclick="retryQuiz('${ep}')">Försök igen ↺</button>
+  </div>`;
+}
+
+function retryQuiz(ep) {
+  document.getElementById('quiz-score-'+ep).style.display = 'none';
+  document.getElementById('quiz-start-'+ep).style.display = 'block';
+  document.getElementById('quiz-play-'+ep).style.display = 'none';
+}
+</script>
+</body>
+</html>
