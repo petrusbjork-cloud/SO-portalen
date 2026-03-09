@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CIA-kuppen 1953 – Dagen demokratin dog i Iran</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0D0D0D;
+  --paper:    #F5F0E8;
+  --sepia:    #C8A96E;
+  --sepia-dk: #8B6914;
+  --blood:    #8B1A1A;
+  --blood-lt: #C0392B;
+  --mist:     rgba(245,240,232,0.08);
+  --text:     #E8E0D0;
+  --text-dim: rgba(232,224,208,0.55);
+  --border:   rgba(200,169,110,0.2);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--blood), var(--sepia));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 40% 60%, #1a0a0a 0%, #050505 70%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--sepia); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 8vw, 96px);
+  font-weight: 900; line-height: 1.0;
+  color: var(--paper);
+  text-shadow: 0 0 80px rgba(139,26,26,0.4);
+  margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+.hero h1 em { color: var(--blood-lt); font-style: italic; }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim);
+  max-width: 600px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+
+/* ── CLOCK ── */
+.clock-wrap {
+  opacity: 0; animation: fadeUp 1s 1.2s forwards;
+  margin-bottom: 48px;
+}
+.clock-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; color: var(--sepia); text-transform: uppercase; margin-bottom: 12px; }
+#clock {
+  font-family: var(--mono); font-size: clamp(36px, 6vw, 64px); font-weight: 700;
+  color: var(--blood-lt);
+  text-shadow: 0 0 40px rgba(192,57,43,0.6);
+  letter-spacing: 4px;
+}
+.clock-sub { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-top: 8px; letter-spacing: 2px; }
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-dim); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 2s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--sepia), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--blood);
+  background: linear-gradient(135deg, rgba(139,26,26,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--blood); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative;
+}
+.pullquote cite {
+  display: block; margin-top: 16px;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--sepia); font-style: normal;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--sepia); white-space: nowrap;
+}
+.section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--sepia); font-style: italic; }
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px; font-weight: 700;
+  color: var(--sepia); margin: 40px 0 16px;
+}
+
+p { margin-bottom: 24px; color: var(--text); }
+p:last-child { margin-bottom: 0; }
+
+strong { color: var(--paper); font-weight: 600; }
+em { color: var(--sepia); }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 70vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.35) sepia(0.4);
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(13,13,13,0.5) 0%, transparent 30%, transparent 70%, rgba(13,13,13,0.7) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px;
+  max-width: 700px;
+}
+.parallax-text h2 { font-size: clamp(32px, 5vw, 60px); text-shadow: 0 2px 30px rgba(0,0,0,0.8); margin: 0; }
+.parallax-year {
+  font-family: var(--mono); font-size: 120px; font-weight: 700;
+  color: var(--blood); opacity: 0.2; line-height: 1;
+  position: absolute; bottom: -20px; right: 20px; pointer-events: none;
+}
+
+/* ── ACTOR CARDS ── */
+.actors-section { margin: 60px 0; }
+.actors-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--sepia); margin-bottom: 20px; }
+.actors-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.actor-card {
+  background: rgba(245,240,232,0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px; cursor: pointer;
+  transition: all 0.25s; overflow: hidden;
+}
+.actor-card:hover { background: rgba(200,169,110,0.1); border-color: var(--sepia); transform: translateY(-3px); }
+.actor-card.active { background: rgba(139,26,26,0.15); border-color: var(--blood); }
+.actor-top { padding: 20px 16px 14px; text-align: center; }
+.actor-emoji { font-size: 40px; display: block; margin-bottom: 10px; }
+.actor-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--paper); margin-bottom: 4px; }
+.actor-role { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--sepia); }
+.actor-detail {
+  display: none; padding: 0 16px 16px;
+  border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px;
+}
+.actor-card.active .actor-detail { display: block; }
+.actor-detail p { font-size: 13px; line-height: 1.6; color: var(--text-dim); margin: 0; }
+.actor-detail .actor-quote {
+  font-style: italic; color: var(--sepia); font-size: 13px;
+  border-left: 2px solid var(--blood); padding-left: 10px; margin-top: 10px;
+}
+
+/* ── DILEMMA ── */
+.dilemma-wrap {
+  margin: 80px -60px;
+  background: linear-gradient(135deg, rgba(139,26,26,0.12), rgba(13,13,13,0.8));
+  border: 1px solid rgba(139,26,26,0.3);
+  border-radius: 8px; padding: 52px 60px;
+  position: relative; overflow: hidden;
+}
+.dilemma-wrap::before {
+  content: '⚡'; font-size: 200px; position: absolute;
+  right: -20px; top: 50%; transform: translateY(-50%);
+  opacity: 0.04; pointer-events: none;
+}
+.dilemma-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--blood-lt); margin-bottom: 16px; }
+.dilemma-wrap h3 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); color: var(--paper); margin: 0 0 12px; font-weight: 700; }
+.dilemma-context { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.65; }
+.dilemma-choices { display: flex; flex-direction: column; gap: 12px; }
+.choice-btn {
+  background: rgba(245,240,232,0.04); border: 1px solid var(--border);
+  padding: 18px 24px; border-radius: 6px; cursor: pointer;
+  font-family: 'Crimson Pro', serif; font-size: 17px; color: var(--text);
+  text-align: left; transition: all 0.2s; display: flex; align-items: flex-start; gap: 14px;
+  line-height: 1.5;
+}
+.choice-btn:hover { border-color: var(--sepia); background: rgba(200,169,110,0.08); color: var(--paper); }
+.choice-btn .choice-letter {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(200,169,110,0.15); border: 1px solid var(--sepia);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  color: var(--sepia); flex-shrink: 0; margin-top: 2px;
+}
+#dilemma-result {
+  display: none; margin-top: 32px;
+  border-top: 1px solid var(--border); padding-top: 28px;
+}
+.result-reveal { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--sepia); margin-bottom: 12px; }
+.result-text { font-size: 17px; color: var(--text); line-height: 1.7; }
+.result-text strong { color: var(--blood-lt); }
+#try-again-btn {
+  margin-top: 20px; background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase; padding: 10px 20px; cursor: pointer;
+  transition: all 0.2s; border-radius: 4px;
+}
+#try-again-btn:hover { border-color: var(--sepia); color: var(--sepia); }
+
+/* ── SCRATCH CARD ── */
+.scratch-section { margin: 60px 0; }
+.scratch-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--sepia); margin-bottom: 16px; }
+.scratch-intro { font-size: 16px; color: var(--text-dim); margin-bottom: 24px; line-height: 1.65; }
+.scratch-wrap {
+  position: relative; border: 1px solid var(--border);
+  border-radius: 6px; overflow: hidden;
+  background: #0a0a0a;
+}
+.scratch-doc {
+  padding: 32px 36px; font-family: var(--mono);
+  font-size: 13px; line-height: 2; color: #9a9;
+}
+.scratch-doc .doc-header { color: var(--sepia); font-size: 12px; letter-spacing: 2px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+.scratch-doc .doc-line { margin-bottom: 6px; }
+.scratch-doc .highlight { color: #c8e8c8; font-weight: 700; }
+.scratch-doc .redacted {
+  background: #111; color: #111; user-select: none;
+  border-radius: 2px; padding: 0 4px;
+  transition: all 0.5s;
+}
+.scratch-doc .redacted.revealed { background: transparent; color: var(--blood-lt); }
+#reveal-btn {
+  width: 100%; padding: 16px;
+  background: rgba(139,26,26,0.15); border: 1px solid rgba(139,26,26,0.4);
+  border-top: none; color: var(--blood-lt);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s;
+}
+#reveal-btn:hover { background: rgba(139,26,26,0.25); }
+
+/* ── DOMINO TIMELINE ── */
+.domino-section { margin: 80px 0; }
+.domino-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--sepia); margin-bottom: 32px; text-align: center; }
+.domino-chain { display: flex; align-items: flex-start; justify-content: center; gap: 0; flex-wrap: wrap; }
+.domino {
+  display: flex; flex-direction: column; align-items: center;
+  opacity: 0.25; transition: all 0.5s cubic-bezier(.34,1.56,.64,1);
+  cursor: pointer;
+}
+.domino.active { opacity: 1; }
+.domino.falling { animation: fall 0.4s ease-in forwards; }
+.domino-block {
+  width: 72px; height: 120px;
+  background: linear-gradient(160deg, #1a0505, #0d0505);
+  border: 1px solid rgba(139,26,26,0.4);
+  border-radius: 6px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px;
+  position: relative; overflow: hidden;
+  transition: all 0.3s;
+}
+.domino.active .domino-block { border-color: var(--blood-lt); box-shadow: 0 0 20px rgba(139,26,26,0.3); }
+.domino-block::after {
+  content: '';
+  position: absolute; top: 50%; left: 10%; right: 10%;
+  height: 1px; background: rgba(139,26,26,0.4);
+}
+.domino-year { font-family: var(--mono); font-size: 10px; font-weight: 700; color: var(--blood-lt); }
+.domino-icon { font-size: 22px; }
+.domino-arrow {
+  width: 36px; height: 2px;
+  background: linear-gradient(90deg, var(--blood), transparent);
+  margin-top: 58px; flex-shrink: 0;
+  opacity: 0; transition: opacity 0.5s 0.3s;
+}
+.domino.active + .domino .domino-arrow { opacity: 1; }
+.domino-label-text {
+  margin-top: 12px; font-family: var(--mono);
+  font-size: 10px; text-align: center; color: var(--text-dim);
+  max-width: 80px; line-height: 1.4; letter-spacing: 0.5px;
+}
+.domino.active .domino-label-text { color: var(--sepia); }
+.domino-detail {
+  display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+  background: #0d0d0d; border: 1px solid var(--blood);
+  padding: 20px 28px; border-radius: 8px; z-index: 500;
+  max-width: 500px; width: calc(100% - 40px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+.domino-detail.show { display: block; animation: fadeUp 0.3s ease; }
+.domino-detail h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 8px; }
+.domino-detail p { font-size: 15px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+.domino-detail .close-detail { float: right; background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; margin-left: 12px; }
+.domino-cta { text-align: center; margin-top: 16px; font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; }
+
+@keyframes fall { 0% { transform: rotate(0); } 100% { transform: rotate(90deg); transform-origin: bottom center; } }
+
+/* ── FACT BOX ── */
+.fact-box {
+  background: rgba(200,169,110,0.06);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--sepia);
+  border-radius: 0 6px 6px 0;
+  padding: 20px 24px; margin: 32px 0;
+}
+.fact-box-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--sepia); margin-bottom: 8px; }
+.fact-box p { font-size: 16px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+
+/* ── SEPARATOR ── */
+.sep {
+  text-align: center; margin: 60px 0;
+  color: var(--sepia); letter-spacing: 12px; font-size: 14px;
+}
+
+/* ── EPILOGUE ── */
+.epilogue {
+  margin: 80px -100vw 0; width: 100vw; left: 50%; transform: translateX(-50%);
+  position: relative;
+  background: radial-gradient(ellipse at 50% 0%, rgba(139,26,26,0.15) 0%, transparent 70%);
+  padding: 100px 40px 120px; text-align: center;
+}
+.epilogue h2 { font-size: clamp(28px, 4vw, 48px); margin-bottom: 24px; }
+.epilogue p { max-width: 640px; margin: 0 auto 24px; font-size: 20px; color: var(--text-dim); font-style: italic; }
+.epilogue-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-top: 40px; }
+.ep-link {
+  background: rgba(245,240,232,0.05); border: 1px solid var(--border);
+  padding: 14px 28px; border-radius: 4px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--sepia); text-decoration: none; transition: all 0.2s;
+}
+.ep-link:hover { background: rgba(200,169,110,0.12); border-color: var(--sepia); }
+
+/* ── RESPONSIVE ── */
+/* ── TEACHER SECTION ── */
+.teacher-section {
+  background: #080808;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 40px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--sepia); margin-bottom: 14px;
+}
+.teacher-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 48px); font-weight: 900;
+  color: var(--paper); line-height: 1.1; margin-bottom: 16px;
+}
+.teacher-title em { color: var(--sepia); font-style: italic; }
+.teacher-intro {
+  font-size: 17px; color: var(--text-dim); max-width: 620px;
+  line-height: 1.65; margin-bottom: 32px;
+}
+.teacher-tabs {
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.t-tab {
+  background: rgba(245,240,232,0.04); border: 1px solid var(--border);
+  padding: 10px 20px; border-radius: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer;
+  transition: all 0.2s;
+}
+.t-tab:hover { border-color: var(--sepia); color: var(--sepia); }
+.t-tab.active { background: rgba(200,169,110,0.12); border-color: var(--sepia); color: var(--sepia); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+.t-panel-intro {
+  font-size: 16px; color: var(--text-dim); font-style: italic;
+  border-left: 2px solid var(--border); padding-left: 16px;
+  margin-bottom: 36px; line-height: 1.65;
+}
+
+/* Question blocks */
+.q-block {
+  display: flex; gap: 24px; margin-bottom: 36px;
+  padding-bottom: 36px; border-bottom: 1px solid rgba(200,169,110,0.1);
+}
+.q-block:last-child { border-bottom: none; }
+.q-num {
+  font-family: var(--mono); font-size: 28px; font-weight: 700;
+  color: rgba(200,169,110,0.25); flex-shrink: 0; line-height: 1;
+  padding-top: 4px; min-width: 36px;
+}
+.q-content h4 {
+  font-family: 'Playfair Display', serif; font-size: 18px;
+  color: var(--paper); margin-bottom: 14px; font-weight: 700;
+}
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li {
+  font-size: 16px; color: var(--text-dim); padding-left: 20px;
+  position: relative; line-height: 1.6;
+}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--sepia); }
+
+/* Write cards */
+.write-card {
+  background: rgba(245,240,232,0.03); border: 1px solid var(--border);
+  border-radius: 6px; padding: 28px 32px; margin-bottom: 20px;
+}
+.write-badge {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--sepia);
+  background: rgba(200,169,110,0.1); border: 1px solid rgba(200,169,110,0.2);
+  display: inline-block; padding: 3px 10px; border-radius: 3px; margin-bottom: 12px;
+}
+.write-card h4 {
+  font-family: 'Playfair Display', serif; font-size: 18px;
+  color: var(--paper); margin-bottom: 10px; font-weight: 700;
+}
+.write-card p { font-size: 16px; color: var(--text-dim); line-height: 1.65; margin-bottom: 14px; }
+.write-tip {
+  background: rgba(139,26,26,0.08); border-left: 2px solid var(--blood);
+  padding: 12px 16px; font-size: 14px; color: var(--text-dim); line-height: 1.6;
+  border-radius: 0 4px 4px 0;
+}
+.write-tip span { color: var(--blood-lt); font-weight: 600; display: block; margin-bottom: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* Source exercises */
+.source-exercise {
+  margin-bottom: 36px; padding-bottom: 36px;
+  border-bottom: 1px solid rgba(200,169,110,0.1);
+}
+.source-exercise:last-child { border-bottom: none; }
+.source-ex-label {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--sepia); margin-bottom: 10px;
+}
+.source-exercise h4 {
+  font-family: 'Playfair Display', serif; font-size: 20px;
+  color: var(--paper); margin-bottom: 12px; font-weight: 700;
+}
+.source-exercise p { font-size: 16px; color: var(--text-dim); line-height: 1.65; margin-bottom: 14px; }
+.source-qs { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.source-qs li {
+  font-size: 15px; color: var(--text-dim); padding-left: 20px;
+  position: relative; line-height: 1.6;
+}
+.source-qs li::before { content: '◆'; position: absolute; left: 0; color: var(--sepia); font-size: 9px; top: 5px; }
+
+/* Lgr grid */
+.lgr-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.lgr-card {
+  background: rgba(245,240,232,0.03); border: 1px solid var(--border);
+  border-radius: 6px; padding: 22px 24px;
+}
+.lgr-subject {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--sepia);
+  margin-bottom: 8px;
+}
+.lgr-card h4 {
+  font-family: 'Playfair Display', serif; font-size: 16px;
+  color: var(--paper); margin-bottom: 8px; font-weight: 700;
+}
+.lgr-card p { font-size: 14px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+
+@media (max-width: 700px) {
+  .teacher-section { padding: 60px 24px; }
+  .lgr-grid { grid-template-columns: 1fr; }
+  .q-block { gap: 14px; }
+  .q-num { font-size: 20px; }
+}
+
+/* END TEACHER SECTION */
+
+@media (max-width: 700px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 100px; }
+  .actors-grid { grid-template-columns: 1fr 1fr; }
+  .dilemma-wrap { margin: 60px 0; padding: 32px 24px; }
+  .domino-chain { gap: 0; }
+  .domino-block { width: 56px; height: 90px; }
+  .domino-arrow { width: 24px; margin-top: 43px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Fördjupning · Irans historia</div>
+
+  <h1>Dagen <em>demokratin</em><br>dog i Iran</h1>
+  <p class="hero-sub">CIA-kuppen 1953 – historien om olja, makt och ett beslut som formade Mellanöstern för alltid</p>
+
+  <div class="clock-wrap">
+    <div class="clock-label">19 augusti 1953 — Teheran</div>
+    <div id="clock">05:17:43</div>
+    <div class="clock-sub">timmar kvar tills kuppen är genomförd</div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     ARTICLE
+══════════════════════════════ -->
+<article class="article">
+
+  <p style="font-size:23px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Det är en het augustimorgon i Teheran. I ett hus i norra delen av staden sitter en 71-årig man i pyjamas och gråter. Han är Irans demokratiskt valda premiärminister. Om ett par timmar kommer han att arresteras. Hans tid är slut – inte för att folket vill det, utan för att CIA bestämde det.
+  </p>
+
+  <p>Hans namn är <strong>Mohammad Mosaddegh</strong>. Och hans fall är en av kalla krigets mest avgörande – och minst berättade – historier.</p>
+
+  <p>Det här är berättelsen om hur en demokrati dog. Om olja, spioner och geopolitik. Och om varför det som hände en augustidag 1953 fortfarande ekar i varje konflikt i Mellanöstern idag.</p>
+
+  <!-- PARALLAX 1 -->
+  <div class="parallax-section">
+    <div class="parallax-bg" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Mosaddegh_1951.jpg/800px-Mosaddegh_1951.jpg');"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Han var vald av folket.<br>Det räckte inte."</h2>
+    </div>
+    <div class="parallax-year">1953</div>
+  </div>
+
+  <div class="section-marker"><span>Del 1 · Bakgrunden</span></div>
+  <h2>Olja, imperium och <em>ett folks hunger</em></h2>
+
+  <p>För att förstå 1953 måste vi backa lite. Till 1901. Det året undertecknade Irans svaga Qajar-shah ett avtal med en brittisk affärsman: <strong>William Knox D'Arcy</strong>. Villkoren var förödmjukande. D'Arcy fick ensamrätt att leta efter olja i Iran i sextio år. Om han hittade något skulle Iran få 16 procent av vinsten.</p>
+
+  <p>Han hittade något. 1908 borrades Mellanösterns första stora oljebrunn i sydvästra Iran. Det var startskottet för ett av historiens mest lönsamma affärsimperier: <strong>Anglo-Persian Oil Company</strong> – som senare döptes om till British Petroleum. BP.</p>
+
+  <p>Under decennierna som följde pumpades Irans olja ut ur marken och skeppades till brittiska raffinaderier. Britterna berikades. Iran fick en strimla av pengarna. Iranier som arbetade i oljefälten levde i eländiga bostäder och tjänade bråkdelen av vad brittiska arbetare fick. Det var kolonialism i flytande form.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Siffror som berättar</div>
+    <p>Mellan 1945 och 1950 fick <strong>Iran 90 miljoner pund</strong> i oljeinkomster. Samma period betalade AIOC <strong>250 miljoner pund</strong> i brittisk bolagsskatt – mer till den brittiska staten än till Iran, landets vars olja det var.</p>
+  </div>
+
+  <p>Sedan kom Mosaddegh.</p>
+
+  <div class="section-marker"><span>Del 2 · Mannen</span></div>
+  <h2>Mannen i pyjamas som <em>skakade världen</em></h2>
+
+  <p>Mohammad Mosaddegh var en märklig politisk figur. Han kom från en aristokratisk familj, studerade juridik i Paris och Neuchâtel, och hade ett temperament som varvade skarpa logiska argument med dramatiska tårar och svimningsanfall i parlamentet. Hans motståndare skrattade åt honom. Hans anhängare dyrkade honom.</p>
+
+  <p>Hans centrala övertygelse var enkel: <strong>Irans naturresurser tillhör det iranska folket.</strong></p>
+
+  <p>1951 vann hans parti valet. Parlamentet valde honom till premiärminister. Och en av hans första åtgärder var att driva igenom nationaliseringen av oljeindustrin – det vill säga att överta den från britterna och göra den statlig. Riksdagen röstade enhälligt.</p>
+
+  <div class="pullquote">
+    <p>Vår lycka beror på att vi tar det som är vårt. Olja är blod. Olja är liv. Och blodet och livet tillhör inte London.</p>
+    <cite>Mohammad Mosaddegh, tal i iranska parlamentet, 1951</cite>
+  </div>
+
+  <p>I Iran jublade folk på gatorna. I London krossades porslinet i utrikesdepartementet.</p>
+
+  <!-- ACTOR CARDS -->
+  <div class="actors-section">
+    <div class="actors-label">Klicka på en person för att lära känna dem →</div>
+    <div class="actors-grid">
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">👴</span>
+          <div class="actor-name">Mosaddegh</div>
+          <div class="actor-role">Irans premiärminister</div>
+        </div>
+        <div class="actor-detail">
+          <p>71 år gammal, demokratiskt vald, känd för sina dramatiska tårar och sin skarpa juridiska logik. Hans mål: nationalisera oljan och ge intäkterna till det iranska folket. Hatad av britterna. Älskad av massorna.</p>
+          <div class="actor-quote">"Jag föredrar att Iran fattig och självständigt, framför rikt och slaviskt."</div>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">👑</span>
+          <div class="actor-name">Shahen</div>
+          <div class="actor-role">Mohammad Reza Pahlavi</div>
+        </div>
+        <div class="actor-detail">
+          <p>Ung, svag och rädd. Shahen var tekniskt sett statschef men Mosaddegh hade verklig makt. Han var ambivalent – ibland stödde han kuppen, ibland flydde han landet. CIA var tvungen att hålla honom i handen hela vägen.</p>
+          <div class="actor-quote">"Jag vet inte om jag är kuppen värd. Men om det misslyckas är jag definitivt förlorad."</div>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">🇬🇧</span>
+          <div class="actor-name">Churchill</div>
+          <div class="actor-role">Storbritanniens premiärminister</div>
+        </div>
+        <div class="actor-detail">
+          <p>71 år gammal och rasande. Han hade personligen hjälpt till att lägga grunden för det brittiska oljemonopolet i Iran. Nationaliseringen var ett personligt angrepp. Han bad USA om hjälp att störta Mosaddegh.</p>
+          <div class="actor-quote">"Den där jävla gubben måste bort. Snälla, hjälp oss."</div>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">🇺🇸</span>
+          <div class="actor-name">Eisenhower</div>
+          <div class="actor-role">USA:s president</div>
+        </div>
+        <div class="actor-detail">
+          <p>Ny president, kalla kriget på topp. CIA övertygade honom om att Mosaddegh riskerade att falla i Sovietunionens händer om han inte stoppades. Eisenhower gav grönt ljus. Han ångrade det aldrig offentligt.</p>
+          <div class="actor-quote">"Det är ett svårt beslut. Men det kommunistiska hotet är verkligt."</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 3 · Planerna</span></div>
+  <h2>Operation AJAX – <em>en kupp designas</em></h2>
+
+  <p>Britterna försökte först lösa problemet ekonomiskt. De stämde Iran i internationella domstolar. De blockerade iransk export. De drog tillbaka sina egna tekniker från oljefälten och hoppades att Iran inte skulle klara att driva dem. Iran klarade det ändå.</p>
+
+  <p>Så vände britterna sig till amerikanerna.</p>
+
+  <p>President Truman sa nej. Han såg Mosaddegh som en demokratisk ledare och kuppidén som omoralisk. Men 1953 valdes Eisenhower till president. Och CIA:s chef <strong>Allen Dulles</strong> hade ett övertygande argument: <em>Mosaddegh är svag. Kommunisterna väntar. Om inte vi agerar tar Sovjet Iran.</em></p>
+
+  <p>Det är oklart om Dulles verkligen trodde på det. Men Eisenhower sa ja.</p>
+
+  <p>Operationen fick kodnamnet <strong>AJAX</strong> – av britterna kallad Operation Boot. CIA:s man på plats var <strong>Kermit Roosevelt Jr.</strong>, barnbarnet till president Teddy Roosevelt. Han anlände till Teheran med en resväska full av kontanter.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Vad pengarna köpte</div>
+    <p>CIA betalade iranska tidningar för att skriva negativt om Mosaddegh. De anlitade kriminella gäng för att bråka på gatorna och skylla på Mosaddegh-anhängare. De mutade generaler, religiösa ledare och parlamentsledamöter. Budgeten: uppskattningsvis <strong>1 miljon dollar</strong> – en enorm summa 1953.</p>
+  </div>
+
+  <!-- MORAL DILEMMA -->
+  <div class="dilemma-wrap">
+    <div class="dilemma-label">⚡ Interaktivt moment</div>
+    <h3>Det är 1953. Du är president Eisenhower.</h3>
+    <p class="dilemma-context">Din CIA-chef Allen Dulles sitter framför dig. Han säger: "Mosaddegh är en svag demokrat. Kommunisterna i Iran är starka. Om vi inte agerar nu riskerar vi att förlora Iran till Sovjet – och med Iran, hela Mellanösterns olja." Din utrikesminister nickar. Vad gör du?</p>
+    <div class="dilemma-choices" id="choices">
+      <button class="choice-btn" onclick="chooseAnswer(0)">
+        <span class="choice-letter">A</span>
+        <span>Genomför kuppen. Kommunismen är det verkliga hotet – demokratin i ett litet land väger lätt mot det.</span>
+      </button>
+      <button class="choice-btn" onclick="chooseAnswer(1)">
+        <span class="choice-letter">B</span>
+        <span>Vägra. USA ska inte störta demokratiskt valda regeringar. Det strider mot allt vi säger att vi representerar.</span>
+      </button>
+      <button class="choice-btn" onclick="chooseAnswer(2)">
+        <span class="choice-letter">C</span>
+        <span>Försök förhandla. Kalla Mosaddegh till Washington, erbjud ekonomiskt stöd mot att han tar avstånd från kommunisterna.</span>
+      </button>
+    </div>
+    <div id="dilemma-result">
+      <div class="result-reveal">Vad Eisenhower verkligen valde →</div>
+      <div class="result-text" id="result-text"></div>
+      <button id="try-again-btn" onclick="resetDilemma()">Försök med ett annat val ↺</button>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 4 · Den 19 augusti</span></div>
+  <h2>Den dag allt <em>föll</em></h2>
+
+  <p>Den 19 augusti 1953 rör sig något i Teherans gator innan gryningen.</p>
+
+  <p>CIA-betalda agenter bär bilder av shahen och skriker att Mosaddegh är kommunist. Anlitade bråkstakar slåss med polisen. Några av Irans mest betrodda generaler – mutade med CIA-pengar – vänder sig mot regeringen. Radiostationer tas över. En efter en kapitulerar Mosaddegh-lojala trupper.</p>
+
+  <p>Klockan 16:00 är det över.</p>
+
+  <p>Mosaddegh göms hos en granne. Han ger sig till myndigheterna dagen efter, iklädd pyjamas och morgonrock. Han döms till döden för förräderi. Dödsstraffet omvandlas till tre år i husarrest – och han tillbringar resten av sitt liv under husarrest. Han dör 1967 utan att ha fått lämna sin by.</p>
+
+  <p>Kermit Roosevelt flyger hem. Han får en medalj av CIA. Han skriver senare en bok om kuppen med den anspråkslösa titeln <em>Countercoup</em>.</p>
+
+  <!-- SCRATCH CIA DOCUMENT -->
+  <div class="scratch-section">
+    <div class="scratch-label">🔒 Avhemligat CIA-dokument</div>
+    <p class="scratch-intro">I 60 år förnekade CIA sin inblandning. År 2013 avhemligade de officiellt dokumenten. Klicka för att avslöja vad de faktiskt erkänner.</p>
+    <div class="scratch-wrap">
+      <div class="scratch-doc">
+        <div class="doc-header">CENTRAL INTELLIGENCE AGENCY · AVHEMLIGAT 2013<br>DOKUMENT-REF: CIA/RDP&nbsp;CREST&nbsp;AJAX&nbsp;1953</div>
+        <div class="doc-line">OPERATION: <span class="highlight">AJAX / TPAJAX</span></div>
+        <div class="doc-line">DATUM: Augusti 1953</div>
+        <div class="doc-line">STATUS: <span class="redacted" id="s1">AVHEMLIGAD</span></div>
+        <br>
+        <div class="doc-line">"CIA erkänner officiellt att byrån</div>
+        <div class="doc-line"><span class="redacted" id="s2">planerade och genomförde</span> kuppen mot</div>
+        <div class="doc-line">premiärminister <span class="redacted" id="s3">Mosaddegh 1953</span>,</div>
+        <div class="doc-line">i samarbete med <span class="redacted" id="s4">brittisk underrättelsetjänst</span>.</div>
+        <br>
+        <div class="doc-line">Operationen <span class="redacted" id="s5">störtade en demokratiskt vald regering</span></div>
+        <div class="doc-line">och återinsatte Shah Mohammad Reza Pahlavi</div>
+        <div class="doc-line">som <span class="redacted" id="s6">absolut monark</span>.</div>
+        <br>
+        <div class="doc-line" style="color:#666; font-style:italic;">— Direktör för nationell underrättelsetjänst, 2013</div>
+      </div>
+      <button id="reveal-btn" onclick="revealDoc()">▶ Avslöja det svartade texten – klicka här</button>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 5 · Efterspelet</span></div>
+  <h2>Shahen, <em>SAVAK</em> och en tryckkokare</h2>
+
+  <p>Med Mosaddegh borta satte CIA:s man shahen på tronen med mer makt än någonsin. Det brittiska oljebolaget fick tillbaka sin verksamhet – nu delade med amerikanska oljebolag. Ordningen var återställd.</p>
+
+  <p>Men ordningen hade ett pris.</p>
+
+  <p>Shahen skapade <strong>SAVAK</strong> – en hemlig polis tränad av CIA och israelisk underrättelsetjänst. SAVAK arresterade, torterade och mördade politiska motståndare i decennier. Amnesty International beskrev Iran under sjuttiotalet som ett av världens värsta länder för politiska fångar.</p>
+
+  <p>Det iranska folket mindes. De mindes vem som satt shahen dit. De mindes vem som betalade SAVAK. Och när de reste sig 1979 var det inte bara mot shahen – det var mot Amerika.</p>
+
+  <div class="pullquote">
+    <p>Revolutionen 1979 var inte ett mysterium. Det var en räkning som hade legat på bordet sedan 1953.</p>
+    <cite>Historikern Stephen Kinzer, "All the Shah's Men" (2003)</cite>
+  </div>
+
+  <p>Ayatollah Khomeini förstod vad folket kände. Hans budskap var enkelt: Amerika är Djävulen. Och Djävulen störtade vår demokrati.</p>
+
+  <p>Det var inte fel. Det var inte heller hela sanningen. Men det var tillräckligt för att bränna en ambassad.</p>
+
+  <!-- DOMINO TIMELINE -->
+  <div class="domino-section">
+    <div class="domino-label">Klicka på varje domino för att se hur 1953 ledde till idag →</div>
+    <div class="domino-chain">
+
+      <div class="domino active" onclick="fallDomino(0)" id="dom0">
+        <div class="domino-block"><div class="domino-year">1953</div><div class="domino-icon">🎯</div></div>
+        <div class="domino-label-text">CIA-kuppen</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(1)" id="dom1">
+        <div class="domino-block"><div class="domino-year">1963</div><div class="domino-icon">👑</div></div>
+        <div class="domino-label-text">Shahens "Vita revolution"</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(2)" id="dom2">
+        <div class="domino-block"><div class="domino-year">1979</div><div class="domino-icon">🕌</div></div>
+        <div class="domino-label-text">Islamska revolutionen</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(3)" id="dom3">
+        <div class="domino-block"><div class="domino-year">1979</div><div class="domino-icon">🏛️</div></div>
+        <div class="domino-label-text">Gisslankrisen</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(4)" id="dom4">
+        <div class="domino-block"><div class="domino-year">1980</div><div class="domino-icon">💥</div></div>
+        <div class="domino-label-text">Irak–Iran-kriget</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(5)" id="dom5">
+        <div class="domino-block"><div class="domino-year">2002</div><div class="domino-icon">☢️</div></div>
+        <div class="domino-label-text">Kärnvapen­programmet</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(6)" id="dom6">
+        <div class="domino-block"><div class="domino-year">Idag</div><div class="domino-icon">🌍</div></div>
+        <div class="domino-label-text">Mellanösterns spänningar</div>
+      </div>
+
+    </div>
+    <p class="domino-cta">Klicka på en domino för mer info</p>
+  </div>
+
+  <!-- DOMINO DETAIL POPUP -->
+  <div id="domino-popup" class="domino-detail">
+    <button class="close-detail" onclick="closeDetail()">✕</button>
+    <h4 id="popup-title"></h4>
+    <p id="popup-text"></p>
+  </div>
+
+  <div class="section-marker"><span>Del 6 · Idag</span></div>
+  <h2>Ursäkten som kom <em>för sent</em></h2>
+
+  <p>År 2000 var Madeleine Albright utrikesminister under president Clinton. Hon höll ett tal som är unikt i amerikansk diplomatisk historia. Hon sa att USA:s roll i kuppen 1953 var <em>"ett tydligt bakslag för Irans politiska utveckling"</em> och att amerikanerna förstår varför iranier fortfarande bär på bitterhet.</p>
+
+  <p>Det var inte en ursäkt. Men det var nära.</p>
+
+  <p>2013 avhemligade CIA officiellt sina dokument och erkände sin roll. Kermit Roosevelt hade länge sedan dött. Mosaddegh hade länge sedan dött. Shahen hade länge sedan dött. Men Islamiska republiken levde. SAVAK:s arvtagare levde. Hatet mot Amerika levde.</p>
+
+  <p>En ursäkt som kommer sextio år för sent är inte en ursäkt. Det är en historisk fotnot.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Frågan som hänger kvar</div>
+    <p>Hade Iran kunnat bli en stabil demokrati utan kuppen 1953? Ingen vet. Men vi vet att landet <em>hade</em> en demokrati – och att den togs ifrån dem. Det är inte ett abstrakt faktum. Det är något ett helt folk burit på i generationer.</p>
+  </div>
+
+  <div class="sep">· · ·</div>
+
+  <p>Mosaddegh ville inte vara martyr. Han ville vara en tråkig demokratisk politiker som löste budgetfrågor och förhandlade om oljeintäkter. Han ville att Iran skulle vara ett normalt land.</p>
+
+  <p>Historien ville något annat.</p>
+
+  <p>Och i det huset i norra Teheran, en het augustimorgon 1953, sitter han fortfarande i sina tankar – en man i pyjamas, med tårar på kinderna, och vet att det är slut. Inte för att han förlorade på idéernas spelplan. Utan för att någon i Washington sa ja.</p>
+
+</article>
+
+<!-- ══════════════════════════════
+     LÄRARSEKTION
+══════════════════════════════ -->
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Frågor och material<br><em>till texten</em></h2>
+      <p class="teacher-intro">Artikeln om CIA-kuppen 1953 är skriven för åk 7–9 och gymnasiet. Nedan finns förslag på diskussionsfrågor, skrivuppgifter och källkritiska övningar kopplade till centralt innehåll i Lgr22.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('skrivuppgifter', this)">✍️ Skrivuppgifter</button>
+        <button class="t-tab" onclick="showTeacherTab('kallkritik', this)">🔍 Källkritik</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Koppling till Lgr22</button>
+      </div>
+    </div>
+
+    <!-- DISKUSSION -->
+    <div class="t-panel active" id="t-diskussion">
+      <div class="t-panel-intro">Frågorna är ordnade från konkret till abstrakt – börja gärna med faktafrågor och arbeta er mot de etiska och samhälleliga.</div>
+
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Förståelsefrågor – stämmer det du läste?</h4>
+          <ul class="q-list">
+            <li>Vad innebar nationaliseringen av oljan – vad gjorde Mosaddegh konkret?</li>
+            <li>Varför ville britterna störta Mosaddegh? Varför kom amerikanerna med?</li>
+            <li>Vad är SAVAK och vad har det med kuppen att göra?</li>
+            <li>Hur motiverar artikeln påståendet "Utan 1953 – ingen islamisk revolution"?</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Analys – vad innebär det?</h4>
+          <ul class="q-list">
+            <li>Artikeln säger att CIA:s argument om kommunisthotet var "kraftigt överdrivet". Varför tror du att amerikanerna ändå trodde på det?</li>
+            <li>Hur kan ett land som kallar sig demokratins försvarare genomföra en kupp mot en demokrati? Vilka argument använde de?</li>
+            <li>Vad menas med att Madeleine Albrights tal år 2000 var "nära en ursäkt men inte riktigt"? Varför spelar den distinktionen roll?</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-num">03</div>
+        <div class="q-content">
+          <h4>Etik och värderingar – vad tycker du?</h4>
+          <ul class="q-list">
+            <li>Kan en kupp någonsin vara moraliskt försvarbar? Under vilka omständigheter?</li>
+            <li>Är en ursäkt som kommer 60 år för sent en riktig ursäkt? Vad krävs för att en ursäkt ska ha värde?</li>
+            <li>Diskutera: Har USA rätt att peka finger åt andra länder om demokrati och mänskliga rättigheter, med tanke på vad de gjorde 1953?</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="q-block">
+        <div class="q-num">04</div>
+        <div class="q-content">
+          <h4>Koppla till idag</h4>
+          <ul class="q-list">
+            <li>Finns det liknande situationer idag – stormakter som påverkar andra länders politik? Ge exempel.</li>
+            <li>Hur påverkar det ett lands befolkning att veta att deras demokrati en gång stals utifrån? Kan du föreställa dig hur iraniers syn på USA ser ut?</li>
+            <li>Sverige är ett litet land med stor utrikeshandel. Hur påverkas vi när stormakter som USA och Iran är i konflikt?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKRIVUPPGIFTER -->
+    <div class="t-panel" id="t-skrivuppgifter">
+      <div class="t-panel-intro">Fyra uppgifter med olika syften – välj en eller kombinera. Längd och komplexitet kan anpassas till årskurs.</div>
+
+      <div class="write-card">
+        <div class="write-badge">Berättande</div>
+        <h4>Mosaddegh skriver ett brev</h4>
+        <p>Du är Mohammad Mosaddegh. Det är september 1953 – en månad efter kuppen. Du sitter i fängelset och vet att du förmodligen aldrig kommer att fri. Skriv ett brev till det iranska folket (ca 200 ord) om vad som hände, varför du kämpade och vad du hoppas för landets framtid.</p>
+        <div class="write-tip"><span>Tips till läraren:</span> Uppgiften tränar historisk empati och perspektivtagande. Diskutera efteråt: Vad vet Mosaddegh som är sant? Vad kan han inte veta om framtiden?</div>
+      </div>
+
+      <div class="write-card">
+        <div class="write-badge">Argumenterande</div>
+        <h4>Försvara eller kritisera Eisenhowers beslut</h4>
+        <p>Skriv en argumenterande text (ca 200 ord) där du antingen försvarar eller kritiserar Eisenhowers beslut att godkänna kuppen. Använd argument från texten – men också egna resonemang. Tänk på att det gick 1953, inte idag.</p>
+        <div class="write-tip"><span>Tips till läraren:</span> Be hälften av klassen försvara och hälften kritisera, och ha sedan en klassisk debatt. Påminn om att starka argument kräver motargument som man sedan besvarar.</div>
+      </div>
+
+      <div class="write-card">
+        <div class="write-badge">Analytisk</div>
+        <h4>Vad om…? Skriv en alternativ historia</h4>
+        <p>Välj en av de tre vägarna i dilemmat mitt i artikeln – men inte den Eisenhower tog. Skriv en kort alternativhistoria (ca 200 ord): Vad hade hänt om han gjort ett annat val? Var noga med att förklara orsak och verkan steg för steg.</p>
+        <div class="write-tip"><span>Tips till läraren:</span> Alternativhistoria är ett utmärkt verktyg för att förstå historiska orsakskedjor. Diskutera: Varför är det svårt att skriva alternativhistoria? Vad säger det om hur komplex historia egentligen är?</div>
+      </div>
+
+      <div class="write-card">
+        <div class="write-badge">Krönika</div>
+        <h4>En CIA-agent skriver i sin dagbok</h4>
+        <p>Du är Kermit Roosevelt Jr., CIA:s man på plats i Teheran. Det är kvällen den 19 augusti 1953 – kuppen är klar. Skriv ett dagboksutdrag (ca 150 ord) om hur du känner. Stolt? Orolig? Tveksam? Säker?</p>
+        <div class="write-tip"><span>Tips till läraren:</span> Den här uppgiften utmanar eleverna att ta perspektivet av någon vars handlingar de kanske fördömer. Diskutera: Kan man förstå en persons motiv utan att godkänna dem?</div>
+      </div>
+    </div>
+
+    <!-- KÄLLKRITIK -->
+    <div class="t-panel" id="t-kallkritik">
+      <div class="t-panel-intro">CIA-kuppen är ett utmärkt fall för källkritisk analys – en händelse som i decennier officiellt förnekades, och sedan bekräftades. Det ger konkreta och kontrastrika källor att arbeta med.</div>
+
+      <div class="source-exercise">
+        <div class="source-ex-label">Övning 1 · Vem säger vad?</div>
+        <h4>Tre versioner av samma händelse</h4>
+        <p>Låt eleverna läsa tre korta texter om kuppen – en brittisk tidningsartikel från 1953 (som presenterade det som en "spontan folklig revolt"), ett avhemligat CIA-dokument från 2013, och ett utdrag ur en iransk lärobok. Diskutera:</p>
+        <ul class="source-qs">
+          <li>Vad är källans syfte – att informera, övertala eller dölja?</li>
+          <li>Vad väljer varje källa att berätta – och vad utelämnas?</li>
+          <li>Hur förändras din bild av händelsen beroende på vilken källa du läser?</li>
+          <li>Kan ett avhemligat CIA-dokument vara opålitligt? Varför?</li>
+        </ul>
+      </div>
+
+      <div class="source-exercise">
+        <div class="source-ex-label">Övning 2 · Tidsaspekten</div>
+        <h4>Varför avhemligades dokumenten först 2013 – 60 år senare?</h4>
+        <p>CIA erkände sin inblandning 2013. Diskutera med klassen:</p>
+        <ul class="source-qs">
+          <li>Varför hemlighölls det i 60 år? Vad var riskerna med att erkänna tidigare?</li>
+          <li>Vad händer med ett lands trovärdighet när det erkänner att det ljugit i decennier?</li>
+          <li>Finns det händelser idag som vi tror är dolda – och som kanske avslöjas om 60 år?</li>
+        </ul>
+      </div>
+
+
+    </div>
+
+    <!-- LGR22 -->
+    <div class="t-panel" id="t-lgr">
+      <div class="t-panel-intro">Artikeln berör flera delar av det centrala innehållet i Lgr22 för samhällskunskap och historia, åk 7–9.</div>
+
+      <div class="lgr-grid">
+        <div class="lgr-card">
+          <div class="lgr-subject">Historia</div>
+          <h4>Imperialism och kolonialism</h4>
+          <p>Det brittiska oljemonopolet i Iran är ett tydligt exempel på ekonomisk kolonialism. Kuppen kan kopplas till läroplanens innehåll om imperialismens former och konsekvenser.</p>
+        </div>
+        <div class="lgr-card">
+          <div class="lgr-subject">Historia</div>
+          <h4>Kalla kriget</h4>
+          <p>Operation AJAX är ett av kalla krigets tydligaste exempel på hur USA och Sovjet kämpade om inflytande i tredje världen. Direkt koppling till kursinnehåll om kalla krigets logik och konsekvenser.</p>
+        </div>
+        <div class="lgr-card">
+          <div class="lgr-subject">Samhällskunskap</div>
+          <h4>Demokrati och diktatur</h4>
+          <p>Fallet erbjuder en konkret analys av hur demokratier kan undermineras – utifrån och inifrån. Kopplas till Lgr22:s innehåll om demokratins villkor och hot.</p>
+        </div>
+        <div class="lgr-card">
+          <div class="lgr-subject">Samhällskunskap</div>
+          <h4>Internationella relationer och makt</h4>
+          <p>Stormakternas agerande i Iran illustrerar realpolitik kontra idealpolitik – ett centralt spänningsfält i internationella relationer.</p>
+        </div>
+        <div class="lgr-card">
+          <div class="lgr-subject">Svenska</div>
+          <h4>Källkritik och informationssökning</h4>
+          <p>Det avhemligade CIA-dokumentet, brittiska tidningsskildringar och iranska källor ger ett utmärkt material för att träna källkritisk analys i ämnesövergripande arbete med svenska.</p>
+        </div>
+        <div class="lgr-card">
+          <div class="lgr-subject">Etik</div>
+          <h4>Moraliska dilemman och konsekvenser</h4>
+          <p>Eisenhowers beslut lämpar sig för klassisk etisk analys – konsekvensetik kontra pliktetik. Vad är rätt om konsekvenserna är goda men metoden oren?</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EPILOG -->
+<div class="epilogue">
+  <h2>Utan 1953 —<br><em>inget av det vi ser idag</em></h2>
+  <p>CIA-kuppen är inte bara iransk historia. Den är en av kalla krigets mest avgörande händelser – och en direkt orsak till att Mellanöstern ser ut som det gör. Utan 1953: ingen islamisk revolution. Utan revolutionen: inga gisslan i ambassaden. Utan gisslankrisen: kanske inget Irak-krig. Kanske inget kärnvapenprogram.</p>
+  <p>Historien är inte en samling isolerade händelser. Det är dominobrickor – och alla faller i ett mönster som börjar någonstans.</p>
+  <div class="epilogue-links">
+    <a href="irans_historia.html" class="ep-link">← Tillbaka till podden</a>
+    <a href="#" class="ep-link">Quiz om Irans historia</a>
+  </div>
+</div>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── TICKING CLOCK ──
+let secs = 5 * 3600 + 17 * 60 + 43;
+const clockEl = document.getElementById('clock');
+function updateClock() {
+  if (secs <= 0) { clockEl.textContent = '00:00:00'; clockEl.style.color = 'var(--sepia)'; return; }
+  secs--;
+  const h = String(Math.floor(secs / 3600)).padStart(2, '0');
+  const m = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
+  const s = String(secs % 60).padStart(2, '0');
+  clockEl.textContent = `${h}:${m}:${s}`;
+  const prog = 1 - secs / (5 * 3600 + 17 * 60 + 43);
+  const r = Math.round(139 + (192 - 139) * prog);
+  clockEl.style.color = `rgb(${r}, ${Math.round(26 + 57 * prog)}, ${Math.round(26 + 43 * prog)})`;
+}
+setInterval(updateClock, 1000);
+
+// ── ACTOR CARDS ──
+function toggleActor(card) {
+  const wasActive = card.classList.contains('active');
+  document.querySelectorAll('.actor-card').forEach(c => c.classList.remove('active'));
+  if (!wasActive) card.classList.add('active');
+}
+
+// ── MORAL DILEMMA ──
+const outcomes = [
+  `<strong>Eisenhower valde precis detta.</strong> Den 19 augusti 1953 genomfördes kuppen. Mosaddegh arresterades. Shahen återinsattes med full makt. CIA-chefen Allen Dulles fick en medalj. Och Iran fick 26 år av diktatur under shahen, följt av den islamiska revolutionen 1979 – direkt orsakad av folkets minne av 1953. Det kommunistiska hotet visade sig i efterhand vara kraftigt överdrivet. Men beslutet var redan fattat.`,
+  `<strong>Det gjorde han inte.</strong> Men låt oss tänka oss att han hade vägrat. Mosaddegh hade sannolikt lyckats bygga en stabil demokrati. Iran hade möjligen blivit ett modernt muslimskt demokratiskt land – en modell för regionen. Ingen islamisk revolution. Kanske ingen gisslanhandling. Kanske ett helt annat Mellanöstern. Det är historiens stora "vad om?" – och ingen vet svaret.`,
+  `<strong>Det försökte Truman – och misslyckades.</strong> Mosaddegh var öppen för dialog men Britterna blockerade varje försök till kompromiss. De ville inte förhandla om oljan – de ville ha den tillbaka. USA valde till slut att lyssna på britterna snarare än på principerna om demokrati. Förhandlingsvägen fanns, men togs aldrig.`
+];
+
+function chooseAnswer(idx) {
+  document.getElementById('choices').style.opacity = '0.4';
+  document.getElementById('choices').style.pointerEvents = 'none';
+  document.getElementById('result-text').innerHTML = outcomes[idx];
+  document.getElementById('dilemma-result').style.display = 'block';
+  document.getElementById('dilemma-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetDilemma() {
+  document.getElementById('choices').style.opacity = '1';
+  document.getElementById('choices').style.pointerEvents = 'auto';
+  document.getElementById('dilemma-result').style.display = 'none';
+}
+
+// ── CIA DOCUMENT REVEAL ──
+let revealed = false;
+function revealDoc() {
+  if (revealed) return;
+  revealed = true;
+  const redacted = document.querySelectorAll('.redacted');
+  redacted.forEach((el, i) => {
+    setTimeout(() => el.classList.add('revealed'), i * 180);
+  });
+  document.getElementById('reveal-btn').textContent = '✓ Dokument avhemligat — CIA erkänner inblandning i kuppen 1953';
+  document.getElementById('reveal-btn').style.background = 'rgba(139,26,26,0.3)';
+}
+
+// ── DOMINO TIMELINE ──
+const dominoData = [
+  { title: "1953 – CIA-kuppen genomförs", text: "Den 19 augusti 1953 störtar CIA och brittisk underrättelsetjänst Irans demokratiskt valda premiärminister Mosaddegh. Shahen återinsätts med absolut makt. Operationens kodnamn är AJAX. Budgeten: 1 miljon dollar." },
+  { title: "1963 – Shahens 'Vita revolution'", text: "Shahen lanserar ett moderniseringsprogram med amerikansk backing. Markreformer, industrialisering och rösträtt för kvinnor. Men SAVAK – den hemliga polisen tränad av CIA – arresterar och torterar tusentals politiska motståndare. Oppositionen drivs under jorden." },
+  { title: "1979 – Islamska revolutionen", text: "I januari flyr shahen Iran. Ayatollah Khomeini återvänder från exil till jubel av miljoner. Den islamiska republiken utropas. Khomeinis budskap om Amerika som 'den stora Djävulen' ekar i folkets minne av 1953." },
+  { title: "1979 – Gisslankrisen 444 dagar", text: "Iranska studenter stormar USA:s ambassad i Teheran och håller 52 amerikaner gisslan i 444 dagar. Krisen förstör Jimmy Carters presidentskap och cementerar det amerikanskt-iranska fientligheten för generationer." },
+  { title: "1980–1988 – Irak–Iran-kriget", text: "USA stödjer hemligt Saddam Husseins Irak i ett krig mot Iran. Kriget kostar ungefär en miljon liv. USA levererar även kemiska vapen-komponenter till Irak. I Iran förstärker kriget berättelsen om en värld som vill Iran ont." },
+  { title: "2002 – Kärnvapenprogrammet avslöjas", text: "Iran avslöjas driva ett hemligt kärnvapenprogram. För Iran är kärnvapen en säkerhetsgaranti mot ett USA som störtat deras demokrati en gång – och kan göra det igen. Konflikten om Irans kärnprogram pågår än idag." },
+  { title: "Idag – Regionens spänningar", text: "Iran finansierar proxykrafter i Libanon (Hizbollah), Gaza (Hamas) och Jemen (Houthierna). Spänningarna med USA och Israel är på historisk topp. Alla dessa konflikter har rötter som slingrar sig tillbaka till en augustimorgon 1953." }
+];
+
+let activeDominos = [0];
+
+function fallDomino(idx) {
+  // Activate all dominos up to and including this one
+  for (let i = 0; i <= idx; i++) {
+    const d = document.getElementById('dom' + i);
+    if (d) d.classList.add('active');
+  }
+  // Show popup
+  const popup = document.getElementById('domino-popup');
+  document.getElementById('popup-title').textContent = dominoData[idx].title;
+  document.getElementById('popup-text').textContent = dominoData[idx].text;
+  popup.classList.add('show');
+
+  // Auto-advance to next after 4 seconds if user doesn't click
+  if (idx < dominoData.length - 1) {
+    setTimeout(() => {
+      const next = document.getElementById('dom' + (idx + 1));
+      if (next && !next.classList.contains('active')) {
+        next.style.transform = 'scale(1.05)';
+        setTimeout(() => next.style.transform = '', 600);
+      }
+    }, 3000);
+  }
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
