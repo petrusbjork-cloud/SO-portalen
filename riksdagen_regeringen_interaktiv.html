@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riksdagen och regeringen – så styrs Sverige i praktiken</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --bg-2: #101a2d;
+      --panel: rgba(255,255,255,0.06);
+      --panel-2: rgba(255,255,255,0.04);
+      --line: rgba(148, 163, 184, 0.22);
+      --text: #e8eef8;
+      --muted: rgba(232,238,248,0.72);
+      --gold: #f3c969;
+      --gold-2: #d4a843;
+      --blue: #7cc8ff;
+      --blue-2: #4ca8ea;
+      --green: #72d39a;
+      --red: #f08a8a;
+      --shadow: 0 20px 60px rgba(0,0,0,0.35);
+      --radius: 18px;
+      --max: 1120px;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono: "JetBrains Mono", "Courier New", monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(76,168,234,0.18), transparent 28%),
+        radial-gradient(circle at 90% 10%, rgba(243,201,105,0.14), transparent 22%),
+        linear-gradient(180deg, #0a1220 0%, #0e1728 100%);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    p { line-height: 1.72; color: var(--muted); }
+    strong { color: var(--text); }
+    em { color: var(--gold); }
+
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 4px;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--blue), var(--gold));
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 56px 24px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(circle at center, black 35%, transparent 85%);
+      opacity: 0.28;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1080px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 8px 14px;
+      border: 1px solid rgba(243,201,105,0.28);
+      border-radius: 999px;
+      background: rgba(243,201,105,0.08);
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 1.6px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-family: var(--serif);
+      font-size: clamp(44px, 8vw, 88px);
+      line-height: 0.96;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+
+    .hero-sub {
+      max-width: 850px;
+      margin: 0 auto 30px;
+      font-size: clamp(19px, 2.4vw, 25px);
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 180px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font-weight: 600;
+      transition: 0.22s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover { transform: translateY(-2px); }
+    .btn.primary {
+      background: linear-gradient(135deg, rgba(76,168,234,0.2), rgba(243,201,105,0.18));
+      border-color: rgba(124,200,255,0.28);
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .stat {
+      background: rgba(255,255,255,0.045);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 16px;
+      text-align: left;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+
+    .stat .n {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+    }
+    .stat .label {
+      display: block;
+      margin-bottom: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+    }
+    .stat span:last-child { color: var(--muted); font-size: 14px; line-height: 1.5; }
+
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+    .section { padding: 86px 0; }
+
+    .lead-card {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 24px;
+      align-items: stretch;
+      margin-top: -48px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .intro-card { padding: 30px; }
+    .intro-card p:first-child { margin-top: 0; font-size: 20px; color: var(--text); }
+
+    .sticky-nav {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-self: start;
+      position: sticky;
+      top: 22px;
+    }
+    .sticky-nav h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: #fff;
+    }
+    .sticky-nav a {
+      text-decoration: none;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid transparent;
+      transition: 0.2s ease;
+    }
+    .sticky-nav a:hover { border-color: var(--line); color: var(--text); }
+
+    .section-title {
+      margin-bottom: 28px;
+    }
+    .section-title .mini {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--blue);
+      font-family: var(--mono);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+    }
+    .section-title h2 {
+      margin: 0;
+      font-family: var(--serif);
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.03;
+      color: #fff;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .info-card { padding: 26px; }
+    .info-card h3 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      color: #fff;
+    }
+
+    .pill-list { display: grid; gap: 10px; margin-top: 18px; }
+    .pill {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+    .pill strong { color: #fff; display: block; margin-bottom: 4px; }
+
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 16px;
+      align-items: stretch;
+      margin-top: 28px;
+    }
+    .compare-box {
+      padding: 24px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+    }
+    .compare-box h3 { margin-top: 0; color: #fff; }
+    .vs {
+      align-self: center;
+      font-family: var(--mono);
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+      margin-top: 26px;
+    }
+    .step {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      overflow: hidden;
+    }
+    .step button {
+      width: 100%;
+      background: transparent;
+      border: 0;
+      color: var(--text);
+      padding: 18px 20px;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .step button span:first-child {
+      font-weight: 700;
+      color: #fff;
+    }
+    .step button .nr {
+      font-family: var(--mono);
+      color: var(--gold);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      display: block;
+      margin-bottom: 6px;
+    }
+    .step-content {
+      display: none;
+      padding: 0 20px 20px;
+      color: var(--muted);
+      line-height: 1.68;
+    }
+    .step.open .step-content { display: block; }
+
+    .flow-card {
+      padding: 28px;
+      margin-top: 28px;
+    }
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .flow-item {
+      padding: 18px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      min-height: 142px;
+    }
+    .flow-item .top {
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .flow-item strong { display: block; margin-bottom: 8px; font-size: 18px; }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 22px;
+      margin-top: 28px;
+    }
+
+    .accordion { display: grid; gap: 10px; }
+    .acc-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .acc-btn {
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text);
+      text-align: left;
+      padding: 16px 18px;
+      font: inherit;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+    .acc-content {
+      display: none;
+      padding: 0 18px 18px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+    .acc-item.open .acc-content { display: block; }
+
+    .mini-sim {
+      padding: 26px;
+    }
+    .mini-sim h3 { margin-top: 0; color: #fff; }
+    .vote-buttons { display: grid; gap: 10px; margin-top: 16px; }
+    .vote-btn {
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+    .vote-btn:hover { border-color: rgba(124,200,255,0.4); }
+    #vote-result {
+      display: none;
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: rgba(124,200,255,0.08);
+      border: 1px solid rgba(124,200,255,0.22);
+      color: var(--muted);
+    }
+
+    .teacher {
+      padding: 92px 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.03));
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .tab-btn {
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--muted);
+      font: inherit;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: rgba(243,201,105,0.12);
+      color: var(--gold);
+      border-color: rgba(243,201,105,0.26);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .quiz-grid, .question-grid, .source-grid, .resource-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .quiz-grid { grid-template-columns: 1fr 1fr; }
+    .question-grid { grid-template-columns: 1fr 1fr; }
+    .resource-grid { grid-template-columns: 1fr 1fr 1fr; }
+
+    .q-card, .resource-card, .source-card {
+      padding: 22px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+    }
+    .q-card h4, .resource-card h4, .source-card h4 { margin: 0 0 12px; color: #fff; }
+
+    .answers { display: grid; gap: 8px; margin-top: 14px; }
+    .answer {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+    }
+    .answer.correct { border-color: rgba(114,211,154,0.4); background: rgba(114,211,154,0.13); }
+    .answer.wrong { border-color: rgba(240,138,138,0.4); background: rgba(240,138,138,0.13); }
+    .feedback { min-height: 22px; margin-top: 10px; color: var(--muted); font-size: 14px; }
+
+    .source-quote {
+      padding: 16px 18px;
+      border-left: 3px solid var(--gold);
+      background: rgba(255,255,255,0.04);
+      border-radius: 0 12px 12px 0;
+      color: var(--text);
+      font-style: italic;
+      margin: 14px 0;
+      line-height: 1.7;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 90px 24px 100px;
+    }
+    .footer h2 {
+      margin: 0 0 16px;
+      font-family: var(--serif);
+      font-size: clamp(32px, 5vw, 54px);
+      color: #fff;
+      line-height: 1.04;
+    }
+    .footer p {
+      max-width: 760px;
+      margin: 0 auto 24px;
+      font-size: 20px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(124,200,255,0.1);
+      border: 1px solid rgba(124,200,255,0.22);
+      color: var(--blue);
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-stats,
+      .flow-grid,
+      .resource-grid,
+      .quiz-grid,
+      .question-grid,
+      .two-col,
+      .controls,
+      .lead-card,
+      .compare {
+        grid-template-columns: 1fr;
+      }
+      .compare { gap: 10px; }
+      .vs { justify-self: center; }
+      .sticky-nav { position: static; }
+    }
+
+    @media (max-width: 700px) {
+      .section { padding: 68px 0; }
+      .hero { padding-top: 34px; }
+      .intro-card, .info-card, .flow-card, .q-card, .resource-card, .source-card, .mini-sim { padding: 20px; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .flow-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 520px) {
+      .hero-stats, .flow-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+
+  <header class="hero" id="top">
+    <div class="hero-inner">
+      <div class="eyebrow">SO-portalen · Samhällskunskap · Så styrs Sverige</div>
+      <h1>Riksdagen och regeringen<br><em>– så styrs Sverige i praktiken</em></h1>
+      <p class="hero-sub">En interaktiv artikel om hur riksdagen fattar beslut, hur regeringen styr landet i vardagen och hur samspelet mellan dem håller den svenska demokratin igång.</p>
+
+      <div class="hero-actions">
+        <a class="btn primary" href="#artikelstart">Börja läsa</a>
+        <a class="btn" href="#larardel">Quiz och uppgifter</a>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat"><span class="n">349</span><span class="label">Ledamöter</span><span>Riksdagen består av 349 folkvalda ledamöter.</span></div>
+        <div class="stat"><span class="n">4 år</span><span class="label">Valperiod</span><span>Val till riksdag, region och kommun hålls vart fjärde år.</span></div>
+        <div class="stat"><span class="n">Proposition</span><span class="label">Förslag</span><span>Regeringens lagförslag till riksdagen kallas proposition.</span></div>
+        <div class="stat"><span class="n">KU</span><span class="label">Granskning</span><span>Konstitutionsutskottet granskar hur regeringen sköter sitt arbete.</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="wrap" id="artikelstart">
+      <div class="lead-card">
+        <div class="card intro-card">
+          <p><strong>I Sverige är det riksdagen och regeringen som har det politiska ansvaret för att styra landet.</strong> De har olika uppgifter, men de är samtidigt beroende av varandra. Riksdagen representerar folket och fattar de stora besluten. Regeringen leder landet i vardagen och ser till att besluten genomförs.</p>
+          <p>För att förstå hur Sverige styrs i praktiken behöver man inte bara veta <em>vad</em> riksdagen och regeringen är, utan också <em>hur de samspelar</em>. Det är i det samspelet som parlamentarismen blir tydlig. Medborgarna väljer riksdagen. Riksdagen godkänner en statsminister. Regeringen styr landet, men måste hela tiden tolereras av riksdagen.</p>
+          <p>Det betyder att makten i Sverige inte ligger hos en enda person. Den är uppdelad, kontrollerad och reglerad. Det är en av de viktigaste grunderna i ett demokratiskt samhälle.</p>
+        </div>
+
+        <nav class="card sticky-nav">
+          <h3>Innehåll</h3>
+          <a href="#riksdagen">Riksdagen</a>
+          <a href="#regeringen">Regeringen</a>
+          <a href="#lag">Hur blir en lag till?</a>
+          <a href="#kontroll">Maktbalans och kontroll</a>
+          <a href="#larardel">Quiz, frågor och källor</a>
+        </nav>
+      </div>
+    </section>
+
+    <section class="section wrap" id="riksdagen">
+      <div class="section-title">
+        <span class="mini">Del 1 · Folkets representanter</span>
+        <h2>Riksdagen fattar besluten</h2>
+      </div>
+
+      <div class="two-col">
+        <div class="card info-card">
+          <h3>Vad är riksdagen?</h3>
+          <p>Riksdagen är Sveriges <strong>högsta beslutande organ</strong>. Den består av 349 ledamöter som väljs av medborgarna i allmänna val. Ledamöterna representerar inte bara sina partier utan också väljarna som gett dem sitt förtroende.</p>
+          <div class="pill-list">
+            <div class="pill"><strong>Stiftar lagar</strong>Riksdagen beslutar vilka lagar som ska gälla i Sverige.</div>
+            <div class="pill"><strong>Beslutar om budgeten</strong>Riksdagen avgör hur statens pengar ska fördelas.</div>
+            <div class="pill"><strong>Kontrollerar regeringen</strong>Riksdagen granskar att regeringen sköter sitt uppdrag.</div>
+          </div>
+        </div>
+
+        <div class="card info-card">
+          <h3>Varför är riksdagen viktig?</h3>
+          <p>Genom riksdagen utövar medborgarna sin makt. När människor röstar påverkar de vilka partier och politiker som ska bestämma i landet. Om väljarna tycker att politiken blivit dålig kan de rösta annorlunda i nästa val.</p>
+          <p>Det gör riksdagen till länken mellan <em>folkets vilja</em> och <em>statens beslut</em>. Därför är val, mandat och representation centrala delar av svensk demokrati.</p>
+        </div>
+      </div>
+
+      <div class="card flow-card">
+        <span class="tag">Interaktiv överblick</span>
+        <h3 style="margin:0; color:#fff;">Riksdagens arbete i fem steg</h3>
+        <div class="flow-grid">
+          <div class="flow-item"><span class="top">Steg 1</span><strong>Val</strong><p>Väljarna röstar fram riksdagens ledamöter.</p></div>
+          <div class="flow-item"><span class="top">Steg 2</span><strong>Utskott</strong><p>Förslag granskas i utskott med ansvar för olika områden.</p></div>
+          <div class="flow-item"><span class="top">Steg 3</span><strong>Debatt</strong><p>Ledamöterna diskuterar förslaget i kammaren.</p></div>
+          <div class="flow-item"><span class="top">Steg 4</span><strong>Omröstning</strong><p>Riksdagen röstar om hur beslutet ska bli.</p></div>
+          <div class="flow-item"><span class="top">Steg 5</span><strong>Beslut</strong><p>Lagen eller budgeten blir verklighet om förslaget antas.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="regeringen">
+      <div class="section-title">
+        <span class="mini">Del 2 · Leder och genomför</span>
+        <h2>Regeringen styr i vardagen</h2>
+      </div>
+
+      <div class="compare">
+        <div class="compare-box card">
+          <h3>Riksdagen</h3>
+          <p>Fattar beslut, stiftar lagar och bestämmer över statens budget. Den kontrollerar också att regeringen sköter sitt arbete.</p>
+        </div>
+        <div class="vs">SAMSPEL</div>
+        <div class="compare-box card">
+          <h3>Regeringen</h3>
+          <p>Leder landet i vardagen, genomför riksdagens beslut, lägger fram propositioner och ansvarar för statens förvaltning och utrikespolitik.</p>
+        </div>
+      </div>
+
+      <div class="two-col" style="margin-top:22px;">
+        <div class="card info-card">
+          <h3>Statsministern och ministrarna</h3>
+          <p>Regeringen leds av <strong>statsministern</strong> och består av ministrar som ansvarar för olika politikområden, till exempel skola, ekonomi, försvar och utrikespolitik. De flesta ministrar leder ett departement där tjänstemän förbereder underlag och arbetar fram förslag.</p>
+          <p>Regeringens viktigaste roll är att omsätta riksdagens beslut i praktiken. Utan regeringens arbete skulle besluten stanna på papper.</p>
+        </div>
+        <div class="card info-card">
+          <h3>Parlamentarism</h3>
+          <p>Regeringen kan inte styra fritt. För att få sitta kvar måste den <strong>tolereras av riksdagen</strong>. Det kallas parlamentarism. Om en majoritet i riksdagen inte längre accepterar regeringen kan den i värsta fall fällas.</p>
+          <p>Det gör att regeringen hela tiden måste ta hänsyn till riksdagens stöd, även efter att en statsminister blivit vald.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="lag">
+      <div class="section-title">
+        <span class="mini">Del 3 · Från idé till beslut</span>
+        <h2>Hur blir en lag till?</h2>
+      </div>
+
+      <div class="card info-card">
+        <p>De flesta lagförslag kommer från regeringen och kallas <strong>propositioner</strong>. Men även riksdagens ledamöter kan lämna egna förslag. De kallas <strong>motioner</strong>. Oavsett var förslaget kommer ifrån måste det granskas innan riksdagen kan besluta.</p>
+
+        <div class="timeline">
+          <div class="step open">
+            <button type="button"><span><span class="nr">Steg 1</span>Ett förslag lämnas in</span><strong>+</strong></button>
+            <div class="step-content">Regeringen lämnar ofta en proposition, men en eller flera riksdagsledamöter kan också lägga fram en motion.</div>
+          </div>
+          <div class="step">
+            <button type="button"><span><span class="nr">Steg 2</span>Utskottet behandlar frågan</span><strong>+</strong></button>
+            <div class="step-content">Ett utskott granskar förslaget, diskuterar innehållet och väger olika argument mot varandra.</div>
+          </div>
+          <div class="step">
+            <button type="button"><span><span class="nr">Steg 3</span>Betänkande skrivs</span><strong>+</strong></button>
+            <div class="step-content">Utskottet sammanfattar sitt arbete i ett betänkande där det föreslår hur riksdagen bör besluta.</div>
+          </div>
+          <div class="step">
+            <button type="button"><span><span class="nr">Steg 4</span>Kammaren debatterar och röstar</span><strong>+</strong></button>
+            <div class="step-content">Ledamöterna debatterar frågan i riksdagen och genomför sedan en omröstning.</div>
+          </div>
+          <div class="step">
+            <button type="button"><span><span class="nr">Steg 5</span>Lagen beslutas</span><strong>+</strong></button>
+            <div class="step-content">Om riksdagen röstar ja blir förslaget antaget. Därefter kan lagen träda i kraft.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section wrap" id="kontroll">
+      <div class="section-title">
+        <span class="mini">Del 4 · Demokratisk säkerhet</span>
+        <h2>Maktbalans och kontroll</h2>
+      </div>
+
+      <div class="controls">
+        <div class="card info-card">
+          <h3>Så kontrolleras regeringen</h3>
+          <div class="accordion">
+            <div class="acc-item open">
+              <button class="acc-btn" type="button"><span>Frågor och interpellationer</span><strong>–</strong></button>
+              <div class="acc-content">Riksdagens ledamöter kan ställa frågor till ministrar. Det gör att regeringen måste förklara och försvara sin politik öppet.</div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" type="button"><span>Konstitutionsutskottet</span><strong>+</strong></button>
+              <div class="acc-content">Konstitutionsutskottet, KU, granskar om regeringen följer reglerna och sköter sitt arbete på rätt sätt.</div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" type="button"><span>Misstroendeförklaring</span><strong>+</strong></button>
+              <div class="acc-content">Om riksdagen inte längre har förtroende för regeringen eller en minister kan den rikta en misstroendeförklaring. Då kan regeringen eller ministern tvingas avgå.</div>
+            </div>
+            <div class="acc-item">
+              <button class="acc-btn" type="button"><span>Offentlighet och insyn</span><strong>+</strong></button>
+              <div class="acc-content">Offentlighetsprincipen gör att medborgare och journalister kan granska myndigheter och makthavare. Det stärker demokratin.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card mini-sim">
+          <span class="tag">Interaktivt moment</span>
+          <h3>Du sitter i riksdagen</h3>
+          <p>Regeringen har tappat stöd i en viktig fråga. Vad händer om riksdagen anser att regeringen inte längre har förtroende?</p>
+          <div class="vote-buttons">
+            <button class="vote-btn" data-result="wrong">Regeringen får automatiskt sitta kvar till nästa val.</button>
+            <button class="vote-btn" data-result="correct">Riksdagen kan rikta en misstroendeförklaring.</button>
+            <button class="vote-btn" data-result="wrong">Statsministern bestämmer själv om riksdagen får rösta.</button>
+          </div>
+          <div id="vote-result"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="teacher" id="larardel">
+      <div class="wrap">
+        <div class="section-title">
+          <span class="mini">Arbeta vidare</span>
+          <h2>Quiz, skrivfrågor, podd och källor</h2>
+        </div>
+
+        <div class="tabs">
+          <button class="tab-btn active" data-tab="quiz">Quiz</button>
+          <button class="tab-btn" data-tab="skriv">Skrivfrågor</button>
+          <button class="tab-btn" data-tab="resurser">Lärar- och elevmaterial</button>
+          <button class="tab-btn" data-tab="kallor">Källor</button>
+        </div>
+
+        <div class="tab-panel active" id="tab-quiz">
+          <div class="quiz-grid">
+            <div class="q-card">
+              <h4>1. Vad är riksdagens viktigaste roll?</h4>
+              <div class="answers">
+                <button class="answer" data-q="1" data-correct="true">Att fatta beslut om lagar och budget.</button>
+                <button class="answer" data-q="1" data-correct="false">Att döma i domstolar.</button>
+                <button class="answer" data-q="1" data-correct="false">Att leda alla myndigheter direkt.</button>
+              </div>
+              <div class="feedback" id="fb1"></div>
+            </div>
+            <div class="q-card">
+              <h4>2. Vad menas med parlamentarism?</h4>
+              <div class="answers">
+                <button class="answer" data-q="2" data-correct="false">Att kungen styr tillsammans med regeringen.</button>
+                <button class="answer" data-q="2" data-correct="true">Att regeringen måste tolereras av riksdagen.</button>
+                <button class="answer" data-q="2" data-correct="false">Att alla partier alltid måste vara med i regeringen.</button>
+              </div>
+              <div class="feedback" id="fb2"></div>
+            </div>
+            <div class="q-card">
+              <h4>3. Vad kallas regeringens lagförslag?</h4>
+              <div class="answers">
+                <button class="answer" data-q="3" data-correct="false">Motion</button>
+                <button class="answer" data-q="3" data-correct="true">Proposition</button>
+                <button class="answer" data-q="3" data-correct="false">Interpellation</button>
+              </div>
+              <div class="feedback" id="fb3"></div>
+            </div>
+            <div class="q-card">
+              <h4>4. Var sker mycket av riksdagens arbete?</h4>
+              <div class="answers">
+                <button class="answer" data-q="4" data-correct="true">I utskotten.</button>
+                <button class="answer" data-q="4" data-correct="false">I departementen.</button>
+                <button class="answer" data-q="4" data-correct="false">I domstolarna.</button>
+              </div>
+              <div class="feedback" id="fb4"></div>
+            </div>
+            <div class="q-card">
+              <h4>5. Vad händer efter att ett utskott behandlat ett förslag?</h4>
+              <div class="answers">
+                <button class="answer" data-q="5" data-correct="true">Utskottet lämnar ett betänkande.</button>
+                <button class="answer" data-q="5" data-correct="false">Lagen gäller direkt.</button>
+                <button class="answer" data-q="5" data-correct="false">Kungen röstar om förslaget.</button>
+              </div>
+              <div class="feedback" id="fb5"></div>
+            </div>
+            <div class="q-card">
+              <h4>6. Vilket påstående stämmer bäst?</h4>
+              <div class="answers">
+                <button class="answer" data-q="6" data-correct="false">Regeringen kan styra utan hänsyn till riksdagen.</button>
+                <button class="answer" data-q="6" data-correct="false">Riksdagen genomför själv alla beslut i vardagen.</button>
+                <button class="answer" data-q="6" data-correct="true">Riksdagen beslutar och regeringen genomför.</button>
+              </div>
+              <div class="feedback" id="fb6"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-skriv">
+          <div class="question-grid">
+            <div class="q-card">
+              <h4>Förklara samspelet</h4>
+              <p>Beskriv med egna ord hur riksdagen och regeringen samarbetar när Sverige styrs. Använd gärna orden <strong>riksdag</strong>, <strong>regering</strong>, <strong>parlamentarism</strong> och <strong>beslut</strong>.</p>
+            </div>
+            <div class="q-card">
+              <h4>Vad händer om stödet försvinner?</h4>
+              <p>Förklara vad som kan hända om riksdagen inte längre har förtroende för regeringen. Varför är detta viktigt i en demokrati?</p>
+            </div>
+            <div class="q-card">
+              <h4>Följ ett lagförslag</h4>
+              <p>Skriv en kort förklaring där du steg för steg visar hur ett lagförslag går från idé till beslut i riksdagen.</p>
+            </div>
+            <div class="q-card">
+              <h4>Varför finns utskott?</h4>
+              <p>Resonera om varför riksdagen inte bara röstar direkt om alla frågor utan först låter utskotten granska förslagen.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-resurser">
+          <div class="resource-grid">
+            <div class="resource-card">
+              <h4>Poddspår</h4>
+              <p>Använd artikeln som förförståelse och låt eleverna sedan lyssna på ett avsnitt av <strong>SO med Petrus</strong> om hur Sverige styrs. Be dem skriva ner tre saker som podden förklarar tydligare än texten.</p>
+            </div>
+            <div class="resource-card">
+              <h4>Parövning</h4>
+              <p>Låt en elev spela riksdag och en annan regering. Den ena ska fatta beslut och den andra ska förklara hur beslutet ska genomföras i praktiken.</p>
+            </div>
+            <div class="resource-card">
+              <h4>Begreppsträning</h4>
+              <p>Arbeta vidare med orden <strong>proposition</strong>, <strong>motion</strong>, <strong>utskott</strong>, <strong>betänkande</strong>, <strong>statsminister</strong> och <strong>misstroendeförklaring</strong>.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="tab-kallor">
+          <div class="source-grid">
+            <div class="source-card">
+              <h4>Textgrund</h4>
+              <p>Artikeln bygger på innehåll om Sveriges politiska nivåer, riksdagens och regeringens roller, val, regeringsbildning och grundlagar.</p>
+              <div class="source-quote">Viktiga nyckelidéer i materialet är att riksdagen stiftar lagar och beslutar om budgeten, att regeringen leder landet i vardagen och att regeringen måste ha riksdagens förtroende.</div>
+            </div>
+            <div class="source-card">
+              <h4>Källkritisk övning</h4>
+              <p>Låt eleverna jämföra artikelns beskrivning av hur en lag blir till med en faktatext från läroboken. Vad är samma? Vad är mer förenklat? Vad har lyfts fram i den interaktiva versionen?</p>
+            </div>
+            <div class="source-card">
+              <h4>Fördjupning</h4>
+              <p>Arbeta vidare med hur val, mandat, regeringsbildning och misstroendeförklaring hör ihop. Det hjälper eleverna att se att demokrati inte bara handlar om att rösta, utan också om ansvar och kontroll.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer">
+      <div class="eyebrow">Sammanfattning</div>
+      <h2>Demokrati i praktiken handlar om<br><em>ansvar, samspel och kontroll</em></h2>
+      <p>Riksdagen representerar folket och fattar besluten. Regeringen leder landet och ser till att besluten genomförs. Mellan dem finns regler, granskning och tydliga roller. Det är så Sverige styrs i praktiken.</p>
+      <div class="hero-actions">
+        <a class="btn primary" href="#top">Till toppen</a>
+        <a class="btn" href="#larardel">Till uppgifterna</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const el = document.documentElement;
+      const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+    });
+
+    document.querySelectorAll('.step button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        parent.classList.toggle('open');
+        btn.querySelector('strong').textContent = parent.classList.contains('open') ? '–' : '+';
+      });
+    });
+
+    document.querySelectorAll('.acc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const parent = btn.parentElement;
+        parent.classList.toggle('open');
+        btn.querySelector('strong').textContent = parent.classList.contains('open') ? '–' : '+';
+      });
+    });
+
+    document.querySelectorAll('.vote-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const box = document.getElementById('vote-result');
+        const result = btn.dataset.result;
+        box.style.display = 'block';
+        if (result === 'correct') {
+          box.innerHTML = '<strong style="color:#fff;">Rätt.</strong> Om riksdagen inte längre har förtroende för regeringen kan den rikta en misstroendeförklaring. Det är ett viktigt sätt att kontrollera makten i en parlamentarisk demokrati.';
+          box.style.borderColor = 'rgba(114,211,154,0.25)';
+          box.style.background = 'rgba(114,211,154,0.09)';
+        } else {
+          box.innerHTML = '<strong style="color:#fff;">Inte riktigt.</strong> I Sverige kan riksdagen agera om förtroendet för regeringen försvinner. Det är en viktig del av parlamentarismen.';
+          box.style.borderColor = 'rgba(240,138,138,0.22)';
+          box.style.background = 'rgba(240,138,138,0.08)';
+        }
+      });
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(panel => panel.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    document.querySelectorAll('.answer').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.q;
+        const answers = document.querySelectorAll('.answer[data-q="' + q + '"]');
+        const fb = document.getElementById('fb' + q);
+        answers.forEach(a => {
+          a.disabled = true;
+          if (a.dataset.correct === 'true') a.classList.add('correct');
+        });
+        if (btn.dataset.correct === 'true') {
+          fb.textContent = 'Rätt. Bra koll på huvudidén.';
+        } else {
+          btn.classList.add('wrong');
+          fb.textContent = 'Inte riktigt. Titta på hur rollerna mellan riksdag och regering skiljer sig åt.';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
