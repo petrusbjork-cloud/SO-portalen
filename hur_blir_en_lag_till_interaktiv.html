@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hur blir en lag till? – från idé till färdig lag</title>
+  <style>
+    :root {
+      --ink: #0d1117;
+      --ink-2: #111826;
+      --ink-3: #182235;
+      --paper: #f4efe4;
+      --paper-soft: #ddd3bf;
+      --gold: #c8a96e;
+      --gold-2: #8d6b2f;
+      --blue: #7ea6ff;
+      --blue-soft: rgba(126,166,255,0.12);
+      --line: rgba(200,169,110,0.18);
+      --line-2: rgba(126,166,255,0.18);
+      --text: #e9dfcf;
+      --text-dim: rgba(233,223,207,0.72);
+      --text-faint: rgba(233,223,207,0.48);
+      --mono: "Courier New", monospace;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow: 0 24px 70px rgba(0,0,0,0.45);
+      --radius: 10px;
+      --max: 860px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: linear-gradient(180deg, #0a0f16 0%, #0d1117 100%);
+      color: var(--text);
+      font-family: var(--serif);
+      font-size: 21px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    button { font: inherit; }
+
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 3px;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--blue), var(--gold));
+      transition: width .08s;
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 36px;
+      overflow: hidden;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 18%, rgba(126,166,255,0.16), transparent 26%),
+        radial-gradient(circle at 20% 75%, rgba(200,169,110,0.10), transparent 22%),
+        linear-gradient(180deg, #101a2b 0%, #0a1018 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 88%);
+      pointer-events: none;
+      opacity: .45;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 980px;
+    }
+
+    .hero-label,
+    .section-label,
+    .teacher-label,
+    .source-label,
+    .mini-label,
+    .fact-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .hero-label { margin-bottom: 26px; }
+
+    h1 {
+      font-size: clamp(42px, 7.2vw, 88px);
+      line-height: 1.02;
+      color: var(--paper);
+      margin-bottom: 24px;
+      font-weight: 700;
+      text-wrap: balance;
+    }
+
+    h1 em, h2 em, .teacher-title em, .epilogue h2 em { color: var(--gold); font-style: italic; }
+
+    .hero-sub {
+      max-width: 760px;
+      margin: 0 auto 40px;
+      font-size: 23px;
+      line-height: 1.6;
+      color: var(--text-dim);
+      font-style: italic;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 0 auto 38px;
+      max-width: 900px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 18px 16px;
+      text-align: left;
+      backdrop-filter: blur(6px);
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card strong {
+      display: block;
+      color: var(--paper);
+      margin-bottom: 6px;
+      font-size: 16px;
+      font-family: var(--sans);
+    }
+
+    .stat-card span {
+      display: block;
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.5;
+      font-family: var(--sans);
+    }
+
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .hero-btn, .ep-link, .resource-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 14px;
+      transition: .2s ease;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .hero-btn.primary {
+      background: linear-gradient(90deg, rgba(126,166,255,0.22), rgba(200,169,110,0.22));
+      border-color: rgba(126,166,255,0.35);
+    }
+
+    .hero-btn:hover, .ep-link:hover, .resource-link:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+      background: rgba(200,169,110,0.10);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      left: 50%;
+      bottom: 26px;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-faint);
+      font-family: var(--sans);
+      font-size: 13px;
+    }
+
+    .scroll-arrow {
+      width: 24px;
+      height: 24px;
+      border-right: 1px solid var(--gold);
+      border-bottom: 1px solid var(--gold);
+      transform: rotate(45deg);
+      animation: bob 1.8s infinite;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: rotate(45deg) translateY(0); opacity: .8; }
+      50% { transform: rotate(45deg) translateY(6px); opacity: 1; }
+    }
+
+    .article, .full-bleed-inner, .teacher-inner, .epilogue-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .article {
+      padding: 78px 36px;
+    }
+
+    .intro {
+      font-size: 27px;
+      line-height: 1.65;
+      color: var(--paper);
+      margin-bottom: 30px;
+      text-wrap: balance;
+    }
+
+    .section-marker {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 78px 0 28px;
+    }
+
+    .section-marker::before,
+    .section-marker::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .section-marker span {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    h2 {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.14;
+      margin-bottom: 26px;
+      color: var(--paper);
+      font-weight: 700;
+      text-wrap: balance;
+    }
+
+    h3 {
+      font-size: 25px;
+      line-height: 1.25;
+      color: var(--paper);
+      margin: 36px 0 14px;
+    }
+
+    p { margin-bottom: 24px; color: var(--text); }
+    strong { color: var(--paper); }
+
+    .pullquote {
+      margin: 38px 0;
+      padding: 34px 32px 30px;
+      background: linear-gradient(135deg, rgba(126,166,255,0.10), rgba(200,169,110,0.08));
+      border: 1px solid rgba(126,166,255,0.25);
+      border-radius: var(--radius);
+      position: relative;
+      box-shadow: var(--shadow);
+    }
+
+    .pullquote::before {
+      content: "“";
+      position: absolute;
+      left: 20px;
+      top: 0;
+      font-size: 120px;
+      line-height: 1;
+      color: rgba(126,166,255,0.12);
+      font-family: Georgia, serif;
+    }
+
+    .pullquote p {
+      margin: 0;
+      position: relative;
+      z-index: 1;
+      font-size: 24px;
+      line-height: 1.6;
+      font-style: italic;
+      color: var(--paper);
+    }
+
+    .pullquote cite {
+      display: block;
+      margin-top: 14px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .fact-box {
+      margin: 34px 0;
+      padding: 22px 24px;
+      border-left: 3px solid var(--gold);
+      border-radius: 0 10px 10px 0;
+      background: rgba(200,169,110,0.07);
+      border-top: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .fact-label { margin-bottom: 8px; display: block; }
+    .fact-box p { margin: 0; font-size: 17px; color: var(--text-dim); }
+
+    .glossary-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 24px 0 18px;
+    }
+
+    .glossary-term {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      color: var(--paper-soft);
+      font-family: var(--sans);
+      font-size: 14px;
+      cursor: help;
+    }
+
+    .tooltip {
+      position: fixed;
+      display: none;
+      max-width: 280px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      background: rgba(10,16,24,0.94);
+      border: 1px solid rgba(126,166,255,0.26);
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 13px;
+      line-height: 1.5;
+      z-index: 1001;
+      pointer-events: none;
+      box-shadow: var(--shadow);
+    }
+
+    .full-bleed {
+      padding: 84px 36px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(126,166,255,0.12), transparent 30%),
+        linear-gradient(180deg, #0b121d 0%, #121c2d 100%);
+      border-top: 1px solid var(--line-2);
+      border-bottom: 1px solid var(--line-2);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .step-pill {
+      border: 1px solid var(--line-2);
+      border-radius: 14px;
+      padding: 16px 12px;
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: .2s ease;
+      text-align: left;
+      min-height: 132px;
+    }
+
+    .step-pill:hover, .step-pill.active {
+      transform: translateY(-3px);
+      background: rgba(126,166,255,0.10);
+      border-color: rgba(126,166,255,0.34);
+    }
+
+    .step-pill small {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .step-pill strong {
+      display: block;
+      font-family: var(--sans);
+      font-size: 15px;
+      line-height: 1.4;
+      color: var(--paper);
+    }
+
+    .step-detail {
+      display: none;
+      margin-top: 20px;
+      padding: 28px 30px;
+      border: 1px solid var(--line-2);
+      border-radius: var(--radius);
+      background: rgba(7,12,20,0.6);
+      box-shadow: var(--shadow);
+    }
+
+    .step-detail.active { display: block; }
+
+    .step-detail h3 {
+      margin-top: 0;
+      color: var(--paper);
+      font-size: 28px;
+    }
+
+    .step-detail p {
+      margin-bottom: 0;
+      color: var(--text-dim);
+      font-size: 18px;
+    }
+
+    .process-lane {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      margin: 26px 0 12px;
+    }
+
+    .lane-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      position: relative;
+    }
+
+    .lane-card::after {
+      content: "→";
+      position: absolute;
+      right: -11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(200,169,110,0.55);
+      font-family: var(--sans);
+      font-size: 20px;
+    }
+
+    .lane-card:last-child::after { display: none; }
+
+    .lane-card small {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .lane-card p {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.55;
+      color: var(--text-dim);
+      font-family: var(--sans);
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 30px;
+    }
+
+    .check-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+    }
+
+    .check-card h4 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: var(--paper);
+      font-family: var(--sans);
+    }
+
+    .check-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      color: var(--text-dim);
+      font-size: 16px;
+    }
+
+    .check-card li {
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .check-card li::before {
+      content: "◆";
+      position: absolute;
+      left: 0;
+      top: 1px;
+      color: var(--gold);
+      font-size: 10px;
+    }
+
+    .teacher-section {
+      background: #080d14;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 82px 36px;
+    }
+
+    .teacher-title {
+      font-size: clamp(32px, 4.4vw, 52px);
+      line-height: 1.12;
+      color: var(--paper);
+      margin: 12px 0 16px;
+    }
+
+    .teacher-intro {
+      max-width: 760px;
+      color: var(--text-dim);
+      font-size: 19px;
+      margin-bottom: 30px;
+    }
+
+    .teacher-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .t-tab {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--paper-soft);
+      padding: 12px 18px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 14px;
+      transition: .2s ease;
+    }
+
+    .t-tab.active, .t-tab:hover {
+      background: rgba(126,166,255,0.12);
+      border-color: rgba(126,166,255,0.32);
+      color: var(--paper);
+    }
+
+    .t-panel {
+      display: none;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .t-panel.active { display: block; }
+
+    .t-panel-intro {
+      margin-bottom: 24px;
+      color: var(--text-dim);
+      font-size: 17px;
+    }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .question-card, .write-card, .source-exercise, .lgr-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px 22px 20px;
+    }
+
+    .question-card h4, .write-card h4, .source-exercise h4, .lgr-card h4 {
+      margin-bottom: 14px;
+      color: var(--paper);
+      font-family: var(--sans);
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .mc-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .mc-btn {
+      width: 100%;
+      text-align: left;
+      padding: 13px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-dim);
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.5;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .mc-btn:hover { border-color: var(--gold); color: var(--paper); }
+    .mc-btn.correct { background: rgba(95,170,120,0.16); border-color: rgba(95,170,120,0.48); color: #e8f7ea; }
+    .mc-btn.wrong { background: rgba(190,82,82,0.16); border-color: rgba(190,82,82,0.42); color: #ffe6e6; }
+    .mc-btn:disabled { cursor: default; }
+
+    .mc-feedback {
+      margin-top: 12px;
+      font-size: 14px;
+      color: var(--text-dim);
+      min-height: 22px;
+      font-family: var(--sans);
+    }
+
+    .write-stack, .source-stack, .resource-grid, .lgr-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .write-badge, .source-ex-label, .lgr-subject {
+      display: inline-block;
+      margin-bottom: 10px;
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .write-card p, .source-exercise p, .lgr-card p {
+      margin-bottom: 12px;
+      color: var(--text-dim);
+      font-size: 16px;
+    }
+
+    .write-tip {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-left: 2px solid var(--blue);
+      border-radius: 0 8px 8px 0;
+      background: rgba(126,166,255,0.08);
+      font-size: 14px;
+      color: var(--text-dim);
+    }
+
+    .source-qs {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: var(--text-dim);
+      font-size: 15px;
+    }
+
+    .source-qs li {
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .source-qs li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--gold);
+    }
+
+    .resource-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .resource-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+    }
+
+    .resource-card h4 {
+      font-family: var(--sans);
+      font-size: 18px;
+      color: var(--paper);
+      margin-bottom: 10px;
+    }
+
+    .resource-card p {
+      color: var(--text-dim);
+      font-size: 15px;
+      margin-bottom: 14px;
+    }
+
+    .resource-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .resource-link {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .lgr-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .epilogue {
+      padding: 92px 36px 110px;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(200,169,110,0.12), transparent 28%),
+        linear-gradient(180deg, #0d1117 0%, #090d13 100%);
+    }
+
+    .epilogue h2 {
+      margin-bottom: 22px;
+      font-size: clamp(30px, 4.4vw, 52px);
+    }
+
+    .epilogue p {
+      max-width: 740px;
+      margin: 0 auto 22px;
+      color: var(--text-dim);
+      font-size: 21px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .ep-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 1100px) {
+      .steps-grid, .process-lane { grid-template-columns: repeat(4, 1fr); }
+      .lane-card:nth-child(4)::after { display: none; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 760px) {
+      body { font-size: 19px; }
+      .hero, .article, .full-bleed, .teacher-section, .epilogue { padding-left: 24px; padding-right: 24px; }
+      .hero-stats,
+      .question-grid,
+      .resource-grid,
+      .lgr-grid,
+      .checklist,
+      .steps-grid,
+      .process-lane { grid-template-columns: 1fr; }
+      .lane-card::after { display: none; }
+      .pullquote p { font-size: 21px; }
+      .intro { font-size: 23px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+  <div class="tooltip" id="tooltip"></div>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-label">SO-Portalen · Samhällskunskap · Lagstiftning</div>
+      <h1>Hur blir en lag till?<br><em>Från idé till färdig lag</em></h1>
+      <p class="hero-sub">En lag i Sverige blir inte till på en eftermiddag. Det krävs utredningar, remisser, propositioner, utskott, debatt och omröstning. Just därför är processen en del av demokratins skydd.</p>
+
+      <div class="hero-stats">
+        <div class="stat-card"><strong>Demokrati</strong><span>Flera steg gör att makten inte samlas hos en enda person.</span></div>
+        <div class="stat-card"><strong>Granskning</strong><span>Experter, myndigheter och organisationer får säga sitt innan beslut tas.</span></div>
+        <div class="stat-card"><strong>Riksdagen</strong><span>Det är riksdagen som debatterar och röstar om lagförslaget.</span></div>
+        <div class="stat-card"><strong>Rättssäkerhet</strong><span>Lagar ska vara genomtänkta, tydliga och möjliga att följa i praktiken.</span></div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="hero-btn primary" href="#artikelstart">Börja läsa</a>
+        <a class="hero-btn" href="#processen">Se processen</a>
+        <a class="hero-btn" href="#lararsektion">Quiz och uppgifter</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scrolla för att följa lagens väg</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <article class="article" id="artikelstart">
+    <p class="intro">Lagar styr mycket av det som händer i samhället, från skola och sjukvård till trafik och miljö. I Sverige finns det tydliga regler för hur nya lagar skapas. Processen är medvetet uppdelad i flera steg för att beslut ska bli genomtänkta, demokratiska och rättssäkra.</p>
+
+    <div class="glossary-row">
+      <span class="glossary-term" data-definition="Ett färdigt lagförslag från regeringen som skickas till riksdagen.">Proposition</span>
+      <span class="glossary-term" data-definition="Ett förslag från en eller flera riksdagsledamöter.">Motion</span>
+      <span class="glossary-term" data-definition="När myndigheter, organisationer och andra berörda får lämna synpunkter på ett förslag.">Remiss</span>
+      <span class="glossary-term" data-definition="Utskottets skriftliga förslag till hur riksdagen bör besluta.">Betänkande</span>
+      <span class="glossary-term" data-definition="När lagar blir lika för alla och beslut fattas enligt tydliga regler.">Rättssäkerhet</span>
+    </div>
+
+    <div class="section-marker"><span>Del 1 · Varför processen finns</span></div>
+    <h2>Varför behövs en <em>lagstiftningsprocess</em>?</h2>
+    <p>I en demokrati ska lagar inte kunna ändras snabbt eller av en enskild person. I stället krävs tid, granskning och politiska beslut i flera led. På så sätt minskar risken för maktmissbruk och felaktiga beslut. Den svenska lagstiftningsprocessen är därför både långsam och noggrann – medvetet.</p>
+
+    <div class="pullquote">
+      <p>Att det tar tid att stifta lagar är inte ett misslyckande. Det är ett demokratiskt skydd.</p>
+      <cite>Artikelns kärna i en mening</cite>
+    </div>
+
+    <p>När en lag påverkar människors rättigheter, skyldigheter och vardag måste den också tåla granskning. Därför byggs processen upp av flera stoppunkter där olika aktörer får tänka, reagera och säga emot. Det är just i denna långsamhet som mycket av tryggheten i systemet finns.</p>
+
+    <div class="fact-box">
+      <span class="fact-label">Kärnidén här</span>
+      <p>En lag ska inte bara vara populär för stunden. Den ska också fungera juridiskt, praktiskt och demokratiskt.</p>
+    </div>
+
+    <div class="section-marker"><span>Del 2 · Startpunkten</span></div>
+    <h2>Steg 1–3: Från problem till <em>utredning och remiss</em></h2>
+    <p>Arbetet med en ny lag börjar ofta med att ett samhällsproblem uppmärksammas. Det kan handla om brottslighet, miljöfrågor, skola eller arbetsliv. I många fall är det regeringen som tar initiativ till att se över om lagstiftningen behöver ändras.</p>
+    <p>Innan ett lagförslag skrivs görs ofta en statlig utredning. Då får experter, myndigheter och ibland forskare i uppdrag att undersöka frågan. De analyserar konsekvenser, möjliga lösningar och hur olika grupper i samhället kan påverkas. Utredningen sammanställs i ett betänkande som blir ett viktigt underlag för det fortsatta arbetet.</p>
+    <p>När utredningen är klar skickas den ofta på remiss. Det betyder att myndigheter, organisationer och andra berörda aktörer får möjlighet att tycka till. Remissvaren används för att förbättra förslaget och upptäcka problem innan det går vidare. Detta steg gör att fler perspektiv tas med i beslutsprocessen.</p>
+  </article>
+
+  <section class="full-bleed" id="processen">
+    <div class="full-bleed-inner">
+      <div class="section-marker"><span>Interaktiv process</span></div>
+      <h2>Följ lagens väg – <em>klicka på varje steg</em></h2>
+      <p class="teacher-intro">Här kan eleverna gå igenom processen i rätt ordning och se varför varje steg finns. Klicka på stegen för att öppna förklaringen.</p>
+
+      <div class="steps-grid">
+        <button class="step-pill active" data-step="1"><small>Steg 1</small><strong>En idé eller ett problem uppstår</strong></button>
+        <button class="step-pill" data-step="2"><small>Steg 2</small><strong>Utredning och experter</strong></button>
+        <button class="step-pill" data-step="3"><small>Steg 3</small><strong>Remiss</strong></button>
+        <button class="step-pill" data-step="4"><small>Steg 4</small><strong>Proposition eller motion</strong></button>
+        <button class="step-pill" data-step="5"><small>Steg 5</small><strong>Utskott</strong></button>
+        <button class="step-pill" data-step="6"><small>Steg 6</small><strong>Debatt och beslut</strong></button>
+        <button class="step-pill" data-step="7"><small>Steg 7</small><strong>Lagen träder i kraft</strong></button>
+      </div>
+
+      <div class="step-detail active" id="step-detail-1">
+        <h3>Steg 1: Ett problem märks i samhället</h3>
+        <p>En ny lag börjar sällan som en färdig text. Den börjar oftare som ett problem: något fungerar dåligt, nya situationer har uppstått eller gamla regler räcker inte längre till. Den politiska frågan blir då om lagen behöver ändras.</p>
+      </div>
+      <div class="step-detail" id="step-detail-2">
+        <h3>Steg 2: Frågan undersöks ordentligt</h3>
+        <p>Innan politiker tar ställning behöver de underlag. Därför tillsätts ofta en statlig utredning där experter, myndigheter och ibland forskare analyserar möjliga lösningar, risker och konsekvenser. Målet är att besluten ska vila på kunskap, inte bara på åsikter.</p>
+      </div>
+      <div class="step-detail" id="step-detail-3">
+        <h3>Steg 3: Fler får säga sitt</h3>
+        <p>Genom remissen kan myndigheter, organisationer och andra berörda reagera på utredningen. Här upptäcks ofta problem som inte synts tidigare. Remissen gör alltså processen bredare, mer kritisk och mer demokratisk.</p>
+      </div>
+      <div class="step-detail" id="step-detail-4">
+        <h3>Steg 4: Förslaget blir politiskt</h3>
+        <p>När regeringen arbetat vidare med underlaget skriver den ett färdigt lagförslag som kallas proposition. Även riksdagens ledamöter kan lägga egna förslag, så kallade motioner. Nu finns det alltså en text som riksdagen faktiskt kan ta ställning till.</p>
+      </div>
+      <div class="step-detail" id="step-detail-5">
+        <h3>Steg 5: Utskottet granskar</h3>
+        <p>I riksdagen går förslaget vidare till ett utskott. Där granskar ledamöter med särskilt ansvar för området förslaget, jämför det med motioner och diskuterar hur riksdagen bör besluta. Utskottet skriver sedan ett betänkande.</p>
+      </div>
+      <div class="step-detail" id="step-detail-6">
+        <h3>Steg 6: Partierna debatterar och röstar</h3>
+        <p>Betänkandet tas upp i riksdagens kammare. Där förs debatt och partierna argumenterar för sina ståndpunkter. Efter debatten röstar riksdagen. Om en majoritet säger ja blir förslaget antaget som lag.</p>
+      </div>
+      <div class="step-detail" id="step-detail-7">
+        <h3>Steg 7: Lagen börjar gälla</h3>
+        <p>När riksdagen har beslutat publiceras lagen i Svensk författningssamling, SFS. Där framgår också när lagen träder i kraft. Först därefter används den av myndigheter och domstolar i praktiken.</p>
+      </div>
+
+      <div class="process-lane" aria-label="Översikt över lagstiftningsprocessen">
+        <div class="lane-card"><small>1</small><p>Problem eller idé uppstår</p></div>
+        <div class="lane-card"><small>2</small><p>Utredning skapar underlag</p></div>
+        <div class="lane-card"><small>3</small><p>Remiss ger fler perspektiv</p></div>
+        <div class="lane-card"><small>4</small><p>Proposition eller motion lämnas</p></div>
+        <div class="lane-card"><small>5</small><p>Utskottet granskar och skriver betänkande</p></div>
+        <div class="lane-card"><small>6</small><p>Kammaren debatterar och röstar</p></div>
+        <div class="lane-card"><small>7</small><p>Lagen publiceras och börjar gälla</p></div>
+      </div>
+    </div>
+  </section>
+
+  <article class="article">
+    <div class="section-marker"><span>Del 3 · Riksdagens roll</span></div>
+    <h2>Steg 4–7 visar att <em>regeringen inte bestämmer ensam</em></h2>
+    <p>När regeringen har bearbetat utredningar och remissvar kan den ta fram ett färdigt lagförslag. Detta kallas proposition. Propositionen skickas till riksdagen och innehåller både själva förslaget och regeringens motivering. Även riksdagens ledamöter kan lägga egna förslag till lagar. Dessa kallas motioner.</p>
+    <p>När propositionen har kommit till riksdagen behandlas den i ett utskott. Utskottet består av riksdagsledamöter som är specialiserade på området, till exempel utbildning, miljö eller rättsfrågor. Utskottet granskar förslaget, jämför det med motioner och diskuterar olika alternativ. Därefter skriver utskottet ett betänkande där de föreslår hur riksdagen ska besluta.</p>
+    <p>Betänkandet tas sedan upp i riksdagens kammare. Där hålls en debatt där partierna presenterar sina åsikter. Efter debatten röstar riksdagen. Om en majoritet röstar ja blir förslaget antaget som lag.</p>
+
+    <div class="pullquote">
+      <p>I lagstiftningsprocessen märks maktdelningen tydligt: regeringen kan föreslå, men riksdagen måste säga ja.</p>
+      <cite>Demokrati i praktiken</cite>
+    </div>
+
+    <div class="section-marker"><span>Del 4 · Slutet av processen</span></div>
+    <h2>När lagen är beslutad börjar <em>genomförandet</em></h2>
+    <p>När riksdagen har beslutat om en lag publiceras den i Svensk författningssamling, SFS. Där anges också när lagen börjar gälla. Ibland sker det direkt, ibland efter en viss tid för att samhället ska hinna anpassa sig. Myndigheter och domstolar ansvarar sedan för att lagen följs i praktiken.</p>
+    <p>Att en lag blir till tar tid, men det är en styrka snarare än en svaghet. Genom utredningar, remisser, politisk debatt och beslut i riksdagen säkerställs att lagar vilar på demokratiska principer och är väl genomtänkta. Processen visar tydligt hur makten i Sverige är fördelad och kontrollerad, och hur medborgarnas val i slutändan påverkar vilka lagar som styr samhället.</p>
+
+    <div class="checklist">
+      <div class="check-card">
+        <h4>Det här ska eleven kunna efter läsningen</h4>
+        <ul>
+          <li>Förklara varför lagstiftningsprocessen är långsam medvetet.</li>
+          <li>Beskriva skillnaden mellan proposition, motion och betänkande.</li>
+          <li>Återge lagstiftningsprocessens steg i rätt ordning.</li>
+        </ul>
+      </div>
+      <div class="check-card">
+        <h4>Det här tränas samtidigt</h4>
+        <ul>
+          <li>Begreppsförståelse i samhällskunskap.</li>
+          <li>Orsak–verkan och processer.</li>
+          <li>Analys av demokrati, ansvar och kontroll.</li>
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <section class="teacher-section" id="lararsektion">
+    <div class="teacher-inner">
+      <div class="teacher-label">Lärarsektion</div>
+      <h2 class="teacher-title">Quiz, skrivfrågor och material<br><em>till texten</em></h2>
+      <p class="teacher-intro">Den här delen är byggd för att kunna användas direkt i undervisningen. Här finns snabb återkoppling, fördjupande skrivuppgifter, källspår och förslag på hur materialet kan kopplas till resten av området.</p>
+
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTab('quiz', this)">Quiz</button>
+        <button class="t-tab" onclick="showTab('skriv', this)">Skrivfrågor</button>
+        <button class="t-tab" onclick="showTab('kallor', this)">Källor och artiklar</button>
+        <button class="t-tab" onclick="showTab('undervisning', this)">Undervisning</button>
+      </div>
+
+      <div class="t-panel active" id="tab-quiz">
+        <div class="t-panel-intro">Åtta frågor som testar om eleven förstår ordningen, begreppen och varför processen ser ut som den gör.</div>
+        <div class="question-grid">
+          <div class="question-card">
+            <h4>1. Varför är lagstiftningsprocessen uppdelad i flera steg?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="1" data-correct="true">För att lagar ska hinna granskas och besluten bli demokratiska och rättssäkra.</button>
+              <button class="mc-btn" data-q="1" data-correct="false">För att regeringen ska få mer makt än riksdagen.</button>
+              <button class="mc-btn" data-q="1" data-correct="false">För att göra det svårare för medborgarna att förstå politiken.</button>
+            </div>
+            <div class="mc-feedback" id="f1"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>2. Vad händer ofta innan ett färdigt lagförslag skrivs?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="2" data-correct="false">Riksdagen röstar direkt om frågan.</button>
+              <button class="mc-btn" data-q="2" data-correct="true">En utredning genomförs för att undersöka frågan och konsekvenserna.</button>
+              <button class="mc-btn" data-q="2" data-correct="false">Statsministern bestämmer ensam vilken lag som ska gälla.</button>
+            </div>
+            <div class="mc-feedback" id="f2"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>3. Vad innebär remiss?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="3" data-correct="false">Att riksdagen skickar tillbaka en lag till regeringen efter omröstning.</button>
+              <button class="mc-btn" data-q="3" data-correct="false">Att lagen publiceras i SFS.</button>
+              <button class="mc-btn" data-q="3" data-correct="true">Att myndigheter och andra berörda får lämna synpunkter på förslaget.</button>
+            </div>
+            <div class="mc-feedback" id="f3"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>4. Vad kallas regeringens färdiga lagförslag till riksdagen?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="4" data-correct="false">Motion</button>
+              <button class="mc-btn" data-q="4" data-correct="true">Proposition</button>
+              <button class="mc-btn" data-q="4" data-correct="false">Betänkande</button>
+            </div>
+            <div class="mc-feedback" id="f4"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>5. Vad är utskottets uppgift?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="5" data-correct="true">Att granska förslaget och föreslå hur riksdagen bör besluta.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">Att få lagen att börja gälla i domstolarna.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">Att välja statsminister.</button>
+            </div>
+            <div class="mc-feedback" id="f5"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>6. Var fattas det slutliga beslutet om lagen?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="6" data-correct="false">Hos myndigheterna</button>
+              <button class="mc-btn" data-q="6" data-correct="false">I remissomgången</button>
+              <button class="mc-btn" data-q="6" data-correct="true">I riksdagens kammare när ledamöterna röstar</button>
+            </div>
+            <div class="mc-feedback" id="f6"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>7. Var publiceras den antagna lagen?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="7" data-correct="false">I riksdagens protokollbok</button>
+              <button class="mc-btn" data-q="7" data-correct="true">I Svensk författningssamling, SFS</button>
+              <button class="mc-btn" data-q="7" data-correct="false">I kommunens budget</button>
+            </div>
+            <div class="mc-feedback" id="f7"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>8. Vilken mening sammanfattar bäst hela processen?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="8" data-correct="false">Lagar skapas snabbt för att politiken ska bli effektiv.</button>
+              <button class="mc-btn" data-q="8" data-correct="true">Lagar blir till genom flera steg som ska skydda demokratin och rättssäkerheten.</button>
+              <button class="mc-btn" data-q="8" data-correct="false">Domstolarna avgör vilka lagar som ska skrivas av regeringen.</button>
+            </div>
+            <div class="mc-feedback" id="f8"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-skriv">
+        <div class="t-panel-intro">Skrivuppgifter med olika svårighetsgrad. De fungerar både som läsrespons, exit ticket eller längre fördjupning.</div>
+        <div class="write-stack">
+          <div class="write-card">
+            <div class="write-badge">Förståelse</div>
+            <h4>Förklara processen med egna ord</h4>
+            <p>Skriv en förklarande text där du beskriver hur en lag blir till i Sverige. Använd begreppen utredning, remiss, proposition, utskott, betänkande och SFS.</p>
+            <div class="write-tip">Tips: Försök att skriva i rätt ordning och förklara varför varje steg finns.</div>
+          </div>
+
+          <div class="write-card">
+            <div class="write-badge">Analys</div>
+            <h4>Varför är det bra att det tar tid?</h4>
+            <p>Skriv ett resonemang där du förklarar varför det kan vara en styrka att lagar inte går att ändra snabbt. Ge minst två argument och koppla till demokrati och maktmissbruk.</p>
+            <div class="write-tip">Tips: Jämför gärna med hur det skulle kunna bli om en enda person fick bestämma.</div>
+          </div>
+
+          <div class="write-card">
+            <div class="write-badge">Tillämpning</div>
+            <h4>Hitta på ett eget lagförslag</h4>
+            <p>Välj ett problem i skolan eller samhället och hitta på ett eget lagförslag. Beskriv sedan hur ditt förslag skulle kunna gå genom lagstiftningsprocessen steg för steg.</p>
+            <div class="write-tip">Tips: Uppgiften tränar både kreativitet och processförståelse.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-kallor">
+        <div class="t-panel-intro">Här finns både artiklar i samma område och ett förslag på hur elever kan arbeta vidare med källor och jämförelser.</div>
+        <div class="source-stack">
+          <div class="source-exercise">
+            <div class="source-ex-label">Källspår</div>
+            <h4>Jämför artiklarna i området</h4>
+            <p>Låt eleverna läsa den här artikeln tillsammans med andra texter om Sveriges styre. Be dem spåra var i systemet olika aktörer kommer in: väljare, riksdag, regering, utskott och myndigheter.</p>
+            <ul class="source-qs">
+              <li>Var i processen märks att regeringen inte styr ensam?</li>
+              <li>Var i processen syns expertkunskap och remissinstanser?</li>
+              <li>Hur kopplas medborgarnas val till vilka lagar som kan bli verklighet?</li>
+            </ul>
+          </div>
+
+          <div class="resource-grid">
+            <div class="resource-card">
+              <h4>Artiklar i samma område</h4>
+              <p>Bygg vidare på sidan genom att länka till fler texter i arbetsområdet om Sveriges demokrati och politiska nivåer.</p>
+              <div class="resource-links">
+                <span class="resource-link">Riksdagen och regeringen – så styrs Sverige i praktiken</span>
+                <span class="resource-link">Sveriges statsskick – monarki och demokrati</span>
+                <span class="resource-link">Vad är demokrati och hur fungerar den i Sverige</span>
+                <span class="resource-link">Vem bestämmer vad? – Riksdag, regering, regioner och kommuner</span>
+              </div>
+            </div>
+            <div class="resource-card">
+              <h4>Fortsätt läsa</h4>
+              <p>De här texterna fördjupar hur demokrati fungerar på olika nivåer och hur val påverkar vilka beslut som fattas.</p>
+              <div class="resource-links">
+                <span class="resource-link">Kommunen – den politiska nivån närmast dig</span>
+                <span class="resource-link">Regioner – sjukvård, kollektivtrafik och politik</span>
+                <span class="resource-link">Val och regeringsbildning – från röst till regering</span>
+                <span class="resource-link">Hur blir en lag till</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-undervisning">
+        <div class="t-panel-intro">Exempel på hur sidan kan användas i undervisningen och hur den kopplas till centrala delar i samhällskunskap.</div>
+        <div class="lgr-grid">
+          <div class="lgr-card">
+            <div class="lgr-subject">Samhällskunskap</div>
+            <h4>Demokratiska beslutsprocesser</h4>
+            <p>Sidan visar hur beslut växer fram i flera led och hur riksdag och regering samspelar i svensk demokrati.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Samhällskunskap</div>
+            <h4>Begrepp och samband</h4>
+            <p>Eleverna tränar begrepp som proposition, motion, remiss, utskott och rättssäkerhet i ett tydligt sammanhang.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Svenska / SO</div>
+            <h4>Förklarande och resonerande skrivande</h4>
+            <p>Skrivuppgifterna tränar eleverna i att förklara en process, bygga resonemang och använda ämnesspråk.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Lärarupplägg</div>
+            <h4>Arbeta i tre steg</h4>
+            <p>1) Läs artikeln tillsammans. 2) Klicka igenom processen steg för steg. 3) Avsluta med quiz eller skrivuppgift som exit ticket.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="epilogue">
+    <div class="epilogue-inner">
+      <h2>En lag blir alltså inte till för att någon<br><em>bara tycker något</em></h2>
+      <p>Den blir till genom att ett problem uppmärksammas, att frågan utreds, att förslag granskas och att folkvalda ledamöter tar ställning. Därför speglar processen både demokrati och kontroll.</p>
+      <p>När elever förstår lagstiftningsprocessen förstår de också något större: hur Sverige försöker förena politisk vilja med ansvar, insyn och rättssäkerhet.</p>
+      <div class="ep-links">
+        <a class="ep-link" href="#top">Till toppen</a>
+        <a class="ep-link" href="#processen">Till processen</a>
+        <a class="ep-link" href="#lararsektion">Till frågorna</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const el = document.documentElement;
+      const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+    });
+
+    const tooltip = document.getElementById('tooltip');
+    document.querySelectorAll('.glossary-term').forEach(term => {
+      term.addEventListener('mouseenter', () => {
+        tooltip.textContent = term.dataset.definition;
+        tooltip.style.display = 'block';
+      });
+      term.addEventListener('mousemove', e => {
+        tooltip.style.left = `${e.clientX + 14}px`;
+        tooltip.style.top = `${e.clientY + 14}px`;
+      });
+      term.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+    });
+
+    document.querySelectorAll('.step-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const step = btn.dataset.step;
+        document.querySelectorAll('.step-pill').forEach(x => x.classList.remove('active'));
+        document.querySelectorAll('.step-detail').forEach(x => x.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('step-detail-' + step).classList.add('active');
+      });
+    });
+
+    function showTab(id, btn) {
+      document.querySelectorAll('.t-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.t-tab').forEach(tab => tab.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    document.querySelectorAll('.mc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.q;
+        const options = document.querySelectorAll(`.mc-btn[data-q="${q}"]`);
+        const correct = btn.dataset.correct === 'true';
+        const feedback = document.getElementById('f' + q);
+
+        options.forEach(option => {
+          option.disabled = true;
+          if (option.dataset.correct === 'true') option.classList.add('correct');
+        });
+
+        if (!correct) btn.classList.add('wrong');
+        feedback.textContent = correct
+          ? 'Rätt. Du har fångat huvudtanken i steget eller begreppet.'
+          : 'Inte riktigt. Titta på hur processen skyddar demokrati och rättssäkerhet.';
+      });
+    });
+  </script>
+</body>
+</html>
