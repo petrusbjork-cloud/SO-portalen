@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Varför började Europa erövra världen runt år 1500?</title>
+  <style>
+    :root {
+      --ink: #0f1115;
+      --ink-2: #151922;
+      --paper: #f5efe3;
+      --paper-soft: #e7dcc6;
+      --gold: #c9a76a;
+      --gold-dark: #8a6a33;
+      --rust: #9a4e2f;
+      --line: rgba(201,167,106,0.18);
+      --mist: rgba(245,239,227,0.08);
+      --text: #eadfcd;
+      --text-dim: rgba(234,223,205,0.68);
+      --mono: "Courier New", monospace;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --shadow: 0 22px 60px rgba(0,0,0,0.45);
+      --radius: 8px;
+      --max: 820px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: var(--serif);
+      font-size: 21px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    img { max-width: 100%; display: block; }
+
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--rust), var(--gold));
+      transition: width 0.08s;
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 70px 36px;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(201,167,106,0.12), transparent 28%),
+        radial-gradient(circle at 20% 75%, rgba(154,78,47,0.12), transparent 24%),
+        linear-gradient(180deg, #12161d 0%, #0b0d12 100%);
+      text-align: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 34%, rgba(0,0,0,0.82) 100%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 980px;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(42px, 8vw, 94px);
+      line-height: 0.98;
+      font-weight: 700;
+      color: var(--paper);
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+      text-shadow: 0 0 60px rgba(154,78,47,0.22);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.45s forwards;
+    }
+
+    .hero h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      max-width: 720px;
+      margin: 0 auto 42px;
+      color: var(--text-dim);
+      font-size: 23px;
+      line-height: 1.55;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s forwards;
+    }
+
+    .hero-counters {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      max-width: 900px;
+      margin: 0 auto 42px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.95s forwards;
+    }
+
+    .counter-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.035);
+      padding: 18px 14px;
+      border-radius: 4px;
+      backdrop-filter: blur(2px);
+    }
+
+    .counter-card strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .counter-card span {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.5;
+      display: block;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.15s forwards;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-dim);
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+      color: var(--paper);
+      background: rgba(201,167,106,0.08);
+    }
+
+    .hero-btn.primary {
+      background: rgba(154,78,47,0.18);
+      border-color: rgba(154,78,47,0.42);
+      color: var(--paper);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 38px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.45s forwards;
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 52px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .article {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 88px 36px;
+    }
+
+    p {
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--paper); }
+    em { color: var(--gold); }
+
+    .intro {
+      font-size: 24px;
+      font-style: italic;
+      color: var(--paper);
+      line-height: 1.62;
+      margin-bottom: 42px;
+    }
+
+    .section-marker {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 84px 0 30px;
+    }
+
+    .section-marker::before,
+    .section-marker::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .section-marker span {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4.4vw, 50px);
+      line-height: 1.12;
+      color: var(--paper);
+      margin-bottom: 28px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 40px 0 14px;
+    }
+
+    .pullquote {
+      margin: 62px -74px;
+      padding: 38px 54px;
+      background: linear-gradient(135deg, rgba(154,78,47,0.12), transparent);
+      border-left: 4px solid var(--rust);
+      position: relative;
+    }
+
+    .pullquote::before {
+      content: '“';
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      font-family: var(--serif);
+      font-size: 160px;
+      line-height: 0.8;
+      color: rgba(154,78,47,0.18);
+      pointer-events: none;
+    }
+
+    .pullquote p {
+      position: relative;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.42;
+      color: var(--paper);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .pullquote cite {
+      display: block;
+      margin-top: 16px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .fact-box {
+      margin: 34px 0;
+      padding: 22px 24px;
+      background: rgba(201,167,106,0.06);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .fact-box-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .fact-box p {
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .full-bleed {
+      margin: 82px -100vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 90px 36px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(201,167,106,0.12), transparent 26%),
+        linear-gradient(180deg, #12161d 0%, #0f1115 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .full-bleed-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px 24px;
+    }
+
+    .panel h3 {
+      margin-top: 0;
+      font-size: 22px;
+    }
+
+    .key-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .key-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      padding: 16px;
+    }
+
+    .key-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--paper);
+      font-size: 18px;
+    }
+
+    .key-card p {
+      margin: 0;
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .timeline-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .timeline-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--paper);
+      text-align: left;
+      padding: 18px 20px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+    }
+
+    .timeline-btn span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .timeline-more {
+      display: none;
+      padding: 0 20px 18px;
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .timeline-card.open .timeline-more { display: block; }
+
+    .drivers {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .driver {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 18px;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .driver.center {
+      background: linear-gradient(135deg, rgba(201,167,106,0.14), rgba(154,78,47,0.10));
+    }
+
+    .driver h4 {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--paper);
+      margin-bottom: 10px;
+    }
+
+    .driver p, .driver small {
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+
+    .meter-wrap {
+      margin-top: 26px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .meter-row {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .meter-row strong {
+      font-size: 16px;
+      color: var(--paper);
+    }
+
+    .meter-track {
+      height: 16px;
+      background: rgba(245,239,227,0.06);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .meter-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--rust), var(--gold));
+      border-radius: 999px;
+    }
+
+    .accordion {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .accordion-item {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .accordion-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--paper);
+      text-align: left;
+      padding: 18px 20px;
+      font: inherit;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .accordion-content {
+      display: none;
+      padding: 0 20px 18px;
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .accordion-item.open .accordion-content { display: block; }
+
+    .glossary-term {
+      border-bottom: 2px dotted rgba(201,167,106,0.45);
+      cursor: help;
+    }
+
+    .tooltip {
+      position: fixed;
+      z-index: 1200;
+      display: none;
+      max-width: 280px;
+      background: #11151c;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.55;
+      box-shadow: var(--shadow);
+      pointer-events: none;
+    }
+
+    .teacher-section {
+      background: #0b0d12;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 86px 36px;
+      margin-top: 40px;
+    }
+
+    .teacher-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .teacher-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .teacher-title {
+      font-family: var(--serif);
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      color: var(--paper);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .teacher-title em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .teacher-intro {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 720px;
+      margin-bottom: 28px;
+    }
+
+    .teacher-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .t-tab {
+      background: rgba(245,239,227,0.04);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .t-tab:hover,
+    .t-tab.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,167,106,0.10);
+    }
+
+    .t-panel { display: none; }
+    .t-panel.active { display: block; }
+
+    .t-panel-intro {
+      font-size: 16px;
+      color: var(--text-dim);
+      font-style: italic;
+      border-left: 2px solid var(--line);
+      padding-left: 16px;
+      margin-bottom: 34px;
+      line-height: 1.7;
+    }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .question-card {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 22px 22px;
+    }
+
+    .question-card h4 {
+      font-family: var(--serif);
+      font-size: 19px;
+      color: var(--paper);
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+
+    .question-card p {
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 0;
+    }
+
+    .mc-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .mc-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(245,239,227,0.03);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+      transition: 0.2s ease;
+    }
+
+    .mc-btn:hover {
+      border-color: var(--gold);
+      background: rgba(201,167,106,0.08);
+    }
+
+    .mc-btn.correct {
+      border-color: rgba(101,182,122,0.55);
+      background: rgba(101,182,122,0.14);
+    }
+
+    .mc-btn.wrong {
+      border-color: rgba(214,112,88,0.52);
+      background: rgba(214,112,88,0.14);
+    }
+
+    .mc-feedback {
+      margin-top: 12px;
+      font-size: 15px;
+      color: var(--paper-soft);
+      min-height: 22px;
+    }
+
+    .source-card,
+    .write-card {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 26px 26px;
+      margin-bottom: 18px;
+    }
+
+    .source-badge,
+    .write-badge {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border: 1px solid rgba(201,167,106,0.22);
+      background: rgba(201,167,106,0.09);
+      color: var(--gold);
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .source-card h4,
+    .write-card h4 {
+      font-family: var(--serif);
+      font-size: 22px;
+      color: var(--paper);
+      margin-bottom: 12px;
+    }
+
+    .source-quote {
+      margin: 16px 0 18px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--gold);
+      background: rgba(245,239,227,0.03);
+      color: var(--text-dim);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .task-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .task-item {
+      padding: 14px 16px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .write-tip {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-left: 2px solid var(--rust);
+      background: rgba(154,78,47,0.08);
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .write-tip strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .lgr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .lgr-card {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 20px 22px;
+    }
+
+    .lgr-subject {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .lgr-card h4 {
+      font-family: var(--serif);
+      font-size: 18px;
+      color: var(--paper);
+      margin-bottom: 8px;
+    }
+
+    .lgr-card p {
+      font-size: 15px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .epilogue {
+      margin: 0 -100vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 100px 36px 120px;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(154,78,47,0.16) 0%, transparent 72%);
+    }
+
+    .epilogue h2 {
+      margin-bottom: 22px;
+    }
+
+    .epilogue p {
+      max-width: 720px;
+      margin: 0 auto 22px;
+      color: var(--text-dim);
+      font-size: 21px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .ep-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    .ep-link {
+      text-decoration: none;
+      padding: 14px 24px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      background: rgba(245,239,227,0.03);
+    }
+
+    .ep-link:hover {
+      border-color: var(--gold);
+      background: rgba(201,167,106,0.10);
+    }
+
+    @media (max-width: 900px) {
+      .hero-counters,
+      .drivers,
+      .key-grid,
+      .question-grid,
+      .lgr-grid,
+      .split-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      body { font-size: 19px; }
+      .article, .teacher-section, .full-bleed, .epilogue, .hero { padding-left: 24px; padding-right: 24px; }
+      .hero-counters,
+      .drivers,
+      .key-grid,
+      .question-grid,
+      .lgr-grid,
+      .split-grid { grid-template-columns: 1fr; }
+      .pullquote { margin: 42px 0; padding: 28px 24px; }
+      .pullquote::before { font-size: 110px; }
+      .meter-row { grid-template-columns: 1fr; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+  <div class="tooltip" id="tooltip"></div>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-label">SO-portalen · Fördjupning · Historia · Kolonialism</div>
+      <h1>Varför började Europa<br><em>erövra världen</em><br>runt år 1500?</h1>
+      <p class="hero-sub">Det hände inte för att européer plötsligt blev modigare. Det hände när teknik, kapital, statsmakt, handel och idéer började dra åt samma håll – samtidigt.</p>
+
+      <div class="hero-counters">
+        <div class="counter-card"><strong>Demografi</strong><span>Digerdöden förändrade Europas ekonomi och samhällsstruktur.</span></div>
+        <div class="counter-card"><strong>Teknik</strong><span>Karaveller, kartor och navigation gjorde haven mer möjliga att segla.</span></div>
+        <div class="counter-card"><strong>Kapital</strong><span>Banker och handelskompanier gjorde riskabla resor möjliga att finansiera.</span></div>
+        <div class="counter-card"><strong>Idéer</strong><span>Mission, makt och överlägsenhet gav expansionen legitimitet.</span></div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="hero-btn primary" href="#artikelstart">Börja läsa</a>
+        <a class="hero-btn" href="#lararsektion">Frågor till texten</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scrolla för att läsa</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <article class="article" id="artikelstart">
+    <p class="intro">Varför började Europa erövra världen just runt år 1500? Varför inte 500 år tidigare? Svaret ligger inte i en enda person eller en enda uppfinning. Det ligger i att flera avgörande förändringar sammanföll – och tillsammans gjorde de expansionen möjlig, lönsam och möjlig att försvara.</p>
+
+    <p>När vi studerar upptäcktsresornas epok blir det tydligt att de stora erövringarna inte var någon slump. I slutet av 1400-talet hade Europa nått en punkt där bättre fartyg, nya navigationskunskaper, återhämtad handel och starkare stater gjorde långa sjöresor möjliga på ett sätt de inte varit tidigare.</p>
+
+    <p>Det är därför frågan inte bara är <strong>vad</strong> som hände, utan <strong>varför det hände just då</strong>. Många av de nödvändiga förutsättningarna – politiska, ekonomiska, tekniska och ideologiska – saknades långt tidigare.</p>
+
+    <div class="section-marker"><span>Del 1 · Bakgrunden</span></div>
+    <h2>Europa efter digerdöden –<br><em>brist, återhämtning och nya möjligheter</em></h2>
+
+    <p>En viktig bakgrund var den katastrofala pestepidemin på 1300-talet. Digerdöden slog sönder Europas befolkning. Byar övergavs, arbetskraften minskade och jordbruket försvagades. På kort sikt var det en katastrof. På längre sikt förändrade det hela samhällsstrukturen.</p>
+
+    <p>När arbetskraft blev bristvara fick kvarvarande bönder och arbetare bättre förhandlingsläge. Löner steg. Gamla maktförhållanden rubbades. Under 1400-talet återhämtade sig befolkningen, städer växte och handeln tog fart igen. Nya grupper – handelsmän, bankirer och stadsbor – fick större betydelse i Europas ekonomi.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-label">Kärnidén här</div>
+      <p>Pesten gjorde inte Europa starkare direkt. Men den bidrog till att skapa ett mer rörligt, mer handelsinriktat och mer förändrat samhälle – ett samhälle som längre fram blev mer redo att söka nya vägar ut i världen.</p>
+    </div>
+
+    <p>I renässansens Europa värderades dessutom nyfikenhet, kunskap och vetenskap allt högre. Samtidigt ökade efterfrågan på varor från Asien – särskilt kryddor, siden och porslin. Men de varor européerna ville ha nådde dem via långa och dyra landvägar, ofta kontrollerade av Osmanska riket. Ju större efterfrågan blev, desto starkare blev lockelsen att hitta egna sjövägar.</p>
+
+    <div class="pullquote">
+      <p>Europa började inte segla ut över haven bara för att man ville upptäcka världen. Man gjorde det för att världen redan hade blivit ekonomiskt viktig.</p>
+      <cite>Tolkning av artikelns huvudidé</cite>
+    </div>
+  </article>
+
+  <section class="full-bleed">
+    <div class="full-bleed-inner">
+      <div class="section-marker"><span>Interaktiv fördjupning</span></div>
+      <h2>Från pest till expansion –<br><em>klicka dig genom utvecklingen</em></h2>
+      <div class="timeline">
+        <div class="timeline-card">
+          <button class="timeline-btn" type="button"><span>1300-talet</span>Digerdöden bryter sönder gamla strukturer</button>
+          <div class="timeline-more">När Europas befolkning minskade kraftigt rubbades jordbruk, ekonomi och maktförhållanden. Arbetskraft blev bristvara och det gamla samhället blev svårare att hålla samman på samma sätt som tidigare.</div>
+        </div>
+        <div class="timeline-card">
+          <button class="timeline-btn" type="button"><span>1400-talet</span>Städer, handel och efterfrågan växer</button>
+          <div class="timeline-more">När befolkningen återhämtade sig växte också handeln. Fler människor, fler städer och större konsumtion gjorde långväga varor mer attraktiva och mer lönsamma.</div>
+        </div>
+        <div class="timeline-card">
+          <button class="timeline-btn" type="button"><span>Sent 1400-tal</span>Tekniken gör haven mer tillgängliga</button>
+          <div class="timeline-more">Karaveller, förbättrade kartor och navigationskunskap gjorde längre resor genomförbara. Havet blev inte säkert – men det blev mer möjligt att korsa.</div>
+        </div>
+        <div class="timeline-card">
+          <button class="timeline-btn" type="button"><span>Runt 1500</span>Europas expansion blir ett system</button>
+          <div class="timeline-more">När tekniken mötte kapital, statlig rivalitet och ekonomiska motiv blev upptäcktsresor inte längre undantag. De blev början på ett större kolonialt projekt.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <article class="article">
+    <div class="section-marker"><span>Del 2 · Drivkrafterna</span></div>
+    <h2>Teknik + kapital + konkurrens mellan stater =<br><em>expansion</em></h2>
+
+    <p>Utvecklingen av karavellen revolutionerade sjöfarten. Det var ett mindre, smidigare fartyg som kunde segla bättre mot vinden och röra sig i både öppet hav och grundare vatten. Tillsammans med förbättrade kartor, kompasser och kunskap hämtad från arabisk astronomi gjorde detta de långa oceanresorna mer realistiska.</p>
+
+    <p>Men tekniken räckte inte ensam. Det krävdes också pengar och politisk vilja. Långväga handel var dyr och riskabel. Därför blev banker, krediter och investerare viktiga. Samtidigt blev kungamakter starkare i länder som Spanien och Portugal. De kunde samla resurser, finansiera expeditioner och använda resorna som ett sätt att öka sin makt.</p>
+
+    <div class="drivers">
+      <div class="driver">
+        <div>
+          <h4>Teknik</h4>
+          <small>Karaveller, kompasser, kartor och navigationskunskap.</small>
+        </div>
+        <p>Haven blev möjliga att segla på ett nytt sätt.</p>
+      </div>
+      <div class="driver">
+        <div>
+          <h4>Kapital</h4>
+          <small>Banker, lån och riskdelning mellan investerare.</small>
+        </div>
+        <p>Dyrbara expeditioner kunde betalas och utrustas.</p>
+      </div>
+      <div class="driver center">
+        <div>
+          <h4>Europa runt 1500</h4>
+          <small>Flera förändringar sammanfaller samtidigt.</small>
+        </div>
+        <p>Därför sker expansionen just då – inte tidigare.</p>
+      </div>
+      <div class="driver">
+        <div>
+          <h4>Stater</h4>
+          <small>Spanien, Portugal och andra länder tävlade.</small>
+        </div>
+        <p>Maktkampen drev på jakten på rikedom och prestige.</p>
+      </div>
+      <div class="driver">
+        <div>
+          <h4>Idéer</h4>
+          <small>Kristen mission och tankar om överlägsenhet.</small>
+        </div>
+        <p>Expansionen fick en moralisk och religiös berättelse.</p>
+      </div>
+    </div>
+
+    <p>De europeiska staternas konkurrens var avgörande. När ett land såg möjlighet till rikedom eller handelskontroll ville andra inte hamna efter. Därför växte en kedja fram där varje framgångsrik expedition sporrade nya satsningar från rivaliserande makter.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-label">Det viktiga att förstå</div>
+      <p>Det var inte en enda faktor som förklarar expansionen. Teknik gjorde den möjlig. Kapital gjorde den finansierbar. Stater gjorde den politiskt prioriterad. Handel gjorde den lönsam. Idéer gjorde den möjlig att försvara.</p>
+    </div>
+
+    <div class="section-marker"><span>Del 3 · Handelns logik</span></div>
+    <h2>Varför var det värt risken?<br><em>Vinsterna kunde förändra allt</em></h2>
+
+    <p>Varor som kryddor, siden, te och porslin var oerhört värdefulla i Europa. En lyckad expedition kunde mångdubbla den ursprungliga investeringen. Det skapade en logik där stora risker blev acceptabla så länge de kunde ge ännu större vinster.</p>
+
+    <div class="split-grid">
+      <div class="panel">
+        <h3>Det som lockade</h3>
+        <div class="meter-wrap">
+          <div class="meter-row"><strong>Kryddor och lyxvaror</strong><div class="meter-track"><div class="meter-fill" style="width: 94%"></div></div></div>
+          <div class="meter-row"><strong>Nya handelsvägar</strong><div class="meter-track"><div class="meter-fill" style="width: 90%"></div></div></div>
+          <div class="meter-row"><strong>Ädelmetaller</strong><div class="meter-track"><div class="meter-fill" style="width: 86%"></div></div></div>
+          <div class="meter-row"><strong>Statlig makt och prestige</strong><div class="meter-track"><div class="meter-fill" style="width: 84%"></div></div></div>
+        </div>
+        <p style="margin-top:18px; color: var(--text-dim); font-size: 16px;">Staplarna illustrerar hur stark lockelsen var i europeiska ögon. De är inte exakta siffror, utan ett sätt att visualisera artikelns resonemang.</p>
+      </div>
+      <div class="panel">
+        <h3>Det som hotade</h3>
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-btn" type="button"><span>Stormar och okända farleder</span><span>+</span></button>
+            <div class="accordion-content">Långa sjöresor var osäkra. Fartyg kunde förlisa, försvinna eller köra fel i vatten som européerna hade begränsad kunskap om.</div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-btn" type="button"><span>Sjukdomar och svält</span><span>+</span></button>
+            <div class="accordion-content">Besättningar dog ofta av sjukdomar, brist på mat eller andra umbäranden. Expeditionerna var mänskligt mycket kostsamma.</div>
+          </div>
+          <div class="accordion-item">
+            <button class="accordion-btn" type="button"><span>Motstånd och våld</span><span>+</span></button>
+            <div class="accordion-content">Europeiska handelsintressen mötte lokala makter och andra europeiska konkurrenter. Därför växte fort, soldater och kanonbeväpnade skepp fram som en del av handeln.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p>Handelskompanier var särskilt viktiga. Genom att samla pengar från många investerare kunde man dela riskerna. Om ett skepp förliste förlorade ingen allt själv. Men om resan lyckades kunde vinsten bli enorm. Banker knöt samman de växande handelsnätverken, och den ekonomiska teorin <span class="glossary-term" data-definition="Mercantilism var en ekonomisk idé där stater ville bli starka genom att samla rikedom, särskilt ädelmetaller, och ha mer export än import.">mercantilism</span> gjorde kontroll över handel till en fråga om nationell styrka.</p>
+
+    <div class="section-marker"><span>Del 4 · Idéer och legitimitet</span></div>
+    <h2>Religion och tanken om europeisk<br><em>överlägsenhet</em></h2>
+
+    <p>Expansionen handlade inte bara om pengar. Många europeiska härskare såg också kolonisation som ett sätt att sprida kristendomen. Missionärer reste tillsammans med sjöfararna och grundade kyrkor, skolor och andra institutioner i kolonierna. På så sätt kunde erövring framställas som något gott och nödvändigt.</p>
+
+    <p>Samtidigt växte föreställningen fram att européernas framgångar visade på en särskild överlägsenhet. Men den bilden byggde inte på någon självklar egenskap hos européer. Den byggde på historiska omständigheter: teknik, organisation, kapital, sjukdomsspridning och politisk makt.</p>
+
+    <div class="pullquote">
+      <p>Europas dominans såg ut som ett bevis på överlägsenhet. I själva verket var den ett resultat av att rätt historiska förutsättningar sammanföll vid rätt tidpunkt.</p>
+      <cite>Sammanfattning av artikelns slutsats</cite>
+    </div>
+
+    <p>Det blev en farlig idé. När erövring väl sågs som både lönsam och moraliskt försvarbar blev det lättare att behandla andra folk som underordnade. Därifrån gick utvecklingen vidare mot hårdare kolonialism, rasistiska tankesystem och imperialism i ännu större skala.</p>
+
+    <div class="section-marker"><span>Del 5 · Slutsatsen</span></div>
+    <h2>Så hänger allt ihop –<br><em>varför just runt 1500?</em></h2>
+
+    <p>Europas erövring av världen kring år 1500 var alltså inte resultatet av en plötslig upptäckarlust. Den uppstod när flera processer började förstärka varandra: återhämtningen efter pestens demografiska chock, tekniska framsteg som gjorde sjöfarten möjlig, starkare stater med egna ambitioner, en ekonomi som kunde hantera stora risker och idéer som gjorde expansionen möjlig att rättfärdiga.</p>
+
+    <p>Människors mod och nyfikenhet spelade roll. Men utan de större ekonomiska, tekniska och ideologiska drivkrafterna hade det inte blivit någon kolonial epok just då.</p>
+  </article>
+
+  <section class="teacher-section" id="lararsektion">
+    <div class="teacher-inner">
+      <div class="teacher-label">Lärarsektion</div>
+      <h2 class="teacher-title">Frågor och material<br><em>till texten</em></h2>
+      <p class="teacher-intro">Här har jag byggt övningsdelen mer som i exemplet du skickade: tydligare struktur, starkare formgivning och flera typer av uppgifter. Det finns åtta quizfrågor, källövning, skrivuppgifter och läroplanskopplingar.</p>
+
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTab('quiz', this)">Quiz</button>
+        <button class="t-tab" onclick="showTab('kallor', this)">Källövning</button>
+        <button class="t-tab" onclick="showTab('skriv', this)">Skrivfrågor</button>
+        <button class="t-tab" onclick="showTab('lgr', this)">Koppling till undervisning</button>
+      </div>
+
+      <div class="t-panel active" id="tab-quiz">
+        <div class="t-panel-intro">Åtta frågor som kontrollerar förståelse av huvudtanken i texten. Eleverna får direkt återkoppling när de klickar.</div>
+        <div class="question-grid">
+          <div class="question-card">
+            <h4>1. Vad är artikelns viktigaste huvudpoäng?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="1" data-correct="false">Att Europas expansion främst berodde på enskilda modiga sjömän.</button>
+              <button class="mc-btn" data-q="1" data-correct="true">Att flera faktorer samverkade: teknik, ekonomi, stater, handel och idéer.</button>
+              <button class="mc-btn" data-q="1" data-correct="false">Att expansionen skedde av en slump när nya kontinenter upptäcktes.</button>
+            </div>
+            <div class="mc-feedback" id="f1"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>2. Varför var digerdöden viktig på lång sikt?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="2" data-correct="true">Den förändrade Europas ekonomi och maktförhållanden, vilket på sikt gynnade handel och rörlighet.</button>
+              <button class="mc-btn" data-q="2" data-correct="false">Den gjorde Europa rikt direkt efter pestens slut.</button>
+              <button class="mc-btn" data-q="2" data-correct="false">Den fick alla europeiska stater att samarbeta istället för att tävla.</button>
+            </div>
+            <div class="mc-feedback" id="f2"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>3. Vad gjorde karavellen särskilt viktig?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="3" data-correct="false">Den var mycket större än alla andra fartyg och användes bara nära kusten.</button>
+              <button class="mc-btn" data-q="3" data-correct="true">Den var smidig, kunde segla bättre mot vinden och lämpade sig för längre havsresor.</button>
+              <button class="mc-btn" data-q="3" data-correct="false">Den gjorde att fartyg inte längre behövde navigationskunskap.</button>
+            </div>
+            <div class="mc-feedback" id="f3"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>4. Varför finansierade kungar och stater expeditioner?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="4" data-correct="true">För att bli rikare, starkare och få kontroll över handel och prestige.</button>
+              <button class="mc-btn" data-q="4" data-correct="false">För att minska all konkurrens mellan länder.</button>
+              <button class="mc-btn" data-q="4" data-correct="false">För att de ville avskaffa handel med Asien.</button>
+            </div>
+            <div class="mc-feedback" id="f4"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>5. Vad var handelskompaniernas viktigaste funktion?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="5" data-correct="false">Att förbjuda privata investeringar i handel.</button>
+              <button class="mc-btn" data-q="5" data-correct="true">Att samla kapital från många investerare och dela riskerna.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">Att göra alla sjöresor helt riskfria.</button>
+            </div>
+            <div class="mc-feedback" id="f5"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>6. Vad menas med mercantilism här?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="6" data-correct="false">Att stater skulle undvika all utrikeshandel.</button>
+              <button class="mc-btn" data-q="6" data-correct="true">Att stater ville bli starka genom handel, ädelmetaller och kontroll över export och import.</button>
+              <button class="mc-btn" data-q="6" data-correct="false">Att handelsmän ensamma skulle styra statens ekonomi.</button>
+            </div>
+            <div class="mc-feedback" id="f6"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>7. Varför var handel så lockande trots riskerna?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="7" data-correct="true">Eftertraktade varor kunde ge mycket stora vinster och riskerna kunde delas.</button>
+              <button class="mc-btn" data-q="7" data-correct="false">Därför att resorna var korta och nästan alltid säkra.</button>
+              <button class="mc-btn" data-q="7" data-correct="false">Därför att ekonomiska motiv saknade betydelse.</button>
+            </div>
+            <div class="mc-feedback" id="f7"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>8. Hur beskriver artikeln tanken om europeisk överlägsenhet?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="8" data-correct="false">Som ett bevis på att européer naturligt var bättre än andra folk.</button>
+              <button class="mc-btn" data-q="8" data-correct="true">Som en föreställning som växte fram efter framgångar men egentligen byggde på historiska omständigheter.</button>
+              <button class="mc-btn" data-q="8" data-correct="false">Som en oviktig detalj som inte hade någon betydelse för kolonialismen.</button>
+            </div>
+            <div class="mc-feedback" id="f8"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-kallor">
+        <div class="t-panel-intro">En enkel källövning som fungerar direkt i klassrummet och hjälper eleverna att skilja mellan vad en källa säger direkt och vad de själva måste tolka.</div>
+
+        <div class="source-card">
+          <div class="source-badge">Källövning</div>
+          <h4>En röst från tiden</h4>
+          <div class="source-quote">&quot;Våra skepp seglar inte bara för ära, utan för att vinna rikedomar åt kronan och öppna vägar till de varor som Europa så länge har betalat dyrt för.&quot;</div>
+          <div class="task-list">
+            <div class="task-item"><strong>1.</strong> Vilka motiv nämns direkt i källan?</div>
+            <div class="task-item"><strong>2.</strong> Hur märks sambandet mellan handel och statsmakt i citatet?</div>
+            <div class="task-item"><strong>3.</strong> Vilka motiv från artikeln nämns inte alls i källan, trots att de var viktiga?</div>
+            <div class="task-item"><strong>4.</strong> Varför räcker inte en enda källa för att förstå hela orsaken till Europas expansion?</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-skriv">
+        <div class="t-panel-intro">Skrivuppgifterna är gjorda för att träna förklaringar, resonemang och historiska orsakskedjor.</div>
+
+        <div class="write-card">
+          <div class="write-badge">Förklarande</div>
+          <h4>Varför räcker inte ordet &quot;upptäckarlust&quot;?</h4>
+          <p>Skriv ett kort resonemang där du förklarar varför Europas expansion runt år 1500 inte kan förstås enbart som nyfikenhet eller mod. Använd flera orsaker från texten.</p>
+          <div class="write-tip"><strong>Lärartips</strong>Här tränar eleverna att bygga förklaringar med flera led istället för att fastna i en enda förklaring.</div>
+        </div>
+
+        <div class="write-card">
+          <div class="write-badge">Analytisk</div>
+          <h4>Vilken faktor var viktigast?</h4>
+          <p>Välj en faktor – teknik, kapital, statlig rivalitet eller idéer – och argumentera för att just den var viktigast. Förklara samtidigt varför den ändå inte räckte ensam.</p>
+          <div class="write-tip"><strong>Lärartips</strong>Den här uppgiften passar bra för C- och A-resonemang eftersom eleven måste både välja, motivera och nyansera.</div>
+        </div>
+
+        <div class="write-card">
+          <div class="write-badge">Orsak och verkan</div>
+          <h4>Från pest till kolonialism</h4>
+          <p>Skriv en orsakskedja där du visar hur digerdöden på 1300-talet på lång sikt kan kopplas till Europas expansion runt år 1500.</p>
+          <div class="write-tip"><strong>Lärartips</strong>Eleverna behöver här visa att historia inte alltid fungerar som snabba samband, utan ibland som långsamma processer.</div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-lgr">
+        <div class="t-panel-intro">Materialet fungerar väl i historia och samhällskunskap och kan även kopplas till svenska genom arbete med källor, begrepp och resonemang.</div>
+        <div class="lgr-grid">
+          <div class="lgr-card">
+            <div class="lgr-subject">Historia</div>
+            <h4>Imperialism och kolonialism</h4>
+            <p>Texten hjälper eleverna att förstå hur kolonial expansion växte fram ur ekonomiska, tekniska och politiska processer.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Historia</div>
+            <h4>Långsiktiga förändringsprocesser</h4>
+            <p>Artikeln visar hur digerdöden och återhämtningen efteråt kan förstås som en lång utveckling som påverkar senare historiska skeenden.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Samhällskunskap</div>
+            <h4>Ekonomi, handel och makt</h4>
+            <p>Eleverna får syn på hur ekonomiska modeller, investeringar och statsmakt samverkar i historiska förändringar.</p>
+          </div>
+          <div class="lgr-card">
+            <div class="lgr-subject">Svenska / ämnesövergripande</div>
+            <h4>Källkritik och resonemang</h4>
+            <p>Källövningen och skrivuppgifterna tränar eleverna i att tolka källor, dra slutsatser och bygga välutvecklade resonemang.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="epilogue">
+    <h2>Det var alltså inte bara sjömän<br><em>som förändrade världen</em></h2>
+    <p>Det var ett Europa som hade förändrats efter pest, byggt upp ny teknik, samlat kapital, förstärkt sina stater och utvecklat idéer som gjorde expansionen möjlig att försvara.</p>
+    <p>När allt detta sammanföll kunde världen erövras från europeiskt perspektiv. Därför skedde det runt år 1500 – och inte 500 år tidigare.</p>
+    <div class="ep-links">
+      <a class="ep-link" href="#top">Till toppen</a>
+      <a class="ep-link" href="#lararsektion">Till frågorna</a>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const el = document.documentElement;
+      const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+    });
+
+    document.querySelectorAll('.timeline-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.parentElement.classList.toggle('open');
+      });
+    });
+
+    document.querySelectorAll('.accordion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        item.classList.toggle('open');
+        btn.lastElementChild.textContent = item.classList.contains('open') ? '–' : '+';
+      });
+    });
+
+    function showTab(id, btn) {
+      document.querySelectorAll('.t-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.t-tab').forEach(tab => tab.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    document.querySelectorAll('.mc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.q;
+        const options = document.querySelectorAll(`.mc-btn[data-q="${q}"]`);
+        const correct = btn.dataset.correct === 'true';
+        const feedback = document.getElementById('f' + q);
+
+        options.forEach(option => {
+          option.disabled = true;
+          if (option.dataset.correct === 'true') option.classList.add('correct');
+        });
+
+        if (!correct) btn.classList.add('wrong');
+        feedback.textContent = correct
+          ? 'Rätt. Du har fångat huvudtanken i resonemanget.'
+          : 'Inte riktigt. Tänk på hur flera faktorer samverkade samtidigt.';
+      });
+    });
+
+    const tooltip = document.getElementById('tooltip');
+    document.querySelectorAll('.glossary-term').forEach(term => {
+      term.addEventListener('mouseenter', () => {
+        tooltip.textContent = term.dataset.definition;
+        tooltip.style.display = 'block';
+      });
+      term.addEventListener('mousemove', e => {
+        tooltip.style.left = `${e.clientX + 16}px`;
+        tooltip.style.top = `${e.clientY + 16}px`;
+      });
+      term.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
