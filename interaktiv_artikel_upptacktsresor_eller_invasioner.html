@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upptäcktsresor eller invasioner? – Vems perspektiv avgör historien</title>
+  <style>
+    :root {
+      --ink: #0f1115;
+      --ink-2: #151922;
+      --paper: #f5efe3;
+      --paper-soft: #e7dcc6;
+      --gold: #c9a76a;
+      --rust: #9a4e2f;
+      --line: rgba(201,167,106,0.18);
+      --text: #eadfcd;
+      --text-dim: rgba(234,223,205,0.68);
+      --serif: Georgia, "Times New Roman", serif;
+      --mono: "Courier New", monospace;
+      --shadow: 0 22px 60px rgba(0,0,0,0.45);
+      --max: 840px;
+      --euro: #d1a76c;
+      --local: #7ec3b2;
+      --alert: #c96c55;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: var(--serif);
+      font-size: 21px;
+      line-height: 1.8;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+
+    #progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      z-index: 1000;
+      background: linear-gradient(90deg, var(--rust), var(--gold));
+      transition: width 0.08s;
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 72px 36px;
+      overflow: hidden;
+      text-align: center;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(201,167,106,0.10), transparent 26%),
+        radial-gradient(circle at 20% 80%, rgba(126,195,178,0.09), transparent 22%),
+        linear-gradient(180deg, #12161d 0%, #0b0d12 100%);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 34%, rgba(0,0,0,0.82) 100%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 1060px;
+    }
+
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 7vw, 92px);
+      line-height: 0.98;
+      font-weight: 700;
+      color: var(--paper);
+      letter-spacing: -0.035em;
+      margin-bottom: 18px;
+      text-shadow: 0 0 60px rgba(154,78,47,0.22);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.45s forwards;
+    }
+
+    .hero h1 em {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hero-sub {
+      max-width: 760px;
+      margin: 0 auto 34px;
+      color: var(--text-dim);
+      font-size: 23px;
+      line-height: 1.55;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.7s forwards;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      max-width: 980px;
+      margin: 0 auto 38px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.95s forwards;
+    }
+
+    .hero-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.035);
+      padding: 18px 14px;
+      border-radius: 4px;
+      backdrop-filter: blur(2px);
+    }
+
+    .hero-card strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .hero-card span {
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.5;
+      display: block;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.15s forwards;
+    }
+
+    .hero-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 24px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-dim);
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-2px);
+      border-color: var(--gold);
+      color: var(--paper);
+      background: rgba(201,167,106,0.08);
+    }
+
+    .hero-btn.primary {
+      background: rgba(154,78,47,0.18);
+      border-color: rgba(154,78,47,0.42);
+      color: var(--paper);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 38px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      animation: fadeUp 0.9s 1.45s forwards;
+    }
+
+    .scroll-arrow {
+      width: 1px;
+      height: 52px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .article {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 88px 36px;
+    }
+
+    p { margin-bottom: 24px; color: var(--text); }
+    p:last-child { margin-bottom: 0; }
+    strong { color: var(--paper); }
+    em { color: var(--gold); }
+
+    .intro {
+      font-size: 24px;
+      font-style: italic;
+      color: var(--paper);
+      line-height: 1.62;
+      margin-bottom: 42px;
+    }
+
+    .section-marker {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin: 84px 0 30px;
+    }
+
+    .section-marker::before,
+    .section-marker::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .section-marker span {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    h2 {
+      font-size: clamp(30px, 4.4vw, 50px);
+      line-height: 1.12;
+      color: var(--paper);
+      margin-bottom: 28px;
+      font-weight: 700;
+    }
+
+    h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--gold);
+      margin: 40px 0 14px;
+    }
+
+    .pullquote {
+      margin: 62px -74px;
+      padding: 38px 54px;
+      background: linear-gradient(135deg, rgba(154,78,47,0.12), transparent);
+      border-left: 4px solid var(--rust);
+      position: relative;
+    }
+
+    .pullquote::before {
+      content: '“';
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      font-size: 160px;
+      line-height: 0.8;
+      color: rgba(154,78,47,0.18);
+      pointer-events: none;
+    }
+
+    .pullquote p {
+      position: relative;
+      font-size: clamp(24px, 3vw, 34px);
+      line-height: 1.42;
+      color: var(--paper);
+      font-style: italic;
+      margin: 0;
+    }
+
+    .pullquote cite {
+      display: block;
+      margin-top: 16px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-style: normal;
+    }
+
+    .fact-box {
+      margin: 34px 0;
+      padding: 22px 24px;
+      background: rgba(201,167,106,0.06);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 6px 6px 0;
+    }
+
+    .fact-box-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .fact-box p {
+      font-size: 16px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    .full-bleed {
+      margin: 82px -100vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 90px 36px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(201,167,106,0.12), transparent 26%),
+        linear-gradient(180deg, #12161d 0%, #0f1115 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .full-bleed-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .perspective-shell {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 18px;
+      margin-top: 28px;
+    }
+
+    .perspective-menu {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .p-btn {
+      text-align: left;
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.035);
+      color: var(--text-dim);
+      padding: 16px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+      transition: 0.2s ease;
+    }
+
+    .p-btn strong {
+      display: block;
+      color: var(--paper);
+      margin-bottom: 6px;
+      font-size: 18px;
+    }
+
+    .p-btn small { color: var(--text-dim); line-height: 1.45; }
+    .p-btn:hover, .p-btn.active { border-color: var(--gold); background: rgba(201,167,106,0.10); color: var(--paper); }
+
+    .perspective-panel {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.035);
+      border-radius: 6px;
+      padding: 28px;
+      min-height: 360px;
+    }
+
+    .perspective-view { display: none; }
+    .perspective-view.active { display: block; }
+
+    .view-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .view-badge.euro { border: 1px solid rgba(209,167,108,0.32); color: var(--euro); background: rgba(209,167,108,0.10); }
+    .view-badge.local { border: 1px solid rgba(126,195,178,0.28); color: var(--local); background: rgba(126,195,178,0.10); }
+    .view-badge.compare { border: 1px solid rgba(201,167,106,0.32); color: var(--gold); background: rgba(201,167,106,0.08); }
+
+    .view-title {
+      font-size: 30px;
+      color: var(--paper);
+      margin-bottom: 14px;
+      line-height: 1.16;
+    }
+
+    .view-copy {
+      font-size: 18px;
+      color: var(--text-dim);
+      line-height: 1.75;
+    }
+
+    .view-copy p { margin-bottom: 18px; }
+
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 24px;
+    }
+
+    .panel h3 { margin-top: 0; font-size: 22px; }
+
+    .word-lab {
+      display: grid;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .word-card {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .word-card:hover { border-color: var(--gold); background: rgba(201,167,106,0.08); }
+    .word-card strong { font-size: 17px; color: var(--paper); }
+    .word-card span { color: var(--text-dim); font-size: 15px; line-height: 1.55; }
+
+    .word-output {
+      margin-top: 16px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--gold);
+      background: rgba(245,239,227,0.03);
+      min-height: 104px;
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .compare-table {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 180px 1fr 1fr;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .compare-label,
+    .compare-side {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      padding: 16px;
+    }
+
+    .compare-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .compare-side h4 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: var(--paper);
+    }
+
+    .compare-side p {
+      margin: 0;
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .timeline-card {
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .timeline-btn {
+      width: 100%;
+      background: none;
+      border: none;
+      color: var(--paper);
+      text-align: left;
+      padding: 18px 20px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+    }
+
+    .timeline-btn span {
+      display: block;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .timeline-more {
+      display: none;
+      padding: 0 20px 18px;
+      color: var(--text-dim);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .timeline-card.open .timeline-more { display: block; }
+
+    .glossary-term {
+      border-bottom: 2px dotted rgba(201,167,106,0.45);
+      cursor: help;
+    }
+
+    .tooltip {
+      position: fixed;
+      z-index: 1200;
+      display: none;
+      max-width: 280px;
+      background: #11151c;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 12px 14px;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.55;
+      box-shadow: var(--shadow);
+      pointer-events: none;
+    }
+
+    .teacher-section {
+      background: #0b0d12;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 86px 36px;
+      margin-top: 40px;
+    }
+
+    .teacher-inner {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .teacher-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 14px;
+    }
+
+    .teacher-title {
+      font-size: clamp(30px, 4vw, 48px);
+      line-height: 1.1;
+      color: var(--paper);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+
+    .teacher-title em { color: var(--gold); font-style: italic; }
+
+    .teacher-intro {
+      font-size: 17px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 740px;
+      margin-bottom: 28px;
+    }
+
+    .teacher-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 30px;
+    }
+
+    .t-tab {
+      background: rgba(245,239,227,0.04);
+      border: 1px solid var(--line);
+      color: var(--text-dim);
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .t-tab:hover, .t-tab.active {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(201,167,106,0.10);
+    }
+
+    .t-panel { display: none; }
+    .t-panel.active { display: block; }
+
+    .t-panel-intro {
+      font-size: 16px;
+      color: var(--text-dim);
+      font-style: italic;
+      border-left: 2px solid var(--line);
+      padding-left: 16px;
+      margin-bottom: 34px;
+      line-height: 1.7;
+    }
+
+    .question-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .question-card {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 22px;
+    }
+
+    .question-card h4 {
+      font-size: 19px;
+      color: var(--paper);
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+
+    .mc-list { display: grid; gap: 8px; margin-top: 14px; }
+
+    .mc-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(245,239,227,0.03);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 14px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font: inherit;
+      line-height: 1.55;
+      transition: 0.2s ease;
+    }
+
+    .mc-btn:hover { border-color: var(--gold); background: rgba(201,167,106,0.08); }
+    .mc-btn.correct { border-color: rgba(101,182,122,0.55); background: rgba(101,182,122,0.14); }
+    .mc-btn.wrong { border-color: rgba(214,112,88,0.52); background: rgba(214,112,88,0.14); }
+
+    .mc-feedback {
+      margin-top: 12px;
+      font-size: 15px;
+      color: var(--paper-soft);
+      min-height: 22px;
+    }
+
+    .source-card, .write-card {
+      background: rgba(245,239,227,0.035);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 26px;
+      margin-bottom: 18px;
+    }
+
+    .source-badge, .write-badge {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 4px 10px;
+      border: 1px solid rgba(201,167,106,0.22);
+      background: rgba(201,167,106,0.09);
+      color: var(--gold);
+      border-radius: 4px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .source-card h4, .write-card h4 {
+      font-size: 22px;
+      color: var(--paper);
+      margin-bottom: 12px;
+    }
+
+    .source-quote {
+      margin: 16px 0 18px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--gold);
+      background: rgba(245,239,227,0.03);
+      color: var(--text-dim);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .task-list { display: grid; gap: 10px; margin-top: 16px; }
+
+    .task-item {
+      padding: 14px 16px;
+      border-radius: 4px;
+      border: 1px solid var(--line);
+      background: rgba(245,239,227,0.03);
+      color: var(--text-dim);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .write-tip {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-left: 2px solid var(--rust);
+      background: rgba(154,78,47,0.08);
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .write-tip strong {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .epilogue {
+      margin: 0 -100vw;
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 100px 36px 120px;
+      text-align: center;
+      background: radial-gradient(ellipse at 50% 0%, rgba(154,78,47,0.16) 0%, transparent 72%);
+    }
+
+    .epilogue h2 { margin-bottom: 22px; }
+
+    .epilogue p {
+      max-width: 740px;
+      margin: 0 auto 22px;
+      color: var(--text-dim);
+      font-size: 21px;
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    .ep-links {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 36px;
+    }
+
+    .ep-link {
+      text-decoration: none;
+      padding: 14px 24px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--gold);
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: 0.2s ease;
+      background: rgba(245,239,227,0.03);
+    }
+
+    .ep-link:hover { border-color: var(--gold); background: rgba(201,167,106,0.10); }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .question-grid,
+      .split-grid,
+      .compare-row,
+      .perspective-shell { grid-template-columns: 1fr; }
+      .compare-row { gap: 8px; }
+      .compare-label { justify-content: flex-start; text-align: left; }
+    }
+
+    @media (max-width: 700px) {
+      body { font-size: 19px; }
+      .article, .teacher-section, .full-bleed, .epilogue, .hero { padding-left: 24px; padding-right: 24px; }
+      .pullquote { margin: 42px 0; padding: 28px 24px; }
+      .pullquote::before { font-size: 110px; }
+      .word-card { grid-template-columns: 1fr; gap: 8px; }
+      .hero-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+  <div class="tooltip" id="tooltip"></div>
+
+  <section class="hero" id="top">
+    <div class="hero-inner">
+      <div class="hero-label">SO-portalen · Fördjupning · Historia · Perspektiv</div>
+      <h1>Upptäcktsresor eller<br><em>invasioner?</em><br>Vems perspektiv avgör historien</h1>
+      <p class="hero-sub">Samma händelse kan beskrivas som ett hjältedåd, en handelsresa eller en katastrof. Frågan är inte bara vad som hände – utan vem som får berätta vad som hände.</p>
+
+      <div class="hero-grid">
+        <div class="hero-card"><strong>Ord formar tolkning</strong><span>”Upptäckt” och ”invasion” skapar helt olika bilder av samma händelse.</span></div>
+        <div class="hero-card"><strong>Perspektiv skapar historia</strong><span>Erövrare och erövrade såg inte samma värld när européerna anlände.</span></div>
+        <div class="hero-card"><strong>Källor ger makt</strong><span>De röster som bevaras i texter, kartor och böcker påverkar hur eftervärlden minns.</span></div>
+      </div>
+
+      <div class="hero-actions">
+        <a class="hero-btn primary" href="#artikelstart">Börja läsa</a>
+        <a class="hero-btn" href="#lararsektion">Frågor till texten</a>
+      </div>
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scrolla för att läsa</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <article class="article" id="artikelstart">
+    <p class="intro">När vi talar om Columbus “upptäckt” av Amerika eller Vasco da Gamas sjöväg runt Afrika använder vi ofta ett europeiskt perspektiv. Händelserna kan låta som äventyr och framsteg. Men för människor i Afrika, Asien och Amerika innebar européernas ankomst ofta våld, tvång, sjukdomar och förlust av kontroll. Därför handlar historien inte bara om fakta. Den handlar också om perspektiv.</p>
+
+    <p>Samma händelse kan alltså ge upphov till två helt olika berättelser. För europeiska sjöfarare och krönikörer kunde resorna framstå som modiga expeditioner in i det okända. För de människor som redan levde där kunde de istället upplevas som invasioner.</p>
+
+    <p>Det är just därför historieundervisning i dag lägger stor vikt vid frågan: <strong>vems röst hörs, och vems röst saknas?</strong></p>
+
+    <div class="section-marker"><span>Del 1 · Perspektiv</span></div>
+    <h2>Samma händelse –<br><em>två helt olika berättelser</em></h2>
+
+    <p>Europeiska krönikor från 1500- och 1600-talen betonade mod, gudstro och upptäckarlust. Columbus skrev att han “upptäckte” en ny värld, trots att miljontals människor redan levde där. Kartor ritades med Europa i centrum och andra delar av världen framställdes som outforskade, trots att de förstås redan var kända av dem som bodde där.</p>
+
+    <p>När Spanien och Portugal erövrade riken i Amerika beskrev präster och krönikörer det ofta som en civilisatorisk gärning. Kristendomens spridning användes som argument för att rättfärdiga erövring. I efterhand har europeisk dominans också ibland tolkats som bevis på medfödd överlägsenhet.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-label">Kärnidén här</div>
+      <p>Historien blir inte neutral bara för att den står i en bok. Den påverkas av vilka ord som används, vilka källor som bevaras och vilka människor som får beskriva vad som hände.</p>
+    </div>
+
+    <p>För ursprungsbefolkningar i Amerika, och för människor i Afrika och Asien, såg samma händelser helt annorlunda ut. De såg inte att deras värld “upptäcktes”. De såg främlingar som kom med anspråk på mark, rikedomar och makt.</p>
+
+    <div class="pullquote">
+      <p>När européer skrev “vi fann en ny värld” kunde människor på plats lika gärna ha skrivit “de kom till vår värld”.</p>
+      <cite>Perspektivförskjutning</cite>
+    </div>
+  </article>
+
+  <section class="full-bleed">
+    <div class="full-bleed-inner">
+      <div class="section-marker"><span>Interaktiv fördjupning</span></div>
+      <h2>Byt perspektiv –<br><em>och se hur historien förändras</em></h2>
+
+      <div class="perspective-shell">
+        <div class="perspective-menu">
+          <button class="p-btn active" type="button" data-view="euro"><strong>Europeiskt perspektiv</strong><small>Krönikor, kartor och berättelser om mod, tro och upptäckt.</small></button>
+          <button class="p-btn" type="button" data-view="local"><strong>Ursprungsbefolkningars perspektiv</strong><small>Erfarenheter av sjukdomar, erövring, tvång och förlust.</small></button>
+          <button class="p-btn" type="button" data-view="compare"><strong>Jämför sida vid sida</strong><small>Se hur samma händelse får helt olika betydelse beroende på vem som berättar.</small></button>
+        </div>
+
+        <div class="perspective-panel">
+          <div class="perspective-view active" id="view-euro">
+            <div class="view-badge euro">Europeiskt perspektiv</div>
+            <div class="view-title">Resan som hjälteberättelse</div>
+            <div class="view-copy">
+              <p>I europeiska texter kunde sjöresorna beskrivas som modiga expeditioner in i det okända. Här framstod Columbus, Vasco da Gama och andra som hjältar som trotsade hav, stormar och osäkerhet.</p>
+              <p>Kristendomen gav berättelsen moralisk tyngd: resorna kunde framställas som en möjlighet att sprida den “sanna tron”. Samtidigt ritades kartor där Europa blev centrum, och världen utanför framstod som något som väntade på att hittas, ordnas eller styras.</p>
+              <p>Om detta är det enda perspektiv som bevaras, blir expansion lätt till framstegshistoria.</p>
+            </div>
+          </div>
+
+          <div class="perspective-view" id="view-local">
+            <div class="view-badge local">Ursprungsbefolkningars perspektiv</div>
+            <div class="view-title">Ankomsten som katastrof</div>
+            <div class="view-copy">
+              <p>För människor i Amerika betydde européernas ankomst ofta inte upptäckt utan intrång. Sjukdomar följde med kontakten och dödade enorma mängder människor. Våld, tvångsarbete och förlust av mark blev en del av vardagen.</p>
+              <p>När conquistadorer som Cortés och Pizarro erövrade riken var det inte bara militära segrar. Det var sammanbrott för samhällen, maktstrukturer och livsvillkor. Liknande mönster fanns också i Afrika, där slavhandel och europeisk handel förändrade livet för miljontals människor.</p>
+              <p>Ur detta perspektiv framstår resorna snarare som invasioner än som upptäckter.</p>
+            </div>
+          </div>
+
+          <div class="perspective-view" id="view-compare">
+            <div class="view-badge compare">Jämförande perspektiv</div>
+            <div class="view-title">En händelse – två tolkningar</div>
+            <div class="view-copy">
+              <p>När vi jämför perspektiven ser vi att historien inte bara handlar om vad som hände, utan om hur händelsen beskrivs. Det ena perspektivet kan betona mod och tro. Det andra kan betona våld och förlust. Båda handlar om samma historia.</p>
+            </div>
+            <div class="compare-table">
+              <div class="compare-row">
+                <div class="compare-label">Columbus 1492</div>
+                <div class="compare-side"><h4>Europeiskt språk</h4><p>“En ny värld upptäcktes.”</p></div>
+                <div class="compare-side"><h4>Lokalt språk</h4><p>“Främlingar anlände till en redan levd värld.”</p></div>
+              </div>
+              <div class="compare-row">
+                <div class="compare-label">Kristen mission</div>
+                <div class="compare-side"><h4>Europeiskt språk</h4><p>“Civilisation och religion spreds.”</p></div>
+                <div class="compare-side"><h4>Lokalt språk</h4><p>“Tvångsomvändelse och kulturell nedvärdering tog plats.”</p></div>
+              </div>
+              <div class="compare-row">
+                <div class="compare-label">Erövring</div>
+                <div class="compare-side"><h4>Europeiskt språk</h4><p>“Riken besegrades och nya territorier vanns.”</p></div>
+                <div class="compare-side"><h4>Lokalt språk</h4><p>“Mark, självbestämmande och liv förstördes.”</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <article class="article">
+    <div class="section-marker"><span>Del 2 · Konsekvenser</span></div>
+    <h2>Hur ursprungsbefolkningar påverkades –<br><em>och varför det länge tonades ned</em></h2>
+
+    <p>För ursprungsbefolkningarna var konsekvenserna dramatiska. Många amerikaner dog av sjukdomar som européerna förde med sig. Själva kontaktögonblicket blev ofta våldsamt, och senare följde tvång, erövring och nya former av kontroll.</p>
+
+    <p>Conquistadoren Hernán Cortés använde hästar, vapen och myter för att krossa den aztekiska makten. Francisco Pizarro erövrade senare Inkariket efter att ha tagit Atahualpa till fånga. Samhällen förlorade kontrollen över sin mark och människor tvingades arbeta i gruvor eller på plantager.</p>
+
+    <p>I Afrika började europeisk slavhandel förändra livsvillkoren för miljontals människor. Det handlade alltså inte bara om att européer seglade långt. Det handlade om att deras ankomst ofta omformade hela samhällen.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-label">Det som ofta saknades i äldre historieböcker</div>
+      <p>Många berättelser från koloniserade och underordnade grupper levde kvar i muntliga traditioner eller i källor som länge inte fick samma status som europeiska krönikor och officiella dokument.</p>
+    </div>
+
+    <div class="section-marker"><span>Del 3 · Språkets makt</span></div>
+    <h2>Ord som styr tolkningen –<br><em>upptäckt, civilisation och vildar</em></h2>
+
+    <p>Hur vi benämner händelser styr hur vi tänker om dem. Ordet “upptäckt” antyder att något tidigare var okänt. Men för de människor som levde i Amerika var deras värld redan välkänd. Därför är det inte ett neutralt ord.</p>
+
+    <p>När européer kallade andra folk för “vildar” eller beskrev sig själva som bärare av “civilisation” skapade de också en värdering. Kristendomen och tekniken användes som måttstockar för att rangordna kulturer. Sådana ord var inte oskyldiga. De hjälpte till att motivera erövring och tvång.</p>
+
+    <div class="split-grid">
+      <div class="panel">
+        <h3>Ord-lab: klicka på ordet</h3>
+        <div class="word-lab">
+          <button class="word-card" type="button" data-word="upptackt"><strong>Upptäckt</strong><span>Låter som om platsen tidigare saknade historia och människor.</span></button>
+          <button class="word-card" type="button" data-word="civilisation"><strong>Civilisation</strong><span>Kan användas för att framställa andra samhällen som mindre värda.</span></button>
+          <button class="word-card" type="button" data-word="vildar"><strong>Vildar</strong><span>Ett nedsättande ord som signalerar underlägsenhet.</span></button>
+          <button class="word-card" type="button" data-word="erovring"><strong>Erövring</strong><span>Gör våld och makt mer synligt än ordet “upptäcktsresa”.</span></button>
+        </div>
+        <div class="word-output" id="wordOutput">Klicka på ett ord för att se hur det påverkar historiesynen.</div>
+      </div>
+      <div class="panel">
+        <h3>Begrepp med laddning</h3>
+        <p>Språk kan dölja våld eller göra det tydligt. Därför behöver historieundervisning inte bara fråga <strong>vad</strong> ett ord betyder, utan också <strong>vad ordet gör</strong> med vår förståelse.</p>
+        <p>När äldre historieböcker beskrev européer som “upptäckare” och andra folk som “vildar” byggde de samtidigt en berättelse där makt och överlägsenhet såg naturligt ut.</p>
+        <p>Det gör språkgranskning till en del av historisk analys.</p>
+      </div>
+    </div>
+
+    <div class="pullquote">
+      <p>Ord som verkar självklara är ofta de mest politiska. De får vissa handlingar att se naturliga ut – och andra att försvinna.</p>
+      <cite>Språkets makt i historien</cite>
+    </div>
+
+    <div class="section-marker"><span>Del 4 · Historieböcker då och nu</span></div>
+    <h2>Vad händer när fler röster får plats?</h2>
+
+    <p>Under lång tid dominerade europeiska versioner av upptäcktsresorna i skolböcker. De betonade hjältedåd och dramatiska resor, medan de koloniserades erfarenheter hamnade i bakgrunden eller försvann helt.</p>
+
+    <p>På senare år har forskare lyft fram fler perspektiv. Vi får veta att smittsamma sjukdomar dödade enorma mängder människor i Amerika, att aztekerna hade en avancerad huvudstad i Tenochtitlán med egen sophämtning och att inkafolket byggde vägar och använde budkavlar för att föra meddelanden. Det förändrar vår bild av historien.</p>
+
+    <div class="timeline">
+      <div class="timeline-card">
+        <button class="timeline-btn" type="button"><span>Äldre historieskrivning</span>Fokus på europeiska hjältar</button>
+        <div class="timeline-more">Berättelsen betonade modiga sjöfarare, kristen mission och tekniska framsteg. Koloniserades erfarenheter syntes betydligt mindre.</div>
+      </div>
+      <div class="timeline-card">
+        <button class="timeline-btn" type="button"><span>Nyare forskning</span>Fler röster och fler källor</button>
+        <div class="timeline-more">Nyare forskning jämför fler typer av källor och frågar hur kolonisering, sjukdomar, tvång och makt såg ut för dem som drabbades.</div>
+      </div>
+      <div class="timeline-card">
+        <button class="timeline-btn" type="button"><span>Undervisning idag</span>Perspektiv som metod</button>
+        <div class="timeline-more">I dagens undervisning blir perspektivbyte ett sätt att förstå att historien inte bara handlar om det som står i källorna – utan också om vilka källor som länge fått dominera.</div>
+      </div>
+    </div>
+
+    <div class="section-marker"><span>Del 5 · Slutsatsen</span></div>
+    <h2>Varför är perspektiv avgörande<br><em>i historia?</em></h2>
+
+    <p>Att byta perspektiv är avgörande för att förstå historien. När vi bara ser händelserna genom erövrarnas ögon blir historien lätt en berättelse om mod, teknik och framgång. När vi också ser den genom de erövrades ögon framträder våld, sjukdomar, förlust och motstånd.</p>
+
+    <p>Därför behöver historieundervisning lyfta fram fler röster. Ordval, kartor och berättelser skapas alltid i en politisk kontext. Att granska dem kritiskt gör inte historien mindre sann – det gör den mer rättvisande och mer komplex.</p>
+  </article>
+
+  <section class="teacher-section" id="lararsektion">
+    <div class="teacher-inner">
+      <div class="teacher-label">Lärarsektion</div>
+      <h2 class="teacher-title">Frågor och material<br><em>till texten</em></h2>
+      <p class="teacher-intro">Här finns en tydlig lärardel med åtta quizfrågor, källövning och skrivuppgifter. Övningarna är byggda för att få eleverna att arbeta med perspektiv, ordval och historisk tolkning.</p>
+
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTab('quiz', this)">Quiz</button>
+        <button class="t-tab" onclick="showTab('kallor', this)">Källövning</button>
+        <button class="t-tab" onclick="showTab('skriv', this)">Skrivfrågor</button>
+      </div>
+
+      <div class="t-panel active" id="tab-quiz">
+        <div class="t-panel-intro">Åtta frågor som testar förståelse av artikelns huvudidé: att perspektiv och språk förändrar hur historien förstås.</div>
+        <div class="question-grid">
+          <div class="question-card">
+            <h4>1. Vad är artikelns viktigaste huvudpoäng?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="1" data-correct="false">Att europeiska upptäcktsresor bara bör beskrivas som hjältedåd.</button>
+              <button class="mc-btn" data-q="1" data-correct="true">Att perspektiv påverkar hur vi tolkar samma historiska händelser.</button>
+              <button class="mc-btn" data-q="1" data-correct="false">Att alla historiska källor berättar exakt samma sak.</button>
+            </div>
+            <div class="mc-feedback" id="f1"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>2. Varför är ordet “upptäckt” problematiskt i texten?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="2" data-correct="true">Det får det att låta som om platsen saknade människor och historia innan européerna kom.</button>
+              <button class="mc-btn" data-q="2" data-correct="false">Det betyder alltid samma sak i alla kulturer.</button>
+              <button class="mc-btn" data-q="2" data-correct="false">Det är ett ord som bara handlar om kartor.</button>
+            </div>
+            <div class="mc-feedback" id="f2"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>3. Hur beskrevs resorna ofta i europeiska krönikor?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="3" data-correct="true">Som modiga expeditioner präglade av gudstro och upptäckarlust.</button>
+              <button class="mc-btn" data-q="3" data-correct="false">Som misslyckade resor utan betydelse.</button>
+              <button class="mc-btn" data-q="3" data-correct="false">Som rent lokala konflikter mellan ursprungsfolk.</button>
+            </div>
+            <div class="mc-feedback" id="f3"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>4. Vilken konsekvens lyfter texten fram för ursprungsbefolkningar?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="4" data-correct="false">Att de omedelbart fick samma makt som européerna.</button>
+              <button class="mc-btn" data-q="4" data-correct="true">Sjukdomar, våld, tvångsarbete och förlust av mark och kontroll.</button>
+              <button class="mc-btn" data-q="4" data-correct="false">Att deras samhällen inte påverkades särskilt mycket.</button>
+            </div>
+            <div class="mc-feedback" id="f4"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>5. Varför är ord som “vildar” viktiga att granska?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="5" data-correct="true">De signalerar underlägsenhet och hjälper till att rättfärdiga makt och erövring.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">De är neutrala ord utan värdering.</button>
+              <button class="mc-btn" data-q="5" data-correct="false">De handlar bara om språk, inte om historia.</button>
+            </div>
+            <div class="mc-feedback" id="f5"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>6. Vad menar texten med att historien inte är neutral?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="6" data-correct="false">Att historiker aldrig använder källor.</button>
+              <button class="mc-btn" data-q="6" data-correct="true">Att ordval, källor och perspektiv påverkar hur händelser framställs.</button>
+              <button class="mc-btn" data-q="6" data-correct="false">Att alla berättelser om det förflutna är påhittade.</button>
+            </div>
+            <div class="mc-feedback" id="f6"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>7. Hur förändrar nyare forskning bilden av azteker och inka?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="7" data-correct="true">Den visar att de hade avancerade samhällen, städer, vägar och fungerande organisation.</button>
+              <button class="mc-btn" data-q="7" data-correct="false">Den visar att de saknade alla former av samhällsstruktur.</button>
+              <button class="mc-btn" data-q="7" data-correct="false">Den bekräftar att äldre europeiska beskrivningar var helt neutrala.</button>
+            </div>
+            <div class="mc-feedback" id="f7"></div>
+          </div>
+
+          <div class="question-card">
+            <h4>8. Varför är perspektivbyte viktigt i historieundervisning?</h4>
+            <div class="mc-list">
+              <button class="mc-btn" data-q="8" data-correct="false">För att ersätta alla gamla källor med nya utan att jämföra dem.</button>
+              <button class="mc-btn" data-q="8" data-correct="true">För att få en mer rättvisande och komplex bild av historiska händelser.</button>
+              <button class="mc-btn" data-q="8" data-correct="false">För att göra historien enklare och mindre nyanserad.</button>
+            </div>
+            <div class="mc-feedback" id="f8"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-kallor">
+        <div class="t-panel-intro">Här kan eleverna träna på att analysera både ordval och perspektiv i en kort källtext.</div>
+
+        <div class="source-card">
+          <div class="source-badge">Källövning</div>
+          <h4>En röst ur det europeiska perspektivet</h4>
+          <div class="source-quote">&quot;Vi fann nya länder och förde med oss den sanna tron till folk som ännu inte levde i civilisation.&quot;</div>
+          <div class="task-list">
+            <div class="task-item"><strong>1.</strong> Vilka ord i källan signalerar ett europeiskt perspektiv?</div>
+            <div class="task-item"><strong>2.</strong> Hur framställs människorna som redan bodde där?</div>
+            <div class="task-item"><strong>3.</strong> Vad saknas i källan om man vill förstå hur de som drabbades upplevde händelsen?</div>
+            <div class="task-item"><strong>4.</strong> Hur skulle samma händelse kunna beskrivas med ett annat ordval?</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="t-panel" id="tab-skriv">
+        <div class="t-panel-intro">Skrivuppgifterna tränar analys, perspektivförståelse och historiskt resonemang.</div>
+
+        <div class="write-card">
+          <div class="write-badge">Perspektiv</div>
+          <h4>Upptäcktsresa eller invasion?</h4>
+          <p>Skriv ett resonemang där du förklarar varför samma historiska händelse kan beskrivas både som en upptäcktsresa och som en invasion. Använd exempel från texten.</p>
+          <div class="write-tip"><strong>Lärartips</strong>Den här frågan passar bra för att få eleverna att arbeta med begreppet perspektiv på ett konkret sätt.</div>
+        </div>
+
+        <div class="write-card">
+          <div class="write-badge">Språk</div>
+          <h4>När ord förändrar historia</h4>
+          <p>Välj två ord från texten, till exempel “upptäckt” och “vildar”, och förklara hur de påverkar vår syn på det som hände.</p>
+          <div class="write-tip"><strong>Lärartips</strong>Här får eleverna träna på att visa att språk inte bara beskriver historien utan också formar den.</div>
+        </div>
+
+        <div class="write-card">
+          <div class="write-badge">Jämförande</div>
+          <h4>Två röster om samma händelse</h4>
+          <p>Skriv två korta stycken om Columbus ankomst 1492: ett ur ett europeiskt perspektiv och ett ur ett ursprungsbefolkningsperspektiv. Jämför sedan skillnaden mellan dem.</p>
+          <div class="write-tip"><strong>Lärartips</strong>En bra uppgift för att få eleverna att visa både faktakunskap och perspektivförmåga.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="epilogue">
+    <h2>Historien avgörs inte bara av<br><em>vad som hände</em></h2>
+    <p>Den avgörs också av vem som får beskriva vad som hände, vilka ord som används och vilka röster som blir kvar i eftervärlden.</p>
+    <p>När vi byter perspektiv blir historien inte svagare. Den blir mer mänsklig, mer komplex och mer sanningsnära.</p>
+    <div class="ep-links">
+      <a class="ep-link" href="#top">Till toppen</a>
+      <a class="ep-link" href="#lararsektion">Till frågorna</a>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      const el = document.documentElement;
+      const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+      document.getElementById('progress').style.width = pct + '%';
+    });
+
+    document.querySelectorAll('.timeline-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        btn.parentElement.classList.toggle('open');
+      });
+    });
+
+    document.querySelectorAll('.p-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.p-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.perspective-view').forEach(v => v.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('view-' + btn.dataset.view).classList.add('active');
+      });
+    });
+
+    const wordMap = {
+      upptackt: '“Upptäckt” låter som om platsen saknade historia innan européerna kom. Ordet döljer att människor redan levde där, hade samhällen, minnen och namn på sina platser.',
+      civilisation: '“Civilisation” kan användas som ett värdeord där den som talar placerar sig själv högre än andra. Då blir skillnader lätt till en rangordning.',
+      vildar: '“Vildar” är ett nedsättande ord som avhumaniserar människor. Det gör det lättare att rättfärdiga tvång, våld och erövring.',
+      erovring: '“Erövring” synliggör makt, våld och kontroll mycket tydligare än ord som “upptäcktsresa”. Därför förändrar det också hur vi tolkar händelsen.'
+    };
+
+    document.querySelectorAll('.word-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.getElementById('wordOutput').textContent = wordMap[card.dataset.word];
+      });
+    });
+
+    function showTab(id, btn) {
+      document.querySelectorAll('.t-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.t-tab').forEach(tab => tab.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    document.querySelectorAll('.mc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const q = btn.dataset.q;
+        const options = document.querySelectorAll(`.mc-btn[data-q="${q}"]`);
+        const correct = btn.dataset.correct === 'true';
+        const feedback = document.getElementById('f' + q);
+
+        options.forEach(option => {
+          option.disabled = true;
+          if (option.dataset.correct === 'true') option.classList.add('correct');
+        });
+
+        if (!correct) btn.classList.add('wrong');
+        feedback.textContent = correct
+          ? 'Rätt. Du har fångat hur perspektiv och språk påverkar historiesynen.'
+          : 'Inte riktigt. Tänk på hur ordval och perspektiv förändrar tolkningen av samma händelse.';
+      });
+    });
+
+    const tooltip = document.getElementById('tooltip');
+    document.querySelectorAll('.glossary-term').forEach(term => {
+      term.addEventListener('mouseenter', () => {
+        tooltip.textContent = term.dataset.definition;
+        tooltip.style.display = 'block';
+      });
+      term.addEventListener('mousemove', e => {
+        tooltip.style.left = `${e.clientX + 16}px`;
+        tooltip.style.top = `${e.clientY + 16}px`;
+      });
+      term.addEventListener('mouseleave', () => {
+        tooltip.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>
