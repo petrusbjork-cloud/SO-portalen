@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Motstånd och Förändring – SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #121416;
+  --paper:    #F4F4F4;
+  --steel:    #5A6B7C;
+  --steel-dk: #3A4754;
+  --rebel:    #9B2922;
+  --rebel-lt: #C23B32;
+  --text:     #E0E4E8;
+  --text-dim: rgba(224,228,232,0.65);
+  --border:   rgba(90,107,124,0.3);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--rebel), var(--steel));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(ellipse at 50% 40%, #1c1515 0%, #0d0f11 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center; border-bottom: 2px solid var(--rebel);
+}
+.hero-grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.8) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--steel); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 8vw, 86px);
+  font-weight: 900; line-height: 1.0;
+  color: var(--paper);
+  text-shadow: 0 0 50px rgba(155,41,34,0.4);
+  margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 1s 0.5s forwards;
+}
+.hero h1 em { color: var(--rebel-lt); font-style: italic; }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 40px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.8s forwards;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-dim); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--steel), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article { max-width: 760px; margin: 0 auto; padding: 80px 40px; }
+
+.cite { font-family: var(--mono); font-size: 10px; color: var(--steel); vertical-align: super; opacity: 0.6; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px; padding: 40px 60px;
+  border-left: 4px solid var(--rebel);
+  background: linear-gradient(135deg, rgba(155,41,34,0.08), transparent);
+  position: relative;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker { display: flex; align-items: center; gap: 20px; margin: 80px 0 32px; }
+.section-marker::before, .section-marker::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+.section-marker span { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--steel); white-space: nowrap; }
+
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; color: var(--paper); margin-bottom: 28px; }
+h2 em { color: var(--steel); font-style: italic; }
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 50vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.25) grayscale(0.5);
+  background-image: url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2070');
+}
+.parallax-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%); }
+.parallax-text { position: relative; text-align: center; padding: 40px; max-width: 700px; }
+.parallax-text h2 { font-size: clamp(28px, 4vw, 48px); text-shadow: 0 4px 30px rgba(0,0,0,0.9); margin: 0; color: var(--paper); }
+
+/* ── ACTOR CARDS ── */
+.actors-section { margin: 60px 0; }
+.actors-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--steel); margin-bottom: 20px; text-align: center;}
+.actors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.actor-card {
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 4px; cursor: pointer; transition: all 0.25s; overflow: hidden;
+}
+.actor-card:hover { background: rgba(90,107,124,0.1); border-color: var(--steel); transform: translateY(-3px); }
+.actor-card.active { background: rgba(155,41,34,0.15); border-color: var(--rebel); }
+.actor-top { padding: 20px 16px 14px; text-align: center; }
+.actor-emoji { font-size: 40px; display: block; margin-bottom: 10px; }
+.actor-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 4px; }
+.actor-role { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--steel); }
+.actor-detail { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px; }
+.actor-card.active .actor-detail { display: block; animation: fadeUp 0.3s ease; }
+.actor-detail p { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin: 0; }
+
+/* ── DILEMMA ── */
+.dilemma-wrap {
+  margin: 80px -60px; background: linear-gradient(135deg, rgba(155,41,34,0.15), var(--ink));
+  border: 1px solid rgba(155,41,34,0.4); border-radius: 8px; padding: 50px 60px;
+  position: relative; overflow: hidden;
+}
+.dilemma-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--rebel-lt); margin-bottom: 16px; }
+.dilemma-wrap h3 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); color: var(--paper); margin: 0 0 12px; font-weight: 700; }
+.dilemma-context { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.65; }
+.dilemma-choices { display: flex; flex-direction: column; gap: 12px; }
+.choice-btn {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  padding: 18px 24px; border-radius: 6px; cursor: pointer;
+  font-family: 'Crimson Pro', serif; font-size: 17px; color: var(--text);
+  text-align: left; transition: all 0.2s; display: flex; align-items: flex-start; gap: 14px; line-height: 1.5;
+}
+.choice-btn:hover { border-color: var(--steel); background: rgba(90,107,124,0.1); color: var(--paper); }
+.choice-btn .choice-letter {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(90,107,124,0.15); border: 1px solid var(--steel);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--steel); flex-shrink: 0; margin-top: 2px;
+}
+#dilemma-result { display: none; margin-top: 32px; border-top: 1px solid var(--border); padding-top: 28px; }
+.result-reveal { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--steel); margin-bottom: 12px; }
+.result-text { font-size: 17px; color: var(--text); line-height: 1.7; }
+.result-text strong { color: var(--rebel-lt); }
+#try-again-btn {
+  margin-top: 20px; background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase; padding: 10px 20px; cursor: pointer; transition: all 0.2s; border-radius: 4px;
+}
+#try-again-btn:hover { border-color: var(--steel); color: var(--steel); }
+
+/* ── DOMINO TIMELINE ── */
+.domino-section { margin: 80px 0; }
+.domino-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--steel); margin-bottom: 32px; text-align: center; }
+.domino-chain { display: flex; align-items: flex-start; justify-content: center; gap: 0; flex-wrap: wrap; }
+.domino { display: flex; flex-direction: column; align-items: center; opacity: 0.25; transition: all 0.5s; cursor: pointer; }
+.domino.active { opacity: 1; }
+.domino-block {
+  width: 72px; height: 120px; background: linear-gradient(160deg, #1f252b, #121416);
+  border: 1px solid rgba(90,107,124,0.4); border-radius: 6px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px; position: relative; overflow: hidden; transition: all 0.3s;
+}
+.domino.active .domino-block { border-color: var(--rebel-lt); box-shadow: 0 0 20px rgba(155,41,34,0.3); }
+.domino-block::after { content: ''; position: absolute; top: 50%; left: 10%; right: 10%; height: 1px; background: rgba(90,107,124,0.4); }
+.domino-icon { font-size: 24px; }
+.domino-arrow {
+  width: 36px; height: 2px; background: linear-gradient(90deg, var(--rebel), transparent);
+  margin-top: 58px; flex-shrink: 0; opacity: 0; transition: opacity 0.5s 0.3s;
+}
+.domino.active + .domino .domino-arrow { opacity: 1; }
+.domino-label-text {
+  margin-top: 12px; font-family: var(--mono); font-size: 10px; text-align: center; color: var(--text-dim);
+  max-width: 80px; line-height: 1.4; letter-spacing: 0.5px;
+}
+.domino.active .domino-label-text { color: var(--steel); }
+.domino-detail {
+  display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+  background: #121416; border: 1px solid var(--rebel); padding: 20px 28px; border-radius: 8px; z-index: 500;
+  max-width: 500px; width: calc(100% - 40px); box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+.domino-detail.show { display: block; animation: fadeUp 0.3s ease; }
+.domino-detail h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 8px; }
+.domino-detail p { font-size: 15px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+.domino-detail .close-detail { float: right; background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; margin-left: 12px; }
+
+/* ── LÄRARSEKTION & QUIZ ── */
+.teacher-section { background: #0c0d0f; border-top: 1px solid var(--border); padding: 80px 40px; margin-top: 80px; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--steel); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--steel); color: var(--steel); background: rgba(90,107,124,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(90,107,124,0.15); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(90,107,124,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-content p { font-size: 16px; color: var(--text-dim); line-height: 1.6; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--steel); }
+
+.source-box { background: rgba(255,255,255,0.03); border-left: 3px solid var(--steel); padding: 20px; margin-bottom: 20px; font-size: 15px; color: var(--text-dim); font-style: italic; }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 36px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 24px; }
+.quiz-start-btn { background: rgba(90,107,124,0.15); border: 1px solid var(--steel); color: var(--steel); padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: rgba(90,107,124,0.3); color: var(--paper); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--steel); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(90,107,124,0.2); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: var(--steel); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); margin-bottom: 20px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px 20px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--steel); background: rgba(90,107,124,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A7A2A; background: rgba(42,122,42,0.15); color: #EAF6EA; }
+.quiz-opt.wrong { border-color: #C0392B; background: rgba(192,57,43,0.15); color: #FDECEA; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--steel); background: rgba(90,107,124,0.15); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 20px; padding: 16px 20px; background: rgba(90,107,124,0.1); border-left: 3px solid var(--steel); font-size: 16px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 20px; background: var(--steel); color: var(--paper); border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--rebel); }
+.quiz-score-view { text-align: center; padding: 20px 0; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--rebel), var(--steel-dk)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(155,41,34,0.2); color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .actors-grid { grid-template-columns: 1fr; }
+  .dilemma-wrap { margin: 60px 0; padding: 32px 24px; }
+  .domino-chain { gap: 0; }
+  .domino-block { width: 56px; height: 90px; }
+  .domino-arrow { width: 24px; margin-top: 43px; }
+  .teacher-section { padding: 60px 24px; }
+  .q-block { gap: 14px; flex-direction: column; }
+  .q-num { font-size: 20px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Historia · Industrialiseringen</div>
+
+  <h1>Motstånd och<br><em>förändring</em></h1>
+  <p class="hero-sub">Långa arbetsdagar, låga löner och farliga miljöer gjorde att missnöjet växte. Men ur vreden föddes organisering – och den värld vi känner idag <span class="cite"></span>.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:23px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Den industriella revolutionen skapade stora ekonomiska vinster och tekniska framsteg, men den ledde också till orättvisor och hårda livsvillkor för många människor <span class="cite"></span>. Med tiden tog missnöjet sig uttryck i motstånd, organisering och krav på förändring <span class="cite"></span>.
+  </p>
+
+  <div class="section-marker"><span>Del 1 · Vreden</span></div>
+  <h2>Maskinernas <em>fiender</em></h2>
+
+  <p>När fabriker och maskiner började ersätta traditionellt hantverk uppstod starkt motstånd bland arbetare <span class="cite"></span>. Många upplevde att maskinerna tog deras arbete och försämrade deras möjlighet att försörja sig <span class="cite"></span>.</p>
+
+  <p>I början av 1800-talet förekom därför protester där arbetare förstörde maskiner, så kallade <strong>maskinstormningar</strong> <span class="cite"></span>. Dessa protester var inte ett uttryck för teknikfientlighet i sig, utan snarare en reaktion på otrygga villkor, sjunkande löner och brist på inflytande <span class="cite"></span>.</p>
+
+  <div class="pullquote">
+    <p>Protesterna möttes ofta med hårda åtgärder från staten. Maskinstormning betraktades som ett allvarligt brott, och soldater sattes in för att stoppa upploppen. <span class="cite"></span></p>
+  </div>
+
+  <p>Detta visar tydligt att arbetarna saknade politiskt inflytande och demokratiska rättigheter. Samhället skyddade i första hand fabriksägarnas intressen, inte arbetarnas <span class="cite"></span>.</p>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Man krossade inte maskinen för att man hatade stål. Man krossade den för att man svalt."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 2 · Organisering</span></div>
+  <h2>Från upplopp till <em>fackförening</em></h2>
+
+  <p>Efter hand insåg många arbetare att spontana protester sällan ledde till varaktiga förbättringar. I stället började de organisera sig <span class="cite"></span>. Fackföreningar växte fram som ett sätt för arbetare att tillsammans kräva bättre villkor <span class="cite"></span>. Genom att agera gemensamt kunde de förhandla om löner, arbetstid och säkerhet <span class="cite"></span>.</p>
+
+  <div class="actors-section">
+    <div class="actors-label">Klicka för att se rörelsens olika ansikten →</div>
+    <div class="actors-grid">
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">🔨</span>
+          <div class="actor-name">Maskinstormaren</div>
+          <div class="actor-role">Den tidiga protesten</div>
+        </div>
+        <div class="actor-detail">
+          <p>En förtvivlad hantverkare som såg sitt levebröd försvinna. Slog sönder maskiner i protest mot de sjunkande lönerna. Straffades ofta mycket hårt, ibland med döden eller deportation <span class="cite"></span>.</p>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">🤝</span>
+          <div class="actor-name">Fackföreningskämpen</div>
+          <div class="actor-role">Den organiserade kraften</div>
+        </div>
+        <div class="actor-detail">
+          <p>Insåg att styrkan låg i antalet. Organiserade sina kollegor för att strejka och ställa gemensamma krav på arbetsgivaren. Mötte ofta motstånd och våld, men lade grunden för framtidens avtal <span class="cite"></span>.</p>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">📜</span>
+          <div class="actor-name">Reformatorn</div>
+          <div class="actor-role">Den politiska rösten</div>
+        </div>
+        <div class="actor-detail">
+          <p>När arbetarrörelsen blev politisk krävdes mer än bara lön: man krävde rösträtt, utbildning och makt att påverka samhället i stort. Detta tvingade staten att börja stifta skyddande lagar <span class="cite"></span>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <p>Arbetarrörelsen blev också politisk. Många började kräva rösträtt, utbildning och rätt att delta i samhällets beslut <span class="cite"></span>. Arbetare som tidigare saknat inflytande började organisera sig och göra sina röster hörda <span class="cite"></span>.</p>
+
+  <p><strong>Strejker</strong> blev ett verktyg för att sätta press på arbetsgivare och politiker, även om de ofta möttes av motstånd och ibland våld <span class="cite"></span>.</p>
+
+  <div class="dilemma-wrap">
+    <div class="dilemma-label">⚡ Interaktivt moment</div>
+    <h3>Året är 1885. Du är fabriksarbetare.</h3>
+    <p class="dilemma-context">Dina kollegor har i hemlighet bildat en fackförening. Imorgon planerar de att lägga ned arbetet och strejka för att få en kortare arbetsdag (från 14 till 12 timmar) och säkrare maskiner. Företagets direktör har dock varnat att alla som strejkar kommer få sparken och svartlistas i hela staden. Vad gör du?</p>
+    <div class="dilemma-choices" id="choices">
+      <button class="choice-btn" onclick="chooseAnswer(0)">
+        <span class="choice-letter">A</span>
+        <span>Du går ut i strejk med dina kollegor. Ensam är du svag, men tillsammans kanske ni kan tvinga fram en förändring, trots riskerna.</span>
+      </button>
+      <button class="choice-btn" onclick="chooseAnswer(1)">
+        <span class="choice-letter">B</span>
+        <span>Du vägrar strejka och går till jobbet som vanligt. Du har en familj att mätta och har inte råd att bli svartlistad.</span>
+      </button>
+    </div>
+    <div id="dilemma-result">
+      <div class="result-reveal">Det historiska utfallet →</div>
+      <div class="result-text" id="result-text"></div>
+      <button id="try-again-btn" onclick="resetDilemma()">Prova det andra valet ↺</button>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 3 · Rättigheterna</span></div>
+  <h2>Staten tvingas agera</h2>
+
+  <p>Det växande trycket från arbetare, journalister och reformvänner ledde så småningom till förändring <span class="cite"></span>. Under 1800-talet började stater införa lagar som reglerade arbetslivet <span class="cite"></span>.</p>
+
+  <p>Barnarbete begränsades genom lagstiftning som satte åldersgränser och begränsade arbetstider för barn <span class="cite"></span>. Även kvinnors och ungdomars arbetstid reglerades <span class="cite"></span>. Arbetstiden för vuxna började också begränsas, även om förändringarna gick långsamt <span class="cite"></span>.</p>
+
+  <p>Säkerheten i fabriker förbättrades gradvis genom krav på skydd runt maskiner och bättre arbetsmiljö <span class="cite"></span>. Dessa reformer markerade ett viktigt skifte: staten började ta ansvar för medborgarnas välfärd, inte bara skydda näringslivets intressen <span class="cite"></span>.</p>
+
+  <div class="domino-section">
+    <div class="domino-label">Stegen mot ett modernt samhälle – Klicka på pilarna →</div>
+    <div class="domino-chain">
+
+      <div class="domino active" onclick="fallDomino(0)" id="dom0">
+        <div class="domino-block"><div class="domino-icon">😡</div></div>
+        <div class="domino-label-text">Protest & Vrede</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(1)" id="dom1">
+        <div class="domino-block"><div class="domino-icon">🤝</div></div>
+        <div class="domino-label-text">Organisering</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(2)" id="dom2">
+        <div class="domino-block"><div class="domino-icon">🛑</div></div>
+        <div class="domino-label-text">Kamp & Strejk</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(3)" id="dom3">
+        <div class="domino-block"><div class="domino-icon">⚖️</div></div>
+        <div class="domino-label-text">Lagar & Rättigheter</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="domino-popup" class="domino-detail">
+    <button class="close-detail" onclick="closeDetail()">✕</button>
+    <h4 id="popup-title"></h4>
+    <p id="popup-text"></p>
+  </div>
+
+  <p>Förbättringarna kom inte över en natt. De var resultatet av långvarig kamp, motstånd och politiskt arbete <span class="cite"></span>. Med tiden ledde detta till bättre arbetsvillkor, skolplikt för barn och ökade demokratiska rättigheter <span class="cite"></span>.</p>
+
+  <p>Industrialismens konflikter visade att förändring är möjlig när människor organiserar sig och kräver inflytande <span class="cite"></span>. Erfarenheterna från 1800-talet har haft stor betydelse för dagens samhälle; många av de rättigheter som i dag ses som självklara är resultatet av denna historiska kamp <span class="cite"></span>.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns material för analys, källkritik och ett digitalt quiz kopplat till texten om arbetarrörelsens framväxt.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('kallkritik', this)">🔍 Källkritik</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Koppling till Lgr22</button>
+        <button class="t-tab" style="color: var(--rebel-lt); border-color: var(--rebel-lt);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Förståelsefrågor till texten</h4>
+          <ul class="q-list">
+            <li>Vad var en "maskinstormare" och varför förstörde de maskiner?</li>
+            <li>Varför valde staten och militären att skydda fabriksägarna istället för arbetarna i början av 1800-talet?</li>
+            <li>Hur skiljer sig fackföreningarnas taktik från maskinstormarnas?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Analys & Reflektion</h4>
+          <ul class="q-list">
+            <li>Texten nämner att staten med tiden började "ta ansvar för medborgarnas välfärd". Varför tror du att staten ändrade sig under 1800-talet?</li>
+            <li>Vilka av de rättigheter som arbetarna stred för under 1800-talet tar vi för givna idag?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-kallkritik">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Vem skriver historien? (Källkritisk övning)</h4>
+          <p>När man studerar konflikterna under den industriella revolutionen är det viktigt att granska källornas *tendens* (syfte). Läs de två tänkta historiska källorna nedan och svara på frågorna.</p>
+          
+          <div class="source-box">
+            <strong>Källa 1 (Fabriksägarens dagbok, 1842):</strong><br>
+            "Idag vägrade arbetarna att starta vävstolarna. De är lata och förstår inte att min fabrik ger dem mat på bordet. De kräver absurda löner för ett arbete som vem som helst kan utföra. Om staten inte skickar soldater snart kommer vårt land att gå under."
+          </div>
+          
+          <div class="source-box">
+            <strong>Källa 2 (Fackligt flygblad, 1842):</strong><br>
+            "Bröder och systrar! Direktören bygger palats medan våra barn svälter. Maskinerna stympar oss och luften vi andas gör oss sjuka. Vi kräver bara det som är rättvist: en lön vi kan överleva på. Tillsammans står vi starka!"
+          </div>
+          
+          <ul class="q-list" style="margin-top: 16px;">
+            <li>Vilket syfte (tendens) har Källa 1 respektive Källa 2? Vem försöker de påverka?</li>
+            <li>Kan vi lita mer på den ena källan än den andra? Varför/varför inte?</li>
+            <li>Vad kan vi lära oss av att läsa *båda* källorna samtidigt?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-lgr">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Samhällsomvandling (Historia åk 7-9)</h4>
+          <p style="color: var(--text-dim); line-height: 1.6;">Den industriella revolutionens konsekvenser för människors levnadsvillkor. Framväxten av nya samhällsklasser och politiska ideologier, till exempel arbetarrörelsen. Demokratiseringens framväxt.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Ett quiz om 8 frågor baserat på texten om maskinstormare, fackföreningar och politiska reformer.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts">
+            </div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Bra jobbat!</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── ACTOR CARDS ──
+function toggleActor(card) {
+  const wasActive = card.classList.contains('active');
+  document.querySelectorAll('.actor-card').forEach(c => c.classList.remove('active'));
+  if (!wasActive) card.classList.add('active');
+}
+
+// ── MORAL DILEMMA ──
+const outcomes = [
+  `<strong>Ett extremt modigt val.</strong> Många strejkande blev brutalt nerslagna av polis eller utkastade från sina hem. Men det var precis denna kollektiva risk (val A) som till slut, efter decennier av kamp, tvingade fram de lagar som ger oss drägliga arbetsvillkor idag <span class="cite"></span>.`,
+  `<strong>Förståeligt, men det bröt sammanhållningen.</strong> De som fortsatte arbeta kallades ofta "strejkbrytare". Genom att inte hålla ihop tappade arbetarna sin enda makt mot fabriksägarna, vilket ofta ledde till att strejken misslyckades och villkoren förblev urusla.`
+];
+
+function chooseAnswer(idx) {
+  document.getElementById('choices').style.opacity = '0.4';
+  document.getElementById('choices').style.pointerEvents = 'none';
+  document.getElementById('result-text').innerHTML = outcomes[idx];
+  document.getElementById('dilemma-result').style.display = 'block';
+  document.getElementById('dilemma-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetDilemma() {
+  document.getElementById('choices').style.opacity = '1';
+  document.getElementById('choices').style.pointerEvents = 'auto';
+  document.getElementById('dilemma-result').style.display = 'none';
+}
+
+// ── DOMINO TIMELINE ──
+const dominoData = [
+  { title: "Maskinstormningar", text: "I början var protesterna spontana och desperata. Arbetare, ofta hantverkare vars jobb försvunnit, slog sönder maskinerna i vrede. Staten svarade ofta med att skicka in militär mot dem." },
+  { title: "Fackföreningar bildas", text: "Man insåg att upplopp inte fungerade långsiktigt. Arbetarna började organisera sig i fackföreningar för att ställa gemensamma, genomtänkta krav på löner och arbetstid." },
+  { title: "Strejk och politik", text: "Strejkvapnet blev arbetarnas starkaste medel. Rörelsen blev också politisk och började ställa krav på samhället: rösträtt och utbildning för alla, inte bara för eliten." },
+  { title: "Ett nytt samhälle", text: "Pressen från arbetarrörelsen och andra reformvänner fungerade. Under slutet av 1800-talet infördes lagar mot barnarbete och skyddsnät byggdes upp. Demokratin växte fram." }
+];
+
+function fallDomino(idx) {
+  for (let i = 0; i <= idx; i++) {
+    const d = document.getElementById('dom' + i);
+    if (d) d.classList.add('active');
+  }
+  const popup = document.getElementById('domino-popup');
+  document.getElementById('popup-title').textContent = dominoData[idx].title;
+  document.getElementById('popup-text').innerHTML = dominoData[idx].text;
+  popup.classList.add('show');
+}
+
+function closeDetail() {
+  document.getElementById('domino-popup').classList.remove('show');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad var huvudorsaken till att de så kallade maskinstormarna protesterade i början av 1800-talet?",
+    opts: ["De var emot all form av modern teknologi av religiösa skäl.", "De upplevde att maskinerna tog deras arbete och försämrade deras möjligheter att försörja sig.", "De krävde att få arbeta fler timmar vid maskinerna än vad fabriksägarna tillät.", "De ville själva äga maskinerna för att sälja dem vidare till andra länder."],
+    correct: 1,
+    feedback: "Maskinstormningen var inte ett uttryck för teknikfientlighet i sig, utan en reaktion på otrygga villkor och sjunkande löner som maskinerna förde med sig."
+  },
+  {
+    q: "Hur reagerade staten vanligtvis på maskinstormarnas protester och upplopp?",
+    opts: ["De medlade mellan arbetarna och fabriksägarna för att nå en fredlig lösning.", "De tvingade fabriksägarna att betala högre löner till de drabbade.", "De mötte protesterna med hårda åtgärder och satte in soldater för att stoppa dem.", "De införde snabbt ett förbud mot nya maskiner för att lugna folket."],
+    correct: 2,
+    feedback: "Staten skyddade i första hand fabriksägarnas intressen och betraktade maskinstormning som ett allvarligt brott."
+  },
+  {
+    q: "Varför började arbetarna så småningom bilda fackföreningar istället för att genomföra spontana upplopp?",
+    opts: ["De insåg att spontana protester sällan ledde till varaktiga förbättringar och att gemensam organisering krävdes.", "Lagen tvingade alla fabriksarbetare att tillhöra en statligt godkänd förening.", "Fabriksägarna uppmuntrade arbetarna att bilda fackföreningar för att förenkla kommunikationen.", "Fackföreningar var det enda sättet för dem att få låna pengar av banken."],
+    correct: 0,
+    feedback: "Genom att agera gemensamt kunde de sätta större press och förhandla effektivare om löner, arbetstid och säkerhet."
+  },
+  {
+    q: "Vad blev ett av arbetarrörelsens viktigaste verktyg för att sätta press på arbetsgivare och politiker?",
+    opts: ["Att köpa aktier i fabrikerna.", "Att genomföra strejker.", "Att förstöra de färdiga varorna innan de såldes.", "Att stämma fabriksägarna i domstol."],
+    correct: 1,
+    feedback: "Strejker – att gemensamt lägga ned arbetet – blev ett centralt verktyg för att visa att fabrikerna inte kunde fungera utan arbetarna."
+  },
+  {
+    q: "Vilka politiska krav började arbetarrörelsen ställa utöver rent arbetsrelaterade krav som högre lön?",
+    opts: ["Krav på att staten skulle betala alla deras boendekostnader.", "Krav på att inga fler fabriker skulle få byggas i städerna.", "Krav på rösträtt, utbildning och rätt att delta i samhällets beslut.", "Krav på att all handel med utlandet skulle stoppas."],
+    correct: 2,
+    feedback: "Arbetarrörelsen var drivande för demokratins utveckling genom sina krav på bland annat allmän rösträtt och rätt till utbildning."
+  },
+  {
+    q: "Vilken typ av lagar gällande arbetslivet började stater införa under 1800-talet till följd av protesterna?",
+    opts: ["Lagar som tvingade alla att arbeta minst 12 timmar om dagen för nationens bästa.", "Lagstiftning som satte åldersgränser och begränsade arbetstider för barn och ungdomar.", "Lagar som helt förbjöd användningen av ångmaskiner i textilindustrin.", "Lagar som förbjöd kvinnor att arbeta utanför hemmet."],
+    correct: 1,
+    feedback: "Efter hårda påtryckningar började staten reglera det mest extrema utnyttjandet, som exempelvis barns och kvinnors arbetstider."
+  },
+  {
+    q: "Hur förändrades statens roll och ansvar i och med de nya lagarna under 1800-talet?",
+    opts: ["Staten slutade helt att blanda sig i näringslivets affärer.", "Staten lämnade över allt ansvar till kyrkan.", "Staten började ta ett visst ansvar för medborgarnas välfärd och inte bara skydda näringslivets intressen.", "Staten tog över ägandet av alla fabriker i landet."],
+    correct: 2,
+    feedback: "Reformerna markerade ett viktigt skifte där staten för första gången klev in och tvingade arbetsgivarna att ta hänsyn till de anställdas välfärd och säkerhet."
+  },
+  {
+    q: "Vilken betydelse har 1800-talets arbetarkamp och konflikter för det samhälle vi lever i idag?",
+    opts: ["Väldigt liten, eftersom de flesta av dagens lagar stiftades först på 2000-talet.", "De lade grunden till rättigheter vi idag ser som självklara, som begränsad arbetstid och fackliga rättigheter.", "De gjorde att teknikutvecklingen avstannade och fördröjde det moderna samhället.", "De resulterade i att fabrikssystemet övergavs helt och vi återgick till ett bondesamhälle."],
+    correct: 1,
+    feedback: "Många grundläggande demokratiska och arbetsrättsliga principer vi har idag är direkta resultat av den långvariga kampen under industrialiseringen."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Fantastiskt! Du har verkligen förstått hur arbetarrörelsen formade vårt moderna samhälle."; }
+  else if(pct >= 0.6) { title = "Bra jobbat! ⭐"; msg = "Du har en stabil grundförståelse för protesterna och reformerna."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Gå gärna tillbaka till texten för att friska upp minnet om hur fackföreningarna växte fram."; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
