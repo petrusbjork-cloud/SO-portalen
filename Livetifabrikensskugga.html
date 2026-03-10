@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industrialiseringen – Livet i fabrikens skugga</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0f0f0f;
+  --paper:    #F5F0E8;
+  --copper:   #B87333;
+  --copper-dk:#8B5A2B;
+  --rust:     #8B3A1A;
+  --rust-lt:  #A04A2A;
+  --text:     #E8E0D0;
+  --text-dim: rgba(232,224,208,0.65);
+  --border:   rgba(184,115,51,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--rust), var(--copper));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 50%, #1c1512 0%, #080808 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-smoke {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.9) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--copper); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 8vw, 96px);
+  font-weight: 900; line-height: 1.0;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(184,115,51,0.3);
+  margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+.hero h1 em { color: var(--rust-lt); font-style: italic; }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim);
+  max-width: 650px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+
+/* ── CLOCK ── */
+.clock-wrap {
+  opacity: 0; animation: fadeUp 1s 1.2s forwards;
+  margin-bottom: 48px;
+}
+.clock-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; color: var(--copper); text-transform: uppercase; margin-bottom: 12px; }
+#clock {
+  font-family: var(--mono); font-size: clamp(36px, 6vw, 64px); font-weight: 700;
+  color: var(--rust-lt);
+  text-shadow: 0 0 30px rgba(139,58,26,0.6);
+  letter-spacing: 4px;
+}
+.clock-sub { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-top: 8px; letter-spacing: 2px; }
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-dim); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 2s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--copper), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+.cite {
+  font-family: var(--mono); font-size: 10px; color: var(--copper-dk);
+  vertical-align: super; opacity: 0.6;
+}
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--rust);
+  background: linear-gradient(135deg, rgba(139,58,26,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--rust); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--copper); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--copper); font-style: italic; }
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 60vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.2) sepia(0.5);
+  background-image: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=2070');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(15,15,15,1) 0%, transparent 30%, transparent 70%, rgba(15,15,15,1) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px;
+  max-width: 700px;
+}
+.parallax-text h2 { font-size: clamp(32px, 5vw, 60px); text-shadow: 0 2px 30px rgba(0,0,0,0.8); margin: 0; }
+
+/* ── ACTOR CARDS ── */
+.actors-section { margin: 60px 0; }
+.actors-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--copper); margin-bottom: 20px; }
+.actors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.actor-card {
+  background: rgba(245,240,232,0.03);
+  border: 1px solid var(--border);
+  border-radius: 4px; cursor: pointer;
+  transition: all 0.25s; overflow: hidden;
+}
+.actor-card:hover { background: rgba(184,115,51,0.1); border-color: var(--copper); transform: translateY(-3px); }
+.actor-card.active { background: rgba(139,58,26,0.15); border-color: var(--rust); }
+.actor-top { padding: 20px 16px 14px; text-align: center; }
+.actor-emoji { font-size: 40px; display: block; margin-bottom: 10px; }
+.actor-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 4px; }
+.actor-role { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--copper); }
+.actor-detail {
+  display: none; padding: 0 16px 16px;
+  border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px;
+}
+.actor-card.active .actor-detail { display: block; }
+.actor-detail p { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin: 0; }
+
+/* ── DILEMMA ── */
+.dilemma-wrap {
+  margin: 80px -60px;
+  background: linear-gradient(135deg, rgba(139,58,26,0.12), rgba(15,15,15,0.9));
+  border: 1px solid rgba(139,58,26,0.3);
+  border-radius: 8px; padding: 52px 60px;
+  position: relative; overflow: hidden;
+}
+.dilemma-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--rust-lt); margin-bottom: 16px; }
+.dilemma-wrap h3 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); color: var(--paper); margin: 0 0 12px; font-weight: 700; }
+.dilemma-context { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.65; }
+.dilemma-choices { display: flex; flex-direction: column; gap: 12px; }
+.choice-btn {
+  background: rgba(245,240,232,0.04); border: 1px solid var(--border);
+  padding: 18px 24px; border-radius: 6px; cursor: pointer;
+  font-family: 'Crimson Pro', serif; font-size: 17px; color: var(--text);
+  text-align: left; transition: all 0.2s; display: flex; align-items: flex-start; gap: 14px;
+  line-height: 1.5;
+}
+.choice-btn:hover { border-color: var(--copper); background: rgba(184,115,51,0.08); color: var(--paper); }
+.choice-btn .choice-letter {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(184,115,51,0.15); border: 1px solid var(--copper);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  color: var(--copper); flex-shrink: 0; margin-top: 2px;
+}
+#dilemma-result {
+  display: none; margin-top: 32px;
+  border-top: 1px solid var(--border); padding-top: 28px;
+}
+.result-reveal { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--copper); margin-bottom: 12px; }
+.result-text { font-size: 17px; color: var(--text); line-height: 1.7; }
+.result-text strong { color: var(--rust-lt); }
+#try-again-btn {
+  margin-top: 20px; background: transparent; border: 1px solid var(--border);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px; letter-spacing: 2px;
+  text-transform: uppercase; padding: 10px 20px; cursor: pointer;
+  transition: all 0.2s; border-radius: 4px;
+}
+#try-again-btn:hover { border-color: var(--copper); color: var(--copper); }
+
+/* ── DOMINO TIMELINE ── */
+.domino-section { margin: 80px 0; }
+.domino-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--copper); margin-bottom: 32px; text-align: center; }
+.domino-chain { display: flex; align-items: flex-start; justify-content: center; gap: 0; flex-wrap: wrap; }
+.domino {
+  display: flex; flex-direction: column; align-items: center;
+  opacity: 0.25; transition: all 0.5s; cursor: pointer;
+}
+.domino.active { opacity: 1; }
+.domino-block {
+  width: 72px; height: 120px;
+  background: linear-gradient(160deg, #1c100a, #0a0502);
+  border: 1px solid rgba(184,115,51,0.4);
+  border-radius: 6px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px;
+  position: relative; overflow: hidden;
+  transition: all 0.3s;
+}
+.domino.active .domino-block { border-color: var(--rust-lt); box-shadow: 0 0 20px rgba(139,58,26,0.3); }
+.domino-block::after {
+  content: '';
+  position: absolute; top: 50%; left: 10%; right: 10%;
+  height: 1px; background: rgba(184,115,51,0.4);
+}
+.domino-year { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--copper); }
+.domino-icon { font-size: 22px; }
+.domino-arrow {
+  width: 36px; height: 2px;
+  background: linear-gradient(90deg, var(--rust), transparent);
+  margin-top: 58px; flex-shrink: 0;
+  opacity: 0; transition: opacity 0.5s 0.3s;
+}
+.domino.active + .domino .domino-arrow { opacity: 1; }
+.domino-label-text {
+  margin-top: 12px; font-family: var(--mono);
+  font-size: 10px; text-align: center; color: var(--text-dim);
+  max-width: 80px; line-height: 1.4; letter-spacing: 0.5px;
+}
+.domino.active .domino-label-text { color: var(--copper); }
+.domino-detail {
+  display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+  background: #0d0d0d; border: 1px solid var(--rust);
+  padding: 20px 28px; border-radius: 8px; z-index: 500;
+  max-width: 500px; width: calc(100% - 40px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+.domino-detail.show { display: block; animation: fadeUp 0.3s ease; }
+.domino-detail h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 8px; }
+.domino-detail p { font-size: 15px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+.domino-detail .close-detail { float: right; background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; margin-left: 12px; }
+
+/* ── FACT BOX ── */
+.fact-box {
+  background: rgba(184,115,51,0.06);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--copper);
+  border-radius: 0 6px 6px 0;
+  padding: 20px 24px; margin: 32px 0;
+}
+.fact-box-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--copper); margin-bottom: 8px; }
+.fact-box p { font-size: 16px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+
+/* ── LÄRARSEKTION & QUIZ ── */
+.teacher-section {
+  background: #080808; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 80px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--copper); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(245,240,232,0.04); border: 1px solid var(--border);
+  padding: 10px 20px; border-radius: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--copper); color: var(--copper); background: rgba(184,115,51,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(184,115,51,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(184,115,51,0.25); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--copper); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(245,240,232,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 36px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 24px; }
+.quiz-start-btn { background: rgba(184,115,51,0.15); border: 1px solid var(--copper); color: var(--copper); padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: rgba(184,115,51,0.25); color: var(--paper); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--copper); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(184,115,51,0.2); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: var(--copper); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); margin-bottom: 20px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt { background: rgba(245,240,232,0.04); border: 1px solid var(--border); padding: 16px 20px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--copper); background: rgba(184,115,51,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A7A2A; background: rgba(42,122,42,0.15); color: #EAF6EA; }
+.quiz-opt.wrong { border-color: #C0392B; background: rgba(192,57,43,0.15); color: #FDECEA; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--copper); background: rgba(184,115,51,0.15); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 20px; padding: 16px 20px; background: rgba(184,115,51,0.1); border-left: 3px solid var(--copper); font-size: 16px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 20px; background: var(--copper); color: var(--ink); border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 20px 0; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--rust), var(--copper-dk)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(184,115,51,0.2); color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 100px; }
+  .actors-grid { grid-template-columns: 1fr; }
+  .dilemma-wrap { margin: 60px 0; padding: 32px 24px; }
+  .domino-chain { gap: 0; }
+  .domino-block { width: 56px; height: 90px; }
+  .domino-arrow { width: 24px; margin-top: 43px; }
+  .teacher-section { padding: 60px 24px; }
+  .q-block { gap: 14px; }
+  .q-num { font-size: 20px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-smoke"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Historia · Industrialiseringen</div>
+
+  <h1>Livet i fabrikens<br><em>skugga</em></h1>
+  <p class="hero-sub">Nya maskiner gjorde att produktionen ökade snabbt, men förändringarna innebar inte automatiskt ett bättre liv för alla.</p>
+
+  <div class="clock-wrap">
+    <div class="clock-label">Dagens arbetspass</div>
+    <div id="clock">14:00:00</div>
+    <div class="clock-sub">timmar kvar tills klockan slår kväll</div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scrolla ner i mörkret</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:23px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Den industriella revolutionen förändrade samhället i grunden. För den som ägde kapitalet var det en tid av gränslös optimism. Men för de vanliga människorna, de som stod nere på fabriksgolvet, var vardagen snarare tyngre, farligare och mer osäker.
+  </p>
+
+  <div class="section-marker"><span>Del 1 · Maskinen</span></div>
+  <h2>Arbetet styrs av <em>klockan</em></h2>
+
+  <p>Under tusentals år hade det varit solen, vädret och årstiderna som bestämt när en människa skulle arbeta. Om det regnade kunde man inte skörda. Om det blev mörkt gick man och lade sig. Nu, i fabrikerna, förändrades allt detta. Arbetet styrdes inte längre av dagsljus eller årstider, utan av fabriksägarens klocka.</p>
+
+  <p>När fabrikerna växte fram samlades många människor på samma arbetsplats, ofta i stora lokaler fyllda av bullrande maskiner. Arbetsdagarna var mycket långa, ofta mellan tolv och sexton timmar, och arbetet pågick sex dagar i veckan. Söndagen var vanligtvis den enda lediga dagen.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Livet på marginalen</div>
+    <p>Lönen var låg och räckte sällan till mer än det allra nödvändigaste. Många familjer levde från vecka till vecka och var helt beroende av att alla som kunde arbeta bidrog med inkomst. Att bli sjuk eller skadad kunde få katastrofala följder, eftersom det sällan fanns någon hjälp att få.</p>
+  </div>
+
+  <p>Fabriksarbetet var dessutom farligt. Maskiner saknade skydd, luften var full av damm och ljudnivån var hög. Olyckor var vanliga, och om någon skadades fanns ingen garanti för vård eller ersättning. I många fall förlorade man både jobbet och inkomsten.</p>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Man ägde inte sin egen tid. Tiden ägdes av maskinen."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 2 · Människorna</span></div>
+  <h2>De som byggde <em>framtiden</em></h2>
+
+  <div class="actors-section">
+    <div class="actors-label">Klicka för att läsa om livsvillkoren →</div>
+    <div class="actors-grid">
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">🎩</span>
+          <div class="actor-name">Fabriksägaren</div>
+          <div class="actor-role">Mannen med klockan</div>
+        </div>
+        <div class="actor-detail">
+          <p>Drevs av vinst. Ägde maskinerna och bestämde reglerna. För honom var arbetarna en kostnad som behövde hållas så låg som möjligt. Det var hans klocka som bestämde när dagen började och slutade.</p>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">👩‍👧</span>
+          <div class="actor-name">Kvinnorna</div>
+          <div class="actor-role">Dubbelarbetarna</div>
+        </div>
+        <div class="actor-detail">
+          <p>Kvinnor utgjorde en stor del av arbetskraften under industrialiseringen, särskilt inom textilindustrin. Trots att deras arbete var avgörande fick kvinnor lägre lön än män.</p>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">👧</span>
+          <div class="actor-name">Barnen</div>
+          <div class="actor-role">Den billigaste kraften</div>
+        </div>
+        <div class="actor-detail">
+          <p>Barnarbete var en självklar del av industrisamhället. Många barn började arbeta redan vid fem eller sex års ålder. Fabriksägare såg barn som billig arbetskraft, lätta att kontrollera.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 3 · Dubbelarbetet</span></div>
+  <h2>Kvinnornas <em>osynliga slit</em></h2>
+
+  <p>Kvinnors arbete var avgörande för både fabrikerna och familjernas ekonomi. Men de hade sämre möjligheter att påverka sina arbetsvillkor. Arbetsuppgifterna var ofta monotona och krävande, och arbetsdagarna lika långa som männens.</p>
+
+  <p>Det stora problemet började dock när skiftet äntligen var över. När arbetsdagen i fabriken var slut tog arbetet hemma vid. Kvinnor hade ansvar för hushållet, barnen, maten och tvätten. Det innebar att många kvinnor arbetade nästan hela dagen utan riktig vila.</p>
+
+  <div class="pullquote">
+    <p>Detta så kallade dubbelarbete gjorde kvinnors liv särskilt slitsamt och bidrog till att deras hälsa ofta försämrades.</p>
+  </div>
+
+  <div class="section-marker"><span>Del 4 · Barnen</span></div>
+  <h2>Tvingade in i <em>mörkret</em></h2>
+
+  <p>Den viktigaste orsaken till att barn arbetade var fattigdom. Familjernas inkomster räckte inte till, och barnens löner behövdes för att klara vardagen. Dessutom kunde barn utföra uppgifter som vuxna hade svårt att klara, till exempel att krypa in under maskiner eller arbeta i trånga utrymmen.</p>
+
+  <p>Arbetsvillkoren för barn var ofta mycket hårda. De arbetade långa dagar, ibland lika länge som vuxna, och utförde monotona och riskfyllda arbetsuppgifter. Många barn skadades eller blev sjuka för livet.</p>
+
+  <div class="dilemma-wrap">
+    <div class="dilemma-label">⚡ Interaktivt moment</div>
+    <h3>Det är 1840. Du är en förälder.</h3>
+    <p class="dilemma-context">Din lön från spinneriet räcker knappt till hyran i den fuktiga källarlägenheten. Din sjuåriga son drömmer om att gå i skolan och lära sig läsa. Men idag frågar fabriksägaren om pojken vill börja som "sopare" under vävstolarna – annars ger han jobbet till grannens barn. Vad gör du?</p>
+    <div class="dilemma-choices" id="choices">
+      <button class="choice-btn" onclick="chooseAnswer(0)">
+        <span class="choice-letter">A</span>
+        <span>Skickar pojken till fabriken. Utan hans lön kommer ni att svälta. Skolgång är tyvärr en lyx ni inte har råd med.</span>
+      </button>
+      <button class="choice-btn" onclick="chooseAnswer(1)">
+        <span class="choice-letter">B</span>
+        <span>Vägrar. Han är ett barn och fabriksgolvet är livsfarligt. Du försöker arbeta ännu fler timmar själv för att överleva.</span>
+      </button>
+    </div>
+    <div id="dilemma-result">
+      <div class="result-reveal">Vad hände rent historiskt? →</div>
+      <div class="result-text" id="result-text"></div>
+      <button id="try-again-btn" onclick="resetDilemma()">Prova det andra valet ↺</button>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 5 · Städerna</span></div>
+  <h2>Trångboddhet och <em>sjukdom</em></h2>
+
+  <p>Industrialiseringen ledde till att människor i stora mängder flyttade från landsbygden till städerna för att söka arbete. Städerna växte snabbt, men bostäderna räckte inte till.</p>
+
+  <p>Många arbetarfamiljer bodde trångt i små, mörka och fuktiga lägenheter. Det var vanligt att flera personer delade ett enda rum, ibland till och med flera familjer. Saniteten var dålig och tillgången till rent vatten begränsad. Avloppssystem saknades ofta, vilket gjorde att smuts och avfall spreds i bostadsområdena.</p>
+
+  <p>Detta ledde till att sjukdomar som kolera, tuberkulos och tyfus spreds snabbt. Barnadödligheten var hög och många människor dog unga.</p>
+
+  <div class="domino-section">
+    <div class="domino-label">En helt vanlig dag – klicka framåt i tiden →</div>
+    <div class="domino-chain">
+
+      <div class="domino active" onclick="fallDomino(0)" id="dom0">
+        <div class="domino-block"><div class="domino-year">MORGON</div><div class="domino-icon">🌑</div></div>
+        <div class="domino-label-text">Mörkret</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(1)" id="dom1">
+        <div class="domino-block"><div class="domino-year">START</div><div class="domino-icon">⚙️</div></div>
+        <div class="domino-label-text">Maskinen</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(2)" id="dom2">
+        <div class="domino-block"><div class="domino-year">DAG</div><div class="domino-icon">⏳</div></div>
+        <div class="domino-label-text">Slitet</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(3)" id="dom3">
+        <div class="domino-block"><div class="domino-year">KVÄLL</div><div class="domino-icon">🌙</div></div>
+        <div class="domino-label-text">Slutet</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="domino-popup" class="domino-detail">
+    <button class="close-detail" onclick="closeDetail()">✕</button>
+    <h4 id="popup-title"></h4>
+    <p id="popup-text"></p>
+  </div>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns ett digitalt quiz, förslag på diskussionsfrågor och skrivuppgifter kopplade till artikelns text och centralt innehåll i Lgr22.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('skrivuppgifter', this)">✍️ Skrivuppgifter</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Koppling till Lgr22</button>
+        <button class="t-tab" style="color: var(--copper); border-color: var(--copper);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Förståelsefrågor till texten</h4>
+          <ul class="q-list">
+            <li>Varför arbetade barnen i fabrikerna trots att det var farligt?</li>
+            <li>Vad menas med "dubbelarbete" när man pratar om kvinnornas situation?</li>
+            <li>Varför spreds sjukdomar som kolera så snabbt i de nya städerna?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Analys & Reflektion</h4>
+          <ul class="q-list">
+            <li>Tänk dig skillnaden mellan att styras av "solen och årstiderna" kontra "fabriksägarens klocka". Hur tror du den psykologiska skillnaden kändes?</li>
+            <li>Varför tror du att fabriksägarna inte själva valde att förbättra villkoren för arbetarna?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-skrivuppgifter">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Ett brev från staden</h4>
+          <p style="color: var(--text-dim); line-height: 1.6;">Du har precis flyttat från en liten bondgård till den bullrande staden Manchester. Skriv ett brev hem till en släkting och berätta om din första vecka i staden och fabriken.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-lgr">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Industrialiseringen (Historia åk 7-9)</h4>
+          <p style="color: var(--text-dim); line-height: 1.6;">Texten täcker den industriella revolutionens konsekvenser för människors levnadsvillkor, urbanisering, samt kvinnors och barns situation.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Gör detta quiz om 8 frågor för att se hur mycket du minns från texten om livet under industrialiseringen.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts">
+            </div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Bra jobbat!</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── TICKING CLOCK (Counting down from 14h) ──
+let secs = 14 * 3600;
+const clockEl = document.getElementById('clock');
+function updateClock() {
+  if (secs <= 0) { clockEl.textContent = '00:00:00'; return; }
+  secs--;
+  const h = String(Math.floor(secs / 3600)).padStart(2, '0');
+  const m = String(Math.floor((secs % 3600) / 60)).padStart(2, '0');
+  const s = String(secs % 60).padStart(2, '0');
+  clockEl.textContent = `${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000);
+
+// ── ACTOR CARDS ──
+function toggleActor(card) {
+  const wasActive = card.classList.contains('active');
+  document.querySelectorAll('.actor-card').forEach(c => c.classList.remove('active'));
+  if (!wasActive) card.classList.add('active');
+}
+
+// ── MORAL DILEMMA ──
+const outcomes = [
+  `<strong>Detta var verkligheten.</strong> Eftersom arbetet tog all tid fick de flesta ingen skolgång, vilket gjorde det svårt att ta sig ur fattigdomen senare i livet. Familjernas desperata ekonomi gjorde valet omöjligt.`,
+  `<strong>Ett tragiskt moment.</strong> Utan ett socialt skyddsnät och med svältlöner i fabrikerna var en vägran nästintill en dödsdom för de allra fattigaste familjerna under det tidiga 1800-talet. Barnen tvingades arbeta för att familjen skulle överleva.`
+];
+
+function chooseAnswer(idx) {
+  document.getElementById('choices').style.opacity = '0.4';
+  document.getElementById('choices').style.pointerEvents = 'none';
+  document.getElementById('result-text').innerHTML = outcomes[idx];
+  document.getElementById('dilemma-result').style.display = 'block';
+  document.getElementById('dilemma-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetDilemma() {
+  document.getElementById('choices').style.opacity = '1';
+  document.getElementById('choices').style.pointerEvents = 'auto';
+  document.getElementById('dilemma-result').style.display = 'none';
+}
+
+// ── DOMINO TIMELINE (A worker's day) ──
+const dominoData = [
+  { title: "Uppvaknandet i mörkret", text: "Dagen börjar tidigt, långt innan solen gått upp. Fabriksarbetaren stiger upp i mörkret och äter en snabb frukost, ofta bara bröd och vatten." },
+  { title: "Rädslan för klockan", text: "Arbetet börjar tidigt och den som kommer för sent riskerar böter eller att förlora jobbet. När maskinerna startar fylls lokalen av buller och damm." },
+  { title: "Det eviga slitet", text: "Arbetaren står vid samma maskin hela dagen och utför samma rörelse om och om igen. Pauserna är korta och tröttheten kommer snabbt. Kroppen värker, men tempot får inte sänkas." },
+  { title: "Bara en kort vila", text: "När arbetsdagen till slut är över är det sent på kvällen. Hemma väntar en trång bostad och lite vila innan allt börjar om igen nästa dag. Livet styrs helt av arbetet och fabriken." }
+];
+
+function fallDomino(idx) {
+  for (let i = 0; i <= idx; i++) {
+    const d = document.getElementById('dom' + i);
+    if (d) d.classList.add('active');
+  }
+  const popup = document.getElementById('domino-popup');
+  document.getElementById('popup-title').textContent = dominoData[idx].title;
+  document.getElementById('popup-text').innerHTML = dominoData[idx].text;
+  popup.classList.add('show');
+}
+
+function closeDetail() {
+  document.getElementById('domino-popup').classList.remove('show');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad var det som i första hand styrde arbetstempot i fabrikerna, till skillnad från i det tidigare bondesamhället?",
+    opts: ["Solen och årstiderna", "Arbetarnas egna önskemål", "Fabriksägarens klocka och maskinerna", "Fackföreningarnas avtal"],
+    correct: 2,
+    feedback: "Övergången till industrisamhället innebar att människan fick anpassa sig till maskinernas och klockans exakta rytm istället för naturens skiftningar."
+  },
+  {
+    q: "Varför var det så vanligt med barnarbete i de tidiga industriella fabrikerna?",
+    opts: ["Skolorna var tillfälligt stängda under denna period.", "Lagen krävde att alla över fem år skulle arbeta.", "Familjernas fattigdom tvingade fram det och barn var billig arbetskraft.", "Barnen var starkare och uthålligare än vuxna."],
+    correct: 2,
+    feedback: "Den extrema fattigdomen gjorde barnens inkomster nödvändiga för överlevnad, och fabriksägarna utnyttjade dem för att de var billiga och hade små händer."
+  },
+  {
+    q: "Vad innebar det 'dubbelarbete' som många kvinnor utförde under den industriella revolutionen?",
+    opts: ["Att de först lönearbetade i fabriken och sedan fick sköta allt hushållsarbete hemma.", "Att de arbetade skift i två olika fabriker varje dag.", "Att de fick dubbelt så mycket betalt som männen.", "Att de både styrde maskinerna och skötte fabrikens bokföring."],
+    correct: 0,
+    feedback: "Efter 12-16 timmars slit i fabriken förväntades kvinnorna även ta det fulla ansvaret för matlagning, städning och barnuppfostran."
+  },
+  {
+    q: "Hur var levnadsförhållandena för de flesta arbetare i de snabbt växande industristäderna?",
+    opts: ["Stora hus i förorterna med bra avloppssystem.", "Trångbodda, fuktiga lägenheter med obefintlig sanitet.", "Moderna bostäder som erbjöds gratis av fabriksägarna.", "Små gårdar med egen odlingsmark precis utanför stadsgränsen."],
+    correct: 1,
+    feedback: "Den snabba urbaniseringen ledde till slumområden där flera familjer ofta delade på ett enda fuktigt rum utan rinnande vatten eller avlopp."
+  },
+  {
+    q: "Vilken sjukdom var särskilt fruktad och spreds snabbt i arbetarkvarteren på grund av bristande avloppssystem och smutsigt vatten?",
+    opts: ["Malaria", "Skörbjugg", "Polio", "Kolera"],
+    correct: 3,
+    feedback: "Eftersom avföring och sopor ofta hamnade rakt ut på gatorna eller i brunnarna, spreds vattenburna sjukdomar som kolera och tyfus blixtsnabbt."
+  },
+  {
+    q: "Ungefär hur lång var en normal arbetsdag för en fabriksarbetare under 1800-talet?",
+    opts: ["6 timmar, sju dagar i veckan.", "12 till 16 timmar, sex dagar i veckan.", "8 timmar, fem dagar i veckan.", "10 timmar, fyra dagar i veckan."],
+    correct: 1,
+    feedback: "Fabrikerna krävde konstant produktion, vilket resulterade i brutala arbetspass. Söndagen var i regel den enda lediga dagen."
+  },
+  {
+    q: "Vad blev oftast konsekvensen för en arbetare som skadades allvarligt av de oskyddade maskinerna?",
+    opts: ["Fabriken betalade sjuklön tills personen var frisk nog att arbeta igen.", "Man blev av med jobbet och förlorade därmed sin inkomst omedelbart.", "Staten klev in med en olycksfallsförsäkring och betalade för vården.", "Fackföreningen stämde fabriken som fick betala ett stort skadestånd."],
+    correct: 1,
+    feedback: "Arbetarna var helt oskyddade. Skadades du var du obrukbar för fabriksägaren, vilket oftast ledde till direkt avsked."
+  },
+  {
+    q: "Vad hände vanligtvis om man kom för sent till fabriken på morgonen?",
+    opts: ["Det ledde ofta till dryga böter eller att man blev utelåst för dagen.", "Man fick arbeta över lika många minuter på kvällen.", "Maskinerna kunde inte startas utan att alla arbetare var på plats.", "Förmannen gav en muntlig tillsägelse men inkomsten påverkades inte."],
+    correct: 0,
+    feedback: "Fabrikernas disciplin var skoningslös, och att förlora inkomst i böter för sen ankomst var ett hårt slag för utblottade familjer."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Fantastiskt! Du har verkligen förstått hur människornas vardag såg ut under denna tid."; }
+  else if(pct >= 0.6) { title = "Bra jobbat! ⭐"; msg = "Du har en bra grundförståelse för den industriella revolutionens mörka sidor."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Det är ett tungt och viktigt ämne. Gå gärna tillbaka i texten och repetera."; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
