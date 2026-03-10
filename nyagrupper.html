@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industrialiseringen – Ett samhälle i stöpsleven</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0a0a0c;
+  --paper:    #F5F0E8;
+  --copper:   #d48843;
+  --gold:     #c5a059;
+  --rust:     #963d22;
+  --text:     #e0d8c3;
+  --text-dim: rgba(224,216,195,0.6);
+  --border:   rgba(212,136,67,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--rust), var(--copper), var(--gold));
+  z-index: 1000;
+}
+
+/* ── HERO ── */
+.hero {
+  height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; text-align: center; padding: 20px;
+  background: radial-gradient(circle at center, #1a1a1f 0%, #050505 100%);
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 5px;
+  text-transform: uppercase; color: var(--copper); margin-bottom: 20px;
+  animation: fadeInDown 1s ease;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 9vw, 90px);
+  font-weight: 900; line-height: 0.9; color: var(--paper);
+  margin-bottom: 24px; animation: fadeInUp 1.2s ease;
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; font-style: italic; animation: fadeInUp 1.5s ease;
+}
+
+/* ── ARTICLE CONTENT ── */
+.article { max-width: 800px; margin: 0 auto; padding: 100px 30px; }
+
+.section-marker {
+  font-family: var(--mono); font-size: 11px; color: var(--copper);
+  display: flex; align-items: center; gap: 15px; margin-bottom: 20px;
+  text-transform: uppercase; letter-spacing: 3px;
+}
+.section-marker::after { content: ""; height: 1px; flex: 1; background: var(--border); }
+
+h2 {
+  font-family: 'Playfair Display', serif; font-size: 42px;
+  color: var(--paper); margin-bottom: 30px; line-height: 1.2;
+}
+
+p { margin-bottom: 25px; }
+strong { color: var(--gold); }
+
+/* ── INTERACTIVE CLASSES ── */
+.class-explorer {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 50px 0;
+}
+.class-card {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  padding: 30px 20px; border-radius: 8px; text-align: center;
+  transition: all 0.3s ease; cursor: pointer;
+}
+.class-card:hover { transform: translateY(-10px); background: rgba(212,136,67,0.1); border-color: var(--copper); }
+.class-icon { font-size: 40px; margin-bottom: 15px; display: block; }
+.class-card h4 { font-family: 'Playfair Display', serif; color: var(--paper); margin-bottom: 10px; }
+.class-desc { font-size: 14px; color: var(--text-dim); display: none; margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px; }
+.class-card.active .class-desc { display: block; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -50px; padding: 40px;
+  border-left: 5px solid var(--rust);
+  background: linear-gradient(90deg, rgba(150,61,34,0.1), transparent);
+  font-family: 'Playfair Display', serif; font-style: italic;
+  font-size: 28px; color: var(--paper);
+}
+
+/* ── URBANIZATION TOOL ── */
+.urban-sim {
+  background: #111; border: 1px solid var(--border); padding: 40px;
+  border-radius: 12px; margin: 40px 0;
+}
+.sim-controls { margin-bottom: 30px; }
+input[type=range] { width: 100%; accent-color: var(--copper); }
+.sim-visual {
+  height: 200px; display: flex; align-items: flex-end; justify-content: space-around;
+  border-bottom: 2px solid var(--border);
+}
+.building { width: 40px; background: var(--rust); transition: height 0.5s ease; border: 1px solid rgba(0,0,0,0.3); }
+.sim-label { font-family: var(--mono); font-size: 12px; text-align: center; margin-top: 20px; color: var(--gold); }
+
+/* ── QUIZ SECTION ── */
+.quiz-container {
+  background: rgba(255,255,255,0.03); border: 2px solid var(--border);
+  padding: 40px; border-radius: 15px; margin-top: 80px; position: relative;
+}
+#quiz-box { min-height: 300px; }
+.quiz-question { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 25px; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-btn {
+  padding: 15px; background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+  color: var(--text); text-align: left; cursor: pointer; border-radius: 5px; font-family: inherit; font-size: 16px;
+  transition: all 0.2s;
+}
+.quiz-btn:hover { background: rgba(212,136,67,0.15); border-color: var(--copper); }
+.quiz-btn.correct { background: #2d5a27; border-color: #4caf50; }
+.quiz-btn.wrong { background: #5a2727; border-color: #f44336; }
+
+.quiz-footer { margin-top: 30px; display: flex; justify-content: space-between; align-items: center; }
+#quiz-next {
+  padding: 10px 25px; background: var(--copper); color: var(--ink); border: none;
+  font-weight: bold; cursor: pointer; border-radius: 4px; display: none;
+}
+#quiz-score { font-family: var(--mono); font-size: 14px; color: var(--gold); }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+  .class-explorer { grid-template-columns: 1fr; }
+  .pullquote { margin: 40px 0; font-size: 22px; }
+  .article { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="hero">
+  <div class="hero-label">SO-Portalen · Historia</div>
+  <h1>Den industriella <em>revolutionen</em></h1>
+  <p class="hero-sub">Hur rökande skorstenar och dånande maskiner ritade om kartan för mänskligheten.</p>
+</header>
+
+<main class="article">
+  <div class="section-marker">Del 1 · Städernas födelse</div>
+  <h2>Urbaniseringen: Den stora <em>flytten</em></h2>
+  <p>Under tusentals år levde människan i takt med naturen. Men när industrialiseringen tog fart, bröts detta mönster för alltid. En kraftig <strong>urbanisering</strong> inleddes – en massflytt från landsbygden till städerna.</p>
+  
+  <p>Vad drev miljoner människor att lämna sina gårdar? En orsak var effektiviseringen av jordbruket; nya metoder gjorde att färre behövdes på fälten. Samtidigt lockade städerna med arbete i de nya fabrikerna. Men verkligheten var ofta brutal. Städerna växte snabbare än de kunde byggas, vilket resulterade i trångboddhet, dåliga sanitära förhållanden och sjukdomar.</p>
+
+  <div class="urban-sim">
+    <div class="sim-controls">
+      <label style="display:block; margin-bottom:10px; font-family:var(--mono); font-size:11px;">DRA REGLAGET: GRAD AV INDUSTRIALISERING</label>
+      <input type="range" min="1" max="100" value="10" id="urbanRange">
+    </div>
+    <div class="sim-visual" id="simVisual"></div>
+    <div class="sim-label" id="simLabel">År 1750: Landsbygden dominerar.</div>
+  </div>
+
+  <div class="section-marker">Del 2 · En ny hierarki</div>
+  <h2>Klassamhället tar <em>form</em></h2>
+  <p>Det gamla ståndssamhället (adel, präster, borgare, bönder) började vittra sönder. I dess ställe växte ett <strong>klassamhälle</strong> fram, där ekonomisk makt och relationen till fabrikerna definierade din roll.</p>
+
+  <div class="class-explorer">
+    <div class="class-card" onclick="this.classList.toggle('active')">
+      <span class="class-icon">⚒️</span>
+      <h4>Arbetarklassen</h4>
+      <div class="class-desc">De som bara ägde sin egen arbetskraft. De arbetade långa pass för låga löner och blev grunden för den moderna arbetarrörelsen.</div>
+    </div>
+    <div class="class-card" onclick="this.classList.toggle('active')">
+      <span class="class-icon">⚖️</span>
+      <h4>Borgarklassen</h4>
+      <div class="class-desc">Medelklassen som växte sig stark: ingenjörer, läkare och tjänstemän. De värderade utbildning och social rörlighet.</div>
+    </div>
+    <div class="class-card" onclick="this.classList.toggle('active')">
+      <span class="class-icon">🎩</span>
+      <h4>Industriägarna</h4>
+      <div class="class-desc">Kapitalisterna som ägde maskinerna och fabrikerna. De hade den verkliga makten i det nya ekonomiska systemet.</div>
+    </div>
+  </div>
+
+  <p>Detta nya system skapade djupa klyftor. Skillnaden mellan den som ägde kapitalet och den som slet vid maskinen blev bränsle för de politiska ideologier som vi fortfarande debatterar idag.</p>
+
+  <div class="section-marker">Del 3 · Nya yrken</div>
+  <h2>Teknikens <em>mästare</em></h2>
+  <p>Industrialiseringen krävde inte bara muskler, utan också hjärnkraft och organisation. Nya yrken uppstod som aldrig tidigare skådats. <strong>Ingenjörer</strong> blev det nya samhällets hjältar – de som förstod de komplexa ångmaskinerna och kuggväxlarna.</p>
+  
+  <p>Samtidigt växte behovet av administration. <strong>Bokhållare</strong>, bokhållare och arbetsledare behövdes för att hålla ordning på produktionen och ekonomin. Samhället blev mer byråkratiskt och strukturerat, vilket förändrade människors sätt att se på utbildning och karriär.</p>
+
+  <div class="pullquote">
+    "Maskinen tröttnar aldrig, men människan som sköter den måste lära sig att leva i dess takt."
+  </div>
+
+  <div class="section-marker">Del 4 · Privatlivet</div>
+  <h2>Familjens <em>förvandling</em></h2>
+  <p>Innan revolutionen arbetade familjen ofta som en enhet på gården. Industrialiseringen splittrade detta. Män, kvinnor och barn gick till olika fabriker eller gruvor. Detta påverkade familjedynamiken fundamentalt.</p>
+  
+  <p><strong>Barnarbetet</strong> var en mörk baksida, men det ledde till en viktig motrörelse. Kraven på skolgång ökade och barndomen började ses som en tid för lek och lärande istället för slit. Även kvinnors roll förändrades; när fler kvinnor kom ut i arbetslivet föddes frön till kampen för jämställdhet och rösträtt.</p>
+
+  <section class="quiz-container">
+    <div id="quiz-intro">
+      <h2 style="font-size: 28px;">Sluttest: Har du koll på revolutionen?</h2>
+      <p>Testa dina kunskaper i vårt stora quiz med 8 frågor.</p>
+      <button class="quiz-btn" style="text-align:center; background:var(--copper); color:var(--ink); font-weight:bold;" onclick="startQuiz()">Starta Quizet</button>
+    </div>
+
+    <div id="quiz-play" style="display:none;">
+      <div id="quiz-score">Fråga 1 av 8</div>
+      <div id="quiz-box">
+        <h3 class="quiz-question" id="q-text">Fråga laddas...</h3>
+        <div class="quiz-options" id="q-options"></div>
+      </div>
+      <div class="quiz-footer">
+        <div id="q-feedback" style="font-size:14px; font-style:italic; color:var(--gold);"></div>
+        <button id="quiz-next" onclick="nextQuestion()">Nästa fråga</button>
+      </div>
+    </div>
+
+    <div id="quiz-result" style="display:none; text-align:center;">
+      <h2 id="res-title">Resultat</h2>
+      <p id="res-score" style="font-size:40px; color:var(--gold); margin:20px 0;"></p>
+      <p id="res-text"></p>
+      <button class="quiz-btn" style="margin-top:20px;" onclick="location.reload()">Gör om quizet</button>
+    </div>
+  </section>
+</main>
+
+<script>
+// SCROLL PROGRESS
+window.onscroll = function() {
+  let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  let scrolled = (winScroll / height) * 100;
+  document.getElementById("progress").style.width = scrolled + "%";
+};
+
+// URBAN SIMULATOR
+const range = document.getElementById('urbanRange');
+const visual = document.getElementById('simVisual');
+const label = document.getElementById('simLabel');
+
+function updateSim() {
+  const val = range.value;
+  visual.innerHTML = '';
+  let count = Math.floor(val / 5) + 2;
+  for(let i=0; i<count; i++) {
+    let h = Math.random() * (val * 1.5) + 20;
+    let b = document.createElement('div');
+    b.className = 'building';
+    b.style.height = h + 'px';
+    b.style.width = (15 + (val/6)) + 'px';
+    visual.appendChild(b);
+  }
+  if(val < 30) label.innerText = "År 1750: Landsbygd. Få industrier.";
+  else if(val < 70) label.innerText = "År 1850: Kraftig inflyttning. Städerna växer högt.";
+  else label.innerText = "År 1900: Full urbanisering. Fabrikerna dominerar horisonten.";
+}
+range.addEventListener('input', updateSim);
+updateSim();
+
+// QUIZ DATA
+const questions = [
+  { q: "Vad innebär termen 'urbanisering'?", a: ["Att människor flyttar till städerna", "Att man börjar odla nya grödor", "Att adeln får mer makt"], correct: 0 },
+  { q: "Varför behövdes färre människor i jordbruket?", a: ["Fler blev lata", "Effektivare redskap och metoder", "Jorden tog slut"], correct: 1 },
+  { q: "Vilken grupp ägde maskinerna och fabrikerna?", a: ["Arbetarklassen", "Industriägarna", "Bönderna"], correct: 1 },
+  { q: "Vilket yrke blev centralt för teknikens utveckling?", a: ["Ingenjör", "Riddare", "Sjöman"], correct: 0 },
+  { q: "Hur påverkades familjelivet främst?", a: ["Man arbetade mer tillsammans", "Arbetet splittrades på olika platser", "Ingen arbetade längre"], correct: 1 },
+  { q: "Vad hände med barndomen under slutet av revolutionen?", a: ["Den blev kortare för alltid", "Skolplikt infördes gradvis", "Barn fick rösträtt"], correct: 1 },
+  { q: "Vilka utgjorde 'Borgarklassen'?", a: ["Fabrikarbetare", "Tjänstemän, ingenjörer och köpmän", "Endast kungafamiljen"], correct: 1 },
+  { q: "Vad var en vanlig orsak till sociala problem i städerna?", a: ["För mycket fritid", "Trångboddhet och bostadsbrist", "Brist på fabriker"], correct: 1 }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function startQuiz() {
+  document.getElementById('quiz-intro').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[currentQ];
+  document.getElementById('q-text').innerText = q.q;
+  document.getElementById('quiz-score').innerText = `Fråga ${currentQ + 1} av ${questions.length}`;
+  const optionsDiv = document.getElementById('q-options');
+  optionsDiv.innerHTML = '';
+  document.getElementById('q-feedback').innerText = '';
+  document.getElementById('quiz-next').style.display = 'none';
+
+  q.a.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-btn';
+    btn.innerText = opt;
+    btn.onclick = () => checkAnswer(i, btn);
+    optionsDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(idx, btn) {
+  const q = questions[currentQ];
+  const allBtns = document.querySelectorAll('.quiz-btn');
+  allBtns.forEach(b => b.disabled = true);
+
+  if(idx === q.correct) {
+    btn.classList.add('correct');
+    document.getElementById('q-feedback').innerText = "Rätt svar!";
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    allBtns[q.correct].classList.add('correct');
+    document.getElementById('q-feedback').innerText = "Tyvärr fel.";
+  }
+  document.getElementById('quiz-next').style.display = 'block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < questions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-play').style.display = 'none';
+  const resView = document.getElementById('quiz-result');
+  resView.style.display = 'block';
+  document.getElementById('res-score').innerText = `${score} / ${questions.length}`;
+  
+  let msg = "";
+  if(score === 8) msg = "Mästare! Du har full koll på de sociala förändringarna.";
+  else if(score >= 5) msg = "Bra jobbat! Du har förstått grunderna i det nya samhället.";
+  else msg = "Gå gärna tillbaka och läs igen om klasser och urbanisering.";
+  document.getElementById('res-text').innerText = msg;
+}
+</script>
+</body>
+</html>
