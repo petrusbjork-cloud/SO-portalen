@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konsekvenser då och nu – SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0e1214;
+  --paper:    #F2F4F3;
+  --smog:     #4A5559;
+  --smog-lt:  #6A7A80;
+  --emerald:  #2E5C4A;
+  --emerald-lt:#458B6F;
+  --gold:     #C2A878;
+  --text:     #E0E4E8;
+  --text-dim: rgba(224,228,232,0.65);
+  --border:   rgba(194,168,120,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink); color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 20px; line-height: 1.75; overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--smog-lt), var(--emerald-lt));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(ellipse at 50% 30%, #1a2220 0%, #0e1214 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px; text-align: center;
+  border-bottom: 2px solid var(--emerald);
+}
+.hero-grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.07'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.85) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--emerald-lt); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif; font-size: clamp(38px, 7vw, 80px);
+  font-weight: 900; line-height: 1.05; color: var(--paper);
+  text-shadow: 0 0 50px rgba(46,92,74,0.4); margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 1s 0.5s forwards;
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 40px; font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.8s forwards;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px; font-family: var(--mono); font-size: 11px;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--emerald-lt), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article { max-width: 760px; margin: 0 auto; padding: 80px 40px; }
+.cite { font-family: var(--mono); font-size: 10px; color: var(--smog-lt); vertical-align: super; opacity: 0.6; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px; padding: 40px 60px; border-left: 4px solid var(--emerald);
+  background: linear-gradient(135deg, rgba(46,92,74,0.08), transparent); position: relative;
+}
+.pullquote p { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); font-style: italic; font-weight: 400; color: var(--paper); line-height: 1.4; }
+
+/* ── SECTION HEADS ── */
+.section-marker { display: flex; align-items: center; gap: 20px; margin: 80px 0 32px; }
+.section-marker::before, .section-marker::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+.section-marker span { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; color: var(--paper); margin-bottom: 28px; }
+h2 em { color: var(--emerald-lt); font-style: italic; }
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── IMAGE PLACEHOLDER ── */
+.image-placeholder {
+  background: rgba(255,255,255,0.02); border: 1px dashed var(--border);
+  padding: 40px; text-align: center; color: var(--text-dim);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 1px;
+  margin: 40px 0; border-radius: 8px;
+}
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 50vh; position: relative; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover; background-position: center; background-attachment: fixed;
+  filter: brightness(0.3) contrast(0.8) sepia(0.2) hue-rotate(140deg);
+  background-image: url('https://images.unsplash.com/photo-1611273426858-450d8e3c9cce?auto=format&fit=crop&q=80&w=2070');
+}
+.parallax-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%); }
+.parallax-text { position: relative; text-align: center; padding: 40px; max-width: 700px; }
+.parallax-text h2 { font-size: clamp(28px, 4vw, 48px); text-shadow: 0 4px 30px rgba(0,0,0,0.9); margin: 0; color: var(--paper); }
+
+/* ── ACTOR CARDS / PERSPECTIVES ── */
+.actors-section { margin: 60px 0; }
+.actors-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; text-align: center;}
+.actors-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.actor-card {
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 4px; cursor: pointer; transition: all 0.25s; overflow: hidden;
+}
+.actor-card:hover { background: rgba(194,168,120,0.08); border-color: var(--gold); transform: translateY(-3px); }
+.actor-card.active { background: rgba(46,92,74,0.15); border-color: var(--emerald); }
+.actor-top { padding: 20px 16px 14px; text-align: center; }
+.actor-emoji { font-size: 40px; display: block; margin-bottom: 10px; }
+.actor-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 4px; }
+.actor-role { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); }
+.actor-detail { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); margin-top: 14px; padding-top: 14px; }
+.actor-card.active .actor-detail { display: block; animation: fadeUp 0.3s ease; }
+.actor-detail p { font-size: 14px; line-height: 1.6; color: var(--text-dim); margin: 0; }
+
+/* ── DILEMMA ── */
+.dilemma-wrap {
+  margin: 80px -60px; background: linear-gradient(135deg, rgba(46,92,74,0.15), var(--ink));
+  border: 1px solid rgba(46,92,74,0.4); border-radius: 8px; padding: 50px 60px; position: relative; overflow: hidden;
+}
+.dilemma-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--emerald-lt); margin-bottom: 16px; }
+.dilemma-wrap h3 { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); color: var(--paper); margin: 0 0 12px; font-weight: 700; }
+.dilemma-context { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.65; }
+.dilemma-choices { display: flex; flex-direction: column; gap: 12px; }
+.choice-btn {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer;
+  font-family: 'Crimson Pro', serif; font-size: 17px; color: var(--text); text-align: left; transition: all 0.2s; display: flex; align-items: flex-start; gap: 14px; line-height: 1.5;
+}
+.choice-btn:hover { border-color: var(--gold); background: rgba(194,168,120,0.1); color: var(--paper); }
+.choice-btn .choice-letter {
+  width: 28px; height: 28px; border-radius: 50%; background: rgba(194,168,120,0.15); border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--gold); flex-shrink: 0; margin-top: 2px;
+}
+#dilemma-result { display: none; margin-top: 32px; border-top: 1px solid var(--border); padding-top: 28px; }
+.result-reveal { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.result-text { font-size: 17px; color: var(--text); line-height: 1.7; }
+.result-text strong { color: var(--emerald-lt); }
+#try-again-btn {
+  margin-top: 20px; background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 10px 20px; cursor: pointer; transition: all 0.2s; border-radius: 4px;
+}
+#try-again-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── DOMINO TIMELINE ── */
+.domino-section { margin: 80px 0; }
+.domino-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; text-align: center; }
+.domino-chain { display: flex; align-items: flex-start; justify-content: center; gap: 0; flex-wrap: wrap; }
+.domino { display: flex; flex-direction: column; align-items: center; opacity: 0.25; transition: all 0.5s; cursor: pointer; }
+.domino.active { opacity: 1; }
+.domino-block {
+  width: 72px; height: 120px; background: linear-gradient(160deg, #1b2420, #0e1214);
+  border: 1px solid rgba(194,168,120,0.4); border-radius: 6px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; gap: 8px; position: relative; overflow: hidden; transition: all 0.3s;
+}
+.domino.active .domino-block { border-color: var(--emerald-lt); box-shadow: 0 0 20px rgba(46,92,74,0.3); }
+.domino-block::after { content: ''; position: absolute; top: 50%; left: 10%; right: 10%; height: 1px; background: rgba(194,168,120,0.4); }
+.domino-icon { font-size: 24px; }
+.domino-arrow {
+  width: 36px; height: 2px; background: linear-gradient(90deg, var(--emerald-lt), transparent);
+  margin-top: 58px; flex-shrink: 0; opacity: 0; transition: opacity 0.5s 0.3s;
+}
+.domino.active + .domino .domino-arrow { opacity: 1; }
+.domino-label-text {
+  margin-top: 12px; font-family: var(--mono); font-size: 10px; text-align: center; color: var(--text-dim);
+  max-width: 80px; line-height: 1.4; letter-spacing: 0.5px;
+}
+.domino.active .domino-label-text { color: var(--gold); }
+.domino-detail {
+  display: none; position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+  background: #0e1214; border: 1px solid var(--emerald); padding: 20px 28px; border-radius: 8px; z-index: 500;
+  max-width: 500px; width: calc(100% - 40px); box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+}
+.domino-detail.show { display: block; animation: fadeUp 0.3s ease; }
+.domino-detail h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 8px; }
+.domino-detail p { font-size: 15px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+.domino-detail .close-detail { float: right; background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; margin-left: 12px; }
+
+/* ── LÄRARSEKTION & QUIZ ── */
+.teacher-section { background: #0a0c0e; border-top: 1px solid var(--border); padding: 80px 40px; margin-top: 80px; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--gold); color: var(--gold); background: rgba(194,168,120,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(194,168,120,0.15); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(194,168,120,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-content p { font-size: 16px; color: var(--text-dim); line-height: 1.6; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+.source-box { background: rgba(255,255,255,0.03); border-left: 3px solid var(--gold); padding: 20px; margin-bottom: 20px; font-size: 15px; color: var(--text-dim); font-style: italic; }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 36px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 24px; }
+.quiz-start-btn { background: rgba(46,92,74,0.15); border: 1px solid var(--emerald); color: var(--emerald-lt); padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: rgba(46,92,74,0.3); color: var(--paper); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(194,168,120,0.2); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); margin-bottom: 20px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px 20px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(194,168,120,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A7A2A; background: rgba(42,122,42,0.15); color: #EAF6EA; }
+.quiz-opt.wrong { border-color: #C0392B; background: rgba(192,57,43,0.15); color: #FDECEA; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--gold); background: rgba(194,168,120,0.15); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 20px; padding: 16px 20px; background: rgba(194,168,120,0.1); border-left: 3px solid var(--gold); font-size: 16px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 20px; background: var(--emerald-lt); color: var(--ink); border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 20px 0; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--emerald), var(--smog)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(46,92,74,0.2); color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 700px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .actors-grid { grid-template-columns: 1fr; }
+  .dilemma-wrap { margin: 60px 0; padding: 32px 24px; }
+  .domino-chain { gap: 0; }
+  .domino-block { width: 56px; height: 90px; }
+  .domino-arrow { width: 24px; margin-top: 43px; }
+  .teacher-section { padding: 60px 24px; }
+  .q-block { gap: 14px; flex-direction: column; }
+  .q-num { font-size: 20px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Historia · Industrialiseringen</div>
+
+  <h1>Ett arv av rök och<br><em>framsteg</em></h1>
+  <p class="hero-sub">Den industriella revolutionen var inte bara en historisk period – den blev startpunkten för en utveckling som fortfarande präglar världen <span class="cite"></span>.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:23px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Maskiner, fabriker och nya sätt att producera förändrade samhället i grunden. Vissa konsekvenser märktes direkt, andra först på lång sikt <span class="cite"></span>. Detta är berättelsen om varför industrialiseringens spår fortfarande är tydliga i dag.
+  </p>
+
+  <div class="section-marker"><span>Del 1 · Naturens pris</span></div>
+  <h2>Miljön och <em>föroreningarna</em></h2>
+
+  <p>En av industrialiseringens mest påtagliga konsekvenser var dess påverkan på miljön <span class="cite"></span>. Under 1800-talet prioriterades produktion och tillväxt, medan miljöhänsyn nästan helt saknades <span class="cite"></span>.</p>
+
+  <div class="image-placeholder">
+    
+  </div>
+
+  <p>Fabriker släppte ut rök, sot och kemikalier rakt ut i luften och vattendragen <span class="cite"></span>. Kol användes som bränsle, vilket ledde till kraftig luftförorening, särskilt i de växande industristäderna <span class="cite"></span>.</p>
+
+  <p>Naturen runt städerna förändrades snabbt. Skogar höggs ner för att ge plats åt industrier, bostäder och infrastruktur <span class="cite"></span>. Floder och sjöar användes som avloppssystem, vilket gjorde att dricksvattnet förorenades <span class="cite"></span>.</p>
+
+  <div class="pullquote">
+    <p>Samtidigt skapade industrialiseringen en syn på naturen som något människan kunde kontrollera och utnyttja, en syn som skulle få långvariga konsekvenser. <span class="cite"></span></p>
+  </div>
+
+  <p>För människor som levde i städerna innebar detta sämre hälsa, fler sjukdomar och en farligare livsmiljö <span class="cite"></span>.</p>
+
+  <div class="actors-section">
+    <div class="actors-label">Tre konsekvenser av industrialiseringen →</div>
+    <div class="actors-grid">
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">🌍</span>
+          <div class="actor-name">Globaliseringen</div>
+          <div class="actor-role">Den nya handeln</div>
+        </div>
+        <div class="actor-detail">
+          <p>Industrialiseringen påskyndade globaliseringen. Råvaror hämtades från olika delar av världen, tillverkades i fabriker och såldes på globala marknader. Handel och transporter knöt samman världsdelar på ett helt nytt sätt <span class="cite"></span>.</p>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">📈</span>
+          <div class="actor-name">Ekonomin</div>
+          <div class="actor-role">Den ojämna rikedomen</div>
+        </div>
+        <div class="actor-detail">
+          <p>Ekonomin växte kraftigt. Länder som industrialiserades tidigt kunde bygga upp rikedom och makt. Detta bidrog till ökade skillnader mellan rika och fattiga länder, men också till att levnadsstandarden successivt höjdes <span class="cite"></span>.</p>
+        </div>
+      </div>
+
+      <div class="actor-card" onclick="toggleActor(this)">
+        <div class="actor-top">
+          <span class="actor-emoji">🎓</span>
+          <div class="actor-name">Välfärden</div>
+          <div class="actor-role">Samhällets utveckling</div>
+        </div>
+        <div class="actor-detail">
+          <p>På det sociala planet ledde industrialiseringen till bättre utbildning, längre livslängd och ökad materiell standard. Många av dessa förbättringar kom dock först efter lång kamp och politiska reformer <span class="cite"></span>.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 2 · Den långa siktens vinster</span></div>
+  <h2>En värld som <em>krymper</em></h2>
+
+  <p>På lång sikt förändrade industrialiseringen världen mer än någon tidigare samhällsomvandling <span class="cite"></span>. Samtidigt som handeln knöt ihop världen, ökade också beroendet mellan länder <span class="cite"></span>.</p>
+
+  <p>Detta gjorde att ekonomiska kriser och förändringar nu kunde få globala konsekvenser <span class="cite"></span>. Industrialiseringen skapade alltså både möjligheter och problem, vinster och orättvisor <span class="cite"></span>.</p>
+
+  <div class="dilemma-wrap">
+    <div class="dilemma-label">⚡ Interaktivt moment</div>
+    <h3>Du är stadsplanerare år 1890.</h3>
+    <p class="dilemma-context">Din stads flod är helt svart av kemikalier och sot från de stora textilfabrikerna. Läkare varnar för att vattnet sprider dödliga sjukdomar. Du kan lagstifta om dyra vattenfilter – men fabriksägarna hotar då att flytta sina fabriker till en annan stad, vilket skulle göra tusentals av dina invånare arbetslösa och svältande. Vad gör du?</p>
+    <div class="dilemma-choices" id="choices">
+      <button class="choice-btn" onclick="chooseAnswer(0)">
+        <span class="choice-letter">A</span>
+        <span>Strunta i lagstiftningen. Arbetslösheten är ett mer akut och dödligt hot för arbetarna än det smutsiga vattnet. Produktionen måste gå först.</span>
+      </button>
+      <button class="choice-btn" onclick="chooseAnswer(1)">
+        <span class="choice-letter">B</span>
+        <span>Tvinga igenom miljölagarna. Folkhälsan är viktigare än företagens vinster, även om det leder till en ekonomisk kris på kort sikt.</span>
+      </button>
+    </div>
+    <div id="dilemma-result">
+      <div class="result-reveal">Det historiska utfallet →</div>
+      <div class="result-text" id="result-text"></div>
+      <button id="try-again-btn" onclick="resetDilemma()">Prova det andra valet ↺</button>
+    </div>
+  </div>
+
+  <div class="parallax-section">
+    <div class="parallax-bg" style="background-image: url('https://images.unsplash.com/photo-1463171515643-952cee54d42a?auto=format&fit=crop&q=80&w=2070'); filter: brightness(0.4);"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Dagens samhälle bygger på samma grundidéer."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 3 · Vår tid</span></div>
+  <h2>Lever vi fortfarande i <em>spåren?</em></h2>
+
+  <p>Trots att den industriella revolutionen började för över 200 år sedan lever vi fortfarande tydligt i dess spår <span class="cite"></span>. Dagens samhälle bygger på samma grundidéer: teknisk utveckling, effektiv produktion och ekonomisk tillväxt <span class="cite"></span>.</p>
+
+  <p>Många av de problem vi diskuterar i dag, som klimatförändringar, miljöförstöring och ojämlikhet, kan kopplas tillbaka till industrialiseringens sätt att använda resurser och organisera arbete <span class="cite"></span>.</p>
+
+  <p>Samtidigt har vi också ärvt industrialiseringens lösningar <span class="cite"></span>. Demokratiska rättigheter, arbetslagar, utbildningssystem och välfärdssamhällen växte fram som svar på industrialiseringens problem <span class="cite"></span>.</p>
+
+  <div class="domino-section">
+    <div class="domino-label">En obruten kedja från 1700-talet till idag →</div>
+    <div class="domino-chain">
+
+      <div class="domino active" onclick="fallDomino(0)" id="dom0">
+        <div class="domino-block"><div class="domino-icon">🏭</div></div>
+        <div class="domino-label-text">Maskinerna</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(1)" id="dom1">
+        <div class="domino-block"><div class="domino-icon">💰</div></div>
+        <div class="domino-label-text">Rikedomen</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(2)" id="dom2">
+        <div class="domino-block"><div class="domino-icon">📚</div></div>
+        <div class="domino-label-text">Välfärden</div>
+      </div>
+      <div class="domino-arrow"></div>
+
+      <div class="domino" onclick="fallDomino(3)" id="dom3">
+        <div class="domino-block"><div class="domino-icon">🌍</div></div>
+        <div class="domino-label-text">Klimatkrisen</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="domino-popup" class="domino-detail">
+    <button class="close-detail" onclick="closeDetail()">✕</button>
+    <h4 id="popup-title"></h4>
+    <p id="popup-text"></p>
+  </div>
+
+  <p>I dag står världen inför nya utmaningar, men erfarenheterna från 1800-talet visar att förändring är möjlig genom politiska beslut, teknisk innovation och gemensamt ansvar <span class="cite"></span>.</p>
+
+  <p>Industrialiseringen är därför inte bara historia. Den är en pågående process som fortsätter att forma hur vi lever, arbetar och ser på framtiden <span class="cite"></span>.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns material för analys, källkritik och ett digitalt quiz kopplat till texten om industrialiseringens konsekvenser.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('kallkritik', this)">🔍 Källkritik</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Koppling till Lgr22</button>
+        <button class="t-tab" style="color: var(--emerald-lt); border-color: var(--emerald-lt);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Förståelsefrågor till texten</h4>
+          <ul class="q-list">
+            <li>Hur påverkades miljön i de växande industristäderna under 1800-talet?</li>
+            <li>På vilket sätt bidrog industrialiseringen till att öka globaliseringen?</li>
+            <li>Ge tre exempel på "lösningar" som växte fram som svar på industrialiseringens problem.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Analys & Reflektion</h4>
+          <ul class="q-list">
+            <li>Texten nämner att industrialiseringen skapade en syn på naturen som något "människan kunde kontrollera och utnyttja". Hur ser vi på naturen idag jämfört med då?</li>
+            <li>Industrialiseringen skapade både extrem rikedom och extrema miljöproblem. Går dessa två saker att separera?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-kallkritik">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Hur såg man på föroreningar förr? (Källkritisk övning)</h4>
+          <p>Läs de två tänkta historiska källorna nedan och svara på frågorna för att öva på källkritisk analys.</p>
+          
+          <div class="source-box">
+            <strong>Källa 1 (Tidningsartikel ägd av en industriägare, 1860):</strong><br>
+            "Röken från våra skorstenar är inte ett problem, det är doften av framsteg! Varje mörk plym på himlen betyder att hundratals män har ett arbete att gå till. Att begränsa våra fabriker med så kallade miljölagar vore att kasta oss tillbaka till medeltiden."
+          </div>
+          
+          <div class="source-box">
+            <strong>Källa 2 (Rapport från en stadsläkare, 1860):</strong><br>
+            "Floden är nu så förorenad av kemikalier att inget liv existerar i den. Antalet dödsfall i kolera bland de fattiga som dricker detta vatten har tredubblats på fem år. Fabrikernas utsläpp dödar våra invånare."
+          </div>
+          
+          <ul class="q-list" style="margin-top: 16px;">
+            <li>Vilket syfte (tendens) har Källa 1 respektive Källa 2? Vad vill författarna uppnå?</li>
+            <li>Hur bedömer du trovärdigheten i Källa 1 om du ska ta reda på hur fabrikerna påverkade folkhälsan?</li>
+            <li>Vilken källa tror du vägde tyngst för politikerna år 1860, och varför?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-lgr">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Konsekvenser (Historia åk 7-9)</h4>
+          <p style="color: var(--text-dim); line-height: 1.6;">Den industriella revolutionens konsekvenser för människors levnadsvillkor och miljö. Historiska förklaringar till dagens samhällsfrågor, till exempel klimatförändringar, ojämlikhet och globalisering.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Ett quiz om 8 frågor baserat på texten om industrialiseringens konsekvenser för miljön, samhället och vår egen tid.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts">
+            </div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Bra jobbat!</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── ACTOR CARDS ──
+function toggleActor(card) {
+  const wasActive = card.classList.contains('active');
+  document.querySelectorAll('.actor-card').forEach(c => c.classList.remove('active'));
+  if (!wasActive) card.classList.add('active');
+}
+
+// ── MORAL DILEMMA ──
+const outcomes = [
+  `<strong>Detta var normen under nästan hela 1800-talet.</strong> Politikerna lät produktion och tillväxt gå före allt annat, eftersom miljöhänsyn saknades helt <span class="cite"></span>. Resultatet blev utbredd kolera och förkortad livslängd i slummen.`,
+  `<strong>Ett extremt ovanligt val för tiden.</strong> Synen på naturen var att den fanns till för att utnyttjas <span class="cite"></span>. Det dröjde mycket länge innan politikerna vågade ställa krav på fabrikerna, ofta först när hälsokrisen hotade hela städernas överlevnad.`
+];
+
+function chooseAnswer(idx) {
+  document.getElementById('choices').style.opacity = '0.4';
+  document.getElementById('choices').style.pointerEvents = 'none';
+  document.getElementById('result-text').innerHTML = outcomes[idx];
+  document.getElementById('dilemma-result').style.display = 'block';
+  document.getElementById('dilemma-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetDilemma() {
+  document.getElementById('choices').style.opacity = '1';
+  document.getElementById('choices').style.pointerEvents = 'auto';
+  document.getElementById('dilemma-result').style.display = 'none';
+}
+
+// ── DOMINO TIMELINE ──
+const dominoData = [
+  { title: "Maskinerna och kolet", text: "Övergången till maskiner drivna av fossila bränslen som kol innebar startskottet. För att driva fabrikerna offrades natur och människors hälsa." },
+  { title: "Rikedom och globalisering", text: "De länder som industrialiserades blev enormt rika och skapade en global marknad där råvaror hämtades från hela världen. Klyftorna växte." },
+  { title: "Välfärden växer fram", text: "Som svar på industrialismens problem tvingades stater till slut införa arbetslagar, utbildning och bygga det vi kallar välfärdssamhällen. Livslängden ökade kraftigt." },
+  { title: "Klimatkrisen idag", text: "Men priset för 200 år av okontrollerad produktion och koldioxidutsläpp är dagens miljöförstöring och klimatförändringar. Vi lever fortfarande i industrialiseringens spår." }
+];
+
+function fallDomino(idx) {
+  for (let i = 0; i <= idx; i++) {
+    const d = document.getElementById('dom' + i);
+    if (d) d.classList.add('active');
+  }
+  const popup = document.getElementById('domino-popup');
+  document.getElementById('popup-title').textContent = dominoData[idx].title;
+  document.getElementById('popup-text').innerHTML = dominoData[idx].text;
+  popup.classList.add('show');
+}
+
+function closeDetail() {
+  document.getElementById('domino-popup').classList.remove('show');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad var en av industrialiseringens mest påtagliga konsekvenser under 1800-talet, enligt texten?",
+    opts: ["Total jämställdhet i städerna.", "Dess enorma och omedelbara påverkan på miljön.", "Att alla människor flyttade tillbaka till landsbygden.", "Att teknikutvecklingen stannade av helt."],
+    correct: 1,
+    feedback: "Under 1800-talet prioriterades produktion och tillväxt, medan miljöhänsyn nästan helt saknades vilket ledde till massiva utsläpp och föroreningar."
+  },
+  {
+    q: "Hur förändrades naturen runt de växande industristäderna?",
+    opts: ["Den skyddades som nationalparker av fabriksägarna.", "Den förblev orörd eftersom fabrikerna byggdes under marken.", "Skogar höggs ner och floder och sjöar användes som avloppssystem.", "Luften blev renare på grund av de nya maskinerna."],
+    correct: 2,
+    feedback: "Skogar höggs ner för att ge plats åt industrier och floder förorenades kraftigt då de användes som avlopp, vilket gjorde dricksvattnet farligt."
+  },
+  {
+    q: "Hur påverkade industrialiseringen relationen mellan olika länder rent ekonomiskt?",
+    opts: ["Alla länder i hela världen blev lika rika samtidigt.", "Länder som industrialiserades tidigt fick stora fördelar, vilket ökade skillnaderna mellan rika och fattiga länder.", "Handeln mellan länder minskade drastiskt.", "De länder som industrialiserades blev fattigare än de som fortsatte med jordbruk."],
+    correct: 1,
+    feedback: "Tidig industrialisering gav enorm makt och rikedom, vilket skapade stora klyftor gentemot de länder som inte industrialiserades lika snabbt."
+  },
+  {
+    q: "Vad menas med att industrialiseringen påskyndade globaliseringen?",
+    opts: ["Råvaror hämtades från olika delar av världen och handel knöt samman världsdelarna på ett nytt sätt.", "Människor slutade resa och handlade enbart lokalt i sin egen stad.", "Maskinerna gjorde att vi slapp importera saker från andra länder.", "Det blev förbjudet att sälja varor på globala marknader."],
+    correct: 0,
+    feedback: "Beroendet mellan länder ökade när fabriker krävde globala råvaror och marknader att sälja de massproducerade varorna på."
+  },
+  {
+    q: "Vilka positiva, långsiktiga sociala förändringar förde industrialiseringen med sig för många människor?",
+    opts: ["Kortare skolplikt och sämre sjukvård.", "Bättre utbildning, längre livslängd och ökad materiell standard.", "Att man inte längre behövde lagar som skyddade arbetare.", "Att alla sjukdomar försvann omedelbart."],
+    correct: 1,
+    feedback: "Många av dessa förbättringar kom först efter lång kamp, men på sikt ledde den ekonomiska tillväxten till ett modernare och friskare samhälle."
+  },
+  {
+    q: "Vilken syn på naturen skapades under den industriella revolutionen?",
+    opts: ["En syn på naturen som något heligt som absolut inte fick röras.", "En syn på naturen som något människan kunde kontrollera och utnyttja för sin egen vinnings skull.", "En syn där naturen betraktades som farligare än städerna.", "En syn där naturen och fabrikerna sågs som jämlika partners."],
+    correct: 1,
+    feedback: "Denna instrumentella syn på naturen – som en resurs att plundra – lade grunden till många av de miljöproblem vi står inför idag."
+  },
+  {
+    q: "Vilka av dagens stora problem kopplar texten direkt tillbaka till industrialiseringens sätt att använda resurser?",
+    opts: ["Bara brist på arbetskraft.", "Klimatförändringar och miljöförstöring.", "Problem med internetuppkopplingar.", "Avsaknaden av global handel."],
+    correct: 1,
+    feedback: "Vårt fossilberoende och vår masskonsumtion, som driver klimatkrisen, föddes under den industriella revolutionen."
+  },
+  {
+    q: "Vad menar författaren med att vi också har ärvt industrialiseringens lösningar?",
+    opts: ["Att vi fortfarande använder ångmaskiner för att rena vatten.", "Att vi har slutat använda maskiner och återgått till hantverk.", "Att demokratiska rättigheter, arbetslagar och välfärdssamhällen växte fram som svar på industrins problem.", "Att vi fortfarande tycker att barnarbete är en bra lösning på fattigdom."],
+    correct: 2,
+    feedback: "Många av de institutioner vi förlitar oss på idag, som fackföreningar och skyddslagar, skapades uttryckligen för att hantera industrialiseringens orättvisor."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Fantastiskt! Du har full koll på industrialiseringens långsiktiga konsekvenser."; }
+  else if(pct >= 0.6) { title = "Bra jobbat! ⭐"; msg = "Du har en stabil grundförståelse för historiens koppling till vår samtid."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Gå gärna tillbaka till texten för att förstå hur historien påverkar oss idag."; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
