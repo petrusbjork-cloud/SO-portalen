@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Den Stora Ekonomiresan – SO med Petrus</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:   #1A2744;
+    --gold:   #B8860B;
+    --gold-lt:#FBF4E0;
+    --sand:   #F8F5EF;
+    --text:   #1E1A12;
+    --muted:  #6A5F4B;
+    --border: #E4DCCF;
+    --rust:   #8B3A1A;
+    --rust-lt:#FDF3EE;
+    --teal:   #1A4A4A;
+    --teal-lt:#EBF5F5;
+    --green:  #2A7A2A;
+    --green-lt:#EAF6EA;
+    --blue:   #1A3A6A;
+    --blue-lt:#EEF1FA;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Serif 4', Georgia, serif; background: var(--sand); color: var(--text); line-height: 1.7; }
+
+  /* ═══ HERO ═══ */
+  .hero {
+    background: var(--navy);
+    background-image:
+      radial-gradient(ellipse at 10% 70%, rgba(184,134,11,0.2) 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 20%, rgba(26,74,74,0.25) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 110%, rgba(139,58,26,0.15) 0%, transparent 50%);
+    color: white; padding: 60px 40px 50px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: "📊";
+    position: absolute; right: 40px; top: 50%; transform: translateY(-50%);
+    font-size: 120px; opacity: 0.06; pointer-events: none; line-height: 1;
+  }
+  .hero-label { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: #D4A843; margin-bottom: 14px; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.15; margin-bottom: 16px; }
+  .hero h1 span { color: #D4A843; }
+  .hero p { font-size: 16px; color: rgba(255,255,255,0.7); max-width: 620px; margin-bottom: 28px; }
+  .hero-tags { display: flex; gap: 10px; flex-wrap: wrap; }
+  .hero-tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.85); padding: 5px 14px; border-radius: 20px; font-size: 13px; }
+
+  /* ═══ NAV TABS ═══ */
+  .nav-tabs { background: white; border-bottom: 2px solid var(--border); display: flex; overflow-x: auto; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .nav-tab { padding: 16px 24px; font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+  .nav-tab:hover { color: var(--navy); background: var(--blue-lt); }
+  .nav-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+
+  .section { display: none; padding: 40px; max-width: 980px; margin: 0 auto; }
+  .section.active { display: block; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ═══ EPISODE STRIP ═══ */
+  .ep-strip { display: grid; grid-template-columns: repeat(8, 1fr); gap: 0; margin-bottom: 32px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .ep-btn {
+    padding: 14px 8px; text-align: center; cursor: pointer;
+    background: white; border: none; font-family: 'Source Serif 4', serif;
+    font-size: 12px; font-weight: 600; color: var(--muted);
+    transition: all 0.2s; border-right: 1px solid var(--border);
+    line-height: 1.4;
+  }
+  .ep-btn:last-child { border-right: none; }
+  .ep-btn:hover { background: var(--gold-lt); }
+  .ep-btn.active { background: var(--navy); color: white; }
+  .ep-btn em { display: block; font-size: 18px; margin-bottom: 5px; font-style: normal; }
+  .ep-btn small { display: block; font-size: 10px; opacity: 0.6; margin-top: 2px; font-weight: 400; }
+
+  .ep-panel { display: none; }
+  .ep-panel.active { display: block; animation: fadeIn 0.25s ease; }
+
+  /* ═══ PODCAST CARD ═══ */
+  .podcast-card {
+    background: var(--navy); color: white; border-radius: 12px;
+    padding: 28px 32px; margin-bottom: 32px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .podcast-play {
+    width: 56px; height: 56px; border-radius: 50%;
+    background: #1DB954; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: transform 0.15s, background 0.15s;
+    text-decoration: none;
+  }
+  .podcast-play:hover { transform: scale(1.08); background: #1ed760; }
+  .podcast-play svg { width: 20px; height: 20px; fill: white; margin-left: 3px; }
+  .podcast-info h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .podcast-info p { font-size: 13px; color: rgba(255,255,255,0.55); }
+  .podcast-info .ep-num-badge {
+    display: inline-block; background: rgba(212,168,67,0.2); border: 1px solid rgba(212,168,67,0.4);
+    color: #D4A843; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 3px 10px; border-radius: 4px; margin-bottom: 8px;
+  }
+
+  /* ═══ BEGREPP ═══ */
+  .section-heading { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin: 32px 0 16px; }
+  .begrepp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 40px; }
+  .begrepp-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 16px 18px; transition: border-color 0.2s; }
+  .begrepp-card:hover { border-color: var(--gold); }
+  .begrepp-card h4 { font-size: 14px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .begrepp-card p { font-size: 13px; color: var(--muted); line-height: 1.55; }
+  .begrepp-ep { font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+
+  /* ═══ INFO BOXES ═══ */
+  .info-box { border-left: 3px solid var(--gold); background: var(--gold-lt); padding: 20px 24px; border-radius: 0 8px 8px 0; margin-bottom: 20px; }
+  .info-box h4 { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .info-box p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+  .info-box.rust { border-left-color: var(--rust); background: var(--rust-lt); }
+  .info-box.rust h4 { color: var(--rust); }
+  .info-box.teal { border-left-color: var(--teal); background: var(--teal-lt); }
+  .info-box.teal h4 { color: var(--teal); }
+
+  /* ═══ QUIZ ═══ */
+  .quiz-wrap { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 36px; }
+  .quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .quiz-wrap > p { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+  .quiz-start-btn {
+    background: var(--navy); color: white;
+    font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600;
+    padding: 14px 36px; border-radius: 8px; border: none; cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .quiz-start-btn:hover { background: #243360; transform: translateY(-1px); }
+
+  .quiz-progress-label { font-size: 12px; font-weight: 600; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .quiz-progress-bar-wrap { height: 4px; background: var(--border); border-radius: 2px; margin-bottom: 28px; }
+  .quiz-progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), #D4A843); border-radius: 2px; transition: width 0.4s ease; }
+  .quiz-question-text { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--navy); line-height: 1.4; margin-bottom: 24px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+  .quiz-option {
+    display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px;
+    border: 1.5px solid var(--border); border-radius: 8px; background: white;
+    cursor: pointer; font-family: 'Source Serif 4', serif; font-size: 14px;
+    text-align: left; color: var(--text); line-height: 1.5;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .quiz-option:hover:not(:disabled) { border-color: var(--navy); background: #F0F2F8; }
+  .opt-letter { font-weight: 700; color: var(--muted); min-width: 18px; }
+  .quiz-option.correct { border-color: var(--green); background: var(--green-lt); color: #1A4A1A; }
+  .quiz-option.correct .opt-letter { color: var(--green); }
+  .quiz-option.wrong { border-color: #C0392B; background: #FDECEA; color: #7A1A1A; }
+  .quiz-option.wrong .opt-letter { color: #C0392B; }
+  .quiz-option:disabled { cursor: default; }
+
+  .quiz-feedback {
+    background: var(--gold-lt); border-left: 3px solid var(--gold);
+    border-radius: 0 8px 8px 0; padding: 16px 20px; font-size: 14px;
+    color: var(--text); line-height: 1.65; margin-bottom: 16px;
+    animation: fadeIn 0.25s ease;
+  }
+  .quiz-next-btn {
+    background: var(--navy); color: white;
+    font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600;
+    padding: 12px 28px; border-radius: 8px; border: none; cursor: pointer;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .quiz-next-btn:hover { background: #243360; transform: translateY(-1px); }
+
+  .quiz-score { text-align: center; padding: 20px 0; }
+  .score-circle {
+    width: 110px; height: 110px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), #243360);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    margin: 0 auto 20px; box-shadow: 0 8px 32px rgba(26,39,68,0.3);
+  }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; color: white; line-height: 1; }
+  .score-den { font-size: 13px; color: rgba(255,255,255,0.6); }
+  .score-emoji { font-size: 36px; margin-bottom: 10px; }
+  .score-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+  .score-msg { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
+  .quiz-retry-btn {
+    background: transparent; border: 1.5px solid var(--navy); color: var(--navy);
+    font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600;
+    padding: 11px 28px; border-radius: 8px; cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+  .quiz-retry-btn:hover { background: var(--navy); color: white; }
+
+  /* ═══ RESPONSIVE ═══ */
+  @media (max-width: 760px) {
+    .hero { padding: 40px 20px 36px; }
+    .section { padding: 24px 16px; }
+    .ep-strip { grid-template-columns: repeat(4, 1fr); }
+    .ep-btn { border-bottom: 1px solid var(--border); }
+    .begrepp-grid { grid-template-columns: 1fr; }
+    .podcast-card { flex-direction: column; gap: 16px; }
+    .quiz-wrap { padding: 24px 16px; }
+  }
+  @media (max-width: 480px) {
+    .ep-strip { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-label">SO med Petrus · Samhällsekonomi</div>
+  <h1>Den Stora Ekonomiresan<br><span>Från kaffeburkar till bruttonationallycka</span></h1>
+  <p>Åtta avsnitt om hur ekonomin påverkar ditt liv – från utbud och efterfrågan på torget, till globala handelskrig och frågan om vad som egentligen gör ett land rikt.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">🎙️ 8 avsnitt</span>
+    <span class="hero-tag">✅ Quiz per avsnitt</span>
+    <span class="hero-tag">📖 Begrepp</span>
+    <span class="hero-tag">🎧 Spotify</span>
+  </div>
+</div>
+
+<!-- ═══ NAV TABS ═══ -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('quiz', this)">Quiz per avsnitt</button>
+  <button class="nav-tab" onclick="showTab('begrepp', this)">Begrepp</button>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- ═══ QUIZ TAB ═══ -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section active" id="tab-quiz">
+
+  <div class="ep-strip">
+    <button class="ep-btn active" onclick="showEp('ep1', this)"><em>🏪</em>Avsnitt 1<small>Marknadens lagar</small></button>
+    <button class="ep-btn" onclick="showEp('ep2', this)"><em>🎯</em>Avsnitt 2<small>Monopol & system</small></button>
+    <button class="ep-btn" onclick="showEp('ep3', this)"><em>🔄</em>Avsnitt 3<small>Kretsloppet</small></button>
+    <button class="ep-btn" onclick="showEp('ep4', this)"><em>🎢</em>Avsnitt 4<small>Konjunkturer</small></button>
+    <button class="ep-btn" onclick="showEp('ep5', this)"><em>🏛️</em>Avsnitt 5<small>Statens verktyg</small></button>
+    <button class="ep-btn" onclick="showEp('ep6', this)"><em>🚛</em>Avsnitt 6<small>Sverige & världen</small></button>
+    <button class="ep-btn" onclick="showEp('ep7', this)"><em>🌍</em>Avsnitt 7<small>Globalisering</small></button>
+    <button class="ep-btn" onclick="showEp('ep8', this)"><em>💡</em>Avsnitt 8<small>Mäta välstånd</small></button>
+  </div>
+
+  <!-- EP 1 -->
+  <div class="ep-panel active" id="ep1">
+    <div class="podcast-card">
+      <a href="https://open.spotify.com/episode/0eZmIOombw8LeWhKItHvBx?si=9a8f6cbd1be54143" target="_blank" class="podcast-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="podcast-info">
+        <div class="ep-num-badge">Avsnitt 1</div>
+        <h3>Kaffeburks-kaoset, midsommarlaxen och marknadens lagar</h3>
+        <p>Utbud & efterfrågan, jämviktspris, fri konkurrens och varför en plåtburk kan kosta 1 000 kronor</p>
+      </div>
+    </div>
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 1</h3>
+      <p>10 frågor om marknadsekonomi, utbud och efterfrågan, och kaffeburks-hysterin.</p>
+      <div id="quiz-start-ep1"><button class="quiz-start-btn" onclick="startQuiz('ep1')">Starta quiz →</button></div>
+      <div id="quiz-play-ep1" style="display:none;"></div>
+      <div id="quiz-score-ep1" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- EP 2 -->
+  <div class="ep-panel" id="ep2">
+    <div class="podcast-card">
+      <a href="https://open.spotify.com/episode/19mhwH8fOe45X07BMkaCKG?si=fe25de6ce98c48fc" target="_blank" class="podcast-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="podcast-info">
+        <div class="ep-num-badge">Avsnitt 2</div>
+        <h3>När marknaden sätts ur spel – från techjättar till planekonomi</h3>
+        <p>Monopol, oligopol, karteller, planekonomi, kretsloppsekonomi och blandekonomi</p>
+      </div>
+    </div>
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 2</h3>
+      <p>10 frågor om monopol, oligopol, karteller och de ekonomiska systemen.</p>
+      <div id="quiz-start-ep2"><button class="quiz-start-btn" onclick="startQuiz('ep2')">Starta quiz →</button></div>
+      <div id="quiz-play-ep2" style="display:none;"></div>
+      <div id="quiz-score-ep2" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- EP 3 -->
+  <div class="ep-panel" id="ep3">
+    <div class="podcast-card">
+      <a href="https://open.spotify.com/episode/1MvAQEZq91ccwHQ2mjplE6?si=0999f501558f4a6f" target="_blank" class="podcast-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="podcast-info">
+        <div class="ep-num-badge">Avsnitt 3</div>
+        <h3>Pengarnas eviga snurr – och varför du är ekonomins huvudperson</h3>
+        <p>Hushåll, företag, offentliga sektorn, banker – det ekonomiska kretsloppet</p>
+      </div>
+    </div>
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 3</h3>
+      <p>10 frågor om kretsloppets fyra aktörer och hur pengarna snurrar.</p>
+      <div id="quiz-start-ep3"><button class="quiz-start-btn" onclick="startQuiz('ep3')">Starta quiz →</button></div>
+      <div id="quiz-play-ep3" style="display:none;"></div>
+      <div id="quiz-score-ep3" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- EP 4 -->
+  <div class="ep-panel" id="ep4">
+    <div class="podcast-card">
+      <a href="https://open.spotify.com/episode/5oTpEhlQapL3FtXbkEhtHP?si=5ff3493386a1419b" target="_blank" class="podcast-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="podcast-info">
+        <div class="ep-num-badge">Avsnitt 4</div>
+        <h3>Berg- och dalbanan – konjunkturer, inflation och onda cirklar</h3>
+        <p>Högkonjunktur, lågkonjunktur, inflation och välfärdens smäll</p>
+      </div>
+    </div>
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 4</h3>
+      <p>10 frågor om konjunkturer, inflation och lågkonjunkturens onda cirkel.</p>
+      <div id="quiz-start-ep4"><button class="quiz-start-btn" onclick="startQuiz('ep4')">Starta quiz →</button></div>
+      <div id="quiz-play-ep4" style="display:none;"></div>
+      <div id="quiz-score-ep4" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- EP 5 -->
+  <div class="ep-panel" id="ep5">
+    <div class="podcast-card">
+      <a href="https://open.spotify.com/episode/5oziAndGOfiYZl0x8oEMhy?si=b7f62422b8bf47b9" target="_blank" class="podcast-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="podcast-info">
+        <div class="ep-num-badge">Avsnitt 5</div>
+        <h3>Att gasa och bromsa Sverige – Vem kör egentligen bilen?</h3>
+        <p>Finanspolitik, penningpolitik, Riksbanken, styrräntan och inflationsmålet</p>
+      </div>
+    </div>
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 5</h3>
+      <p>10 frågor om statens ekonomiska politik, finanspolitik och penningpolitik.</p>
+      <div id="quiz-start-ep5"><button class="quiz-start-btn" onclick="startQuiz('ep5')">Starta quiz →</button></div>
+      <div id="quiz-play-ep5" style="display:none;"></div>
+      <div id="quiz-score-ep5" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- EP 6 -->
+  <div class="ep-panel" id="ep6">
+    <div class="podcast-card">
+      <a href="https://open.spotify.com/episode/5kOgeWddlJzIF4BuotLIig?si=e5e9c26223d84421" target="_blank" class="podcast-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="podcast-info">
+        <div class="ep-num-badge">Avsnitt 6</div>
+        <h3>Sverige + Världen = Sant (och det stora lastbilspusslet)</h3>
+        <p>Export, import, tullar, frihandel, EU:s inre marknad och tjänsteexporten</p>
+      </div>
+    </div>
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 6</h3>
+      <p>10 frågor om Sveriges handel, export, import och frihandel.</p>
+      <div id="quiz-start-ep6"><button class="quiz-start-btn" onclick="startQuiz('ep6')">Starta quiz →</button></div>
+      <div id="quiz-play-ep6" style="display:none;"></div>
+      <div id="quiz-score-ep6" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- EP 7 -->
+  <div class="ep-panel" id="ep7">
+    <div class="podcast-card">
+      <a href="https://open.spotify.com/episode/3wOEoU2a8VVi8jptPzsS9I?si=bbe98f4cb05b400f" target="_blank" class="podcast-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="podcast-info">
+        <div class="ep-num-badge">Avsnitt 7</div>
+        <h3>Bloddrönarna, dominobrickorna och den krympande världen</h3>
+        <p>Globalisering, drönare i Rwanda, coronapandemi, Ukrainakriget och Kinas framväxt</p>
+      </div>
+    </div>
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 7</h3>
+      <p>10 frågor om globalisering, Kinas roll och globaliseringens baksidor.</p>
+      <div id="quiz-start-ep7"><button class="quiz-start-btn" onclick="startQuiz('ep7')">Starta quiz →</button></div>
+      <div id="quiz-play-ep7" style="display:none;"></div>
+      <div id="quiz-score-ep7" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- EP 8 -->
+  <div class="ep-panel" id="ep8">
+    <div class="podcast-card">
+      <a href="https://open.spotify.com/episode/4IDLQXbrUWvtCvRCWJktK4?si=7ed0ab24d6134c19" target="_blank" class="podcast-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="podcast-info">
+        <div class="ep-num-badge">Avsnitt 8</div>
+        <h3>Bruttonationallycka och konsten att mäta ett bra liv</h3>
+        <p>BNP, BNP per capita, HDI, Bhutans lycka, Nya Zeelands fyra kapital och Sveriges 15 mått</p>
+      </div>
+    </div>
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 8</h3>
+      <p>10 frågor om BNP, HDI och alternativa sätt att mäta välstånd.</p>
+      <div id="quiz-start-ep8"><button class="quiz-start-btn" onclick="startQuiz('ep8')">Starta quiz →</button></div>
+      <div id="quiz-play-ep8" style="display:none;"></div>
+      <div id="quiz-score-ep8" style="display:none;"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- ═══ BEGREPP TAB ═══ -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="section" id="tab-begrepp">
+  <h2 style="font-family:'Playfair Display',serif; font-size:28px; font-weight:900; color:var(--navy); margin-bottom:8px;">Begrepp</h2>
+  <p style="color:var(--muted); margin-bottom:32px;">Alla viktiga begrepp från Den Stora Ekonomiresan – sorterade per avsnitt.</p>
+
+  <h3 class="section-heading">Avsnitt 1–2: Marknaden & ekonomiska system</h3>
+  <div class="begrepp-grid">
+    <div class="begrepp-card"><h4>Ekonomi</h4><p>Från grekiskan – betyder "hushållning". Handlar om hur vi använder begränsade resurser.</p></div>
+    <div class="begrepp-card"><h4>Marknadsekonomi</h4><p>System där köpare och säljare styr priser och produktion genom fri konkurrens. Staten lägger sig inte i.</p></div>
+    <div class="begrepp-card"><h4>Utbud</h4><p>Hur mycket det finns av en vara till försäljning på marknaden.</p></div>
+    <div class="begrepp-card"><h4>Efterfrågan</h4><p>Hur många köpare som vill ha en viss vara eller tjänst.</p></div>
+    <div class="begrepp-card"><h4>Jämviktspris</h4><p>Det pris där köparens och säljarens vilja möts – där affären blir av.</p></div>
+    <div class="begrepp-card"><h4>Konkurrens</h4><p>Företag tävlar om kunder genom pris, kvalitet eller status.</p></div>
+    <div class="begrepp-card"><h4>Marknad</h4><p>Platsen där köpare och säljare möts – kan vara fysisk eller digital.</p></div>
+    <div class="begrepp-card"><h4>Monopol</h4><p>När ett enda företag har ensamrätt på en vara eller tjänst. Priset blir ofta högt.</p></div>
+    <div class="begrepp-card"><h4>Oligopol</h4><p>Bara ett fåtal företag kontrollerar en marknad (t.ex. matvarukedjorna i Sverige).</p></div>
+    <div class="begrepp-card"><h4>Kartellbildning</h4><p>Olagligt: när ett fåtal företag i smyg kommer överens om priser istället för att konkurrera.</p></div>
+    <div class="begrepp-card"><h4>Konkurrensverket</h4><p>Myndigheten som bevakar att den fria konkurrensen fungerar – kan utreda karteller.</p></div>
+    <div class="begrepp-card"><h4>Planekonomi</h4><p>Staten äger fabriker och bestämmer vad som produceras, i vilken mängd och till vilket pris.</p></div>
+    <div class="begrepp-card"><h4>Kretsloppsekonomi</h4><p>Ekonomi med miljön i fokus – resurser ska räcka till framtida generationer. Återvinning och hållbarhet.</p></div>
+    <div class="begrepp-card"><h4>Blandekonomi</h4><p>Mix av marknadsekonomi, planekonomi och kretsloppsekonomi – det system de flesta länder har idag.</p></div>
+  </div>
+
+  <h3 class="section-heading">Avsnitt 3: Det ekonomiska kretsloppet</h3>
+  <div class="begrepp-grid">
+    <div class="begrepp-card"><h4>Hushåll</h4><p>Du, din familj, alla privatpersoner. Ger arbetskraft, betalar skatt, konsumerar varor och sparar på bank.</p></div>
+    <div class="begrepp-card"><h4>Företag</h4><p>Producerar varor och tjänster, anställer arbetskraft, betalar löner och skatter.</p></div>
+    <div class="begrepp-card"><h4>Offentliga sektorn</h4><p>Staten, kommuner och regioner. Finansieras av skatter och erbjuder välfärd: skola, sjukvård, omsorg.</p></div>
+    <div class="begrepp-card"><h4>Banker</h4><p>Kretsloppets hjärta – tar emot sparpengar och lånar ut kapital till de som behöver det.</p></div>
+    <div class="begrepp-card"><h4>Ränta</h4><p>Den avgift banken tar ut för att låna ut pengar. Sparräntan är vad du får för dina insättningar.</p></div>
+    <div class="begrepp-card"><h4>Arbetsgivaravgift</h4><p>Avgift som företag betalar till staten utöver den anställdes lön – finansierar välfärd.</p></div>
+    <div class="begrepp-card"><h4>Välfärdssystem</h4><p>Samhällets skyddsnät – skola, sjukvård, bidrag (barnbidrag, bostadsbidrag, socialbidrag).</p></div>
+    <div class="begrepp-card"><h4>Snabblån</h4><p>Lån med extremt höga räntor – kan bli en mardröm för din privatekonomi.</p></div>
+  </div>
+
+  <h3 class="section-heading">Avsnitt 4–5: Konjunkturer & statens politik</h3>
+  <div class="begrepp-grid">
+    <div class="begrepp-card"><h4>Konjunktur</h4><p>Ekonomins svängningar – en evig vågrörelse mellan goda och dåliga tider.</p></div>
+    <div class="begrepp-card"><h4>Högkonjunktur</h4><p>Hög efterfrågan, låg arbetslöshet, stigande produktion – men risk för inflation.</p></div>
+    <div class="begrepp-card"><h4>Lågkonjunktur</h4><p>Sjunkande efterfrågan, stigande arbetslöshet, minskad produktion.</p></div>
+    <div class="begrepp-card"><h4>Inflation</h4><p>Prisnivån stiger och pengarna tappar i värde – 100 kr räcker inte lika långt.</p></div>
+    <div class="begrepp-card"><h4>BNP</h4><p>Bruttonationalprodukten – det totala värdet av alla varor och tjänster som produceras under ett år.</p></div>
+    <div class="begrepp-card"><h4>Ond cirkel</h4><p>Minskad efterfrågan → färre sålda varor → uppsägningar → ännu mindre efterfrågan.</p></div>
+    <div class="begrepp-card"><h4>Finanspolitik</h4><p>Regeringens verktyg: styr ekonomin med skatter, bidrag och statens budget.</p></div>
+    <div class="begrepp-card"><h4>Penningpolitik</h4><p>Riksbankens verktyg: styr ekonomin genom att ändra styrräntan.</p></div>
+    <div class="begrepp-card"><h4>Riksbanken</h4><p>Sveriges centralbank – oberoende från regeringen. Enda uppgift: hålla inflationen på 2 %.</p></div>
+    <div class="begrepp-card"><h4>Styrränta / Reporänta</h4><p>Räntan som vanliga banker betalar för att låna av Riksbanken – påverkar alla andra räntor.</p></div>
+    <div class="begrepp-card"><h4>Sysselsättning</h4><p>Andelen människor som har jobb. Hög sysselsättning = låg arbetslöshet.</p></div>
+    <div class="begrepp-card"><h4>Ekonomisk tillväxt</h4><p>Att BNP ökar – vi producerar mer, blir effektivare och kan förbättra levnadsstandarden.</p></div>
+  </div>
+
+  <h3 class="section-heading">Avsnitt 6–7: Handel & globalisering</h3>
+  <div class="begrepp-grid">
+    <div class="begrepp-card"><h4>Export</h4><p>Varor och tjänster som säljs till andra länder.</p></div>
+    <div class="begrepp-card"><h4>Import</h4><p>Varor och tjänster som köps in från andra länder.</p></div>
+    <div class="begrepp-card"><h4>Specialisering</h4><p>Länder fokuserar på det de är bäst på – ger billigare och bättre varor för alla.</p></div>
+    <div class="begrepp-card"><h4>Tull</h4><p>Avgift som staten lägger på importerade varor – gör utländska produkter dyrare.</p></div>
+    <div class="begrepp-card"><h4>Handelshinder</h4><p>Tullar, lagar och regler som försvårar handel mellan länder.</p></div>
+    <div class="begrepp-card"><h4>Frihandel</h4><p>Handel utan tullar – varor och tjänster flödar fritt mellan länderna.</p></div>
+    <div class="begrepp-card"><h4>EU:s inre marknad</h4><p>Inom EU är handeln tullfri – att köpa från Tyskland är lika enkelt som från grannstaden.</p></div>
+    <div class="begrepp-card"><h4>Tjänsteexport</h4><p>Försäljning av IT-tjänster, mjukvara, musik och patent till utlandet – osynlig handel.</p></div>
+    <div class="begrepp-card"><h4>Globalisering</h4><p>Ökad rörelsefrihet – varor, tjänster, pengar och människor rör sig fritt över gränser.</p></div>
+    <div class="begrepp-card"><h4>Dominoeffekt</h4><p>En kris på en plats i världen sprids blixtsnabbt till resten – alla hänger ihop.</p></div>
+  </div>
+
+  <h3 class="section-heading">Avsnitt 8: Att mäta välstånd</h3>
+  <div class="begrepp-grid">
+    <div class="begrepp-card"><h4>BNP per capita</h4><p>Landets BNP delat på antal invånare – ett genomsnitt per person.</p></div>
+    <div class="begrepp-card"><h4>HDI</h4><p>Human Development Index – mäter inkomst, förväntad livslängd och utbildningsnivå (0–1).</p></div>
+    <div class="begrepp-card"><h4>Bruttonationallycka (GNH)</h4><p>Bhutans sätt att mäta välstånd – lycka, hälsa, kultur och tid med familjen.</p></div>
+    <div class="begrepp-card"><h4>Finansiellt kapital</h4><p>Pengar, bostäder, infrastruktur och banker (Nya Zeelands modell).</p></div>
+    <div class="begrepp-card"><h4>Naturligt kapital</h4><p>Ren natur – skog, vatten, mark och hållbar energi (Nya Zeelands modell).</p></div>
+    <div class="begrepp-card"><h4>Mänskligt kapital</h4><p>Utbildning, hälsa och meningsfulla aktiviteter (Nya Zeelands modell).</p></div>
+    <div class="begrepp-card"><h4>Socialt kapital</h4><p>Gemenskap, tillit och trygghet i samhället (Nya Zeelands modell).</p></div>
+    <div class="begrepp-card"><h4>Nya mått på välstånd</h4><p>Sveriges ramverk från 2017 – 15 mätpunkter för livskvalitet, inte bara pengar.</p></div>
+  </div>
+</div>
+
+
+<script>
+// ═══ TAB / EPISODE NAVIGATION ═══
+function showTab(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function showEp(id, btn) {
+  document.querySelectorAll('.ep-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ═══ QUIZ DATA ═══
+const quizData = {
+
+ep1: [
+  { q: "Vad betyder ordet 'ekonomi' ursprungligen?",
+    opts: ["Hushållning – att hushålla med resurser", "Att handla och byta varor", "Pengar och rikedom", "Att tjäna så mycket som möjligt steg för steg"],
+    correct: 0,
+    feedback: "Ordet ekonomi kommer från grekiskan och betyder 'hushållning' – hur vi använder de resurser vi har, oavsett om det gäller din plånbok eller ett helt lands tillgångar." },
+  { q: "Vilka tre grundfrågor måste varje ekonomiskt system svara på?",
+    opts: ["Vem, var och när?", "Hur mycket, till vilket pris och var?", "Varför, hur länge och med vilka resurser?", "Vad, hur och för vem ska det produceras?"],
+    correct: 3,
+    feedback: "De tre frågorna är: Vad ska produceras? Hur ska det produceras? För vem ska det produceras? Svaren avgör hur ett helt land fungerar ekonomiskt." },
+  { q: "Vad händer med priset på en vara om utbudet är litet men efterfrågan är stor?",
+    opts: ["Priset sjunker rejält", "Priset stiger kraftigt", "Priset står helt stilla", "Priset bestäms av staten"],
+    correct: 1,
+    feedback: "Litet utbud + stor efterfrågan = högt pris. Det är marknadsekonomins heligaste lag: utbud och efterfrågan styr priset." },
+  { q: "Varför blev Zoégas Mon Amie-burkar så dyra på andrahandsmarknaden?",
+    opts: ["De var gjorda av äkta guld", "Butikerna satte ett högt pris", "Utbudet var minimalt och efterfrågan enorm", "Staten höjde skatten på plåtburkar"],
+    correct: 2,
+    feedback: "Burkarna tog slut i butikerna på några minuter. Efterfrågan var fortfarande enorm, men utbudet var pyttelitet – så priset exploderade till över 1 000 kronor." },
+  { q: "Vad är jämviktspriset?",
+    opts: ["Det lägsta priset en vara kan ha", "Genomsnittet av alla priser i butiken", "Det pris som staten bestämmer", "Priset där köpare och säljare möts i många länder"],
+    correct: 3,
+    feedback: "Jämviktspriset uppstår vid den osynliga dragkampen mellan köpare och säljare – det pris där bägge sidor faktiskt är överens och affären blir av." },
+  { q: "Varför kostar lax mer dagarna innan midsommar?",
+    opts: ["Hela Sverige vill köpa, men utbudet är begränsat", "Laxen blir finare på sommaren", "Butikerna har högre hyror sommartid", "Transporterna blir dyrare i värme som helhet, vilket kan leda till oväntade konsekvenser"],
+    correct: 0,
+    feedback: "Inför midsommar är efterfrågan på lax enorm – alla vill ha den finaste biten. Utbudet kan inte matcha, och handlarna kan ta ut ett högt pris." },
+  { q: "I barnvaktsexemplet – var hittar man jämviktspriset?",
+    opts: ["Det bestäms av Arbetsförmedlingen rent ekonomiskt", "Där både föräldrar och tonåringar är nöjda med summan", "Alltid vid 40 kronor i timmen", "Där föräldrarna ensamma bestämmer, enligt vissa tolkningar av ekonomisk teori"],
+    correct: 1,
+    feedback: "Vuxna vill betala lite och tonåringar vill tjäna mycket – de möts i mitten, kanske runt 80–90 kr. Det är jämviktspriset!" },
+  { q: "Vad menas med 'fri konkurrens'?",
+    opts: ["Att allt är gratis för konsumenten", "Att staten bestämmer vem som säljer på olika sätt", "Företag tävlar om kunderna med pris och kvalitet", "Att det bara finns ett företag per bransch"],
+    correct: 2,
+    feedback: "Fri konkurrens innebär att företag fritt tävlar om kunderna – med låga priser, hög kvalitet eller hög marknadsstatus." },
+  { q: "Vad hände med O'boy-paketen 2018?",
+    opts: ["Priset sänktes till 1 kr styck genom att omfördela kapital mellan sektorer", "O'boy bytte smak och alla ville testa under perioden", "Staten förbjöd försäljning av kakao", "Produktionen stoppades och priset exploderade på nätet"],
+    correct: 3,
+    feedback: "Tekniskt strul stoppade produktionen helt. Utbudet kraschade till noll medan efterfrågan var kvar. Paket såldes för uppemot 10 000 kronor." },
+  { q: "Varför kan du fynda fisk billigt vid stängning?",
+    opts: ["Tillgången är hög men efterfrågan låg – säljaren vill bli av med varan", "Fisken luktar illa vid den tiden", "Fiskhandlaren orkar inte räkna i det sammanhanget", "Det är lag på att sänka priset efter kl 16 på det sätt som många föreställer sig"],
+    correct: 0,
+    feedback: "Strax före stängning vill handlaren sälja fisken innan den måste slängas. Tillgången är hög, efterfrågan låg – priset sjunker som en sten." }
+],
+
+ep2: [
+  { q: "Vad är ett monopol?",
+    opts: ["En marknad med tusentals aktörer som en del av den ekonomiska cykeln", "Ett brädspel om fastigheter under lång tid", "När ett enda företag har ensamrätt på en vara", "När staten förbjuder all handel"],
+    correct: 2,
+    feedback: "Monopol innebär att ett enda företag dominerar marknaden helt. Kunden har ingen annanstans att vända sig, och priserna tenderar att bli höga." },
+  { q: "Varför har Systembolaget monopol i Sverige?",
+    opts: ["Främst för att skydda folkhälsan i många länder", "För att tjäna pengar åt staten", "Alkohol tillverkas bara i Sverige", "Det finns ingen annan som vill sälja"],
+    correct: 0,
+    feedback: "Staten har infört monopolet för att skydda folkhälsan. Om alkohol såldes fritt med reapriser i varje gathörn skulle fler fara illa." },
+  { q: "Vad är ett oligopol?",
+    opts: ["Ett enda gigantiskt företag", "Tusentals småföretag som tävlar", "Ett utdöende ekonomiskt system", "Ett fåtal företag kontrollerar en marknad"],
+    correct: 3,
+    feedback: "Oligopol = bara ett fåtal jättar kontrollerar marknaden. Matvarukedjorna (Ica, Coop, Axfood) och bensinstationerna är tydliga oligopol." },
+  { q: "Vad innebär kartellbildning?",
+    opts: ["Att företag tävlar extremt hårt", "Företag kommer i smyg överens om priser – det är olagligt", "Att staten bestämmer alla priser", "Att företag fusioneras till ett bolag"],
+    correct: 1,
+    feedback: "Kartellbildning innebär att företag i smyg sätter gemensamma priser istället för att konkurrera. Vi konsumenter drabbas." },
+  { q: "Vilken myndighet bevakar konkurrensen?",
+    opts: ["Riksbanken", "Skatteverket", "Konkurrensverket till stor del", "Finansdepartementet"],
+    correct: 2,
+    feedback: "Konkurrensverket utreder och stoppar karteller – de ser till att den fria konkurrensen fungerar till nytta för konsumenterna." },
+  { q: "Vad är ett centralt problem med planekonomi?",
+    opts: ["Det är för dyrt att driva vid den tidpunkten, vilket kan leda till oväntade konsekvenser", "Alla blir rika för snabbt", "Systemet fungerar bra överallt", "Det är svårt att förutse efterfrågan, vilket skapar brist"],
+    correct: 3,
+    feedback: "I planekonomi bestämmer staten allt i förväg. Men det är extremt svårt att förutse efterfrågan, vilket leder till brist och dålig kvalitet." },
+  { q: "Vad innebär kretsloppsekonomi?",
+    opts: ["Resurser ska räcka till framtida generationer genom hållbar produktion", "Att pengarna snurrar snabbare", "Att staten äger alla fabriker på det sätt som många föreställer sig", "Att bara kretskort produceras i det sammanhanget"],
+    correct: 0,
+    feedback: "Kretsloppsekonomi fokuserar på hållbarhet – resurser ska återanvändas, producenter ska ta miljöansvar." },
+  { q: "Hur stimulerar Sverige kretsloppsekonomi?",
+    opts: ["Gratis plastpåsar i butiken", "Förbud mot all import av varor", "Elbilsbidrag, plastpåseskatt och pantsystem", "Högre moms på ekologisk mat"],
+    correct: 2,
+    feedback: "Du kan få bidrag för elbil eller solpaneler. Samtidigt finns skatt på plastpåsar och pant på burkar – allt för att uppmuntra hållbara val." },
+  { q: "Vilket ekonomiskt system har Sverige idag?",
+    opts: ["Ren marknadsekonomi utan reglering, något som ofta diskuteras i politiska debatter", "Blandekonomi med marknad, plan och kretslopp", "Ren planekonomi", "Enbart kretsloppsekonomi under perioden"],
+    correct: 1,
+    feedback: "Sverige är en blandekonomi. Marknaden styr det mesta, men staten reglerar och satsar på miljö." },
+  { q: "Varför är välfärden ett planekonomiskt inslag?",
+    opts: ["Allt kostar samma pris vid den tidpunkten", "Privata företag driver all sjukvård, precis som i många andra sammanhang", "Det finns ingen välfärd i Sverige", "Staten bestämmer vilka tjänster som produceras och för vem"],
+    correct: 3,
+    feedback: "Sjukvård och skola styrs av staten – det är planekonomi. Du betalar en bråkdel; resten finansieras av skattepengar." }
+],
+
+ep3: [
+  { q: "Vilka fyra aktörer ingår i det ekonomiska kretsloppet?",
+    opts: ["Fabriker, butiker, banker och internet enligt teorin, enligt vissa tolkningar av ekonomisk teori", "Staten, EU, FN och bankerna", "Hushållen, företagen, offentliga sektorn och bankerna", "Löner, skatter, räntor och bidrag"],
+    correct: 2,
+    feedback: "De fyra aktörerna är hushållen, företagen, den offentliga sektorn och bankerna. Om någon slutar fungera stannar hela systemet." },
+  { q: "Varför kallas hushållen för 'ekonomins huvudperson'?",
+    opts: ["De har mest pengar av alla – det är vad många ekonomer brukar hävda", "De bestämmer alla priser i många länder", "De äger alla banker i landet", "De ger arbetskraft, betalar skatt och konsumerar varor"],
+    correct: 3,
+    feedback: "Utan hushållens arbetskraft stannar maskinerna. Vi jobbar, konsumerar och betalar skatt – pengarna snurrar vidare." },
+  { q: "Hur stor del av din lön går till inkomstskatt?",
+    opts: ["Minst ungefär en tredjedel", "Cirka 10 procent", "Hälften av lönen", "Ingenting – du bestämmer själv"],
+    correct: 0,
+    feedback: "Podden berättar att minst ungefär en tredjedel av lönen går direkt i inkomstskatt till den offentliga sektorn." },
+  { q: "Vad visar städnings-exemplet?",
+    opts: ["Att städning är dyrt i Sverige", "Ett företag kan sälja till alla: hushåll, företag och offentlig sektor", "Att företag bara säljer till privatpersoner – men bara under specifika förhållanden", "Att bara staten köper städtjänster i första hand"],
+    correct: 1,
+    feedback: "Ett städföretag kan sälja till privatpersoner, andra företag och offentliga sektorn. Pengarna flödar kors och tvärs!" },
+  { q: "Varifrån får offentliga sektorn sina pengar?",
+    opts: ["Räntor från banker", "Exportintäkter från utlandet på olika sätt som en del av den ekonomiska cykeln", "Lotterier och spel", "Skatter och avgifter från hushåll och företag"],
+    correct: 3,
+    feedback: "Den offentliga sektorn finansieras av skatter och avgifter som betalas in av hushåll och företag." },
+  { q: "Varför är bankerna 'kretsloppets hjärta'?",
+    opts: ["De pumpar runt pengar genom sparande och utlåning", "De bestämmer konjunkturen, vilket kan leda till oväntade konsekvenser", "De sätter alla priser i samhället", "De äger offentliga sektorn under perioden"],
+    correct: 0,
+    feedback: "Bankerna förmedlar pengar från de som har överskott till de som behöver det. Utan den pumpen saknas kapital i omlopp." },
+  { q: "Hur tjänar en bank sina pengar?",
+    opts: ["Genom att trycka egna sedlar", "De tar betalt för varje konto", "Utlåningsräntan är högre än sparräntan", "Staten ger dem pengar varje år över tid"],
+    correct: 2,
+    feedback: "Sparräntan du får är alltid lägre än räntan banken tar ut för lån. Det är på den skillnaden bankerna tjänar sina pengar." },
+  { q: "Vad varnar podden för gällande snabblån?",
+    opts: ["De har extremt höga räntor och kan bli en mardröm", "De ger för höga sparräntor", "De är alltid säkra att använda", "De kontrolleras inte av staten"],
+    correct: 0,
+    feedback: "Snabblån har extremt höga räntor och kan snabbt bli en riktig mardröm för din privatekonomi." },
+  { q: "I vilken ordning passerar femhundralappen i kretsloppet?",
+    opts: ["Bank → butik → skola → stat", "Stat → företag → bank → dig", "Butik → stat → bank → företag", "Lön → klädbutik → skatt → lärarlön → bank → bageri"],
+    correct: 3,
+    feedback: "Lön till dig → du köper en tröja → butiken betalar skatt → staten betalar lärarlön → läraren sparar i banken → banken lånar ut till bageri." },
+  { q: "Vad händer om bankerna slutar låna ut?",
+    opts: ["Ingenting – företagen klarar sig ändå", "Kedjan kraschar: inga investeringar, inga jobb, inga skattepengar", "Bara bankerna själva drabbas", "Priserna sjunker kraftigt"],
+    correct: 1,
+    feedback: "Utan lån kan företag inte investera → de anställer inte → hushållen konsumerar mindre → staten får mindre skatt. Allt stannar." }
+],
+
+ep4: [
+  { q: "Vad kallas ekonomins svängningar mellan goda och dåliga tider?",
+    opts: ["Valutasvängningar", "Budgetcykler", "Konjunkturer", "Inflationsrullar"],
+    correct: 2,
+    feedback: "Konjunkturer är ekonomins eviga vågrörelse – svängningar mellan högkonjunktur och lågkonjunktur." },
+  { q: "Vad kännetecknar en högkonjunktur?",
+    opts: ["Stor efterfrågan, låg arbetslöshet och stigande BNP", "Hög arbetslöshet och minskad produktion", "Fallande priser och låg konsumtion", "Staten tar över alla företag"],
+    correct: 0,
+    feedback: "Toppen av berg-och-dalbanan: enorm efterfrågan, låg arbetslöshet och BNP som ökar." },
+  { q: "Varför kan en högkonjunktur vara farlig?",
+    opts: ["Folk jobbar för hårt till stor del", "Det finns för lite pengar i omlopp med hjälp av olika ekonomiska mekanismer", "Staten höjer alla löner", "Hög efterfrågan låter företag höja priser, vilket skapar inflation"],
+    correct: 3,
+    feedback: "Ju fler som vill köpa, desto mer kan företagen höja priserna. Om alla höjer samtidigt väcks inflationsmonstret." },
+  { q: "Vad innebär inflation?",
+    opts: ["Att priserna sjunker, enligt vissa tolkningar av ekonomisk teori", "Prisnivån stiger och pengarna blir mindre värda", "Att pengarna ökar i värde över tid", "Att staten trycker mer sedlar"],
+    correct: 1,
+    feedback: "Inflation = prisnivån stiger = dina pengar räcker kortare. 100 kr i mataffären ger dig plötsligt mindre mat." },
+  { q: "Vad startar lågkonjunkturens 'onda cirkel'?",
+    opts: ["Att staten höjer skatterna", "Att bankerna plötsligt kraschar", "Minskad efterfrågan på varor och tjänster", "Att lönerna stiger för snabbt till viss del"],
+    correct: 2,
+    feedback: "Minskad efterfrågan → färre sålda varor → minskad produktion → uppsägningar → ännu mindre efterfrågan. Runt och runt." },
+  { q: "Varför drabbas offentliga sektorn dubbelt i lågkonjunktur?",
+    opts: ["De måste höja lönerna kraftigt", "De förlorar pengar på börsen", "Bankerna slutar låna till dem", "Skatteintäkterna minskar och utgifterna ökar samtidigt"],
+    correct: 3,
+    feedback: "Dubbel smäll: färre betalar skatt samtidigt som fler behöver bidrag och stöd." },
+  { q: "Vad kan nedskärningar i offentliga sektorn leda till?",
+    opts: ["Försämrad välfärd just när behovet är som störst", "Bättre kvalitet i skolan rent ekonomiskt med hjälp av olika ekonomiska mekanismer", "Inga konsekvenser alls", "Lägre priser i butikerna"],
+    correct: 0,
+    feedback: "Nedskärningar i skola, sjukvård och vård tvingas fram just när behovet är som allra störst." },
+  { q: "Varför försvagas svenska företags konkurrenskraft vid hög inflation?",
+    opts: ["De har för många anställda", "Svenska varor blir dyrare jämfört med andra länders varor", "De måste exportera mer varor under perioden på flera olika nivåer i samhällsekonomin", "Tullarna ökar automatiskt"],
+    correct: 1,
+    feedback: "Hög inflation → svenska varor kostar mer → företag i länder med lägre prisökning kan sälja billigare." },
+  { q: "Vad menar podden med att konjunkturer är globala?",
+    opts: ["Bara rika länder drabbas av dem rent ekonomiskt", "FN bestämmer konjunkturen", "Alla länder har konjunktur på samma dag – det är vad många ekonomer brukar hävda", "En kris i ett land kan påverka hela världens ekonomi"],
+    correct: 3,
+    feedback: "Världsekonomin hänger ihop. Kraschar en stor bank på andra sidan jorden känner vi av det hemma." },
+  { q: "Vad är BNP?",
+    opts: ["Bankernas nationella program till stor del", "En mätning av arbetslösheten", "Det samlade värdet av allt ett land producerar under ett år", "Det belopp varje medborgare betalar i skatt, något som ofta diskuteras i politiska debatter"],
+    correct: 2,
+    feedback: "BNP = Bruttonationalprodukt = allt vi producerar under ett år summerat i pengar." }
+],
+
+ep5: [
+  { q: "Vilka tre mål har statens ekonomiska politik?",
+    opts: ["Låg skatt, hög export och billiga bostäder", "Hög BNP, stark krona och noll arbetslöshet", "Fri handel, låga priser och stora banker i de flesta fall", "Hög sysselsättning, stabilt penningvärde och tillväxt"],
+    correct: 3,
+    feedback: "Tre mål: (1) Folk ska ha jobb. (2) Inflationen ska ligga stabilt på 2%. (3) BNP ska växa." },
+  { q: "Vad händer om ingen bromsar i en högkonjunktur?",
+    opts: ["Bilen stannar av sig själv", "Alla får högre lön automatiskt över tid", "Ekonomin kan krascha med skenande inflation", "Bilen åker snabbare och det är positivt, precis som i många andra sammanhang"],
+    correct: 2,
+    feedback: "Om ingen bromsar stiger priserna okontrollerat, inflationen exploderar och festen kraschar." },
+  { q: "Vad innebär finanspolitik?",
+    opts: ["Riksbanken styr räntan på flera olika nivåer i samhällsekonomin", "Regeringen styr ekonomin med skatter och budget", "EU bestämmer Sveriges skatter", "Bankerna bestämmer budgeten under lång tid"],
+    correct: 1,
+    feedback: "Finanspolitik = regeringens gas och broms med skattepengar, bidrag och infrastrukturprojekt." },
+  { q: "Hur kan staten 'gasa' i en lågkonjunktur?",
+    opts: ["Sänka skatter, höja bidrag och starta stora byggprojekt", "Höja alla skatter kraftigt som en del av den ekonomiska cykeln", "Stänga alla banker i landet", "Förbjuda all import av varor steg för steg"],
+    correct: 0,
+    feedback: "Staten gasar genom att sänka skatter, höja bidrag och starta infrastrukturprojekt som skapar jobb." },
+  { q: "Varför är det impopulärt att bromsa i en högkonjunktur?",
+    opts: ["Folk vill ha lägre priser", "Regeringen tvingas alltid avgå, precis som i många andra sammanhang", "Det finns ingen anledning att bromsa i det sammanhanget", "Höjda skatter och minskade bidrag ger folk mindre pengar"],
+    correct: 3,
+    feedback: "Att bromsa = höja skatter och dra in pengar. Tröjor och elektronik blir dyrare, bidragen minskar." },
+  { q: "Vem ansvarar för penningpolitiken?",
+    opts: ["Finansministern personligen", "Riksbanken – oberoende från regeringen", "EU:s centralbank", "Bankernas vd:ar gemensamt"],
+    correct: 1,
+    feedback: "Riksbanken bedriver penningpolitik och är helt oberoende. Deras enda uppgift är att hålla inflationen på 2%." },
+  { q: "Vad är styrräntan (reporäntan)?",
+    opts: ["Räntan som vanliga banker betalar för att låna av Riksbanken", "Räntan du betalar på ditt bolån inom kort tid, precis som i många andra sammanhang", "Räntan staten betalar på statsskulden", "Räntan på sparkonton i banken"],
+    correct: 0,
+    feedback: "Styrräntan är räntan som vanliga banker betalar till Riksbanken. Den påverkar alla andra räntor." },
+  { q: "Vad händer om Riksbanken höjer styrräntan?",
+    opts: ["Folk får mer pengar att spendera", "Det blir billigare att låna pengar till viss del på det sätt som många föreställer sig", "Exporten ökar kraftigt i landet", "Lån blir dyrare, konsumtionen minskar och inflationen pressas ner"],
+    correct: 3,
+    feedback: "Högre styrränta → dyrare lån → familjen konsumerar mindre → företagen sänker priser → inflationen krossas." },
+  { q: "Vad handlar den politiska oenigheten om?",
+    opts: ["Alla partier är egentligen överens i första hand", "Vissa vill sänka skatter, andra satsa mer på offentlig sektor", "Bara Riksbanken bestämmer ändå på flera olika nivåer i samhällsekonomin", "Partier har ingen roll i ekonomin"],
+    correct: 1,
+    feedback: "Högerpartier vill sänka skatter, vänsterpartier vill beskatta rika hårdare och satsa på sjukvård och skola." },
+  { q: "Vad händer om styrräntan sänks till noll?",
+    opts: ["Alla banker går i konkurs direkt", "Inflationen stiger omedelbart – åtminstone i de flesta ekonomiska system", "Folk lånar billigt, sparar mindre och ekonomin stimuleras", "Ingenting förändras i ekonomin under perioden"],
+    correct: 2,
+    feedback: "Nollränta = jättebilligt att låna, ingen anledning att spara. Folk lånar och konsumerar – hjulen rullar igen!" }
+],
+
+ep6: [
+  { q: "Varför är en Volvo-lastbil 'inte speciellt svensk'?",
+    opts: ["Den byggs helt i Kina", "Den säljs bara utomlands i många länder – det är vad många ekonomer brukar hävda", "Den innehåller delar från Frankrike, Indien, Polen och Tyskland", "Volvo ägs av ett tyskt företag"],
+    correct: 2,
+    feedback: "En 'svensk' Volvo har delar från Frankrike, Indien, Polen och Tyskland. Den är ett gigantiskt globalt pussel." },
+  { q: "Varför handlar länder med varandra?",
+    opts: ["Vi importerar det vi saknar – kaffe och bananer växer inte i Sverige", "För att det är gammal tradition på flera olika nivåer i samhällsekonomin", "Staten tvingar oss att göra det", "Det är alltid billigare att importera som helhet"],
+    correct: 0,
+    feedback: "Du kan inte odla kaffe i småländsk mylla. Vi importerar det vi saknar och exporterar det vi har." },
+  { q: "Vad innebär specialisering?",
+    opts: ["Alla länder gör exakt samma saker", "Att bara ett land producerar varor", "Att alla handlar med samma valuta under lång tid", "Länder fokuserar på det de är bäst på"],
+    correct: 3,
+    feedback: "Om Asien syr kläder billigt och Sverige utvecklar mjukvara – då gör vi var sitt och byter. Alla vinner!" },
+  { q: "Vad är en tull?",
+    opts: ["En skatt på inhemska varor", "En extra avgift på importvaror som gör dem dyrare", "En avgift för att exportera varor, vilket kan leda till oväntade konsekvenser", "En rabatt från staten på import enligt teorin"],
+    correct: 1,
+    feedback: "Tullen gör utländska varor dyrare så att du kanske hellre köper inhemskt." },
+  { q: "Varför är EU:s inre marknad viktig?",
+    opts: ["Vi måste följa EU:s lagar", "EU betalar alla Sveriges skatter", "Handeln är tullfri – köpa från Berlin är som från grannstaden", "Vi importerar bara från EU"],
+    correct: 2,
+    feedback: "EU:s inre marknad = noll tullar. Ungefär 80% av vår import kommer från EU-länder." },
+  { q: "Vad dominerar den svenska exporten idag?",
+    opts: ["Jordbruksprodukter som spannmål", "Olja och naturgas i första hand", "Högteknologiska varor: maskiner, fordon och medicin", "Turisttjänster och hotell på flera olika nivåer i samhällsekonomin"],
+    correct: 2,
+    feedback: "Idag handlar det om avancerade maskiner, fordon, medicin och elektronik." },
+  { q: "Vad menas med tjänsteexport?",
+    opts: ["IT-tjänster, mjukvara, musik och patent som säljs till utlandet", "Export av restaurangtjänster – men bara under specifika förhållanden", "Att svenska turister handlar utomlands under lång tid", "Export av utbildningsmaterial"],
+    correct: 0,
+    feedback: "Tjänsteexporten är osynlig – data, kod, musik, patent. Den har exploderat tack vare internet." },
+  { q: "Vilket land exporterar Sverige mest tjänster till?",
+    opts: ["USA", "Tyskland", "Kina", "Norge"],
+    correct: 3,
+    feedback: "Vårt kära grannland Norge! Vi säljer data- och affärstjänster till dem som aldrig förr." },
+  { q: "Varför klarar Sverige importen på 2 000 miljarder per år?",
+    opts: ["Vi lånar pengar utomlands", "Vår export är större – vi har handelsöverskott", "EU betalar mellanskillnaden", "Vi importerar egentligen inte så mycket inom kort tid"],
+    correct: 1,
+    feedback: "Exporten har nästan alltid varit större. Vi säljer för mer än vi köper – det överskottet gör att ekonomin växer." },
+  { q: "Varför importerar vi olja trots miljösatsningar?",
+    opts: ["Vi har aldrig satsat på miljö inom kort tid", "Oljan är gratis för Sverige", "Vi exporterar all olja vidare – åtminstone i de flesta ekonomiska system", "Vi behöver fortfarande olja, trots att beroendet minskar"],
+    correct: 3,
+    feedback: "Olja är fortfarande en stor importvara – men beroendet minskar i takt med omställningen till hållbar energi." }
+],
+
+ep7: [
+  { q: "Vad levererar drönarna i Rwanda?",
+    opts: ["Mat till avlägsna byar", "Medicin till sjukhus", "Paket från nätbutiker i de flesta fall, vilket kan leda till oväntade konsekvenser", "Livsviktigt blod genom fyra kontinenters samarbete"],
+    correct: 3,
+    feedback: "Ett amerikanskt företag, brittisk flygplats, tysk drönare – fyra kontinenter samarbetar för att rädda liv i Rwanda." },
+  { q: "Vad är kärnan i globalisering?",
+    opts: ["Att alla använder samma valuta – åtminstone i de flesta ekonomiska system", "Att USA bestämmer allt inom kort tid", "Ökad rörelsefrihet för varor, tjänster och pengar över gränser", "Att handeln minskar globalt"],
+    correct: 2,
+    feedback: "Globalisering = ökad rörelsefrihet. Varor, tjänster, pengar och information flödar snabbare mellan länder." },
+  { q: "Vilka tre tekniska orsaker pekar podden på?",
+    opts: ["Containerfartyg, internet och blixtsnabba transaktioner", "Bilar, flygplan och tåg rent ekonomiskt", "Mobiltelefoner, sociala medier och AI, enligt vissa tolkningar av ekonomisk teori", "Kärnkraft, rymdteknik och robotar"],
+    correct: 0,
+    feedback: "Tre motorer: (1) Containerfartyg och fraktflyg. (2) Internet. (3) Blixtsnabba finansiella transaktioner." },
+  { q: "Vad har hänt med extrem fattigdom?",
+    opts: ["Den har ökat dramatiskt", "Den är helt oförändrad enligt teorin på flera olika nivåer i samhällsekonomin", "Bara rika länder har gynnats", "Hundratals miljoner har lyfts ur fattigdom"],
+    correct: 3,
+    feedback: "Den globala marknaden har lyft hundratals miljoner ur extrem fattigdom. I Afrika växer medelklassen snabbt." },
+  { q: "Varför jämförs globaliseringen med ett spindelnät?",
+    opts: ["Spindlar är farliga djur", "En kris på en plats sprids blixtsnabbt till hela världen", "Nätet kan gå sönder helt", "Det fångar små företag"],
+    correct: 1,
+    feedback: "Ekonomierna är så sammanvävda att en kris – fabriker stänger, krig – blixtsnabbt sprids globalt." },
+  { q: "Hur påverkade coronapandemin 2020?",
+    opts: ["Fabriker stängde i Asien och chipbrist lamslog Europa", "Den hade ingen större effekt alls", "Bara Kina drabbades hårt över tid", "Handeln ökade kraftigt med hjälp av olika ekonomiska mekanismer"],
+    correct: 0,
+    feedback: "Covid stängde fabriker i Asien. Datachips saknades i Europa. Företag gick i konkurs och oro svepte globalt." },
+  { q: "Hur ledde Ukrainakriget till dyrare bröd i Sverige?",
+    opts: ["Ukraina exporterade bröd hit under perioden på flera olika nivåer i samhällsekonomin", "Sverige importerade vete från Ryssland", "Det hade inget samband alls", "Sanktioner stoppade rysk energi och elpriserna exploderade"],
+    correct: 3,
+    feedback: "Europa slutade köpa rysk gas. Energipriserna exploderade. Bagerier fick betala mångdubbelt – brödpriset steg." },
+  { q: "Varför är Kina så viktigt globalt?",
+    opts: ["De har mest turister i världen under perioden", "Kina är världens största exportland", "De bestämmer alla valutakurser", "De har mest oljetillgångar"],
+    correct: 1,
+    feedback: "Kina är världens största exportland. En kinesisk krasch skulle dra hela världen med sig ner." },
+  { q: "Vad investerar Kina i, i fattiga länder?",
+    opts: ["Bara utbildning och skolor", "De donerar pengar utan krav", "Infrastruktur som skapar jobb men gör länderna skuldsatta", "De investerar enbart i militär"],
+    correct: 2,
+    feedback: "Kina bygger vägar och hamnar i Afrika – bra för jobb, men länderna blir skuldsatta och beroende." },
+  { q: "Vilken stor fråga ställer podden om Kinas framtid?",
+    opts: ["Kan tillväxten ske utan att förstöra miljön?", "Om Kina kommer att kriga med USA", "Om Kina inför demokrati snart", "Om kinesiska varor blir dyrare"],
+    correct: 0,
+    feedback: "Frågan: kan Kina anpassa sin enorma tillväxt efter klimatmålen – eller offras miljön?" }
+],
+
+ep8: [
+  { q: "Vad sa kungen i Bhutan till journalisten?",
+    opts: ["Han sa att Bhutan skulle bli rikast", "Han vägrade svara på frågan", "Bruttonationallycka är viktigare än BNP", "Han bad om ekonomiskt bistånd i de flesta fall"],
+    correct: 2,
+    feedback: "1972 svarade Bhutans 16-årige kung: 'Bruttonationallycka är viktigare än bruttonationalprodukt.'" },
+  { q: "Vad mäter BNP?",
+    opts: ["Hur lyckliga invånarna är", "Hur rättvist pengarna fördelas", "Befolkningens hälsa i landet", "Värdet av alla varor och tjänster som produceras under ett år"],
+    correct: 3,
+    feedback: "BNP = allt vi producerar summerat i pengar. Varje bil, frisörklippning och läkarbesök räknas in." },
+  { q: "Vad är BNP per capita?",
+    opts: ["Landets BNP delat på antal invånare", "BNP per huvudstad", "BNP per företag", "BNP minus statsskulden i första hand"],
+    correct: 0,
+    feedback: "Per capita = per person. Hela BNP delat med invånarantalet. Men det är bara ett genomsnitt!" },
+  { q: "Varför kan en naturkatastrof höja BNP?",
+    opts: ["Alla flyr och spenderar pengar", "Folk donerar pengar till landet steg för steg som en del av den ekonomiska cykeln", "Staten trycker nya sedlar", "Återuppbyggnaden räknas som ekonomisk aktivitet"],
+    correct: 3,
+    feedback: "Byggarbetare, betong, stål – allt plussas på BNP. Tragedi ser ut som 'tillväxt' på pappret." },
+  { q: "Vilka tre delar ingår i HDI?",
+    opts: ["BNP, export och import på olika sätt, något som ofta diskuteras i politiska debatter", "Arbetslöshet, inflation och ränta", "Förväntad livslängd, utbildning och inkomst", "Demokrati, frihet och jämlikhet"],
+    correct: 2,
+    feedback: "HDI: (1) Hälsa – livslängd. (2) Utbildning – skolår. (3) Inkomst – BNP per capita. Vägs till 0–1." },
+  { q: "Varför räcker inte BNP per capita som mått?",
+    opts: ["Det är ett genomsnitt som döljer klyftor", "Det är för högt alltid som en del av den ekonomiska cykeln", "Det mäter bara industrin", "Det räknar bara kontanter till stor del"],
+    correct: 0,
+    feedback: "Om 1% äger allt medan resten svälter syns det inte. BNP är blind för klyftor, miljö och obetalt arbete." },
+  { q: "Vad är Bruttonationallycka (GNH)?",
+    opts: ["Ett FN-mått för alla länder", "EU:s nya ekonomiska mått, enligt vissa tolkningar av ekonomisk teori", "Nya Zeelands exportindex i många länder", "Bhutans mått som mäter välmående, hälsa och familjetid"],
+    correct: 3,
+    feedback: "Bhutan mäter välmående, hälsa, kultur och familjetid. De frågar: Har livet en mening?" },
+  { q: "Vilka fyra 'kapital' mäter Nya Zeeland?",
+    opts: ["Finansiellt, naturligt, mänskligt och socialt kapital", "Guld, silver, olja och gas", "BNP, HDI, GNH och inflation", "Hälsa, utbildning, frihet och demokrati"],
+    correct: 0,
+    feedback: "(1) Finansiellt – pengar. (2) Naturligt – ren natur. (3) Mänskligt – utbildning. (4) Socialt – gemenskap." },
+  { q: "Vad heter Sveriges ramverk för välstånd?",
+    opts: ["Ekonomirapporten", "Riksbankens inflationsrapport", "Budgetpropositionen", "Nya mått på välstånd – med 15 mätpunkter"],
+    correct: 3,
+    feedback: "'Nya mått på välstånd' mäter 15 områden: BNP, jobb, luft, utsläpp, välbefinnande, stress och tillit." },
+  { q: "Vad är poängen med hela Den Stora Ekonomiresan?",
+    opts: ["Att bli rik så snabbt som möjligt", "Ekonomi handlar om hur vi hushållar med tid, resurser och framtid", "Att BNP är det enda som räknas, precis som i många andra sammanhang", "Att planekonomi är det bästa systemet enligt teorin"],
+    correct: 1,
+    feedback: "Ekonomi är inte bara siffror. Det handlar om hur vi alla hushållar med tid, resurser och vår gemensamma framtid." }
+]
+
+};
+
+// ═══ QUIZ ENGINE ═══
+const quizState = {};
+
+function startQuiz(ep) {
+  document.getElementById('quiz-start-' + ep).style.display = 'none';
+  quizState[ep] = { current: 0, score: 0, answered: false };
+  renderQuestion(ep);
+}
+
+function renderQuestion(ep) {
+  const state = quizState[ep];
+  const questions = quizData[ep];
+  const q = questions[state.current];
+  const total = questions.length;
+  const pct = Math.round((state.current / total) * 100);
+  const letters = ['A', 'B', 'C', 'D'];
+
+  const optsHtml = q.opts.map((o, i) =>
+    `<button class="quiz-option" id="opt-${ep}-${i}" onclick="selectAnswer('${ep}', ${i})">
+      <span class="opt-letter">${letters[i]}</span>${o}
+    </button>`
+  ).join('');
+
+  document.getElementById('quiz-play-' + ep).style.display = 'block';
+  document.getElementById('quiz-play-' + ep).innerHTML = `
+    <div class="quiz-progress-label">Fråga ${state.current + 1} av ${total}</div>
+    <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" style="width:${pct}%"></div></div>
+    <div class="quiz-question-text">${q.q}</div>
+    <div class="quiz-options" id="opts-${ep}">${optsHtml}</div>
+    <div id="feedback-${ep}" style="display:none"></div>
+    <div id="next-wrap-${ep}" style="display:none; margin-top:8px;">
+      <button class="quiz-next-btn" onclick="nextQuestion('${ep}')">
+        ${state.current + 1 < total ? 'Nästa fråga →' : 'Se resultat →'}
+      </button>
+    </div>
+  `;
+  state.answered = false;
+}
+
+function selectAnswer(ep, chosen) {
+  const state = quizState[ep];
+  if (state.answered) return;
+  state.answered = true;
+
+  const q = quizData[ep][state.current];
+  const opts = document.querySelectorAll(`#opts-${ep} .quiz-option`);
+
+  opts.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === chosen && chosen !== q.correct) btn.classList.add('wrong');
+  });
+
+  if (chosen === q.correct) state.score++;
+
+  const icon = chosen === q.correct ? '✅' : '❌';
+  const fb = document.getElementById('feedback-' + ep);
+  fb.style.display = 'block';
+  fb.className = 'quiz-feedback';
+  fb.innerHTML = `<strong>${icon} ${chosen === q.correct ? 'Rätt!' : 'Fel.'}</strong> ${q.feedback}`;
+
+  document.getElementById('next-wrap-' + ep).style.display = 'block';
+}
+
+function nextQuestion(ep) {
+  const state = quizState[ep];
+  state.current++;
+  if (state.current < quizData[ep].length) {
+    renderQuestion(ep);
+  } else {
+    showScore(ep);
+  }
+}
+
+function showScore(ep) {
+  document.getElementById('quiz-play-' + ep).style.display = 'none';
+  const { score } = quizState[ep];
+  const total = quizData[ep].length;
+  const pct = Math.round((score / total) * 100);
+  let emoji, title, msg;
+  if (pct >= 90) { emoji = '🏆'; title = 'Utmärkt!'; msg = 'Du har verkligen koll på det här avsnittet. Imponerande!'; }
+  else if (pct >= 70) { emoji = '🌟'; title = 'Bra jobbat!'; msg = 'Riktigt bra resultat! Lyssna igen för att fånga det du missade.'; }
+  else if (pct >= 50) { emoji = '📚'; title = 'Hyggligt!'; msg = 'Du kan grunderna. Lyssna på avsnittet igen för att stärka kunskaperna.'; }
+  else { emoji = '🎧'; title = 'Lyssna igen!'; msg = 'Det är svårt stoff – lyssna på avsnittet igen och försök sedan på nytt!'; }
+
+  const scoreEl = document.getElementById('quiz-score-' + ep);
+  scoreEl.style.display = 'block';
+  scoreEl.innerHTML = `
+    <div class="quiz-score">
+      <div class="score-emoji">${emoji}</div>
+      <div class="score-circle"><div class="score-num">${score}</div><div class="score-den">av ${total}</div></div>
+      <div class="score-title">${title}</div>
+      <div class="score-msg">${msg}</div>
+      <button class="quiz-retry-btn" onclick="retryQuiz('${ep}')">Försök igen ↺</button>
+    </div>
+  `;
+}
+
+function retryQuiz(ep) {
+  document.getElementById('quiz-score-' + ep).style.display = 'none';
+  document.getElementById('quiz-play-' + ep).style.display = 'none';
+  document.getElementById('quiz-start-' + ep).style.display = 'block';
+}
+</script>
+</body>
+</html>
