@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De krossade imperierna – SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a1a;
+  --gold: #d4af37;
+  --gold-bright: #ffd700;
+  --stone: #4a4a4a;
+  --jungle: #1e392a;
+  --paper: #fdfaf1;
+  --blood: #961313;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'Crimson Pro', serif;
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+/* --- PROGRESS BAR --- */
+#progress {
+  position: fixed; top: 0; left: 0; height: 5px; width: 0%;
+  background: var(--gold); z-index: 1000; transition: width 0.1s;
+}
+
+/* --- HERO --- */
+.hero {
+  padding: 140px 25px; background: var(--jungle); color: var(--paper);
+  text-align: center; border-bottom: 12px solid var(--gold);
+  background-image: radial-gradient(circle at center, rgba(30, 57, 42, 0.8), var(--ink));
+}
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(45px, 8vw, 95px); margin-bottom: 25px; font-weight: 900; line-height: 0.9; }
+.hero p { max-width: 850px; margin: 0 auto; font-size: 28px; font-style: italic; opacity: 0.95; }
+
+/* --- CONTENT STRUCTURE --- */
+.content { max-width: 900px; margin: 0 auto; padding: 60px 25px; }
+h2 { font-family: 'Playfair Display', serif; font-size: 46px; margin: 70px 0 30px; color: var(--jungle); border-left: 8px solid var(--gold); padding-left: 20px; }
+.dropcap { float: left; font-size: 90px; line-height: 75px; padding-top: 5px; padding-right: 15px; font-family: 'Playfair Display'; color: var(--gold); font-weight: 900; }
+
+/* --- TIMELINE BOX --- */
+.timeline-container {
+  border: 2px solid var(--gold); background: white; margin: 80px 0; border-radius: 15px; overflow: hidden;
+}
+.timeline-item {
+  padding: 30px; border-bottom: 1px solid var(--paper); display: flex; gap: 25px; transition: background 0.3s;
+}
+.timeline-item:hover { background: #fbf4e0; }
+.tl-year { font-family: var(--mono); color: var(--blood); font-weight: bold; min-width: 100px; }
+.tl-desc { flex: 1; font-size: 18px; }
+
+/* --- THE MAYA ADDITION --- */
+.maya-box {
+  background: var(--jungle); color: white; padding: 50px; border-radius: 20px; margin: 60px 0;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+.maya-box h3 { color: var(--gold-bright); font-family: 'Playfair Display'; font-size: 32px; margin-bottom: 15px; }
+
+/* --- QUIZ --- */
+.quiz-section { background: #f0ede4; padding: 60px; border-radius: 20px; border: 2px solid var(--gold); margin-top: 100px; }
+.opt-btn {
+  width: 100%; text-align: left; padding: 18px 25px; margin-bottom: 12px;
+  border: 1px solid var(--stone); background: white; cursor: pointer;
+  border-radius: 10px; font-family: inherit; font-size: 19px; transition: 0.2s;
+}
+.opt-btn:hover { border-color: var(--gold); background: #fbf4e0; transform: scale(1.01); }
+.correct { background: #d4edda !important; border-color: #28a745 !important; }
+.wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
+
+/* --- LGR22 --- */
+.lgr-card { background: white; border-top: 8px solid var(--jungle); padding: 40px; margin-top: 80px; border-radius: 0 0 15px 15px; box-shadow: 0 15px 45px rgba(0,0,0,0.08); }
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div style="font-family: var(--mono); color: var(--gold); letter-spacing: 6px; margin-bottom: 25px; font-weight: 700;">SO-PORTALEN · STORMAKTSFALL</div>
+  <h1>Guld, Gudar &<br><em>Gångna Imperier</em></h1>
+  <p>En resa genom historiens mest dramatiska kulturmöten – från Inkarikets toppar till de brinnande sjöarna i Tenochtitlán.</p>
+</section>
+
+<div class="content">
+  <p><span class="dropcap">A</span>zteker och inkafolket var inga primitiva stammar. De var arkitekter av världsklass. Aztekernas huvudstad, Tenochtitlán, var med sina cirka 50 000 invånare en av världens största städer och erbjöd en renhet och organisation som få europeiska städer vid tiden kunde matcha. Genom att odla på flytande "chinampas" säkrade de matförsörjningen för en enorm befolkning.</p>
+
+
+
+  <h2>Inkariket: Andernas herrar</h2>
+  <p>Inkariket sträckte sig 500 mil längs Sydamerikas ryggrad och omfattade nio miljoner invånare. För att hålla ihop detta jätterike krävdes en extrem disciplin och genial ingenjörskonst. Statliga förråd lagrade mat för att klara svältår, och elitlöpare bar meddelanden genom terräng som européer aldrig tidigare skådat.</p>
+
+  <div class="maya-box">
+    <h3>Maya-folket: Matematikens mästare</h3>
+    <p>Innan Aztekerna och Inka nådde sin höjdpunkt blomstrade <strong>Maya-civilisationen</strong> i Centralamerika. De var mästare på matematik och astronomi. Maya utvecklade nollan och skapade en kalender med en precision som mätte solåret på några sekunder när. Deras nedgång berodde sannolikt på miljöförändringar och inre konflikter snarare än på de spanska erövrarna.</p>
+  </div>
+
+  <h2>Tidsaxel: Den stora kollapsen</h2>
+  <div class="timeline-container">
+    <div class="timeline-item">
+      <div class="tl-year">1519</div>
+      <div class="tl-desc"><strong>Hernán Cortés</strong> landstiger i Mexiko. Kejsare Montezuma tvekar inför profetian om den "ljushårige guden".</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-year">1521</div>
+      <div class="tl-desc">Tenochtitlán faller efter en utdragen belägring och katastrofala smittkoppsepidemier. Ett kulturellt centrum förintas.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-year">1532</div>
+      <div class="tl-desc"><strong>Pizarro</strong> når Peru. Inkahärskaren Atahualpa kidnappas och mördas trots en gigantisk lösensumma i guld och silver.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="tl-year">1545</div>
+      <div class="tl-desc">Silvergruvan i <strong>Potosí</strong> öppnas. Den globala ekonomin förändras i grunden av det amerikanska silvret.</div>
+    </div>
+  </div>
+
+
+
+  <h2>Varför föll de?</h2>
+  <p>Det var inte bara teknologisk överlägsenhet som avgjorde fallet. Det var en dödlig kombination av tre faktorer:
+    <ul style="margin-left: 40px; margin-bottom: 30px;">
+      <li><strong>Sjukdomar:</strong> Smittkoppor dödade ledare och soldater långt innan spanjorerna ens avlossat sina musköter.</li>
+      <li><strong>Inre splittring:</strong> Spanjorerna utnyttjade missnöje bland underkuvade folk för att skapa allianser mot aztekerna och inka.</li>
+      <li><strong>Militär teknik:</strong> Stålsvärd, rustningar och armborst gav spanjorerna ett övertag i närstrid.</li>
+    </ul>
+  </p>
+
+  <div class="quiz-section">
+    <h2 style="margin: 0 0 30px 0; border: none; padding: 0;">Kunskapstest: Imperiernas fall</h2>
+    <div id="quiz-container">
+      <p id="q-text" style="font-weight: 600; font-size: 22px; margin-bottom: 25px;">1. Vilken stad anlades på flytande öar i en sjö?</p>
+      <div id="q-options">
+        <button class="opt-btn" onclick="check(0, this)">Tenochtitlán</button>
+        <button class="opt-btn" onclick="check(1, this)">Cuzco</button>
+        <button class="opt-btn" onclick="check(2, this)">Potosí</button>
+      </div>
+    </div>
+    <p id="quiz-feedback" style="margin-top: 25px; font-weight: bold; color: var(--blood);"></p>
+    <button id="next-q" onclick="nextQ()" style="display:none; margin-top: 20px; padding: 15px 40px; background: var(--jungle); color: white; border: none; cursor: pointer; border-radius: 5px; font-weight: 700;">NÄSTA FRÅGA</button>
+  </div>
+
+  <div class="lgr-card">
+    <div style="font-family: var(--mono); color: var(--gold); font-size: 12px; margin-bottom: 10px; font-weight: 700;">LGR22 KOPPLING</div>
+    <h3>Varför studerar vi detta?</h3>
+    <p>Materialet täcker centrala delar i kursplanen för Historia:</p>
+    <ul style="margin-left: 20px; margin-top: 15px; font-size: 16px;">
+      <li><strong>Expansion:</strong> Europeisk utforskning och dess konsekvenser för den globala maktbalansen.</li>
+      <li><strong>Källkritik:</strong> Granskning av hur historiska berättelser har formats av vinnarna och hur vi ser på "primitivitet" idag.</li>
+      <li><strong>Kulturmöten:</strong> Analys av hur mötet mellan Europa och Amerika förändrade levnadsvillkor och världsbild.</li>
+    </ul>
+  </div>
+</div>
+
+<footer style="text-align: center; padding: 80px; background: var(--ink); color: var(--paper); font-family: var(--mono); font-size: 14px;">
+  SO-PORTALEN.SE · 2026
+</footer>
+
+<script>
+window.onscroll = function() {
+  let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  let scrolled = (winScroll / height) * 100;
+  document.getElementById("progress").style.width = scrolled + "%";
+};
+
+const questions = [
+  { q: "Vilken stad anlades på flytande öar i en sjö?", a: ["Tenochtitlán", "Cuzco", "Potosí"], c: 0 },
+  { q: "Vad kallas Inkarikets elitlöpare som bar meddelanden?", a: ["Mita", "Chasquier", "Chinampas"], c: 1 },
+  { q: "Vad användes som betalningsmedel i Aztekriket?", a: ["Kakaobönor", "Guldmynt", "Silverstänger"], c: 0 },
+  { q: "Vilken faktor var den mest dödliga för urfolken?", a: ["Digerdöden", "Smittkoppor", "Malaria"], c: 1 },
+  { q: "Vilken spansk conquistador krossade Aztekriket?", a: ["Pizarro", "Cortés", "Columbus"], c: 1 },
+  { q: "Vilket folk var kända för sin exakta kalender och nollan?", a: ["Inka", "Aztekerna", "Maya"], c: 2 },
+  { q: "Vad hände med Atahualpa trots utbetald lösensumma?", a: ["Han dog i sängen", "Han blev frisläppt", "Han mördades"], c: 2 }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function check(idx, btn) {
+  const correct = questions[currentQ].c;
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+  if(idx === correct) {
+    btn.classList.add('correct');
+    score++;
+  } else {
+    btn.classList.add('wrong');
+    btns[correct].classList.add('correct');
+  }
+  document.getElementById('next-q').style.display = "block";
+}
+
+function nextQ() {
+  currentQ++;
+  if(currentQ < questions.length) {
+    document.getElementById('q-text').innerText = (currentQ+1) + ". " + questions[currentQ].q;
+    const btnsHtml = questions[currentQ].a.map((opt, i) => `<button class="opt-btn" onclick="check(${i}, this)">${opt}</button>`).join('');
+    document.getElementById('q-options').innerHTML = btnsHtml;
+    document.getElementById('next-q').style.display = "none";
+  } else {
+    document.getElementById('quiz-container').innerHTML = `<div style="text-align:center;"><h2>Resultat: ${score} av 7 rätt!</h2><p>Bra jobbat! Du har nu en djupare förståelse för Amerikas imperier.</p></div>`;
+    document.getElementById('next-q').style.display = "none";
+  }
+}
+</script>
+
+</body>
+</html>
