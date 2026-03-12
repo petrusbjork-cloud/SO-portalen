@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinduism i dagens Indien – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0a0f12;
+  --paper:    #F8F9FA;
+  --saffron:  #E67E22;
+  --india-grn:#27AE60;
+  --ashoka-bl:#2980B9;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.75);
+  --border:   rgba(230,126,34,0.2);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--saffron), var(--paper), var(--india-grn));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(circle at 50% 20%, #171f26 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--ink) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--saffron); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 6vw, 80px);
+  font-weight: 900; line-height: 1.1;
+  color: var(--paper);
+  text-shadow: 0 0 50px rgba(230,126,34,0.2);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+.hero h1 em { color: var(--saffron); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--ashoka-bl); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--ashoka-bl), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--india-grn); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--saffron); font-style: italic; }
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--saffron);
+  background: linear-gradient(135deg, rgba(230,126,34,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--saffron); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── INTERACTIVE ARENAS ── */
+.arena-box { margin: 80px 0; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 40px; }
+.arena-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--paper); margin-bottom: 12px; text-align: center; }
+.arena-sub { font-size: 16px; color: var(--text-dim); text-align: center; margin-bottom: 32px; }
+.arena-tabs { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.arena-tab { background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); padding: 10px 20px; border-radius: 30px; cursor: pointer; font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; transition: all 0.3s; }
+.arena-tab:hover { border-color: var(--paper); color: var(--paper); }
+.arena-tab.active { background: var(--saffron); border-color: var(--saffron); color: var(--ink); font-weight: 700; }
+.arena-panel { display: none; animation: fadeUp 0.4s ease; background: rgba(0,0,0,0.4); padding: 30px; border-radius: 8px; border-left: 4px solid var(--saffron); }
+.arena-panel.active { display: block; }
+.arena-p-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+.arena-p-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; }
+.arena-p-text { font-size: 18px; line-height: 1.6; color: var(--text-dim); margin: 0; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 45vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.25) saturate(1.2);
+  background-image: url('https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&q=80&w=2071');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--paper); line-height: 1.3; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #06090c; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--ashoka-bl); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--saffron); color: var(--saffron); background: rgba(230,126,34,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(230,126,34,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin:0; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--saffron); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(230,126,34,0.15); border: 1px solid var(--saffron); color: var(--saffron); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--saffron); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--india-grn); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--india-grn); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--ashoka-bl); background: rgba(41,128,185,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #27AE60; background: rgba(39,174,96,0.15); color: #EAFAF1; }
+.quiz-opt.wrong { border-color: #E74C3C; background: rgba(231,76,60,0.15); color: #FDEDEC; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--paper); background: rgba(255,255,255,0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: var(--ink); }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(41,128,185,0.15); border-left: 3px solid var(--ashoka-bl); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--saffron); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--india-grn), var(--ashoka-bl)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); color: var(--paper); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+  .arena-box { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion · Samhälle</div>
+
+  <h1>Dagens Indien: Religion, politik & <em>samhälle</em></h1>
+  <p class="hero-sub">För att förstå det indiska samhället räcker det inte att se hinduismen som en privat trosuppfattning. Den genomsyrar hur identitet och makt organiseras.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    I Indien är hinduism mer än en religion. Den är en del av vardagen, kulturen, historien och – i vissa sammanhang – även politiken. Den påverkar hur människor lever sina liv, hur de ser på sin identitet och hur samhället organiseras.
+  </p>
+
+  <p>Samtidigt är Indien ett av världens mest religiöst mångfacetterade länder. Här lever hinduer, muslimer, kristna, sikher, buddhister och andra religiösa grupper sida vid sida. Det gör relationen mellan religion och samhälle både rik och komplex, men också stundtals konfliktfylld.</p>
+
+  <div class="arena-box">
+    <div class="arena-title">Religionens tre arenor</div>
+    <div class="arena-sub">Klicka på flikarna för att förstå hur hinduismen tar sig uttryck på olika nivåer i samhället.</div>
+    
+    <div class="arena-tabs">
+      <button class="arena-tab active" onclick="switchArena('vardag', this)">1. Praktisk Vardag</button>
+      <button class="arena-tab" onclick="switchArena('identitet', this)">2. Kultur & Identitet</button>
+      <button class="arena-tab" onclick="switchArena('politik', this)">3. Politisk Makt</button>
+    </div>
+
+    <div class="arena-panel active" id="ar-vardag" style="border-left-color: var(--saffron);">
+      <span class="arena-p-icon">🪔</span>
+      <div class="arena-p-title">Praktisk snarare än teoretisk</div>
+      <p class="arena-p-text">Många hinduer diskuterar sällan exakt vad de tror på ur ett teologiskt perspektiv. Religionen märks istället genom *handlingar*: enkla ritualer i hemmet, hur man firar högtider, och hur man markerar livets övergångar. Ett modernt liv med smartphones och karriär kan sömlöst samexistera med tusenåriga riter.</p>
+    </div>
+
+    <div class="arena-panel" id="ar-identitet" style="border-left-color: var(--india-grn);">
+      <span class="arena-p-icon">👥</span>
+      <div class="arena-p-title">Tolerans men segregation</div>
+      <p class="arena-p-text">Att vara hindu handlar för många mer om kultur och gemenskap än personlig tro. I det mångreligiösa Indien arbetar och studerar grupper ofta tillsammans problemfritt. Men privatlivet är ofta mer uppdelat – många föredrar att gifta sig och bosätta sig inom sin egen religiösa grupp.</p>
+    </div>
+
+    <div class="arena-panel" id="ar-politik" style="border-left-color: var(--ashoka-bl);">
+      <span class="arena-p-icon">⚖️</span>
+      <div class="arena-p-title">Nationalism vs. Sekularism</div>
+      <p class="arena-p-text">Hinduisk nationalism är en politisk ideologi som menar att indisk kultur i grunden är hinduisk. Det används för att ena landet, men skapar oro hos minoriteter. Motpolen är den sekulära visionen av Indien: en stat som är helt neutral och behandlar alla religioner exakt lika.</p>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Vardagen</span></div>
+  <h2>Hinduism som <em>vardagsreligion</em></h2>
+
+  <p>För många hinduer i dagens Indien är religion inte något som främst utövas vid särskilda tillfällen, som en söndagsgudstjänst. Den finns ständigt närvarande i det dagliga livet. Det kan handla om enkla ritualer i hemmet, bilder av gudar i affärer och på arbetsplatser eller religiösa symboler i det offentliga rummet.</p>
+
+  <p>Religionen märks i hur man firar högtider, hur man gifter sig, hur man sörjer de döda och hur man markerar livets olika övergångar. Detta gör att hinduism ofta upplevs som praktisk snarare än teoretisk. Ett modernt liv med arbete, studier och sociala medier kan därför utan problem samexistera med religiösa vanor som har tusentals år gamla rötter.</p>
+
+  <div class="section-marker"><span>Demografi</span></div>
+  <h2>Ett <em>mångreligiöst</em> samhälle</h2>
+
+  <p>Trots att hinduismen är den överlägset största religionen i Indien är landet långt ifrån religiöst homogent. Miljontals människor tillhör andra religioner, särskilt islam och kristendom. I vardagen samarbetar människor från olika religiösa grupper ofta utan större problem. Man arbetar tillsammans, går i samma skolor och lever i samma städer.</p>
+
+  <div class="pullquote">
+    <p>Undersökningar visar att många indier accepterar andra religioner väl, men lever ofta socialt åtskilda.</p>
+  </div>
+
+  <p>Samtidigt visar studier att många indier föredrar att gifta sig inom sin egen religion och att bo i områden där majoriteten delar samma religiösa tillhörighet. Det innebär att tolerans och segregation ofta existerar parallellt.</p>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"När politiska beslut kopplas till religiös identitet påverkas lagstiftning, utbildning och relationer i hela samhället."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Makten</span></div>
+  <h2>När religion och <em>politik</em> möts</h2>
+
+  <p>Under de senaste decennierna har religion fått en allt tydligare roll i indisk politik. En viktig del av detta är den ideologi som brukar kallas <strong>hinduisk nationalism</strong>. Den bygger på tanken att Indien i grunden är ett hinduiskt land och att hinduisk kultur och tradition bör ha en särställning i samhället.</p>
+
+  <p>För vissa uppfattas detta som ett sätt att stärka nationell sammanhållning och kulturell stolthet efter århundraden av utländskt styre. För andra väcker det djup oro. Kritiker menar att religionen då riskerar att användas för att skilja människor åt snarare än att förena dem.</p>
+  
+  <p>I vissa perioder har denna politisering lett till ökade spänningar mellan religiösa grupper. Som en motvikt finns det många indier som starkt betonar vikten av ett <strong>sekulärt samhälle</strong> – där staten är neutral, inte gynnar någon specifik religion och där alla medborgare behandlas lika oavsett tro.</p>
+
+  <div class="section-marker"><span>Framtiden</span></div>
+  <h2>Hinduism i ett <em>föränderligt</em> Indien</h2>
+
+  <p>Indien är ett land i snabb och dramatisk förändring. Urbanisering, massutbildning, internet och globalisering påverkar hur människor förhåller sig till religion. Bland yngre generationer ser man ofta nya sätt att tolka traditioner och en större vilja att kombinera religion med en modern, global livsstil.</p>
+
+  <p>Samtidigt fortsätter traditioner att spela en otroligt viktig roll. Stora högtider som ljusfesten <em>Diwali</em> och färgfesten <em>Holi</em> firas fortfarande passionerat av hundratals miljontals människor. Religiösa symboler är en självklar del av det offentliga rummet, även i de modernaste teknikskraporna.</p>
+
+  <p>För vissa är religionen en personlig tro, för andra en kulturell identitet och för somliga ett politiskt verktyg. Det moderna Indien rymmer därför både stark religiositet och sekulära livsval – ofta sida vid sida.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor som knyter an religionens roll i samhället, samt ett självrättande quiz med 8 frågor direkt kopplade till texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--india-grn); border-color: var(--india-grn);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Vardag & Identitet</h4>
+          <ul class="q-list">
+            <li>Texten beskriver hinduism i Indien som mer "praktisk än teoretisk". Vad tror du menas med det? Hur kan det märkas i en människas vardag?</li>
+            <li>Hur kan "tolerans och segregation" existera parallellt i det indiska samhället? Vad är skillnaden mellan hur man fungerar på en arbetsplats jämfört med i privatlivet (t.ex. vid giftermål)?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Politik & Samhälle</h4>
+          <ul class="q-list">
+            <li>Vad är grundtanken bakom "hinduisk nationalism"? Vilka argument kan finnas för denna ideologi, och vilka argument finns emot den?</li>
+            <li>Vad menas med ett "sekulärt samhälle"? Varför är denna idé viktig för många av Indiens minoriteter (som muslimer och kristna)?</li>
+            <li>Hur tror ni att globalisering och sociala medier förändrar sättet unga indier utövar sin religion på?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor om hur hinduismen fungerar i det moderna indiska samhället.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── ARENA TABS ──
+function switchArena(arenaId, btn) {
+  document.querySelectorAll('.arena-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.arena-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('ar-' + arenaId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Hur upplevs hinduismen ofta av många i dagens Indien?",
+    opts: ["Som enbart en politisk åsikt man röstar på.", "Mer praktisk än teoretisk, där handlingar och ritualer är i centrum.", "Som en sträng, gemensam trosbekännelse som alla måste läsa högt.", "Som något som bara rör gamla människor och inte existerar i städerna."],
+    correct: 1,
+    feedback: "Rätt! Hinduism upplevs ofta praktiskt genom ritualer och handlingar i vardagen snarare än djupa teologiska diskussioner."
+  },
+  {
+    q: "Vilka andra religioner, utöver hinduismen, är stora i Indien?",
+    opts: ["Islam och kristendom.", "Bara buddhism.", "Endast sikhism.", "Inga andra, Indien är 100% hinduiskt."],
+    correct: 0,
+    feedback: "Indien är extremt mångreligiöst med tiotals miljoner utövare av framförallt islam, kristendom och sikhism."
+  },
+  {
+    q: "Vad menas med att tolerans och segregation existerar parallellt i Indien?",
+    opts: ["Att olika religioner aldrig träffas alls i samhället.", "Att man accepterar varandra på jobbet, men ofta gifter sig och bor strikt inom sin egen grupp.", "Att staten har förbjudit tolerans men tillåter segregation.", "Att det bara finns tolerans i städerna och segregation på landsbygden."],
+    correct: 1,
+    feedback: "Man samarbetar och respekterar varandra i det offentliga, men i privatlivet (som boende och äktenskap) är grupperna ofta socialt åtskilda."
+  },
+  {
+    q: "Vad är grundtanken i hinduisk nationalism enligt texten?",
+    opts: ["Att alla religioner måste smälta samman till en ny super-religion.", "Att staten inte ska bry sig alls om religion.", "Att Indien i grunden är ett hinduiskt land och hinduisk kultur bör ha särställning.", "Att man måste erövra grannländerna och tvinga dem bli hinduer."],
+    correct: 2,
+    feedback: "Den hinduiska nationalismen betonar att nationens kärnidentitet och kultur är just hinduisk."
+  },
+  {
+    q: "Vad innebär ett 'sekulärt samhälle' som vissa indier starkt försvarar?",
+    opts: ["Att religion är helt förbjudet.", "Att staten inte gynnar någon specifik religion utan behandlar alla medborgare lika oavsett tro.", "Att hinduismen blir statsreligion.", "Att man måste byta religion vart femte år."],
+    correct: 1,
+    feedback: "Sekularism innebär statlig neutralitet i religiösa frågor, för att garantera trygghet och jämlikhet för alla minoriteter."
+  },
+  {
+    q: "Hur påverkas yngre generationer av urbanisering och globalisering enligt texten?",
+    opts: ["De slutar fira högtider helt och hållet.", "De tolkar traditioner på nya sätt och kombinerar ofta religion med ett modernt liv.", "De tvingas flytta ifrån städerna.", "De konverterar oftast till kristendomen."],
+    correct: 1,
+    feedback: "Unga kombinerar ofta tusenåriga religiösa traditioner med en uppkopplad och modern urban livsstil."
+  },
+  {
+    q: "För många indier är det att 'vara hindu' starkt kopplat till...",
+    opts: ["Bara ens politiska röst.", "Kultur, familjetradition och gemenskap, snarare än bara personlig, privat tro.", "Vilken typ av musik man lyssnar på.", "Att man måste bli munk eller nunna."],
+    correct: 1,
+    feedback: "Identiteten är väldigt ofta knuten till familjens historia och de kulturella riterna, oavsett hur djupt 'troende' man är."
+  },
+  {
+    q: "Varför väcker hinduisk nationalism oro hos vissa grupper i samhället?",
+    opts: ["Eftersom de är rädda att religionen används för att skilja människor åt och missgynna minoriteter.", "Eftersom det blir för många röda flaggor på gatorna.", "Eftersom de tycker att hinduismen är för modern.", "Eftersom de vill att utländska makter ska styra Indien igen."],
+    correct: 0,
+    feedback: "Oron handlar om att icke-hinduer (som muslimer och kristna) kan komma att behandlas som andra klassens medborgare om hinduismen får en officiell särställning i lag och stat."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Otroligt bra! Du förstår verkligen de sociala och politiska utmaningarna i det moderna Indien."; }
+  else if(pct >= 0.6) { title = "Mycket bra! ⭐"; msg = "Du har greppat huvudkoncepten kring religion, identitet och nationalism. Snyggt!"; }
+  else { title = "Fortsätt studera 📖"; msg = "Detta är ett komplext ämne. Läs gärna om texten och titta särskilt på flikarna under 'Religionens tre arenor'."; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
