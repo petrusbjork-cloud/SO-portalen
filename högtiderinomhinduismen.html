@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinduismens Högtider: En Djupanalys | SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --saffron:  #FF9933;
+  --gold:     #D4A017;
+  --holi-pink: #FF1493;
+  --diwali-glow: #FFD700;
+  --ink:      #0F0F0F;
+  --paper:    #FDFCF9;
+  --text:     #2C2C2C;
+  --border:   rgba(184, 134, 11, 0.2);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--text);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.8;
+  transition: all 0.8s ease;
+}
+
+/* ── THEME MODES ── */
+body.diwali-mode { background-color: #120d08; color: #f5e6cc; }
+body.holi-mode { background-color: #fffafa; color: #1a1a1a; }
+
+#progress {
+  position: fixed; top: 0; left: 0; height: 6px; width: 0%;
+  background: linear-gradient(90deg, var(--saffron), var(--holi-pink), var(--gold));
+  z-index: 1000;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 85vh;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1510076857177-7470076d4098?auto=format&fit=crop&q=80&w=2072');
+  background-size: cover;
+  background-position: center;
+  display: flex; align-items: center; justify-content: center;
+  color: white; text-align: center; padding: 40px;
+}
+.hero-content { max-width: 1000px; }
+.hero-label { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 5px; text-transform: uppercase; color: var(--saffron); margin-bottom: 25px; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(50px, 9vw, 110px); font-weight: 900; line-height: 0.95; margin-bottom: 30px; text-shadow: 0 10px 40px rgba(0,0,0,0.6); }
+
+/* ── LAYOUT ── */
+.article { max-width: 880px; margin: 0 auto; padding: 100px 40px; }
+.intro-lead { font-size: 28px; line-height: 1.6; color: var(--ink); margin-bottom: 60px; font-weight: 300; border-left: 5px solid var(--saffron); padding-left: 30px; font-style: italic; }
+.diwali-mode .intro-lead { color: #f5e6cc; border-color: var(--gold); }
+
+h2 { font-family: 'Playfair Display', serif; font-size: 48px; color: var(--ink); margin: 90px 0 35px; line-height: 1.1; }
+.diwali-mode h2 { color: var(--gold); }
+
+p { margin-bottom: 35px; }
+strong { color: var(--ink); }
+.diwali-mode strong { color: var(--gold); }
+
+/* ── INTERACTIVE CARDS ── */
+.fest-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 80px 0; }
+.card {
+  padding: 50px; border-radius: 20px; cursor: pointer; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid var(--border); text-align: center;
+}
+.card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
+.card.diwali { background: #261a0d; color: var(--gold); border-color: var(--gold); }
+.card.holi { background: #fff1f5; color: var(--holi-pink); border-color: var(--holi-pink); }
+
+/* ── DEEP ANALYSIS BOXES ── */
+.analysis-box {
+  background: #fdfaf5; border: 1px solid var(--border); padding: 45px;
+  border-radius: 8px; margin: 60px 0; position: relative;
+}
+.diwali-mode .analysis-box { background: #1a1510; color: #ddd; }
+.analysis-box::before {
+  content: "ANALYS"; position: absolute; top: -15px; left: 30px;
+  background: var(--gold); color: white; padding: 4px 15px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 2px;
+}
+
+/* ── QUIZ ── */
+.quiz-section { background: var(--ink); color: white; padding: 120px 40px; border-radius: 50px; margin: 40px; }
+.q-card { max-width: 750px; margin: 0 auto; background: #1e1e1e; padding: 60px; border-radius: 30px; border: 1px solid #333; }
+.q-opt {
+  display: block; width: 100%; padding: 22px; margin: 15px 0;
+  background: #2a2a2a; border: 1px solid #444; color: white;
+  text-align: left; border-radius: 12px; cursor: pointer; font-size: 19px; transition: 0.2s;
+}
+.q-opt:hover { background: #333; border-color: var(--gold); }
+.correct { background: #234d2b !important; border-color: #3fb950 !important; }
+.wrong { background: #4d2323 !important; border-color: #f85149 !important; }
+
+@media (max-width: 768px) {
+  .fest-selector { grid-template-columns: 1fr; }
+  .article { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-label">SO-Portalen · Fördjupning</div>
+    <h1>Högtidernas <em>Heliga Arkitektur</em></h1>
+    <p>En analys av hinduismens glädjefester, mytologiska rötter och sociala funktioner.</p>
+  </div>
+</section>
+
+<article class="article">
+  <p class="intro-lead">
+    Inom hinduismen är högtider inte bara datum i en kalender – de är explosiva möten mellan det jordiska och det gudomliga. Genom färger, ljus och pilgrimsfärder gestaltas religionens djupaste sanningar för miljontals människor.
+  </p>
+
+  <h2>Religion som <em>praktik och närvaro</em></h2>
+  <p>
+    För att förstå hinduismen räcker det inte med att läsa filosofiska texter om <em>Brahman</em> eller <em>Atman</em>. Man måste se hur religionen tar form i vardagen. Eftersom hinduismen saknar en centraliserad kyrka eller en enda dogmatisk kalender, blir högtiderna de viktigaste förenande krafterna. De fungerar som ett levande språk där ritualer, mat och gemenskap berättar om vem man är och vad man tror på.
+  </p>
+  
+  <p>
+    Högtiderna är djupt rotade i <strong>cyklisk tid</strong>. Medan västerländsk tid ofta ses som en rät linje, ser hinduismen tiden som cirkulär. Festerna återkommer för att påminna människan om naturens rytm: vårens pånyttfödelse, skördens tacksamhet och det eviga kretsloppet av födelse och död.
+  </p>
+
+  <div class="fest-selector">
+    <div class="card diwali" onclick="activateTheme('diwali')">
+      <h3>DIWALI</h3>
+      <p>Ljusets triumf & Den inre kunskapen</p>
+      <small>Klicka för att tända mörkret →</small>
+    </div>
+    <div class="card holi" onclick="activateTheme('holi')">
+      <h3>HOLI</h3>
+      <p>Färgernas yra & Hierarkiernas fall</p>
+      <small>Klicka för att kasta färgen →</small>
+    </div>
+  </div>
+
+  <h2>Diwali: <em>När mörkret viker för ljuset</em></h2>
+  <p>
+    Diwali (Deepavali) är hinduismens mest omfattande högtid och sträcker sig över fem dagar. Den infaller vid nymåne i månaden <em>Kartika</em>, årets mörkaste tidpunkt. Symboliken är glasklar: varje liten oljelampa (<em>diya</em>) som tänds i ett fönster är en protest mot mörkret, okunnigheten och ondskan.
+  </p>
+  
+  <div class="analysis-box">
+    <h3>Mytologisk förankring</h3>
+    <p>Diwali kopplas främst till eposet <strong>Ramayana</strong> och prins Ramas återkomst till Ayodhya efter 14 års exil. Men på ett djupare plan firas gudinnan <strong>Lakshmi</strong>. Man städar sina hem minutiöst eftersom man tror att Lakshmi, lyckans och välståndets gudinna, bara besöker hem som är rena och upplysta. Detta visar hur rituell renhet och fysisk ordning flätas samman i den hinduiska livssynen.</p>
+  </div>
+
+  
+
+  <h2>Holi: <em>En social revolution i färg</em></h2>
+  <p>
+    Holi firas vid fullmåne på våren. Om Diwali är inåtvänd, andlig och vacker, är Holi utåtriktad, vild och kaotisk. Genom att kasta färgpulver (<em>gulal</em>) på varandra bryter man tillfälligt ner de strikta sociala barriärer som annars kan prägla det indiska samhället.
+  </p>
+  <p>
+    Under Holi suddas gränserna mellan kaster, kön och åldrar ut. När alla är täckta av färg går det inte längre att se vem som är rik eller fattig. Detta speglar idén om <strong>Advaita</strong> – att vi alla i grunden är ett med det gudomliga. Det är en lekfull hyllning till guden Krishna, som enligt myten ofta ställde till med spratt och lekar i sin ungdom.
+  </p>
+
+  
+
+  <h2>Kumbha Mela: <em>Trons ocean</em></h2>
+  <p>
+    Medan Diwali och Holi firas i hemmet, är Kumbha Mela en kollektiv kraftmätning. Det är världens största mänskliga sammankomst. Att tiotals miljoner människor reser till platser som Prayagraj eller Haridwar för att bada i en flod kan verka obegripligt för en utomstående, men för en hindu är det en handling av yttersta vikt.
+  </p>
+  <p>
+    Genom det rituella badet vid exakt rätt astrologiska tidpunkt tror man att vattnet förvandlas till <em>Amrita</em> (odödlighetens nektar). Det handlar om <strong>rening av Karma</strong>. Genom att stiga ner i floden tillsammans med miljoner andra känner man en samhörighet som sträcker sig tusentals år tillbaka i tiden.
+  </p>
+
+  <div class="analysis-box">
+    <h3>Pedagogisk slutsats</h3>
+    <p>Högtiderna fungerar som hinduismens "osynliga lim". De lär unga generationer om dygder, gudar och historia utan att de behöver sitta i en skolbänk. Det är religion som upplevs med alla sinnen: smaken av sötsaker, doften av rökelse, känslan av färgpulver mot huden och synen av tusentals ljus.</p>
+  </div>
+
+  
+
+</article>
+
+<section class="quiz-section" id="quiz">
+  <div class="q-card" id="quiz-box">
+    <h2 style="color:white; text-align:center; margin-bottom:10px;">Kunskapsquiz</h2>
+    <p id="q-progress" style="text-align:center; color:var(--gold); font-family:'JetBrains Mono'; margin-bottom:40px;">Fråga 1 av 8</p>
+    <div id="quiz-content">
+      <h3 id="q-text" style="font-family:'Playfair Display'; font-size:28px; margin-bottom:30px;">Laddar...</h3>
+      <div id="q-options"></div>
+      <div id="q-feedback" style="display:none; margin-top:30px; padding:20px; border-left:4px solid var(--gold); background:rgba(255,255,255,0.05); font-style:italic;"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+// --- SCROLL ---
+window.addEventListener('scroll', () => {
+  const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  document.getElementById("progress").style.width = (winScroll / height) * 100 + "%";
+});
+
+// --- THEMES ---
+function activateTheme(theme) {
+  document.body.className = theme + '-mode';
+}
+
+// --- QUIZ DATA ---
+const quizData = [
+  { q: "Vad symboliserar ljusen under Diwali på ett andligt plan?", o: ["Att spara el", "Kunskapens seger över okunnighet", "Vägledning för flygplan", "Att värma upp husen"], a: 1, f: "Ljusets seger över mörkret representerar hur kunskap (vidya) besegrar andlig blindhet." },
+  { q: "Vilken gudinna förknippas med välstånd och bjuds in i hemmen under Diwali?", o: ["Kali", "Saraswati", "Lakshmi", "Durga"], a: 2, f: "Lakshmi är lyckans gudinna och man tänder ljus för att visa henne vägen till det nystädade hemmet." },
+  { q: "Vad händer med sociala hierarkier (kaster) under firandet av Holi?", o: ["De förstärks", "De suddas tillfälligt ut", "De kontrolleras av polisen", "De spelar ingen roll förrän efteråt"], a: 1, f: "Holi är en fest där alla täcks av färg, vilket symboliserar att vi alla är lika inför det gudomliga." },
+  { q: "Vilken mytologisk gestalt kopplas ofta till Holis lekfulla natur?", o: ["Shiva", "Krishna", "Ganesha", "Brahma"], a: 1, f: "Krishna är känd för sin lekfullhet (lila) och att han kastade färg på herdinnorna." },
+  { q: "Vad innebär det rituella badet under Kumbha Mela?", o: ["Personlig hygien", "Rening från dålig karma", "En simtävling", "Att man testar vattentemperaturen"], a: 1, f: "Genom badet i heliga floder hoppas man rena sig från negativa handlingar och komma närmare befrielsen." },
+  { q: "Hur ser hinduismen på tid i förhållande till sina högtider?", o: ["Som en rät linje", "Som något oviktigt", "Som ett cirkulärt kretslopp", "Som en ändlig resurs"], a: 2, f: "Tiden ses som cyklisk (Yugas), och högtiderna återkommer för att markera naturens eviga rytm." },
+  { q: "Varför firas Diwali i fem dagar istället för bara en?", o: ["För att hinna äta all mat", "För att varje dag har en specifik rituell betydelse", "För att det är en nationell lag", "För att gudar sover länge"], a: 1, f: "Varje dag under Diwali fokuserar på olika aspekter, som syskonkärlek, tacksamhet eller nystart." },
+  { q: "Vilken funktion fyller högtiderna för barn och unga?", o: ["De får ledigt från skolan", "De lär sig religionen genom att göra", "De måste sitta stilla och lyssna", "De får inte delta"], a: 1, f: "Hinduism är en handlingsreligion (orthopraxi); barn lär sig berättelserna genom att delta i festen." }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function loadQuestion() {
+  const q = quizData[currentQ];
+  document.getElementById('q-progress').innerText = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('q-text').innerText = q.q;
+  const opts = document.getElementById('q-options');
+  opts.innerHTML = '';
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-opt';
+    btn.innerText = opt;
+    btn.onclick = () => checkAnswer(i);
+    opts.appendChild(btn);
+  });
+  document.getElementById('q-feedback').style.display = 'none';
+}
+
+function checkAnswer(idx) {
+  const q = quizData[currentQ];
+  const btns = document.querySelectorAll('.q-opt');
+  if(idx === q.a) {
+    btns[idx].classList.add('correct');
+    score++;
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.a].classList.add('correct');
+  }
+  const fb = document.getElementById('q-feedback');
+  fb.innerHTML = `<strong>${idx === q.a ? 'Rätt svar!' : 'Inte helt rätt.'}</strong> ${q.f}`;
+  fb.style.display = 'block';
+  
+  setTimeout(() => {
+    currentQ++;
+    if(currentQ < quizData.length) loadQuestion();
+    else showResult();
+  }, 3000);
+}
+
+function showResult() {
+  document.getElementById('quiz-box').innerHTML = `
+    <h2 style="color:white; text-align:center;">Analys slutförd</h2>
+    <div style="font-size:70px; font-weight:900; color:var(--gold); text-align:center; margin:30px 0;">${score}/${quizData.length}</div>
+    <p style="text-align:center; color:white;">Du har nu en djupare förståelse för hur hinduismens högtider formar både tro och samhälle.</p>
+    <button class="q-opt" style="text-align:center; margin-top:30px;" onclick="location.reload()">Gör om modulen</button>
+  `;
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
