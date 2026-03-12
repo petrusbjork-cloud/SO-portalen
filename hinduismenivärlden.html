@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinduism i världen – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #050A15;
+  --paper:    #F4F1DE;
+  --saffron:  #E07A5F;
+  --teal:     #3D405B;
+  --ocean:    #1D3557;
+  --accent:   #81B29A;
+  --gold:     #F2CC8F;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.75);
+  --border:   rgba(224,122,95,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--ocean), var(--accent), var(--saffron));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(circle at 50% 30%, #0d1a33 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(129,178,154,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(129,178,154,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: perspective(500px) rotateX(60deg) translateY(-100px) scale(2);
+  transform-origin: top center;
+  opacity: 0.4; pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--ink) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 6vw, 80px);
+  font-weight: 900; line-height: 1.1;
+  color: var(--paper);
+  text-shadow: 0 0 50px rgba(224,122,95,0.3);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+.hero h1 em { color: var(--saffron); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--saffron); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--accent); font-style: italic; }
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--saffron);
+  background: linear-gradient(135deg, rgba(224,122,95,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--saffron); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── INTERACTIVE DIASPORA CARDS ── */
+.diaspora-section { margin: 80px 0; }
+.diaspora-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.d-card {
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 12px; padding: 32px; cursor: pointer; position: relative;
+  overflow: hidden; transition: all 0.4s ease;
+}
+.d-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+  background: var(--ocean); transition: background 0.4s;
+}
+.d-card:hover, .d-card.active {
+  background: rgba(224,122,95,0.05); transform: translateY(-4px); border-color: var(--saffron);
+}
+.d-card:hover::before, .d-card.active::before { background: var(--saffron); }
+.d-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+.d-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--paper); margin-bottom: 8px; }
+.d-hint { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--accent); letter-spacing: 1px; }
+.d-content { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 16px; color: var(--text-dim); line-height: 1.6; animation: fadeUp 0.3s ease; }
+.d-card.active .d-content { display: block; }
+.d-card.active .d-hint { display: none; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 45vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.25) sepia(0.3) hue-rotate(-20deg);
+  background-image: url('https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&q=80&w=2070');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--paper); line-height: 1.3; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #03050a; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--saffron); color: var(--saffron); background: rgba(224,122,95,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(224,122,95,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin:0; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--saffron); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(224,122,95,0.15); border: 1px solid var(--saffron); color: var(--saffron); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--saffron); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(242,204,143,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #81B29A; background: rgba(129,178,154,0.15); color: #EAFAF1; }
+.quiz-opt.wrong { border-color: #E07A5F; background: rgba(224,122,95,0.15); color: #FDEDEC; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--paper); background: rgba(255,255,255,0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-opt.correct .quiz-letter { background: #81B29A; color: var(--ink); }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(242,204,143,0.15); border-left: 3px solid var(--gold); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--saffron); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--saffron), var(--ocean)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); color: var(--paper); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .diaspora-grid { grid-template-columns: 1fr; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion · Globalisering</div>
+
+  <h1>Hinduism i världen: <em>Global</em> spridning</h1>
+  <p class="hero-sub">Från den indiska subkontinenten ut över hela världen. Hur förändras en religion när den möter nya samhällen, lagar och kulturer?</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Hinduism förknippas ofta starkt med Indien, och med goda skäl. En mycket stor del av världens hinduer bor där. Samtidigt är hinduism i dag en global religion, som utövas av människor i många olika delar av världen. Genom migration, handel och globalisering har hinduismen spridits långt bortom Sydasien.
+  </p>
+
+  <p>Att studera hinduism i världen innebär därför inte bara att räkna antal troende, utan att förstå hur en religion kan se olika ut beroende på var den praktiseras, och hur tradition möter nya livsvillkor.</p>
+
+  <div class="section-marker"><span>Demografi</span></div>
+  <h2>Den <em>globala</em> utbredningen</h2>
+
+  <p>I dag finns det över en miljard hinduer i världen. De allra flesta bor i Indien, men stora grupper finns också i grannländer som Nepal, Bangladesh, Sri Lanka och Pakistan. Utanför Sydasien lever miljoner hinduer i länder som USA, Storbritannien, Kanada, Australien, Sydafrika och flera europeiska länder.</p>
+
+  <p>Denna spridning beror främst på migration. Under olika perioder har människor lämnat den indiska subkontinenten för arbete, studier eller som en historisk följd av kolonialism. Med sig har de tagit språk, kultur, mat och religion. Hinduism har därmed blivit en självklar del av det globala religionslandskapet.</p>
+
+  <div class="diaspora-section">
+    <div class="diaspora-grid">
+      <div class="d-card" onclick="toggleCard(this)">
+        <span class="d-icon">🛕</span>
+        <div class="d-title">Templet som Samlingsplats</div>
+        <div class="d-hint">Klicka för info ↓</div>
+        <div class="d-content">I diasporan (utanför hemlandet) blir templet mer än bara en plats för ritualer. Det förvandlas ofta till ett kulturcentrum där man bevarar språket, träffar andra i samma situation och firar högtider för att stärka den gemensamma identiteten.</div>
+      </div>
+
+      <div class="d-card" onclick="toggleCard(this)">
+        <span class="d-icon">🗣️</span>
+        <div class="d-title">Att formulera sin tro</div>
+        <div class="d-hint">Klicka för info ↓</div>
+        <div class="d-content">När man lever som minoritet tas religionen inte längre för given. Hinduer i till exempel Sverige eller USA måste ofta svara på frågor och förklara sin tro för utomstående. Detta leder ofta till att de blir mer medvetna och pålästa om sin egen religion.</div>
+      </div>
+
+      <div class="d-card" onclick="toggleCard(this)">
+        <span class="d-icon">🧘🏽‍♀️</span>
+        <div class="d-title">Yoga & Export</div>
+        <div class="d-hint">Klicka för info ↓</div>
+        <div class="d-content">I västvärlden har hinduiska praktiker som yoga och meditation fått enorm spridning. Ofta har de frikopplats från sin strikt religiösa grund och blivit en del av global hälso- och livsstilskultur, vilket gör hinduiska idéer kända världen över.</div>
+      </div>
+
+      <div class="d-card" onclick="toggleCard(this)">
+        <span class="d-icon">🌍</span>
+        <div class="d-title">Digitala Nätverk</div>
+        <div class="d-hint">Klicka för info ↓</div>
+        <div class="d-content">Globaliseringen och internet gör att hinduer i Kanada omedelbart kan streama en ceremoni (puja) från ett tempel i Indien. Det digitala rummet suddar ut gränserna och hjälper diasporan att upprätthålla starka band till ursprunget.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Minoritet</span></div>
+  <h2>Att leva som hindu <em>utanför</em> Indien</h2>
+
+  <p>I många länder där hinduism finns i dag är den en minoritetsreligion. För hinduer i diasporan (utanför kärnområdet) kan religionen få en extra stor betydelse som identitetsmarkör. Högtider som Diwali (ljusfesten) och Holi (färgfesten) blir viktiga tillfällen att bevara och synliggöra traditioner, både för den egna gruppen och för det omgivande samhället.</p>
+
+  <p>Samtidigt anpassas firanden ofta till lokala förhållanden. Högtider kanske måste flyttas till helgen på grund av skolkalendrar och arbetsliv, och ritualer anpassas till lokala brand- eller miljölagar.</p>
+
+  <div class="pullquote">
+    <p>Att vara hindu i ett land där religionen är ovanlig innebär ofta att man måste förklara sin tro. Det kan leda till att religionen formuleras tydligare än i ett samhälle där den tas för given.</p>
+  </div>
+
+  <div class="section-marker"><span>Anpassning</span></div>
+  <h2>Mångfald och <em>globalisering</em></h2>
+
+  <p>Hinduism är ingen enhetlig religion, och detta blir extra tydligt i ett globalt perspektiv. Olika grupper betonar olika delar av traditionen. Vissa lägger stor vikt vid ritualer och tempelbesök, medan andra fokuserar på filosofiska tankar. För en del är hinduism främst en kulturell identitet (mat, musik, högtider), för andra är det en djupt personlig och religiös livsåskådning.</p>
+
+  <p>I demokratiska och sekulära stater (som i Europa och Nordamerika) anpassas ofta religiösa uttryck till lagar om religionsfrihet och jämlikhet. Det kan innebära nya, moderna tolkningar av gamla traditioner, till exempel när det gäller könsroller, kastsystemets upplösning och utbildning.</p>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"I ett globalt perspektiv blir religionen en del av större frågor om migration, integration och minoriteters rättigheter."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Sammanfattning</span></div>
+  <h2>Både traditionell och <em>föränderlig</em></h2>
+
+  <p>Internationella undersökningar visar att hinduism är en av världens absolut största religioner. I ett globalt perspektiv ställer spridningen viktiga frågor: Hur ska religiösa traditioner få plats i ett modernt, pluralistiskt samhälle? Hur kan människor bevara sin urgamla identitet samtidigt som de bygger upp ett liv i ett helt nytt land?</p>
+
+  <p>Hinduism i världen är ett tydligt exempel på hur religioner förändras över tid. Trots enorma geografiska variationer finns gemensamma drag – ritualer, berättelser och tankar om karma – som binder samman hinduer världen över. Det gör hinduismen både djupt traditionell och ständigt föränderlig; den är både rotat lokal och obegränsat global.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor som hjälper eleverna att förstå religionssociologi, samt ett interaktivt quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--saffron); border-color: var(--saffron);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Migration och Anpassning</h4>
+          <ul class="q-list">
+            <li>Texten beskriver att hinduer ofta får anpassa sitt utövande till de samhällen de flyttar till (exempelvis lagar eller skolkalendrar). Kan ni ge exempel på hur detta kan se ut i praktiken?</li>
+            <li>Varför förändras ofta templets roll när man lever i diasporan jämfört med i Indien?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Kultur vs. Religion</h4>
+          <ul class="q-list">
+            <li>I västvärlden har yoga och meditation blivit enormt populärt, ofta frikopplat från hinduismen. Tycker ni att det är en form av religion, kultur, eller ren träning? Resonera!</li>
+            <li>Hur påverkar det en människa religiöst att leva som "minoritet" och ständigt behöva förklara sin tro för andra? Stärker det eller försvagar det tron tror ni?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor om hinduismens spridning och hur religionen anpassar sig i en globaliserad värld.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── DIASPORA CARDS ──
+function toggleCard(card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.d-card').forEach(c => c.classList.remove('active'));
+  if (!isActive) card.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Var bor den absolut största delen av världens hinduer?",
+    opts: ["I Europa och Nordamerika", "På den indiska subkontinenten (Indien, Nepal etc.)", "I Sydostasien", "I Afrika"],
+    correct: 1,
+    feedback: "Rätt! Även om hinduismen är spridd över hela världen, bor de allra flesta hinduer i Indien och dess grannländer."
+  },
+  {
+    q: "Vad är den främsta anledningen till att hinduismen har spridits globalt utanför Sydasien?",
+    opts: ["Våldsam erövring under medeltiden.", "Migration på grund av arbete, studier och historisk kolonialism.", "En regel i religionen som säger att man måste flytta.", "Missionärer som rest runt och konverterat miljontals västerlänningar."],
+    correct: 1,
+    feedback: "Den globala spridningen beror främst på migration, där människor tagit med sig sin kultur och religion till nya länder."
+  },
+  {
+    q: "Hur förändras ofta templets roll när hinduer lever i en minoritet (diasporan)?",
+    opts: ["Templet blir helt oviktigt och stängs.", "Det blir en plats enbart för präster.", "Det blir en viktig social samlingsplats för kultur, språk och gemenskap, utöver ritualerna.", "Det görs om till ett vanligt museum."],
+    correct: 2,
+    feedback: "I diasporan blir templet en central mötesplats där man kan behålla banden till sin identitet och träffa andra från samma bakgrund."
+  },
+  {
+    q: "Vad händer ofta med religionen när en hindu ständigt måste förklara sin tro för omgivningen (som i Sverige eller USA)?",
+    opts: ["Man glömmer bort sin tro helt.", "Man blir förbjuden att svara.", "Man måste uppfinna helt nya gudar.", "Tron formuleras ofta tydligare och man blir mer medveten om sin egen religion."],
+    correct: 3,
+    feedback: "Att ständigt möta frågor från majoritetssamhället gör ofta att människor tvingas läsa på och formulera sin tro mycket skarpare."
+  },
+  {
+    q: "Vilket är ett exempel på hur hinduismen har påverkat västvärlden, ibland utan direkt koppling till religionen?",
+    opts: ["Lagar om skatter", "Spridningen av yoga och meditation", "Bokstavsalfabetet", "Industriell teknik"],
+    correct: 1,
+    feedback: "Yoga och meditation har rötter i hinduismen men utövas idag av miljontals människor i väst primärt för hälsa och välmående."
+  },
+  {
+    q: "Hur påverkar demokratiska och sekulära stater (t.ex. i Europa) det hinduiska utövandet?",
+    opts: ["Det leder ibland till att religionen anpassas till lokala lagar om exempelvis jämlikhet och religionsfrihet.", "Religionen får styra hela landet.", "Det tvingar hinduer att byta religion.", "Ingen påverkan alls, religionen ser exakt likadan ut överallt."],
+    correct: 0,
+    feedback: "När religionen flyttar till nya demokratiska stater anpassas den ofta och tolkas på nya sätt för att harmonisera med lokala lagar och normer."
+  },
+  {
+    q: "Hur hjälper globaliseringen och internet den hinduiska diasporan?",
+    opts: ["Internet förstör alla traditioner.", "Det gör att man enklare kan dela religiösa texter, följa ritualer online och hålla kontakt med hemlandet.", "Det gör det omöjligt att bevara hemliga ritualer.", "Bara präster får använda internet enligt hinduisk tradition."],
+    correct: 1,
+    feedback: "Digitala medier suddar ut geografiska gränser och gör det lätt att delta i religiösa högtider oavsett var i världen man befinner sig."
+  },
+  {
+    q: "Hur sammanfattar texten den globala hinduismen idag?",
+    opts: ["Den håller på att försvinna i den moderna världen.", "Den ser likadan ut för alla, överallt.", "Den är både djupt traditionell och ständigt föränderlig; anpassad lokalt men bunden globalt.", "Den handlar enbart om yoga och struntar i tempel."],
+    correct: 2,
+    feedback: "Exakt! Det är en religion som lyckas hålla kvar sina tusenåriga traditioner samtidigt som den ständigt förändras och anpassar sig till nya platser."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Global expert! Du har stenkoll på hinduismens utbredning och anpassning i världen."; }
+  else if(pct >= 0.6) { title = "Mycket bra! ⭐"; msg = "Snyggt jobbat! Du förstår hur religion fungerar ur ett globalt och sociologiskt perspektiv."; }
+  else { title = "Fortsätt utforska 📖"; msg = "Det är ett spännande men stort ämne! Gå tillbaka och klicka på korten om Diasporan för att repetera det viktigaste."; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
