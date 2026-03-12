@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Statsskick – hur kan ett land styras? – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Palett: Maktens korridorer (Marinblå, Guld, Vit) */
+  --bg-main:   #F4F7F6;
+  --surface:   #FFFFFF;
+  --navy-dark: #0A1128;
+  --navy:      #1C2A4F;
+  --navy-lt:   #2A3B69;
+  --gold:      #B8860B;
+  --gold-lt:   #F3E5AB;
+  --crimson:   #8B0000;
+  
+  --text-dark: #111827;
+  --text-p:    #374151;
+  --text-dim:  #6B7280;
+  --border:    #E5E7EB;
+  
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-main);
+  color: var(--text-p);
+  font-family: var(--sans);
+  font-size: 20px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 5px; width: 0%;
+  background: linear-gradient(90deg, var(--navy), var(--gold), var(--crimson));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 80vh;
+  background: var(--navy-dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 100%, rgba(184,134,11,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards; z-index: 2; font-weight: 700;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(38px, 6vw, 80px);
+  font-weight: 900; line-height: 1.1;
+  color: #FFFFFF;
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.4s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: rgba(255,255,255,0.7);
+  max-width: 750px; line-height: 1.5; margin-bottom: 48px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--navy-lt); white-space: nowrap; font-weight: 700;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900; line-height: 1.2;
+  color: var(--navy-dark); margin-bottom: 24px;
+}
+h2 em { color: var(--gold); font-style: italic; }
+
+p { margin-bottom: 24px; }
+strong { color: var(--navy-dark); font-weight: 700; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -60px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--navy);
+  background: linear-gradient(135deg, rgba(28,42,79,0.05), transparent);
+  position: relative;
+  border-radius: 0 12px 12px 0;
+}
+.pullquote p {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--navy-dark); line-height: 1.4;
+  margin: 0;
+}
+
+/* ── INTERACTIVE: THE BUILDING BLOCKS (FLIP CARDS) ── */
+.blocks-section { margin: 80px 0; }
+.blocks-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; perspective: 1000px; }
+.block-card { background: transparent; height: 260px; cursor: pointer; perspective: 1000px; }
+.block-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+.block-card.flipped .block-inner { transform: rotateY(180deg); }
+.block-front, .block-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; }
+.block-front { background: var(--surface); border: 1px solid var(--border); box-shadow: 0 10px 20px rgba(0,0,0,0.02); }
+.block-front:hover { border-color: var(--gold); }
+.bf-icon { font-size: 40px; margin-bottom: 12px; }
+.bf-question { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--text-dim); letter-spacing: 2px; margin-bottom: 8px;}
+.bf-title { font-family: var(--serif); font-size: 26px; font-weight: 700; color: var(--navy-dark); margin-bottom: 12px;}
+.bf-hint { font-size: 13px; color: var(--gold); font-weight: 600; text-transform: uppercase;}
+
+.block-back { background: var(--navy-dark); border: 1px solid var(--navy-lt); transform: rotateY(180deg); padding: 0; overflow: hidden; flex-direction: row; }
+.bb-half { flex: 1; height: 100%; padding: 20px; display: flex; flex-direction: column; justify-content: center; text-align: left; }
+.bb-left { border-right: 1px solid rgba(255,255,255,0.1); }
+.bb-label { font-family: var(--mono); font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: 700;}
+.bb-text { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.5; margin: 0;}
+
+/* ── INTERACTIVE: DICTATORSHIP TABS ── */
+.dic-section { margin: 80px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+.dic-header { text-align: center; margin-bottom: 30px; }
+.dic-title { font-family: var(--serif); font-size: 28px; color: var(--navy-dark); font-weight: 900; margin-bottom: 8px;}
+.dic-sub { font-size: 16px; color: var(--text-dim); }
+
+.dic-tabs { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.d-tab { background: var(--bg-main); border: 1px solid var(--border); color: var(--text-p); padding: 10px 20px; border-radius: 30px; font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.d-tab:hover { border-color: var(--crimson); color: var(--crimson); }
+.d-tab.active { background: var(--crimson); border-color: var(--crimson); color: #fff; }
+
+.d-panel { display: none; animation: fadeUp 0.3s ease; background: var(--bg-main); padding: 30px; border-radius: 8px; border-left: 4px solid var(--crimson); }
+.d-panel.active { display: block; }
+.dp-title { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--navy-dark); margin-bottom: 12px;}
+.dp-text { font-size: 16px; color: var(--text-p); line-height: 1.6; margin: 0; }
+
+/* ── SUMMARY GRID ── */
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 40px; }
+.sum-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; gap: 16px; align-items: flex-start; }
+.sum-icon { color: var(--gold); font-size: 24px; line-height: 1; }
+.sum-text { font-size: 16px; color: var(--text-p); line-height: 1.5; margin: 0; }
+.sum-text strong { color: var(--navy-dark); }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: var(--navy-dark); border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px; color: #fff;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; font-weight: 700;}
+.teacher-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 620px; line-height: 1.6; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+  padding: 12px 24px; border-radius: 6px; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--gold); color: var(--navy-dark); background: var(--gold); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(184,134,11,0.5); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: var(--serif); font-size: 22px; color: #fff; margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; margin:0; }
+.q-list li { font-size: 17px; color: rgba(255,255,255,0.8); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); font-weight: bold;}
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 40px; }
+.quiz-wrap h3 { font-family: var(--serif); font-size: 26px; color: #fff; font-weight: 900; margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 32px; }
+.quiz-start-btn { background: var(--gold); border: none; color: var(--navy-dark); padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: #D4AF37; }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;}
+.quiz-progress-bar-wrap { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--gold); border-radius: 3px; transition: width 0.3s; }
+.quiz-q-text { font-family: var(--serif); font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 18px 24px; border-radius: 8px; cursor: pointer; color: #fff; text-align: left; font-family: var(--sans); font-size: 17px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(184,134,11,0.1); }
+.quiz-opt.correct { border-color: #27AE60; background: rgba(39,174,96,0.2); color: #fff; }
+.quiz-opt.wrong { border-color: #E53E3E; background: rgba(229,62,62,0.2); color: #fff; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--navy-dark); background: var(--gold); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: white;}
+.quiz-opt.wrong .quiz-letter { background: #E53E3E; color: white;}
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid var(--gold); font-size: 16px; color: #fff; line-height: 1.6; display: none; border-radius: 8px; }
+.quiz-next-btn { margin-top: 24px; background: var(--gold); color: var(--navy-dark); border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: #D4AF37; }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), #D4AF37); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 20px rgba(184,134,11,0.2); color: var(--navy-dark); }
+.score-num { font-family: var(--serif); font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 40px 24px 60px; }
+  .pullquote { margin: 40px 0; padding: 30px 24px; border-radius: 8px; border-left-width: 3px;}
+  .block-back { flex-direction: column; }
+  .bb-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-gradient"></div>
+  
+  <div class="hero-label">SO-Portalen · Samhällskunskap</div>
+
+  <h1>Statsskick – hur kan ett <em>land styras?</em></h1>
+  <p class="hero-sub">Vilka har makten? Hur fördelas den? Och hur säkerställer vi att den inte missbrukas? En djupdykning i statens maskineri.</p>
+
+</section>
+
+<article class="article">
+
+  <p style="font-size:22px; color:var(--text-dark); line-height:1.7; margin-bottom:40px;">
+    När man talar om statsskick, eller styrelseskick, menar man de regler som avgör hur ett land styrs. Det handlar om vem som har makten, hur den fördelas, hur beslut fattas och hur makten kan kontrolleras. Statsskicket säger också mycket om vilka rättigheter medborgarna har.
+  </p>
+
+  <p>Det är vanligt att förenkla statsskick till en fråga om demokrati eller diktatur, men i verkligheten är det mer komplicerat än så. Många länder kombinerar olika delar. Ett land kan till exempel vara en republik utan att makten egentligen ligger hos folket. För att förstå hur ett land styrs behöver man därför titta på flera olika aspekter samtidigt.</p>
+
+  <div class="section-marker"><span>Grundbulten</span></div>
+  <h2>Demokrati och <em>diktatur</em></h2>
+
+  <p>I en <strong>demokrati</strong> bygger makten på idén om folkstyre. Medborgarna ska kunna påverka politiken, främst genom fria och regelbundna val. Men demokrati handlar inte bara om att rösta. För att systemet ska fungera krävs också att människor kan uttrycka sina åsikter fritt, organisera sig i partier och ta del av information från fria medier. Om dessa delar saknas blir demokratin svag.</p>
+
+  <p>I en <strong>diktatur</strong> är makten istället samlad hos en person eller en liten grupp. Medborgarna har små eller inga möjligheter att påverka. Oppositionen kan förbjudas, medier censureras och människor riskerar straff om de kritiserar makthavarna.</p>
+
+  <div class="pullquote">
+    <p>Vissa diktaturer har faktiskt "val" som bara är till för att ge sken av demokrati. I praktiken finns inga verkliga alternativ att rösta på.</p>
+  </div>
+
+  <p>Många länder befinner sig i en <em>gråzon</em> (hybridregim). Där kan det finnas ett parlament, men samtidigt begränsas yttrandefriheten. Därför är statsskick snarare en glidande skala än två tydliga motsatser.</p>
+
+  <div class="section-marker"><span>Jämförelser</span></div>
+  <h2>Maktens <em>byggstenar</em></h2>
+
+  <p>För att avgöra hur ett land styrs tittar statsvetare på tre huvudfrågor: Vem är statschef? Vem styr regeringen? Och var ligger den geografiska makten? Klicka på korten för att vända på dem och jämföra systemen.</p>
+
+  <div class="blocks-section">
+    <div class="blocks-grid">
+      
+      <div class="block-card" onclick="this.classList.toggle('flipped')">
+        <div class="block-inner">
+          <div class="block-front">
+            <div class="bf-icon">👑</div>
+            <div class="bf-question">Vem är statschef?</div>
+            <div class="bf-title">Monarki<br>vs Republik</div>
+            <div class="bf-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="block-back">
+            <div class="bb-half bb-left">
+              <div class="bb-label">Monarki</div>
+              <p class="bb-text">Statschefen ärvers in i rollen (kung, drottning). I t.ex. Sverige saknar monarken helt politisk makt, medan de i absoluta monarkier (t.ex. Saudiarabien) styr landet.</p>
+            </div>
+            <div class="bb-half">
+              <div class="bb-label">Republik</div>
+              <p class="bb-text">Statschefen väljs av folket eller parlamentet (oftast en president). Makten kan variera från att bara vara symbolisk till att vara den mäktigaste i landet.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block-card" onclick="this.classList.toggle('flipped')">
+        <div class="block-inner">
+          <div class="block-front">
+            <div class="bf-icon">⚖️</div>
+            <div class="bf-question">Hur styrs regeringen?</div>
+            <div class="bf-title">Parlamentarism<br>vs President</div>
+            <div class="bf-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="block-back">
+            <div class="bb-half bb-left">
+              <div class="bb-label">Parlamentarism</div>
+              <p class="bb-text">Regeringen MÅSTE ha stöd av riksdagen (parlamentet) för att få styra. Om parlamentet tappar förtroendet kan de avsätta regeringen (som i Sverige).</p>
+            </div>
+            <div class="bb-half">
+              <div class="bb-label">Presidentstyre</div>
+              <p class="bb-text">Presidenten är oberoende från parlamentet och leder själv den verkställande makten. Parlamentet kan inte enkelt avsätta presidenten (som i USA).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block-card" onclick="this.classList.toggle('flipped')">
+        <div class="block-inner">
+          <div class="block-front">
+            <div class="bf-icon">🗺️</div>
+            <div class="bf-question">Var ligger makten?</div>
+            <div class="bf-title">Enhetsstat<br>vs Federal stat</div>
+            <div class="bf-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="block-back">
+            <div class="bb-half bb-left">
+              <div class="bb-label">Enhetsstat</div>
+              <p class="bb-text">Makten är centraliserad. De flesta viktiga lagar och beslut fattas nationellt för hela landet. Regioner och kommuner har begränsat självstyre.</p>
+            </div>
+            <div class="bb-half">
+              <div class="bb-label">Federal stat</div>
+              <p class="bb-text">Långtgående självbestämmande. Delstater kan ha egna lagar och parlament. Används ofta i enorma länder som USA och Tyskland.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <p>Det viktiga är att förstå att t.ex. monarki eller republik <em>i sig</em> inte avgör om ett land är demokratiskt. Sverige är en monarki men en stark demokrati. Nordkorea kallar sig republik ("Demokratiska Folkrepubliken Korea"), men är en av världens hårdaste diktaturer. Det är hur makten kontrolleras i praktiken som är avgörande.</p>
+
+  <div class="section-marker"><span>Motsatsen</span></div>
+  <h2>Olika typer av <em>diktaturer</em></h2>
+
+  <p>Precis som demokratier har olika system (parlament, presidenter), ser diktaturer olika ut beroende på vem som roffat åt sig makten. Välj form nedan för att läsa mer:</p>
+
+  <div class="dic-section">
+    <div class="dic-header">
+      <div class="dic-title">Diktaturens ansikten</div>
+      <div class="dic-sub">Det finns flera sätt för en liten elit att styra ett land.</div>
+    </div>
+    
+    <div class="dic-tabs">
+      <button class="d-tab active" onclick="switchDic('teo', this)">Teokrati</button>
+      <button class="d-tab" onclick="switchDic('mil', this)">Militärdiktatur</button>
+      <button class="d-tab" onclick="switchDic('enp', this)">Enpartistat</button>
+      <button class="d-tab" onclick="switchDic('per', this)">Persondiktatur</button>
+    </div>
+
+    <div class="d-panel active" id="dic-teo">
+      <div class="dp-title">Teokrati (Religiöst styre)</div>
+      <p class="dp-text">Religionen är grunden för hur staten styrs. Religiösa ledare eller heliga lagar har en central och avgörande roll i politiken. Även om det förekommer "val", kan de religiösa råden (som i Iran) stoppa kandidater eller ogiltigförklara lagar, vilket gör att folket saknar makt.</p>
+    </div>
+
+    <div class="d-panel" id="dic-mil">
+      <div class="dp-title">Militärdiktatur</div>
+      <p class="dp-text">Militären styr landet, ofta efter att ha tagit makten med våld i en statskupp. Generaler sitter i regeringen, civila lagar sätts ofta ur spel ("undantagstillstånd") och militären använder armén för att tysta all opposition.</p>
+    </div>
+
+    <div class="d-panel" id="dic-enp">
+      <div class="dp-title">Enpartistat</div>
+      <p class="dp-text">Ett enda politiskt parti är lagligt, och detta parti kontrollerar hela statsapparaten. Inga andra partier tillåts existera, vilket betyder att det inte finns någon verklig opposition. Ett klassiskt exempel är Kommunistpartiet i Kina.</p>
+    </div>
+
+    <div class="d-panel" id="dic-per">
+      <div class="dp-title">Persondiktatur</div>
+      <p class="dp-text">Hela systemet kretsar kring en enda oinskränkt ledare. Makten är knuten till individen snarare än till institutionerna. Ledaren upphöjs ofta genom en personkult, där bilder och statyer av denne finns överallt.</p>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Säkerheten</span></div>
+  <h2>Rättsstat och <em>maktdelning</em></h2>
+
+  <p>För att förhindra maktmissbruk i ett land är två begrepp centrala: rättsstat och maktdelning.</p>
+
+  <p>I en <strong>rättsstat</strong> gäller lagen för exakt alla, även för dem som styr landet (statsministern kan inte köra för fort utan att få böter). Ingen ska kunna fängslas utan en rättvis och öppen rättegång.</p>
+
+  <p><strong>Maktdelning</strong> innebär att den politiska makten delas upp så att ingen kan bestämma allt själv. Vanligtvis delas den mellan <em>lagstiftande</em> (parlamentet), <em>verkställande</em> (regeringen) och <em>dömande</em> (domstolarna) organ. När domstolar är helt oberoende kan de granska politikerna och stoppa beslut som bryter mot grundlagen.</p>
+
+  <div class="section-marker"><span>Sammanfattning</span></div>
+  <h2>Kort <em>Checklista</em></h2>
+
+  <div class="summary-grid">
+    <div class="sum-item">
+      <div class="sum-icon">✓</div>
+      <div class="sum-text"><strong>Statsskick</strong> beskriver hur ett land styrs, vem som har makt och hur beslut fattas. Det är en skala, inte bara svartvitt.</div>
+    </div>
+    <div class="sum-item">
+      <div class="sum-icon">✓</div>
+      <div class="sum-text"><strong>Parlamentarism</strong> kräver att regeringen har riksdagens stöd. <strong>Presidentstyre</strong> ger presidenten makt fristående från parlamentet.</div>
+    </div>
+    <div class="sum-item">
+      <div class="sum-icon">✓</div>
+      <div class="sum-text"><strong>Enhetsstater</strong> har centraliserad makt (Sverige). <strong>Federala stater</strong> ger makt till delstaterna (USA).</div>
+    </div>
+    <div class="sum-item">
+      <div class="sum-icon">✓</div>
+      <div class="sum-text"><strong>Rättsstat & Maktdelning</strong> skyddar invånarna och säkerställer att inte ens presidenten står över lagen.</div>
+    </div>
+  </div>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet som tränar förståelsen för politiska system, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="border-color: var(--gold);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Vem har makten?</h4>
+          <ul class="q-list">
+            <li>Sverige är en monarki, och Nordkorea kallar sig för en republik. Varför är det viktigt att veta att dessa titlar i sig själva inte avgör om ett land är demokratiskt eller inte?</li>
+            <li>I en "Teokrati" (som Iran) styrs landet av religiösa lagar och ledare. Vilka problem kan uppstå när religion och lagstiftning blandas ihop på statlig nivå?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Systemens utmaningar</h4>
+          <ul class="q-list">
+            <li>Förklara varför maktdelning är ett bra skydd mot att ett land förvandlas till en diktatur. Vad skulle hända om regeringen också bestämde vad domstolarna skulle döma?</li>
+            <li>USA är en "federal stat" med ett "presidentstyre". Vad innebär detta i praktiken för de som bor där (t.ex. när det gäller lagar om skola eller brott i olika delstater)?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta snabba frågor för att se om du har förstått maktens byggstenar.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── DICTATORSHIP TABS ──
+function switchDic(id, btn) {
+  document.querySelectorAll('.d-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.d-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('dic-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad är den grundläggande skillnaden mellan en demokrati och en diktatur enligt texten?",
+    opts: ["I en demokrati har folket makten genom fria val och fri åsiktsbildning, medan makten i en diktatur är samlad hos en liten elit som tystar oppositionen.", "I en demokrati betalar man skatt, i en diktatur är det skattefritt.", "Demokratier saknar polis, diktaturer har polis.", "I en diktatur väljs ledaren alltid om varje år."],
+    correct: 0,
+    feedback: "Exakt. Folkstyre kontra elitstyre är den största klyftan, även om det finns många gråzoner (hybridregimer) däremellan."
+  },
+  {
+    q: "Vad är skillnaden på en monarki och en republik?",
+    opts: ["Monarkier har ingen statschef alls.", "I en monarki ärvs ämbetet (t.ex. av en kung), i en republik väljs statschefen (t.ex. en president).", "Republiker är alltid demokratier, monarkier är alltid diktaturer.", "Monarkier ligger alltid i Europa."],
+    correct: 1,
+    feedback: "Begreppen beskriver enbart HUR statschefen utses (arv eller val), inte hur mycket verklig makt de har."
+  },
+  {
+    q: "Vad innebär 'parlamentarism'?",
+    opts: ["Att landet enbart styrs av en president.", "Att regeringen måste ha stöd (eller åtminstone accepteras) av parlamentet för att få styra.", "Att parlamentet får stifta vilka lagar de vill utan omröstning.", "Att alla lagar måste godkännas av domstolarna."],
+    correct: 1,
+    feedback: "I ett parlamentariskt system (som i Sverige) är regeringen direkt beroende av riksdagens/parlamentets förtroende."
+  },
+  {
+    q: "Vad kännetecknar ett 'presidentstyre' (som t.ex. i USA)?",
+    opts: ["Presidenten saknar helt politisk makt.", "Presidenten väljs fristående och leder den verkställande makten utan att kunna avsättas lika enkelt av parlamentet.", "Presidenten ärvs från förälder till barn.", "Presidenten är både kung och politiker."],
+    correct: 1,
+    feedback: "I presidentstyren har presidenten ett eget mandat och stark självständig makt skild från parlamentet."
+  },
+  {
+    q: "Vad är skillnaden på en enhetsstat och en federal stat?",
+    opts: ["Enhetsstater styrs centralt, medan federala stater delar makten med delstater som har eget självstyre.", "Enhetsstater finns inte längre.", "Federala stater styrs alltid av militären.", "I en federal stat får bara en person bestämma allting."],
+    correct: 0,
+    feedback: "I federala stater (som Tyskland eller USA) har delstaterna stor geografisk makt och ofta egna lagar."
+  },
+  {
+    q: "Vad menas med en 'Teokrati'?",
+    opts: ["Ett system där maskiner och AI styr.", "Ett statsskick där religionen är grunden och religiösa ledare/lagar har en avgörande politisk roll.", "En regering där ingen får tro på gud.", "Ett parlament bestående enbart av domare."],
+    correct: 1,
+    feedback: "Teokrati betyder gudsstyre. Där överordnas politiken de religiösa principerna och ledarna."
+  },
+  {
+    q: "Vad är en 'Enpartistat'?",
+    opts: ["Ett land där alla tillhör samma religion.", "En diktatur där endast ett politiskt parti är lagligt och kontrollerar hela staten.", "När riksdagen bara sammanträder en gång om året.", "När partierna bråkar."],
+    correct: 1,
+    feedback: "I en enpartistat existerar ingen laglig opposition, vilket gör valen meningslösa (t.ex. Kina)."
+  },
+  {
+    q: "Vad innebär 'Maktdelning' och varför är det viktigt i en demokrati?",
+    opts: ["Att man delar upp budgeten i tre lika stora delar.", "Att makten delas upp mellan lagstiftande, verkställande och dömande organ för att förhindra att en grupp missbrukar sin makt.", "Att alla i landet måste dela på samma bil.", "Att kungafamiljen bestämmer hälften av lagarna."],
+    correct: 1,
+    feedback: "Rätt! Genom maktdelning kan institutionerna (som oberoende domstolar) granska politikerna och stoppa övergrepp."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Statsminister-klass! Du har full koll på statsskickets byggstenar."; }
+  else if(pct >= 0.6) { title = "Snyggt jobbat! ⭐"; msg = "Du har greppat hur de stora politiska systemen hänger ihop väldigt väl."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Många begrepp att hålla koll på! Snurra på 'Maktens Byggstenar'-korten och testa igen."; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
