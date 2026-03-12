@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valsimulator – SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e1a;
+  --surface: #111827;
+  --surface2: #1a2235;
+  --gold: #f5c842;
+  --gold2: #e8a020;
+  --text: #f0f4ff;
+  --muted: #8899bb;
+  --border: rgba(255,255,255,0.08);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 80%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(2px 2px at 30% 60%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(1px 1px at 90% 50%, rgba(255,255,255,0.3) 0%, transparent 100%);
+  pointer-events:none; z-index:0;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top:0; z-index:100;
+  background: rgba(10,14,26,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+nav::-webkit-scrollbar { display:none; }
+.nav-tab {
+  padding: 16px 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  transition: all 0.25s;
+  user-select: none;
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+/* ── HEADER ── */
+header {
+  text-align:center;
+  padding: 50px 20px 30px;
+  position:relative; z-index:1;
+}
+.header-badge {
+  display:inline-block;
+  background: rgba(245,200,66,0.12);
+  border: 1px solid rgba(245,200,66,0.3);
+  color:var(--gold);
+  font-size:0.75rem; letter-spacing:0.2em;
+  text-transform:uppercase;
+  padding:6px 18px; border-radius:40px;
+  margin-bottom:16px;
+}
+h1 {
+  font-family:'Playfair Display',serif;
+  font-size: clamp(2rem,5vw,3.8rem);
+  font-weight:900; line-height:1.1;
+  background: linear-gradient(135deg,#fff 30%,var(--gold) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.subtitle { color:var(--muted); margin-top:10px; font-size:1rem; font-weight:300; }
+
+/* ── PAGE WRAPPER ── */
+.page {
+  display:none;
+  max-width:980px;
+  margin:0 auto;
+  padding:0 20px 100px;
+  position:relative; z-index:1;
+  animation: fadeUp 0.45s ease forwards;
+}
+.page.active { display:block; }
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  font-family:'Playfair Display',serif;
+  font-size:1.8rem; margin-bottom:8px; text-align:center;
+}
+.sec-desc { text-align:center; color:var(--muted); margin-bottom:32px; font-size:0.95rem; }
+
+/* ── STEPPER ── */
+.stepper {
+  display:flex; justify-content:center; gap:8px;
+  margin:20px auto 30px; padding:0 20px;
+  position:relative; z-index:1;
+}
+.step {
+  display:flex; align-items:center; gap:8px;
+  color:var(--muted); font-size:0.82rem; transition:color 0.4s;
+}
+.step.active { color:var(--gold); }
+.step.done { color:#4ade80; }
+.step-num {
+  width:26px; height:26px; border-radius:50%;
+  border:2px solid currentColor;
+  display:flex; align-items:center; justify-content:center;
+  font-weight:600; font-size:0.78rem; transition:background 0.4s;
+}
+.step.active .step-num { background:var(--gold); color:#000; border-color:var(--gold); }
+.step.done .step-num { background:#4ade80; color:#000; border-color:#4ade80; }
+.step-line { width:36px; height:2px; background:var(--border); }
+
+/* ── PARTY CARDS ── */
+.parties-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  gap:14px;
+}
+.party-card {
+  background:var(--surface);
+  border:2px solid var(--border);
+  border-radius:16px; padding:22px 14px;
+  cursor:pointer; text-align:center;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  position:relative; overflow:hidden; user-select:none;
+}
+.party-card::before {
+  content:''; position:absolute; inset:0;
+  background:var(--party-color,#fff); opacity:0;
+  transition:opacity 0.3s; border-radius:inherit;
+}
+.party-card:hover { transform:translateY(-6px) scale(1.03); border-color:var(--party-color,#fff); box-shadow:0 12px 40px rgba(0,0,0,0.4),0 0 0 1px var(--party-color,#fff); }
+.party-card:hover::before { opacity:0.08; }
+.party-card.selected { border-color:var(--party-color,#fff); box-shadow:0 0 0 3px var(--party-color,#fff),0 16px 50px rgba(0,0,0,0.5); transform:translateY(-4px) scale(1.02); }
+.party-card.selected::before { opacity:0.12; }
+.party-card.dimmed { opacity:0.3; transform:none; }
+.party-emoji { font-size:2.6rem; display:block; margin-bottom:10px; position:relative; z-index:1; }
+.party-abbr { font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700; color:var(--party-color,#fff); position:relative; z-index:1; }
+.party-name { font-size:0.75rem; color:var(--muted); margin-top:4px; position:relative; z-index:1; }
+.party-tagline { font-size:0.7rem; color:var(--muted); margin-top:7px; font-style:italic; position:relative; z-index:1; opacity:0; transition:opacity 0.3s; }
+.party-card:hover .party-tagline, .party-card.selected .party-tagline { opacity:1; }
+.selected-check {
+  position:absolute; top:10px; right:10px;
+  width:22px; height:22px; background:var(--party-color,#fff);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:0.8rem; opacity:0; transform:scale(0);
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  z-index:2; color:#000;
+}
+.party-card.selected .selected-check { opacity:1; transform:scale(1); }
+
+/* ── BUTTONS ── */
+.vote-btn {
+  display:block; margin:32px auto 0;
+  padding:16px 56px;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#000; font-family:'IBM Plex Sans',sans-serif;
+  font-size:1.05rem; font-weight:600; border:none;
+  border-radius:60px; cursor:pointer; letter-spacing:0.05em;
+  opacity:0; transform:translateY(20px);
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  box-shadow:0 8px 30px rgba(245,200,66,0.3);
+}
+.vote-btn.visible { opacity:1; transform:translateY(0); }
+.vote-btn:hover { transform:translateY(-3px) scale(1.05); box-shadow:0 14px 40px rgba(245,200,66,0.5); }
+
+/* ── KABIN ── */
+#page-kabin { max-width:600px; }
+.kabin-wrapper {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:24px; padding:50px 40px; text-align:center;
+  position:relative; overflow:hidden;
+  box-shadow:0 30px 80px rgba(0,0,0,0.5);
+}
+.kabin-wrapper::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));
+}
+.kabin-curtains {
+  display:flex; height:110px; margin-bottom:28px;
+  border-radius:12px; overflow:hidden;
+}
+.curtain {
+  flex:1;
+  background:linear-gradient(180deg,#1a2a5e,#0d1a3d);
+  transition:transform 1.2s cubic-bezier(0.77,0,0.18,1);
+}
+.curtain-left { transform-origin:left; }
+.curtain-right { transform-origin:right; }
+.curtain-open .curtain-left { transform:scaleX(0); }
+.curtain-open .curtain-right { transform:scaleX(0); }
+.kabin-party-emoji { font-size:3.8rem; display:block; margin-bottom:10px; }
+.kabin-party-name { font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:700; }
+.kabin-timestamp { font-size:0.78rem; color:var(--muted); margin-top:8px; }
+.urna-container { margin:28px auto 0; position:relative; height:90px; width:120px; }
+.urna {
+  width:88px; height:66px;
+  background:linear-gradient(135deg,#2a3a5e,#1a2540);
+  border:2px solid rgba(245,200,66,0.4);
+  border-radius:8px 8px 14px 14px;
+  margin:0 auto; position:relative;
+}
+.urna::before {
+  content:''; position:absolute; top:-11px; left:50%; transform:translateX(-50%);
+  width:48px; height:11px;
+  background:linear-gradient(135deg,#3a4a6e,#2a3550);
+  border:2px solid rgba(245,200,66,0.4);
+  border-radius:4px 4px 0 0; border-bottom:none;
+}
+.urna::after {
+  content:''; position:absolute; top:-5px; left:50%; transform:translateX(-50%);
+  width:22px; height:5px; background:rgba(0,0,0,0.6); border-radius:2px;
+}
+.valsedel {
+  position:absolute; top:-60px; left:50%; transform:translateX(-50%);
+  width:34px; height:48px; background:#fff; border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.1rem; box-shadow:0 4px 15px rgba(0,0,0,0.3); opacity:0;
+}
+.valsedel.dropping { animation:dropSedel 1.2s cubic-bezier(0.55,0,0.45,1) forwards; }
+@keyframes dropSedel {
+  0%   { opacity:1; top:-80px; transform:translateX(-50%) rotate(-5deg); }
+  70%  { opacity:1; top:-12px; transform:translateX(-50%) rotate(2deg); }
+  85%  { opacity:0.5; top:-6px; }
+  100% { opacity:0; top:0; }
+}
+.urna.shake { animation:urnaShake 0.5s ease 0.9s forwards; }
+@keyframes urnaShake {
+  0%   { transform:rotate(0); }
+  20%  { transform:rotate(-4deg); }
+  40%  { transform:rotate(4deg); }
+  60%  { transform:rotate(-3deg); }
+  80%  { transform:rotate(2deg); }
+  100% { transform:rotate(0); }
+}
+.big-vote-btn {
+  background:linear-gradient(135deg,#c0392b,#96281b); color:#fff;
+  font-family:'IBM Plex Sans',sans-serif; font-weight:700;
+  font-size:1.25rem; letter-spacing:0.1em;
+  border:none; padding:18px 56px; border-radius:60px; cursor:pointer;
+  margin-top:28px; box-shadow:0 8px 30px rgba(192,57,43,0.4);
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); text-transform:uppercase;
+}
+.big-vote-btn:hover { transform:scale(1.06); box-shadow:0 14px 40px rgba(192,57,43,0.6); }
+.back-link { display:inline-block; color:var(--muted); font-size:0.83rem; cursor:pointer; margin-top:18px; text-decoration:underline; transition:color 0.2s; }
+.back-link:hover { color:var(--text); }
+
+/* ── RESULT PAGE ── */
+.result-hero { text-align:center; padding:20px 0 36px; }
+.result-emoji { font-size:4rem; display:block; margin-bottom:12px; }
+.result-party-name { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900; }
+.result-comment {
+  background:var(--surface2); border-left:4px solid var(--gold);
+  padding:14px 22px; border-radius:0 12px 12px 0;
+  margin:20px 0 36px; font-style:italic; color:#c8d8ff; font-size:1rem;
+}
+.sec-divider {
+  font-family:'Playfair Display',serif; font-size:1.3rem;
+  margin-bottom:18px; display:flex; align-items:center; gap:10px;
+}
+.sec-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+
+.riksdag-visual {
+  background:var(--surface); border-radius:20px; padding:28px; margin-bottom:28px;
+}
+.semicircle-container { width:100%; max-width:500px; margin:0 auto; position:relative; height:260px; }
+#riksdagCanvas { width:100%; height:100%; }
+.mandate-count { text-align:center; margin-top:14px; font-size:0.83rem; color:var(--muted); }
+
+.bars-container { display:flex; flex-direction:column; gap:12px; margin-bottom:28px; }
+.bar-row {
+  display:grid; grid-template-columns:58px 1fr 48px;
+  align-items:center; gap:10px;
+  opacity:0; transform:translateX(-20px); transition:all 0.5s ease;
+}
+.bar-row.revealed { opacity:1; transform:translateX(0); }
+.bar-label { font-weight:600; font-size:0.88rem; color:var(--party-color,var(--text)); text-align:right; }
+.bar-track { background:rgba(255,255,255,0.05); border-radius:40px; height:30px; overflow:hidden; position:relative; }
+.bar-fill {
+  height:100%; border-radius:40px; background:var(--party-color,#fff);
+  width:0%; transition:width 1s cubic-bezier(0.34,1.1,0.64,1);
+  display:flex; align-items:center; padding-left:10px;
+  font-size:0.72rem; font-weight:600; color:rgba(0,0,0,0.7);
+  white-space:nowrap;
+}
+.bar-pct { font-size:0.88rem; font-weight:600; color:var(--muted); }
+.bar-row.my-vote .bar-label::before { content:'⭐ '; }
+
+.koalition-box {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:20px; padding:26px; margin-top:28px;
+}
+.koalition-blok { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
+.blok-tag {
+  padding:5px 12px; border-radius:30px;
+  font-size:0.78rem; font-weight:600; border:1.5px solid;
+}
+.blok-mandates { font-size:1.2rem; font-weight:700; margin-top:6px; }
+.majority-bar { height:10px; background:rgba(255,255,255,0.05); border-radius:10px; overflow:hidden; margin-top:14px; position:relative; }
+.majority-fill { height:100%; background:linear-gradient(90deg,#1e6bb5,#3498db); border-radius:10px; transition:width 1.5s ease; }
+.majority-marker { position:absolute; left:50%; top:-4px; bottom:-4px; width:3px; background:var(--gold); border-radius:3px; }
+.majority-marker::after { content:'175'; position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-size:0.65rem; color:var(--gold); white-space:nowrap; }
+.restart-btn {
+  display:block; margin:36px auto 0;
+  padding:14px 46px; background:transparent; border:2px solid var(--gold);
+  color:var(--gold); font-family:'IBM Plex Sans',sans-serif;
+  font-size:0.95rem; font-weight:600; border-radius:60px; cursor:pointer;
+  letter-spacing:0.05em; transition:all 0.3s;
+}
+.restart-btn:hover { background:var(--gold); color:#000; transform:scale(1.05); }
+
+/* ── BONUS BUTTONS on result ── */
+.bonus-cta {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px; margin-top:36px;
+}
+.bonus-card {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:16px; padding:20px; text-align:center; cursor:pointer;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.bonus-card:hover { border-color:var(--gold); transform:translateY(-4px); box-shadow:0 12px 30px rgba(0,0,0,0.4); }
+.bonus-card-icon { font-size:2rem; display:block; margin-bottom:8px; }
+.bonus-card-title { font-weight:600; font-size:0.9rem; }
+.bonus-card-desc { font-size:0.75rem; color:var(--muted); margin-top:4px; }
+
+/* ══════════════════════════════════════════════
+   PAGE: PERSONLIGHETSTEST
+══════════════════════════════════════════════ */
+.personality-intro {
+  background:var(--surface);
+  border-radius:20px; padding:36px; text-align:center; margin-bottom:28px;
+}
+.personality-intro-emoji { font-size:3.5rem; display:block; margin-bottom:14px; }
+
+.personality-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px;
+}
+.personality-card {
+  background:var(--surface); border:2px solid var(--border);
+  border-radius:16px; padding:24px 16px; cursor:pointer; text-align:center;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.personality-card:hover { transform:translateY(-5px); border-color:var(--gold); box-shadow:0 10px 30px rgba(0,0,0,0.4); }
+.personality-card-emoji { font-size:2.5rem; display:block; margin-bottom:10px; }
+.personality-card-label { font-weight:600; font-size:0.9rem; }
+.personality-card-sub { font-size:0.72rem; color:var(--muted); margin-top:5px; }
+
+/* Result card */
+.personality-result {
+  display:none;
+  background:var(--surface); border-radius:24px;
+  padding:40px; text-align:center;
+  border:2px solid var(--border);
+  animation:fadeUp 0.5s ease forwards;
+}
+.personality-result.show { display:block; }
+.pr-emoji { font-size:5rem; display:block; margin-bottom:16px; }
+.pr-party { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; margin-bottom:8px; }
+.pr-stereotype {
+  background:linear-gradient(135deg,var(--surface2),rgba(245,200,66,0.05));
+  border:1px solid rgba(245,200,66,0.2);
+  border-radius:16px; padding:22px; margin:20px 0;
+  font-size:1rem; line-height:1.7; text-align:left;
+}
+.pr-traits { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:16px; }
+.pr-trait {
+  padding:6px 14px; background:rgba(255,255,255,0.05);
+  border:1px solid var(--border); border-radius:30px; font-size:0.78rem;
+}
+.try-again-btn {
+  margin-top:24px; padding:12px 36px;
+  background:transparent; border:2px solid var(--muted);
+  color:var(--muted); border-radius:40px; cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif; font-size:0.9rem;
+  transition:all 0.3s;
+}
+.try-again-btn:hover { border-color:var(--text); color:var(--text); }
+
+/* ══════════════════════════════════════════════
+   PAGE: SLUMPA
+══════════════════════════════════════════════ */
+.wheel-page { text-align:center; }
+.wheel-container { position:relative; width:360px; height:360px; margin:0 auto 40px; }
+#wheelCanvas { width:360px; height:360px; border-radius:50%; }
+.wheel-pointer {
+  position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+  width:0; height:0;
+  border-left:14px solid transparent;
+  border-right:14px solid transparent;
+  border-top:30px solid var(--gold);
+  filter:drop-shadow(0 4px 8px rgba(245,200,66,0.5));
+  z-index:10;
+}
+.spin-btn {
+  padding:18px 64px; font-size:1.2rem; font-weight:700;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  color:#000; border:none; border-radius:60px; cursor:pointer;
+  letter-spacing:0.05em;
+  box-shadow:0 8px 30px rgba(245,200,66,0.4);
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  font-family:'IBM Plex Sans',sans-serif;
+}
+.spin-btn:hover { transform:scale(1.06); box-shadow:0 14px 40px rgba(245,200,66,0.6); }
+.spin-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.spin-result {
+  display:none; margin-top:36px;
+  background:var(--surface); border-radius:20px; padding:32px;
+  border:1px solid var(--border);
+  animation:fadeUp 0.5s ease forwards;
+}
+.spin-result.show { display:block; }
+.spin-result-emoji { font-size:4rem; display:block; margin-bottom:12px; }
+.spin-result-name { font-family:'Playfair Display',serif; font-size:2rem; font-weight:900; }
+.spin-result-fact { font-size:0.9rem; color:var(--muted); margin-top:12px; line-height:1.6; }
+.vote-after-spin {
+  margin-top:20px; padding:12px 32px;
+  background:var(--gold); color:#000; font-weight:700;
+  border:none; border-radius:40px; cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif; font-size:0.95rem;
+  transition:all 0.3s;
+}
+.vote-after-spin:hover { transform:scale(1.05); }
+
+/* ══════════════════════════════════════════════
+   PAGE: KOALITIONSBYGGAREN
+══════════════════════════════════════════════ */
+.coalition-builder {
+  display:grid; grid-template-columns:1fr 320px; gap:24px;
+}
+@media (max-width:700px) {
+  .coalition-builder { grid-template-columns:1fr; }
+}
+.coalition-pool-title, .coalition-riksdag-title {
+  font-family:'Playfair Display',serif; font-size:1.1rem; margin-bottom:14px;
+  display:flex; align-items:center; gap:8px;
+}
+.coalition-pool {
+  display:flex; flex-wrap:wrap; gap:10px; min-height:100px;
+  padding:16px; background:var(--surface);
+  border:2px dashed var(--border); border-radius:16px;
+  margin-bottom:16px; transition:border-color 0.3s;
+}
+.coalition-pool.drag-over { border-color:var(--gold); background:rgba(245,200,66,0.04); }
+.coalition-chip {
+  display:flex; align-items:center; gap:8px;
+  padding:10px 16px; border-radius:30px;
+  border:2px solid; font-weight:600; font-size:0.85rem;
+  cursor:grab; user-select:none;
+  transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+.coalition-chip:hover { transform:scale(1.08); }
+.coalition-chip:active { cursor:grabbing; }
+.coalition-chip.dragging { opacity:0.4; transform:scale(0.95); }
+
+.riksdag-panel {
+  background:var(--surface); border-radius:20px; padding:24px;
+  position:sticky; top:80px;
+}
+.riksdag-arc-mini { width:100%; max-width:260px; margin:0 auto 16px; display:block; }
+.coalition-mandate-number {
+  text-align:center;
+  font-family:'Playfair Display',serif; font-size:3rem; font-weight:900;
+  line-height:1;
+}
+.coalition-mandate-label { text-align:center; color:var(--muted); font-size:0.8rem; margin-top:4px; }
+.coalition-verdict {
+  margin-top:18px; padding:14px; border-radius:12px; text-align:center;
+  font-weight:600; font-size:0.95rem;
+  transition:all 0.4s;
+}
+.coalition-verdict.majority { background:rgba(74,222,128,0.12); color:#4ade80; border:1px solid rgba(74,222,128,0.3); }
+.coalition-verdict.no-majority { background:rgba(239,68,68,0.1); color:#f87171; border:1px solid rgba(239,68,68,0.2); }
+.coalition-members { margin-top:16px; display:flex; flex-wrap:wrap; gap:6px; }
+
+.drag-hint { text-align:center; color:var(--muted); font-size:0.8rem; margin-top:12px; font-style:italic; }
+
+/* ══════════════════════════════════════════════
+   PAGE: AI-DEBATT
+══════════════════════════════════════════════ */
+.debate-setup {
+  background:var(--surface); border-radius:20px; padding:30px; margin-bottom:28px;
+}
+.debate-party-row {
+  display:grid; grid-template-columns:1fr auto 1fr; gap:16px;
+  align-items:start; margin-bottom:24px;
+}
+@media (max-width:600px) {
+  .debate-party-row { grid-template-columns:1fr; }
+  .vs-badge { margin:0 auto; }
+}
+.debate-pick-label { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); margin-bottom:10px; }
+.debate-party-select {
+  background:var(--surface2); border:1px solid var(--border);
+  color:var(--text); font-family:'IBM Plex Sans',sans-serif;
+  font-size:0.95rem; padding:12px 16px; border-radius:12px;
+  width:100%; cursor:pointer; transition:border-color 0.3s; outline:none;
+  appearance:none;
+}
+.debate-party-select:focus { border-color:var(--gold); }
+option { background:#111827; }
+.vs-badge {
+  width:50px; height:50px; border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--gold2));
+  display:flex; align-items:center; justify-content:center;
+  color:#000; font-weight:900; font-size:0.95rem;
+  flex-shrink:0; margin-top:24px;
+}
+.debate-topic-grid { display:flex; flex-wrap:wrap; gap:8px; }
+.topic-chip {
+  padding:8px 16px; background:var(--surface2);
+  border:1.5px solid var(--border); border-radius:30px;
+  font-size:0.82rem; cursor:pointer; transition:all 0.25s;
+}
+.topic-chip:hover, .topic-chip.selected { border-color:var(--gold); color:var(--gold); background:rgba(245,200,66,0.08); }
+
+.start-debate-btn {
+  display:block; margin:24px auto 0;
+  padding:16px 52px; background:linear-gradient(135deg,#6366f1,#8b5cf6);
+  color:#fff; font-family:'IBM Plex Sans',sans-serif; font-weight:700;
+  font-size:1.05rem; border:none; border-radius:60px; cursor:pointer;
+  letter-spacing:0.05em; box-shadow:0 8px 30px rgba(99,102,241,0.4);
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+}
+.start-debate-btn:hover:not(:disabled) { transform:translateY(-3px) scale(1.05); box-shadow:0 14px 40px rgba(99,102,241,0.6); }
+.start-debate-btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+/* Debate stage */
+.debate-stage { display:none; }
+.debate-stage.show { display:block; animation:fadeUp 0.5s ease forwards; }
+.debate-header-row {
+  display:flex; align-items:center; justify-content:space-between;
+  background:var(--surface); border-radius:16px; padding:18px 24px;
+  margin-bottom:24px;
+}
+.debater-info { text-align:center; }
+.debater-emoji { font-size:2.5rem; display:block; }
+.debater-name { font-weight:700; font-size:0.9rem; margin-top:4px; }
+.debate-topic-badge {
+  background:rgba(99,102,241,0.15); border:1px solid rgba(99,102,241,0.3);
+  color:#a5b4fc; padding:8px 16px; border-radius:30px;
+  font-size:0.78rem; text-align:center; max-width:160px;
+}
+
+.debate-messages { display:flex; flex-direction:column; gap:20px; }
+.debate-msg {
+  display:flex; gap:14px; align-items:flex-start;
+  opacity:0; transform:translateY(16px);
+  animation:fadeUp 0.5s ease forwards;
+}
+.debate-msg.right { flex-direction:row-reverse; }
+.debate-avatar {
+  width:44px; height:44px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.4rem; flex-shrink:0; border:2px solid;
+}
+.debate-bubble {
+  max-width:70%; padding:16px 20px; border-radius:18px;
+  line-height:1.65; font-size:0.9rem;
+  position:relative;
+}
+.debate-msg.left .debate-bubble {
+  background:var(--surface); border-radius:4px 18px 18px 18px;
+  border:1px solid var(--border);
+}
+.debate-msg.right .debate-bubble {
+  border-radius:18px 4px 18px 18px;
+  border:1px solid;
+}
+.debate-speaker-label { font-size:0.7rem; font-weight:700; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.1em; opacity:0.7; }
+
+.debate-loading {
+  text-align:center; padding:40px; color:var(--muted);
+  display:none;
+}
+.debate-loading.show { display:block; }
+.loading-dots { display:flex; justify-content:center; gap:8px; margin-top:16px; }
+.loading-dot {
+  width:10px; height:10px; border-radius:50%; background:var(--gold);
+  animation:dotBounce 1.2s ease-in-out infinite;
+}
+.loading-dot:nth-child(2) { animation-delay:0.2s; }
+.loading-dot:nth-child(3) { animation-delay:0.4s; }
+@keyframes dotBounce {
+  0%,80%,100% { transform:scale(0.6); opacity:0.4; }
+  40% { transform:scale(1); opacity:1; }
+}
+
+.new-debate-btn {
+  display:block; margin:30px auto 0;
+  padding:12px 36px; background:transparent;
+  border:2px solid var(--muted); color:var(--muted);
+  border-radius:40px; cursor:pointer;
+  font-family:'IBM Plex Sans',sans-serif; font-size:0.9rem;
+  transition:all 0.3s;
+}
+.new-debate-btn:hover { border-color:var(--text); color:var(--text); }
+
+/* ── CONFETTI ── */
+#confetti-canvas { position:fixed; inset:0; pointer-events:none; z-index:999; }
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-tab active" onclick="switchPage('page-val',this)">🗳️ Valsimulator</div>
+  <div class="nav-tab" onclick="switchPage('page-slumpa',this)">🎰 Slumpa mitt val</div>
+  <div class="nav-tab" onclick="switchPage('page-personality',this)">😂 Personlighetstest</div>
+  <div class="nav-tab" onclick="switchPage('page-koalition',this)">⚖️ Koalitionsbyggaren</div>
+  <div class="nav-tab" onclick="switchPage('page-debatt',this)">🎤 AI-Debatten</div>
+</nav>
+
+<header>
+  <div class="header-badge">🇸🇪 SO-Portalen · Demokrati & Val</div>
+  <h1 id="pageTitle">Valsimulator</h1>
+  <p class="subtitle" id="pageSubtitle">Upplev valdagen – välj parti, rösta, se resultatet</p>
+</header>
+
+<!-- ════════════════════════════════════════════
+     PAGE 1: VALSIMULATOR
+════════════════════════════════════════════ -->
+<div class="page active" id="page-val">
+
+  <!-- Stepper -->
+  <div class="stepper">
+    <div class="step active" id="step1"><div class="step-num">1</div><span>Välj parti</span></div>
+    <div class="step-line"></div>
+    <div class="step" id="step2"><div class="step-num">2</div><span>Rösta</span></div>
+    <div class="step-line"></div>
+    <div class="step" id="step3"><div class="step-num">3</div><span>Resultat</span></div>
+  </div>
+
+  <!-- Steg 1: Välj parti -->
+  <div id="section-val">
+    <h2 class="sec-title">Vilket parti röstar du på?</h2>
+    <p class="sec-desc">Hovra för att läsa mer. Klicka för att välja.</p>
+    <div class="parties-grid" id="partiesGrid"></div>
+    <button class="vote-btn" id="goToKabinBtn" onclick="goToKabin()">🗳️ Gå till röstningskabinen →</button>
+  </div>
+
+  <!-- Steg 2: Kabinen -->
+  <div id="section-kabin" style="display:none; max-width:600px; margin:0 auto;">
+    <div class="kabin-wrapper">
+      <div class="kabin-curtains" id="kabinCurtains">
+        <div class="curtain curtain-left"></div>
+        <div class="curtain curtain-right"></div>
+      </div>
+      <div>
+        <span class="kabin-party-emoji" id="kabinEmoji">🗳️</span>
+        <div class="kabin-party-name" id="kabinName" style="color:#fff">—</div>
+        <div class="kabin-timestamp" id="kabinTimestamp"></div>
+      </div>
+      <div class="urna-container">
+        <div class="valsedel" id="valsedel">📄</div>
+        <div class="urna" id="urna"></div>
+      </div>
+      <button class="big-vote-btn" id="castVoteBtn" onclick="castVote()">✅ RÖSTA NU</button>
+      <div><span class="back-link" onclick="goBackToVal()">← Ändra mitt val</span></div>
+    </div>
+  </div>
+
+  <!-- Steg 3: Resultat -->
+  <div id="section-resultat" style="display:none;">
+    <div class="result-hero">
+      <span class="result-emoji" id="resultEmoji">🎉</span>
+      <div class="result-party-name" id="resultPartyName"></div>
+      <div style="font-size:0.9rem;color:var(--muted);margin-top:8px">Din röst är registrerad ✓</div>
+    </div>
+    <div class="result-comment" id="resultComment"></div>
+
+    <div class="sec-divider">🏛️ Riksdagen idag</div>
+    <div class="riksdag-visual">
+      <div class="semicircle-container"><canvas id="riksdagCanvas"></canvas></div>
+      <div class="mandate-count" id="mandateCount"></div>
+    </div>
+
+    <div class="sec-divider">📊 Partiernas stöd</div>
+    <div class="bars-container" id="barsContainer"></div>
+
+    <div class="koalition-box">
+      <div style="font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:14px;">⚖️ Koalitionskalkylator</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+        <div>
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:8px;">Högerblocket</div>
+          <div class="koalition-blok" id="rightBlok"></div>
+          <div class="blok-mandates" id="rightMandates" style="color:#3498db"></div>
+        </div>
+        <div>
+          <div style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:8px;">Vänsterblocket</div>
+          <div class="koalition-blok" id="leftBlok"></div>
+          <div class="blok-mandates" id="leftMandates" style="color:#e74c3c"></div>
+        </div>
+      </div>
+      <div class="majority-bar"><div class="majority-fill" id="majorityFill" style="width:0%"></div><div class="majority-marker"></div></div>
+      <div style="font-size:0.75rem;color:var(--muted);margin-top:10px;text-align:center;">Majoritet kräver 175 av 349 mandat</div>
+    </div>
+
+    <!-- Bonus CTAs -->
+    <div style="margin-top:36px;font-family:'Playfair Display',serif;font-size:1.3rem;margin-bottom:16px;">🎯 Utforska mer</div>
+    <div class="bonus-cta">
+      <div class="bonus-card" onclick="switchPage('page-personality',document.querySelectorAll('.nav-tab')[2])">
+        <span class="bonus-card-icon">😂</span>
+        <div class="bonus-card-title">Personlighetstest</div>
+        <div class="bonus-card-desc">Vad avslöjar ditt val om dig?</div>
+      </div>
+      <div class="bonus-card" onclick="switchPage('page-slumpa',document.querySelectorAll('.nav-tab')[1])">
+        <span class="bonus-card-icon">🎰</span>
+        <div class="bonus-card-title">Slumpa ditt val</div>
+        <div class="bonus-card-desc">Låt hjulet bestämma!</div>
+      </div>
+      <div class="bonus-card" onclick="switchPage('page-debatt',document.querySelectorAll('.nav-tab')[4])">
+        <span class="bonus-card-icon">🎤</span>
+        <div class="bonus-card-title">AI-Debatten</div>
+        <div class="bonus-card-desc">Se partierna debattera live</div>
+      </div>
+      <div class="bonus-card" onclick="switchPage('page-koalition',document.querySelectorAll('.nav-tab')[3])">
+        <span class="bonus-card-icon">⚖️</span>
+        <div class="bonus-card-title">Bygg regering</div>
+        <div class="bonus-card-desc">Dra-och-släpp din drömkoalition</div>
+      </div>
+    </div>
+
+    <button class="restart-btn" onclick="restartVal()">🔄 Rösta igen</button>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 2: SLUMPA
+════════════════════════════════════════════ -->
+<div class="page" id="page-slumpa">
+  <h2 class="sec-title">Slumpa ditt val</h2>
+  <p class="sec-desc">Kan du inte bestämma dig? Låt ödet avgöra! Snurra hjulet och se vilket parti du "borde" rösta på.</p>
+  <div class="wheel-page">
+    <div class="wheel-container">
+      <div class="wheel-pointer"></div>
+      <canvas id="wheelCanvas" width="720" height="720"></canvas>
+    </div>
+    <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎲 SNURRA!</button>
+
+    <div class="spin-result" id="spinResult">
+      <span class="spin-result-emoji" id="spinEmoji"></span>
+      <div class="spin-result-name" id="spinName"></div>
+      <div class="spin-result-fact" id="spinFact"></div>
+      <button class="vote-after-spin" onclick="voteAfterSpin()">🗳️ Rösta på detta parti →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 3: PERSONLIGHETSTEST
+════════════════════════════════════════════ -->
+<div class="page" id="page-personality">
+  <h2 class="sec-title">Personlighetstest</h2>
+  <p class="sec-desc">Välj ett parti – ta reda på vad ditt val avslöjar om dig. 100% vetenskapligt* <br><span style="font-size:0.72rem">*Inte alls vetenskapligt.</span></p>
+
+  <div class="personality-result" id="personalityResult">
+    <span class="pr-emoji" id="prEmoji"></span>
+    <div class="pr-party" id="prParty"></div>
+    <div class="pr-stereotype" id="prStereotype"></div>
+    <div class="pr-traits" id="prTraits"></div>
+    <button class="try-again-btn" onclick="resetPersonality()">← Testa ett annat parti</button>
+  </div>
+
+  <div id="personalityGrid">
+    <div class="personality-grid" id="pgGrid"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 4: KOALITIONSBYGGAREN
+════════════════════════════════════════════ -->
+<div class="page" id="page-koalition">
+  <h2 class="sec-title">Koalitionsbyggaren</h2>
+  <p class="sec-desc">Dra partier till din koalition. Kan du nå 175 mandat och bilda regering?</p>
+
+  <div class="coalition-builder">
+    <div>
+      <div class="coalition-pool-title">🏦 Tillgängliga partier</div>
+      <div class="coalition-pool" id="poolAvailable"></div>
+
+      <div class="coalition-pool-title">👑 Din koalition</div>
+      <div class="coalition-pool" id="poolCoalition"></div>
+
+      <p class="drag-hint">Dra partier mellan zonerna – eller klicka för att flytta</p>
+    </div>
+
+    <div>
+      <div class="riksdag-panel">
+        <div class="coalition-riksdag-title">🏛️ Riksdagen</div>
+        <canvas id="coalitionCanvas" class="riksdag-arc-mini" width="520" height="300"></canvas>
+        <div class="coalition-mandate-number" id="coalMandates">0</div>
+        <div class="coalition-mandate-label">av 349 mandat</div>
+        <div class="coalition-verdict no-majority" id="coalVerdict">❌ Ingen majoritet ännu</div>
+        <div class="coalition-members" id="coalMembers"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     PAGE 5: AI-DEBATTEN
+════════════════════════════════════════════ -->
+<div class="page" id="page-debatt">
+  <h2 class="sec-title">AI-Riksdagsdebatten</h2>
+  <p class="sec-desc">Välj två partier och ett ämne – AI genererar en riktig debatt mellan dem!</p>
+
+  <div class="debate-setup">
+    <div class="debate-party-row">
+      <div>
+        <div class="debate-pick-label">Parti 1</div>
+        <select class="debate-party-select" id="debatePart1">
+          <option value="">Välj parti...</option>
+        </select>
+      </div>
+      <div class="vs-badge">VS</div>
+      <div>
+        <div class="debate-pick-label">Parti 2</div>
+        <select class="debate-party-select" id="debatePart2">
+          <option value="">Välj parti...</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-bottom:8px;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);">Välj debattämne</div>
+    <div class="debate-topic-grid" id="debateTopics"></div>
+
+    <button class="start-debate-btn" id="startDebateBtn" onclick="startDebate()">🎤 Starta debatten!</button>
+  </div>
+
+  <div class="debate-loading" id="debateLoading">
+    <div style="font-size:1.2rem;font-weight:600;">Debatten pågår...</div>
+    <div style="color:var(--muted);margin-top:8px;font-size:0.88rem;">AI formulerar argument från båda sidor</div>
+    <div class="loading-dots">
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+      <div class="loading-dot"></div>
+    </div>
+  </div>
+
+  <div class="debate-stage" id="debateStage">
+    <div class="debate-header-row" id="debateHeaderRow"></div>
+    <div class="debate-messages" id="debateMessages"></div>
+    <button class="new-debate-btn" onclick="resetDebate()">← Ny debatt</button>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────
+const parties = [
+  { id:'s',  abbr:'S',  name:'Socialdemokraterna', emoji:'🌹', color:'#e74c3c',
+    tagline:'Trygghet och sammanhållning',
+    comment:'Du röstade på Socialdemokraterna – klassiskt val! Grundat 1889.',
+    pct:30.3, mandates:107, blok:'left',
+    fact:'Grundades 1889 och har lett Sverige i mer än 70 år. Världens mest framgångsrika politiska parti.',
+    stereotype:`Du dricker ditt morgonkaffe svart, prenumererar på LO-tidningen och har en stark åsikt om ATP-reformen. Du använder orden "solidaritet" och "välfärd" minst tre gånger per dag. Semestern tillbringas i Sverige – gärna i en stuga i Dalarna. Du äger förmodligen en folkvisor-skiva och minns exakt var du var när Olof Palme sköts.`,
+    traits:['Kollektivavtal-nörd 🏭','Sommarstugeperson 🏡','Pragmatisk idealist ⚖️','Fikar med grädde 🥐']
+  },
+  { id:'m',  abbr:'M',  name:'Moderaterna', emoji:'🔷', color:'#3498db',
+    tagline:'Fler jobb och lägre skatt',
+    comment:'Moderaterna – Sveriges näst största parti sedan 2006.',
+    pct:19.1, mandates:68, blok:'right',
+    fact:'Bildades 1904. Ledde Sverige 2006-2014 under Fredrik Reinfeldt med "Nya moderaterna".',
+    stereotype:`Du äger en SUV (gärna tysk), diskuterar RUT-avdrag med svärföräldrarna och har åsikter om det kommunala monopolet på sophämtning. Du gillar ordning och reda, punkt. Golfrunda på söndagen, gärna med affärskontakter. Du läser Dagens Industri och tror på att "arbete ska löna sig" – för dig personligen, och gärna för andra också.`,
+    traits:['SUV-entusiast 🚙','RUT-avdragsproffs 🧾','Golfspelar-wannabe ⛳','Läser DI dagligen 📰']
+  },
+  { id:'sd', abbr:'SD', name:'Sverigedemokraterna', emoji:'🌼', color:'#f39c12',
+    tagline:'Sverige ska vara Sverige',
+    comment:'SD – från litet parti 1988 till riksdagens tredje största.',
+    pct:20.5, mandates:73, blok:'right',
+    fact:'Grundades 1988. Kom in i riksdagen 2010 med 5,7% och är nu ett av de största partierna.',
+    stereotype:`Du saknar hur det var förr, men kan inte riktigt specificera exakt när "förr" var. Du äter köttbullar med lingonsylt varje söndag och har starka åsikter om julklappar i skolan. Du delar gärna Expressens förstasidor på Facebook och diskuterar med grannen om trafiken och hur mycket bättre allt var 1987.`,
+    traits:['Nostalgi-entusiast 🕰️','Köttbulls-patriot 🍖','Facebook-debattör 📱','Granne med åsikter 🏘️']
+  },
+  { id:'c',  abbr:'C',  name:'Centerpartiet', emoji:'🌱', color:'#27ae60',
+    tagline:'Frihet att forma framtiden',
+    comment:'Centerpartiet – ursprungligen bondeförbundet, nu liberalt.',
+    pct:6.7, mandates:24, blok:'right',
+    fact:'Grundat 1910 som Bondeförbundet. Bytte namn till Centerpartiet 1957.',
+    stereotype:`Du bor antingen på landet och tycker att staden inte förstår "det riktiga Sverige" – eller i en hipster-lägenhet i Stockholm och hatar bara stora statliga monopol i princip. Du cyklar, äter ekologiskt och har åsikter om landsbygdspolitik. Du är stolt över att vara "mittemellan" men vet inte riktigt var mitten är längre.`,
+    traits:['Ekologisk bonde 🌾','Stad-eller-land-paradox 🗺️','Frihetsmänniska 🦅','Cykelpendlare 🚲']
+  },
+  { id:'v',  abbr:'V',  name:'Vänsterpartiet', emoji:'✊', color:'#c0392b',
+    tagline:'Jämlikhet och solidaritet',
+    comment:'Vänsterpartiet – grundat 1921, feministiskt och socialistiskt.',
+    pct:6.7, mandates:24, blok:'left',
+    fact:'Grundades 1921 som Sveriges kommunistiska parti. Bytte namn 1990.',
+    stereotype:`Du har en tygkasse med ett feministiskt budskap, dricker oatmilk-latte och har läst hela Marx – eller åtminstone den roliga biten. Du protesterar mot saker regelbundet, bor i kollektiv (eller önskar det) och köper second hand av ideologiska skäl, inte ekonomiska. Din vän gruppen på Signal heter "Systrar i kamp" eller liknande.`,
+    traits:['Manifestation-proffs ✊','Oatmilk-loyalist 🥛','Second hand-legend 👗','Tygkasse-person 👜']
+  },
+  { id:'kd', abbr:'KD', name:'Kristdemokraterna', emoji:'✝️', color:'#8e44ad',
+    tagline:'Familjen och ansvaret',
+    comment:'KD – familjevärderingar och kristna värden i fokus.',
+    pct:5.3, mandates:19, blok:'right',
+    fact:'Grundades 1964. Ebba Busch är partiledare sedan 2019.',
+    stereotype:`Söndagarna är heliga – bokstavligen. Du har starka åsikter om familjevärderingar men är egentligen ganska schysst mot alla du möter. Du röstade på KD mest för att du gillar Ebba Busch och tycker att Sverige behöver "mer anständighet". Du äter frukost tillsammans med familjen, varje dag, vid bordet – inte framför TV:n.`,
+    traits:['Söndagsmässans stamgäst ⛪','Familjelunchen-entusiast 🍽️','Anständig medmänniska 😇','Ebba Busch-fan 📣']
+  },
+  { id:'mp', abbr:'MP', name:'Miljöpartiet', emoji:'🌍', color:'#2ecc71',
+    tagline:'Miljön och klimatet',
+    comment:'Miljöpartiet – grundat 1981, klimatfrågan är hjärtat.',
+    pct:5.1, mandates:18, blok:'left',
+    fact:'Grundades 1981. Var med i regeringen 2014-2021. Greta Thunberg är ett barnbarn av rörelsen.',
+    stereotype:`Du har beräknat ditt koldioxidavtryck tre gånger i år och ångrar din sista flygresan djupt. Du äter växtbaserat 6 av 7 dagar (den sjunde är en "cheat day" som du ångrar). Du komposterar, har solceller och cyklar i regn och rusk. Du säger "men planeten" minst en gång per dag och menar det.`,
+    traits:['Koldioxidräknare 🌡️','Vegansk 6/7 dagar 🥦','Kompostmästare ♻️','Regncyklist ☔']
+  },
+  { id:'l',  abbr:'L',  name:'Liberalerna', emoji:'💛', color:'#f1c40f',
+    tagline:'Kunskap och frihet',
+    comment:'Liberalerna – skola och individens frihet i centrum.',
+    pct:4.7, mandates:16, blok:'right',
+    fact:'Grundades 2015 (namnbyte från Folkpartiet). Betyg från åk 4 är en käpphäst.',
+    stereotype:`Du diskuterar skolpolitik och betyg vid VARJE middagsbjudning. Du har läst John Stuart Mill och refererar till honom oftare än folk är bekväma med. Du är genuint övertygad om att läxor bygger karaktär. Du är liberal, men inte den sortens liberal som folk tror, och du förklarar skillnaden varje gång det kommer på tal.`,
+    traits:['Betygsdebatten-veteran 📚','Mill-citatmaskin 📖','Läxa-förespråkare ✏️','"Men liberalism är ju egentligen..."-personen 🤓']
+  }
+];
+
+const debateTopics = [
+  { id:'skatt',    label:'💰 Skatterna', emoji:'💰' },
+  { id:'skola',    label:'📚 Skolan',   emoji:'📚' },
+  { id:'klimat',   label:'🌍 Klimatet', emoji:'🌍' },
+  { id:'migration',label:'🌐 Migration', emoji:'🌐' },
+  { id:'vardfard', label:'🏥 Välfärden', emoji:'🏥' },
+  { id:'lag',      label:'👮 Lag & Ordning', emoji:'👮' },
+  { id:'bostad',   label:'🏠 Bostäder', emoji:'🏠' },
+  { id:'nato',     label:'🛡️ NATO & Försvar', emoji:'🛡️' },
+];
+
+// ─────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────
+let selectedParty = null;
+let spinResult = null;
+let selectedDebateTopic = null;
+let coalitionParties = [];
+
+// ─────────────────────────────────────────────────────────
+// NAV
+// ─────────────────────────────────────────────────────────
+const pageTitles = {
+  'page-val':         ['Valsimulator',       'Upplev valdagen – välj parti, rösta, se resultatet'],
+  'page-slumpa':      ['Slumpa mitt val',     'Kan du inte bestämma dig? Låt ödet avgöra!'],
+  'page-personality': ['Personlighetstest',   'Vad avslöjar ditt parti om din personlighet?'],
+  'page-koalition':   ['Koalitionsbyggaren',  'Dra och bygg din drömregering'],
+  'page-debatt':      ['AI-Riksdagsdebatten', 'Se partierna debattera live med hjälp av AI'],
+};
+
+function switchPage(id, tabEl) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if (tabEl) tabEl.classList.add('active');
+  const [title, sub] = pageTitles[id] || ['', ''];
+  document.getElementById('pageTitle').textContent = title;
+  document.getElementById('pageSubtitle').textContent = sub;
+  window.scrollTo({ top:0, behavior:'smooth' });
+
+  if (id === 'page-koalition') initCoalitionBuilder();
+  if (id === 'page-slumpa') drawWheel();
+}
+
+// ─────────────────────────────────────────────────────────
+// BUILD PARTY CARDS (Valsimulator)
+// ─────────────────────────────────────────────────────────
+const grid = document.getElementById('partiesGrid');
+parties.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'party-card';
+  card.id = 'card-' + p.id;
+  card.style.setProperty('--party-color', p.color);
+  card.innerHTML = `
+    <div class="selected-check">✓</div>
+    <span class="party-emoji">${p.emoji}</span>
+    <div class="party-abbr">${p.abbr}</div>
+    <div class="party-name">${p.name}</div>
+    <div class="party-tagline">"${p.tagline}"</div>`;
+  card.onclick = () => selectParty(p.id);
+  grid.appendChild(card);
+});
+
+function selectParty(id) {
+  selectedParty = parties.find(p => p.id === id);
+  document.querySelectorAll('.party-card').forEach(c => { c.classList.remove('selected'); c.classList.add('dimmed'); });
+  document.getElementById('card-'+id).classList.replace('dimmed','selected');
+  document.getElementById('goToKabinBtn').classList.add('visible');
+}
+
+// ─────────────────────────────────────────────────────────
+// VALSIMULATOR FLOW
+// ─────────────────────────────────────────────────────────
+function showValSection(id) {
+  ['section-val','section-kabin','section-resultat'].forEach(s => {
+    document.getElementById(s).style.display = 'none';
+  });
+  document.getElementById(id).style.display = id === 'section-kabin' ? 'block' : 'block';
+}
+
+function goToKabin() {
+  if (!selectedParty) return;
+  showValSection('section-kabin');
+  updateStepper(2);
+  document.getElementById('kabinEmoji').textContent = selectedParty.emoji;
+  document.getElementById('kabinName').textContent = selectedParty.name;
+  document.getElementById('kabinName').style.color = selectedParty.color;
+  const now = new Date();
+  document.getElementById('kabinTimestamp').textContent =
+    `Valsedeln förberedd kl. ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`;
+  document.getElementById('valsedel').textContent = selectedParty.emoji;
+  document.getElementById('valsedel').style.opacity = '1';
+  const curtains = document.getElementById('kabinCurtains');
+  curtains.classList.remove('curtain-open');
+  document.getElementById('castVoteBtn').style.display = 'block';
+  document.getElementById('urna').classList.remove('shake');
+  document.getElementById('valsedel').classList.remove('dropping');
+  setTimeout(() => curtains.classList.add('curtain-open'), 400);
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function goBackToVal() {
+  showValSection('section-val');
+  updateStepper(1);
+}
+
+function castVote() {
+  document.getElementById('castVoteBtn').style.display = 'none';
+  document.getElementById('valsedel').classList.add('dropping');
+  setTimeout(() => document.getElementById('urna').classList.add('shake'), 800);
+  setTimeout(() => showResult(), 2000);
+}
+
+function showResult() {
+  showValSection('section-resultat');
+  updateStepper(3);
+  const p = selectedParty;
+  document.getElementById('resultEmoji').textContent = p.emoji;
+  document.getElementById('resultPartyName').textContent = p.name;
+  document.getElementById('resultPartyName').style.color = p.color;
+  document.getElementById('resultComment').textContent = p.comment;
+  launchConfetti(p.color);
+  drawRiksdag();
+  buildBars();
+  buildKoalitionResult();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function updateStepper(step) {
+  [1,2,3].forEach(n => {
+    const el = document.getElementById('step'+n);
+    el.className = 'step';
+    if (n < step) el.classList.add('done');
+    else if (n === step) el.classList.add('active');
+  });
+}
+
+function restartVal() {
+  selectedParty = null;
+  document.querySelectorAll('.party-card').forEach(c => c.classList.remove('selected','dimmed'));
+  document.getElementById('goToKabinBtn').classList.remove('visible');
+  showValSection('section-val');
+  updateStepper(1);
+}
+
+// ─────────────────────────────────────────────────────────
+// RIKSDAG HALVMÅNE
+// ─────────────────────────────────────────────────────────
+function drawRiksdag() {
+  const canvas = document.getElementById('riksdagCanvas');
+  const cont = canvas.parentElement;
+  canvas.width = cont.clientWidth * 2;
+  canvas.height = 520;
+  canvas.style.width = '100%'; canvas.style.height = '260px';
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H-40, total = 349;
+  const sorted = [...parties].sort((a,b) => (a.blok==='right'?0:1)-(b.blok==='right'?0:1));
+  let ang = Math.PI;
+  sorted.forEach(p => {
+    const sweep = (p.mandates/total)*Math.PI;
+    for (let r=180; r<=440; r+=65) {
+      ctx.beginPath(); ctx.arc(cx,cy,r*2,ang,ang+sweep);
+      ctx.strokeStyle = p.id===selectedParty?.id ? p.color : p.color+'bb';
+      ctx.lineWidth = 55; ctx.stroke();
+    }
+    ang += sweep;
+  });
+  ctx.fillStyle='#fff'; ctx.textAlign='center';
+  ctx.font=`bold 60px Playfair Display,serif`;
+  ctx.fillText('349',cx,cy-80);
+  ctx.font=`30px IBM Plex Sans,sans-serif`;
+  ctx.fillStyle='#8899bb'; ctx.fillText('mandat',cx,cy-40);
+  ctx.beginPath(); ctx.moveTo(cx,cy-20); ctx.lineTo(cx,cy-500);
+  ctx.strokeStyle='rgba(245,200,66,0.5)'; ctx.lineWidth=4;
+  ctx.setLineDash([8,6]); ctx.stroke(); ctx.setLineDash([]);
+  document.getElementById('mandateCount').textContent =
+    `Ditt parti (${selectedParty.abbr}) fick ${selectedParty.mandates} av 349 mandat`;
+}
+
+function buildBars() {
+  const cont = document.getElementById('barsContainer');
+  cont.innerHTML = '';
+  [...parties].sort((a,b)=>b.pct-a.pct).forEach((p,i) => {
+    const row = document.createElement('div');
+    row.className = 'bar-row' + (p.id===selectedParty?.id?' my-vote':'');
+    row.innerHTML = `
+      <div class="bar-label" style="--party-color:${p.color}">${p.abbr}</div>
+      <div class="bar-track">
+        <div class="bar-fill" id="bar-${p.id}" style="background:${p.color}">${p.pct}%</div>
+      </div>
+      <div class="bar-pct">${p.mandates}</div>`;
+    cont.appendChild(row);
+    setTimeout(() => {
+      row.classList.add('revealed');
+      setTimeout(() => { document.getElementById('bar-'+p.id).style.width = (p.pct/35*100)+'%'; }, 100);
+    }, i*120);
+  });
+}
+
+function buildKoalitionResult() {
+  const rp = parties.filter(p=>p.blok==='right');
+  const lp = parties.filter(p=>p.blok==='left');
+  const rM = rp.reduce((s,p)=>s+p.mandates,0);
+  const lM = lp.reduce((s,p)=>s+p.mandates,0);
+  document.getElementById('rightBlok').innerHTML = rp.map(p=>`<span class="blok-tag" style="color:${p.color};border-color:${p.color};background:${p.color}18">${p.abbr}</span>`).join('');
+  document.getElementById('leftBlok').innerHTML  = lp.map(p=>`<span class="blok-tag" style="color:${p.color};border-color:${p.color};background:${p.color}18">${p.abbr}</span>`).join('');
+  document.getElementById('rightMandates').textContent = `${rM} mandat ${rM>=175?'✅':'❌'}`;
+  document.getElementById('leftMandates').textContent  = `${lM} mandat ${lM>=175?'✅':'❌'}`;
+  setTimeout(() => { document.getElementById('majorityFill').style.width = (rM/349*100)+'%'; }, 500);
+}
+
+// ─────────────────────────────────────────────────────────
+// SLUMPA – WHEEL
+// ─────────────────────────────────────────────────────────
+let wheelAngle = 0, isSpinning = false;
+
+function drawWheel(highlightIdx = -1) {
+  const canvas = document.getElementById('wheelCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H/2, r = W/2 - 10;
+  ctx.clearRect(0,0,W,H);
+  const n = parties.length;
+  const arc = (Math.PI*2)/n;
+
+  parties.forEach((p, i) => {
+    const start = wheelAngle + i*arc - Math.PI/2;
+    const end   = start + arc;
+    ctx.beginPath();
+    ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,end); ctx.closePath();
+    ctx.fillStyle = i===highlightIdx ? '#fff' : p.color;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(0,0,0,0.3)'; ctx.lineWidth = 3; ctx.stroke();
+
+    // Label
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(start + arc/2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#fff';
+    ctx.font = `bold 28px IBM Plex Sans,sans-serif`;
+    ctx.fillText(p.abbr, r-24, 10);
+    ctx.font = `40px sans-serif`;
+    ctx.fillText(p.emoji, r-110, 16);
+    ctx.restore();
+  });
+
+  // Center circle
+  ctx.beginPath(); ctx.arc(cx,cy,40,0,Math.PI*2);
+  ctx.fillStyle = '#0a0e1a'; ctx.fill();
+  ctx.strokeStyle = 'rgba(245,200,66,0.6)'; ctx.lineWidth = 4; ctx.stroke();
+  ctx.fillStyle = '#f5c842'; ctx.textAlign = 'center';
+  ctx.font = 'bold 24px IBM Plex Sans,sans-serif';
+  ctx.fillText('🗳️',cx,cy+9);
+}
+
+function spinWheel() {
+  if (isSpinning) return;
+  isSpinning = true;
+  document.getElementById('spinBtn').disabled = true;
+  document.getElementById('spinResult').classList.remove('show');
+
+  const totalSpin = Math.PI*2 * (5 + Math.random()*5) + Math.random()*Math.PI*2;
+  const duration = 3500 + Math.random()*1500;
+  const startTime = performance.now();
+  const startAngle = wheelAngle;
+
+  function ease(t) { return 1 - Math.pow(1-t, 3); }
+
+  function animate(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed/duration, 1);
+    wheelAngle = startAngle + totalSpin * ease(t);
+    drawWheel();
+    if (t < 1) { requestAnimationFrame(animate); }
+    else {
+      isSpinning = false;
+      document.getElementById('spinBtn').disabled = false;
+      // Find winner
+      const n = parties.length;
+      const arc = Math.PI*2/n;
+      const pointer = Math.PI/2; // top
+      let normalized = ((Math.PI/2 - wheelAngle) % (Math.PI*2) + Math.PI*2) % (Math.PI*2);
+      const idx = Math.floor(normalized/arc) % n;
+      spinResult = parties[idx];
+      drawWheel(idx);
+      showSpinResult(spinResult);
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+function showSpinResult(p) {
+  document.getElementById('spinEmoji').textContent = p.emoji;
+  document.getElementById('spinName').textContent = p.name;
+  document.getElementById('spinFact').textContent = p.fact;
+  document.getElementById('spinResult').classList.add('show');
+  launchConfetti(p.color);
+}
+
+function voteAfterSpin() {
+  if (!spinResult) return;
+  selectedParty = spinResult;
+  switchPage('page-val', document.querySelectorAll('.nav-tab')[0]);
+  setTimeout(() => {
+    document.querySelectorAll('.party-card').forEach(c => { c.classList.remove('selected'); c.classList.add('dimmed'); });
+    document.getElementById('card-'+spinResult.id).classList.replace('dimmed','selected');
+    document.getElementById('goToKabinBtn').classList.add('visible');
+    setTimeout(() => goToKabin(), 600);
+  }, 300);
+}
+
+// ─────────────────────────────────────────────────────────
+// PERSONLIGHETSTEST
+// ─────────────────────────────────────────────────────────
+const pgGrid = document.getElementById('pgGrid');
+parties.forEach(p => {
+  const card = document.createElement('div');
+  card.className = 'personality-card';
+  card.innerHTML = `
+    <span class="personality-card-emoji">${p.emoji}</span>
+    <div class="personality-card-label" style="color:${p.color}">${p.abbr}</div>
+    <div class="personality-card-sub">${p.name}</div>`;
+  card.onclick = () => showPersonality(p);
+  pgGrid.appendChild(card);
+});
+
+function showPersonality(p) {
+  document.getElementById('prEmoji').textContent = p.emoji;
+  document.getElementById('prParty').textContent = p.name;
+  document.getElementById('prParty').style.color = p.color;
+  document.getElementById('prStereotype').textContent = p.stereotype;
+  document.getElementById('prTraits').innerHTML = p.traits.map(t =>
+    `<span class="pr-trait">${t}</span>`).join('');
+  document.getElementById('personalityGrid').style.display = 'none';
+  document.getElementById('personalityResult').classList.add('show');
+}
+
+function resetPersonality() {
+  document.getElementById('personalityGrid').style.display = 'block';
+  document.getElementById('personalityResult').classList.remove('show');
+}
+
+// ─────────────────────────────────────────────────────────
+// KOALITIONSBYGGAREN
+// ─────────────────────────────────────────────────────────
+function initCoalitionBuilder() {
+  coalitionParties = [];
+  renderCoalitionPools();
+  drawCoalitionArc();
+}
+
+function renderCoalitionPools() {
+  const available = parties.filter(p => !coalitionParties.find(c=>c.id===p.id));
+  const poolA = document.getElementById('poolAvailable');
+  const poolC = document.getElementById('poolCoalition');
+
+  poolA.innerHTML = '';
+  poolC.innerHTML = '';
+
+  available.forEach(p => {
+    const chip = makeChip(p, false);
+    poolA.appendChild(chip);
+  });
+  coalitionParties.forEach(p => {
+    const chip = makeChip(p, true);
+    poolC.appendChild(chip);
+  });
+
+  // Drag-over styling
+  [poolA, poolC].forEach(pool => {
+    pool.ondragover = e => { e.preventDefault(); pool.classList.add('drag-over'); };
+    pool.ondragleave = () => pool.classList.remove('drag-over');
+    pool.ondrop = e => {
+      e.preventDefault(); pool.classList.remove('drag-over');
+      const id = e.dataTransfer.getData('text/plain');
+      const p = parties.find(x=>x.id===id);
+      if (!p) return;
+      if (pool.id === 'poolCoalition' && !coalitionParties.find(c=>c.id===id)) {
+        coalitionParties.push(p);
+      } else if (pool.id === 'poolAvailable') {
+        coalitionParties = coalitionParties.filter(c=>c.id!==id);
+      }
+      renderCoalitionPools();
+      drawCoalitionArc();
+    };
+  });
+
+  updateCoalitionStats();
+}
+
+function makeChip(p, inCoalition) {
+  const chip = document.createElement('div');
+  chip.className = 'coalition-chip';
+  chip.draggable = true;
+  chip.style.color = p.color;
+  chip.style.borderColor = p.color;
+  chip.style.background = p.color+'18';
+  chip.innerHTML = `${p.emoji} ${p.abbr}`;
+  chip.dataset.id = p.id;
+
+  chip.ondragstart = e => {
+    e.dataTransfer.setData('text/plain', p.id);
+    chip.classList.add('dragging');
+  };
+  chip.ondragend = () => chip.classList.remove('dragging');
+
+  // Click to toggle
+  chip.onclick = () => {
+    if (inCoalition) {
+      coalitionParties = coalitionParties.filter(c=>c.id!==p.id);
+    } else {
+      if (!coalitionParties.find(c=>c.id===p.id)) coalitionParties.push(p);
+    }
+    renderCoalitionPools();
+    drawCoalitionArc();
+  };
+  return chip;
+}
+
+function updateCoalitionStats() {
+  const total = coalitionParties.reduce((s,p)=>s+p.mandates,0);
+  document.getElementById('coalMandates').textContent = total;
+  const verdict = document.getElementById('coalVerdict');
+  const members = document.getElementById('coalMembers');
+  if (total >= 175) {
+    verdict.textContent = '✅ Majoritet! Ni kan bilda regering!';
+    verdict.className = 'coalition-verdict majority';
+    launchConfetti('#4ade80');
+  } else {
+    verdict.textContent = `❌ ${175-total} mandat till majoritet`;
+    verdict.className = 'coalition-verdict no-majority';
+  }
+  members.innerHTML = coalitionParties.map(p =>
+    `<span class="blok-tag" style="color:${p.color};border-color:${p.color};background:${p.color}18">${p.emoji}${p.abbr} ${p.mandates}</span>`
+  ).join('');
+}
+
+function drawCoalitionArc() {
+  const canvas = document.getElementById('coalitionCanvas');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const cx = W/2, cy = H-10, total = 349;
+  ctx.clearRect(0,0,W,H);
+
+  const coalIds = new Set(coalitionParties.map(p=>p.id));
+  const sorted = [...parties].sort((a,b)=>coalIds.has(b.id)?1:coalIds.has(a.id)?-1:0);
+
+  let ang = Math.PI;
+  sorted.forEach(p => {
+    const sweep = (p.mandates/total)*Math.PI;
+    for (let r=70; r<=180; r+=30) {
+      ctx.beginPath(); ctx.arc(cx,cy,r,ang,ang+sweep);
+      ctx.strokeStyle = coalIds.has(p.id) ? p.color : p.color+'44';
+      ctx.lineWidth = 22; ctx.stroke();
+    }
+    ang += sweep;
+  });
+  // 175 line
+  ctx.save();
+  ctx.translate(cx,cy);
+  ctx.rotate(0);
+  ctx.beginPath(); ctx.moveTo(0,-60); ctx.lineTo(0,-195);
+  ctx.strokeStyle='rgba(245,200,66,0.7)'; ctx.lineWidth=2;
+  ctx.setLineDash([4,4]); ctx.stroke(); ctx.setLineDash([]);
+  ctx.restore();
+
+  updateCoalitionStats();
+}
+
+// ─────────────────────────────────────────────────────────
+// AI DEBATT
+// ─────────────────────────────────────────────────────────
+// Populate selects
+const sel1 = document.getElementById('debatePart1');
+const sel2 = document.getElementById('debatePart2');
+parties.forEach(p => {
+  sel1.innerHTML += `<option value="${p.id}">${p.emoji} ${p.name}</option>`;
+  sel2.innerHTML += `<option value="${p.id}">${p.emoji} ${p.name}</option>`;
+});
+sel2.value = parties[1].id; // default different
+
+// Topics
+const topicsEl = document.getElementById('debateTopics');
+debateTopics.forEach(t => {
+  const chip = document.createElement('div');
+  chip.className = 'topic-chip';
+  chip.textContent = t.label;
+  chip.onclick = () => {
+    document.querySelectorAll('.topic-chip').forEach(c=>c.classList.remove('selected'));
+    chip.classList.add('selected');
+    selectedDebateTopic = t;
+  };
+  topicsEl.appendChild(chip);
+});
+// Select first topic by default
+topicsEl.firstChild.click();
+
+async function startDebate() {
+  const id1 = document.getElementById('debatePart1').value;
+  const id2 = document.getElementById('debatePart2').value;
+  if (!id1 || !id2) { alert('Välj två partier!'); return; }
+  if (id1 === id2) { alert('Välj två olika partier!'); return; }
+  if (!selectedDebateTopic) { alert('Välj ett debattämne!'); return; }
+
+  const p1 = parties.find(p=>p.id===id1);
+  const p2 = parties.find(p=>p.id===id2);
+  const topic = selectedDebateTopic;
+
+  document.getElementById('debateSetup') && null;
+  document.querySelector('.debate-setup').style.display = 'none';
+  document.getElementById('debateLoading').classList.add('show');
+  document.getElementById('debateStage').classList.remove('show');
+
+  const prompt = `Du är en hjälpande assistent som simulerar en svenska riksdagsdebatt.
+
+Skapa en kort, engagerande och pedagogisk debatt på SVENSKA mellan ${p1.name} och ${p2.name} om ämnet: "${topic.label.replace(/[^a-öA-Ö\s]/g,'').trim()}".
+
+Skriv EXAKT 6 inlägg (3 per parti, alternerande, ${p1.name} börjar).
+
+Varje inlägg ska:
+- Vara 2-3 meningar
+- Tydligt återspegla partiets faktiska politiska linje
+- Vara respektfullt men tydligt argumenterande
+- Innehålla ett konkret förslag eller argument
+
+Svara ENDAST med ett JSON-objekt i detta format (inga andra tecken utanför JSON):
+{
+  "debate": [
+    {"party": "${p1.id}", "text": "..."},
+    {"party": "${p2.id}", "text": "..."},
+    {"party": "${p1.id}", "text": "..."},
+    {"party": "${p2.id}", "text": "..."},
+    {"party": "${p1.id}", "text": "..."},
+    {"party": "${p2.id}", "text": "..."}
+  ]
+}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role:'user', content: prompt }]
+      })
+    });
+
+    const data = await res.json();
+    const raw = data.content?.find(c=>c.type==='text')?.text || '{}';
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    renderDebate(p1, p2, topic, parsed.debate || []);
+  } catch(e) {
+    console.error(e);
+    document.getElementById('debateLoading').classList.remove('show');
+    document.querySelector('.debate-setup').style.display = 'block';
+    alert('Något gick fel med AI-anropet. Försök igen!');
+  }
+}
+
+function renderDebate(p1, p2, topic, messages) {
+  document.getElementById('debateLoading').classList.remove('show');
+
+  // Header
+  const header = document.getElementById('debateHeaderRow');
+  header.innerHTML = `
+    <div class="debater-info">
+      <span class="debater-emoji">${p1.emoji}</span>
+      <div class="debater-name" style="color:${p1.color}">${p1.name}</div>
+    </div>
+    <div class="debate-topic-badge">${topic.emoji} ${topic.label.replace(/[^a-öA-Ö\s]/g,'').trim()}</div>
+    <div class="debater-info">
+      <span class="debater-emoji">${p2.emoji}</span>
+      <div class="debater-name" style="color:${p2.color}">${p2.name}</div>
+    </div>`;
+
+  // Messages
+  const msgCont = document.getElementById('debateMessages');
+  msgCont.innerHTML = '';
+
+  messages.forEach((msg, i) => {
+    const p = parties.find(x=>x.id===msg.party);
+    if (!p) return;
+    const isLeft = msg.party === p1.id;
+    const bubble = document.createElement('div');
+    bubble.className = `debate-msg ${isLeft?'left':'right'}`;
+    bubble.style.animationDelay = `${i*0.3}s`;
+    bubble.innerHTML = `
+      <div class="debate-avatar" style="border-color:${p.color};background:${p.color}22">
+        ${p.emoji}
+      </div>
+      <div class="debate-bubble" style="${!isLeft?`background:${p.color}18;border-color:${p.color}44`:``}">
+        <div class="debate-speaker-label" style="color:${p.color}">${p.abbr}</div>
+        ${msg.text}
+      </div>`;
+    msgCont.appendChild(bubble);
+  });
+
+  document.getElementById('debateStage').classList.add('show');
+}
+
+function resetDebate() {
+  document.querySelector('.debate-setup').style.display = 'block';
+  document.getElementById('debateStage').classList.remove('show');
+}
+
+// ─────────────────────────────────────────────────────────
+// CONFETTI
+// ─────────────────────────────────────────────────────────
+let confettiRunning = false;
+function launchConfetti(baseColor) {
+  if (confettiRunning) return;
+  confettiRunning = true;
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  const colors = [baseColor,'#f5c842','#ffffff','#4ade80',baseColor+'aa'];
+  const pieces = Array.from({length:160}, () => ({
+    x: Math.random()*canvas.width, y:-20-Math.random()*200,
+    w:8+Math.random()*10, h:5+Math.random()*6,
+    color:colors[Math.floor(Math.random()*colors.length)],
+    vy:2+Math.random()*4, vx:(Math.random()-0.5)*3,
+    rot:Math.random()*360, rotV:(Math.random()-0.5)*8, opacity:1
+  }));
+
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive = false;
+    pieces.forEach(p => {
+      if (p.y < canvas.height+20) {
+        alive = true; p.y+=p.vy; p.x+=p.vx; p.rot+=p.rotV;
+        if (p.y > canvas.height*0.6) p.opacity = Math.max(0,p.opacity-0.012);
+        ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+        ctx.globalAlpha=p.opacity; ctx.fillStyle=p.color;
+        ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h); ctx.restore();
+      }
+    });
+    if (alive) requestAnimationFrame(draw);
+    else { ctx.clearRect(0,0,canvas.width,canvas.height); confettiRunning=false; }
+  }
+  draw();
+
+  // Fanfare
+  try {
+    const ac = new (window.AudioContext||window.webkitAudioContext)();
+    [523.25,659.25,783.99,1046.5].forEach((freq,i) => {
+      const o=ac.createOscillator(), g=ac.createGain();
+      o.connect(g); g.connect(ac.destination);
+      o.frequency.value=freq; o.type='sine';
+      g.gain.setValueAtTime(0.15,ac.currentTime+i*0.12);
+      g.gain.exponentialRampToValueAtTime(0.001,ac.currentTime+i*0.12+0.3);
+      o.start(ac.currentTime+i*0.12); o.stop(ac.currentTime+i*0.12+0.4);
+    });
+  } catch(e){}
+}
+
+// ─────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────
+drawWheel();
+</script>
+</body>
+</html>
