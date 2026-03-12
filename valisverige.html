@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Val och regeringsbildning – från röst till regering</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Skandinavisk Vival-palett */
+  --bg-main:   #F8FAFC;
+  --surface:   #FFFFFF;
+  --text-dark: #0F172A;
+  --text-p:    #334155;
+  --text-dim:  #64748B;
+  
+  --swe-blue:  #005293;
+  --swe-gold:  #FECB00;
+  
+  --val-gul:   #FEF08A; /* Riksdagen */
+  --val-bla:   #BAE6FD; /* Regionen */
+  --val-vit:   #F1F5F9; /* Kommunen */
+  
+  --border:    #E2E8F0;
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-main);
+  color: var(--text-p);
+  font-family: var(--sans);
+  font-size: 20px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 5px; width: 0%;
+  background: linear-gradient(90deg, var(--swe-blue), var(--swe-gold));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 80vh;
+  background: var(--surface);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 82, 147, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 82, 147, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 100%, rgba(254, 203, 0, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--swe-blue); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards; z-index: 2; font-weight: 700;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(38px, 6vw, 80px);
+  font-weight: 900; line-height: 1.1;
+  color: var(--text-dark);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.4s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--swe-gold); font-style: italic; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 750px; line-height: 1.5; margin-bottom: 48px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim); white-space: nowrap; font-weight: 700;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900; line-height: 1.2;
+  color: var(--text-dark); margin-bottom: 24px;
+}
+h2 em { color: var(--swe-blue); font-style: italic; }
+
+p { margin-bottom: 24px; }
+strong { color: var(--text-dark); font-weight: 700; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -60px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--swe-gold);
+  background: linear-gradient(135deg, var(--swe-gold-lt), transparent);
+  position: relative;
+  border-radius: 0 12px 12px 0;
+}
+.pullquote p {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--text-dark); line-height: 1.4;
+  margin: 0;
+}
+
+/* ── INTERACTIVE: THE THREE BALLOTS ── */
+.ballot-section { margin: 80px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+.bal-header { text-align: center; margin-bottom: 30px; }
+.bal-title { font-family: var(--serif); font-size: 28px; color: var(--text-dark); font-weight: 900; margin-bottom: 8px;}
+.bal-sub { font-size: 16px; color: var(--text-dim); }
+
+.ballot-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.b-card { flex: 1; min-width: 180px; padding: 30px 20px; border-radius: 8px; text-align: center; cursor: pointer; transition: all 0.3s; border: 1px solid var(--border); position: relative; overflow: hidden;}
+.b-card:hover, .b-card.active { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+
+.bc-yellow { background: var(--val-gul); border-color: #EAB308; }
+.bc-blue { background: var(--val-bla); border-color: #38BDF8; }
+.bc-white { background: var(--val-vit); border-color: #CBD5E0; }
+
+.b-icon { font-size: 40px; margin-bottom: 12px; display: block; }
+.b-name { font-family: var(--sans); font-size: 18px; font-weight: 700; color: var(--text-dark); }
+.b-hint { font-family: var(--mono); font-size: 10px; text-transform: uppercase; color: var(--text-dim); margin-top: 8px; font-weight: 700;}
+
+.bal-panel { display: none; animation: fadeUp 0.3s ease; background: var(--bg-main); padding: 30px; border-radius: 8px; border-left: 4px solid var(--border); }
+.bal-panel.active { display: block; }
+.bp-title { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;}
+.bp-text { font-size: 17px; color: var(--text-p); line-height: 1.6; margin: 0; }
+
+/* ── INTERACTIVE: PROPORTIONAL REPRESENTATION ── */
+.prop-section { margin: 80px 0; background: var(--swe-blue); color: #fff; border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,82,147,0.1); }
+.p-header { text-align: center; margin-bottom: 30px; }
+.p-title { font-family: var(--serif); font-size: 28px; font-weight: 900; margin-bottom: 8px;}
+.p-sub { font-size: 16px; color: rgba(255,255,255,0.8); }
+
+.chart-container { display: flex; align-items: center; gap: 40px; }
+.chart-circle { width: 200px; height: 200px; border-radius: 50%; background: conic-gradient(
+  #10B981 0% 40%, 
+  #EF4444 40% 70%, 
+  #F59E0B 70% 95%, 
+  #64748B 95% 100%
+); border: 8px solid rgba(255,255,255,0.1); flex-shrink: 0; box-shadow: 0 0 20px rgba(0,0,0,0.2);}
+
+.chart-legend { flex: 1; display: flex; flex-direction: column; gap: 12px; }
+.legend-item { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 6px; cursor: pointer; transition: background 0.2s;}
+.legend-item:hover { background: rgba(255,255,255,0.2); }
+.li-color { width: 16px; height: 16px; border-radius: 4px; display: inline-block; margin-right: 12px; }
+.li-text { font-family: var(--sans); font-size: 16px; font-weight: 600; flex: 1; }
+.li-stats { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--swe-gold); }
+
+.prop-desc { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 8px; margin-top: 24px; font-size: 16px; line-height: 1.6; display: none; animation: fadeUp 0.3s ease; border-left: 3px solid var(--swe-gold);}
+.prop-desc.active { display: block; }
+
+/* ── INTERACTIVE: GOVERNMENT BUILDER ── */
+.gov-section { margin: 80px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px; text-align: center; }
+.g-title { font-family: var(--serif); font-size: 28px; color: var(--text-dark); font-weight: 900; margin-bottom: 12px; }
+.g-sub { font-size: 16px; color: var(--text-dim); margin-bottom: 30px; }
+
+.gov-scale { position: relative; height: 10px; background: var(--border); border-radius: 5px; margin: 40px 0; }
+.gov-fill { position: absolute; left: 0; top: 0; height: 100%; background: var(--swe-blue); border-radius: 5px; transition: width 0.5s ease; width: 30%; }
+.gov-marker { position: absolute; left: 50%; top: -15px; bottom: -15px; width: 4px; background: var(--text-dark); z-index: 2; }
+.gov-marker::after { content: '175 Mandat (Majoritet)'; position: absolute; top: -25px; left: -75px; width: 150px; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--text-dark); }
+
+.gov-buttons { display: flex; justify-content: center; gap: 16px; margin-bottom: 30px; }
+.gb-btn { background: var(--bg-main); border: 1px solid var(--border); padding: 12px 24px; border-radius: 30px; font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.gb-btn:hover { border-color: var(--swe-blue); color: var(--swe-blue); }
+.gb-btn.active { background: var(--swe-blue); border-color: var(--swe-blue); color: #fff; }
+
+.gov-info { background: var(--bg-main); padding: 24px; border-radius: 8px; font-size: 16px; color: var(--text-p); line-height: 1.6; text-align: left; border-left: 4px solid var(--swe-blue); min-height: 100px; transition: all 0.3s;}
+
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 40vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.9);
+  background-image: url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(248, 250, 252, 0.8) 30%, rgba(248, 250, 252, 0.8) 70%, var(--bg-main) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 2px 10px rgba(255,255,255,0.9); margin: 0; color: var(--text-dark); line-height: 1.3; font-weight: 900;}
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: var(--text-dark); border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px; color: #fff;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--swe-gold); margin-bottom: 14px; font-weight: 700;}
+.teacher-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 620px; line-height: 1.6; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+  padding: 12px 24px; border-radius: 6px; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--swe-blue); color: #fff; background: var(--swe-blue); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(254,203,0,0.5); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: var(--serif); font-size: 22px; color: #fff; margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; margin:0; }
+.q-list li { font-size: 17px; color: rgba(255,255,255,0.8); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--swe-gold); font-weight: bold;}
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 40px; }
+.quiz-wrap h3 { font-family: var(--serif); font-size: 26px; color: #fff; font-weight: 900; margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 32px; }
+.quiz-start-btn { background: var(--swe-gold); border: none; color: var(--text-dark); padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: #FACC15; }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--swe-gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;}
+.quiz-progress-bar-wrap { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--swe-gold); border-radius: 3px; transition: width 0.3s; }
+.quiz-q-text { font-family: var(--serif); font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 18px 24px; border-radius: 8px; cursor: pointer; color: #fff; text-align: left; font-family: var(--sans); font-size: 17px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--swe-blue); background: rgba(0, 82, 147, 0.2); }
+.quiz-opt.correct { border-color: #27AE60; background: rgba(39,174,96,0.2); color: #fff; }
+.quiz-opt.wrong { border-color: #E53E3E; background: rgba(229,62,62,0.2); color: #fff; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--text-dark); background: var(--swe-gold); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; border: 1px solid transparent;}
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: white;}
+.quiz-opt.wrong .quiz-letter { background: #E53E3E; color: white;}
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(0, 82, 147, 0.1); border: 1px solid rgba(0, 82, 147, 0.3); border-left: 4px solid var(--swe-blue); font-size: 16px; color: #fff; line-height: 1.6; display: none; border-radius: 8px; }
+.quiz-next-btn { margin-top: 24px; background: var(--swe-blue); color: #fff; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: #003B6B; }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--swe-blue), #003B6B); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 20px rgba(0, 82, 147, 0.2); color: white; }
+.score-num { font-family: var(--serif); font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.9; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 40px 24px 60px; }
+  .pullquote { margin: 40px 0; padding: 30px 24px; border-radius: 8px; border-left-width: 3px;}
+  .chart-container { flex-direction: column; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-gradient"></div>
+  
+  <div class="hero-label">Samhällskunskap · Sveriges Statsskick</div>
+
+  <h1>Val och regeringsbildning – <em>från röst till regering</em></h1>
+  <p class="hero-sub">I en demokrati är valet grunden för all politisk makt. Men vägen från vallokalen till att en statsminister kliver in på kontoret är längre än många tror.</p>
+
+</section>
+
+<article class="article">
+
+  <p style="font-size:22px; color:var(--text-dark); line-height:1.7; margin-bottom:40px;">
+    I en demokrati är valen grunden för all politisk makt. Det är genom val som medborgarna bestämmer vilka politiker som ska representera dem och fatta beslut i deras ställe. I Sverige hålls allmänna val regelbundet, och efter varje val börjar den komplicerade processen som leder fram till att en ny regering bildas.
+  </p>
+
+  <div class="section-marker"><span>De tre valen</span></div>
+  <h2>Allmänna val i <em>Sverige</em></h2>
+
+  <p>I Sverige hålls <strong>allmänna val vart fjärde år</strong> (den andra söndagen i september). Samma dag röstar väljarna faktiskt i tre helt olika val samtidigt. Dessutom hålls val till Europaparlamentet vart femte år.</p>
+
+  <div class="ballot-section">
+    <div class="bal-header">
+      <div class="bal-title">Färgerna i vallokalen</div>
+      <div class="bal-sub">Klicka på de tre valsedlarna för att se vilka regler som gäller för varje val.</div>
+    </div>
+    
+    <div class="ballot-grid">
+      <div class="b-card bc-yellow active" onclick="switchBal('riks', this)">
+        <span class="b-icon">🏛️</span>
+        <div class="b-name">Riksdagen</div>
+        <div class="b-hint">Klicka för regler</div>
+      </div>
+      <div class="b-card bc-blue" onclick="switchBal('reg', this)">
+        <span class="b-icon">🏥</span>
+        <div class="b-name">Regionen</div>
+        <div class="b-hint">Klicka för regler</div>
+      </div>
+      <div class="b-card bc-white" onclick="switchBal('kom', this)">
+        <span class="b-icon">🏫</span>
+        <div class="b-name">Kommunen</div>
+        <div class="b-hint">Klicka för regler</div>
+      </div>
+    </div>
+
+    <div class="bal-panel active" id="bal-riks" style="border-color: #EAB308;">
+      <div class="bp-title">Gula valsedlar: Riksdagen</div>
+      <p class="bp-text">För att få rösta i riksdagsvalet, det val som styr hela landets lagar och budget, är kraven strikta: Du <strong>måste</strong> ha fyllt 18 år och du <strong>måste</strong> vara svensk medborgare.</p>
+    </div>
+    <div class="bal-panel" id="bal-reg" style="border-color: #38BDF8;">
+      <div class="bp-title">Blåa valsedlar: Regionfullmäktige</div>
+      <p class="bp-text">Regionvalet handlar mycket om din lokala sjukvård och kollektivtrafik. Här är reglerna mildare: Även vissa utländska medborgare får rösta, förutsatt att de varit folkbokförda i Sverige i tre år i rad.</p>
+    </div>
+    <div class="bal-panel" id="bal-kom" style="border-color: #CBD5E0;">
+      <div class="bp-title">Vita valsedlar: Kommunfullmäktige</div>
+      <p class="bp-text">Kommunvalet styr din skola och äldreomsorg. Precis som i regionvalet får utländska medborgare som varit folkbokförda i Sverige i över tre år delta och påverka sitt direkta närområde.</p>
+    </div>
+  </div>
+
+  <p>Oavsett vilket val det handlar om vilar systemet på två principer: Valen ska vara <strong>fria</strong> (ingen får tvinga dig att rösta på något särskilt) och <strong>hemliga</strong> (du behöver aldrig berätta för någon vad du röstade på).</p>
+
+  <div class="section-marker"><span>Proportionalitet</span></div>
+  <h2>Hur omvandlas rösterna till <em>platser?</em></h2>
+
+  <p>När man röstar väljer man i första hand ett <strong>parti</strong>. På valsedeln finns partiets namn och en lista med kandidater. Det går också att <em>personrösta</em>, vilket innebär att man sätter ett kryss vid en specifik kandidat man gillar extra mycket.</p>
+
+  <p>Ett extremt viktigt begrepp är <strong>mandat</strong>. Ett mandat är en "plats" eller en "stol" i Riksdagen. I Sveriges riksdag finns det exakt 349 mandat som ska fördelas mellan partierna efter valet.</p>
+
+  <p>Sverige använder sig av <strong>proportionella val</strong>. Det betyder att det är rättvist: får ett parti 10% av rösterna i landet, ska de också få ungefär 10% av mandaten (platserna) i riksdagen.</p>
+
+  <div class="prop-section">
+    <div class="p-header">
+      <div class="p-title">Så fungerar 4-procentsspärren</div>
+      <div class="p-sub">Klicka på fälten nedan för att se hur procent blir till mandat.</div>
+    </div>
+
+    <div class="chart-container">
+      <div class="chart-circle"></div>
+      <div class="chart-legend">
+        <div class="legend-item" onclick="showProp('pA')">
+          <span class="li-color" style="background:#10B981;"></span>
+          <span class="li-text">Parti A (Stort parti)</span>
+          <span class="li-stats">40%</span>
+        </div>
+        <div class="legend-item" onclick="showProp('pB')">
+          <span class="li-color" style="background:#EF4444;"></span>
+          <span class="li-text">Parti B (Mellanstort)</span>
+          <span class="li-stats">30%</span>
+        </div>
+        <div class="legend-item" onclick="showProp('pC')">
+          <span class="li-color" style="background:#F59E0B;"></span>
+          <span class="li-text">Parti C (Litet parti)</span>
+          <span class="li-stats">25%</span>
+        </div>
+        <div class="legend-item" onclick="showProp('pD')">
+          <span class="li-color" style="background:#64748B;"></span>
+          <span class="li-text">Parti D (Småpartiet)</span>
+          <span class="li-stats">3%</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-desc" id="prop-pA"><strong>Parti A:</strong> Fick 40% av svenska folkets röster. Eftersom vi har proportionella val får de också 40% av de 349 platserna i riksdagen (ca 140 mandat).</div>
+    <div class="prop-desc" id="prop-pB"><strong>Parti B:</strong> Fick 30% av rösterna och tilldelas därmed 30% av mandaten (ca 105 stolar).</div>
+    <div class="prop-desc" id="prop-pC"><strong>Parti C:</strong> Fick 25% av rösterna och tilldelas därmed 25% av mandaten (ca 87 stolar).</div>
+    <div class="prop-desc" id="prop-pD"><strong>Parti D (Spärren!):</strong> Fick 3% av rösterna. <em>Men vänta!</em> I Sverige måste man få minst 4% för att komma in i riksdagen överhuvudtaget. Trots sina röster får Parti D därför noll mandat. Syftet med riksdagsspärren är att undvika att det blir för många extremt små partier, vilket skulle göra det för rörigt att fatta beslut.</div>
+  </div>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Det är Sveriges riksdag som utser statsminister, inte väljarna direkt."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Talmansrundorna</span></div>
+  <h2>Från valresultat till <em>regering</em></h2>
+
+  <p>När rösterna har räknats och resultatet är klart börjar arbetet med att bilda regering. I Sverige röstar vi inte fram en statsminister direkt som i USA. Vi röstar fram Riksdagen, och det är Riksdagens uppgift att godkänna en statsminister.</p>
+
+  <p>En central person i detta är <strong>Talmannen</strong>, som är riksdagens ordförande (och Sveriges högsta ämbete efter Kungen). Talmannen pratar med alla partiledare och föreslår sedan en kandidat till statsminister. Därefter röstar riksdagen.</p>
+
+  <div class="pullquote">
+    <p>Sverige har så kallad negativ parlamentarism. Det betyder att en statsminister blir godkänd så länge inte en absolut majoritet (175 stycken) trycker på NEJ-knappen.</p>
+  </div>
+
+  <div class="section-marker"><span>Maktbalans</span></div>
+  <h2>Majoritet eller <em>Minoritet?</em></h2>
+
+  <p>När statsministern väl är godkänd ska denne bilda sin regering och utse ministrar. Hur stark denna regering blir beror helt på hur många mandat (stolar) partiet eller partierna fick i valet.</p>
+
+  <div class="gov-section">
+    <div class="g-title">Regeringens Styrka</div>
+    <div class="g-sub">Klicka på knapparna för att se hur lätt eller svårt det blir att styra landet.</div>
+    
+    <div class="gov-scale">
+      <div class="gov-fill" id="g-fill"></div>
+      <div class="gov-marker"></div>
+    </div>
+
+    <div class="gov-buttons">
+      <button class="gb-btn" onclick="setGov('min', this)">Minoritetsregering</button>
+      <button class="gb-btn" onclick="setGov('maj', this)">Majoritetsregering</button>
+    </div>
+
+    <div class="gov-info" id="g-info">
+      Klicka på ett alternativ ovan för att förstå skillnaden.
+    </div>
+  </div>
+
+  <p>I Sverige är det mycket vanligare med <strong>minoritetsregeringar</strong>. Detta betyder att regeringen är mindre än den samlade oppositionen. Detta leder i sin tur till att regeringen ständigt måste förhandla, kompromissa och samarbeta med andra partier för att få igenom sina budgetar och lagförslag.</p>
+
+  <div class="section-marker"><span>Sammanfattning</span></div>
+  <h2>Varför kan det ta <em>så lång tid?</em></h2>
+
+  <p>Ibland tar det flera månader att bilda regering efter ett val i Sverige. Det beror oftast på att inget tydligt "block" har över 175 mandat på egen hand. Partierna måste då förhandla med varandra om samarbete och kompromissa bort vissa hjärtefrågor.</p>
+
+  <p>Även om processen kan upplevas som långsam och frustrerande, är den ett tecken på att demokratin faktiskt fungerar. Olika åsikter ska vägas mot varandra, och regeringen <em>måste</em> enligt grundlagen ha stöd (eller tolerans) i riksdagen för att få styra landet.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet som rör valsystemet, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="border-color: var(--swe-gold);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Valkrav & Proportionalitet</h4>
+          <ul class="q-list">
+            <li>Varför tror du att det är striktare krav (svenskt medborgarskap) för att få rösta till Riksdagen, än vad det är för att få rösta till Kommunen och Regionen?</li>
+            <li>Sverige har proportionella val, medan t.ex. USA och Storbritannien har "majoritetsval" i enmansvalkretsar (där "vinnaren tar allt"). Vilka fördelar ser du med det svenska systemet där 10% av rösterna ger 10% av makten?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Makt & Spärrar</h4>
+          <ul class="q-list">
+            <li>Vad är syftet med fyraprocentsspärren (Riksdagsspärren)? Vad skulle hända om vi tog bort den och lät partier som fick t.ex. 0,5% av rösterna komma in i riksdagen?</li>
+            <li>Texten förklarar att Sverige oftast har <em>minoritetsregeringar</em> som måste förhandla med andra partier. Vilka fördelar och nackdelar finns det med att en regering tvingas kompromissa hela tiden istället för att kunna bestämma allt själv?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta snabba frågor för att se om du har förstått vägen från vallokal till statsminister.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── BALLOT TABS ──
+function switchBal(id, btn) {
+  document.querySelectorAll('.bal-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.b-card').forEach(t => t.classList.remove('active'));
+  document.getElementById('bal-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── PROPORTIONAL CHART ──
+function showProp(id) {
+  document.querySelectorAll('.prop-desc').forEach(p => p.classList.remove('active'));
+  document.getElementById('prop-' + id).classList.add('active');
+}
+
+// ── GOV BUILDER ──
+function setGov(type, btn) {
+  document.querySelectorAll('.gb-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const fill = document.getElementById('g-fill');
+  const info = document.getElementById('g-info');
+  
+  if(type === 'min') {
+    fill.style.width = '35%';
+    fill.style.backgroundColor = '#E74C3C'; // röd för svagare
+    info.innerHTML = "<strong>Minoritetsregering:</strong> Regeringen (och dess stödpartier) har <em>färre än 175 mandat</em>. De utgör alltså en minoritet i riksdagen. För att få igenom en lag eller budget måste de förhandla och söka stöd från oppositionen, vilket kräver mycket kompromisser.";
+  } else {
+    fill.style.width = '65%';
+    fill.style.backgroundColor = '#27AE60'; // grön för stark
+    info.innerHTML = "<strong>Majoritetsregering:</strong> Regeringen (antingen ett ensamt parti eller en sammansatt koalition) har <em>mer än 175 mandat</em>. De har egen majoritet i riksdagen och kan därför få igenom all sin politik utan att behöva förhandla med oppositionen.";
+  }
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vilka tre val röstar vi i samtidigt på valdagen i Sverige (förutom EU-valet)?",
+    opts: ["Presidentval, borgmästarval och sheriffval", "Riksdagsval, regionval och kommunval", "Domstolsval, skolval och kyrkoval", "Statsministerval, kunga-val och riksdagsval"],
+    correct: 1,
+    feedback: "Exakt. Du får tre valsedlar: en gul för riksdag, en blå för region och en vit för kommun."
+  },
+  {
+    q: "Vilket krav måste uppfyllas för att få rösta i det Gula valet (Riksdagsvalet)?",
+    opts: ["Man måste vara född i Sverige.", "Man måste betala en statlig skatt.", "Man måste ha fyllt 18 år och vara svensk medborgare.", "Även utländska medborgare får rösta bara de bott i landet i 3 år."],
+    correct: 2,
+    feedback: "För just Riksdagsvalet är svenskt medborgarskap ett absolut krav."
+  },
+  {
+    q: "Vad är ett 'mandat' i politiska sammanhang?",
+    opts: ["En muta.", "En plats/en stol i ett folkvalt organ, t.ex. i riksdagen.", "Ett straff för politiker.", "En ny grundlag."],
+    correct: 1,
+    feedback: "Rätt! Sveriges riksdag består av 349 mandat."
+  },
+  {
+    q: "Sverige har proportionella val. Vad innebär det?",
+    opts: ["Att vinnaren i en stad tar alla stadens mandat.", "Att landsbygden får fler röster per person.", "Att ett parti får ungefär samma procentandel mandat (platser) i riksdagen som de fick röster av folket.", "Att riksdagen lottar ut platserna proportionerligt."],
+    correct: 2,
+    feedback: "Får ett parti 20% av rösterna så ska de ha 20% av makten i riksdagen."
+  },
+  {
+    q: "Vad är syftet med den s.k. 'riksdagsspärren' på 4 procent?",
+    opts: ["Att förhindra att det blir för många små partier i riksdagen, vilket skulle göra det svårt att styra landet.", "Att straffa partier som inte har råd med reklam.", "Att säkerställa att bara de äldsta partierna är kvar.", "Att se till att partierna betalar rätt skatt."],
+    correct: 0,
+    feedback: "Utan spärren hade vi kunnat få in mängder med 1-procentspartier, vilket hade gjort det nästan omöjligt att bilda regering och fatta beslut."
+  },
+  {
+    q: "Vem är det formellt som utser statsministern i Sverige?",
+    opts: ["Folket röstar direkt på statsministern.", "Kungen utser statsministern.", "Riksdagen godkänner statsministern efter förslag från Talmannen.", "Högsta domstolen."],
+    correct: 2,
+    feedback: "Eftersom vi har parlamentarism så är det riksdagens ledamöter som har den makten."
+  },
+  {
+    q: "Sverige har så kallad 'negativ parlamentarism'. Vad innebär det för den föreslagna statsministern?",
+    opts: ["Hen blir bara godkänd om alla 349 röstar JA.", "Hen kan bli godkänd så länge inte en majoritet (mer än hälften, alltså 175) trycker på NEJ-knappen.", "Att statsministern inte får vara med i parlamentet.", "Att man alltid måste rösta nej första gången."],
+    correct: 1,
+    feedback: "Det krävs alltså inte en aktiv majoritet som stöttar en, det räcker att man tolereras."
+  },
+  {
+    q: "Vad kännetecknar en 'minoritetsregering'?",
+    opts: ["Att den bara styr under natten.", "Att partiet/partierna i regeringen har färre än hälften av mandaten i riksdagen och därför måste söka stöd och kompromissa med andra partier.", "Att regeringen har exakt 349 mandat.", "Att de inte får stifta några lagar alls."],
+    correct: 1,
+    feedback: "Minoritetsregeringar (som är vanligast i Sverige) måste hela tiden förhandla sig fram i riksdagen för att få sin budget och sina lagar godkända."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Talmans-klass! Du har full koll på hur Sveriges valsystem fungerar."; }
+  else if(pct >= 0.6) { title = "Snyggt jobbat! ⭐"; msg = "Du har greppat hur mandat och minoritetsregeringar hänger ihop."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Valsystemet kan vara klurigt. Lek med tårtdiagrammet igen och försök en gång till!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
