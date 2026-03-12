@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De fyra ädla sanningarna – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0d1115;
+  --paper:    #F5F2EB;
+  --saffron:  #E07A5F;
+  --lotus:    #D58A94;
+  --gold:     #E9C46A;
+  --teal:     #2A4D54;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.7);
+  --border:   rgba(233,196,106,0.2);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--teal), var(--lotus), var(--gold));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(circle at 50% 40%, #151e24 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-mandala {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--ink) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 7vw, 86px);
+  font-weight: 900; line-height: 1.05;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(213,138,148,0.3);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+.hero h1 em { color: var(--lotus); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--lotus); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--lotus), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--lotus); font-style: italic; }
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 700; color: var(--paper);
+  margin: 48px 0 16px;
+}
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--lotus);
+  background: linear-gradient(135deg, rgba(213,138,148,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--lotus); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── FOUR TRUTHS INTERACTIVE GRID ── */
+.truths-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 60px 0; }
+.truth-card {
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 8px; padding: 32px; cursor: pointer; position: relative;
+  transition: all 0.3s ease; text-align: center; overflow: hidden;
+}
+.truth-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+  background: var(--gold); opacity: 0.3; transition: all 0.3s;
+}
+.truth-card:hover, .truth-card.active { background: rgba(233,196,106,0.05); transform: translateY(-4px); border-color: var(--gold); }
+.truth-card:hover::before, .truth-card.active::before { opacity: 1; }
+.t-num { font-family: var(--mono); font-size: 48px; font-weight: 700; color: rgba(233,196,106,0.15); line-height: 1; margin-bottom: 12px; }
+.t-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--paper); margin-bottom: 8px; }
+.t-desc { font-size: 16px; color: var(--text-dim); line-height: 1.5; display: none; margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; }
+.truth-card.active .t-desc { display: block; animation: fadeUp 0.3s ease; }
+.t-hint { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--lotus); letter-spacing: 1px; margin-top: 10px; }
+.truth-card.active .t-hint { display: none; }
+
+/* ── DHARMA WHEEL (EIGHTFOLD PATH) ── */
+.dharma-box { margin: 80px 0; padding: 40px; background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 12px; }
+.dharma-header { text-align: center; margin-bottom: 40px; }
+.dharma-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--paper); margin-bottom: 10px; }
+.dharma-sub { font-size: 17px; color: var(--text-dim); }
+.dharma-categories { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+.d-cat-btn {
+  background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim);
+  padding: 10px 24px; border-radius: 30px; font-family: var(--mono); font-size: 13px;
+  text-transform: uppercase; letter-spacing: 1.5px; cursor: pointer; transition: all 0.3s;
+}
+.d-cat-btn:hover { border-color: var(--paper); color: var(--paper); }
+.d-cat-btn.active { background: var(--lotus); border-color: var(--lotus); color: var(--ink); font-weight: 700; }
+.d-panel { display: none; animation: fadeUp 0.4s ease; }
+.d-panel.active { display: block; }
+.path-item { background: rgba(255,255,255,0.03); border-left: 3px solid var(--lotus); padding: 20px 24px; margin-bottom: 16px; border-radius: 0 6px 6px 0; }
+.path-name { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); font-weight: 700; margin-bottom: 8px; }
+.path-desc { font-size: 17px; color: var(--text-dim); line-height: 1.5; margin: 0; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 45vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.2) sepia(0.4) hue-rotate(-20deg);
+  background-image: url('https://images.unsplash.com/photo-1599839619722-39751411ea63?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--gold); line-height: 1.3; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #080b0e; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--lotus); color: var(--lotus); background: rgba(213,138,148,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(233,196,106,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin:0; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--lotus); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(233,196,106,0.15); border: 1px solid var(--gold); color: var(--gold); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--gold); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--lotus); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--lotus); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(233,196,106,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A9D8F; background: rgba(42,157,143,0.15); color: #E9F5F4; }
+.quiz-opt.wrong { border-color: #E07A5F; background: rgba(224,122,95,0.15); color: #FCEEEE; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--paper); background: rgba(255,255,255,0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-opt.correct .quiz-letter { background: #2A9D8F; color: var(--ink); }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(233,196,106,0.1); border-left: 3px solid var(--gold); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--gold); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--lotus), var(--saffron)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); color: var(--ink); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .truths-grid { grid-template-columns: 1fr; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+  .dharma-box { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-mandala"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion · Buddhism</div>
+
+  <h1>De fyra ädla <em>sanningarna</em></h1>
+  <p class="hero-sub">En tidlös analys av människans existens, lidande och begär – och den praktiska vägen till inre frid.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Buddhismen formulerar sitt mest kända budskap i de fyra ädla sanningarna. De utgör enligt traditionen den första predikan som Siddhartha Gautama (Buddha) gav efter sitt uppvaknande och sammanfattar kärnan i hans lära.
+  </p>
+
+  <p>Genom fyra punkter beskriver Buddha livets problem, dess grundorsak, att en lösning finns – och visar därefter vägen till den lösningen. Modellen är djupt logisk och påminner mycket om hur en läkare arbetar: den börjar med att konstatera en sjukdom (diagnos), hittar orsaken, förklarar att den går att bota (prognos), och erbjuder till sist ett recept.</p>
+
+  <p>Trots att denna modell formulerades för mer än 2 500 år sedan är den extremt lätt att relatera till vår egen vardag i dag. Alla känner igen känslan av otillfredsställelse, stress och begär som drar en hit och dit. De fyra ädla sanningarna erbjuder verktyg för att leva mer harmoniskt.</p>
+
+  <div class="truths-grid">
+    <div class="truth-card" onclick="toggleTruth(this)">
+      <div class="t-num">1</div>
+      <div class="t-title">Sanningen om Lidandet</div>
+      <div class="t-hint">Klicka för info ↓</div>
+      <div class="t-desc"><strong>Diagnosen:</strong> Att allt är <em>dukkha</em> (lidande/otillfredsställelse). Det innebär inte att allt är fruktansvärt, utan att livet präglas av föränderlighet. Även lyckliga stunder är tillfälliga, vilket skapar en grundläggande känsla av att existensen är osäker och "skör".</div>
+    </div>
+    <div class="truth-card" onclick="toggleTruth(this)">
+      <div class="t-num">2</div>
+      <div class="t-title">Sanningen om Orsaken</div>
+      <div class="t-hint">Klicka för info ↓</div>
+      <div class="t-desc"><strong>Orsaken:</strong> Att lidandet beror på <em>tanhā</em> (livstörst/begär). Vår ständiga jakt efter njutning, bekräftelse och att hålla fast vid saker eller relationer skapar vår frustration. Begäret fungerar som en oändlig törst som aldrig riktigt kan släckas.</div>
+    </div>
+    <div class="truth-card" onclick="toggleTruth(this)">
+      <div class="t-num">3</div>
+      <div class="t-title">Sanningen om Upphörandet</div>
+      <div class="t-hint">Klicka för info ↓</div>
+      <div class="t-desc"><strong>Prognosen (Målet):</strong> Att lidandet kan upphöra. Om orsaken är begär, innebär det att lidandet upphör när vi lär oss släppa taget om detta begär. Detta tillstånd av fullständig inre frid och utslocknande av livstörsten kallas <em>Nirvana</em>.</div>
+    </div>
+    <div class="truth-card" onclick="toggleTruth(this)">
+      <div class="t-num">4</div>
+      <div class="t-title">Sanningen om Vägen</div>
+      <div class="t-hint">Klicka för info ↓</div>
+      <div class="t-desc"><strong>Receptet/Medicinen:</strong> Handlingsprogrammet för att nå målet. Detta kallas <em>Den åttafaldiga vägen</em> och är en praktisk guide till hur vi bör tänka, tala, agera och meditera för att utvecklas som människor och bryta oss fria från lidandet.</div>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Sanning 1 & 2</span></div>
+  <h2>Dukkha och <em>Tanhā</em></h2>
+
+  <p>Den första ädla sanningen slår fast att allt är <strong>dukkha</strong>, ett ord som ofta översätts till “lidande” men som rymmer mycket mer än fysisk smärta. Det beskrivs ibland som en resa som går “med trögt nav” – hjulet kärvar och det är ständiga uppförsbackar.</p>
+
+  <p>Förutom uppenbara saker som sjukdom, sorg och ålderdom finns en djupare dimension av otillfredsställelse som uppstår ur livets föränderlighet. Även lyckliga stunder leder till frustration eftersom allt är förgängligt (det tar slut). Att förlora en vän, känna stress inför ett prov eller när mobilen går sönder är alla moderna erfarenheter av dukkha.</p>
+
+  <p>Den andra sanningen identifierar orsaken som <strong>tanhā</strong> – törst eller begär. Det handlar inte om att man aldrig får önska sig något, utan om de starka, klängande begär som håller oss fast. Att ständigt scrolla i sociala medier för att samla "likes", att konsumera för att känna sig lycklig, eller att klamra sig fast vid en status är moderna exempel. Törsten leder till frustration eftersom begäret skapar en ständig känsla av brist; man blir helt enkelt aldrig nöjd.</p>
+
+  <div class="pullquote">
+    <p>Lidandet är inte skapat av en straffande gud eller ett ont öde, utan av våra egna reaktionsmönster och begär. Det betyder att vi också har makten att förändra det.</p>
+  </div>
+
+  <div class="section-marker"><span>Sanning 3</span></div>
+  <h2>Nirvana som <em>mål</em></h2>
+
+  <p>Den tredje ädla sanningen hävdar att lidandet kan upphöra. Om orsaken är begär, innebär det logiskt nog att lidandet försvinner när begäret släcks. Ordet <strong>nirvana</strong> betyder ordagrant “att blåsa ut” eller “att släcka”. Det man släcker är just livstörstens och begärens eld i sinnet.</p>
+
+  <p>Nirvana missförstås ibland som en mörk "tomhet" eller en himmel man åker till när man dör. Inom buddhismen betonas att nirvana inte är en plats man kommer till, utan en existentiell erfarenhet av sinnet. För att förklara det vardagligt: när man lyckas övervinna djup svartsjuka eller slutar klamra sig fast vid bitterhet känner man en enorm lättnad. Nirvana innebär att man helt släppt krav och kontrollbehov, vilket leder till fullkomlig inre frid.</p>
+
+  <p>Man får absolut njuta av livets skönhet – men man bör uppskatta blomman utan att känna begäret att behöva rycka upp och äga den.</p>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Det är skillnad mellan att uppskatta en vacker solnedgång och att känna sig tvingad att lägga ut den för att få bekräftelse."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Sanning 4</span></div>
+  <h2>Den åttafaldiga <em>vägen</em></h2>
+
+  <p>Den fjärde ädla sanningen är själva handlingsprogrammet som leder till nirvana: <strong>den ädla åttafaldiga vägen</strong>. Den består av åtta faktorer som inte är isolerade steg man tar ett i taget, utan de "genomtränger varandra" och ska praktiseras samtidigt.</p>
+  
+  <p>De åtta vägarna brukar delas in i tre huvudkategorier: Visdom (Pannā), Moral (Sīla) och Meditation (Samādhi).</p>
+
+  <div class="dharma-box">
+    <div class="dharma-header">
+      <div class="dharma-title">Vägens tre grenar</div>
+      <div class="dharma-sub">Klicka på kategorierna för att utforska de åtta stegen.</div>
+    </div>
+    
+    <div class="dharma-categories">
+      <button class="d-cat-btn active" onclick="switchDharma('visdom', this)">1. Visdom (Pannā)</button>
+      <button class="d-cat-btn" onclick="switchDharma('moral', this)">2. Moral & Etik (Sīla)</button>
+      <button class="d-cat-btn" onclick="switchDharma('meditation', this)">3. Meditation (Samādhi)</button>
+    </div>
+
+    <div class="d-panel active" id="dh-visdom">
+      <div class="path-item">
+        <div class="path-name">1. Rätt förståelse</div>
+        <p class="path-desc">Att se världen som den verkligen är. Att förstå att allt är föränderligt, att handlingar har konsekvenser (karma), och att de fyra ädla sanningarna beskriver verkligheten korrekt.</p>
+      </div>
+      <div class="path-item">
+        <div class="path-name">2. Rätt avsikt</div>
+        <p class="path-desc">Att låta vänlighet och medkänsla vägleda ens handlingar, istället för att styras av egoism, begär eller illvilja mot andra.</p>
+      </div>
+    </div>
+
+    <div class="d-panel" id="dh-moral">
+      <div class="path-item">
+        <div class="path-name">3. Rätt tal</div>
+        <p class="path-desc">Att avstå från att ljuga, såra, skvallra eller prata "löst". Att tänka på hur man kommunicerar, inte minst på sociala medier.</p>
+      </div>
+      <div class="path-item">
+        <div class="path-name">4. Rätt handling</div>
+        <p class="path-desc">Att inte skada andra levande varelser, att inte stjäla (inte ta det som inte är givet), och att avstå från sexuellt utnyttjande.</p>
+      </div>
+      <div class="path-item">
+        <div class="path-name">5. Rätt levebröd</div>
+        <p class="path-desc">Att tjäna sitt uppehälle på ett sätt som inte skadar andra. Att undvika yrken där man till exempel handlar med vapen, gifter, kött eller människor.</p>
+      </div>
+    </div>
+
+    <div class="d-panel" id="dh-meditation">
+      <div class="path-item">
+        <div class="path-name">6. Rätt ansträngning</div>
+        <p class="path-desc">Att aktivt arbeta för att förhindra dåliga och skadliga sinnesstämningar (som hat eller extrem avund) och istället medvetet odla goda och positiva tankar.</p>
+      </div>
+      <div class="path-item">
+        <div class="path-name">7. Rätt medveten närvaro</div>
+        <p class="path-desc">Att vara fullt närvarande (mindfulness). Att kunna observera sina egna känslor, tankar och sin kropp med acceptans utan att direkt reagera blint på dem.</p>
+      </div>
+      <div class="path-item">
+        <div class="path-name">8. Rätt koncentration</div>
+        <p class="path-desc">Att utveckla djupare meditativa tillstånd genom att träna sinnet att fokusera intensivt och stilla sig helt.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Sammanfattning</span></div>
+  <h2>Filosofi för <em>vardagen</em></h2>
+
+  <p>De fyra ädla sanningarna är ett kraftfullt verktyg eftersom de presenterar en så tydlig problem- och lösningsmodell. De kan lätt kopplas till aktuella samhällsfrågor idag. Till exempel kan diskussioner om klimatkrisen belysa hur människans obegränsade begär (tanhā) efter resurser skapar extremt lidande (dukkha) för både natur och mänsklighet.</p>
+
+  <p>Genom att följa den åttafaldiga vägen tränas människor i kritiskt tänkande och empati. Man övar sig på att se konsekvenserna av sina ord och handlingar och på att utveckla mindfulness. På så sätt blir buddhismen mycket mer än bara en teoretisk lära; den blir en livshållning för att skapa inre och yttre fred.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet som knyter buddhismens kärna till modern vardag, samt ett självrättande quiz med 8 frågor.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--gold); border-color: var(--gold);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Vardag & Dukkha</h4>
+          <ul class="q-list">
+            <li>Texten hävdar att även glada stunder skapar en form av dukkha (lidande/frustration) eftersom allt är föränderligt. Har ni varit med om att en väldigt bra upplevelse ledde till en tomhetskänsla efteråt? Varför tror ni att det är så?</li>
+            <li>Hur kan vi se begreppet "begär" (tanhā) spela ut sig i dagens samhälle, t.ex. gällande shopping, sociala medier eller betyg?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Etik & Den åttafaldiga vägen</h4>
+          <ul class="q-list">
+            <li>Ett av stegen i vägen är "Rätt levebröd" (att ha ett jobb som inte skadar andra). Vilka moderna yrken tror du skulle klassas som fel levebröd enligt buddhistisk filosofi? Varför?</li>
+            <li>Texten beskriver Nirvana inte som en himmel man dör till, utan som en upplevelse där begären blåsts ut. Kan man uppleva "små ögonblick" av nirvana i vardagen, tror ni? Hur skulle det kännas?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor om De fyra ädla sanningarna och den åttafaldiga vägen.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── TRUTH CARDS ──
+function toggleTruth(card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.truth-card').forEach(c => c.classList.remove('active'));
+  if (!isActive) card.classList.add('active');
+}
+
+// ── DHARMA TABS ──
+function switchDharma(catId, btn) {
+  document.querySelectorAll('.d-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.d-cat-btn').forEach(t => t.classList.remove('active'));
+  document.getElementById('dh-' + catId).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad är 'Dukkha' i den första ädla sanningen?",
+    opts: ["Karmans goda energi", "Lidande, otillfredsställelse och livets föränderlighet", "En speciell sorts meditation", "Guden som skapade världen"],
+    correct: 1,
+    feedback: "Rätt! Dukkha slår fast att allt är präglat av lidande och förgänglighet, vilket gör livet 'skört'."
+  },
+  {
+    q: "Vad är orsaken till lidandet enligt den andra ädla sanningen?",
+    opts: ["Våra synder mot gudarna", "Tanhā (Begär och livstörst)", "Att vi föds i fel kast", "Dåligt karma från förfäderna"],
+    correct: 1,
+    feedback: "Begäret (Tanhā), den ständiga jakten på att äga, uppleva och klamra sig fast, pekas ut som roten till lidandet."
+  },
+  {
+    q: "Vad betyder ordet 'Nirvana' bokstavligen?",
+    opts: ["Det eviga ljuset", "Himlen", "Att blåsa ut / släcka", "Livshjulet"],
+    correct: 2,
+    feedback: "Nirvana betyder 'att blåsa ut', och syftar på att man släcker de brinnande begären i sitt sinne."
+  },
+  {
+    q: "Vad är 'Den åttafaldiga vägen'?",
+    opts: ["Åtta tempel man måste besöka", "Ett handlingsprogram för att släcka begäret och nå nirvana", "Åtta böner man läser varje dag", "Gudarnas åtta olika former"],
+    correct: 1,
+    feedback: "Den är 'medicinen' eller handlingsprogrammet för hur vi bör leva, tänka och handla för att uppnå frid."
+  },
+  {
+    q: "Vilket av följande påståenden om Nirvana stämmer överens med texten?",
+    opts: ["Det är en fysisk plats uppe i rymden.", "Det är ett inre tillstånd där begären och okunnigheten har blåsts ut.", "Man uppnår det bara genom att skänka alla sina pengar till präster.", "Det innebär att man tappar alla sina minnen."],
+    correct: 1,
+    feedback: "Nirvana beskrivs inte som en himmelsk plats, utan som ett psykologiskt/existentiellt tillstånd av fullständig inre frid."
+  },
+  {
+    q: "I vilka tre huvudkategorier brukar man dela in Den åttafaldiga vägen?",
+    opts: ["Visdom, Moral (Etik), och Meditation", "Dåtid, Nutid, och Framtid", "Bön, Sång, och Offer", "Kropp, Själ, och Ande"],
+    correct: 0,
+    feedback: "Vägen delas ofta in i Panna (Visdom), Sila (Moral/Etik) och Samadhi (Meditation/Koncentration)."
+  },
+  {
+    q: "Vad innebär regeln 'Rätt levebröd' på Den åttafaldiga vägen?",
+    opts: ["Att man bara får äta vegetariskt hela livet.", "Att man måste skänka allt man äger.", "Att man ska ha ett yrke som inte orsakar skada eller lidande för andra.", "Att man måste baka sitt eget bröd."],
+    correct: 2,
+    feedback: "Rätt levebröd handlar om att välja ett yrke där man tjänar pengar på ett ärligt sätt som inte skadar levande varelser."
+  },
+  {
+    q: "Hur kan De fyra ädla sanningarna bäst liknas vid ett läkarbesök?",
+    opts: ["Remiss, operation, sjukhusvistelse och betalning.", "Sjukdom finns inte, du är frisk, ta det lugnt, ät bra.", "Diagnos (lidandet), Orsak (begäret), Prognos (nirvana) och Medicin/Recept (åttfaldiga vägen).", "Feber, hosta, vila och antibiotika."],
+    correct: 2,
+    feedback: "Helt rätt. Buddha använde ofta en logisk medicinsk modell: han ställde diagnosen på mänsklighetens lidande, hittade orsaken, sa att den gick att bota, och gav ett recept."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Ett uppvaknande! Du har förstått De fyra ädla sanningarna till fullo."; }
+  else if(pct >= 0.6) { title = "Mycket bra! ⭐"; msg = "Du har greppat kärnan i Buddhas lära. Snyggt jobbat!"; }
+  else { title = "Kämpa på 📖"; msg = "Filosofin kan vara svår i början. Läs gärna faktakorten en gång till och prova igen."; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
