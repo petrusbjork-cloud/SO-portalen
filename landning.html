@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Välkommen till SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0e17;
+  --glass: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --text-main: #e2e8f0;
+  --text-dim: #94a3b8;
+  
+  /* Ämnesfärger */
+  --historia: #c8a96e;
+  --geografi: #4facfe;
+  --religion: #f093fb;
+  --samhall: #43e97b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(200, 169, 110, 0.05) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(79, 172, 254, 0.05) 0%, transparent 40%);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* --- HEADER --- */
+header {
+  text-align: center;
+  margin-bottom: 60px;
+  padding: 0 20px;
+  animation: fadeInDown 1s ease-out;
+}
+
+.logo-sub {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--historia);
+  margin-bottom: 10px;
+  display: block;
+}
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(40px, 8vw, 72px);
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(to bottom, #fff, #94a3b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+header p {
+  color: var(--text-dim);
+  font-size: 18px;
+  max-width: 600px;
+  margin: 20px auto 0;
+  font-weight: 300;
+}
+
+/* --- GRID --- */
+.portal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 40px;
+  perspective: 1000px;
+}
+
+/* --- CARDS --- */
+.subject-card {
+  position: relative;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 40px 30px;
+  text-decoration: none;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.subject-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, var(--subject-color), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.subject-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--subject-color);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.subject-card:hover::before {
+  opacity: 0.1;
+}
+
+.icon-box {
+  width: 80px;
+  height: 80px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-bottom: 25px;
+  border: 1px solid var(--glass-border);
+  transition: all 0.4s;
+}
+
+.subject-card:hover .icon-box {
+  background: var(--subject-color);
+  color: var(--bg);
+  transform: rotate(-5deg);
+}
+
+.subject-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.subject-card p {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* --- SPECIFIKA FÄRGER --- */
+.historia { --subject-color: var(--historia); }
+.geografi { --subject-color: var(--geografi); }
+.religion { --subject-color: var(--religion); }
+.samhall  { --subject-color: var(--samhall); }
+
+/* --- ANIMATIONS --- */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.portal-grid > a {
+  opacity: 0;
+  animation: fadeInUp 0.8s forwards;
+}
+
+.portal-grid > a:nth-child(1) { animation-delay: 0.2s; }
+.portal-grid > a:nth-child(2) { animation-delay: 0.4s; }
+.portal-grid > a:nth-child(3) { animation-delay: 0.6s; }
+.portal-grid > a:nth-child(4) { animation-delay: 0.8s; }
+
+/* --- FOOTER --- */
+footer {
+  margin-top: 80px;
+  color: var(--text-dim);
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 768px) {
+  .portal-grid { padding: 0 20px; }
+  header h1 { font-size: 48px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <span class="logo-sub">Kunskap för framtiden</span>
+  <h1>SO-Portalen</h1>
+  <p>Utforska mänsklighetens berättelser, världens underverk, livets stora frågor och samhällets hjärta.</p>
+</header>
+
+<nav class="portal-grid">
+  <a href="https://so-portalen.se/startsida/historia" class="subject-card historia">
+    <div class="icon-box">⏳</div>
+    <h2>Historia</h2>
+    <p>Från forntidens imperier till kalla krigets slutspel. Lär av det förflutna.</p>
+  </a>
+
+  <a href="https://so-portalen.se/startsida/geografi" class="subject-card geografi">
+    <div class="icon-box">🌍</div>
+    <h2>Geografi</h2>
+    <p>Upptäck planeten, klimatet och hur vi lever tillsammans på jorden.</p>
+  </a>
+
+  <a href="https://so-portalen.se/startsida/religion" class="subject-card religion">
+    <div class="icon-box">🕯️</div>
+    <h2>Religion</h2>
+    <p>Existentiella frågor, heliga texter och världens olika trosinriktningar.</p>
+  </a>
+
+  <a href="https://so-portalen.se/startsida/samhällskunskap" class="subject-card samhall">
+    <div class="icon-box">⚖️</div>
+    <h2>Samhälle</h2>
+    <p>Demokrati, lagar och ekonomi. Hur vi formar vår gemensamma värld.</p>
+  </a>
+</nav>
+
+<footer>
+  &copy; 2026 SO-PORTALEN.SE
+</footer>
+
+</body>
+</html>
