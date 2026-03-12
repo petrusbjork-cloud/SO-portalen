@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gudar & Riktningar inom Hinduism – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #080b12;
+  --paper:    #F8F9FA;
+  --saffron:  #E67E22;
+  --gold:     #F1C40F;
+  --vishnu:   #2980B9;
+  --shiva:    #8E44AD;
+  --shakti:   #C0392B;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.7);
+  --border:   rgba(241,196,15,0.2);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--shiva), var(--vishnu), var(--shakti), var(--gold));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(circle at 50% 30%, #151e32 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-particles {
+  position: absolute; inset: 0;
+  background-image: 
+    radial-gradient(rgba(241,196,15,0.15) 2px, transparent 2px),
+    radial-gradient(rgba(241,196,15,0.1) 1px, transparent 1px);
+  background-size: 60px 60px, 30px 30px;
+  background-position: 0 0, 15px 15px;
+  opacity: 0.6; pointer-events: none;
+  animation: drift 60s linear infinite;
+}
+@keyframes drift { from { transform: translateY(0); } to { transform: translateY(-60px); } }
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--ink) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 7vw, 86px);
+  font-weight: 900; line-height: 1.05;
+  color: var(--paper);
+  text-shadow: 0 0 40px rgba(41,128,185,0.4);
+  margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+.hero h1 em { color: var(--saffron); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--saffron); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { font-style: italic; }
+.h-vishnu em { color: var(--vishnu); }
+.h-shiva em { color: var(--shiva); }
+.h-shakti em { color: var(--shakti); }
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+ul { margin-bottom: 24px; margin-left: 20px; color: var(--text-dim); }
+li { margin-bottom: 8px; padding-left: 10px; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--gold);
+  background: linear-gradient(135deg, rgba(241,196,15,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--gold); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── INTERACTIVE GOD GALLERY ── */
+.god-gallery { margin: 80px 0; }
+.god-tabs { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; justify-content: center; }
+.god-tab {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  padding: 14px 24px; border-radius: 30px; font-family: 'Playfair Display', serif;
+  font-size: 18px; font-weight: 700; color: var(--text-dim); cursor: pointer;
+  transition: all 0.3s ease; display: flex; align-items: center; gap: 10px;
+}
+.god-tab:hover { background: rgba(255,255,255,0.1); color: var(--paper); transform: translateY(-2px); }
+.god-tab.active { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+
+.god-panel {
+  display: none; background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 12px; padding: 40px; animation: fadeUp 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.god-panel.active { display: block; }
+.god-panel::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+}
+#g-vishnu::before { background: var(--vishnu); }
+#g-shiva::before { background: var(--shiva); }
+#g-shakti::before { background: var(--shakti); }
+#g-ganesha::before { background: var(--saffron); }
+
+.god-p-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--paper); margin-bottom: 8px; font-weight: 900; }
+.god-p-role { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+.god-p-text { font-size: 18px; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+.god-p-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 24px; }
+.god-tag { font-size: 14px; background: rgba(255,255,255,0.05); padding: 6px 14px; border-radius: 20px; color: var(--paper); border: 1px solid rgba(255,255,255,0.1); }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 40vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.3) saturate(1.2);
+  background-image: url('https://images.unsplash.com/photo-1514222026107-1111626fddc7?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--paper); }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #040608; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--saffron); color: var(--saffron); background: rgba(230,126,34,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(241,196,15,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin:0; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(241,196,15,0.15); border: 1px solid var(--gold); color: var(--gold); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--gold); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(241,196,15,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2ECC71; background: rgba(46,204,113,0.15); color: #EAFAF1; }
+.quiz-opt.wrong { border-color: #E74C3C; background: rgba(231,76,60,0.15); color: #FDEDEC; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--gold); background: rgba(241,196,15,0.15); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(241,196,15,0.1); border-left: 3px solid var(--gold); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--gold); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--saffron), var(--gold)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(241,196,15,0.2); color: var(--ink); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .god-tab { width: 100%; justify-content: center; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-particles"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion · Hinduism</div>
+
+  <h1>Gudar & <em>Riktningar</em></h1>
+  <p class="hero-sub">Mångfald, avatarer och den gudomliga kraften. Hur religionens många ansikten binds samman till en helhet.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    När man möter hinduism för första gången är det lätt att bli förvirrad. Det finns mängder av gudar, gudinnor, berättelser och symboler. Samtidigt säger många hinduer att det egentligen bara finns en enda gudomlig verklighet. Hur kan båda dessa saker vara sanna på samma gång?
+  </p>
+
+  <p>Förklaringen ligger i hinduismens sätt att tänka. Hinduism är inte en religion med en enda grundare, en gemensam trosbekännelse eller ett centralt ledarskap. I stället är den en <strong>samlingsbeteckning för många olika traditioner</strong>, som alla försöker beskriva och förstå det gudomliga på olika sätt. Gudarna och riktningarna är därför inte motsägelser – de är olika uttryck för samma grundläggande tankar.</p>
+
+  <div class="section-marker"><span>Teologi</span></div>
+  <h2>En eller <em>många</em> gudar?</h2>
+
+  <p>Inom hinduism finns flera sätt att förstå det gudomliga. Detta gör att religionen är svår att placera i ett fack. Den kan nämligen uppfattas som:</p>
+  
+  <ul>
+    <li><strong>Polyteistisk:</strong> Tron på många gudar, där man ser dem som självständiga gudomliga väsen.</li>
+    <li><strong>Monoteistisk:</strong> Tron på en gud, där man menar att alla gudar egentligen är olika sidor eller former av en och samma gud.</li>
+    <li><strong>Panteistisk:</strong> Tron att hela verkligheten och universum i sig är gudomligt (ofta kallat Brahman).</li>
+  </ul>
+
+  <p>För många hinduer är dessa sätt att tänka inte motsägelser. I vardagen kan man tillbe en särskild gud i templet, men innerst inne tänka att alla gudar ytterst hör ihop i samma världssjäl.</p>
+
+  <div class="section-marker"><span>Gudagalleriet</span></div>
+  <h2>Utforska <em>Gudarna</em></h2>
+  <p>Välj en gudom nedan för att se deras roll, riktning och de symboler som förknippas med dem.</p>
+
+  <div class="god-gallery">
+    <div class="god-tabs">
+      <div class="god-tab active" onclick="switchGod('vishnu', this)">🌊 Vishnu</div>
+      <div class="god-tab" onclick="switchGod('shiva', this)">🔱 Shiva</div>
+      <div class="god-tab" onclick="switchGod('shakti', this)">🌺 Devi (Gudinnan)</div>
+      <div class="god-tab" onclick="switchGod('ganesha', this)">🐘 Ganesha</div>
+    </div>
+
+    <div class="god-panel active" id="g-vishnu">
+      <div class="god-p-role">Bevararen av Världsordningen</div>
+      <div class="god-p-title">Vishnu</div>
+      <p class="god-p-text">Vishnu uppfattas som den gud som skyddar och upprätthåller världens ordning (dharma). När världen hotas av kaos eller ondska stiger Vishnu ner till jorden för att återställa balansen. Han gör detta genom <strong>avatarer</strong> (nedstigningar).</p>
+      <p class="god-p-text">Hans mest kända avatarer är prinsen <strong>Rama</strong> och den lekfulle herden och läraren <strong>Krishna</strong>. Inom <em>Vishnuismen</em> betonas ofta kärlek och tillit till guden, och att man ska följa sin plikt.</p>
+      <div class="god-p-tags">
+        <span class="god-tag">Riktning: Vishnuism</span>
+        <span class="god-tag">Maka: Lakshmi</span>
+        <span class="god-tag">Symbol: Snäcka & Diskus</span>
+      </div>
+    </div>
+
+    <div class="god-panel" id="g-shiva">
+      <div class="god-p-role">Förstöraren & Förnyaren</div>
+      <div class="god-p-title">Shiva</div>
+      <p class="god-p-text">Shiva är en av de mest komplexa gudarna. Han representerar både förstörelse och förnyelse – det gamla måste brytas ner för att något nytt ska kunna uppstå. Han är både den djupt mediterande <strong>asketen</strong> uppe i bergen och den <strong>kosmiska dansaren</strong> vars rytm håller universum igång.</p>
+      <p class="god-p-text">Den riktning som sätter Shiva i centrum kallas <em>Shivaism</em>. Här betonas ofta meditation, inre disciplin och insikten om livets förgänglighet.</p>
+      <div class="god-p-tags">
+        <span class="god-tag">Riktning: Shivaism</span>
+        <span class="god-tag">Maka: Parvati</span>
+        <span class="god-tag">Symbol: Treudd & Linga</span>
+      </div>
+    </div>
+
+    <div class="god-panel" id="g-shakti">
+      <div class="god-p-role">Den Kosmiska Kraften</div>
+      <div class="god-p-title">Gudinnan (Mahadevi)</div>
+      <p class="god-p-text">Inom <em>Shaktismen</em> står Gudinnan i centrum. Ordet <strong>shakti</strong> betyder kraft eller energi. Här ses inte den kvinnliga principen som ett bihang till de manliga gudarna, utan som den urkraft som genomsyrar hela universum och ger gudarna deras styrka.</p>
+      <p class="god-p-text">Gudinnan tar många former: från den milda och kärleksfulla modern <strong>Parvati</strong>, till den modiga krigargudinnan <strong>Durga</strong>, och den skrämmande men beskyddande <strong>Kali</strong>.</p>
+      <div class="god-p-tags">
+        <span class="god-tag">Riktning: Shaktism</span>
+        <span class="god-tag">Nyckelord: Kraft (Shakti)</span>
+        <span class="god-tag">Former: Durga, Kali, Saraswati</span>
+      </div>
+    </div>
+
+    <div class="god-panel" id="g-ganesha">
+      <div class="god-p-role">Hinderundanröjaren</div>
+      <div class="god-p-title">Ganesha</div>
+      <p class="god-p-text">En av de allra mest älskade och igenkännliga gudarna i hinduers vardag är den elefant-hövdade Ganesha. Han är son till Shiva och Parvati.</p>
+      <p class="god-p-text">Ganesha är guden för visdom, intelligens och nystarter. Han kallas ofta för "hinderundanröjaren". Därför ber man ofta till honom innan man påbörjar något viktigt – som en lång resa, en tenta i skolan, eller när man ska starta ett nytt företag.</p>
+      <div class="god-p-tags">
+        <span class="god-tag">Roll: Vardagsgud / Nystarter</span>
+        <span class="god-tag">Föräldrar: Shiva & Parvati</span>
+        <span class="god-tag">Symbol: Elefanthuvud</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Det som uppfattas som motsägelser är ofta helt naturligt inom hinduism."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Strukturen</span></div>
+  <h2 class="h-vishnu">Trimurti – tre <em>funktioner</em></h2>
+
+  <p>I hinduisk tradition talas ibland om tre centrala gudomliga funktioner som tillsammans håller världen i gång. Detta kallas <strong>Trimurti</strong> (tre former):</p>
+  <ul>
+    <li><strong>Brahma</strong> – Skaparen</li>
+    <li><strong>Vishnu</strong> – Bevararen</li>
+    <li><strong>Shiva</strong> – Förstöraren/Förnyaren</li>
+  </ul>
+  
+  <p>Det är dock viktigt att förstå att detta är en teologisk modell snarare än en beskrivning av hur folk ber i vardagen. I praktiken är det mycket ovanligt att Brahma dyrkas i dag. Däremot är Vishnu, Shiva och Gudinnan (Shakti) extremt viktiga, och kring dem har hinduismens största inriktningar vuxit fram.</p>
+
+  <div class="pullquote">
+    <p>Religionen anpassas till livet – inte tvärtom. Man tillber ofta den gud familjen alltid dyrkat, eller olika gudar vid olika tillfällen.</p>
+  </div>
+
+  <div class="section-marker"><span>Sammanfattning</span></div>
+  <h2>Mångfald som <em>styrka</em></h2>
+
+  <p>Att tillbe många gudar men samtidigt se en enda underliggande gudomlig verklighet gör hinduismen otroligt flexibel. Den kan beskrivas som inkluderande, mångfacetterad och ständigt öppen för olika sätt att förstå det obegripliga.</p>
+
+  <p>I stället för att välja bort motsägelser har hinduismen låtit dem samexistera. Vishnu bevarar ordningen, Shiva bryter ner för att förnya, och Shakti ger energi till allt. Det är just denna djupa mångfald som har gjort religionen levande i tusentals år – och som fortfarande präglar livet för hundratals miljoner människor i dag.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet och ett självrättande quiz med 8 frågor som testar förståelsen för gudarna och inriktningarna.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--gold); border-color: var(--gold);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Förståelse & Koncept</h4>
+          <ul class="q-list">
+            <li>Vad menas med att hinduismen kan kallas både polyteistisk och panteistisk på samma gång?</li>
+            <li>Förklara vad en avatar är. Ge exempel på två kända avatarer av guden Vishnu.</li>
+            <li>Vilka gudar ingår i begreppet Trimurti, och vilka funktioner representerar de?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Analys & Reflektion</h4>
+          <ul class="q-list">
+            <li>Guden Shiva kallas "förstöraren". Varför ses denna egenskap inte som ond i hinduismen? Dra paralleller till hur naturen fungerar.</li>
+            <li>Inom Shaktismen är den kvinnliga kraften (Shakti) den högsta energin. Hur skiljer sig denna syn på "det gudomliga" från hur Gud traditionellt beskrivs i de abrahamitiska religionerna?</li>
+            <li>Varför tror du att gudar som Ganesha (för framgång/hinder) är så populära i den moderna vardagen?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor om hinduismens gudavärld och teologi.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── GOD GALLERY (TABS) ──
+function switchGod(godId, btn) {
+  // Hide all panels
+  document.querySelectorAll('.god-panel').forEach(p => p.classList.remove('active'));
+  // Deactivate all tabs
+  document.querySelectorAll('.god-tab').forEach(t => t.classList.remove('active'));
+  
+  // Show selected panel
+  document.getElementById('g-' + godId).classList.add('active');
+  // Activate selected tab
+  btn.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Hur kan hinduismens gudssyn bäst beskrivas enligt texten?",
+    opts: ["Den är strikt monoteistisk och förbjuder alla bilder av Gud.", "Den uppfattas ofta som polyteistisk, monoteistisk och panteistisk samtidigt.", "Man måste välja exakt en av tre gudar att tro på under hela livet.", "Gudarna är endast sagofigurer och religionen bygger enbart på meditation."],
+    correct: 1,
+    feedback: "Rätt! Hinduismen rymmer tanken på många gudar (polyteism) men kan samtidigt se dem som olika uttryck för en enda gudomlig sanning (monoteism/panteism)."
+  },
+  {
+    q: "Vilka tre gudar brukar ingå i begreppet 'Trimurti'?",
+    opts: ["Ganesha, Hanuman, Krishna", "Brahma, Vishnu, Shiva", "Lakshmi, Parvati, Saraswati", "Rama, Sita, Kali"],
+    correct: 1,
+    feedback: "Trimurti står för tre gudomliga funktioner: skapelse (Brahma), bevarande (Vishnu) och förstörelse/förnyelse (Shiva)."
+  },
+  {
+    q: "Vad är guden Vishnus huvudsakliga uppgift i världsaltet?",
+    opts: ["Att bevara och skydda världsordningen (dharma).", "Att bryta ner och förstöra det gamla.", "Att skapa nya stjärnor och planeter.", "Att undervisa djur i skogen."],
+    correct: 0,
+    feedback: "Vishnu är 'bevararen' som ingriper när världen hotas av kaos."
+  },
+  {
+    q: "Vad betyder begreppet 'avatar' inom hinduismen?",
+    opts: ["En typ av meditation", "Ett digitalt konto i templet", "En guds nedstigning i världen, till exempel i mänsklig gestalt", "Ett indiskt bröd som offras till gudarna"],
+    correct: 2,
+    feedback: "En avatar är när en gud (oftast Vishnu) stiger ner till jorden, till exempel som prins Rama eller Krishna, för att hjälpa världen."
+  },
+  {
+    q: "Varför uppfattas inte Shivas roll som 'förstörare' som något enbart ont?",
+    opts: ["För att han alltid misslyckas med att förstöra saker.", "För att han bara förstör för sina fiender.", "För att förstörelsen innebär att det gamla bryts ner så att något nytt kan uppstå.", "För att han betalar tillbaka det han har förstört."],
+    correct: 2,
+    feedback: "Inom hinduismen är förstörelse och förnyelse två sidor av samma mynt. Utan nedbrytning kan inget nytt liv växa fram."
+  },
+  {
+    q: "Vad menas med begreppet 'Shakti' inom inriktningen Shaktism?",
+    opts: ["En traditionell tempeldans.", "Den gudomliga, aktiva kraften och energin bakom allt liv.", "En bok skriven av Shiva.", "Det straff man får för dålig karma."],
+    correct: 1,
+    feedback: "Shakti är den kvinnliga urkraften, energin som genomsyrar universum och som tar form i den stora Gudinnan."
+  },
+  {
+    q: "Vilken av följande är känd som 'Gudinnan' i en skrämmande men beskyddande form?",
+    opts: ["Lakshmi", "Sita", "Kali", "Radha"],
+    correct: 2,
+    feedback: "Kali är en form av Mahadevi (Gudinnan) som ofta avbildas skrämmande, men hon skyddar sina anhängare från ondska och dolda faror."
+  },
+  {
+    q: "Vem är Ganesha, och varför ber man ofta till honom?",
+    opts: ["Den elefant-hövdade guden som bereds för att undanröja hinder inför nystarter.", "Solguden som ger bra skördar.", "Krigarguden som man ber till inför strid.", "Dödsguden som bedömer ens karma."],
+    correct: 0,
+    feedback: "Helt rätt. Ganesha är oerhört populär i vardagen eftersom han står för visdom och för att röja undan svårigheter på livets väg."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Strålande! Du har gudomlig kunskap om hinduismens pantheon."; }
+  else if(pct >= 0.6) { title = "Bra jobbat! ⭐"; msg = "Du har förstått strukturerna väl. Klicka gärna runt i Gudagalleriet en gång till för att repetera."; }
+  else { title = "Kämpa på! 📖"; msg = "Hinduismens inriktningar kan vara förvirrande i början. Läs igenom de interaktiva korten och försök igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
