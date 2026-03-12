@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industriella Revolutionen – SO med Petrus</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Special+Elite&family=Raleway:wght@300;400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --coal: #0d0d0f;
+  --soot: #161618;
+  --iron: #1e1e22;
+  --steel: #2a2a30;
+  --copper: #b87333;
+  --copper2: #da8a3d;
+  --brass: #c9a84c;
+  --amber: #f0a500;
+  --ember: #ff6b1a;
+  --steam: rgba(255,255,255,0.07);
+  --text: #e8dcc8;
+  --text2: #a89880;
+  --text3: rgba(232,220,200,0.4);
+  --glow: 0 0 20px rgba(185,115,51,0.35);
+  --glow-strong: 0 0 40px rgba(185,115,51,0.5);
+  --border: rgba(185,115,51,0.25);
+  --border2: rgba(185,115,51,0.15);
+  --radius: 2px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  background: var(--coal);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ═══════════════════════════════ SCROLLBAR ═══════════════════════════════ */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--soot); }
+::-webkit-scrollbar-thumb { background: var(--copper); border-radius: 3px; }
+
+/* ═══════════════════════════════ NAV ═══════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 56px;
+  background: rgba(13,13,15,0.95);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+}
+.nav-brand {
+  font-family: 'Special Elite', serif;
+  color: var(--copper2); font-size: 0.95rem;
+  text-decoration: none; letter-spacing: 0.06em;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.nav-gear {
+  display: inline-block;
+  animation: spin 8s linear infinite;
+  font-size: 1rem;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.nav-links { display: flex; gap: 2rem; list-style: none; }
+.nav-links a {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--text2); text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--copper2); }
+
+/* ═══════════════════════════════ HERO ═══════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(185,115,51,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 20%, rgba(240,165,0,0.04) 0%, transparent 50%),
+    var(--coal);
+  padding: 80px 2rem 60px;
+}
+
+/* SVG Gears background */
+.gear-bg {
+  position: absolute; inset: 0;
+  overflow: hidden; pointer-events: none;
+}
+.gear-svg {
+  position: absolute;
+  opacity: 0.04;
+  fill: none;
+  stroke: var(--copper);
+  stroke-width: 2;
+}
+.gear-svg.g1 { width: 420px; height: 420px; top: -80px; right: -80px; animation: spin 25s linear infinite; }
+.gear-svg.g2 { width: 280px; height: 280px; bottom: 60px; left: -60px; animation: spin 18s linear infinite reverse; }
+.gear-svg.g3 { width: 180px; height: 180px; top: 30%; left: 5%; animation: spin 12s linear infinite; opacity: 0.03; }
+.gear-svg.g4 { width: 120px; height: 120px; top: 20%; right: 20%; animation: spin 9s linear infinite reverse; opacity: 0.05; }
+
+/* Steam particles */
+.steam-container {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 100%; pointer-events: none; overflow: hidden;
+}
+.steam-p {
+  position: absolute; bottom: -20px;
+  width: 6px; height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 50%;
+  animation: steamRise linear infinite;
+  filter: blur(3px);
+}
+@keyframes steamRise {
+  0% { transform: translateY(0) scale(1); opacity: 0.5; }
+  60% { opacity: 0.15; transform: translateY(-45vh) translateX(var(--drift)) scale(2.5); }
+  100% { transform: translateY(-80vh) translateX(calc(var(--drift)*1.5)) scale(4); opacity: 0; }
+}
+
+/* Hero content */
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center; max-width: 900px;
+}
+.hero-pre {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7rem; font-weight: 800;
+  letter-spacing: 0.45em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 1rem;
+  display: flex; align-items: center; justify-content: center; gap: 0.8rem;
+}
+.hero-pre::before, .hero-pre::after {
+  content: ''; width: 40px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--copper));
+}
+.hero-pre::after { background: linear-gradient(90deg, var(--copper), transparent); }
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.8rem, 8vw, 6.5rem);
+  font-weight: 900; line-height: 0.95;
+  color: var(--text);
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 80px rgba(185,115,51,0.2);
+}
+.hero-title .accent {
+  display: block;
+  font-style: italic;
+  background: linear-gradient(135deg, var(--copper), var(--amber), var(--copper2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-divider {
+  margin: 1.5rem auto;
+  display: flex; align-items: center; justify-content: center; gap: 0.7rem;
+  color: var(--copper); font-size: 0.8rem;
+  max-width: 400px;
+}
+.hero-divider::before, .hero-divider::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--copper), transparent);
+}
+.hero-lead {
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  line-height: 1.75;
+  color: var(--text2);
+  max-width: 660px; margin: 0 auto 2rem;
+}
+.hero-stats {
+  display: flex; gap: 0.8rem;
+  justify-content: center; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.hstat {
+  background: var(--iron);
+  border: 1px solid var(--border);
+  padding: 0.6rem 1.3rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.78rem; font-weight: 700;
+  letter-spacing: 0.08em; border-radius: var(--radius);
+  transition: all 0.3s;
+}
+.hstat:hover { border-color: var(--copper); box-shadow: var(--glow); }
+.hstat strong { color: var(--amber); font-size: 1.1rem; margin-right: 0.3rem; }
+.scroll-cue {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 0.4rem; margin-top: 1rem;
+  font-family: 'Raleway', sans-serif; font-size: 0.65rem;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--text3);
+}
+.scroll-cue-arrow {
+  width: 16px; height: 16px;
+  border-right: 2px solid var(--copper);
+  border-bottom: 2px solid var(--copper);
+  transform: rotate(45deg);
+  opacity: 0.5;
+  animation: bob 2s ease-in-out infinite;
+}
+@keyframes bob { 0%,100%{transform:rotate(45deg) translate(0,0)} 50%{transform:rotate(45deg) translate(3px,3px)} }
+
+/* ═══════════════════════════════ SECTION SHELLS ═══════════════════════════════ */
+.sec {
+  position: relative; z-index: 1;
+}
+.sec-inner {
+  max-width: 1180px; margin: 0 auto;
+  padding: 5rem 2rem;
+}
+.sec-dark { background: var(--soot); }
+.sec-mid  { background: var(--iron); }
+
+/* Riveted border top */
+.sec-dark::before {
+  content: '';
+  display: block; height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--copper) 30%, var(--amber) 50%, var(--copper) 70%, transparent 100%);
+}
+
+/* Section header */
+.sec-head { text-align: center; margin-bottom: 3.5rem; }
+.sec-eyebrow {
+  display: block;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.68rem; font-weight: 800;
+  letter-spacing: 0.4em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 0.7rem;
+}
+.sec-head h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 700; color: var(--text);
+  margin-bottom: 0.7rem;
+}
+.sec-orn {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.6rem; color: var(--copper);
+}
+.sec-orn::before, .sec-orn::after {
+  content: ''; width: 60px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--copper), transparent);
+}
+.sec-sub {
+  color: var(--text2); font-size: 0.9rem;
+  margin-top: 0.8rem; font-style: italic;
+}
+
+/* ═══════════════════════════════ EPISODE CARDS ═══════════════════════════════ */
+.ep-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.8rem;
+}
+.ep-card {
+  background: var(--iron);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--copper);
+  padding: 2rem 1.8rem 1.6rem;
+  position: relative; overflow: hidden;
+  transition: all 0.35s;
+  border-radius: var(--radius);
+}
+.ep-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--copper), var(--amber), var(--copper));
+  opacity: 0; transition: opacity 0.3s;
+}
+.ep-card:hover { transform: translateY(-5px); box-shadow: var(--glow-strong); border-color: var(--copper); }
+.ep-card:hover::before { opacity: 1; }
+.ep-plate {
+  display: flex; align-items: center; gap: 0.8rem;
+  margin-bottom: 0.8rem;
+}
+.ep-num-badge {
+  background: var(--copper);
+  color: var(--coal);
+  font-family: 'Special Elite', serif;
+  font-size: 0.75rem; padding: 0.25rem 0.7rem;
+  border-radius: var(--radius);
+  font-weight: 700;
+}
+.ep-icon { font-size: 1.3rem; }
+.ep-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; font-weight: 700;
+  color: var(--text); margin-bottom: 0.7rem; line-height: 1.3;
+}
+.ep-desc { font-size: 0.9rem; line-height: 1.7; color: var(--text2); margin-bottom: 1.4rem; }
+.ep-actions { display: flex; gap: 0.7rem; }
+.btn-spot {
+  display: flex; align-items: center; gap: 0.4rem;
+  background: #1db954; color: #fff;
+  text-decoration: none; padding: 0.5rem 1rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem; font-weight: 700;
+  border-radius: var(--radius); transition: all 0.2s;
+}
+.btn-spot:hover { background: #17a349; transform: scale(1.04); }
+.btn-quiz {
+  background: transparent;
+  border: 1px solid var(--copper);
+  color: var(--copper);
+  padding: 0.5rem 1rem;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.72rem; font-weight: 700;
+  cursor: pointer; border-radius: var(--radius);
+  transition: all 0.2s; letter-spacing: 0.06em;
+}
+.btn-quiz:hover { background: var(--copper); color: var(--coal); }
+
+/* ═══════════════════════════════ QUIZ MODAL ═══════════════════════════════ */
+.modal-ov {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.88);
+  z-index: 500; display: none;
+  align-items: center; justify-content: center;
+  padding: 1rem; backdrop-filter: blur(8px);
+}
+.modal-ov.on { display: flex; }
+.qmodal {
+  background: var(--soot);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--copper);
+  max-width: 700px; width: 100%;
+  max-height: 90vh; overflow-y: auto;
+  padding: 2.5rem; border-radius: var(--radius);
+  box-shadow: 0 20px 80px rgba(0,0,0,0.7), var(--glow);
+  position: relative;
+}
+.q-close {
+  position: absolute; top: 1rem; right: 1rem;
+  background: none; border: none;
+  font-size: 1.4rem; cursor: pointer;
+  color: var(--text3); transition: color 0.2s; line-height: 1;
+}
+.q-close:hover { color: var(--copper); }
+.q-ep {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.65rem; font-weight: 800;
+  letter-spacing: 0.35em; text-transform: uppercase;
+  color: var(--copper); margin-bottom: 0.4rem;
+}
+.q-ep-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem; color: var(--text); margin-bottom: 1rem;
+}
+.q-bar { height: 2px; background: var(--steel); border-radius: 1px; overflow: hidden; margin-bottom: 0.4rem; }
+.q-bar-fill { height: 100%; background: linear-gradient(90deg, var(--copper), var(--amber)); transition: width 0.4s ease; }
+.q-bartext {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7rem; color: var(--text3); margin-bottom: 1.4rem;
+}
+.q-question {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.08rem; font-style: italic;
+  color: var(--text); line-height: 1.6;
+  padding-bottom: 1rem; margin-bottom: 1.1rem;
+  border-bottom: 1px solid var(--border2);
+}
+.q-opts { display: flex; flex-direction: column; gap: 0.5rem; }
+.q-opt {
+  background: var(--iron);
+  border: 1px solid var(--border2);
+  padding: 0.8rem 1rem;
+  cursor: pointer; text-align: left;
+  color: var(--text);
+  font-family: 'Libre Baskerville', serif;
+  font-size: 0.91rem;
+  transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.75rem;
+  border-radius: var(--radius);
+}
+.q-opt:hover:not(:disabled) { border-color: var(--copper); color: var(--text); background: var(--steel); }
+.q-lbl {
+  font-family: 'Special Elite', serif;
+  font-size: 0.7rem; color: var(--copper);
+  min-width: 18px; flex-shrink: 0;
+}
+.q-opt.correct { background: rgba(29,185,84,0.1); border-color: #1db954; color: #4ade80; }
+.q-opt.wrong   { background: rgba(239,68,68,0.08); border-color: #ef4444; color: #f87171; }
+.q-opt:disabled { cursor: default; }
+.q-fb { margin-top: 0.8rem; padding: 0.7rem 1rem; border-radius: var(--radius); font-size: 0.9rem; display: none; }
+.q-fb.vis { display: block; }
+.q-fb.ok { background: rgba(29,185,84,0.1); border: 1px solid rgba(29,185,84,0.3); color: #4ade80; }
+.q-fb.no { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); color: #f87171; }
+.q-footer { margin-top: 1.4rem; display: flex; justify-content: space-between; align-items: center; }
+.q-pts { font-family: 'Special Elite', serif; font-size: 0.82rem; color: var(--text2); }
+.btn-nxt {
+  background: var(--copper); color: var(--coal);
+  border: none; padding: 0.6rem 1.4rem;
+  font-family: 'Raleway', sans-serif; font-weight: 800;
+  font-size: 0.82rem; cursor: pointer; border-radius: var(--radius);
+  transition: all 0.2s; letter-spacing: 0.06em;
+  display: none;
+}
+.btn-nxt.vis { display: block; }
+.btn-nxt:hover { background: var(--amber); }
+.q-result { text-align: center; padding: 2rem 0; display: none; }
+.q-result.vis { display: block; }
+.r-icon { font-size: 4rem; margin-bottom: 0.5rem; }
+.r-score { font-family: 'Playfair Display', serif; font-size: 3.2rem; color: var(--copper); }
+.r-msg { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem; color: var(--text2); margin: 0.4rem 0 1.5rem; }
+.btn-retry {
+  background: transparent; border: 1px solid var(--copper);
+  color: var(--copper); padding: 0.6rem 1.4rem;
+  font-family: 'Raleway', sans-serif; font-weight: 700;
+  cursor: pointer; border-radius: var(--radius);
+  transition: all 0.2s;
+}
+.btn-retry:hover { background: var(--copper); color: var(--coal); }
+
+/* ═══════════════════════════════ TIMELINE ═══════════════════════════════ */
+.tl-filters {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  justify-content: center; margin-bottom: 3rem;
+}
+.tl-fbtn {
+  padding: 0.35rem 1rem;
+  border: 1px solid var(--border);
+  background: transparent; color: var(--text2);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  border-radius: var(--radius); letter-spacing: 0.08em;
+}
+.tl-fbtn.on { background: var(--copper); color: var(--coal); border-color: var(--copper); }
+.tl-fbtn[data-c="teknik"].on  { background: var(--copper); border-color: var(--copper); }
+.tl-fbtn[data-c="energi"].on  { background: #e85d04; border-color: #e85d04; }
+.tl-fbtn[data-c="samhälle"].on { background: #4a9eff; border-color: #4a9eff; }
+.tl-fbtn[data-c="arbete"].on  { background: #9b5de5; border-color: #9b5de5; }
+.tl-fbtn[data-c="hälsa"].on   { background: #2dc653; border-color: #2dc653; }
+.tl-fbtn[data-c="miljö"].on   { background: #6b8f71; border-color: #6b8f71; }
+
+.tl-wrap { position: relative; max-width: 1100px; margin: 0 auto; padding: 1rem 2rem; }
+.tl-spine {
+  position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 2px; transform: translateX(-50%);
+  background: linear-gradient(180deg, transparent, var(--copper) 5%, var(--copper) 95%, transparent);
+  opacity: 0.5;
+}
+.tl-row {
+  position: relative; display: flex;
+  margin-bottom: 1.4rem;
+  transition: opacity 0.3s, transform 0.3s;
+}
+.tl-row.hide { opacity: 0; height: 0; margin: 0; overflow: hidden; pointer-events: none; }
+.tl-row:nth-child(odd)  { padding-right: calc(50% + 2.5rem); }
+.tl-row:nth-child(even) { flex-direction: row-reverse; padding-left: calc(50% + 2.5rem); }
+.tl-node {
+  position: absolute; left: 50%; top: 1rem;
+  transform: translateX(-50%);
+  width: 13px; height: 13px; border-radius: 50%;
+  border: 2px solid var(--coal);
+  z-index: 3; transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.tl-node:hover { transform: translateX(-50%) scale(1.6); }
+.tl-node.c-teknik  { background: var(--copper); box-shadow: 0 0 8px rgba(185,115,51,0.6); }
+.tl-node.c-energi  { background: #e85d04; box-shadow: 0 0 8px rgba(232,93,4,0.6); }
+.tl-node.c-samhälle{ background: #4a9eff; box-shadow: 0 0 8px rgba(74,158,255,0.6); }
+.tl-node.c-arbete  { background: #9b5de5; box-shadow: 0 0 8px rgba(155,93,229,0.6); }
+.tl-node.c-hälsa   { background: #2dc653; box-shadow: 0 0 8px rgba(45,198,83,0.6); }
+.tl-node.c-miljö   { background: #6b8f71; box-shadow: 0 0 8px rgba(107,143,113,0.6); }
+.tl-card {
+  background: var(--iron); border: 1px solid var(--border2);
+  padding: 1rem 1.2rem; width: 100%; max-width: 430px;
+  cursor: pointer; transition: all 0.3s;
+  border-radius: var(--radius);
+}
+.tl-card:hover { border-color: var(--copper); box-shadow: var(--glow); }
+.tl-card.c-teknik   { border-left: 3px solid var(--copper); }
+.tl-card.c-energi   { border-left: 3px solid #e85d04; }
+.tl-card.c-samhälle { border-left: 3px solid #4a9eff; }
+.tl-card.c-arbete   { border-left: 3px solid #9b5de5; }
+.tl-card.c-hälsa    { border-left: 3px solid #2dc653; }
+.tl-card.c-miljö    { border-left: 3px solid #6b8f71; }
+.tl-year {
+  font-family: 'Special Elite', serif;
+  font-size: 0.7rem; letter-spacing: 0.15em;
+  margin-bottom: 0.25rem;
+}
+.tl-card.c-teknik   .tl-year { color: var(--copper); }
+.tl-card.c-energi   .tl-year { color: #e85d04; }
+.tl-card.c-samhälle .tl-year { color: #4a9eff; }
+.tl-card.c-arbete   .tl-year { color: #9b5de5; }
+.tl-card.c-hälsa    .tl-year { color: #2dc653; }
+.tl-card.c-miljö    .tl-year { color: #6b8f71; }
+.tl-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.98rem; font-weight: 700;
+  color: var(--text); line-height: 1.3; margin-bottom: 0.2rem;
+}
+.tl-icon { float: right; font-size: 1rem; margin-left: 0.4rem; margin-top: 0.1rem; }
+.tl-body {
+  font-size: 0.86rem; color: var(--text2);
+  line-height: 1.65; max-height: 0; overflow: hidden;
+  transition: max-height 0.45s ease, opacity 0.3s;
+  opacity: 0;
+}
+.tl-card.open .tl-body { max-height: 220px; opacity: 1; margin-top: 0.5rem; }
+.tl-hint {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.62rem; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--text3);
+  margin-top: 0.3rem;
+}
+.tl-card.open .tl-hint { display: none; }
+
+/* ═══════════════════════════════ FLASHCARDS ═══════════════════════════════ */
+.fc-filter-row {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  justify-content: center; margin-bottom: 1.8rem;
+}
+.fc-fbtn {
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--border);
+  background: transparent; color: var(--text2);
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.68rem; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  border-radius: var(--radius); letter-spacing: 0.08em;
+}
+.fc-fbtn.on, .fc-fbtn:hover { background: var(--copper); color: var(--coal); border-color: var(--copper); }
+.fc-navrow {
+  display: flex; align-items: center;
+  justify-content: center; gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+.fc-arr {
+  width: 40px; height: 40px;
+  border: 1px solid var(--border);
+  background: var(--iron); color: var(--copper);
+  cursor: pointer; font-size: 1rem;
+  transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius);
+}
+.fc-arr:hover { background: var(--copper); color: var(--coal); border-color: var(--copper); }
+.fc-count {
+  font-family: 'Special Elite', serif; font-size: 0.85rem;
+  color: var(--text2); min-width: 65px; text-align: center;
+}
+.fc-stage {
+  perspective: 1400px;
+  width: 100%; max-width: 600px;
+  margin: 0 auto 2rem; height: 250px;
+}
+.fc-card {
+  width: 100%; height: 100%;
+  position: relative; transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(.23,1,.32,1);
+  cursor: pointer;
+}
+.fc-card.flip { transform: rotateY(180deg); }
+.fc-face {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 2rem; text-align: center;
+  border: 1px solid var(--border);
+}
+.fc-front {
+  background: var(--iron);
+  box-shadow: inset 0 1px 0 rgba(185,115,51,0.15);
+}
+.fc-back {
+  background: linear-gradient(135deg, #1a0f00, #2a1800);
+  border-color: var(--copper);
+  transform: rotateY(180deg);
+  box-shadow: var(--glow);
+}
+.fc-term {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 3vw, 1.9rem);
+  font-weight: 700; font-style: italic;
+  color: var(--text); margin-bottom: 0.7rem; line-height: 1.2;
+}
+.fc-badge {
+  font-family: 'Special Elite', serif;
+  font-size: 0.62rem; letter-spacing: 0.2em;
+  color: var(--copper); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.2rem 0.7rem;
+  background: var(--steel);
+}
+.fc-flip-cue { font-size: 1.2rem; margin-top: 0.7rem; opacity: 0.3; animation: glow-pulse 2.5s infinite; }
+@keyframes glow-pulse { 0%,100%{opacity:0.2;filter:brightness(1)} 50%{opacity:0.5;filter:brightness(1.4)} }
+.fc-def {
+  font-size: 0.99rem; color: var(--text); line-height: 1.65;
+  margin-bottom: 0.7rem;
+}
+.fc-ex {
+  font-size: 0.83rem; color: rgba(232,220,200,0.55);
+  font-style: italic; border-top: 1px solid rgba(185,115,51,0.2);
+  padding-top: 0.55rem;
+}
+.fc-dots {
+  display: flex; gap: 0.35rem; justify-content: center;
+  flex-wrap: wrap; max-width: 600px; margin: 0 auto;
+}
+.fc-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--steel); cursor: pointer; transition: all 0.2s;
+}
+.fc-dot.on { background: var(--copper); }
+.fc-dot:hover { background: var(--amber); transform: scale(1.5); }
+
+/* ═══════════════════════════════ TERMS GRID ═══════════════════════════════ */
+.terms-wrap { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+.term-chip {
+  padding: 0.38rem 0.95rem;
+  background: var(--iron); border: 1px solid var(--border2);
+  font-family: 'Libre Baskerville', serif; font-size: 0.88rem;
+  color: var(--text2); cursor: pointer; transition: all 0.2s;
+  border-radius: var(--radius);
+}
+.term-chip:hover { background: var(--copper); color: var(--coal); border-color: var(--copper); }
+
+/* ═══════════════════════════════ FOOTER ═══════════════════════════════ */
+footer {
+  background: var(--coal);
+  border-top: 1px solid var(--border);
+  text-align: center; padding: 2.5rem;
+}
+footer p {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.75rem; letter-spacing: 0.15em;
+  color: var(--text3);
+}
+
+/* ═══════════════════════════════ RESPONSIVE ═══════════════════════════════ */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .tl-spine { left: 18px; }
+  .tl-row:nth-child(odd),
+  .tl-row:nth-child(even) { flex-direction: row; padding-left: 44px; padding-right: 0; }
+  .tl-node { left: 18px; }
+  .ep-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="nav-brand" href="#">
+    <span class="nav-gear">⚙</span>
+    SO med Petrus
+  </a>
+  <ul class="nav-links">
+    <li><a href="#avsnitt">Avsnitt</a></li>
+    <li><a href="#tidslinje">Tidslinje</a></li>
+    <li><a href="#flashcards">Flashcards</a></li>
+    <li><a href="#begrepp">Begrepp</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <!-- Animated SVG gears -->
+  <div class="gear-bg">
+    <!-- Large gear top-right -->
+    <svg class="gear-svg g1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="35" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="22" stroke-width="1.5"/>
+      <circle cx="50" cy="50" r="8" stroke-width="1.5"/>
+      <g stroke-width="6" stroke-linecap="round">
+        <line x1="50" y1="10" x2="50" y2="22"/>
+        <line x1="50" y1="78" x2="50" y2="90"/>
+        <line x1="10" y1="50" x2="22" y2="50"/>
+        <line x1="78" y1="50" x2="90" y2="50"/>
+        <line x1="21" y1="21" x2="29" y2="29"/>
+        <line x1="71" y1="71" x2="79" y2="79"/>
+        <line x1="79" y1="21" x2="71" y2="29"/>
+        <line x1="21" y1="79" x2="29" y2="71"/>
+      </g>
+    </svg>
+    <!-- Medium gear bottom-left -->
+    <svg class="gear-svg g2" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="35" stroke-width="2"/>
+      <circle cx="50" cy="50" r="20" stroke-width="2"/>
+      <circle cx="50" cy="50" r="7" stroke-width="2"/>
+      <g stroke-width="7" stroke-linecap="round">
+        <line x1="50" y1="10" x2="50" y2="22"/>
+        <line x1="50" y1="78" x2="50" y2="90"/>
+        <line x1="10" y1="50" x2="22" y2="50"/>
+        <line x1="78" y1="50" x2="90" y2="50"/>
+        <line x1="21.7" y1="21.7" x2="30" y2="30"/>
+        <line x1="70" y1="70" x2="78.3" y2="78.3"/>
+        <line x1="78.3" y1="21.7" x2="70" y2="30"/>
+        <line x1="21.7" y1="78.3" x2="30" y2="70"/>
+      </g>
+    </svg>
+    <svg class="gear-svg g3" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="38" stroke-width="3"/>
+      <circle cx="50" cy="50" r="18" stroke-width="3"/>
+      <g stroke-width="9" stroke-linecap="round">
+        <line x1="50" y1="8" x2="50" y2="24"/>
+        <line x1="50" y1="76" x2="50" y2="92"/>
+        <line x1="8" y1="50" x2="24" y2="50"/>
+        <line x1="76" y1="50" x2="92" y2="50"/>
+        <line x1="19" y1="19" x2="30" y2="30"/>
+        <line x1="70" y1="70" x2="81" y2="81"/>
+        <line x1="81" y1="19" x2="70" y2="30"/>
+        <line x1="19" y1="81" x2="30" y2="70"/>
+      </g>
+    </svg>
+    <svg class="gear-svg g4" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="36" stroke-width="3.5"/>
+      <circle cx="50" cy="50" r="16" stroke-width="3.5"/>
+      <g stroke-width="10" stroke-linecap="round">
+        <line x1="50" y1="9" x2="50" y2="25"/>
+        <line x1="50" y1="75" x2="50" y2="91"/>
+        <line x1="9" y1="50" x2="25" y2="50"/>
+        <line x1="75" y1="50" x2="91" y2="50"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- Steam particles -->
+  <div class="steam-container" id="steam-container"></div>
+
+  <div class="hero-content">
+    <div class="hero-pre">⚙ SO med Petrus · Historieserie</div>
+    <h1 class="hero-title">
+      Industriella<span class="accent">Revolutionen</span>
+    </h1>
+    <div class="hero-divider">⚙ ⚙ ⚙</div>
+    <p class="hero-lead">
+      Från muskelkraft till maskinkraft. Hur kol, ånga och järn förvandlade bondesamhällen till fabriksstäder — och lade grunden till den värld du lever i idag.
+    </p>
+    <div class="hero-stats">
+      <div class="hstat"><strong>2</strong> Avsnitt</div>
+      <div class="hstat"><strong>16</strong> Quizfrågor</div>
+      <div class="hstat"><strong>30</strong> Flashcards</div>
+      <div class="hstat"><strong>22</strong> Tidslinjehändelser</div>
+    </div>
+    <div class="scroll-cue">
+      <span>Elden är tänd</span>
+      <div class="scroll-cue-arrow"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EPISODES ═══ -->
+<section class="sec sec-dark" id="avsnitt">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-eyebrow">🎙 Poddavsnitt</span>
+      <h2>Lyssna &amp; Lär dig</h2>
+      <div class="sec-orn"><span>⚙</span></div>
+      <p class="sec-sub">Starta quiz eller öppna Spotify direkt.</p>
+    </div>
+    <div class="ep-grid" id="ep-grid"></div>
+  </div>
+</section>
+
+<!-- ═══ TIMELINE ═══ -->
+<section class="sec" id="tidslinje" style="background:var(--coal);">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-eyebrow">📅 Historisk Tidslinje</span>
+      <h2>Från Tegar till Fabriksrök</h2>
+      <div class="sec-orn"><span>⚙</span></div>
+      <p class="sec-sub">Klicka på ett kort för att läsa mer. Filtrera efter kategori.</p>
+    </div>
+    <div class="tl-filters" id="tl-filters">
+      <button class="tl-fbtn on" data-c="all">Alla</button>
+      <button class="tl-fbtn" data-c="teknik">⚙ Teknik</button>
+      <button class="tl-fbtn" data-c="energi">🔥 Energi</button>
+      <button class="tl-fbtn" data-c="samhälle">🏙 Samhälle</button>
+      <button class="tl-fbtn" data-c="arbete">⚒ Arbete</button>
+      <button class="tl-fbtn" data-c="hälsa">💉 Hälsa</button>
+      <button class="tl-fbtn" data-c="miljö">🌿 Miljö</button>
+    </div>
+    <div class="tl-wrap">
+      <div class="tl-spine"></div>
+      <div id="tl-body"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FLASHCARDS ═══ -->
+<section class="sec sec-dark" id="flashcards">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-eyebrow">🃏 Flashcards</span>
+      <h2>Träna Begreppen</h2>
+      <div class="sec-orn"><span>⚙</span></div>
+      <p class="sec-sub">Klicka för att vända. ← → bläddra. Mellanslag vänder kortet.</p>
+    </div>
+    <div class="fc-filter-row" id="fc-filter-row"></div>
+    <div class="fc-navrow">
+      <button class="fc-arr" id="fc-prev">←</button>
+      <span class="fc-count" id="fc-count">1 / 30</span>
+      <button class="fc-arr" id="fc-next">→</button>
+    </div>
+    <div class="fc-stage">
+      <div class="fc-card" id="fc-card">
+        <div class="fc-face fc-front" id="fc-front"></div>
+        <div class="fc-face fc-back"  id="fc-back"></div>
+      </div>
+    </div>
+    <div class="fc-dots" id="fc-dots"></div>
+  </div>
+</section>
+
+<!-- ═══ TERMS ═══ -->
+<section class="sec sec-mid" id="begrepp">
+  <div class="sec-inner">
+    <div class="sec-head">
+      <span class="sec-eyebrow">📖 Begreppsordlista</span>
+      <h2>Alla Begrepp</h2>
+      <div class="sec-orn"><span>⚙</span></div>
+    </div>
+    <div class="terms-wrap" id="terms-wrap"></div>
+  </div>
+</section>
+
+<footer>
+  <p>⚙ SO med Petrus · Industriella Revolutionen · 1700–1900 ⚙</p>
+</footer>
+
+<!-- ═══ QUIZ MODAL ═══ -->
+<div class="modal-ov" id="qmodal-ov">
+  <div class="qmodal">
+    <button class="q-close" id="q-close">✕</button>
+    <div class="q-ep" id="q-ep-lbl"></div>
+    <div class="q-ep-title" id="q-ep-ttl"></div>
+    <div class="q-bar"><div class="q-bar-fill" id="q-bar-fill"></div></div>
+    <div class="q-bartext" id="q-bartext"></div>
+    <div id="q-body">
+      <div class="q-question" id="q-question"></div>
+      <div class="q-opts" id="q-opts"></div>
+      <div class="q-fb" id="q-fb"></div>
+      <div class="q-footer">
+        <span class="q-pts" id="q-pts"></span>
+        <button class="btn-nxt" id="btn-nxt">Nästa →</button>
+      </div>
+    </div>
+    <div class="q-result" id="q-result">
+      <div class="r-icon" id="r-icon"></div>
+      <div class="r-score" id="r-score"></div>
+      <div class="r-msg" id="r-msg"></div>
+      <button class="btn-retry" id="btn-retry">Gör om quizet</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   STEAM PARTICLES
+═══════════════════════════════════════════════════════ */
+const steamC = document.getElementById('steam-container');
+for (let i = 0; i < 28; i++) {
+  const p = document.createElement('div');
+  p.className = 'steam-p';
+  const x = Math.random() * 100;
+  const dur = 6 + Math.random() * 10;
+  const delay = Math.random() * 10;
+  const drift = (Math.random() - 0.5) * 120;
+  const size = 4 + Math.random() * 8;
+  p.style.cssText = `left:${x}%;width:${size}px;height:${size}px;animation-duration:${dur}s;animation-delay:${-delay}s;--drift:${drift}px`;
+  steamC.appendChild(p);
+}
+
+/* ═══════════════════════════════════════════════════════
+   DATA — EPISODES
+═══════════════════════════════════════════════════════ */
+const episodes = [
+  {
+    id: 0,
+    num: "Del 1", icon: "⚙️",
+    title: "Muskelkraft till Maskinkraft",
+    desc: "Jordbruksskiften, ull och textilfabriker, kol och koks, James Watts ångmaskin — och ludditernas raseri mot den nya världen.",
+    spotify: "https://open.spotify.com/episode/3n8KMx13J61Gwfi055AWEN"
+  },
+  {
+    id: 1,
+    num: "Del 2", icon: "🚂",
+    title: "Ånga, Räls och Klassamhälle",
+    desc: "Järnväg, telegraf och ångfartyg krymper världen. Befolkningsexplosion, vaccin, urbanisering — och den smutsiga klimatbaksidan.",
+    spotify: "https://open.spotify.com/episode/5w7yVakRrzgo1cRMqSPJv3"
+  }
+];
+
+/* ═══════════════════════════════════════════════════════
+   DATA — QUIZZES (2×8, perfekt balanserade A:2 B:2 C:2 D:2)
+═══════════════════════════════════════════════════════ */
+const quizzes = [
+  {
+    title: "Del 1 – Muskelkraft till Maskinkraft",
+    qs: [
+      { q: "Vad innebar 'skiften' inom det brittiska jordbruket under 1700-talet?", os: ["Att spridda tegar slogs ihop till större sammanhängande åkrar — bonden kunde nu bestämma själv", "Att bönderna bytte mark med varandra frivilligt", "Att staten övertog all jordbruksmark", "Att jordbruk och textilindustri sammanslogs"], ans: 0 },
+      { q: "Vilket bränsle ersatte träkol i järnbruken och möjliggjorde billigare järnproduktion?", os: ["Naturgas importerad från Frankrike", "Koks, framställt av stenkol som fanns i rikliga mängder i brittisk mark", "Torv från irländska myrmarker", "Rå stenkol direkt utan förädling"], ans: 1 },
+      { q: "Hur bidrog potatisen till den industriella revolutionens start?", os: ["Den exporterades till kontinenten och finansierade fabriksbyggen", "Den fermenterades till drivmedel för ångmaskiner", "Som ny supergröda klarade den dålig jord och mättade fler — folk frigjordes från jordbruket", "Den ersatte ull som Englands viktigaste exportvara"], ans: 2 },
+      { q: "Vad fick rörelsen 'ludditerna' sitt namn ifrån?", os: ["Staden Ludd i Yorkshire där de första fabrikerna saboterades", "En lag (Ludd Act) mot maskinsabotage", "Den industrielle uppfinnaren Lord Ludd", "En figur — verklig eller påhittad — som sägs ha hatat maskiner och startat rörelsen"], ans: 3 },
+      { q: "Vad var James Watts avgörande förbättring av ångmaskinen 1769?", os: ["Han gjorde att den kunde driva roterande maskiner — inte bara pumpa vatten — vilket frigjorde fabriker från vattenkraft", "Han skapade den första ångmaskinen överhuvudtaget", "Han halverade ångmaskinens kolförbrukning", "Han byggde in en säkerhetsventil som förhindrade explosioner"], ans: 0 },
+      { q: "Varför räknas triangelhandeln som en del av den industriella revolutionens bakgrund?", os: ["Handeln transporterade råjärn från Afrika till England", "Triangelhandelns enorma vinster skapade det kapital som investerades i fabriker och industri", "Den finansierade brittisk sjöfart som sedan byggdes om till ångfartyg", "Den möjliggjorde import av bomull direkt till Manchesters fabriker"], ans: 1 },
+      { q: "Hur straffades maskinsabotage efter ludditrörelsens uppror?", os: ["Böter och tre månaders fängelse", "Deportation till Australien i fem år", "Parlamentet stiftade en lag som tillät dödsstraff — 17 ludditer avrättades i York", "Livstids straffarbete i gruvorna"], ans: 2 },
+      { q: "Vilken kedja beskriver bäst hur de industriella förändringarna hängde ihop?", os: ["Tåg → fabriker → ull → järn → kolonier → kapital", "Ångmaskin → järnväg → telegraf → städer → välstånd", "Kol → järn → ull → skiften → städer → klassamhälle", "Jordbruksskiften → lediga arbetare → fabriker → handel → kapitalinvesteringar → ännu fler fabriker"], ans: 3 },
+    ]
+  },
+  {
+    title: "Del 2 – Ånga, Räls och Klassamhälle",
+    qs: [
+      { q: "Vad var telegrafen och vad var dess historiska revolution?", os: ["Den skickade meddelanden på elektriska signaler på minuter — mot veckor med häst och båt", "Den var ett tidigt rörsystem för att skicka fysiska brev inom städer", "Den var ett optiskt signalsystem med flaggor på bergstoppar", "Den möjliggjorde röstsamtal på långa avstånd"], ans: 0 },
+      { q: "Vem uppfann vaccinet, vilket djur spelade nyckelrollen och vilket år?", os: ["Louis Pasteur, råtta, 1845", "Edward Jenner, kon (vacca), 1796 — kokoppor gav immunitet mot smittkoppor", "Robert Koch, häst, 1810", "William Harvey, gris, 1788"], ans: 1 },
+      { q: "Vad innebär urbanisering och varför var den 'brutalt logisk' under industrialiseringen?", os: ["Befolkningsökning på landsbygden som drev upp matpriserna", "Städernas expansion utåt på landsbygdens bekostnad via planlagda villaområden", "Inflyttning till städer: effektivare jordbruk frigjorde arbetskraft som fabrikernas efterfrågan drog till sig", "Statlig omflyttning av fattiga från landsbygden till industrikvarter"], ans: 2 },
+      { q: "Vad lade den industriella revolutionen grunden till som vi lever med idag?", os: ["En permanent överklassdominans som aldrig utmanades av demokratirörelserna", "Sjöhandelns slutliga dominans över landhandel", "Dagens klimatkris — fossila bränslens koldioxidutsläpp startade sin uppgång under industrialiseringen", "En global enhetlig arbetstidslagstiftning"], ans: 3 },
+      { q: "Hur stor var Manchesters befolkningstillväxt under industrialiseringens tidiga decennier (ca 1760–1801)?", os: ["Från ~20 000 till ~95 000 — nästan fem gånger fler på fyrtio år", "Från ~5 000 till ~50 000 — en tiofaldigering", "Från ~80 000 till ~200 000 — en fördubbling", "Från ~50 000 till ~150 000 — en tredubbling"], ans: 0 },
+      { q: "Vad var clippers och vad hände med dem när ångfartygen spreds?", os: ["Tungt rustade brittiska örlogsfartyg som ersattes av pansarskepp", "Snabba segelfartyg med enorma master som länge konkurrerade men gradvis ersattes av ångdrift", "Primitiva tidiga ångbåtar som ersattes av effektivare turbinfartyg", "Specialiserade kolpråmar för att transportera bränsle till kustfabriker"], ans: 1 },
+      { q: "Vad skiljde ett överklasspojkens uppväxt från ett arbetarbarns under industrialismen?", os: ["Överklasspojkar arbetade kortare dagar och fick söndagar lediga", "Inga barn arbetade i fabriker — det var lagstadgat förbjudet redan 1790", "Överklasspojkar gick i privatskola med guvernant, arb.klass-barn jobbade 12-timmarsdagar i fabriker och gruvor", "Arbetarbarn fick mer fysisk rörelse medan överklasspojkar satt stilla vid skrivbordet"], ans: 2 },
+      { q: "Varför var en fabrik geografiskt mer flexibel EFTER James Watts förbättring än FÖRE?", os: ["Eftersom järnvägsnätet nu distribuerade råvaror dit fabrikerna låg", "Eftersom fabrikerna nu drevs av elektricitet istället för mekanisk kraft", "Tidigare krävdes vattenfors för drift — ångmaskinen lät fabriken stå var som helst nära kol, hamnar eller städer", "Eftersom statliga lagar förbjöd fabriker nära vattendrag"], ans: 3 },
+    ]
+  }
+];
+
+/* ═══════════════════════════════════════════════════════
+   DATA — TIMELINE (22 händelser)
+═══════════════════════════════════════════════════════ */
+const tlData = [
+  { year:"ca 1700", cat:"teknik", icon:"⚒️", title:"Koks ersätter träkol", short:"Billigare järn möjliggörs", text:"Abraham Darby vid Ironbridge lyckas smälta järnmalm med koks — ett bränsle framställt av stenkol — istället för det dyra träkolet. Järn kan nu produceras till lägre kostnad med inhemskt bränsle." },
+  { year:"1712", cat:"energi", icon:"💨", title:"Newcomens ångmaskin", short:"Den första ångmaskinens genombrott", text:"Thomas Newcomen konstruerar den första praktiska ångmaskinen. Den används för att pumpa upp vatten ur kolgruvor. Ineffektiv och otymplig, men ett epokgörande steg mot maskinkraftens era." },
+  { year:"ca 1750", cat:"samhälle", icon:"🌾", title:"Jordbruksskiftena tar fart", short:"Tegar slås ihop — bonden får bestämma själv", text:"Det brittiska parlamentet genomför enclosures och skiften i stor skala. Spridda tegar slås ihop till stora, sammanhängande åkrar. Effektiviteten ökar men småbönder förlorar sina arrenden och gemensamma marker." },
+  { year:"1764", cat:"teknik", icon:"🧵", title:"Spinning Jenny uppfinns", short:"Textilindustrins språngstart", text:"James Hargreaves konstruerar spinning jenny — en maskin som kan spinna 8 trådar samtidigt. Textilindustrins produktivitet mångdubblas. Den hembaserade spinnrocken börjar bli obsolet." },
+  { year:"1769", cat:"teknik", icon:"⚙️", title:"Watt förbättrar ångmaskinen", short:"Industrialiseringens motor föds", text:"James Watt patenterar sin radikalt förbättrade ångmaskin. För första gången kan ångkraft omvandlas till roterande rörelse och driva andra maskiner — inte bara pumpa vatten. Fabriksrevolutionen kan nu börja på riktigt." },
+  { year:"ca 1779", cat:"teknik", icon:"🏭", title:"Cromford Mill — första textilfabriken", short:"Richard Arkwrights vattendrivna spinneri", text:"Richard Arkwright öppnar vad som brukar kallas världens första moderna fabrik i Cromford. Hundratals arbetare samlas under ett tak vid maskiner drivna av vattenkraft. Arbetslivet centraliseras." },
+  { year:"1785", cat:"teknik", icon:"🪢", title:"Den mekaniska vävstolen", short:"Edmund Cartwrights revolution inom vävning", text:"Edmund Cartwright konstruerar den mekaniska vävstolen. Kombinerat med spinnmaskinerna kan textilproduktionen nu ske i fabriker i hela kedjan från råull till färdigt tyg — hemväverskans tid är räknad." },
+  { year:"1789–1815", cat:"samhälle", icon:"⚔️", title:"Napoleonkrigen accelererar industrin", short:"Krig driver teknisk och ekonomisk utveckling", text:"De långvariga krigen mot Napoleon skapar enorm efterfrågan på metaller, uniformstyger och transporter. Brittisk industri expanderar kraftigt för att möta militärbehovet. Kapital och innovation flödar in i sektorn." },
+  { year:"1796", cat:"hälsa", icon:"💉", title:"Edward Jenner uppfinner vaccinet", short:"Mjölkerskornas hemlighet räddar miljoner liv", text:"Jenner vaccinerar en 8-årig pojke med material från kokoppor — och bevisar att det ger immunitet mot smittkoppor. Eftersom ko heter vacca på latin kallas skyddet vaccin. Grunden till modern immunologi läggs." },
+  { year:"1801", cat:"samhälle", icon:"🏙️", title:"Manchester: 95 000 invånare", short:"Från 20 000 till 95 000 på fyrtio år", text:"Manchester, Englands textilcentrum, har exploderat i storlek. Det som 1760 var en liten stad med 20 000 invånare huserar nu 95 000. Nya bostadskvarter, fabriker och smuts präglar staden. Urbaniseringen är ett faktum." },
+  { year:"1804", cat:"teknik", icon:"🚂", title:"Första ånglokomotiv på räls", short:"Trevithicks historiska resa", text:"Richard Trevithick kör världens första ånglokomotivet längs en gruvbana i Wales. Det är tungt och går sönder räls, men principen är bevisad: ångkraft kan driva fordon på järnspår." },
+  { year:"1807", cat:"teknik", icon:"⛵", title:"Ångbåten Clermont på Hudson", short:"Robert Fultons seger mot strömmen", text:"Robert Fultons ångbåt Clermont tar passagerare längs Hudson River mot strömmen — något segelfartyg aldrig kunnat göra. Ångfartygen börjar revolutionera sjöfarten, oberoende av vind och ström." },
+  { year:"1811–1813", cat:"arbete", icon:"⚒️", title:"Ludditerna slår sönder maskiner", short:"Fabriksarbetarnas revolt mot automationen", text:"Hantverkare och fabriksarbetare slår organiserat sönder maskiner i Nottingham, Yorkshire och Lancashire. De ser hur deras färdigheter och arbetstillfällen utplånas av mekanisering. Det är 1800-talets version av automationsdebatten." },
+  { year:"1813", cat:"arbete", icon:"⚖️", title:"17 ludditer avrättas i York", short:"Staten krossar maskinsabotaget med dödstraff", text:"Parlamentet stiftar lagar som gör maskinsabotage till ett brott som kan bestraffas med döden. I York avrättas 17 ludditer offentligt. Sabotagerörelsens rygg är bruten — maskinerna har vunnit." },
+  { year:"1825", cat:"teknik", icon:"🛤️", title:"Stockton–Darlington järnvägen öppnar", short:"Världens första offentliga järnväg", text:"Järnvägen mellan Stockton och Darlington i nordöstra England öppnar för passagerare och godstransport. George Stephensons lokomotiv drar vagnar i 25 km/h. En ny epok i mänsklighetens historia börjar." },
+  { year:"1830", cat:"teknik", icon:"🚉", title:"Liverpool–Manchester: järnvägsrevolutionen", short:"Städer och ekonomier binds samman", text:"Liverpool–Manchester järnvägen öppnar med Stephensons Rocket som dragkraft. Det är nu möjligt att resa 50 km på 1,5 timme. Råvaror och varor flödar i en takt som var otänkbar bara decennier tidigare." },
+  { year:"ca 1830–1850", cat:"samhälle", icon:"🌍", title:"Industrialisering sprider sig till Europa", short:"Belgien, Frankrike och USA hakar på", text:"De brittiska teknikerna och maskinerna — och deras hemligheter — sprids till Belgien, norra Frankrike och USA. De första kontinentala fabrikerna öppnar. Den industriella revolutionen är nu ett globalt fenomen." },
+  { year:"1840-talet", cat:"teknik", icon:"⚡", title:"Telegrafen kommersialiseras", short:"Världens första snabbkommunikation", text:"Telegraflinjer byggs ut längs järnvägarna. Ett meddelande som tidigare tog veckor med häst och båt kan nu sändas på sekunder. Börser, arméer och affärsmän förvandlas av den nya kommunikationstekniken." },
+  { year:"ca 1850", cat:"hälsa", icon:"🏥", title:"Snöpumpen och epidemiologin föds", short:"John Snow kartlägger kolerautbrottet i London", text:"Läkaren John Snow kartlägger ett kolerauthbrott i London och spårar det till en specifik vattenpump. Det är epidemiologins födelseögonblick — att sjukdomar kan spåras vetenskapligt och bekämpas strukturellt." },
+  { year:"ca 1850", cat:"miljö", icon:"☁️", title:"Industristadens smog och miljöproblem", short:"Koleldade städer dränks i sot och sjukdom", text:"Industrialiserade städer som Manchester och Birmingham täcks av tjock kolrök. Sjukdomar sprids i trångbodda kvarter. Medellivslängden i industrikvarter kan vara tio år kortare än på landsbygden. Inga utsläppslagar finns." },
+  { year:"1860-talet →", cat:"miljö", icon:"🌡️", title:"Koldioxidkurvan börjar stiga", short:"Klimatkrisens rötter i industrialiseringen", text:"Industrins massiva förbränning av kol och koks börjar höja atmosfärens koldioxidnivåer märkbart. Det är här den nuvarande klimatkrisens kurva tar sin faktiska startpunkt. Ingen förstår konsekvenserna ännu." },
+  { year:"1870-tal →", cat:"arbete", icon:"✊", title:"Arbetarlagar och fackföreningar", short:"Industrisamhällets motreaktioner", text:"Som svar på de extrema arbetsvillkoren börjar fackföreningar organiseras och parlamentet stiftar de första fabrikslagarna: begränsad arbetstid, förbud mot barnarbete i gruvor, krav på grundläggande säkerhetsåtgärder." },
+];
+
+/* ═══════════════════════════════════════════════════════
+   DATA — FLASHCARDS (30 st, 5 kategorier)
+═══════════════════════════════════════════════════════ */
+const fcData = [
+  { term:"Ångmaskin", cat:"teknik", def:"En motor som omvandlar ångkraft (värme från bränsle) till mekanisk rörelse — hjärtat i den industriella revolutionen.", ex:"James Watts 1769-förbättring frigjorde fabriker från vattenkraftens geografiska begränsningar." },
+  { term:"James Watt", cat:"teknik", def:"Skotsk uppfinnare som 1769 förbättrade ångmaskinen så att den kunde driva roterande maskiner, inte bara pumpa vatten.", ex:"Watts ångmaskin är industrialiseringens symboliska startskott — SI-enheten Watt är uppkallad efter honom." },
+  { term:"Spinning Jenny", cat:"teknik", def:"Maskin uppfunnen av James Hargreaves 1764 som kunde spinna 8 trådar samtidigt — textilindustrins produktivitetssprång.", ex:"Möjliggjorde fabrikstillverkning av garn i en skala som hemspinnerskor aldrig kunde matcha." },
+  { term:"Lokomotivet", cat:"teknik", def:"Ångdrivet fordon på järnspår som revolutionerade transporter av människor och gods.", ex:"Stockton–Darlington 1825 och Liverpool–Manchester 1830 öppnade järnvägsrevolutionen." },
+  { term:"Telegrafen", cat:"teknik", def:"System för att skicka korta meddelanden via elektriska signaler — 1800-talets motsvarighet till SMS.", ex:"Reducerade kommunikationstiden från veckor till sekunder och förvandlade handel, militär och journalistik." },
+  { term:"Koks", cat:"energi", def:"Bränsle framställt av stenkol genom upphettning utan syre — brinner hetare och renare än träkol, avgörande för järnproduktion.", ex:"Ersatte träkol i järnbruken under tidigt 1700-tal och möjliggjorde massproduktion av billigt järn." },
+  { term:"Stenkol", cat:"energi", def:"Fossilt bränsle som bildades under miljoner år och användes i ångmaskiner, järnbruk och hus — industrialiseringens primära energikälla.", ex:"Britanniens rikliga stenkolsreserver gav landet ett avgörande försprång i den industriella revolutionen." },
+  { term:"Fossila bränslen", cat:"energi", def:"Kol, olja och naturgas — energikällor bildade av organiskt material under miljoner år vars förbränning frigör koldioxid.", ex:"Industrialiseringens massiva kolförbränning lade grunden till det vi idag kallar klimatkrisen." },
+  { term:"Vattenkraft", cat:"energi", def:"Energi från strömmande vatten som drev de tidiga fabrikernas maskiner innan ångmaskinen frigjorde industrin.", ex:"Tidiga textilfabriker som Arkwrights Cromford Mill låg vid forsar — ångmaskinen gav lokaliseringsfrihet." },
+  { term:"Koldioxid (CO₂)", cat:"energi", def:"Växthusgas som frigörs vid förbränning av fossila bränslen och som ansamlas i atmosfären och höjer jordens temperatur.", ex:"Industrialiseringen satte igång den CO₂-kurva som driver nutidens klimatförändringar." },
+  { term:"Skiften / Enclosures", cat:"samhälle", def:"Brittisk jordbruksreform där spridda tegar slogs ihop till stora sammanhängande åkrar och gemensamma marker stängslades in.", ex:"Ökade produktiviteten men berövade småbönder arrenden — de tvingades söka jobb i fabrikerna." },
+  { term:"Urbanisering", cat:"samhälle", def:"Befolkningens förflyttning från landsbygd till städer — en direkt följd av industrialiseringens jobbskapande i fabriker.", ex:"Manchester växte från 20 000 till 95 000 invånare på fyrtio år — ett av historiens snabbaste stadsexplosioner." },
+  { term:"Fabrik", cat:"samhälle", def:"Byggnad där människor med hjälp av maskiner omvandlar råvaror till färdiga produkter — industrisamhällets grundenhet.", ex:"Ersatte hembaserat hantverk och centraliserade produktionen under fabriksägarens kontroll och tidtabell." },
+  { term:"Manchester", cat:"samhälle", def:"Brittisk stad som blev världens textilcentrum och symbolen för industrisamhällets urbanisering, klasskillnader och miljöproblem.", ex:"Friedrich Engels bodde i Manchester och dokumenterade arbetsklassens livsvillkor som sedan inspirerade Marx." },
+  { term:"Klassamhälle", cat:"samhälle", def:"Socialt system med tydliga grupper — arbetarklass, medelklass, överklass — med fundamentalt olika levnadsvillkor, chanser och makt.", ex:"Industrialiseringen befäste och skärpte klassillnaderna och lade grunden till 1800-talets sociala rörelser." },
+  { term:"Ludditerna", cat:"arbete", def:"Rörelse av hantverkare och fabriksarbetare 1811–1813 som slog sönder maskiner i protest mot automatiseringens jobbförstöring.", ex:"17 ludditer avrättades i York 1813 efter parlamentets dödstrafslag mot maskinsabotage." },
+  { term:"Barnarbete", cat:"arbete", def:"Att barn arbetar i fabriker eller gruvor i stället för att gå i skola — ett vanligt inslag i tidigt industrisamhälle.", ex:"Barn användes i fabriker för sina små händer, i gruvor för sina smala kroppar — och för att de var billigare." },
+  { term:"Fackförening", cat:"arbete", def:"Organisation av arbetare som gemensamt förhandlar om löner, arbetstider och arbetsvillkor med arbetsgivaren.", ex:"Växte fram som svar på industrialiseringens extrema villkor och var länge förbjudet i Britannien." },
+  { term:"Kapital", cat:"ekonomi", def:"Pengar, maskiner och andra tillgångar som investeras i produktion för att generera vinst.", ex:"Vinster från triangelhandeln och godsdrift var det kapital som finansierade de första fabrikerna och gruvorna." },
+  { term:"Textilindustrin", cat:"ekonomi", def:"Produktion av garn och tyg i fabrikers skala — den bransch som ledde Britanniens industrialisering.", ex:"Ull → spinning jenny → mekanisk vävstol → bomullsimport från kolonier: hela kedjan industrialiserades steg för steg." },
+  { term:"Triangelhandeln", cat:"ekonomi", def:"Handelsrutt England–Afrika–Amerika–England: textilier till Afrika, slavar till Amerika, socker/tobak/bomull tillbaka till England.", ex:"Genererade enorma vinster som finansierade den industriella revolutionens kapitalinvesteringar." },
+  { term:"Marknaden", cat:"ekonomi", def:"Systemet där varor och tjänster köps och säljs — fabrikerna behöver kunder, urbaniseringen skapar dem.", ex:"Kolonier tvingades köpa brittiska varor, industriarbetare köpte det de inte längre hann tillverka själva." },
+  { term:"Vaccination", cat:"hälsa", def:"Metod att stimulera immunsystemet med en lindrig sjukdom så att kroppen skyddas mot en allvarligare variant.", ex:"Jenners kokopps-experiment 1796 lade grunden till moderna vaccin som räddat hundratals miljoner liv." },
+  { term:"Edward Jenner", cat:"hälsa", def:"Brittisk läkare som 1796 bevisade att kokoppor gav immunitet mot smittkoppor och skapade världens första vaccin.", ex:"Inspirerades av en mjölkerskas observation att ladugårdsarbetare sällan fick smittkoppor." },
+  { term:"Smittkoppor", cat:"hälsa", def:"Dödlig virussjukdom som dödade och lemlästade miljoner — det vaccin Jenner uppfann ledde till sjukdomens utrotning 1980.", ex:"Smittkoppors fruktan var en av industrialiseringens bakgrundsrädsla — Jenners vaccin vände utvecklingen." },
+  { term:"Befolkningsexplosion", cat:"hälsa", def:"Kraftig ökning av folkmängd till följd av kombinationen: mer mat, vaccin, bättre hygien och lägre barnadödlighet.", ex:"Europas befolkning nästan fördubblades under 1800-talet — ett direkt resultat av industrialiseringens förbättringar." },
+  { term:"Klimatkrisen", cat:"miljö", def:"Pågående uppvärmning av jordens atmosfär och hav till följd av växthusgasutsläpp, vars rötter ligger i industrialiseringen.", ex:"Koldioxidkurvan börjar sin kritiska stigning under 1800-talets fabrikseror — konsekvenserna ser vi idag." },
+  { term:"Smog", cat:"miljö", def:"Blandning av dimma och fabriksrök i industrialiserade städer — orsakade lungsjukdomar och kortare livslängd.", ex:"Manchesters och Londons himlar var periodvis svarta av kolsot — kläder och fasader täcktes av sot." },
+  { term:"Järnvägen", cat:"teknik", def:"Transportsystem med ångdrivna lok på järnspår som revolutionerade gods- och persontransport.", ex:"Krympte avstånd, sänkte fraktpriser och band ihop nationella ekonomier — industrisamhällets cirkulationssystem." },
+  { term:"Ångfartyget", cat:"teknik", def:"Fartyg drivet av ångmaskin som kunde navigera oberoende av vind och mot strömmar — revolutionerade sjöfarten.", ex:"Klarade tidtabeller och rutter som segelfartyg aldrig kunde garantera, vilket möjliggjorde pålitlig världshandel." }
+];
+
+/* ═══════════════════════════════════════════════════════
+   RENDER EPISODES
+═══════════════════════════════════════════════════════ */
+const epGrid = document.getElementById('ep-grid');
+episodes.forEach(ep => {
+  const d = document.createElement('div');
+  d.className = 'ep-card';
+  d.innerHTML = `
+    <div class="ep-plate">
+      <span class="ep-num-badge">${ep.num}</span>
+      <span class="ep-icon">${ep.icon}</span>
+    </div>
+    <div class="ep-title">${ep.title}</div>
+    <div class="ep-desc">${ep.desc}</div>
+    <div class="ep-actions">
+      <a class="btn-spot" href="${ep.spotify}" target="_blank">▶ Spotify</a>
+      <button class="btn-quiz" onclick="openQ(${ep.id})">📝 Quiz</button>
+    </div>`;
+  epGrid.appendChild(d);
+});
+
+/* ═══════════════════════════════════════════════════════
+   QUIZ LOGIC
+═══════════════════════════════════════════════════════ */
+let curQ = null, qi = 0, sc = 0, ans = false;
+function openQ(id) {
+  curQ = quizzes[id]; qi = 0; sc = 0; ans = false;
+  document.getElementById('qmodal-ov').classList.add('on');
+  document.getElementById('q-result').classList.remove('vis');
+  document.getElementById('q-body').style.display = '';
+  document.getElementById('q-ep-lbl').textContent = episodes[id].num;
+  document.getElementById('q-ep-ttl').textContent = episodes[id].title;
+  renderQ();
+}
+function renderQ() {
+  const q = curQ.qs[qi], tot = curQ.qs.length;
+  document.getElementById('q-bar-fill').style.width = (qi/tot*100)+'%';
+  document.getElementById('q-bartext').textContent = `Fråga ${qi+1} av ${tot}`;
+  document.getElementById('q-pts').textContent = `Poäng: ${sc}/${qi}`;
+  document.getElementById('q-question').textContent = q.q;
+  document.getElementById('q-fb').className = 'q-fb';
+  document.getElementById('btn-nxt').classList.remove('vis');
+  ans = false;
+  const opts = document.getElementById('q-opts');
+  opts.innerHTML = '';
+  q.os.forEach((o, i) => {
+    const b = document.createElement('button');
+    b.className = 'q-opt';
+    b.innerHTML = `<span class="q-lbl">${['A','B','C','D'][i]}</span>${o}`;
+    b.onclick = () => pickA(i);
+    opts.appendChild(b);
+  });
+}
+function pickA(chosen) {
+  if (ans) return;
+  ans = true;
+  const q = curQ.qs[qi];
+  document.querySelectorAll('.q-opt').forEach(b => b.disabled = true);
+  const fb = document.getElementById('q-fb');
+  if (chosen === q.ans) {
+    sc++;
+    document.querySelectorAll('.q-opt')[chosen].classList.add('correct');
+    fb.textContent = '✓ Rätt svar!'; fb.className = 'q-fb vis ok';
+  } else {
+    document.querySelectorAll('.q-opt')[chosen].classList.add('wrong');
+    document.querySelectorAll('.q-opt')[q.ans].classList.add('correct');
+    fb.textContent = '✗ Fel. Rätt: ' + q.os[q.ans]; fb.className = 'q-fb vis no';
+  }
+  document.getElementById('q-pts').textContent = `Poäng: ${sc}/${qi+1}`;
+  document.getElementById('btn-nxt').classList.add('vis');
+}
+function nextQ() {
+  qi++;
+  if (qi >= curQ.qs.length) showResult();
+  else renderQ();
+}
+function showResult() {
+  document.getElementById('q-body').style.display = 'none';
+  const t = curQ.qs.length, p = sc/t;
+  let ico = '📖', msg = 'Lyssna igen och försök!';
+  if (p===1){ico='🥇';msg='Perfekt poäng! Du är en industrihistorik!';}
+  else if(p>=.75){ico='🥈';msg='Imponerande! Du kan det mesta.';}
+  else if(p>=.5){ico='🥉';msg='Godkänt — lite mer repetition hjälper.';}
+  document.getElementById('r-icon').textContent=ico;
+  document.getElementById('r-score').textContent=`${sc} / ${t}`;
+  document.getElementById('r-msg').textContent=msg;
+  document.getElementById('q-result').classList.add('vis');
+}
+document.getElementById('btn-nxt').onclick = nextQ;
+document.getElementById('btn-retry').onclick = () => { qi=0;sc=0;ans=false; document.getElementById('q-result').classList.remove('vis'); document.getElementById('q-body').style.display=''; renderQ(); };
+document.getElementById('q-close').onclick = () => document.getElementById('qmodal-ov').classList.remove('on');
+document.getElementById('qmodal-ov').onclick = e => { if(e.target===document.getElementById('qmodal-ov')) document.getElementById('qmodal-ov').classList.remove('on'); };
+document.addEventListener('keydown', e => {
+  if (!document.getElementById('qmodal-ov').classList.contains('on')) return;
+  if (e.key==='Escape') document.getElementById('qmodal-ov').classList.remove('on');
+  if (!ans){
+    if(e.key==='1'||e.key.toLowerCase()==='a') pickA(0);
+    if(e.key==='2'||e.key.toLowerCase()==='b') pickA(1);
+    if(e.key==='3'||e.key.toLowerCase()==='c') pickA(2);
+    if(e.key==='4'||e.key.toLowerCase()==='d') pickA(3);
+  }
+  if(ans&&(e.key==='Enter'||e.key===' ')) nextQ();
+});
+
+/* ═══════════════════════════════════════════════════════
+   TIMELINE
+═══════════════════════════════════════════════════════ */
+function buildTL(filter='all') {
+  const b = document.getElementById('tl-body');
+  b.innerHTML = '';
+  tlData.forEach(ev => {
+    const hide = filter!=='all' && ev.cat!==filter;
+    const row = document.createElement('div');
+    row.className = 'tl-row' + (hide?' hide':'');
+    row.innerHTML = `
+      <div class="tl-node c-${ev.cat}"></div>
+      <div class="tl-card c-${ev.cat}" onclick="this.classList.toggle('open')">
+        <span class="tl-icon">${ev.icon}</span>
+        <div class="tl-year">${ev.year}</div>
+        <div class="tl-title">${ev.title}</div>
+        <div class="tl-body">${ev.text}</div>
+        <div class="tl-hint">+ Klicka för mer</div>
+      </div>`;
+    b.appendChild(row);
+  });
+}
+buildTL();
+document.querySelectorAll('.tl-fbtn').forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll('.tl-fbtn').forEach(x=>x.classList.remove('on'));
+    btn.classList.add('on');
+    buildTL(btn.dataset.c);
+  };
+});
+
+/* ═══════════════════════════════════════════════════════
+   FLASHCARDS
+═══════════════════════════════════════════════════════ */
+const cats = ['alla', ...new Set(fcData.map(f=>f.cat))];
+const catLbl = {alla:'Alla',teknik:'⚙ Teknik',energi:'🔥 Energi',samhälle:'🏙 Samhälle',arbete:'⚒ Arbete',hälsa:'💉 Hälsa',miljö:'🌿 Miljö'};
+let fcList = [...fcData], fcIdx = 0;
+const fcFR = document.getElementById('fc-filter-row');
+cats.forEach(cat => {
+  const b = document.createElement('button');
+  b.className = 'fc-fbtn' + (cat==='alla'?' on':'');
+  b.textContent = catLbl[cat]||cat;
+  b.onclick = () => {
+    document.querySelectorAll('.fc-fbtn').forEach(x=>x.classList.remove('on'));
+    b.classList.add('on');
+    fcList = cat==='alla' ? [...fcData] : fcData.filter(f=>f.cat===cat);
+    fcIdx = 0; renderFC();
+  };
+  fcFR.appendChild(b);
+});
+function renderFC() {
+  const f = fcList[fcIdx];
+  document.getElementById('fc-count').textContent = `${fcIdx+1} / ${fcList.length}`;
+  document.getElementById('fc-card').classList.remove('flip');
+  document.getElementById('fc-front').innerHTML = `<div class="fc-term">${f.term}</div><div class="fc-badge">${f.cat}</div><div class="fc-flip-cue">↕</div>`;
+  document.getElementById('fc-back').innerHTML = `<div class="fc-def">${f.def}</div>${f.ex?`<div class="fc-ex">${f.ex}</div>`:''}`;
+  const dots = document.getElementById('fc-dots');
+  dots.innerHTML = '';
+  fcList.forEach((_,i)=>{
+    const d = document.createElement('div');
+    d.className = 'fc-dot'+(i===fcIdx?' on':'');
+    d.onclick = () => { fcIdx=i; renderFC(); };
+    dots.appendChild(d);
+  });
+}
+document.getElementById('fc-card').onclick = () => document.getElementById('fc-card').classList.toggle('flip');
+document.getElementById('fc-prev').onclick = () => { fcIdx=(fcIdx-1+fcList.length)%fcList.length; renderFC(); };
+document.getElementById('fc-next').onclick = () => { fcIdx=(fcIdx+1)%fcList.length; renderFC(); };
+document.addEventListener('keydown', e => {
+  if (document.getElementById('qmodal-ov').classList.contains('on')) return;
+  if (e.key==='ArrowLeft')  { fcIdx=(fcIdx-1+fcList.length)%fcList.length; renderFC(); }
+  if (e.key==='ArrowRight') { fcIdx=(fcIdx+1)%fcList.length; renderFC(); }
+  if (e.key===' ') { e.preventDefault(); document.getElementById('fc-card').classList.toggle('flip'); }
+});
+renderFC();
+
+/* ═══════════════════════════════════════════════════════
+   TERMS GRID
+═══════════════════════════════════════════════════════ */
+const tw = document.getElementById('terms-wrap');
+fcData.forEach((f,i) => {
+  const c = document.createElement('div');
+  c.className = 'term-chip';
+  c.textContent = f.term;
+  c.onclick = () => {
+    fcList=[...fcData]; fcIdx=i;
+    document.querySelectorAll('.fc-fbtn').forEach(x=>x.classList.remove('on'));
+    document.querySelector('.fc-fbtn').classList.add('on');
+    renderFC();
+    document.getElementById('flashcards').scrollIntoView({behavior:'smooth'});
+  };
+  tw.appendChild(c);
+});
+</script>
+</body>
+</html>
