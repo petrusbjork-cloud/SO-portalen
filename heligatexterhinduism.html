@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinduismens Heliga Skrifter | SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mystic-blue: #0f172a;
+  --night-sky: #1e293b;
+  --gold: #d4af37;
+  --gold-glow: #fde047;
+  --parchment: #fdfbf7;
+  --ink: #1e1a12;
+  --crimson: #8b0000;
+  --border: rgba(212, 175, 55, 0.3);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 6px; width: 0%;
+  background: linear-gradient(90deg, var(--mystic-blue), var(--gold), var(--gold-glow));
+  z-index: 1000;
+  box-shadow: 0 0 10px var(--gold);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: linear-gradient(to bottom, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1599558774786-8d5cf1522f77?auto=format&fit=crop&q=80&w=2000');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--parchment); text-align: center; padding: 40px;
+}
+.hero-content { max-width: 900px; }
+.hero-label { font-family: 'JetBrains Mono', monospace; font-size: 14px; letter-spacing: 6px; text-transform: uppercase; color: var(--gold); margin-bottom: 25px; }
+.hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(45px, 8vw, 90px); font-weight: 900; line-height: 1.1; margin-bottom: 30px; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+.hero p { font-size: 26px; font-style: italic; opacity: 0.9; font-weight: 300; }
+
+/* ── ARTICLE LAYOUT ── */
+.article { max-width: 860px; margin: 0 auto; padding: 100px 40px; }
+.intro-lead { font-size: 28px; line-height: 1.6; color: var(--mystic-blue); margin-bottom: 60px; font-weight: 300; }
+.intro-lead::first-letter { font-family: 'Playfair Display'; font-size: 80px; font-weight: 900; color: var(--gold); float: left; margin: 10px 15px 0 0; line-height: 0.8; }
+
+h2 { font-family: 'Playfair Display', serif; font-size: 44px; color: var(--mystic-blue); margin: 80px 0 30px; line-height: 1.2; }
+h2 em { color: var(--gold); font-style: italic; }
+h3 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--crimson); margin: 40px 0 15px; }
+p { margin-bottom: 30px; }
+
+/* ── COMPARISON BOX (SHRUTI/SMRITI) ── */
+.comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin: 50px 0; }
+.comp-card { background: white; border: 1px solid var(--border); padding: 40px; border-radius: 8px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+.comp-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--gold); border-radius: 8px 8px 0 0; }
+.comp-card h4 { font-family: 'Playfair Display'; font-size: 28px; color: var(--mystic-blue); margin-bottom: 15px; }
+.comp-card span { font-family: 'JetBrains Mono'; font-size: 12px; color: var(--crimson); text-transform: uppercase; letter-spacing: 2px; }
+
+/* ── INTERACTIVE LIBRARY ── */
+.library-section { background: var(--night-sky); color: white; padding: 100px 40px; margin: 80px 0; border-radius: 20px; box-shadow: inset 0 0 50px rgba(0,0,0,0.5); }
+.library-inner { max-width: 900px; margin: 0 auto; }
+.library-header { text-align: center; margin-bottom: 50px; }
+.library-header h2 { color: var(--gold); margin-top: 0; }
+.bookshelf { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 40px; }
+.book-btn {
+  background: transparent; border: 2px solid var(--gold); color: var(--parchment);
+  padding: 15px 30px; font-family: 'Playfair Display'; font-size: 22px; cursor: pointer;
+  border-radius: 4px; transition: 0.3s;
+}
+.book-btn:hover, .book-btn.active { background: var(--gold); color: var(--mystic-blue); }
+.book-content { background: rgba(255,255,255,0.05); border-left: 5px solid var(--gold); padding: 40px; display: none; animation: fadeUp 0.5s ease; }
+.book-content.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── DEEP DIVE ── */
+.deep-dive { background: #fdfaf3; border: 1px dashed #ccc; padding: 40px; margin: 60px 0; position: relative; }
+.deep-dive h4 { font-family: 'JetBrains Mono'; color: var(--crimson); margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+
+/* ── QUIZ ── */
+.quiz-wrapper { max-width: 800px; margin: 100px auto; }
+.q-card { background: var(--mystic-blue); color: white; padding: 60px; border-radius: 16px; box-shadow: 0 20px 50px rgba(15,23,42,0.3); border: 1px solid #2a3a5a; }
+.q-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px; }
+.q-progress { font-family: 'JetBrains Mono'; color: var(--gold); }
+.q-title { font-family: 'Playfair Display'; font-size: 28px; line-height: 1.4; margin-bottom: 30px; }
+.q-options { display: grid; gap: 15px; }
+.q-opt {
+  background: #1e293b; border: 1px solid #334155; color: white; padding: 20px;
+  border-radius: 8px; cursor: pointer; text-align: left; font-size: 19px; font-family: 'Source Serif 4'; transition: 0.2s;
+}
+.q-opt:hover { background: #2a3a5a; border-color: var(--gold); }
+.q-opt.correct { background: #064e3b; border-color: #10b981; }
+.q-opt.wrong { background: #7f1d1d; border-color: #ef4444; }
+.q-feedback { margin-top: 30px; padding: 20px; background: rgba(212,175,55,0.1); border-left: 4px solid var(--gold); display: none; font-size: 18px; }
+.next-btn { background: var(--gold); color: var(--mystic-blue); border: none; padding: 15px 30px; font-weight: bold; font-size: 18px; cursor: pointer; border-radius: 4px; margin-top: 20px; display: none; }
+
+/* ── TEACHER ── */
+.teacher-area { background: #f8f9fa; padding: 80px 40px; border-top: 1px solid #ddd; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.task-box { border-left: 4px solid var(--mystic-blue); padding-left: 20px; margin-bottom: 30px; }
+
+@media (max-width: 768px) {
+  .comparison-grid { grid-template-columns: 1fr; }
+  .article, .library-section, .q-card { padding: 40px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-label">SO-Portalen · Religionskunskap</div>
+    <h1>Ord som ekar genom <em>evigheten</em></h1>
+    <p>Från kosmiska vibrationer till storslagna epos – en djupdykning i hinduismens heliga skrifter.</p>
+  </div>
+</section>
+
+<article class="article">
+  <p class="intro-lead">
+    Till skillnad från kristendomens Bibel eller islams Koran vilar hinduismen inte på en enda bok. Här finns istället ett ofantligt bibliotek av texter som vuxit fram under tusentals år. De rymmer allt från magiska besvärjelser och filosofiska gåtor till bloddrypande krigsepik och kärlekssagor.
+  </p>
+
+  <h2>Ett hav av kunskap: <em>Shruti och Smriti</em></h2>
+  <p>
+    För att förstå strukturen i detta enorma bibliotek delar man traditionellt in de heliga texterna i två huvudkategorier, baserat på deras gudomliga auktoritet.
+  </p>
+
+  <div class="comparison-grid">
+    <div class="comp-card">
+      <span>Gudomlig Uppenbarelse</span>
+      <h4>Shruti</h4>
+      <p>Betyder <em>"det som har hörts"</em>. Enligt tron skapades inte dessa texter av människor. Uråldriga siare (Rishis) i djup meditation "hörde" universums kosmiska sanningar (som vibrationen <em>Aum</em>) och förmedlade dem vidare muntligt. Dessa texter har den absolut högsta auktoriteten.</p>
+    </div>
+    <div class="comp-card">
+      <span>Mänsklig Tradition</span>
+      <h4>Smriti</h4>
+      <p>Betyder <em>"det som är ihågkommet"</em>. Dessa texter är nedtecknade av människor och innehåller myter, lagar och epos. Även om de har lägre teologisk status än Shruti, är det Smriti-texterna som formas människors vardagstro, moral och högtider mest.</p>
+    </div>
+  </div>
+
+  <h2>Det interaktiva arkivet</h2>
+  <p>Nedan kan du utforska de mest inflytelserika texterna inom den hinduiska traditionen. Välj en skrift för att läsa dess hemligheter.</p>
+</article>
+
+<section class="library-section">
+  <div class="library-inner">
+    <div class="library-header">
+      <h2>Öppna skriftrullarna</h2>
+    </div>
+    <div class="bookshelf">
+      <button class="book-btn active" onclick="showBook('veda')">Vedorna</button>
+      <button class="book-btn" onclick="showBook('upanishad')">Upanishaderna</button>
+      <button class="book-btn" onclick="showBook('epics')">Ramayana & Mahabharata</button>
+      <button class="book-btn" onclick="showBook('gita')">Bhagavad Gita</button>
+    </div>
+
+    <div id="veda" class="book-content active">
+      <h3 style="color:var(--gold); margin-top:0; font-family:'Playfair Display'; font-size:32px;">Veda – Den uråldriga kunskapen (Shruti)</h3>
+      <p>Vedorna är hinduismens absolut äldsta texter, varav <strong>Rigveda</strong> (ca 1500 f.Kr.) är den äldsta. Ordet Veda betyder <em>vetande</em> eller <em>kunskap</em>.</p>
+      <p>Texterna består av hymner, mantran och oerhört detaljerade instruktioner för hur präster (brahminer) ska utföra offerritualer till gudar som Agni (elden) och Indra (kriget). Under årtusenden fick dessa texter inte skrivas ner, utan lärdes in utantill med exakt betoning, eftersom man trodde att ett felaktigt uttalat ljud kunde förstöra universums ordning.</p>
+    </div>
+
+    <div id="upanishad" class="book-content">
+      <h3 style="color:var(--gold); margin-top:0; font-family:'Playfair Display'; font-size:32px;">Upanishaderna – Från ritual till filosofi (Shruti)</h3>
+      <p>Om Vedorna handlar om <em>hur</em> man offrar, handlar Upanishaderna (ca 800 f.Kr.) om <em>varför</em>. Ordet betyder ungefär "att sitta ner nära" (en lärare).</p>
+      <p>Här skiftar religionens fokus från yttre eldoffer till inre meditation. Det är i dessa texter som hinduismens mest centrala filosofi formuleras: insikten om att människans innersta kärna, själen (<strong>Atman</strong>), i själva verket är ett med universums gudomliga världssjäl (<strong>Brahman</strong>). Att inse detta är nyckeln till befrielse (Moksha).</p>
+    </div>
+
+    <div id="epics" class="book-content">
+      <h3 style="color:var(--gold); margin-top:0; font-family:'Playfair Display'; font-size:32px;">De stora eposen (Smriti)</h3>
+      <p>Dessa är de gigantiska äventyrsberättelserna som alla hinduer känner till.</p>
+      <ul style="margin-left:20px; line-height:1.8;">
+        <li><strong>Ramayana:</strong> Berättelsen om prins Rama som måste rädda sin hustru Sita från demonkungen Ravana. Rama är symbolen för den ideala, plikttrogna människan som alltid följer sin <em>Dharma</em> (plikt).</li>
+        <li><strong>Mahabharata:</strong> Världens längsta diktverk (cirka 100 000 verser!). Den skildrar ett apokalyptiskt inbördeskrig mellan två falanger av en kungasläkt. Berättelsen utforskar moraliska gråzoner, hämnd och rättvisa.</li>
+      </ul>
+    </div>
+
+    <div id="gita" class="book-content">
+      <h3 style="color:var(--gold); margin-top:0; font-family:'Playfair Display'; font-size:32px;">Bhagavad Gita – Herrens sång (Smriti)</h3>
+      <p>Bhagavad Gita är en liten men extremt inflytelserik del av eposet Mahabharata. Den utspelar sig mitt på ett slagfält precis innan kriget ska börja.</p>
+      <p>Krigaren Arjuna drabbas av panik och vägrar slåss när han ser att hans släktingar står på fiendesidan. Hans körsven, som visar sig vara guden <strong>Krishna</strong> i mänsklig form, håller då ett filosofiskt tal. Krishna förklarar att människan måste göra sin plikt (Dharma) utan att fästa sig vid resultatet. Han presenterar tre vägar till frälsning: <em>Handlingens väg, Kunskapens väg</em> och <em>Kärlekens väg (Bhakti)</em>.</p>
+    </div>
+  </div>
+</section>
+
+<article class="article" style="padding-top:0;">
+  <h2>Skrifterna i <em>vardagen och populärkulturen</em></h2>
+  <p>
+    I dagens moderna samhälle sitter sällan gemene man och läser de svårtolkade Vedaskrifterna. Istället lever traditionen genom Smriti-texterna. Berättelserna från Ramayana och Mahabharata överförs idag genom superpopulära tecknade serietidningar (som <em>Amar Chitra Katha</em>), storslagna Bollywood-filmer och episka TV-serier som stannar upp hela Indien när de sänds.
+  </p>
+
+  <div class="deep-dive">
+    <h4>Sammanfattande Analys</h4>
+    <p>Hinduismens texter visar religionens extrema bredd. Den tillåter den intellektuelle att söka svar i Upanishadernas avancerade filosofi, medan den hängivne kan finna tröst och moralisk vägledning i Bhagavad Gitas kärleksfulla samtal med det gudomliga. Skrifterna är inte statiska lagböcker – de är ett levande landskap av visdom.</p>
+  </div>
+</article>
+
+<section class="quiz-wrapper">
+  <div class="q-card" id="quiz-block">
+    <div class="q-header">
+      <h2 style="margin:0; font-family:'Playfair Display';">Skrifternas Prövning</h2>
+      <span class="q-progress" id="q-progress">Fråga 1 av 8</span>
+    </div>
+    <div class="q-title" id="q-text">Laddar fråga...</div>
+    <div class="q-options" id="q-options"></div>
+    <div class="q-feedback" id="q-feedback"></div>
+    <button class="next-btn" id="next-btn" onclick="nextQuestion()">Nästa fråga →</button>
+  </div>
+</section>
+
+<section class="teacher-area">
+  <div class="teacher-inner">
+    <h2 style="font-family:'Playfair Display'; margin-top:0;">För läraren: <em>Diskussion & Analys</em></h2>
+    <div class="task-box">
+      <strong>Jämförande uppgift:</strong> Hur skiljer sig synen på "heliga skrifter" inom hinduismen jämfört med de abrahamitiska religionerna (t.ex. islam och Koranen)? 
+    </div>
+    <div class="task-box">
+      <strong>Etisk reflektion (Bhagavad Gita):</strong> Krishna uppmanar Arjuna att strida för att det är hans plikt som krigare, trots att han möter sin familj. Diskutera begreppet <em>Dharma</em> (plikt). Finns det tillfällen idag där ens yrkesplikt kan krocka med ens personliga moral?
+    </div>
+    <div class="task-box">
+      <strong>Begreppsfokus:</strong> Förklara utvecklingen från <em>Vedorna</em> (fokus på yttre ritualer/offer) till <em>Upanishaderna</em> (fokus på inre meditation och sambandet Atman/Brahman).
+    </div>
+  </div>
+</section>
+
+<script>
+// --- SCROLL PROGRESS ---
+window.addEventListener('scroll', () => {
+  const scroll = document.documentElement.scrollTop;
+  const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  document.getElementById('progress').style.width = (scroll / height) * 100 + '%';
+});
+
+// --- LIBRARY TABS ---
+function showBook(id) {
+  document.querySelectorAll('.book-content').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.book-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// --- QUIZ LOGIC ---
+const quizData = [
+  { q: "Vad är skillnaden mellan Shruti och Smriti?", o: ["Shruti är skriven på engelska, Smriti på hindi", "Shruti anses gudomligt uppenbarad, Smriti är nedtecknad tradition", "Shruti är böcker för barn, Smriti för vuxna", "Det är två olika gudar"], a: 1, f: "Helt rätt. Shruti ('det hörda') är den direkta kosmiska sanningen, medan Smriti ('det ihågkomna') är mänsklig tradition." },
+  { q: "Vilken är hinduismens absolut äldsta text?", o: ["Bhagavad Gita", "Ramayana", "Rigveda", "Upanishaderna"], a: 2, f: "Rigveda är den äldsta delen av Vedorna, fylld av hymner till forntida gudar." },
+  { q: "Vilka två begrepp står i centrum i Upanishadernas filosofi?", o: ["Atman och Brahman", "Karma och Yoga", "Brahma och Shiva", "Rama och Sita"], a: 0, f: "Upanishaderna lär ut att människosjälen (Atman) i grunden är ett med världssjälen (Brahman)." },
+  { q: "Vem är huvudperson i eposet Ramayana och vad symboliserar han?", o: ["Arjuna, den tveksamme krigaren", "Shiva, förstöraren", "Rama, den ideala och plikttrogna människan", "Indra, stormguden"], a: 2, f: "Prins Rama förkroppsligar perfekt Dharma (plikt) i sitt agerande." },
+  { q: "Vilken text räknas som världens längsta diktverk?", o: ["Upanishaderna", "Mahabharata", "Bhagavad Gita", "Samaveda"], a: 1, f: "Mahabharata är enorm och skildrar ett moraliskt komplext inbördeskrig." },
+  { q: "Mellan vilka två karaktärer utspelar sig dialogen i Bhagavad Gita?", o: ["Rama och Sita", "Brahma och Vishnu", "Krigaren Arjuna och guden Krishna", "En lärare och en elev"], a: 2, f: "Guden Krishna agerar körsven åt Arjuna och ger honom råd inför det stora slaget." },
+  { q: "Vad lär Krishna ut om 'plikt' i Bhagavad Gita?", o: ["Att man ska fly från sina plikter om de är svåra", "Att man ska utföra sin plikt utan att tänka på belöningen", "Att plikt bara gäller för präster", "Att man måste bli munk"], a: 1, f: "Krishna betonar 'Karma Yoga' – att agera enligt sin Dharma oberoende av personlig vinst eller förlust." },
+  { q: "Hur förmedlas historierna från Ramayana och Mahabharata oftast till unga idag?", o: ["Genom att de läser Rigveda på sanskrit", "Via serietidningar, filmer och TV-serier", "De lärs inte ut längre", "Bara genom strikta prov i tempel"], a: 1, f: "Texterna utgör en levande popkultur och är extremt populära som filmer och serier i Indien." }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function loadQuestion() {
+  const q = quizData[currentQ];
+  document.getElementById('q-progress').innerText = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('q-text').innerText = q.q;
+  
+  const optionsDiv = document.getElementById('q-options');
+  optionsDiv.innerHTML = '';
+  
+  q.o.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-opt';
+    btn.innerText = opt;
+    btn.onclick = () => checkAnswer(i);
+    optionsDiv.appendChild(btn);
+  });
+  
+  document.getElementById('q-feedback').style.display = 'none';
+  document.getElementById('next-btn').style.display = 'none';
+}
+
+function checkAnswer(idx) {
+  const q = quizData[currentQ];
+  const btns = document.querySelectorAll('.q-opt');
+  
+  if(idx === q.a) {
+    btns[idx].classList.add('correct');
+    score++;
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.a].classList.add('correct');
+  }
+  
+  btns.forEach(b => b.disabled = true);
+  
+  const feedback = document.getElementById('q-feedback');
+  feedback.innerHTML = `<strong>${idx === q.a ? '✓ Helt rätt!' : '✗ Inte riktigt.'}</strong><br>${q.f}`;
+  feedback.style.display = 'block';
+  
+  document.getElementById('next-btn').style.display = 'inline-block';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    loadQuestion();
+  } else {
+    showResults();
+  }
+}
+
+function showResults() {
+  const block = document.getElementById('quiz-block');
+  let msg = score >= 6 ? "Du är en mästare på hinduismens texter!" : "Bra försök! Repetera gärna 'bokhyllan' en gång till.";
+  block.innerHTML = `
+    <div style="text-align:center;">
+      <h2 style="font-family:'Playfair Display'; margin-bottom:20px;">Biblioteket är stängt!</h2>
+      <div style="font-size:70px; font-weight:900; color:var(--gold); margin-bottom:20px;">${score}/${quizData.length}</div>
+      <p style="font-size:20px; margin-bottom:40px;">${msg}</p>
+      <button class="next-btn" style="display:inline-block;" onclick="location.reload()">Gör om quizet</button>
+    </div>
+  `;
+}
+
+// Init
+loadQuestion();
+</script>
+
+</body>
+</html>
