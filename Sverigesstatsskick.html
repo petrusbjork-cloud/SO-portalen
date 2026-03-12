@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sveriges statsskick – monarki och demokrati</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Svensk Demokrati-palett (Blått, Gult, Vitt) */
+  --bg-main:   #F8FAFC;
+  --surface:   #FFFFFF;
+  --text-dark: #0F172A;
+  --text-p:    #334155;
+  --text-dim:  #64748B;
+  
+  --swe-blue:  #005293;
+  --swe-lt:    #E0F2FE;
+  --swe-gold:  #FECB00;
+  --swe-gold-lt:#FEF08A;
+  
+  --border:    #E2E8F0;
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-main);
+  color: var(--text-p);
+  font-family: var(--sans);
+  font-size: 20px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 5px; width: 0%;
+  background: linear-gradient(90deg, var(--swe-blue), var(--swe-gold));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 80vh;
+  background: var(--swe-blue);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 100%, rgba(254, 203, 0, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--swe-gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards; z-index: 2; font-weight: 700;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(38px, 6vw, 80px);
+  font-weight: 900; line-height: 1.1;
+  color: #FFFFFF;
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.4s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--swe-gold); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: rgba(255,255,255,0.8);
+  max-width: 750px; line-height: 1.5; margin-bottom: 48px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim); white-space: nowrap; font-weight: 700;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900; line-height: 1.2;
+  color: var(--text-dark); margin-bottom: 24px;
+}
+h2 em { color: var(--swe-blue); font-style: italic; }
+
+p { margin-bottom: 24px; }
+strong { color: var(--text-dark); font-weight: 700; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -60px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--swe-gold);
+  background: linear-gradient(135deg, var(--swe-gold-lt), transparent);
+  position: relative;
+  border-radius: 0 12px 12px 0;
+}
+.pullquote p {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--text-dark); line-height: 1.4;
+  margin: 0;
+}
+
+/* ── INTERACTIVE: ROLES (TABS) ── */
+.roles-section { margin: 80px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+.r-header { text-align: center; margin-bottom: 30px; }
+.r-title { font-family: var(--serif); font-size: 28px; color: var(--text-dark); font-weight: 900; margin-bottom: 8px;}
+.r-sub { font-size: 16px; color: var(--text-dim); }
+
+.role-tabs { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.r-tab { background: var(--bg-main); border: 1px solid var(--border); color: var(--text-p); padding: 12px 24px; border-radius: 30px; font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;}
+.r-tab:hover { border-color: var(--swe-blue); color: var(--swe-blue); }
+.r-tab.active { background: var(--swe-blue); border-color: var(--swe-blue); color: #fff; }
+
+.r-panel { display: none; animation: fadeUp 0.3s ease; background: var(--bg-main); padding: 30px; border-radius: 8px; border-left: 4px solid var(--swe-blue); }
+.r-panel.active { display: block; }
+.rp-title { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;}
+.rp-text { font-size: 17px; color: var(--text-p); line-height: 1.6; margin: 0; }
+.rp-list { margin-top: 16px; padding-left: 20px; font-size: 16px; color: var(--text-p); }
+.rp-list li { margin-bottom: 8px; }
+
+/* ── INTERACTIVE: THE CONSTITUTION LOCK ── */
+.lock-section { margin: 80px 0; background: var(--swe-lt); border: 1px solid rgba(0,82,147,0.1); border-radius: 12px; padding: 40px; text-align: center; }
+.lock-title { font-family: var(--serif); font-size: 28px; color: var(--swe-blue); font-weight: 900; margin-bottom: 12px; }
+.lock-sub { font-size: 16px; color: var(--text-p); margin-bottom: 40px; }
+
+.lock-container { display: flex; align-items: center; justify-content: space-between; position: relative; gap: 20px; }
+.lock-line { position: absolute; top: 40px; left: 10%; right: 10%; height: 4px; background: var(--border); z-index: 1; }
+.lock-line-fill { position: absolute; top: 40px; left: 10%; width: 0%; height: 4px; background: var(--swe-blue); z-index: 1; transition: width 0.5s ease; }
+
+.lock-step { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; flex: 1; cursor: pointer; }
+.step-circle { width: 80px; height: 80px; background: var(--surface); border: 4px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; transition: all 0.3s; margin-bottom: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);}
+.lock-step:hover .step-circle { transform: scale(1.1); border-color: var(--swe-blue); }
+.lock-step.active .step-circle { background: var(--swe-blue); border-color: var(--swe-blue); color: white; }
+.step-label { font-family: var(--sans); font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--text-dim); line-height: 1.4; max-width: 180px; }
+
+#final-lock { font-size: 48px; margin-top: 40px; transition: all 0.5s; display: inline-block;}
+#final-lock.open { transform: scale(1.2) rotate(-10deg); filter: drop-shadow(0 0 20px var(--swe-gold)); }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--swe-blue); margin-bottom: 14px; font-weight: 700;}
+.teacher-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--text-dark); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 18px; color: var(--text-dim); max-width: 620px; line-height: 1.6; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.t-tab {
+  background: var(--bg-main); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 6px; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--swe-blue); color: var(--surface); background: var(--swe-blue); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--border); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: #CBD5E0; flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: var(--serif); font-size: 22px; color: var(--text-dark); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; margin:0; }
+.q-list li { font-size: 17px; color: var(--text-p); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--swe-blue); font-weight: bold;}
+
+/* QUIZ STYLES */
+.quiz-wrap { background: var(--bg-main); border: 1px solid var(--border); border-radius: 12px; padding: 40px; }
+.quiz-wrap h3 { font-family: var(--serif); font-size: 26px; color: var(--text-dark); font-weight: 900; margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: var(--surface); border: 2px solid var(--swe-blue); color: var(--swe-blue); padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--swe-blue); color: var(--surface); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;}
+.quiz-progress-bar-wrap { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--swe-blue); border-radius: 3px; transition: width 0.3s; }
+.quiz-q-text { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: var(--surface); border: 1px solid var(--border); padding: 18px 24px; border-radius: 8px; cursor: pointer; color: var(--text-p); text-align: left; font-family: var(--sans); font-size: 17px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+.quiz-opt:hover:not(:disabled) { border-color: var(--swe-blue); box-shadow: 0 4px 8px rgba(0, 82, 147, 0.1); }
+.quiz-opt.correct { border-color: #27AE60; background: #F0FDF4; color: #22543D; }
+.quiz-opt.wrong { border-color: #E53E3E; background: #FEF2F2; color: #742A2A; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--text-dim); background: var(--bg-main); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; border: 1px solid var(--border);}
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: white; border-color: #27AE60;}
+.quiz-opt.wrong .quiz-letter { background: #E53E3E; color: white; border-color: #E53E3E;}
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: var(--swe-lt); border: 1px solid var(--border); border-left: 4px solid var(--swe-blue); font-size: 16px; color: var(--text-p); line-height: 1.6; display: none; border-radius: 8px; }
+.quiz-next-btn { margin-top: 24px; background: var(--swe-blue); color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: #003B6B; }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--swe-blue), #003B6B); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 20px rgba(0, 82, 147, 0.2); color: white; }
+.score-num { font-family: var(--serif); font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.9; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 40px 24px 60px; }
+  .pullquote { margin: 40px 0; padding: 30px 24px; border-radius: 8px; border-left-width: 3px;}
+  .lock-container { flex-direction: column; align-items: stretch; gap: 40px; }
+  .lock-line, .lock-line-fill { display: none; }
+  .lock-step { flex-direction: row; gap: 20px; text-align: left; }
+  .step-circle { margin-bottom: 0; width: 60px; height: 60px; font-size: 24px; flex-shrink: 0;}
+  .step-desc { max-width: 100%; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-gradient"></div>
+  
+  <div class="hero-label">Samhällskunskap</div>
+
+  <h1>Sveriges statsskick: <em>Monarki och demokrati</em></h1>
+  <p class="hero-sub">Hur kan vi ha en kung och samtidigt vara ett land där all makt utgår från folket? Lär dig hur Sveriges styre fungerar i praktiken.</p>
+
+</section>
+
+<article class="article">
+
+  <p style="font-size:22px; color:var(--text-dark); line-height:1.7; margin-bottom:40px;">
+    Sverige är både en demokrati och en monarki. Det innebär att landet kombinerar folkstyre med ett urgammalt kungahus. För att förstå hur detta fungerar utan att skapa problem, behöver man skilja på <em>symboliska</em> och <em>politiska</em> uppgifter. Den politiska makten utgår helt från folket, medan monarkin är strikt reglerad i grundlagen och saknar politiskt inflytande.
+  </p>
+
+  <div class="section-marker"><span>Begreppen</span></div>
+  <h2>Vad menas med <em>statsskick?</em></h2>
+
+  <p>Statsskick handlar om hur ett land är organiserat politiskt och hur den högsta makten är uppbyggd. I Sveriges fall betyder det att landet är en <strong>parlamentarisk demokrati</strong> med <strong>konstitutionell monarki</strong>. Det innebär att makten utövas genom demokratiska val och folkvalda församlingar (riksdagen), samtidigt som landet har en statschef i form av en kung eller drottning.</p>
+
+  <p>Att statsskicket är "konstitutionellt" betyder att både demokratin och monarkin styrs av lagar, framför allt av våra grundlagar. Ingen del av statsskicket – inte ens kungen eller statsministern – står över lagen.</p>
+
+  <div class="section-marker"><span>Fördelningen</span></div>
+  <h2>Maktens <em>roller</em></h2>
+
+  <p>Det svenska statsskicket bygger på en tydlig uppdelning av roller. Genom att makten är fördelad och noga reglerad i lag minskar risken för maktmissbruk. Klicka på flikarna nedan för att se hur rollerna är fördelade.</p>
+
+  <div class="roles-section">
+    <div class="r-header">
+      <div class="r-title">Sveriges tre pelare</div>
+      <div class="r-sub">Klicka på varje pelare för att se dess ansvarsområden.</div>
+    </div>
+    
+    <div class="role-tabs">
+      <button class="r-tab active" onclick="switchRole('riksdag', this)">🗳️ Riksdagen</button>
+      <button class="r-tab" onclick="switchRole('regering', this)">🏛️ Regeringen</button>
+      <button class="r-tab" onclick="switchRole('monark', this)">👑 Monarken</button>
+    </div>
+
+    <div class="r-panel active" id="role-riksdag">
+      <div class="rp-title">Riksdagen – Folkets röst</div>
+      <p class="rp-text">Sverige är en representativ demokrati. Det betyder att vi väljer representanter som sitter i Riksdagen (349 ledamöter). De är Sveriges högsta beslutande församling.</p>
+      <ul class="rp-list">
+        <li>Stiftar lagar.</li>
+        <li>Beslutar om statsbudgeten (statens pengar).</li>
+        <li>Kontrollerar hur regeringen sköter sitt arbete.</li>
+      </ul>
+    </div>
+
+    <div class="r-panel" id="role-regering">
+      <div class="rp-title">Regeringen – Styr riket</div>
+      <p class="rp-text">Regeringen styr landet i praktiken genom att genomföra riksdagens beslut och leda den statliga förvaltningen (myndigheterna). Statsministern leder regeringen.</p>
+      <ul class="rp-list">
+        <li>Lämnar förslag på nya lagar till riksdagen.</li>
+        <li>Ansvarar för utrikespolitiken.</li>
+        <li>Måste ha riksdagens stöd för att få sitta kvar (parlamentarism).</li>
+      </ul>
+    </div>
+
+    <div class="r-panel" id="role-monark">
+      <div class="rp-title">Monarken – Statschefen</div>
+      <p class="rp-text">I Sverige ärvs rollen som statschef (konstitutionell monarki). Monarken saknar helt politisk makt och deltar inte i politiska beslut.</p>
+      <ul class="rp-list">
+        <li>Har enbart en ceremoniell och representativ roll.</li>
+        <li>Öppnar riksmötet varje höst.</li>
+        <li>Tar emot statsbesök och representerar Sverige utomlands.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>Regeringen styr, men riksdagen kontrollerar. Om regeringen förlorar riksdagens förtroende kan den tvingas avgå (parlamentarism).</p>
+  </div>
+
+  <div class="section-marker"><span>Historien</span></div>
+  <h2>Hur kan de <em>fungera tillsammans?</em></h2>
+
+  <p>Att Sverige är både monarki och demokrati är ett resultat av en lång historisk utveckling. Under lång tid hade kungen stor makt i Sverige, men i takt med att demokratin växte fram under 1800- och 1900-talen begränsades monarkens inflytande steg för steg. När parlamentarismen fullt ut infördes (omkring 1917) försvann kungens politiska makt helt.</p>
+
+  <p>I dag fungerar monarkin främst som en historisk symbol för staten och nationen, medan den faktiska makten ligger hos de folkvalda. Det är därför det är möjligt för Sverige att behålla monarkin utan att den står i konflikt med demokratin.</p>
+
+  <div class="section-marker"><span>Lagarna</span></div>
+  <h2>Grundlagarnas <em>betydelse</em></h2>
+
+  <p>Sveriges statsskick regleras framför allt i <em>Regeringsformen</em>, en av våra fyra grundlagar. Där slås det fast direkt i första meningen att "all offentlig makt i Sverige utgår från folket". Den beskriver också monarkens roll och dess begränsningar mycket tydligt.</p>
+
+  <p>Grundlagarna spelar en enorm roll för att skydda demokratin. Därför är de mycket svårare att ändra än vanliga lagar. Det går inte att göra över en natt. Så här fungerar säkerhetsmekanismen:</p>
+
+  <div class="lock-section">
+    <div class="lock-title">Så ändras en grundlag</div>
+    <div class="lock-sub">Klicka dig fram i processen för att se hur demokratin skyddas från snabba, tillfälliga förändringar.</div>
+    
+    <div class="lock-container">
+      <div class="lock-line"></div>
+      <div class="lock-line-fill" id="lock-fill"></div>
+      
+      <div class="lock-step active" onclick="activateLock(1)">
+        <div class="step-circle">1</div>
+        <div class="step-label">Riksdagsbeslut</div>
+        <div class="step-desc">Riksdagen måste först rösta JA till ändringen en gång.</div>
+      </div>
+      
+      <div class="lock-step" onclick="activateLock(2)" id="l-step-2">
+        <div class="step-circle">🗳️</div>
+        <div class="step-label">Riksdagsval</div>
+        <div class="step-desc">Ett allmänt val måste hållas, så att folket får säga sin åsikt i frågan.</div>
+      </div>
+      
+      <div class="lock-step" onclick="activateLock(3)" id="l-step-3">
+        <div class="step-circle">2</div>
+        <div class="step-label">Riksdagsbeslut igen</div>
+        <div class="step-desc">Den nyvalda riksdagen måste återigen rösta JA till förslaget.</div>
+      </div>
+    </div>
+    
+    <div id="final-lock">🔒</div>
+    <p id="lock-msg" style="font-family: var(--mono); font-size: 13px; color: var(--swe-blue); font-weight: bold; margin-top: 10px; height: 20px;">Låst: Grundlagen är skyddad.</p>
+  </div>
+
+  <p>Denna tröghet är inbyggd med flit. Den skyddar demokratins grundprinciper och gör det väldigt svårt för tillfälliga politiska majoriteter eller extremister att snabbt förändra Sveriges statsskick i grunden.</p>
+
+  <div class="section-marker"><span>Slutsats</span></div>
+  <h2>Tydlighet skapar <em>trygghet</em></h2>
+
+  <p>Det svenska statsskicket bygger alltså på en extremt tydlig uppdelning. De folkvalda politikerna fattar beslut och styr landet, medan monarkin har en symbolisk funktion. Domstolarna följer lagarna som riksdagen stiftar.</p>
+
+  <p>Det är denna lagstadgade tydlighet och separation av ansvar som gör att Sverige i dag kan vara både en modern, stark demokrati och en konstitutionell monarki på samma gång – där folkstyret alltid står ohotat i centrum.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussions- och skrivfrågor för klassrummet, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Skrivfrågor</button>
+        <button class="t-tab" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Ord och begrepp</h4>
+          <ul class="q-list">
+            <li>Sverige kallas för en "Konstitutionell monarki". Vad betyder egentligen "konstitutionell" i det här sammanhanget, och varför är det viktigt?</li>
+            <li>Förklara med egna ord vad "Representativ demokrati" innebär. Skulle Sverige fungera om vi istället hade direkt demokrati i alla frågor? Motivera!</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Analys och resonemang</h4>
+          <ul class="q-list">
+            <li>Titta på processen för att ändra en grundlag. Varför har man byggt in "trögheten" att det måste hållas ett riksdagsval emellan besluten? Vad skulle faran vara om grundlagen kunde ändras över en eftermiddag?</li>
+            <li>Ibland debatteras det om Sverige bör avskaffa monarkin och bli en republik istället. Utifrån texten: skulle det ändra hur Sverige styrs politiskt? Varför/varför inte?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta snabba frågor för att se om du har stenkoll på Sveriges statsskick.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── ROLES TABS ──
+function switchRole(id, btn) {
+  document.querySelectorAll('.r-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.r-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('role-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── CONSTITUTION LOCK LOGIC ──
+let currentLockStep = 1;
+function activateLock(step) {
+  if (step > currentLockStep + 1) return; // Only allow next step
+  
+  currentLockStep = step;
+  const fill = document.getElementById('lock-fill');
+  const lockIcon = document.getElementById('final-lock');
+  const lockMsg = document.getElementById('lock-msg');
+  
+  if (step === 1) {
+    fill.style.width = '0%';
+    document.getElementById('l-step-2').classList.remove('active');
+    document.getElementById('l-step-3').classList.remove('active');
+    lockIcon.textContent = '🔒';
+    lockIcon.classList.remove('open');
+    lockMsg.textContent = 'Låst: Grundlagen är skyddad.';
+  } else if (step === 2) {
+    fill.style.width = '50%';
+    document.getElementById('l-step-2').classList.add('active');
+    document.getElementById('l-step-3').classList.remove('active');
+    lockIcon.textContent = '🔒';
+    lockIcon.classList.remove('open');
+    lockMsg.textContent = 'Val genomfört. Väntar på andra beslutet...';
+  } else if (step === 3) {
+    fill.style.width = '100%';
+    document.getElementById('l-step-2').classList.add('active');
+    document.getElementById('l-step-3').classList.add('active');
+    lockIcon.textContent = '🔓';
+    lockIcon.classList.add('open');
+    lockMsg.textContent = 'Upplåst: Grundlagen har ändrats!';
+    lockMsg.style.color = '#27AE60';
+  }
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad innebär det att Sverige är en 'konstitutionell monarki'?",
+    opts: ["Att kungen bestämmer alla lagar.", "Att både monarkin och demokratin styrs och begränsas av grundlagarna.", "Att kungen bara får besöka andra länder i Europa.", "Att man inte får kritisera regeringen."],
+    correct: 1,
+    feedback: "Rätt! 'Konstitutionell' betyder att ingen står över lagen/författningen, inte ens kungen."
+  },
+  {
+    q: "Vad innebär en 'representativ demokrati'?",
+    opts: ["Att folket röstar i exakt alla frågor via internet.", "Att kungen representerar folket i riksdagen.", "Att folket väljer politiska representanter som sedan fattar besluten åt dem.", "Att bara representanter från Stockholm får rösta."],
+    correct: 2,
+    feedback: "I Sverige har vi inte direkt demokrati, utan vi väljer 349 representanter till Riksdagen som sköter besluten."
+  },
+  {
+    q: "Vilket organ är Sveriges högsta beslutande församling och stiftar våra lagar?",
+    opts: ["Regeringen", "Högsta Domstolen", "Kungahuset", "Riksdagen"],
+    correct: 3,
+    feedback: "Det är Riksdagen (som består av folkets representanter) som har den lagstiftande makten."
+  },
+  {
+    q: "Vad är kärnan i begreppet 'parlamentarism'?",
+    opts: ["Att parlamentet alltid måste fråga kungen om lov.", "Att regeringen måste ha riksdagens/parlamentets stöd (eller åtminstone accepteras av dem) för att kunna styra.", "Att riksdagen ligger i en byggnad som kallas parlament.", "Att presidenten är chef över parlamentet."],
+    correct: 1,
+    feedback: "Parlamentarism handlar om maktbalansen där regeringen är beroende av parlamentets (riksdagens) förtroende."
+  },
+  {
+    q: "Hur mycket politisk makt har den svenska monarken idag?",
+    opts: ["Ganska mycket, hen kan stoppa lagar.", "Ingen alls, rollen är rent symbolisk, ceremoniell och representativ.", "Hen är chef över militären i krig.", "Hen bestämmer statsbudgeten."],
+    correct: 1,
+    feedback: "Kungens politiska makt försvann helt i takt med att demokratin utvecklades, han är nu en apolitisk statschef."
+  },
+  {
+    q: "I vilken svensk grundlag slås det fast att 'all offentlig makt i Sverige utgår från folket'?",
+    opts: ["Regeringsformen", "Successionsordningen", "Yttrandefrihetsgrundlagen", "Brottsbalken"],
+    correct: 0,
+    feedback: "Regeringsformen är den viktigaste grundlagen och den lägger hela fundamentet för hur demokratin ska fungera."
+  },
+  {
+    q: "Varför är det mycket svårare att ändra en grundlag än en vanlig lag?",
+    opts: ["För att grundlagarna är så gamla och sköra.", "För att förhindra att tillfälliga politiska majoriteter kan förstöra demokratin snabbt.", "För att man måste fråga kungen först.", "För att det är för dyrt att trycka nya böcker."],
+    correct: 1,
+    feedback: "Skyddet (trögheten) finns till för att garantera att demokratiska friheter inte kan raderas över en natt av extremister."
+  },
+  {
+    q: "Vad krävs rent praktiskt för att ändra en grundlag i Sverige?",
+    opts: ["Att statsministern och kungen skriver under ett papper.", "Två riksdagsbeslut med ett allmänt riksdagsval emellan.", "Att 100% av folket röstar ja i en folkomröstning.", "Ett beslut av Högsta Domstolen."],
+    correct: 1,
+    feedback: "Rätt! Riksdagen måste rösta ja, sedan måste folket få rösta i ett val, och sedan måste den nya riksdagen rösta ja igen."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Enastående! Du är redo att leda regeringen."; }
+  else if(pct >= 0.6) { title = "Snyggt jobbat! ⭐"; msg = "Du har greppat hur makten i Sverige är uppdelad. Bra!"; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Det är många institutioner att hålla isär. Klicka på Riksdag/Regering-panelerna och testa igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
