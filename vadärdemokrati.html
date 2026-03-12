@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vad är demokrati och hur fungerar den i Sverige?</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Ljus och luftig palett */
+  --bg-main:   #F8FAFC;
+  --surface:   #FFFFFF;
+  --text-dark: #0F172A;
+  --text-p:    #334155;
+  --text-dim:  #64748B;
+  
+  /* Svensk Demokrati - moderniserad */
+  --swe-blue:  #0284C7;
+  --swe-lt:    #E0F2FE;
+  --swe-gold:  #EAB308;
+  --swe-gold-lt:#FEF9C3;
+  
+  --border:    #E2E8F0;
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-main);
+  color: var(--text-p);
+  font-family: var(--sans);
+  font-size: 20px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 5px; width: 0%;
+  background: linear-gradient(90deg, var(--swe-blue), var(--swe-gold));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 80vh;
+  background: var(--surface);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(2, 132, 199, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.6; pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--swe-blue); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards; z-index: 2; font-weight: 700;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(36px, 6vw, 80px);
+  font-weight: 900; line-height: 1.1;
+  color: var(--text-dark);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.4s forwards; z-index: 2;
+}
+.hero h1 em { 
+  color: var(--swe-gold); 
+  font-style: italic; 
+}
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 750px; line-height: 1.5; margin-bottom: 48px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim); white-space: nowrap; font-weight: 700;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900; line-height: 1.2;
+  color: var(--text-dark); margin-bottom: 24px;
+}
+h2 em { color: var(--swe-blue); font-style: italic; }
+
+p { margin-bottom: 24px; }
+strong { color: var(--text-dark); font-weight: 700; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -60px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--swe-gold);
+  background: linear-gradient(135deg, var(--swe-gold-lt), transparent);
+  position: relative;
+  border-radius: 0 12px 12px 0;
+}
+.pullquote p {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--text-dark); line-height: 1.4;
+  margin: 0;
+}
+
+/* ── INTERACTIVE: THE PILLARS OF DEMOCRACY ── */
+.pillars-section { margin: 80px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+.pil-header { text-align: center; margin-bottom: 40px; }
+.pil-title { font-family: var(--serif); font-size: 28px; color: var(--text-dark); font-weight: 900; margin-bottom: 8px;}
+.pil-sub { font-size: 16px; color: var(--text-dim); }
+
+.pillars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.pillar-card {
+  background: var(--bg-main); border: 1px solid var(--border); border-radius: 8px;
+  padding: 24px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+}
+.pillar-card::before { content: ''; position: absolute; left: 0; top: 0; width: 4px; height: 100%; background: var(--swe-blue); transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom; }
+.pillar-card:hover, .pillar-card.active { background: var(--swe-lt); border-color: var(--swe-blue); transform: translateY(-3px); }
+.pillar-card:hover::before, .pillar-card.active::before { transform: scaleY(1); }
+
+.pc-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+.pc-title { font-family: var(--sans); font-size: 18px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+.pc-desc { font-size: 15px; color: var(--text-p); line-height: 1.5; display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(2, 132, 199, 0.2); animation: fadeUp 0.3s ease;}
+.pillar-card.active .pc-desc { display: block; }
+.pc-hint { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--swe-blue); letter-spacing: 1px; }
+.pillar-card.active .pc-hint { display: none; }
+
+/* ── INTERACTIVE: THE CHAIN OF POWER (PARLAMENTARISM) ── */
+.chain-section { margin: 80px 0; }
+.chain-intro { text-align: center; margin-bottom: 40px; }
+.chain-title { font-family: var(--serif); font-size: 28px; color: var(--text-dark); font-weight: 900; margin-bottom: 8px; }
+.chain-sub { font-size: 16px; color: var(--text-dim); }
+
+.chain-container { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: 40px; }
+.chain-container::before {
+  content: ''; position: absolute; top: 20px; bottom: 20px; left: 16px; width: 4px;
+  background: var(--swe-blue); border-radius: 2px; opacity: 0.2;
+}
+.chain-step {
+  position: relative; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 24px; margin-bottom: 24px; cursor: pointer;
+  transition: all 0.3s; box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+.chain-step::before {
+  content: ''; position: absolute; top: 30px; left: -32px; width: 16px; height: 16px;
+  background: var(--surface); border: 4px solid var(--swe-blue); border-radius: 50%;
+  transition: all 0.3s; z-index: 2;
+}
+.chain-step:hover, .chain-step.active { border-color: var(--swe-blue); transform: translateX(10px); box-shadow: 0 10px 20px rgba(2, 132, 199, 0.08); }
+.chain-step:hover::before, .chain-step.active::before { background: var(--swe-blue); box-shadow: 0 0 10px rgba(2, 132, 199, 0.4); }
+
+.cs-header { display: flex; justify-content: space-between; align-items: center; }
+.cs-title { font-family: var(--sans); font-size: 20px; font-weight: 700; color: var(--text-dark); }
+.cs-icon { font-size: 24px; }
+.cs-body { display: none; margin-top: 16px; font-size: 16px; color: var(--text-p); line-height: 1.6; animation: fadeUp 0.3s ease; border-top: 1px solid var(--border); padding-top: 16px;}
+.chain-step.active .cs-body { display: block; }
+.cs-highlight { color: var(--swe-blue); font-weight: 700; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 40vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.85);
+  background-image: url('https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--bg-main) 0%, rgba(248, 250, 252, 0.8) 30%, rgba(248, 250, 252, 0.8) 70%, var(--bg-main) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 2px 10px rgba(255,255,255,0.9); margin: 0; color: var(--text-dark); line-height: 1.3; font-weight: 900;}
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: var(--text-dark); border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px; color: #fff;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--swe-gold); margin-bottom: 14px; font-weight: 700;}
+.teacher-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 620px; line-height: 1.6; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+  padding: 12px 24px; border-radius: 6px; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--swe-blue); color: #fff; background: var(--swe-blue); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(234,179,8,0.5); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: var(--serif); font-size: 22px; color: #fff; margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: decimal; padding: 0; display: flex; flex-direction: column; gap: 16px; margin:0; margin-left: 20px;}
+.q-list li { font-size: 17px; color: rgba(255,255,255,0.8); position: relative; line-height: 1.6; margin:0;}
+.q-list li::marker { color: var(--swe-gold); font-weight: bold; }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 40px; }
+.quiz-wrap h3 { font-family: var(--serif); font-size: 26px; color: #fff; font-weight: 900; margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 32px; }
+.quiz-start-btn { background: var(--swe-gold); border: none; color: var(--text-dark); padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: #FACC15; }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--swe-gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;}
+.quiz-progress-bar-wrap { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--swe-gold); border-radius: 3px; transition: width 0.3s; }
+.quiz-q-text { font-family: var(--serif); font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 18px 24px; border-radius: 8px; cursor: pointer; color: #fff; text-align: left; font-family: var(--sans); font-size: 17px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--swe-blue); background: rgba(2, 132, 199, 0.2); }
+.quiz-opt.correct { border-color: #27AE60; background: rgba(39,174,96,0.2); color: #fff; }
+.quiz-opt.wrong { border-color: #E53E3E; background: rgba(229,62,62,0.2); color: #fff; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--text-dark); background: var(--swe-gold); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; border: 1px solid transparent;}
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: white;}
+.quiz-opt.wrong .quiz-letter { background: #E53E3E; color: white;}
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(2, 132, 199, 0.1); border: 1px solid rgba(2, 132, 199, 0.3); border-left: 4px solid var(--swe-blue); font-size: 16px; color: #fff; line-height: 1.6; display: none; border-radius: 8px; }
+.quiz-next-btn { margin-top: 24px; background: var(--swe-blue); color: #fff; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: #0369A1; }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--swe-blue), #0369A1); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 20px rgba(2, 132, 199, 0.2); color: white; }
+.score-num { font-family: var(--serif); font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.9; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 40px 24px 60px; }
+  .pullquote { margin: 40px 0; padding: 30px 24px; border-radius: 8px; border-left-width: 3px;}
+  .pillars-grid { grid-template-columns: 1fr; }
+  .chain-container { padding-left: 20px; }
+  .chain-container::before { left: 4px; }
+  .chain-step::before { left: -24px; width: 12px; height: 12px; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-gradient"></div>
+  
+  <div class="hero-label">Samhällskunskap · Statsskick</div>
+
+  <h1>Vad är demokrati och <em>hur fungerar den i Sverige?</em></h1>
+  <p class="hero-sub">Demokrati betyder folkstyre. Men det handlar om mycket mer än att bara rösta vart fjärde år. Utforska hur makten fördelas och skyddas.</p>
+
+</section>
+
+<article class="article">
+
+  <p style="font-size:22px; color:var(--text-dark); line-height:1.7; margin-bottom:40px;">
+    Demokrati betyder folkstyre och bygger på idén att det är medborgarna som ytterst bestämmer hur ett land ska styras. I en demokrati har människor rätt att uttrycka sina åsikter, delta i politiska beslut och välja vilka som ska styra landet. 
+  </p>
+
+  <p>Sverige räknas som en stabil och etablerad demokrati där makten utgår från folket och styrningen sker enligt tydliga lagar och regler.</p>
+
+  <div class="section-marker"><span>Teori och praktik</span></div>
+  <h2>Vad innebär demokrati <em>i praktiken?</em></h2>
+
+  <p>Demokrati handlar inte bara om att rösta i val. Det är ett samhällssystem som bygger på flera grundläggande principer som måste fungera i vardagen.</p>
+
+  <div class="pillars-section">
+    <div class="pil-header">
+      <div class="pil-title">Demokratins 4 Grundpelare</div>
+      <div class="pil-sub">Klicka på korten för att se vilka krav som ställs på ett demokratiskt land.</div>
+    </div>
+    
+    <div class="pillars-grid">
+      <div class="pillar-card" onclick="togglePillar(this)">
+        <span class="pc-icon">🗳️</span>
+        <div class="pc-title">Fria & Hemliga Val</div>
+        <div class="pc-hint">Klicka för info ↓</div>
+        <div class="pc-desc">Valen ska vara återkommande och det måste finnas flera politiska alternativ att välja mellan. Ingen får tvingas att avslöja vad de röstat på.</div>
+      </div>
+
+      <div class="pillar-card" onclick="togglePillar(this)">
+        <span class="pc-icon">🗣️</span>
+        <div class="pc-title">Yttrande- & Mötesfrihet</div>
+        <div class="pc-hint">Klicka för info ↓</div>
+        <div class="pc-desc">Människor måste fritt kunna uttrycka sina åsikter, söka information och samlas för att protestera eller bilda opinion utan att riskera straff.</div>
+      </div>
+
+      <div class="pillar-card" onclick="togglePillar(this)">
+        <span class="pc-icon">⚖️</span>
+        <div class="pc-title">Rättssäkerhet</div>
+        <div class="pc-hint">Klicka för info ↓</div>
+        <div class="pc-desc">Lagarna ska gälla lika för alla. Makten får inte användas godtyckligt, och domstolar ska döma efter lagen, inte efter vad politikerna tycker.</div>
+      </div>
+
+      <div class="pillar-card" onclick="togglePillar(this)">
+        <span class="pc-icon">🤝</span>
+        <div class="pc-title">Allas lika värde</div>
+        <div class="pc-hint">Klicka för info ↓</div>
+        <div class="pc-desc">Alla människor ska ha samma politiska rättigheter, oavsett kön, religion, etnicitet eller inkomst. Ett land där en minoritet förtrycks är inte en fullgod demokrati.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Sveriges modell</span></div>
+  <h2>Sverige som <em>representativ</em> demokrati</h2>
+
+  <p>Sverige är en representativ demokrati. Det betyder att vi medborgare inte själva sitter och fattar alla tusentals politiska beslut varje vecka. Istället väljer vi <strong>representanter</strong> som gör det åt oss.</p>
+
+  <p>Dessa representanter sitter i <strong>Riksdagen</strong>, som är landets högsta beslutande församling. Riksdagen beslutar om lagar, statsbudget och viktiga samhällsfrågor. De 349 ledamöterna väljs i allmänna val vart fjärde år. Alla svenska medborgare som fyllt 18 år har rösträtt. Genom valet kan medborgarna belöna eller straffa politiker beroende på hur de tycker att landet har styrts.</p>
+
+  <div class="section-marker"><span>Maktbalansen</span></div>
+  <h2>Regeringen och det <em>politiska ansvaret</em></h2>
+
+  <p>Efter riksdagsvalet bildas en regering som ska styra landet. Regeringen leds av statsministern och ansvarar för att genomföra riksdagens beslut, ta fram förslag på nya lagar och leda hela Sveriges förvaltning (myndigheterna).</p>
+
+  <p>Detta styrs av ett system som kallas <strong>parlamentarism</strong>. Så här ser kedjan ut i praktiken:</p>
+
+  <div class="chain-section">
+    <div class="chain-intro">
+      <div class="chain-title">Parlamentarismens Kedja</div>
+      <div class="chain-sub">Klicka på stegen för att se hur makten flödar från dig till statsministern.</div>
+    </div>
+
+    <div class="chain-container">
+      
+      <div class="chain-step active" onclick="toggleChain(this)">
+        <div class="cs-header">
+          <div class="cs-title">1. Folket väljer</div>
+          <div class="cs-icon">🧑‍🤝‍🧑</div>
+        </div>
+        <div class="cs-body">På valdagen går folket till urnorna och fördelar de 349 platserna (mandaten) i <span class="cs-highlight">Riksdagen</span> utifrån hur många röster varje parti får.</div>
+      </div>
+
+      <div class="chain-step" onclick="toggleChain(this)">
+        <div class="cs-header">
+          <div class="cs-title">2. Riksdagen utser Regering</div>
+          <div class="cs-icon">🏛️</div>
+        </div>
+        <div class="cs-body">De nyvalda riksdagsledamöterna godkänner sedan en statsminister. Statsministern bildar en <span class="cs-highlight">Regering</span>.</div>
+      </div>
+
+      <div class="chain-step" onclick="toggleChain(this)">
+        <div class="cs-header">
+          <div class="cs-title">3. Regeringen måste ha förtroende</div>
+          <div class="cs-icon">💼</div>
+        </div>
+        <div class="cs-body">Regeringen styr nu landet, men <em>måste</em> alltid ha riksdagens stöd (eller åtminstone accepteras av dem). Om riksdagen tappar förtroendet, kan de tvinga hela regeringen att avgå. <span class="cs-highlight">Detta är kärnan i parlamentarism!</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <p>Detta system skapar en otroligt viktig maktbalans. Regeringen styr landet, men de övervakas och kontrolleras ständigt av riksdagen. På så sätt minskar risken för maktmissbruk avsevärrt.</p>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Demokratin är inte bara ett sätt att fatta beslut, utan också ett värdesystem."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Geografisk uppdelning</span></div>
+  <h2>Demokrati på <em>flera nivåer</em></h2>
+
+  <p>Den svenska demokratin fungerar faktiskt på flera nivåer samtidigt. Förutom riksdagen väljer medborgarna politiker till <strong>kommuner</strong> och <strong>regioner</strong>.</p>
+  
+  <ul>
+    <li><strong>Kommunerna</strong> (290 st) ansvarar för din absoluta vardag, som skola, förskola, äldreomsorg och räddningstjänst.</li>
+    <li><strong>Regionerna</strong> (21 st) har huvudansvaret för tunga poster som sjukhus och kollektivtrafik (tåg/buss).</li>
+  </ul>
+
+  <p>Genom att beslut fattas lokalt blir demokratin mycket mer konkret. Samtidigt är Sverige medlem i EU, vilket innebär att vissa gränsöverskridande beslut fattas på en europeisk nivå. Det gör demokratin mer komplex, men också mer omfattande.</p>
+
+  <div class="section-marker"><span>Sammanfattning</span></div>
+  <h2>Rättigheter och <em>ansvar</em></h2>
+
+  <p>I Sverige skyddas demokratin av våra <strong>grundlagar</strong>. Dessa garanterar grundläggande fri- och rättigheter som yttrandefrihet och tryckfrihet. Grundlagarna är mycket svårare att ändra än vanliga lagar, just för att skydda demokratins spelregler från att förstöras av tillfälliga politiska majoriteter.</p>
+
+  <div class="pullquote">
+    <p>Men demokrati innebär också ansvar. En demokrati fungerar bäst när människor engagerar sig, respekterar andras åsikter och faktiskt använder sina rättigheter på ett ansvarsfullt sätt.</p>
+  </div>
+
+  <p>Demokrati i Sverige innebär att makten utgår från folket och utövas genom valda representanter. Genom fria val, starka rättigheter och en tydlig maktdelning kan vi påverka både stora samhällsfrågor och de små besluten i vår egen vardag.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns 8 skrivfrågor för reflektion och fördjupning, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('skriv', this)">💬 Skrivfrågor (8 st)</button>
+        <button class="t-tab" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-skriv">
+      <div class="q-block" style="border-bottom:none; padding-bottom:0;">
+        <div class="q-content">
+          <h4>Diskutera och reflektera</h4>
+          <ol class="q-list">
+            <li>Förklara med egna ord vad "representativ demokrati" betyder jämfört med "direkt demokrati" (där folket folkomröstar om precis alla frågor).</li>
+            <li>Ge exempel på varför <em>yttrandefrihet</em> och <em>tryckfrihet</em> är så enormt viktiga för att en demokrati ska kunna fungera i praktiken.</li>
+            <li>Vad menas med begreppet "rättssäkerhet" och vad tror du skulle hända med ett samhälle om det plötsligt försvann?</li>
+            <li>Beskriv hur "parlamentarism" fungerar i Sverige. Vad händer om riksdagen helt tappar förtroendet för regeringen?</li>
+            <li>Varför tror du att demokratin och ansvaret är uppdelat på tre nivåer i Sverige (nationell, regional, lokal) istället för att staten bestämmer allt?</li>
+            <li>Grundlagarna är gjorda för att vara svåra och långsamma att ändra för att skydda demokratin. Kan du komma på en situation där det är bra att politiker <em>inte</em> kan fatta snabba beslut?</li>
+            <li>I texten står det att "demokrati innebär ansvar". Vad tycker du är en medborgares absolut viktigaste ansvar i en demokrati idag?</li>
+            <li>Sverige är med i EU, vilket innebär att vissa lagar beslutas över nationsgränsen. Vilka fördelar och utmaningar finns det med överstatliga beslut för en nationell demokrati?</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor för att se om du har förstått grunderna i den svenska demokratin.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── PILLARS INTERACTION ──
+function togglePillar(card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.pillar-card').forEach(c => c.classList.remove('active'));
+  if (!isActive) card.classList.add('active');
+}
+
+// ── CHAIN (PARLAMENTARISM) INTERACTION ──
+function toggleChain(step) {
+  const isActive = step.classList.contains('active');
+  document.querySelectorAll('.chain-step').forEach(s => s.classList.remove('active'));
+  if (!isActive) step.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad betyder ordet 'demokrati' i grunden?",
+    opts: ["Kungastyre", "Folkstyre", "Rättvisa", "Lika lön för alla"],
+    correct: 1,
+    feedback: "Rätt! Ordet kommer från grekiskan och betyder bokstavligen folkstyre (demos = folk, kratein = härska)."
+  },
+  {
+    q: "Vad innebär det att Sverige är en 'representativ' demokrati?",
+    opts: ["Att vi röstar om precis alla lagar själva via internet.", "Att kungen representerar folket.", "Att vi väljer politiska representanter som sedan fattar besluten åt oss.", "Att alla i landet måste vara med i ett parti."],
+    correct: 2,
+    feedback: "Exakt. Vi väljer 349 representanter till riksdagen som får i uppdrag att fatta besluten åt oss under fyra år."
+  },
+  {
+    q: "Hur många ledamöter (politiker) sitter i Sveriges riksdag?",
+    opts: ["100", "290", "349", "1000"],
+    correct: 2,
+    feedback: "Sveriges riksdag består av 349 ledamöter som väljs vid de allmänna valen vart fjärde år."
+  },
+  {
+    q: "Vad innebär begreppet 'parlamentarism'?",
+    opts: ["Att regeringen måste ha riksdagens/parlamentets stöd för att få styra landet.", "Att polisen bestämmer över politikerna.", "Att parlamentet ligger i Stockholm.", "Att kungen utser regeringen."],
+    correct: 0,
+    feedback: "Parlamentarism är säkerhetsspärren som gör att regeringen alltid måste ha riksdagens förtroende för att sitta kvar."
+  },
+  {
+    q: "Vad menas med 'rättssäkerhet'?",
+    opts: ["Att man har rätt att låsa sin dörr.", "Att lagarna gäller lika för alla och att domstolar dömer efter lag, inte efter politikers tyckande.", "Att polisen får arrestera vem de vill.", "Att alla rättegångar sänds på TV."],
+    correct: 1,
+    feedback: "Rättssäkerhet innebär att makten inte får användas godtyckligt och att alla är lika inför lagen."
+  },
+  {
+    q: "Vilka frågor är det huvudsakligen kommunerna (den lokala nivån) som ansvarar för?",
+    opts: ["Försvar och militär.", "Sjukhus och tågtrafik.", "Skola, äldreomsorg och räddningstjänst.", "Utrikespolitik och EU-frågor."],
+    correct: 2,
+    feedback: "Kommunerna ansvarar för den samhällsservice som ligger allra närmast din vardag (som din grundskola)."
+  },
+  {
+    q: "Varför är Sveriges grundlagar mycket svårare att ändra än vanliga lagar?",
+    opts: ["För att böckerna är tryckta på dyrt papper.", "För att skydda demokratins spelregler från att ändras snabbt av en tillfällig majoritet.", "För att kungen vägrar skriva under.", "För att ingen kan läsa den gamla svenskan de är skrivna på."],
+    correct: 1,
+    feedback: "Att ha en tröghet för att ändra grundlagarna (kräver två beslut med ett val emellan) skyddar demokratins fundament från snabba, farliga förändringar."
+  },
+  {
+    q: "Utöver rättigheter och friheter, vad mer menar texten att en demokrati kräver av sina medborgare?",
+    opts: ["Mycket pengar.", "Ansvar – som att delta, ta del av information och respektera andras åsikter.", "Att man alltid håller med majoriteten.", "Att man arbetar inom staten."],
+    correct: 1,
+    feedback: "Demokratin fungerar bara om medborgarna tar sitt ansvar genom att engagera sig och respektera spelreglerna."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Strålande! Du har stenkoll på den svenska demokratin."; }
+  else if(pct >= 0.6) { title = "Snyggt jobbat! ⭐"; msg = "Du har förstått grunderna riktigt bra."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Klicka runt på Parlamentarismens Kedja en gång till och testa sedan igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
