@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinduism i vardagen – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #140a05;
+  --paper:    #FDF6E3;
+  --saffron:  #E67E22;
+  --saffron-dk:#B95C0F;
+  --gold:     #F39C12;
+  --maroon:   #7B241C;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.7);
+  --border:   rgba(230,126,34,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--maroon), var(--saffron), var(--gold));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(ellipse at 50% 50%, #2a1106 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e67e22' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--ink) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 8vw, 86px);
+  font-weight: 900; line-height: 1.05;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(230,126,34,0.3);
+  margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+.hero h1 em { color: var(--saffron); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--saffron); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--saffron), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--saffron); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--gold); font-style: italic; }
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--saffron);
+  background: linear-gradient(135deg, rgba(230,126,34,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--saffron); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 3.5vw, 36px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── FACT BOX ── */
+.fact-box {
+  background: rgba(230,126,34,0.05);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  padding: 24px 28px; margin: 40px 0;
+}
+.fact-box-label { font-family: var(--mono); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--saffron); margin-bottom: 12px; }
+.fact-box p { font-size: 18px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+
+/* ── INTERACTIVE CARDS ── */
+.concept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 60px 0; }
+.concept-card {
+  background: rgba(253,246,227,0.03);
+  border: 1px solid var(--border);
+  border-radius: 6px; padding: 24px 20px;
+  text-align: center; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.concept-card:hover, .concept-card.active {
+  background: rgba(230,126,34,0.1);
+  border-color: var(--saffron);
+  transform: translateY(-4px);
+}
+.concept-icon { font-size: 42px; margin-bottom: 16px; display: block; }
+.concept-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--paper); margin-bottom: 8px; }
+.concept-desc { font-size: 15px; color: var(--text-dim); line-height: 1.5; display: none; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 16px; }
+.concept-card.active .concept-desc { display: block; animation: fadeUp 0.3s ease; }
+.concept-hint { font-family: var(--mono); font-size: 10px; color: var(--saffron); text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
+.concept-card.active .concept-hint { display: none; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 50vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.25) sepia(0.6) hue-rotate(-15deg);
+  background-image: url('https://images.unsplash.com/photo-1590050752117-238cb0fb12b1?auto=format&fit=crop&q=80&w=2070');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px;
+  max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(32px, 5vw, 56px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--gold); }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #0d0603; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--saffron); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(253,246,227,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--saffron); color: var(--saffron); background: rgba(230,126,34,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(230,126,34,0.15); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(230,126,34,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--saffron); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(253,246,227,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(230,126,34,0.15); border: 1px solid var(--saffron); color: var(--saffron); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--saffron); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(230,126,34,0.2); border-radius: 2px; margin-bottom: 32px; }
+.quiz-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(253,246,227,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(243,156,18,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2E8B57; background: rgba(46,139,87,0.15); color: #EAF6EA; }
+.quiz-opt.wrong { border-color: #C0392B; background: rgba(192,57,43,0.15); color: #FDECEA; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--saffron); background: rgba(230,126,34,0.15); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(230,126,34,0.1); border-left: 3px solid var(--saffron); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--saffron); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--maroon), var(--saffron)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(230,126,34,0.2); color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .concept-grid { grid-template-columns: 1fr; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion · Hinduism</div>
+
+  <h1>Hinduism i <em>vardagen</em></h1>
+  <p class="hero-sub">I hem, tempel och på gatan. Tron tar form i vardagens rutiner snarare än i fasta trosbekännelser.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Hinduism är inte bara något som utövas vid särskilda högtider eller i stora tempel. För de flesta hinduer är religionen en naturlig del av vardagen och finns ständigt närvarande i hemmet, på arbetsplatsen och i det offentliga rummet. Genom enkla ritualer, bilder av gudar och daglig tillbedjan hålls kontakten med det gudomliga levande.
+  </p>
+
+  <div class="section-marker"><span>Del 1 · Hemmet</span></div>
+  <h2>Den heliga platsen i <em>vardagsrummet</em></h2>
+
+  <p>I många hinduiska hem finns ett litet altare, ofta placerat i ett hörn av bostaden. Där finns bilder eller små statyer av gudar som familjen känner särskild närhet till, till exempel Vishnu, Shiva eller någon av gudinnorna. Altaret fungerar som en plats för stillhet, bön och eftertanke.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Puja – den dagliga ritualen</div>
+    <p>Den vanligaste ritualen i hemmet kallas <strong>puja</strong>, vilket betyder tillbedjan. En puja kan vara mycket enkel och ta bara några minuter, eller vara mer omfattande beroende på tid och tillfälle. Under ritualen tänder man ofta en oljelampa eller ett ljus, bränner rökelse och lägger fram gåvor som blommor, frukt eller sötsaker.</p>
+  </div>
+
+  <p>Gåvorna är symboliska och visar respekt och tacksamhet gentemot guden. Puja utförs ofta på morgonen eller kvällen och kan genomföras av både kvinnor och män. För många hinduer är denna dagliga ritual ett sätt att skapa lugn, struktur och mening i vardagen.</p>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"När en hindu ser en gudabild, tror man att guden samtidigt ser tillbaka."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 2 · Mötet</span></div>
+  <h2>Darshan – att <em>se och bli sedd</em></h2>
+
+  <p>En central tanke i hinduisk religionsutövning är <strong>darshan</strong>. Ordet betyder ungefär ”att se”, men handlar om mer än att bara titta. När en hindu ser en gudabild, till exempel i ett tempel eller vid hemaltaret, tror man att guden samtidigt ser tillbaka.</p>
+  
+  <p>Detta ögonblick av ömsesidig kontakt uppfattas som välsignande.</p>
+
+  <div class="pullquote">
+    <p>Darshan kan vara en stark religiös upplevelse, men det behöver inte alltid vara känslosamt. För många är det en naturlig och vardaglig handling.</p>
+  </div>
+
+  <div class="section-marker"><span>Kärnbegrepp</span></div>
+  <h2>Vardagens tre <em>pelare</em></h2>
+  
+  <div class="concept-grid">
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="concept-icon">🪔</span>
+      <div class="concept-title">Puja</div>
+      <div class="concept-hint">Klicka för info ↓</div>
+      <div class="concept-desc">Betyder tillbedjan. En daglig ritual där man offrar blommor, tänder rökelse och oljelampor framför en gudabild, ofta ledd av familjemedlemmar i hemmet.</div>
+    </div>
+
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="concept-icon">👁️</span>
+      <div class="concept-title">Darshan</div>
+      <div class="concept-hint">Klicka för info ↓</div>
+      <div class="concept-desc">Det ömsesidiga betraktandet. Tron att när människan fäster blicken på guden (i form av en staty eller bild), ser guden tillbaka med välsignelse.</div>
+    </div>
+
+    <div class="concept-card" onclick="toggleCard(this)">
+      <span class="concept-icon">🛕</span>
+      <div class="concept-title">Mandir</div>
+      <div class="concept-desc">Gudens hus, det hinduiska templet. Här finns det innersta heligaste rummet där den specifika guden för templet anses bo. Här leds pujan oftast av präster.</div>
+      <div class="concept-hint">Klicka för info ↓</div>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Del 3 · Samhället</span></div>
+  <h2>Tempel och <em>gator</em></h2>
+
+  <p>Hinduiska tempel kallas ofta <strong>mandir</strong> och betraktas som gudens bostad. I templets innersta del finns en helig bild eller symbol som representerar guden. Till skillnad från i hemmet leds puja i templet oftast av präster, och ritualerna följer mer fasta former.</p>
+
+  <p>Många hinduer besöker tempel vid särskilda tillfällen, till exempel inför högtider, vid livets viktiga händelser eller när man söker vägledning. Samtidigt är tempelbesök inte alltid nödvändiga för religionsutövningen – hemmets puja är minst lika viktig för vardagslivet.</p>
+
+  <p>Hinduism syns inte bara i hem och tempel, utan också på gator och torg. Gudabilder, symboler och små helgedomar kan finnas längs vägar, i butiker eller vid arbetsplatser. Förbipasserande kan stanna till, göra en kort bön eller lägga ner en blomma.</p>
+  
+  <p>Detta visar hur gränsen mellan vardag och religion ofta är flytande inom hinduism. Tron är inte avskild från det vanliga livet, utan vävs samman med arbete, familj och samhälle.</p>
+
+  <div class="section-marker"><span>Sammanfattning</span></div>
+  <h2>En <em>levd</em> religion</h2>
+
+  <p>Hinduism saknar en gemensam grundare och enhetliga regler för hur religionen ska utövas. Därför kan vardagsreligionen se mycket olika ut beroende på familj, region och tradition.</p> 
+  
+  <p>Det som förenar många hinduer är dock att religionen praktiseras genom handlingar – genom ritualer, bilder och återkommande kontakt med det gudomliga. På så sätt är hinduism i hög grad en levd religion, där tron tar form i vardagens rutiner snarare än i fasta trosbekännelser.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor kopplade till texten samt ett digitalt självrättande quiz för att testa förståelsen av textens kärnbegrepp.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--saffron); border-color: var(--saffron);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Förståelsefrågor till texten</h4>
+          <ul class="q-list">
+            <li>Vad menas med en puja, och hur går den ofta till i hemmet?</li>
+            <li>Förklara begreppet darshan. Varför är det en viktig del av hinduiskt vardagsliv?</li>
+            <li>Hur skiljer sig religionsutövningen i ett mandir (tempel) från den som sker vid ett hemaltare?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Analys & Reflektion</h4>
+          <ul class="q-list">
+            <li>Texten beskriver hinduism som en "levd religion". Vad menas med det uttrycket i motsats till en religion som kretsar mycket kring "fasta trosbekännelser"?</li>
+            <li>Vilken roll spelar de fysiska sakerna (bilder, statyer, rökelse, mat) i hinduisk vardagsreligion? Varför tror du att de materiella tingen är så centrala?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Ett interaktivt quiz för att se om du har stenkoll på begreppen i hinduisk vardag.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Bra jobbat!</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── CONCEPT CARDS ──
+function toggleCard(card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.concept-card').forEach(c => c.classList.remove('active'));
+  if (!isActive) card.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad kallas den vanligaste dagliga ritualen som utförs i hemmet?",
+    opts: ["Yoga", "Mandir", "Puja", "Darshan"],
+    correct: 2,
+    feedback: "Puja betyder tillbedjan. Det är den dagliga ritualen där man ofta tänder ljus, bränner rökelse och ger gåvor till guden."
+  },
+  {
+    q: "Vad betyder begreppet 'Darshan'?",
+    opts: ["Att offra mat", "Att se och bli sedd av det gudomliga", "Tempel", "Prästens välsignelse"],
+    correct: 1,
+    feedback: "Darshan handlar om den ömsesidiga ögonkontakten mellan människan och guden. Det upplevs som en stark och välsignande handling."
+  },
+  {
+    q: "Vilket av följande påståenden stämmer bäst in på hinduiska tempel?",
+    opts: ["De besöks obligatoriskt varje söndag av alla hinduer.", "De kallas mandir och fungerar som gudens bostad.", "Det är den enda platsen där puja får utföras.", "De saknar helt bilder och statyer."],
+    correct: 1,
+    feedback: "Mandir är templet, och ses som platsen där guden bor. Religionen kräver inte regelbundna besök, utan hemmets puja är minst lika viktig."
+  },
+  {
+    q: "Varför beskrivs hinduism ofta som en 'levd religion'?",
+    opts: ["För att den styrs av en sträng, gemensam regelbok.", "För att endast prästerna är levande representanter för tron.", "För att den har en tydlig historisk grundare som är i fokus.", "För att tron tar form i vardagliga handlingar och rutiner snarare än fasta trosbekännelser."],
+    correct: 3,
+    feedback: "Eftersom hinduismen saknar en specifik grundare och helt enhetliga regler, präglas den starkt av hur den utövas genom ritualer i just vardagen."
+  },
+  {
+    q: "Vad är vanligt att ha på ett hemaltare?",
+    opts: ["Bara en helig bok", "Bilder eller små statyer av gudar", "Enbart rökelse", "Ett fotografi av religionens grundare"],
+    correct: 1,
+    feedback: "På hemaltaret finns ofta bilder eller statyer av de gudar som familjen känner särskild närhet till, exempelvis Vishnu eller Shiva."
+  },
+  {
+    q: "Vem leder oftast pujan i hemmet?",
+    opts: ["Alltid en tempelpräst", "Bara familjens äldste man", "Den kan genomföras av både kvinnor och män i familjen", "Bara barnen"],
+    correct: 2,
+    feedback: "Puja i hemmet utförs ofta på morgonen eller kvällen och kan ledas av både kvinnor och män i familjen."
+  },
+  {
+    q: "Hur märks hinduismen i det offentliga rummet enligt texten?",
+    opts: ["Det är förbjudet att visa sin tro utomhus.", "Bara genom stora årliga festivaler.", "Gudabilder och små helgedomar finns längs vägar och i butiker.", "Endast genom de stora templen (mandir)."],
+    correct: 2,
+    feedback: "Hinduism syns ofta på gator och torg med små helgedomar där förbipasserande kan stanna till för en kort bön eller lämna en blomma."
+  },
+  {
+    q: "Vilket av följande påståenden om hinduismens grundstruktur är sant?",
+    opts: ["Den har en gemensam grundare och tydliga regler för alla.", "Den saknar en gemensam grundare och enhetliga regler.", "Alla hinduer måste be exakt fem gånger om dagen.", "Prästerna bestämmer exakt hur alla ska leva sina liv."],
+    correct: 1,
+    feedback: "Hinduism saknar en gemensam grundare och enhetliga regler, vilket gör att vardagsreligionen kan se mycket olika ut beroende på tradition och region."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Snyggt jobbat! Du har stenkoll på hinduismens vardagsritualer."; }
+  else if(pct >= 0.5) { title = "Helt okej! ⭐"; msg = "Du har greppat det viktigaste, men det skadar inte att kika på texten en gång till."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Repetition är kunskapens moder. Scrolla upp och kolla in faktarutorna!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
