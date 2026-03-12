@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SO med Petrus – Hinduism</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --saffron: #E8651A;
+  --gold: #C9930A;
+  --gold-light: #F5C842;
+  --crimson: #7B1C1C;
+  --deep: #1A0A00;
+  --cream: #FDF5E6;
+  --ivory: #FAF0DC;
+  --lotus: #D4547A;
+  --teal: #0D6E6E;
+  --mandala: #8B2500;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--deep);
+  color: var(--cream);
+  font-family: 'Rajdhani', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ---- BACKGROUND PATTERN ---- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(232,101,26,0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(201,147,10,0.06) 0%, transparent 40%),
+    radial-gradient(circle at 60% 80%, rgba(123,28,28,0.1) 0%, transparent 40%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ---- NAV ---- */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(26,10,0,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(201,147,10,0.3);
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.85rem;
+  color: var(--gold-light);
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(253,245,230,0.7);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--gold-light); }
+
+/* ---- HERO ---- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 2rem 4rem;
+  overflow: hidden;
+}
+
+.mandala-bg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  opacity: 0.04;
+  animation: spin 120s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes spin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+}
+
+.hero-eyebrow {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s ease both;
+}
+
+.hero h1 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(2.5rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.1;
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--saffron) 50%, var(--gold) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+  animation: fadeUp 0.8s 0.1s ease both;
+}
+
+.hero-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+  font-style: italic;
+  color: rgba(253,245,230,0.7);
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.divider-om {
+  font-size: 3rem;
+  color: var(--gold-light);
+  opacity: 0.8;
+  margin: 1rem 0;
+  animation: fadeUp 0.8s 0.3s ease both;
+  display: block;
+}
+
+.hero-nav-pills {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.4s ease both;
+}
+
+.pill {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border: 1px solid rgba(201,147,10,0.5);
+  border-radius: 50px;
+  color: var(--gold-light);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.25s;
+  cursor: pointer;
+  background: none;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.pill:hover {
+  background: rgba(201,147,10,0.2);
+  border-color: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- SECTION WRAPPER ---- */
+.section {
+  position: relative;
+  z-index: 1;
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-label {
+  font-size: 0.8rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.section-title {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: var(--gold-light);
+  margin-bottom: 1rem;
+}
+
+.section-line {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.section-line::before, .section-line::after {
+  content: '';
+  height: 1px;
+  width: 80px;
+  background: linear-gradient(to right, transparent, var(--gold));
+}
+
+.section-line::after {
+  background: linear-gradient(to left, transparent, var(--gold));
+}
+
+.section-line span {
+  color: var(--gold-light);
+  font-size: 1.2rem;
+}
+
+/* ---- EPISODE CARDS ---- */
+#avsnitt { background: linear-gradient(to bottom, transparent, rgba(123,28,28,0.05), transparent); }
+
+.episodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.episode-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(201,147,10,0.05) 100%);
+  border: 1px solid rgba(201,147,10,0.2);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  position: relative;
+  cursor: pointer;
+}
+
+.episode-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--saffron), var(--gold-light), var(--saffron));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.episode-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(201,147,10,0.5);
+  box-shadow: 0 20px 60px rgba(232,101,26,0.15);
+}
+
+.episode-card:hover::before { opacity: 1; }
+
+.episode-card-header {
+  padding: 1.5rem 1.5rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.episode-num {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: rgba(201,147,10,0.25);
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.episode-info { flex: 1; }
+
+.episode-tag {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 0.4rem;
+  display: block;
+}
+
+.episode-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+.episode-desc {
+  padding: 1rem 1.5rem;
+  font-size: 0.9rem;
+  color: rgba(253,245,230,0.6);
+  line-height: 1.6;
+}
+
+.episode-card-footer {
+  padding: 1rem 1.5rem 1.5rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.btn-spotify {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  background: #1DB954;
+  color: #000;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.btn-spotify:hover {
+  background: #1ed760;
+  transform: scale(1.04);
+}
+
+.btn-quiz {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  background: transparent;
+  color: var(--gold-light);
+  border: 1px solid rgba(201,147,10,0.5);
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Rajdhani', sans-serif;
+}
+
+.btn-quiz:hover {
+  background: rgba(201,147,10,0.15);
+  border-color: var(--gold-light);
+}
+
+/* ---- QUIZ MODAL ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-overlay.open { display: flex; }
+
+.quiz-modal {
+  background: linear-gradient(135deg, #1e0e02 0%, #2a1200 100%);
+  border: 1px solid rgba(201,147,10,0.4);
+  border-radius: 20px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.quiz-header {
+  padding: 2rem;
+  border-bottom: 1px solid rgba(201,147,10,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.quiz-header h2 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  color: var(--gold-light);
+}
+
+.quiz-close {
+  background: none;
+  border: none;
+  color: rgba(253,245,230,0.5);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.quiz-close:hover { color: var(--cream); }
+
+.quiz-body { padding: 2rem; }
+
+.quiz-progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--saffron), var(--gold-light));
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.progress-text {
+  font-size: 0.8rem;
+  color: rgba(253,245,230,0.5);
+  white-space: nowrap;
+}
+
+.question-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: var(--cream);
+  margin-bottom: 1.8rem;
+  line-height: 1.4;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.option-btn {
+  padding: 1rem 1.2rem;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: var(--cream);
+  font-size: 0.95rem;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.option-btn:hover:not(.selected):not(.answered) {
+  border-color: rgba(201,147,10,0.5);
+  background: rgba(201,147,10,0.08);
+}
+
+.option-letter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  font-size: 0.8rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+
+.option-btn.correct {
+  background: rgba(29,185,84,0.15);
+  border-color: #1DB954;
+}
+.option-btn.correct .option-letter {
+  background: #1DB954;
+  color: #000;
+  border-color: #1DB954;
+}
+
+.option-btn.wrong {
+  background: rgba(220,53,69,0.12);
+  border-color: rgba(220,53,69,0.6);
+}
+.option-btn.wrong .option-letter {
+  background: rgba(220,53,69,0.4);
+  border-color: rgba(220,53,69,0.6);
+}
+
+.option-btn.reveal-correct {
+  background: rgba(29,185,84,0.08);
+  border-color: rgba(29,185,84,0.4);
+}
+
+.feedback-msg {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  display: none;
+}
+
+.feedback-msg.show { display: block; }
+.feedback-msg.ok { background: rgba(29,185,84,0.15); color: #6fcf97; }
+.feedback-msg.fail { background: rgba(220,53,69,0.12); color: #f47c7c; }
+
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+
+.score-display {
+  font-size: 0.85rem;
+  color: rgba(253,245,230,0.5);
+}
+
+.btn-next {
+  padding: 0.7rem 1.8rem;
+  background: linear-gradient(135deg, var(--saffron), var(--gold));
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: none;
+}
+
+.btn-next.show { display: block; }
+.btn-next:hover { opacity: 0.9; transform: translateY(-2px); }
+
+.quiz-result {
+  text-align: center;
+  padding: 1rem 0;
+  display: none;
+}
+
+.quiz-result.show { display: block; }
+
+.result-score {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 4rem;
+  background: linear-gradient(135deg, var(--gold-light), var(--saffron));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+
+.result-msg {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  font-style: italic;
+  color: rgba(253,245,230,0.8);
+  margin-bottom: 2rem;
+}
+
+.result-stars {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-retry {
+  padding: 0.7rem 2rem;
+  background: transparent;
+  border: 1px solid rgba(201,147,10,0.5);
+  color: var(--gold-light);
+  border-radius: 50px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-retry:hover { background: rgba(201,147,10,0.15); }
+
+/* ---- FLASHCARDS ---- */
+#flashcards { position: relative; }
+
+.flashcard-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: rgba(253,245,230,0.6);
+}
+
+.flashcard-controls {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 2.5rem;
+}
+
+.filter-btn {
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: rgba(253,245,230,0.6);
+  border-radius: 50px;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn.active, .filter-btn:hover {
+  border-color: var(--saffron);
+  color: var(--saffron);
+  background: rgba(232,101,26,0.08);
+}
+
+.flashcard-arena {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+.fc-arrow {
+  background: rgba(201,147,10,0.08);
+  border: 1px solid rgba(201,147,10,0.4);
+  color: var(--gold-light);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  user-select: none;
+  line-height: 1;
+}
+
+.fc-arrow:hover {
+  background: rgba(201,147,10,0.25);
+  border-color: var(--gold-light);
+  transform: scale(1.1);
+}
+
+.fc-arrow:active {
+  transform: scale(0.94);
+}
+
+.flashcard-container {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 500px;
+  height: 280px;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flashcard-container.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.fc-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.fc-front {
+  background: linear-gradient(135deg, rgba(123,28,28,0.3) 0%, rgba(26,10,0,0.8) 100%);
+  border: 1px solid rgba(201,147,10,0.3);
+}
+
+.fc-back {
+  background: linear-gradient(135deg, rgba(13,110,110,0.3) 0%, rgba(26,10,0,0.8) 100%);
+  border: 1px solid rgba(13,110,110,0.5);
+  transform: rotateY(180deg);
+}
+
+.fc-category {
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 1.2rem;
+}
+
+.fc-term {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.8rem;
+  color: var(--gold-light);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.fc-hint {
+  font-size: 0.8rem;
+  color: rgba(253,245,230,0.3);
+  letter-spacing: 1px;
+}
+
+.fc-back .fc-category { color: #4DC0B0; }
+
+.fc-definition {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  text-align: center;
+  color: var(--cream);
+  line-height: 1.5;
+}
+
+.fc-example {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: rgba(253,245,230,0.5);
+  text-align: center;
+}
+
+.fc-counter {
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(253,245,230,0.4);
+  margin-bottom: 1rem;
+}
+
+.fc-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.fc-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.fc-dot.active { background: var(--saffron); }
+.fc-dot.seen { background: rgba(201,147,10,0.4); }
+
+/* ---- BEGREPP GRID ---- */
+.terms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.term-tile {
+  padding: 1.2rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(201,147,10,0.12);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.term-tile::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--saffron), var(--gold-light));
+  transition: width 0.3s;
+}
+
+.term-tile:hover {
+  border-color: rgba(201,147,10,0.35);
+  transform: translateY(-3px);
+}
+
+.term-tile:hover::after { width: 100%; }
+
+.term-tile h3 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.9rem;
+  color: var(--gold-light);
+  margin-bottom: 0.4rem;
+}
+
+.term-tile p {
+  font-size: 0.85rem;
+  color: rgba(253,245,230,0.55);
+  line-height: 1.4;
+}
+
+.term-tile .term-cat {
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--saffron);
+  margin-bottom: 0.5rem;
+  opacity: 0.8;
+}
+
+/* ---- FOOTER ---- */
+footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 3rem 2rem;
+  border-top: 1px solid rgba(201,147,10,0.15);
+}
+
+.footer-logo {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 1.2rem;
+  color: var(--gold-light);
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.footer-sub {
+  font-size: 0.85rem;
+  color: rgba(253,245,230,0.35);
+  letter-spacing: 2px;
+}
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--deep); }
+::-webkit-scrollbar-thumb { background: rgba(201,147,10,0.4); border-radius: 3px; }
+
+/* ---- MEDIA ---- */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .fc-arrow { width: 38px; height: 38px; font-size: 1rem; flex-shrink: 0; }
+}
+
+/* ---- SECTION DIVIDER ---- */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,147,10,0.3), transparent);
+  margin: 0;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: rgba(29,185,84,0.2);
+  border: 1px solid rgba(29,185,84,0.4);
+  color: #6fcf97;
+  padding: 0.7rem 1.5rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 3000;
+  transition: transform 0.3s ease;
+  white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* Episode number colors */
+.ep-1 .episode-num { color: rgba(232,101,26,0.3); }
+.ep-2 .episode-num { color: rgba(201,147,10,0.3); }
+.ep-3 .episode-num { color: rgba(212,84,122,0.3); }
+.ep-4 .episode-num { color: rgba(13,110,110,0.4); }
+.ep-5 .episode-num { color: rgba(139,37,0,0.5); }
+.ep-6 .episode-num { color: rgba(232,101,26,0.3); }
+.ep-7 .episode-num { color: rgba(201,147,10,0.3); }
+
+.ep-1 .episode-card-header .episode-tag { color: var(--saffron); }
+.ep-4 .episode-card-header .episode-tag { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">ॐ SO med Petrus</a>
+  <ul class="nav-links">
+    <li><a href="#avsnitt">Avsnitt</a></li>
+    <li><a href="#flashcards">Flashcards</a></li>
+    <li><a href="#begrepp">Begrepp</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="mandala-bg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="190" stroke="#C9930A" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="150" stroke="#C9930A" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="110" stroke="#C9930A" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="70" stroke="#C9930A" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="30" stroke="#C9930A" stroke-width="1"/>
+    <line x1="10" y1="200" x2="390" y2="200" stroke="#C9930A" stroke-width="0.3"/>
+    <line x1="200" y1="10" x2="200" y2="390" stroke="#C9930A" stroke-width="0.3"/>
+    <line x1="55" y1="55" x2="345" y2="345" stroke="#C9930A" stroke-width="0.3"/>
+    <line x1="345" y1="55" x2="55" y2="345" stroke="#C9930A" stroke-width="0.3"/>
+    <polygon points="200,20 380,310 20,310" stroke="#C9930A" stroke-width="0.5" fill="none"/>
+    <polygon points="200,380 20,90 380,90" stroke="#C9930A" stroke-width="0.5" fill="none"/>
+    <polygon points="200,60 350,290 50,290" stroke="#C9930A" stroke-width="0.3" fill="none"/>
+    <polygon points="200,340 50,110 350,110" stroke="#C9930A" stroke-width="0.3" fill="none"/>
+    <circle cx="200" cy="10" r="4" fill="#C9930A" opacity="0.5"/>
+    <circle cx="200" cy="390" r="4" fill="#C9930A" opacity="0.5"/>
+    <circle cx="10" cy="200" r="4" fill="#C9930A" opacity="0.5"/>
+    <circle cx="390" cy="200" r="4" fill="#C9930A" opacity="0.5"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">SO med Petrus · Podcast</p>
+    <h1>Hinduism</h1>
+    <p class="hero-sub">En resa genom en av världens äldsta levande traditioner</p>
+    <span class="divider-om">ॐ</span>
+    <div class="hero-nav-pills">
+      <button class="pill" onclick="document.getElementById('avsnitt').scrollIntoView({behavior:'smooth'})">🎧 7 Avsnitt</button>
+      <button class="pill" onclick="document.getElementById('flashcards').scrollIntoView({behavior:'smooth'})">🃏 Flashcards</button>
+      <button class="pill" onclick="document.getElementById('begrepp').scrollIntoView({behavior:'smooth'})">📖 Begrepp</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AVSNITT -->
+<section id="avsnitt" style="position:relative;z-index:1;padding:6rem 2rem;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-header">
+      <span class="section-label">Lyssna & lär</span>
+      <h2 class="section-title">Avsnitten</h2>
+      <div class="section-line"><span>🪷</span></div>
+    </div>
+
+    <div class="episodes-grid">
+
+      <!-- EP 1 -->
+      <div class="episode-card ep-1">
+        <div class="episode-card-header">
+          <div class="episode-num">01</div>
+          <div class="episode-info">
+            <span class="episode-tag">Introduktion</span>
+            <div class="episode-title">Vad är hinduism?</div>
+          </div>
+        </div>
+        <div class="episode-desc">Gudar, återfödelse och själen. Varför hinduism inte fungerar som andra religioner – och vad begreppen atman, moksha och karma egentligen betyder.</div>
+        <div class="episode-card-footer">
+          <a href="https://open.spotify.com/episode/2JutTxkMyK3LSPWzbwEeDa?si=cb2430ddcf644b57" target="_blank" class="btn-spotify">
+            ▶ Spotify
+          </a>
+          <button class="btn-quiz" onclick="openQuiz(0)">📝 Quiz</button>
+        </div>
+      </div>
+
+      <!-- EP 2 -->
+      <div class="episode-card ep-2">
+        <div class="episode-card-header">
+          <div class="episode-num">02</div>
+          <div class="episode-info">
+            <span class="episode-tag">Historia</span>
+            <div class="episode-title">Hinduismens ursprung</div>
+          </div>
+        </div>
+        <div class="episode-desc">Från floderna Indus och Ganges till Induskulturen och arier­invandrarna. Hur en religion växer fram under tusentals år utan en grundare.</div>
+        <div class="episode-card-footer">
+          <a href="https://open.spotify.com/episode/7EHuROmDodyKbmg08FusLe?si=9f169f3f779e4cb1" target="_blank" class="btn-spotify">▶ Spotify</a>
+          <button class="btn-quiz" onclick="openQuiz(1)">📝 Quiz</button>
+        </div>
+      </div>
+
+      <!-- EP 3 -->
+      <div class="episode-card ep-3">
+        <div class="episode-card-header">
+          <div class="episode-num">03</div>
+          <div class="episode-info">
+            <span class="episode-tag">Filosofi</span>
+            <div class="episode-title">Livets kretslopp & befrielsen</div>
+          </div>
+        </div>
+        <div class="episode-desc">Brahman, atman, samsara, karma och moksha – hinduismens fem centrala begrepp. Varför livet ses som lidande och hur man kan nå befrielse.</div>
+        <div class="episode-card-footer">
+          <a href="https://open.spotify.com/episode/3XSioL7MuyH2xmxAAtX3YA?si=2adae3ffde7e414a" target="_blank" class="btn-spotify">▶ Spotify</a>
+          <button class="btn-quiz" onclick="openQuiz(2)">📝 Quiz</button>
+        </div>
+      </div>
+
+      <!-- EP 4 -->
+      <div class="episode-card ep-4">
+        <div class="episode-card-header">
+          <div class="episode-num">04</div>
+          <div class="episode-info">
+            <span class="episode-tag">Skrifter</span>
+            <div class="episode-title">De viktigaste skrifterna</div>
+          </div>
+        </div>
+        <div class="episode-desc">Vedaskrifterna, Upanishaderna, Bhagavadgita och Ramayana. Varför hinduism inte har en enda helig bok – utan ett helt landskap av texter.</div>
+        <div class="episode-card-footer">
+          <a href="https://open.spotify.com/episode/4xKLkiVoWtgtX8KZ8Zi0Vb?si=d1c9f7ad3ade4853" target="_blank" class="btn-spotify">▶ Spotify</a>
+          <button class="btn-quiz" onclick="openQuiz(3)">📝 Quiz</button>
+        </div>
+      </div>
+
+      <!-- EP 5 -->
+      <div class="episode-card ep-5">
+        <div class="episode-card-header">
+          <div class="episode-num">05</div>
+          <div class="episode-info">
+            <span class="episode-tag">Vardagsliv</span>
+            <div class="episode-title">Hinduism i vardag & fest</div>
+          </div>
+        </div>
+        <div class="episode-desc">Puja, darshan och vrata. Hur religionen genomsyrar hela livet från morgonriten till Diwali och Holi – och varför templet är gudens hem.</div>
+        <div class="episode-card-footer">
+          <a href="https://open.spotify.com/episode/7FmWmB691kXn3fVHh656Rk?si=843cfb64594c4ac2" target="_blank" class="btn-spotify">▶ Spotify</a>
+          <button class="btn-quiz" onclick="openQuiz(4)">📝 Quiz</button>
+        </div>
+      </div>
+
+      <!-- EP 6 -->
+      <div class="episode-card ep-6">
+        <div class="episode-card-header">
+          <div class="episode-num">06</div>
+          <div class="episode-info">
+            <span class="episode-tag">Traditioner</span>
+            <div class="episode-title">Tolkningar & traditioner</div>
+          </div>
+        </div>
+        <div class="episode-desc">Vishnuism, shivaism och shaktism. Avatarer som Krishna och Rama. Hur hinduism kan vara både polyteistisk, monoteistisk och panteistisk.</div>
+        <div class="episode-card-footer">
+          <a href="https://open.spotify.com/episode/28LNj0p6St28JIYi6xn9Zl?si=860aa04b7cb74611" target="_blank" class="btn-spotify">▶ Spotify</a>
+          <button class="btn-quiz" onclick="openQuiz(5)">📝 Quiz</button>
+        </div>
+      </div>
+
+      <!-- EP 7 -->
+      <div class="episode-card ep-7">
+        <div class="episode-card-header">
+          <div class="episode-num">07</div>
+          <div class="episode-info">
+            <span class="episode-tag">Samtid</span>
+            <div class="episode-title">Hinduism i dagens Indien</div>
+          </div>
+        </div>
+        <div class="episode-desc">Kastsystemet, daliter, hindutva och kampen om Indiens framtid. Hur religion påverkar politik, kön och identitet i världens folkrikaste demokrati.</div>
+        <div class="episode-card-footer">
+          <a href="https://open.spotify.com/episode/07dSrH0lRC5qEYpmEM4QnX?si=eac7b78780a645fe" target="_blank" class="btn-spotify">▶ Spotify</a>
+          <button class="btn-quiz" onclick="openQuiz(6)">📝 Quiz</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FLASHCARDS -->
+<section id="flashcards" style="position:relative;z-index:1;padding:6rem 2rem;">
+  <div style="max-width:900px;margin:0 auto;">
+    <div class="section-header">
+      <span class="section-label">Plugga smart</span>
+      <h2 class="section-title">Flashcards</h2>
+      <div class="section-line"><span>🃏</span></div>
+    </div>
+
+    <p class="flashcard-intro">Klicka på kortet för att vända det. Bläddra med pilarna.</p>
+
+    <div class="flashcard-controls" id="fc-filters">
+      <button class="filter-btn active" onclick="filterCards('alla', this)">Alla</button>
+      <button class="filter-btn" onclick="filterCards('grunder', this)">Grunder</button>
+      <button class="filter-btn" onclick="filterCards('gudar', this)">Gudar</button>
+      <button class="filter-btn" onclick="filterCards('skrifter', this)">Skrifter</button>
+      <button class="filter-btn" onclick="filterCards('praktik', this)">Praktik</button>
+      <button class="filter-btn" onclick="filterCards('historia', this)">Historia</button>
+    </div>
+
+    <div class="fc-counter" id="fc-counter">Kort 1 av 30</div>
+
+    <div class="flashcard-arena">
+      <button class="fc-arrow" onclick="prevCard()">‹</button>
+      <div class="flashcard-container" id="flashcard" onclick="flipCard()">
+        <div class="flashcard-inner" id="fc-inner">
+          <div class="fc-face fc-front">
+            <div class="fc-category" id="fc-front-cat">Grunder</div>
+            <div class="fc-term" id="fc-front-term">Atman</div>
+            <div class="fc-hint">Klicka för att se definitionen</div>
+          </div>
+          <div class="fc-face fc-back">
+            <div class="fc-category" id="fc-back-cat">Grunder</div>
+            <div class="fc-definition" id="fc-back-def">Det innersta jaget – inte kroppen, tankarna eller känslorna, utan det djupaste och mest bestående i en människa.</div>
+            <div class="fc-example" id="fc-back-ex">Atman dör inte när kroppen dör – den återföds i en ny kropp.</div>
+          </div>
+        </div>
+      </div>
+      <button class="fc-arrow" onclick="nextCard()">›</button>
+    </div>
+
+    <div class="fc-dots" id="fc-dots"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BEGREPP GRID -->
+<section id="begrepp" style="position:relative;z-index:1;padding:6rem 2rem;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-header">
+      <span class="section-label">Ordlista</span>
+      <h2 class="section-title">Alla begrepp</h2>
+      <div class="section-line"><span>📖</span></div>
+    </div>
+
+    <div class="terms-grid" id="terms-grid"></div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">ॐ SO med Petrus</span>
+  <p class="footer-sub">Hinduism · 7 avsnitt · so-portalen.se</p>
+</footer>
+
+<!-- QUIZ MODAL -->
+<div class="modal-overlay" id="quiz-overlay">
+  <div class="quiz-modal" id="quiz-modal">
+    <div class="quiz-header">
+      <h2 id="quiz-title">Quiz – Avsnitt 1</h2>
+      <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-progress">
+        <div class="progress-bar"><div class="progress-fill" id="quiz-progress-fill" style="width:0%"></div></div>
+        <span class="progress-text" id="quiz-progress-text">1/5</span>
+      </div>
+      <div id="quiz-question-area">
+        <div class="question-text" id="q-text"></div>
+        <div class="options-list" id="q-options"></div>
+        <div class="feedback-msg" id="q-feedback"></div>
+      </div>
+      <div class="quiz-result" id="quiz-result">
+        <div class="result-stars" id="result-stars"></div>
+        <div class="result-score" id="result-score">5/5</div>
+        <div class="result-msg" id="result-msg">Utmärkt!</div>
+        <button class="btn-retry" onclick="retryQuiz()">🔄 Försök igen</button>
+      </div>
+      <div class="quiz-nav">
+        <div class="score-display" id="score-display">Poäng: 0</div>
+        <button class="btn-next" id="btn-next" onclick="nextQuestion()">Nästa →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// =============================================
+// QUIZ DATA
+// =============================================
+const quizzes = [
+  // Avsnitt 1 – Intro
+  {
+    title: "Avsnitt 1 – Vad är hinduism?",
+    questions: [
+      { q: "Vad menas med att hinduism kallas en \u201Csamlingsbeteckning\u201D?", opts: ["En religion grundad av en profet","Ett samlingsnamn för många religiösa traditioner","En politisk rörelse i Indien","En filosofi utan gudar"], ans: 1 },
+      { q: "Vad är atman?", opts: ["En helig text","En gudabild","Det innersta jaget","En ritualform"], ans: 2 },
+      { q: "Vad betyder moksha?", opts: ["Karma","Befrielse från återfödelsen","Gudatillbedjan","Heligt vatten"], ans: 1 },
+      { q: "Vad är puja?", opts: ["En festdag","En ritual av tillbedjan","En helig text","En böneplats"], ans: 1 },
+      { q: "Vad innebär begreppet darshan?", opts: ["En typ av mat","Mötet med det gudomliga – att se och bli sedd","En form av yoga","En kast"], ans: 1 }
+    ]
+  },
+  // Avsnitt 2 – Ursprung
+  {
+    title: "Avsnitt 2 – Hinduismens ursprung",
+    questions: [
+      { q: "Vilka floder var avgörande för hinduismens framväxt?", opts: ["Nilen, Amazon och Eufrat","Indus, Ganges och Brahmaputra","Yangtze, Mekong och Irrawaddy","Tigris, Eufrat och Jordan"], ans: 1 },
+      { q: "Vad kallas den tidiga civilisationen längs floden Indus?", opts: ["Mohenjo-kulturen","Guptakulturen","Induskulturen","Arierkulturen"], ans: 2 },
+      { q: "Vad kallade sig de invandrande nomaderna?", opts: ["Dravider","Moguler","Arier","Gupta"], ans: 2 },
+      { q: "Under vilket rike fick hinduismen sin klassiska form?", opts: ["Mogulriket","Guptariket","Indusriket","Brittiska imperiet"], ans: 1 },
+      { q: "Vilken religion uppstod ur mötet mellan hinduism och islam?", opts: ["Buddhismen","Jainismen","Sikhismen","Zoroastrismen"], ans: 2 }
+    ]
+  },
+  // Avsnitt 3 – Kretslopp
+  {
+    title: "Avsnitt 3 – Livets kretslopp & befrielsen",
+    questions: [
+      { q: "Vilka fem begrepp brukar beskrivas som hinduismens kärna?", opts: ["Karma, dharma, yoga, puja, mantra","Brahman, atman, samsara, karma, moksha","Vishnu, Shiva, Brahma, Krishna, Rama","Veda, Upanishad, Gita, Mantra, Yantra"], ans: 1 },
+      { q: "Vad är brahman?", opts: ["En prästs titel","Den oändliga gudomliga urgrunden","En helig text","En ritualdans"], ans: 1 },
+      { q: "Vad beskriver samsara?", opts: ["En typ av festmat","Återfödelsens kretslopp","En bönestund","En kast"], ans: 1 },
+      { q: "Vad innebär karma?", opts: ["Befrielse","Bön","Handlingar och deras konsekvenser","Gudabild"], ans: 2 },
+      { q: "Vad kallas handlingarnas väg mot moksha?", opts: ["Bhakti-yoga","Jnana-yoga","Karma-yoga","Dhyana-yoga"], ans: 2 }
+    ]
+  },
+  // Avsnitt 4 – Skrifterna
+  {
+    title: "Avsnitt 4 – De viktigaste skrifterna",
+    questions: [
+      { q: "Vad är Vedaskrifterna?", opts: ["Hinduismens nyaste texter","De äldsta texterna inom hinduismen","Politiska dokument","Medicinska handböcker"], ans: 1 },
+      { q: "Vad är den äldsta Vedaskriften?", opts: ["Upanishaderna","Bhagavadgita","Rigveda","Ramayana"], ans: 2 },
+      { q: "Vem är Agni?", opts: ["Eldens gud","Vattnets gudinna","Visdomens gud","Krigets gud"], ans: 0 },
+      { q: "Vad är Bhagavadgita?", opts: ["En Vedatext","En del av eposet Mahabharata","En Upanishad","En berättelse om skapelsen"], ans: 1 },
+      { q: "Vad betyder ordet upanishad ungefär?", opts: ["Heliga skrifter","Sitta nära (läraren)","Offer till gudarna","Befrielse från döden"], ans: 1 }
+    ]
+  },
+  // Avsnitt 5 – Vardag och fest
+  {
+    title: "Avsnitt 5 – Hinduism i vardag & fest",
+    questions: [
+      { q: "Vad är en vrata?", opts: ["En gudabild","Frivillig disciplin eller fasta","En helgdag","En tempeltyp"], ans: 1 },
+      { q: "Vad symboliserar Diwali?", opts: ["Livets kretslopp","Det godas seger över det onda","Vårens ankomst","Monsunens slut"], ans: 1 },
+      { q: "Varför har morgonen en särskild betydelse?", opts: ["Gudstjänster hålls på morgonen","Sinnet är klarare och kroppen mer mottaglig","Gudarna sover natten","Det är då man fastar"], ans: 1 },
+      { q: "Vad är ett hinduiskt tempels primära funktion?", opts: ["Gudstjänst för folket","Gudens hem","Skolundervisning","Politiska möten"], ans: 1 },
+      { q: "Vilken stad ses som extra helig för kremationer i Indien?", opts: ["Delhi","Mumbai","Varanasi","Kolkata"], ans: 2 }
+    ]
+  },
+  // Avsnitt 6 – Tolkningar
+  {
+    title: "Avsnitt 6 – Tolkningar & traditioner",
+    questions: [
+      { q: "Vad kallas riktningen som dyrkar Vishnu?", opts: ["Shivaism","Shaktism","Vishnuism","Brahmaism"], ans: 2 },
+      { q: "Vad betyder avatar inom hinduism?", opts: ["Bön","Gudagestalt som stiger ner till jorden","Befrielse","Ritual"], ans: 1 },
+      { q: "Vilket av dessa är en avatar av Vishnu?", opts: ["Shiva","Ganesha","Krishna","Parvati"], ans: 2 },
+      { q: "Vad betyder shakti?", opts: ["En helig flod","Gudomlig kraft eller energi","En typ av tempel","En kast"], ans: 1 },
+      { q: "Vilken riktning dyrkar gudinnan (Devi)?", opts: ["Vishnuism","Shivaism","Shaktism","Brahmaism"], ans: 2 }
+    ]
+  },
+  // Avsnitt 7 – Dagens Indien
+  {
+    title: "Avsnitt 7 – Hinduism i dagens Indien",
+    questions: [
+      { q: "Vad kallas det samhällssystem som delar in människor i grupper med olika uppgifter?", opts: ["Rasism","Kastsystemet","Hindutva","Dharma-systemet"], ans: 1 },
+      { q: "Vad är hindutva?", opts: ["En religionsfilosofi","Hindunationalism","En yogaform","En befrielserörelse"], ans: 1 },
+      { q: "Vad slog den indiska grundlagen fast 1947 angående kast?", opts: ["Hinduism är statsreligion","Diskriminering på grund av kast är förbjuden","Kastsystemet upprätthålls","Islam förbjuds"], ans: 1 },
+      { q: "Vad symboliserar gudinnorna Durga, Kali och Lakshmi?", opts: ["Manlig styrka","Makt, livskraft och självständighet","Fattigdom och lidande","Krig och förstörelse"], ans: 1 },
+      { q: "Vem av dessa betonade tolerans, enkelhet och icke-våld (ahimsa)?", opts: ["Nehru","Gandhi","Akbar","Aurangzeb"], ans: 1 }
+    ]
+  }
+];
+
+// =============================================
+// FLASHCARD DATA
+// =============================================
+const flashcards = [
+  { term: "Atman", cat: "grunder", def: "Det innersta jaget – inte kroppen, tankarna eller känslorna, utan det djupaste och mest bestående i en människa.", ex: "Atman dör inte när kroppen dör – den återföds." },
+  { term: "Brahman", cat: "grunder", def: "Den oändliga gudomliga urgrunden. Allt som finns hänger samman med brahman, som är större än gudarna och saknar gränser i tid och rum.", ex: "Brahman är inte en personlig gud – det är det oändliga som allt kommer ifrån." },
+  { term: "Samsara", cat: "grunder", def: "Återfödelsens hjul – det kretslopp där atman föds om gång på gång i nya kroppar.", ex: "Att befrias från samsara är det yttersta målet." },
+  { term: "Karma", cat: "grunder", def: "Handlingarnas princip. Goda handlingar skapar bättre förutsättningar i framtida liv – onda handlingar leder till lidande.", ex: "Karma är en moralisk lag, inte ett straff." },
+  { term: "Moksha", cat: "grunder", def: "Befrielse från samsara – när atman inte längre behöver återfödas utan återgår till sin ursprungliga, oändliga natur.", ex: "Moksha förknippas med oändlig lycka och frihet." },
+  { term: "Dharma", cat: "grunder", def: "Plikt, ordning och rätt handlande. Den kosmiska ordning som håller samman världen och det ansvar varje människa bär.", ex: "För Arjuna i Bhagavadgita var det dharma att kämpa." },
+  { term: "Puja", cat: "praktik", def: "Ritual av tillbedjan och omsorg om en gud. Guden behandlas som en hedrad gäst och erbjuds blommor, mat, rökelse och ljus.", ex: "Puja kan ske hemma vid ett altare varje morgon." },
+  { term: "Darshan", cat: "praktik", def: "Mötet med det gudomliga genom blicken. Att se och bli sedd av guden – en ömsesidig religiös kontakt.", ex: "Gudabildernas ögon är tydligt markerade eftersom blicken är kontakten." },
+  { term: "Vrata", cat: "praktik", def: "Frivillig disciplin – att tillfälligt avstå från något för att visa hängivenhet eller fokusera på ett mål.", ex: "Vrata kan innebära fasta för ett barns hälsa." },
+  { term: "Rigveda", cat: "skrifter", def: "Den äldsta och mest kända av Vedaskrifterna. Innehåller hymner till naturkrafter och gudar.", ex: "I Rigveda möter vi Agni, eldens gud." },
+  { term: "Upanishaderna", cat: "skrifter", def: "Filosofiska texter som vänder fokus från yttre ritualer till inre insikt. Här utvecklas brahman och atman.", ex: "Upanishad betyder ungefär 'sitta nära' – eleven nära läraren." },
+  { term: "Bhagavadgita", cat: "skrifter", def: "Heligt verk ur eposet Mahabharata. Krishna samtalar med krigaren Arjuna om plikt, handlande och livets mening.", ex: "Gitan används än idag för att reflektera om ansvar och etik." },
+  { term: "Ramayana", cat: "skrifter", def: "Epos om prins Ramas kamp för att rädda sin hustru Sita och återupprätta dharma.", ex: "Hanuman hjälper Rama besegra demonkungen Ravana." },
+  { term: "Vedaskrifterna", cat: "skrifter", def: "De äldsta texterna inom hinduismen. Ursprungligen muntligt traderade hymner och ritualer.", ex: "Veda betyder 'kunskap' – kunskap om det heliga." },
+  { term: "Agni", cat: "gudar", def: "Eldens gud i Rigveda. Elden var länken mellan människor och gudar – den bar offren vidare.", ex: "Agni är central i de äldsta hinduistiska ritualerna." },
+  { term: "Vishnu", cat: "gudar", def: "Upprätthållaren – guden som bevarar världens ordning. Dyrkas inom vishnuism och stiger ner som avatarer.", ex: "Krishna och Rama är avatarer av Vishnu." },
+  { term: "Shiva", cat: "gudar", def: "Förintaren i den kosmiska triaden. Avslutar det som måste ta slut så att något nytt kan uppstå.", ex: "Shiva är passiv och allomfattande – kraft som alltid finns." },
+  { term: "Brahma", cat: "gudar", def: "Skaparen i den gudomliga triaden. Skapar världen, men dyrkas idag sällan.", ex: "Triaden: Brahma skapar, Vishnu upprätthåller, Shiva förintar." },
+  { term: "Krishna", cat: "gudar", def: "Avatar av Vishnu. Framträder som busigt barn, herdepojke, hjälte och den vise rådgivaren i Bhagavadgita.", ex: "Krishna spelar flöjt och är omtyckt av herdinnorna." },
+  { term: "Rama", cat: "gudar", def: "Avatar av Vishnu. Symboliserar dharma och det ideala handlandet. Huvudpersonen i Ramayana.", ex: "Rama prövas av svåra val men håller fast vid plikt." },
+  { term: "Shakti", cat: "gudar", def: "Gudomlig kraft eller energi – den kvinnliga principen. Dyrkas som gudinna inom shaktism.", ex: "Lakshmi är Vishnus shakti – hans kraftfulla, kvinnliga sida." },
+  { term: "Avatar", cat: "gudar", def: "En gudagestalt som 'stiger ner' (nedstigning) till jorden i en form som människor kan möta.", ex: "Profilbilder på internet kallas avatar – från detta begrepp." },
+  { term: "Vishnuism", cat: "grunder", def: "Hinduisk riktning där Vishnu anses vara den viktigaste guden.", ex: "Krishnarörelsen är ett exempel på vishnuism." },
+  { term: "Shivaism", cat: "grunder", def: "Hinduisk riktning där Shiva anses vara den viktigaste guden.", ex: "Shiva dyrkas ofta tillsammans med sin familj Parvati och Ganesha." },
+  { term: "Shaktism", cat: "grunder", def: "Hinduisk riktning som dyrkar gudinnan (Devi/Shakti) som högsta gudomlighet.", ex: "Durga, Kali och Lakshmi är centrala gudinnor." },
+  { term: "Induskulturen", cat: "historia", def: "En av världens första högkulturer längs floden Indus, med städer som Mohenjo-daro och Harappa.", ex: "Induskulturen hade avancerade avloppssystem för 4 500 år sedan." },
+  { term: "Kastsystemet", cat: "historia", def: "Socialt system som delar in samhället i grupper med olika roller och status, kopplat till religiösa idéer.", ex: "Diskriminering pga. kast är förbjuden i Indiens grundlag." },
+  { term: "Daliter", cat: "historia", def: "Grupp som historiskt stod utanför kastsystemet och tilldelades de mest socialt utsatta positionerna.", ex: "Daliter har traditionellt kallats 'oberörliga'." },
+  { term: "Hindutva", cat: "historia", def: "Hindunationalistisk ideologi som ser hinduismen som grunden för indisk nationell identitet.", ex: "Gandhi tog avstånd från denna tolkning av hinduism." },
+  { term: "Guptariket", cat: "historia", def: "Historisk period (300–500 e.Kr.) då hinduismen fick sin klassiska form med tempel, gudar och berättelser.", ex: "Under Gupta-perioden spreds hinduisk kultur till hela Sydostasien." }
+];
+
+// =============================================
+// QUIZ LOGIC
+// =============================================
+let currentQuiz = 0, currentQ = 0, score = 0, answered = false;
+
+function openQuiz(idx) {
+  currentQuiz = idx;
+  currentQ = 0;
+  score = 0;
+  answered = false;
+  document.getElementById('quiz-overlay').classList.add('open');
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('quiz-question-area').style.display = '';
+  document.getElementById('quiz-title').textContent = quizzes[idx].title;
+  renderQuestion();
+}
+
+function closeQuiz() {
+  document.getElementById('quiz-overlay').classList.remove('open');
+}
+
+function renderQuestion() {
+  const quiz = quizzes[currentQuiz];
+  const total = quiz.questions.length;
+  const q = quiz.questions[currentQ];
+  answered = false;
+  document.getElementById('q-text').textContent = q.q;
+  const pct = (currentQ / total) * 100;
+  document.getElementById('quiz-progress-fill').style.width = pct + '%';
+  document.getElementById('quiz-progress-text').textContent = `${currentQ + 1}/${total}`;
+  document.getElementById('score-display').textContent = `Poäng: ${score}`;
+  document.getElementById('q-feedback').className = 'feedback-msg';
+  document.getElementById('q-feedback').textContent = '';
+  document.getElementById('btn-next').className = 'btn-next';
+
+  const opts = document.getElementById('q-options');
+  opts.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option-btn';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.onclick = () => selectAnswer(i, q.ans);
+    opts.appendChild(btn);
+  });
+}
+
+function selectAnswer(chosen, correct) {
+  if (answered) return;
+  answered = true;
+  const btns = document.querySelectorAll('.option-btn');
+  btns[correct].classList.add('correct');
+  const fb = document.getElementById('q-feedback');
+  if (chosen === correct) {
+    score++;
+    btns[chosen].classList.add('correct');
+    fb.textContent = '✅ Rätt! Bra jobbat!';
+    fb.className = 'feedback-msg show ok';
+  } else {
+    btns[chosen].classList.add('wrong');
+    btns[correct].classList.add('reveal-correct');
+    fb.textContent = '❌ Inte riktigt. Det rätta svaret är markerat.';
+    fb.className = 'feedback-msg show fail';
+  }
+  document.getElementById('score-display').textContent = `Poäng: ${score}`;
+  document.getElementById('btn-next').className = 'btn-next show';
+}
+
+function nextQuestion() {
+  const quiz = quizzes[currentQuiz];
+  currentQ++;
+  if (currentQ >= quiz.questions.length) {
+    showResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  document.getElementById('quiz-question-area').style.display = 'none';
+  document.getElementById('btn-next').className = 'btn-next';
+  const total = quizzes[currentQuiz].questions.length;
+  document.getElementById('quiz-progress-fill').style.width = '100%';
+  document.getElementById('result-score').textContent = `${score}/${total}`;
+  const pct = score / total;
+  let msg = '', stars = '';
+  if (pct === 1) { msg = 'Fullpoäng! Du är en mästare! 🏆'; stars = '⭐⭐⭐'; }
+  else if (pct >= 0.6) { msg = 'Bra jobbat! Du kan detta!'; stars = '⭐⭐'; }
+  else { msg = 'Lyssna igen och försök!'; stars = '⭐'; }
+  document.getElementById('result-msg').textContent = msg;
+  document.getElementById('result-stars').textContent = stars;
+  document.getElementById('quiz-result').classList.add('show');
+}
+
+function retryQuiz() {
+  openQuiz(currentQuiz);
+}
+
+document.getElementById('quiz-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeQuiz();
+});
+
+// =============================================
+// FLASHCARD LOGIC
+// =============================================
+let filteredCards = [...flashcards];
+let fcIndex = 0;
+let seenCards = new Set();
+
+function filterCards(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filteredCards = cat === 'alla' ? [...flashcards] : flashcards.filter(c => c.cat === cat);
+  fcIndex = 0;
+  seenCards.clear();
+  document.getElementById('flashcard').classList.remove('flipped');
+  renderCard();
+  renderDots();
+}
+
+function flipCard() {
+  document.getElementById('flashcard').classList.toggle('flipped');
+  seenCards.add(fcIndex);
+  renderDots();
+}
+
+function prevCard() {
+  if (filteredCards.length === 0) return;
+  document.getElementById('flashcard').classList.remove('flipped');
+  fcIndex = (fcIndex - 1 + filteredCards.length) % filteredCards.length;
+  setTimeout(renderCard, 50);
+}
+
+function nextCard() {
+  if (filteredCards.length === 0) return;
+  document.getElementById('flashcard').classList.remove('flipped');
+  fcIndex = (fcIndex + 1) % filteredCards.length;
+  setTimeout(renderCard, 50);
+}
+
+function renderCard() {
+  if (filteredCards.length === 0) return;
+  const c = filteredCards[fcIndex];
+  const catLabels = { grunder:'Grundbegrepp', gudar:'Gudar & gestalter', skrifter:'Skrifter', praktik:'Praktik & ritualer', historia:'Historia & samhälle' };
+  document.getElementById('fc-front-cat').textContent = catLabels[c.cat] || c.cat;
+  document.getElementById('fc-front-term').textContent = c.term;
+  document.getElementById('fc-back-cat').textContent = catLabels[c.cat] || c.cat;
+  document.getElementById('fc-back-def').textContent = c.def;
+  document.getElementById('fc-back-ex').textContent = c.ex;
+  document.getElementById('fc-counter').textContent = `Kort ${fcIndex + 1} av ${filteredCards.length}`;
+  renderDots();
+}
+
+function renderDots() {
+  const dots = document.getElementById('fc-dots');
+  dots.innerHTML = '';
+  filteredCards.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'fc-dot' + (i === fcIndex ? ' active' : (seenCards.has(i) ? ' seen' : ''));
+    d.onclick = () => { document.getElementById('flashcard').classList.remove('flipped'); fcIndex = i; setTimeout(renderCard, 50); };
+    dots.appendChild(d);
+  });
+}
+
+// =============================================
+// TERMS GRID
+// =============================================
+function buildTermsGrid() {
+  const grid = document.getElementById('terms-grid');
+  const catLabels = { grunder:'Grundbegrepp', gudar:'Gudar', skrifter:'Skrifter', praktik:'Praktik', historia:'Historia' };
+  flashcards.forEach(c => {
+    const tile = document.createElement('div');
+    tile.className = 'term-tile';
+    tile.innerHTML = `<div class="term-cat">${catLabels[c.cat]||c.cat}</div><h3>${c.term}</h3><p>${c.def}</p>`;
+    tile.onclick = () => {
+      const cat = c.cat;
+      document.getElementById('flashcards').scrollIntoView({behavior:'smooth'});
+      setTimeout(() => {
+        const btn = [...document.querySelectorAll('.filter-btn')].find(b => b.textContent.toLowerCase() === cat || (cat==='alla'));
+        filterCards(cat, document.querySelectorAll('.filter-btn')[['alla','grunder','gudar','skrifter','praktik','historia'].indexOf(cat)]);
+        const idx = filteredCards.findIndex(fc => fc.term === c.term);
+        if (idx >= 0) { fcIndex = idx; document.getElementById('flashcard').classList.remove('flipped'); setTimeout(renderCard,100); }
+      }, 600);
+    };
+    grid.appendChild(tile);
+  });
+}
+
+// =============================================
+// INIT
+// =============================================
+renderCard();
+renderDots();
+buildTermsGrid();
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (document.getElementById('quiz-overlay').classList.contains('open')) {
+    if (e.key === 'Escape') closeQuiz();
+    if (e.key === 'Enter' && document.getElementById('btn-next').classList.contains('show')) nextQuestion();
+  } else {
+    if (e.key === 'ArrowLeft') prevCard();
+    if (e.key === 'ArrowRight') nextCard();
+    if (e.key === ' ') { e.preventDefault(); flipCard(); }
+  }
+});
+</script>
+</body>
+</html>
