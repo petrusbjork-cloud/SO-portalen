@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Höger-vänster och GAL-TAN – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Ljus palett */
+  --bg-main:   #F4F6F8;
+  --surface:   #FFFFFF;
+  --text-dark: #2C3E50;
+  --text-p:    #4A5568;
+  --text-dim:  #718096;
+  
+  /* Politiska färger */
+  --gal-grn:   #27AE60;
+  --tan-rust:  #D35400;
+  --left-red:  #E74C3C;
+  --right-blu: #2980B9;
+  
+  /* Dekoration */
+  --border:    #E2E8F0;
+  --gold:      #D4AF37;
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-main);
+  color: var(--text-p);
+  font-family: var(--sans);
+  font-size: 20px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--gal-grn), var(--right-blu), var(--tan-rust));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 80vh;
+  background: var(--surface);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(44, 62, 80, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(44, 62, 80, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.8; pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--right-blu); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards; z-index: 2; font-weight: 700;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(38px, 6vw, 80px);
+  font-weight: 900; line-height: 1.1;
+  color: var(--text-dark);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.4s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--tan-rust); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 750px; line-height: 1.5; margin-bottom: 48px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim); white-space: nowrap; font-weight: 700;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900; line-height: 1.2;
+  color: var(--text-dark); margin-bottom: 24px;
+}
+h2 em { color: var(--gal-grn); font-style: italic; }
+
+p { margin-bottom: 24px; }
+strong { color: var(--text-dark); font-weight: 700; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -60px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--tan-rust);
+  background: linear-gradient(135deg, rgba(211,84,0,0.05), transparent);
+  position: relative;
+  border-radius: 0 12px 12px 0;
+}
+.pullquote p {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--text-dark); line-height: 1.4;
+  margin: 0;
+}
+
+/* ── INTERACTIVE: GAL VS TAN MEANING ── */
+.acronym-section { margin: 60px 0; display: flex; gap: 20px; }
+.acro-card {
+  flex: 1; background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+  position: relative; overflow: hidden;
+}
+.acro-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+}
+.acro-gal::before { background: var(--gal-grn); }
+.acro-tan::before { background: var(--tan-rust); }
+
+.acro-title { font-family: var(--serif); font-size: 32px; font-weight: 900; margin-bottom: 20px; }
+.acro-gal .acro-title { color: var(--gal-grn); }
+.acro-tan .acro-title { color: var(--tan-rust); }
+
+.acro-list { list-style: none; padding: 0; margin: 0; }
+.acro-list li { margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+.acro-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.acro-letter { font-family: var(--mono); font-size: 20px; font-weight: 700; display: inline-block; width: 24px; }
+.acro-gal .acro-letter { color: var(--gal-grn); }
+.acro-tan .acro-letter { color: var(--tan-rust); }
+.acro-word { font-weight: 700; color: var(--text-dark); display: block; margin-bottom: 4px;}
+.acro-desc { font-size: 15px; color: var(--text-dim); line-height: 1.5; }
+
+/* ── INTERACTIVE: THE POLITICAL GRID ── */
+.grid-section { margin: 80px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+.grid-header { text-align: center; margin-bottom: 30px; }
+.grid-title { font-family: var(--serif); font-size: 28px; color: var(--text-dark); font-weight: 900; margin-bottom: 8px;}
+.grid-sub { font-size: 16px; color: var(--text-dim); }
+
+.compass-container { position: relative; max-width: 500px; margin: 0 auto; aspect-ratio: 1/1; border: 2px solid var(--border); background: #fafbfc; border-radius: 8px;}
+.compass-axis-x { position: absolute; top: 50%; left: 0; width: 100%; height: 2px; background: #CBD5E0; transform: translateY(-50%); }
+.compass-axis-y { position: absolute; top: 0; left: 50%; width: 2px; height: 100%; background: #CBD5E0; transform: translateX(-50%); }
+.c-label { position: absolute; font-family: var(--mono); font-size: 12px; font-weight: 700; text-transform: uppercase; background: var(--surface); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border); z-index: 10; }
+.l-top { top: -12px; left: 50%; transform: translateX(-50%); color: var(--gal-grn); }
+.l-bottom { bottom: -12px; left: 50%; transform: translateX(-50%); color: var(--tan-rust); }
+.l-left { left: -20px; top: 50%; transform: translateY(-50%); color: var(--left-red); }
+.l-right { right: -20px; top: 50%; transform: translateY(-50%); color: var(--right-blu); }
+
+.quadrant { position: absolute; width: 50%; height: 50%; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+.quadrant:hover, .quadrant.active { background: rgba(0,0,0,0.03); box-shadow: inset 0 0 0 2px rgba(0,0,0,0.1); }
+.q-tl { top: 0; left: 0; }
+.q-tr { top: 0; right: 0; }
+.q-bl { bottom: 0; left: 0; }
+.q-br { bottom: 0; right: 0; }
+.q-hint { font-family: var(--mono); font-size: 11px; opacity: 0.5; }
+
+.compass-info { margin-top: 30px; padding: 24px; background: var(--bg-main); border-radius: 8px; border: 1px solid var(--border); min-height: 120px; text-align: left; }
+.ci-title { font-family: var(--serif); font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; }
+.ci-text { font-size: 16px; color: var(--text-p); line-height: 1.6; margin: 0; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: var(--surface); border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gal-grn); margin-bottom: 14px; font-weight: 700;}
+.teacher-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--text-dark); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 18px; color: var(--text-dim); max-width: 620px; line-height: 1.6; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.t-tab {
+  background: var(--bg-main); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 6px; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--right-blu); color: var(--surface); background: var(--right-blu); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid var(--border); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: #CBD5E0; flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: var(--serif); font-size: 22px; color: var(--text-dark); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; margin:0; }
+.q-list li { font-size: 17px; color: var(--text-p); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--right-blu); font-weight: bold;}
+
+/* QUIZ STYLES */
+.quiz-wrap { background: var(--bg-main); border: 1px solid var(--border); border-radius: 12px; padding: 40px; }
+.quiz-wrap h3 { font-family: var(--serif); font-size: 26px; color: var(--text-dark); font-weight: 900; margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: var(--surface); border: 2px solid var(--right-blu); color: var(--right-blu); padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--right-blu); color: var(--surface); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;}
+.quiz-progress-bar-wrap { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--right-blu); border-radius: 3px; transition: width 0.3s; }
+.quiz-q-text { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: var(--surface); border: 1px solid var(--border); padding: 18px 24px; border-radius: 8px; cursor: pointer; color: var(--text-p); text-align: left; font-family: var(--sans); font-size: 17px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; box-shadow: 0 2px 4px rgba(0,0,0,0.02);}
+.quiz-opt:hover:not(:disabled) { border-color: var(--right-blu); box-shadow: 0 4px 8px rgba(41, 128, 185, 0.1); }
+.quiz-opt.correct { border-color: #27AE60; background: #F0FDF4; color: #22543D; }
+.quiz-opt.wrong { border-color: #E74C3C; background: #FEF2F2; color: #742A2A; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--text-dim); background: var(--bg-main); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; border: 1px solid var(--border);}
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: white; border-color: #27AE60;}
+.quiz-opt.wrong .quiz-letter { background: #E74C3C; color: white; border-color: #E74C3C;}
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--right-blu); font-size: 16px; color: var(--text-p); line-height: 1.6; display: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.02);}
+.quiz-next-btn { margin-top: 24px; background: var(--right-blu); color: white; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: #1A5276; }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--right-blu), var(--gal-grn)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 20px rgba(41, 128, 185, 0.2); color: white; }
+.score-num { font-family: var(--serif); font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.9; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 30px 24px; border-radius: 8px; border-left-width: 3px;}
+  .acronym-section { flex-direction: column; }
+  .compass-container { max-width: 100%; aspect-ratio: auto; height: 300px; }
+  .c-label { font-size: 10px; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  
+  <div class="hero-label">SO-Portalen · Samhällskunskap · Ideologier</div>
+
+  <h1>Höger–vänster räcker inte längre. <em>Vad är GAL–TAN?</em></h1>
+  <p class="hero-sub">När konflikter inte längre handlar om skatter utan om identitet, miljö och traditioner, behöver vi en ny karta för att förstå samhället.</p>
+
+</section>
+
+<article class="article">
+
+  <p style="font-size:22px; color:var(--text-dark); line-height:1.7; margin-bottom:40px;">
+    När politik diskuteras används ofta orden <strong>höger</strong> och <strong>vänster</strong> för att förklara skillnader mellan partier och åsikter. Indelningen är välkänd och har länge varit ett självklart sätt att förstå politik. Den hjälper oss att snabbt få en bild av hur olika aktörer ser på skatter, välfärd och statens ansvar.
+  </p>
+
+  <p>Men trots att höger–vänster-skalan fortfarande används flitigt, upplever många att den inte längre räcker till. I dagens debatt handlar konflikterna ofta om helt andra frågor. Det är inte ovanligt att människor som tycker exakt lika om ekonomin ändå hamnar i häftiga konflikter med varandra över andra frågor. För att förstå varför krävs ett bredare perspektiv.</p>
+
+  <div class="section-marker"><span>Den gamla kartan</span></div>
+  <h2>Höger och vänster – en <em>ekonomisk</em> skiljelinje</h2>
+
+  <p>Höger–vänster-skalan växte fram redan under den franska revolutionen och har sedan dess använts för att beskriva hur idéer skiljer sig åt, framför allt i <strong>ekonomiska frågor</strong>. Skalan bygger i grunden på en fråga: <em>Hur ska samhällets resurser fördelas, och vilken roll ska staten ha?</em></p>
+
+  <ul>
+    <li><strong>På vänstersidan</strong> betonas ofta jämlikhet och gemensamma lösningar. Staten ses som ett viktigt verktyg för att minska klyftor och skapa trygghet genom högre skatter och starka välfärdssystem.</li>
+    <li><strong>På högersidan</strong> betonas istället individens frihet och lägre skatter. Där ses marknadsekonomi och företagsamhet som motorn i samhället, och staten bör inte styra mer än nödvändigt.</li>
+  </ul>
+
+  <p>När politiska konflikter i samhället främst handlade om arbete, industri och fördelning av pengar fungerade denna uppdelning fantastiskt bra.</p>
+
+  <div class="section-marker"><span>Nya tider</span></div>
+  <h2>När konflikter inte rör <em>pengar</em></h2>
+
+  <p>Under de senaste årtiondena har samhället förändrats i raketfart. Globalisering, migration, teknisk utveckling och omedelbar kommunikation (internet) har gjort att helt nya frågor hamnat i centrum. Frågor om klimatförändringar, invandring, jämställdhet, yttrandefrihet och kulturell identitet väcker enorma känslor.</p>
+
+  <p>Det gemensamma för dessa frågor är att de <strong>inte i första hand handlar om ekonomi</strong>. De handlar istället om värderingar. Det är fullt möjligt att två personer är rörande överens om skattesatser och sjukvård, men djupt oense om HBTQ-rättigheter eller flyktingmottagande.</p>
+
+  <div class="pullquote">
+    <p>När politiken rör identitet och kultur blir skillnaderna ofta mer personliga och känsloladdade, eftersom de kopplas till människors egen livsstil och självbild.</p>
+  </div>
+
+  <div class="section-marker"><span>Den nya skalan</span></div>
+  <h2>GAL–TAN – en skala för <em>värderingar</em></h2>
+
+  <p>All politik handlar inte om att flytta pengar. Den handlar också om hur samhället ska förändras. Ska nya idéer och livsstilar uppmuntras, eller bör traditioner bevaras? För att fånga detta använder statsvetare idag en värderingsskala som kallas <strong>GAL–TAN</strong>.</p>
+
+  <div class="acronym-section">
+    <div class="acro-card acro-gal">
+      <div class="acro-title">GAL</div>
+      <ul class="acro-list">
+        <li>
+          <span class="acro-letter">G</span>
+          <span class="acro-word">Grön (Miljö)</span>
+          <span class="acro-desc">Fokus på hållbarhet, ekologi och framtidens klimat.</span>
+        </li>
+        <li>
+          <span class="acro-letter">A</span>
+          <span class="acro-word">Alternativ</span>
+          <span class="acro-desc">Öppenhet för nya livsstilar, kulturer och normbrytande idéer.</span>
+        </li>
+        <li>
+          <span class="acro-letter">L</span>
+          <span class="acro-word">Libertariansk</span>
+          <span class="acro-desc">Fokus på individens rättigheter och gränslös social frihet.</span>
+        </li>
+      </ul>
+    </div>
+    
+    <div class="acro-card acro-tan">
+      <div class="acro-title">TAN</div>
+      <ul class="acro-list">
+        <li>
+          <span class="acro-letter">T</span>
+          <span class="acro-word">Traditionell</span>
+          <span class="acro-desc">Fokus på bevarandet av gamla värderingar, kultur och historia.</span>
+        </li>
+        <li>
+          <span class="acro-letter">A</span>
+          <span class="acro-word">Auktoritär</span>
+          <span class="acro-desc">Behov av tydliga ramar, lag och ordning, samt starka institutioner.</span>
+        </li>
+        <li>
+          <span class="acro-letter">N</span>
+          <span class="acro-word">Nationalistisk</span>
+          <span class="acro-desc">Fokus på nationens gränser, sammanhållning och inhemska intressen.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <p>GAL–TAN visar alltså två helt olika sätt att se på samhället och dess framtid. Det handlar inte om rätt eller fel, utan om olika värderingar och prioriteringar när det gäller trygghet kontra frihet.</p>
+
+  <div class="section-marker"><span>Helheten</span></div>
+  <h2>När kompassen blir <em>tvådimensionell</em></h2>
+
+  <p>Det är viktigt att förstå att GAL–TAN inte ersätter höger–vänster-skalan. I stället används de <strong>tillsammans</strong> som ett koordinatsystem. Medan höger-vänster förklarar ekonomin (x-axeln), förklarar GAL-TAN värderingarna (y-axeln). Klicka på rutorna nedan för att se hur det fungerar i praktiken.</p>
+
+  <div class="grid-section">
+    <div class="grid-header">
+      <div class="grid-title">Den politiska kompassen</div>
+      <div class="grid-sub">Klicka på de fyra fälten för att se exempel på kombinerade åsikter.</div>
+    </div>
+
+    <div class="compass-container">
+      <div class="compass-axis-x"></div>
+      <div class="compass-axis-y"></div>
+      <div class="c-label l-top">GAL</div>
+      <div class="c-label l-bottom">TAN</div>
+      <div class="c-label l-left">VÄNSTER</div>
+      <div class="c-label l-right">HÖGER</div>
+      
+      <div class="quadrant q-tl" onclick="showQuadrant('tl', this)">
+        <span class="q-hint">Klicka</span>
+      </div>
+      <div class="quadrant q-tr" onclick="showQuadrant('tr', this)">
+        <span class="q-hint">Klicka</span>
+      </div>
+      <div class="quadrant q-bl" onclick="showQuadrant('bl', this)">
+        <span class="q-hint">Klicka</span>
+      </div>
+      <div class="quadrant q-br" onclick="showQuadrant('br', this)">
+        <span class="q-hint">Klicka</span>
+      </div>
+    </div>
+
+    <div class="compass-info" id="compass-info">
+      <div class="ci-title">Välj en ruta ovan</div>
+      <p class="ci-text">När vi lägger en värderingsskala över en ekonomisk skala uppstår fyra helt olika politiska landskap.</p>
+    </div>
+  </div>
+
+  <p>GAL–TAN-skalan förklarar varför många nyare politiska partier är svåra att placera. Ett parti kan till exempel förespråka en stark välfärdsstat (Vänster), men samtidigt betona stark nationalism och stängda gränser (TAN). Utan den vertikala skalan blir ett sådant parti omöjligt att förstå, men med den nya kartan är det logiskt.</p>
+
+  <div class="section-marker"><span>Samhällsklimatet</span></div>
+  <h2>Polarisering och <em>analys</em></h2>
+
+  <p>Forskning visar att många väljare idag röstar mer utifrån värderingar än utifrån rena ekonomiska intressen. En konsekvens av detta är att politiken ofta upplevs som mycket mer <strong>polariserad</strong> (sprickorna i samhället känns djupare).</p>
+
+  <p>Det är nämligen relativt lätt att kompromissa om ifall skatten ska vara 31% eller 32%. Men det är otroligt mycket svårare att kompromissa om moraliska frågor, mänskliga rättigheter, kulturarv eller synen på brott och straff. Därför skapar värderingskonflikterna (GAL-TAN) hårdare debatter än de ekonomiska (Höger-Vänster).</p>
+
+  <p>Samtidigt är det viktigt att komma ihåg att GAL–TAN är ett *analysverktyg*, inte en exakt beskrivning av verkligheten. Det förenklar världen för att göra den begriplig, och gör det lättare för dig att tolka nyheter och valrörelser på djupet.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet som tränar politisk analys, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--right-blu); border-color: var(--right-blu);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Identifiera dimensionerna</h4>
+          <ul class="q-list">
+            <li>Ge ett eget exempel på en politisk fråga som tydligt handlar om Höger vs Vänster (Ekonomi). Ge därefter ett exempel på en fråga som ställer GAL mot TAN (Värderingar).</li>
+            <li>Texten påstår att det är svårare att kompromissa om värderingar (t.ex. traditioner eller livsstil) än om ekonomiska skattesatser. Håller du med? Varför blir debatten ofta "argare" på GAL-TAN-skalan?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Väljare i förändring</h4>
+          <ul class="q-list">
+            <li>Varför kan en väljare som alltid röstat på ett vänsterparti (för att de vill ha hög sjukersättning) plötsligt byta till ett högerparti, trots att väljarens ekonomi inte förändrats?</li>
+            <li>Hur skulle ett fiktivt parti se ut (vilka förslag skulle de driva) om de befann sig i rutan "Höger-GAL"? Hur skulle ett "Vänster-TAN"-parti se ut? Använd den interaktiva kompassen till hjälp!</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta snabba frågor för att se om du har förstått den politiska kompassen.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── GRID INTERACTION ──
+const gridData = {
+  tl: {
+    title: "Vänster – GAL",
+    text: "<strong>Fokus:</strong> Hög skatt, stark välfärd, öppenhet och miljö.<br>Ett parti här vill att staten ska utjämna ekonomiska klyftor (vänster), men vill samtidigt ha öppna gränser, normkritik och satsa hårt på klimatomställning (GAL)."
+  },
+  tr: {
+    title: "Höger – GAL",
+    text: "<strong>Fokus:</strong> Låg skatt, fri marknad, öppenhet och individens frihet.<br>Här hittar vi klassiska liberaler. De vill att staten ska lägga sig i så lite som möjligt ekonomiskt (höger), och de älskar öppna gränser, frihandel och individuell livsstilsfrihet (GAL)."
+  },
+  bl: {
+    title: "Vänster – TAN",
+    text: "<strong>Fokus:</strong> Stark stat/välfärd, stängda gränser, lag och ordning.<br>En kombination av att staten ska skydda arbetare och ekonomi med höga skatter (vänster), kombinerat med traditionella kulturella värderingar, nationalism och t.ex. stram invandringspolitik (TAN)."
+  },
+  br: {
+    title: "Höger – TAN",
+    text: "<strong>Fokus:</strong> Låg skatt, stark polis, bevara traditioner.<br>Partier här vill sänka skatter och låta företag växa (höger), men betonar samtidigt mycket starkt nationell identitet, hårdare straff, militär och bevarandet av gamla traditioner (TAN)."
+  }
+};
+
+function showQuadrant(id, element) {
+  document.querySelectorAll('.quadrant').forEach(q => q.classList.remove('active'));
+  element.classList.add('active');
+  const box = document.getElementById('compass-info');
+  box.innerHTML = `<div class="ci-title" style="color:var(--right-blu);">${gridData[id].title}</div><p class="ci-text">${gridData[id].text}</p>`;
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad mäter den traditionella Höger–Vänster-skalan i första hand?",
+    opts: ["Åsikter om musik och kultur.", "Miljöfrågor och jämställdhet.", "Ekonomiska frågor, skatter och statens roll i välfärden.", "Huruvida man gillar städer eller landsbygd."],
+    correct: 2,
+    feedback: "Helt rätt! Höger-vänster handlar traditionellt om hur samhällets resurser och pengar ska fördelas."
+  },
+  {
+    q: "Vad står bokstäverna G-A-L för?",
+    opts: ["God, Allmän, Laglydig", "Grön, Alternativ, Libertariansk", "Gammal, Auktoritär, Långsam", "Gemenskap, Ansvar, Lojalitet"],
+    correct: 1,
+    feedback: "GAL står för Grön (miljö), Alternativ (öppenhet för nya livsstilar) och Libertariansk (fokus på social frihet)."
+  },
+  {
+    q: "Vad står bokstäverna T-A-N för?",
+    opts: ["Tyst, Anonym, Neutral", "Tuff, Arg, Negativ", "Traditionell, Auktoritär, Nationalistisk", "Teknik, Arbete, Näringsliv"],
+    correct: 2,
+    feedback: "TAN står för Traditionell (bevara kultur), Auktoritär (lag och ordning/ramar) och Nationalistisk (nationens intressen i fokus)."
+  },
+  {
+    q: "Varför räcker Höger-Vänster-skalan ofta inte till i dagens politiska debatt?",
+    opts: ["För att ingen bryr sig om pengar längre.", "För att skalan försvann år 2010.", "För att dagens stora konflikter (t.ex. migration, miljö, identitet) handlar mer om värderingar än om ekonomi.", "För att det inte finns några vänsterpartier kvar."],
+    correct: 2,
+    feedback: "Många av dagens mest infekterade frågor rör livsstil och identitet snarare än skatt, vilket gör den ekonomiska skalan trubbig."
+  },
+  {
+    q: "Vad händer när man använder både Höger-Vänster och GAL-TAN samtidigt?",
+    opts: ["Allt blir obegripligt och rörigt.", "Man får en tvådimensionell kompass som ger en mycket mer nyanserad bild av partier och konflikter.", "Man måste välja antingen den ena eller den andra.", "Partierna försvinner."],
+    correct: 1,
+    feedback: "Genom att korsa skalorna (t.ex. Vänster+TAN eller Höger+GAL) kan man förklara varför partier med samma ekonomiska syn ändå kan hata varandras värderingar."
+  },
+  {
+    q: "Vilket av följande påståenden förknippas vanligtvis med GAL-sidan?",
+    opts: ["Man vill bevara gamla traditioner.", "Man vill ha extremt stark polisnärvaro och hårda straff.", "Man ser samhället som något öppet som ständigt ska utvecklas, med stort fokus på miljö och individens rättigheter.", "Man vill stänga gränserna."],
+    correct: 2,
+    feedback: "GAL-sidan betonar förändring, öppenhet för det nya och stor frihet att forma sitt eget liv."
+  },
+  {
+    q: "Varför skapar GAL-TAN-frågor ofta en djupare upplevd 'polarisering' i samhället enligt texten?",
+    opts: ["För att det är omöjligt att räkna på dem.", "Det är mycket svårare att kompromissa om personliga värderingar, identitet och kultur än om en exakt skattesats.", "För att medierna gillar bokstäver.", "För att politiker inte förstår frågorna."],
+    correct: 1,
+    feedback: "Ekonomi handlar ofta om att mötas i mitten rent matematiskt, medan identitet och moralfrågor (GAL-TAN) upplevs mer som 'rätt eller fel', vilket ökar klyftorna."
+  },
+  {
+    q: "Hur beskriver texten att GAL-TAN-skalan bör användas?",
+    opts: ["Som ett exakt facit på hur alla människor tänker.", "Som ett värdefullt analysverktyg för att se mönster, men man ska minnas att verkligheten är mer komplex.", "Endast vid riksdagsvalet vart fjärde år.", "Man bör sluta använda den helt."],
+    correct: 1,
+    feedback: "Modeller förenklar alltid verkligheten, men som analysverktyg är de ovärderliga för att förstå samhällsdebatten."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Briljant! Du har stenkoll på den politiska kompassen."; }
+  else if(pct >= 0.6) { title = "Snyggt jobbat! ⭐"; msg = "Du förstår skillnaden mellan ekonomi och värderingar riktigt väl."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Dessa begrepp kan vara lite abstrakta. Klicka på den interaktiva kompassen och testa igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
