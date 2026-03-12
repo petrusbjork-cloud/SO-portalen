@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karma, samsara och nirvana – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #08090C;
+  --ink-lit:  #12151C;
+  --paper:    #F4F1EB;
+  --flame:    #FF7B00;
+  --flame-lt: #FFAA00;
+  --gold:     #D4AF37;
+  --teal:     #1A5C6A;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.7);
+  --border:   rgba(255,123,0,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--teal), var(--flame-lt), var(--flame));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(circle at 50% 60%, var(--ink-lit) 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-glow {
+  position: absolute; width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(255,123,0,0.15) 0%, transparent 70%);
+  border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  animation: pulseGlow 4s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes pulseGlow {
+  0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  100% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards; z-index: 2;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 7vw, 86px);
+  font-weight: 900; line-height: 1.05;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(255,123,0,0.4);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--flame-lt); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards; z-index: 2;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--flame); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--flame), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--flame-lt); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--gold); font-style: italic; }
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 700; color: var(--paper);
+  margin: 48px 0 16px;
+}
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+ul { margin-bottom: 24px; margin-left: 20px; color: var(--text-dim); }
+li { margin-bottom: 8px; padding-left: 10px; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--flame);
+  background: linear-gradient(135deg, rgba(255,123,0,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--flame); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── FACT BOX ── */
+.fact-box {
+  background: rgba(26,92,106,0.1);
+  border: 1px solid rgba(26,92,106,0.3);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 6px 6px 0;
+  padding: 24px 28px; margin: 40px 0;
+}
+.fact-box-label { font-family: var(--mono); font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+.fact-box p { font-size: 18px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+
+/* ── INTERACTIVE: THE CANDLE METAPHOR ── */
+.candle-section { margin: 80px 0; padding: 40px; background: var(--ink-lit); border: 1px solid var(--border); border-radius: 12px; text-align: center; }
+.candle-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--paper); margin-bottom: 12px; }
+.candle-sub { font-size: 16px; color: var(--text-dim); margin-bottom: 30px; }
+.candle-controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; }
+.c-btn { background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); padding: 10px 24px; border-radius: 30px; font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; }
+.c-btn:hover { border-color: var(--paper); color: var(--paper); }
+.c-btn.active { background: var(--flame); border-color: var(--flame); color: var(--ink); font-weight: 700; }
+
+.candle-display { display: flex; justify-content: center; align-items: flex-end; gap: 60px; height: 160px; margin-bottom: 30px; }
+.candle-wrap { display: flex; flex-direction: column; align-items: center; opacity: 0; transition: opacity 0.5s ease; }
+.candle-wrap.visible { opacity: 1; }
+/* Flame CSS */
+.flame { width: 20px; height: 30px; background: var(--flame-lt); border-radius: 50% 50% 20% 20%; box-shadow: 0 0 20px var(--flame); margin-bottom: 4px; animation: flicker 0.5s infinite alternate; }
+@keyframes flicker { 0% { transform: scale(1) rotate(-2deg); } 100% { transform: scale(1.1) rotate(2deg); } }
+/* Body CSS */
+.candle-body { width: 40px; background: #e0d5c1; border-radius: 4px; position: relative; transition: height 1s ease; }
+.candle-label { font-family: var(--mono); font-size: 11px; color: var(--gold); margin-top: 12px; text-transform: uppercase; letter-spacing: 2px; }
+
+.candle-text-box { background: rgba(0,0,0,0.4); padding: 24px; border-radius: 8px; font-size: 17px; color: var(--text-dim); line-height: 1.6; min-height: 100px; }
+
+/* ── INTERACTIVE: 3D FLIP CARDS ── */
+.flip-section { margin: 80px 0; }
+.flip-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; perspective: 1000px; }
+.flip-card { background: transparent; height: 220px; cursor: pointer; perspective: 1000px; }
+.flip-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+.flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+.flip-front, .flip-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; }
+.flip-front { background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+.flip-front:hover { border-color: var(--flame); background: rgba(255,123,0,0.05); }
+.flip-front-icon { font-size: 40px; margin-bottom: 12px; }
+.flip-front-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); font-weight: 700; margin-bottom: 8px; }
+.flip-front-hint { font-family: var(--mono); font-size: 10px; color: var(--flame-lt); text-transform: uppercase; letter-spacing: 1px; }
+
+.flip-back { background: var(--ink-lit); border: 1px solid var(--gold); transform: rotateY(180deg); flex-direction: row; align-items: stretch; padding: 0; overflow: hidden; }
+.back-half { flex: 1; padding: 20px; display: flex; flex-direction: column; justify-content: center; }
+.back-hindu { border-right: 1px solid rgba(255,255,255,0.1); }
+.back-label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 12px; }
+.back-text { font-size: 14px; color: var(--text-dim); line-height: 1.5; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 45vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.2) sepia(0.6) hue-rotate(-15deg);
+  background-image: url('https://images.unsplash.com/photo-1605658603681-36ba5921fc98?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--gold); line-height: 1.3; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #040507; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--teal); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--flame); color: var(--flame); background: rgba(255,123,0,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(255,123,0,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin:0; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--flame-lt); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(255,123,0,0.15); border: 1px solid var(--flame); color: var(--flame); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--flame); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--teal); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--flame-lt); background: rgba(255,170,0,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A9D8F; background: rgba(42,157,143,0.15); color: #E9F5F4; }
+.quiz-opt.wrong { border-color: #E76F51; background: rgba(231,111,81,0.15); color: #FCEEEE; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--paper); background: rgba(255,255,255,0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-opt.correct .quiz-letter { background: #2A9D8F; color: var(--ink); }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(255,170,0,0.1); border-left: 3px solid var(--flame-lt); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--flame); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--teal), var(--flame)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); color: var(--paper); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .flip-grid { grid-template-columns: 1fr; }
+  .candle-display { gap: 20px; }
+  .flip-back { flex-direction: column; }
+  .back-hindu { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion · Buddhism vs Hinduism</div>
+
+  <h1>Karma, samsara och <em>nirvana</em></h1>
+  <p class="hero-sub">Hur hänger allt egentligen ihop? Och vad är skillnaden mellan att smälta ett ljus och att tända en ny låga?</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    När man börjar läsa om österländska religioner dyker tre ord upp om och om igen: karma, samsara och nirvana. Begreppen kommer från indiska religioner men används även i vardagsspråk och blandas därför lätt ihop. 
+  </p>
+
+  <p>För att förstå buddhism – och se de stora skillnaderna mot hinduism – behöver man känna till vad orden betyder på djupet och hur de bildar en logisk kedja. Låt oss reda ut begreppen.</p>
+
+  <div class="section-marker"><span>Lagen</span></div>
+  <h2>Karma – lag om orsak och <em>verkan</em></h2>
+
+  <p>Ordet <strong>karma</strong> kommer från sanskrit och betyder handling eller gärning. I indiska religioner betyder karma både det man gör och konsekvensen av det man gör. I buddhismen ses karma som en iskall naturlag: det du gör, säger eller tänker påverkar vad som händer dig nu och i framtida liv. Goda gärningar hjälper dig till en bättre återfödelse, medan dåliga gärningar leder till en svårare tillvaro.</p>
+
+  <p>Buddhismen har ingen idé om en permanent själ (anatman). Därför menar man att det inte är “jaget” som vandrar vidare från kropp till kropp, utan det är enbart <em>följden av våra handlingar</em>. När en person dör upplöses individen, men personens karma gör att en ny existens skapas. Det finns ingen gudom som dömer; karma fungerar som sådd och skörd – vad vi sår skördar vi senare.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Vad karma INTE är</div>
+    <p>Det är inte ett straffsystem där universum “hämnas” eller belönar slumpmässigt. Det handlar enbart om naturligt ansvar. Eftersom dina handlingar och tankar formar din framtid, innebär det också att du <strong>alltid kan förändra ditt karma</strong> genom att bryta negativa mönster och odla medkänsla.</p>
+  </div>
+
+  <div class="section-marker"><span>Hjulet</span></div>
+  <h2>Samsara – livets eviga <em>kretslopp</em></h2>
+
+  <p><strong>Samsara</strong> är sanskrit för ”kretslopp” och beskriver det ständiga kretsloppet av födelse, död och återfödelse som alla levande varelser befinner sig i. Samsara ses som lidande därför att allt som föds också måste dö, och absolut inget är bestående.</p>
+
+  <p>Hinduismen och buddhismen delar tron på samsara, men de tolkar den olika. Hinduer menar att en odödlig själ (atman) vandrar från kropp till kropp tills den blir fri. Buddhister förnekar själen och talar i stället om orsak och verkan: detta liv och dess karma är orsaken till nästa liv. </p>
+
+  <p>Enligt buddhismen kan man återfödas i olika världar (t.ex. som gud, djur, hungrig ande eller i helveten). Människolivet anses dock vara det allra bästa, eftersom människan kan erfara både glädje och lidande och därmed har möjligheten att förstå sanningen och bryta sig loss.</p>
+
+  <div class="section-marker"><span>Befrielsen</span></div>
+  <h2>Nirvana – befrielse och inre <em>frid</em></h2>
+
+  <p><strong>Nirvana</strong> är det slutliga målet i buddhismen. Ordet betyder bokstavligen ”utslocknande” och syftar på att man släcker eldarna av begär, hat och okunnighet. När livstörsten släcks, slutar man också att producera ny karma.</p>
+
+  <div class="pullquote">
+    <p>Nirvana är ingen plats eller en himmel bland molnen, utan en djup existentiell inre fred och frihet från de krafter som skapar lidande.</p>
+  </div>
+
+  <p>I hinduismen används ordet <em>moksha</em> för befrielsen från samsara, vilket innebär att själen (atman) till slut förenas med den gudomliga världssjälen (brahman). Eftersom buddhismen menar att det inte finns någon själ att förena med något, blir nirvana ett utslocknande snarare än ett återvändande hem.</p>
+
+  <div class="candle-section">
+    <div class="candle-title">Hur hänger det ihop utan en själ?</div>
+    <div class="candle-sub">Ett vanligt sätt att förklara skillnaden mellan hinduism och buddhism är liknelsen med stearinljuset. Välj perspektiv nedan:</div>
+    
+    <div class="candle-controls">
+      <button class="c-btn active" onclick="playCandle('hindu', this)">Hinduismens Själavandring</button>
+      <button class="c-btn" onclick="playCandle('buddh', this)">Buddhismens Karmavandring</button>
+    </div>
+
+    <div class="candle-display">
+      <div class="candle-wrap visible" id="c-1">
+        <div class="flame"></div>
+        <div class="candle-body" id="cb-1" style="height: 80px;"></div>
+        <div class="candle-label">Liv 1</div>
+      </div>
+      <div class="candle-wrap" id="c-2">
+        <div class="flame"></div>
+        <div class="candle-body" style="height: 80px;"></div>
+        <div class="candle-label">Liv 2</div>
+      </div>
+    </div>
+
+    <div class="candle-text-box" id="candle-desc">
+      <strong>Hinduism (Själen / Atman):</strong> Själen är som ett stearinljus som brinner ner och smälts om till ett helt nytt ljus. Det är exakt samma vax (samma själ) som vandrar vidare och tar en ny form.
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Analys</span></div>
+  <h2>De stora <em>skillnaderna</em></h2>
+
+  <p>Även om religionerna har samma geografiska rötter och använder liknande ord, betyder orden ofta väldigt olika saker. Klicka på korten nedan för att vända på dem och se hur de två religionerna skiljer sig åt i grundläggande frågor.</p>
+
+  <div class="flip-section">
+    <div class="flip-grid">
+      
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">✨</div>
+            <div class="flip-front-title">Synen på själen</div>
+            <div class="flip-front-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="flip-back">
+            <div class="back-half back-hindu">
+              <div class="back-label">Hinduism</div>
+              <div class="back-text">Lär att alla levande varelser har en evig, oföränderlig själ (atman) som vandrar vidare.</div>
+            </div>
+            <div class="back-half">
+              <div class="back-label">Buddhism</div>
+              <div class="back-text">Förnekar en bestående själ (anatman). Du är i ständig förändring; endast dina handlingar lever vidare.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">🕉️</div>
+            <div class="flip-front-title">Synen på gudar</div>
+            <div class="flip-front-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="flip-back">
+            <div class="back-half back-hindu">
+              <div class="back-label">Hinduism</div>
+              <div class="back-text">Hinduer dyrkar många gudar, offrar till dem och ber dem om hjälp och välsignelse i vardagen.</div>
+            </div>
+            <div class="back-half">
+              <div class="back-label">Buddhism</div>
+              <div class="back-text">Menar att gudar finns, men är bundna till samsara precis som vi. Bön till gudar hjälper inte för att nå frälsning.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">💧</div>
+            <div class="flip-front-title">Att tvätta bort Karma</div>
+            <div class="flip-front-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="flip-back">
+            <div class="back-half back-hindu">
+              <div class="back-label">Hinduism</div>
+              <div class="back-text">Man tror att dålig karma kan renas genom heliga ritualer, till exempel att bada i floden Ganges.</div>
+            </div>
+            <div class="back-half">
+              <div class="back-label">Buddhism</div>
+              <div class="back-text">Man kan <em>inte</em> tvätta bort karma med ritualer. Du måste själv ta ansvar, bryta vanor och leva etiskt.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <div class="flip-front-icon">🏔️</div>
+            <div class="flip-front-title">Slutmålet</div>
+            <div class="flip-front-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="flip-back">
+            <div class="back-half back-hindu">
+              <div class="back-label">Hinduism</div>
+              <div class="back-text">Målet är <strong>Moksha</strong> – att den individuella själen (atman) till slut smälter samman med världssjälen (brahman).</div>
+            </div>
+            <div class="back-half">
+              <div class="back-label">Buddhism</div>
+              <div class="back-text">Målet är <strong>Nirvana</strong> – att släcka begären och få karmans eld att helt upphöra/slockna.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Karma fungerar som sådd och skörd – vad vi sår i livet skördar vi senare, oavsett gudar."</h2>
+    </div>
+  </div>
+
+  <p>Genom att lära sig vad karma, samsara och nirvana betyder på riktigt kan man undvika missuppfattningar (som att karma bara är "ödet" eller "Guds straff"). För den som studerar religionskunskap fungerar begreppen som perfekta nycklar till att låsa upp och förstå Asiens största tankesystem.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet som tränar jämförande förmåga, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--flame-lt); border-color: var(--flame-lt);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Begrepp och Betydelse</h4>
+          <ul class="q-list">
+            <li>Ordet "Karma" används ofta i västvärlden när någon t.ex. halkar efter att ha varit elak. Hur skiljer sig denna västerländska syn på "snabb karma/straff" mot den egentliga buddhistiska tanken om orsak och verkan?</li>
+            <li>Förklara ljusliknelsen med egna ord. Varför är det viktigt för buddhister att använda just lågan istället för vaxet när de pratar om återfödelse?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Jämförande Analys</h4>
+          <ul class="q-list">
+            <li>Hinduismen tror att man kan tvätta bort dålig karma i floden Ganges. Buddhismen menar att ritualer är meningslösa för att radera karma. Hur tror du denna skillnad i teologi påverkar hur människor agerar i sin vardag?</li>
+            <li>I båda religionerna är målet att slippa återfödas (slippa Samsara). Vilket tillstånd – Moksha (förening) eller Nirvana (utslocknande av begär) – låter mest lockande för dig ur ett filosofiskt perspektiv? Varför?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor som testar din förståelse av de centrala begreppen och skillnaderna mellan hinduism och buddhism.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── CANDLE METAPHOR ANIMATION ──
+function playCandle(type, btn) {
+  // Update buttons
+  document.querySelectorAll('.c-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  const c1 = document.getElementById('c-1');
+  const c2 = document.getElementById('c-2');
+  const cb1 = document.getElementById('cb-1');
+  const desc = document.getElementById('candle-desc');
+
+  // Reset state
+  c1.classList.add('visible');
+  c2.classList.remove('visible');
+  cb1.style.height = '80px';
+  cb1.style.opacity = '1';
+
+  setTimeout(() => {
+    if(type === 'hindu') {
+      // Hindu: Candle 1 melts down
+      cb1.style.height = '10px';
+      setTimeout(() => {
+        desc.innerHTML = "<strong>Hinduism (Själen / Atman):</strong> Själen är som ett stearinljus som brinner ner och smälts om till ett helt nytt ljus. Det är exakt samma vax (samma eviga själ) som vandrar vidare och tar en ny form.";
+        cb1.style.height = '80px'; // Re-forms
+      }, 1200);
+    } else {
+      // Buddhist: Flame passes over
+      desc.innerHTML = "<strong>Buddhism (Karmavandring):</strong> Livet är som ljuslågor. När ett ljus brinner ner, tänder lågan ett helt nytt ljus. Det nya ljuset är inte gjort av samma vax (ingen själ), men lågan fortsätter genom energin/konsekvensen (karma) från det första.";
+      c2.classList.add('visible');
+      setTimeout(() => {
+        cb1.style.opacity = '0.2'; // First candle dies out
+      }, 500);
+    }
+  }, 200);
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad betyder ordet 'karma' på sanskrit?",
+    opts: ["Slumpen", "Gudarnas straff", "Handling eller gärning", "Att sitta still"],
+    correct: 2,
+    feedback: "Rätt! Karma betyder handling, och i religionerna syftar det på både vad man gör och konsekvensen av vad man gör."
+  },
+  {
+    q: "Hur ser buddhismen och hinduismen på 'själen' (atman)?",
+    opts: ["Båda tror att djur saknar själ.", "Hinduer tror på en evig själ, buddhister förnekar att det finns en permanent själ.", "Buddhister tror på själen, hinduer tror bara på karma.", "Ingen av dem tror att människan har ett inre liv."],
+    correct: 1,
+    feedback: "Hinduismen vilar på tron om den eviga själen (atman), medan buddhismens kärna är 'anatman' (icke-själ)."
+  },
+  {
+    q: "Vad beskriver begreppet Samsara?",
+    opts: ["Det eviga kretsloppet av födelse, död och återfödelse.", "En helig flod i Indien.", "Buddhistiska munkars orangea kläder.", "Befrielsen från allt lidande."],
+    correct: 0,
+    feedback: "Samsara är kretsloppet, hjulet som alla varelser sitter fast i tills de når frälsning."
+  },
+  {
+    q: "Hur förklarar buddhister att man kan återfödas om man inte har en evig själ?",
+    opts: ["Gudarna bygger en ny själ åt en.", "Man föds bara en enda gång.", "Det är konsekvenserna av ens gärningar (karma) som skapar en helt ny existens, likt en låga som tänder ett nytt ljus.", "Själen lånas tillfälligt från ett djur."],
+    correct: 2,
+    feedback: "Exakt. Det är energin från karmat som förs vidare, inte en fysisk eller andlig substans (som vaxet i ljuset)."
+  },
+  {
+    q: "Vad betyder 'Nirvana' bokstavligen?",
+    opts: ["Utslocknande (att blåsa ut)", "Den stora föreningen", "Högsta himlen", "Lidandet"],
+    correct: 0,
+    feedback: "Nirvana betyder 'att blåsa ut', vilket syftar på att man släcker begärens och hatets eldar i sitt sinne."
+  },
+  {
+    q: "Hur ser buddhismen på möjligheten att tvätta bort dålig karma med ritualer (t.ex. bada i heligt vatten)?",
+    opts: ["Man måste bada i Ganges tre gånger för att radera allt.", "De menar att man inte kan tvätta bort karma med ritualer; man måste själv bryta mönster och leva etiskt.", "Det fungerar bara om en munk badar med en.", "De tror att karma raderas av sig självt varje natt."],
+    correct: 1,
+    feedback: "Till skillnad från hinduismen, avvisar buddhismen ritualer som en genväg för att radera karma."
+  },
+  {
+    q: "Vilket liv anses vara det 'bästa' att återfödas till inom buddhismen för att kunna nå upplysning?",
+    opts: ["Gud (Eftersom de lever i ren lyx)", "Djur (Eftersom de saknar problem)", "Människa (Eftersom vi erfar både glädje och lidande och kan förstå sanningen)", "Spöke (Eftersom de är osynliga)"],
+    correct: 2,
+    feedback: "Människolivet anses vara den optimala balansen, till skillnad från gudarnas liv som är för bekvämt för att förstå lidandet."
+  },
+  {
+    q: "Vad kallas hinduismens slutmål och vad innebär det?",
+    opts: ["Moksha – att själen förenas med världssjälen (brahman).", "Nirvana – att själen försvinner helt i rymden.", "Karma – att bli odödlig på jorden.", "Dharma – att bli en gud i nästa liv."],
+    correct: 0,
+    feedback: "Moksha är hinduismens slutmål, vilket är en förening (sammelts), till skillnad från buddhismens utslocknande."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Ett fullständigt uppvaknande! Du har förstått skillnaderna perfekt."; }
+  else if(pct >= 0.6) { title = "Mycket bra! ⭐"; msg = "Du har greppat kärnan i de båda religionerna väl. Snyggt jobbat!"; }
+  else { title = "Läs igenom en gång till 📖"; msg = "De här filosofiska skillnaderna är kluriga. Vänd på Jämförelsekorten igen och testa på nytt!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
