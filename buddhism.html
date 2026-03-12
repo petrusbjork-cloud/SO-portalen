@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SO med Petrus – Buddhism</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Quicksand:wght@400;500;600;700&family=Cinzel:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cobalt: #0F2952;
+  --sky: #1A5276;
+  --gold: #D4A017;
+  --gold-light: #F0C040;
+  --lotus-pink: #C17B8A;
+  --teal: #1ABC9C;
+  --cream: #F5F0E8;
+  --midnight: #070D1A;
+  --stone: #2C3E50;
+  --mist: rgba(245,240,232,0.07);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--midnight);
+  color: var(--cream);
+  font-family: 'Quicksand', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ---- BACKGROUND ---- */
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 15% 30%, rgba(26,82,118,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 70%, rgba(212,160,23,0.07) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 90%, rgba(193,123,138,0.07) 0%, transparent 40%);
+  pointer-events:none;
+  z-index:0;
+}
+
+/* ---- NOISE GRAIN ---- */
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:0;
+  opacity:.4;
+}
+
+/* ---- NAV ---- */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:1000;
+  background:rgba(7,13,26,0.88);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(212,160,23,0.2);
+  padding:0 2.5rem; height:60px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.nav-logo {
+  font-family:'Cinzel',serif; font-size:0.8rem; letter-spacing:3px;
+  color:var(--gold-light); text-decoration:none;
+}
+.nav-links { display:flex; gap:2rem; list-style:none; }
+.nav-links a {
+  color:rgba(245,240,232,0.6); text-decoration:none;
+  font-size:0.82rem; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+  transition:color .2s;
+}
+.nav-links a:hover { color:var(--gold-light); }
+
+/* ---- HERO ---- */
+.hero {
+  min-height:100vh;
+  display:flex; align-items:center; justify-content:center;
+  text-align:center;
+  padding:8rem 2rem 4rem;
+  position:relative; overflow:hidden;
+}
+
+/* Dharma wheel SVG background */
+.wheel-bg {
+  position:absolute; top:50%; left:50%;
+  transform:translate(-50%,-50%);
+  width:700px; height:700px;
+  opacity:0.045;
+  animation:spinSlow 90s linear infinite;
+  pointer-events:none;
+}
+@keyframes spinSlow { to { transform:translate(-50%,-50%) rotate(360deg); } }
+
+.lotus-accent {
+  position:absolute; bottom:-60px; right:-60px;
+  font-size:18rem; opacity:0.03; line-height:1;
+  pointer-events:none; user-select:none;
+}
+
+.hero-content { position:relative; z-index:1; max-width:780px; }
+
+.hero-eyebrow {
+  font-size:0.78rem; letter-spacing:7px; text-transform:uppercase;
+  color:var(--teal); margin-bottom:1.8rem;
+  animation:fadeUp .7s ease both;
+}
+
+.hero h1 {
+  font-family:'Cinzel',serif;
+  font-size:clamp(2.8rem,8vw,6rem);
+  font-weight:900; line-height:1.05;
+  background:linear-gradient(150deg, var(--gold-light) 0%, #fff 45%, var(--lotus-pink) 100%);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:1.2rem;
+  animation:fadeUp .7s .08s ease both;
+}
+
+.hero-sub {
+  font-family:'Noto Serif Display',serif;
+  font-size:clamp(1rem,2.2vw,1.35rem);
+  font-style:italic;
+  color:rgba(245,240,232,0.6);
+  margin-bottom:2.5rem;
+  animation:fadeUp .7s .16s ease both;
+}
+
+.wheel-symbol {
+  display:block; font-size:2.5rem; margin:0.5rem 0 2rem;
+  animation:fadeUp .7s .22s ease both;
+  opacity:0.8;
+}
+
+.hero-pills {
+  display:flex; gap:0.9rem; justify-content:center; flex-wrap:wrap;
+  animation:fadeUp .7s .3s ease both;
+}
+
+.pill {
+  display:inline-block;
+  padding:0.55rem 1.4rem;
+  border:1px solid rgba(212,160,23,0.4);
+  border-radius:50px;
+  color:var(--gold-light);
+  font-size:0.82rem; font-weight:700; letter-spacing:1px;
+  cursor:pointer; background:none; font-family:'Quicksand',sans-serif;
+  transition:all .25s;
+}
+.pill:hover { background:rgba(212,160,23,0.14); border-color:var(--gold-light); transform:translateY(-2px); }
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(18px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ---- DIVIDER ---- */
+.divider {
+  width:100%; height:1px;
+  background:linear-gradient(90deg,transparent,rgba(212,160,23,0.25),transparent);
+}
+
+/* ---- SECTION SHELL ---- */
+.sec { position:relative; z-index:1; padding:6rem 2rem; max-width:1200px; margin:0 auto; }
+
+.sec-head { text-align:center; margin-bottom:4rem; }
+.sec-label { font-size:0.72rem; letter-spacing:5px; text-transform:uppercase; color:var(--teal); margin-bottom:1rem; display:block; }
+.sec-title { font-family:'Cinzel',serif; font-size:clamp(1.8rem,4vw,2.8rem); color:var(--gold-light); }
+.sec-rule { display:flex; align-items:center; gap:1rem; justify-content:center; margin-top:1.5rem; }
+.sec-rule::before,.sec-rule::after { content:''; height:1px; width:70px; background:linear-gradient(90deg,transparent,var(--gold)); }
+.sec-rule::after { background:linear-gradient(270deg,transparent,var(--gold)); }
+.sec-rule span { color:var(--gold-light); font-size:1.1rem; }
+
+/* ---- EPISODE CARDS ---- */
+.ep-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+  gap:1.8rem;
+}
+
+.ep-card {
+  background:linear-gradient(145deg, rgba(26,82,118,0.08) 0%, rgba(7,13,26,0.6) 100%);
+  border:1px solid rgba(212,160,23,0.15);
+  border-radius:14px; overflow:hidden;
+  transition:all .3s ease; position:relative; cursor:pointer;
+}
+
+.ep-card::after {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, var(--teal), var(--gold-light), var(--lotus-pink));
+  opacity:0; transition:opacity .3s;
+}
+
+.ep-card:hover { transform:translateY(-5px); border-color:rgba(212,160,23,0.38); box-shadow:0 16px 50px rgba(26,82,118,0.25); }
+.ep-card:hover::after { opacity:1; }
+
+.ep-head { padding:1.4rem 1.4rem 0; display:flex; align-items:flex-start; gap:1rem; }
+.ep-num {
+  font-family:'Cinzel',serif; font-size:2.2rem; font-weight:900;
+  color:rgba(212,160,23,0.2); line-height:1; flex-shrink:0;
+}
+.ep-tag { font-size:0.65rem; letter-spacing:3px; text-transform:uppercase; color:var(--teal); margin-bottom:0.35rem; display:block; }
+.ep-title { font-family:'Noto Serif Display',serif; font-size:1.2rem; font-weight:600; color:var(--cream); line-height:1.3; }
+.ep-desc { padding:.9rem 1.4rem; font-size:0.87rem; color:rgba(245,240,232,0.55); line-height:1.65; }
+.ep-foot { padding:.9rem 1.4rem 1.4rem; display:flex; gap:.7rem; flex-wrap:wrap; }
+
+.btn-sp {
+  display:inline-flex; align-items:center; gap:.45rem;
+  padding:.5rem 1.1rem;
+  background:#1DB954; color:#000;
+  border-radius:50px; text-decoration:none;
+  font-size:0.78rem; font-weight:700;
+  transition:all .2s; border:none; cursor:pointer;
+  font-family:'Quicksand',sans-serif; letter-spacing:.5px;
+}
+.btn-sp:hover { background:#1ed760; transform:scale(1.05); }
+
+.btn-qz {
+  display:inline-flex; align-items:center; gap:.45rem;
+  padding:.5rem 1.1rem;
+  background:transparent; color:var(--gold-light);
+  border:1px solid rgba(212,160,23,0.45); border-radius:50px;
+  font-size:0.78rem; font-weight:700; cursor:pointer;
+  transition:all .2s; font-family:'Quicksand',sans-serif; letter-spacing:.5px;
+}
+.btn-qz:hover { background:rgba(212,160,23,0.12); border-color:var(--gold-light); }
+
+/* ---- QUIZ MODAL ---- */
+.modal-bg {
+  position:fixed; inset:0;
+  background:rgba(0,0,0,0.88);
+  backdrop-filter:blur(10px);
+  z-index:2000; display:none;
+  align-items:center; justify-content:center; padding:1rem;
+}
+.modal-bg.open { display:flex; }
+
+.quiz-box {
+  background:linear-gradient(145deg, #0a1628 0%, #0e1f3a 100%);
+  border:1px solid rgba(212,160,23,0.35);
+  border-radius:18px;
+  max-width:660px; width:100%;
+  max-height:90vh; overflow-y:auto;
+  animation:popIn .3s ease;
+}
+@keyframes popIn {
+  from { opacity:0; transform:scale(.88) translateY(24px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
+}
+
+.qz-head {
+  padding:1.8rem 2rem;
+  border-bottom:1px solid rgba(212,160,23,0.15);
+  display:flex; justify-content:space-between; align-items:center;
+}
+.qz-head h2 { font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-light); }
+.qz-close { background:none; border:none; color:rgba(245,240,232,0.4); font-size:1.4rem; cursor:pointer; transition:color .2s; line-height:1; }
+.qz-close:hover { color:var(--cream); }
+
+.qz-body { padding:2rem; }
+
+.qz-prog { display:flex; align-items:center; gap:1rem; margin-bottom:1.8rem; }
+.prog-bar { flex:1; height:3px; background:rgba(255,255,255,0.08); border-radius:3px; overflow:hidden; }
+.prog-fill { height:100%; background:linear-gradient(90deg,var(--teal),var(--gold-light)); transition:width .4s ease; }
+.prog-txt { font-size:0.78rem; color:rgba(245,240,232,0.45); white-space:nowrap; }
+
+.q-text { font-family:'Noto Serif Display',serif; font-size:1.3rem; color:var(--cream); margin-bottom:1.6rem; line-height:1.45; }
+
+.opts { display:flex; flex-direction:column; gap:.7rem; }
+
+.opt {
+  padding:.9rem 1.1rem;
+  background:rgba(255,255,255,0.025);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:9px;
+  color:var(--cream); font-size:0.9rem;
+  font-family:'Quicksand',sans-serif; font-weight:600;
+  text-align:left; cursor:pointer;
+  transition:all .2s;
+  display:flex; align-items:center; gap:.7rem;
+}
+.opt:hover:not(.correct):not(.wrong) { border-color:rgba(212,160,23,0.45); background:rgba(212,160,23,0.07); }
+
+.opt-letter {
+  width:26px; height:26px; border-radius:50%;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12);
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.75rem; font-weight:700; flex-shrink:0; transition:all .2s;
+}
+.opt.correct { background:rgba(26,188,156,0.14); border-color:var(--teal); }
+.opt.correct .opt-letter { background:var(--teal); border-color:var(--teal); color:#000; }
+.opt.wrong { background:rgba(231,76,60,0.12); border-color:rgba(231,76,60,0.5); }
+.opt.wrong .opt-letter { background:rgba(231,76,60,0.35); border-color:rgba(231,76,60,0.5); }
+.opt.reveal { background:rgba(26,188,156,0.07); border-color:rgba(26,188,156,0.35); }
+
+.fb-msg { margin-top:.9rem; padding:.75rem 1rem; border-radius:8px; font-size:0.88rem; font-weight:600; display:none; }
+.fb-msg.show { display:block; }
+.fb-msg.ok { background:rgba(26,188,156,0.14); color:#76d7c4; }
+.fb-msg.fail { background:rgba(231,76,60,0.12); color:#f1948a; }
+
+.qz-nav { display:flex; justify-content:space-between; align-items:center; margin-top:1.8rem; padding-top:1.4rem; border-top:1px solid rgba(255,255,255,0.07); }
+.score-lbl { font-size:0.82rem; color:rgba(245,240,232,0.45); }
+
+.btn-next {
+  padding:.65rem 1.7rem;
+  background:linear-gradient(135deg, var(--teal), #0D8A6F);
+  color:#fff; border:none; border-radius:50px;
+  font-family:'Quicksand',sans-serif; font-size:0.88rem; font-weight:700;
+  letter-spacing:1px; cursor:pointer; transition:all .2s; display:none;
+}
+.btn-next.show { display:block; }
+.btn-next:hover { opacity:.88; transform:translateY(-2px); }
+
+.qz-result { text-align:center; padding:1rem 0; display:none; }
+.qz-result.show { display:block; }
+.res-stars { font-size:2rem; margin-bottom:.8rem; }
+.res-score {
+  font-family:'Cinzel',serif; font-size:3.8rem;
+  background:linear-gradient(135deg, var(--gold-light), var(--teal));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; margin-bottom:.5rem;
+}
+.res-msg { font-family:'Noto Serif Display',serif; font-size:1.3rem; font-style:italic; color:rgba(245,240,232,0.75); margin-bottom:1.8rem; }
+.btn-retry {
+  padding:.65rem 1.8rem; background:transparent;
+  border:1px solid rgba(212,160,23,0.45); color:var(--gold-light);
+  border-radius:50px; font-family:'Quicksand',sans-serif; font-size:0.88rem; font-weight:700;
+  cursor:pointer; transition:all .2s;
+}
+.btn-retry:hover { background:rgba(212,160,23,0.12); }
+
+/* ---- FLASHCARDS ---- */
+.fc-intro { text-align:center; margin-bottom:2.5rem; font-family:'Noto Serif Display',serif; font-size:1.05rem; font-style:italic; color:rgba(245,240,232,0.5); }
+
+.fc-filters { display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; margin-bottom:2.5rem; }
+.filt-btn {
+  padding:.45rem 1.1rem; background:transparent;
+  border:1px solid rgba(255,255,255,0.12); color:rgba(245,240,232,0.55);
+  border-radius:50px; font-family:'Quicksand',sans-serif; font-size:0.82rem; font-weight:700;
+  letter-spacing:1px; cursor:pointer; transition:all .2s;
+}
+.filt-btn.active,.filt-btn:hover { border-color:var(--teal); color:var(--teal); background:rgba(26,188,156,0.07); }
+
+.fc-arena {
+  display:flex; flex-direction:row;
+  align-items:center; justify-content:center;
+  gap:1.2rem; margin-bottom:1.5rem;
+}
+
+.fc-btn {
+  background:rgba(26,188,156,0.07);
+  border:1px solid rgba(26,188,156,0.35);
+  color:var(--teal); width:50px; height:50px;
+  border-radius:50%; font-size:1.5rem; cursor:pointer;
+  transition:all .2s;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0; user-select:none; line-height:1;
+}
+.fc-btn:hover { background:rgba(26,188,156,0.2); border-color:var(--teal); transform:scale(1.1); }
+.fc-btn:active { transform:scale(.93); }
+
+.fc-wrap {
+  perspective:1100px;
+  width:100%; max-width:520px; height:290px; cursor:pointer;
+}
+.fc-inner {
+  position:relative; width:100%; height:100%;
+  transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.4,0,.2,1);
+}
+.fc-wrap.flipped .fc-inner { transform:rotateY(180deg); }
+
+.fc-face {
+  position:absolute; inset:0; border-radius:18px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:2.5rem;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+}
+.fc-front {
+  background:linear-gradient(145deg, rgba(15,41,82,0.55) 0%, rgba(7,13,26,0.85) 100%);
+  border:1px solid rgba(26,188,156,0.25);
+}
+.fc-back {
+  background:linear-gradient(145deg, rgba(193,123,138,0.18) 0%, rgba(7,13,26,0.85) 100%);
+  border:1px solid rgba(193,123,138,0.35);
+  transform:rotateY(180deg);
+}
+.fc-cat { font-size:0.68rem; letter-spacing:3px; text-transform:uppercase; color:var(--teal); margin-bottom:1.1rem; }
+.fc-back .fc-cat { color:var(--lotus-pink); }
+.fc-term { font-family:'Cinzel',serif; font-size:1.75rem; color:var(--gold-light); text-align:center; margin-bottom:1rem; line-height:1.2; }
+.fc-hint { font-size:0.75rem; color:rgba(245,240,232,0.25); letter-spacing:1px; }
+.fc-def { font-family:'Noto Serif Display',serif; font-size:1.12rem; text-align:center; color:var(--cream); line-height:1.55; }
+.fc-ex { margin-top:.9rem; font-size:0.82rem; font-style:italic; color:rgba(245,240,232,0.45); text-align:center; }
+
+.fc-count { text-align:center; font-size:0.82rem; color:rgba(245,240,232,0.38); margin-bottom:1rem; }
+
+.fc-dots { display:flex; gap:5px; justify-content:center; flex-wrap:wrap; max-width:420px; margin:0 auto; }
+.fc-dot { width:7px; height:7px; border-radius:50%; background:rgba(255,255,255,0.1); cursor:pointer; transition:background .2s; }
+.fc-dot.active { background:var(--teal); }
+.fc-dot.seen { background:rgba(212,160,23,0.38); }
+
+/* ---- TERMS GRID ---- */
+.terms-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin-top:2rem; }
+.term-tile {
+  padding:1.1rem; background:rgba(255,255,255,0.018);
+  border:1px solid rgba(26,188,156,0.1);
+  border-radius:11px; cursor:pointer; transition:all .2s; position:relative; overflow:hidden;
+}
+.term-tile::after { content:''; position:absolute; bottom:0; left:0; height:2px; width:0; background:linear-gradient(90deg,var(--teal),var(--gold-light)); transition:width .3s; }
+.term-tile:hover { border-color:rgba(26,188,156,0.3); transform:translateY(-3px); }
+.term-tile:hover::after { width:100%; }
+.term-tile .t-cat { font-size:0.62rem; letter-spacing:2.5px; text-transform:uppercase; color:var(--teal); margin-bottom:.45rem; opacity:.8; }
+.term-tile h3 { font-family:'Cinzel',serif; font-size:0.88rem; color:var(--gold-light); margin-bottom:.35rem; }
+.term-tile p { font-size:0.82rem; color:rgba(245,240,232,0.5); line-height:1.45; }
+
+/* ---- FOOTER ---- */
+footer { position:relative; z-index:1; text-align:center; padding:3rem 2rem; border-top:1px solid rgba(212,160,23,0.12); }
+.foot-logo { font-family:'Cinzel',serif; font-size:1.1rem; color:var(--gold-light); margin-bottom:.5rem; display:block; }
+.foot-sub { font-size:0.8rem; color:rgba(245,240,232,0.3); letter-spacing:2px; }
+
+/* ---- SCROLLBAR ---- */
+::-webkit-scrollbar { width:5px; }
+::-webkit-scrollbar-track { background:var(--midnight); }
+::-webkit-scrollbar-thumb { background:rgba(26,188,156,0.35); border-radius:3px; }
+
+@media (max-width:768px) {
+  .nav-links { display:none; }
+  .fc-btn { width:38px; height:38px; font-size:1.1rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">☸ SO med Petrus</a>
+  <ul class="nav-links">
+    <li><a href="#avsnitt">Avsnitt</a></li>
+    <li><a href="#flashcards">Flashcards</a></li>
+    <li><a href="#begrepp">Begrepp</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <svg class="wheel-bg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="195" stroke="#D4A017" stroke-width="0.6"/>
+    <circle cx="200" cy="200" r="160" stroke="#D4A017" stroke-width="0.4"/>
+    <circle cx="200" cy="200" r="100" stroke="#D4A017" stroke-width="0.6"/>
+    <circle cx="200" cy="200" r="30" stroke="#D4A017" stroke-width="1.2"/>
+    <circle cx="200" cy="200" r="12" stroke="#D4A017" stroke-width="2"/>
+    <!-- 8 spokes -->
+    <line x1="200" y1="5" x2="200" y2="395" stroke="#D4A017" stroke-width="0.5"/>
+    <line x1="5" y1="200" x2="395" y2="200" stroke="#D4A017" stroke-width="0.5"/>
+    <line x1="60" y1="60" x2="340" y2="340" stroke="#D4A017" stroke-width="0.5"/>
+    <line x1="340" y1="60" x2="60" y2="340" stroke="#D4A017" stroke-width="0.5"/>
+    <!-- Decorative circles at rim -->
+    <circle cx="200" cy="5" r="5" fill="#D4A017" opacity="0.6"/>
+    <circle cx="200" cy="395" r="5" fill="#D4A017" opacity="0.6"/>
+    <circle cx="5" cy="200" r="5" fill="#D4A017" opacity="0.6"/>
+    <circle cx="395" cy="200" r="5" fill="#D4A017" opacity="0.6"/>
+    <circle cx="60" cy="60" r="5" fill="#D4A017" opacity="0.6"/>
+    <circle cx="340" cy="340" r="5" fill="#D4A017" opacity="0.6"/>
+    <circle cx="340" cy="60" r="5" fill="#D4A017" opacity="0.6"/>
+    <circle cx="60" cy="340" r="5" fill="#D4A017" opacity="0.6"/>
+    <!-- Hub teardrop shapes -->
+    <ellipse cx="200" cy="130" rx="8" ry="22" fill="#D4A017" opacity="0.4"/>
+    <ellipse cx="200" cy="270" rx="8" ry="22" fill="#D4A017" opacity="0.4"/>
+    <ellipse cx="130" cy="200" rx="22" ry="8" fill="#D4A017" opacity="0.4"/>
+    <ellipse cx="270" cy="200" rx="22" ry="8" fill="#D4A017" opacity="0.4"/>
+  </svg>
+  <span class="lotus-accent">🪷</span>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">SO med Petrus · Podcast</p>
+    <h1>Buddhism</h1>
+    <p class="hero-sub">Från Siddharthas uppvaknande till en världsreligion i ständig förändring</p>
+    <span class="wheel-symbol">☸</span>
+    <div class="hero-pills">
+      <button class="pill" onclick="document.getElementById('avsnitt').scrollIntoView({behavior:'smooth'})">🎧 8 Avsnitt</button>
+      <button class="pill" onclick="document.getElementById('flashcards').scrollIntoView({behavior:'smooth'})">🃏 Flashcards</button>
+      <button class="pill" onclick="document.getElementById('begrepp').scrollIntoView({behavior:'smooth'})">📖 Begrepp</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AVSNITT -->
+<section id="avsnitt" style="position:relative;z-index:1;padding:6rem 2rem;">
+<div style="max-width:1200px;margin:0 auto;">
+  <div class="sec-head">
+    <span class="sec-label">Lyssna & lär</span>
+    <h2 class="sec-title">Avsnitten</h2>
+    <div class="sec-rule"><span>🪷</span></div>
+  </div>
+  <div class="ep-grid">
+
+    <div class="ep-card">
+      <div class="ep-head">
+        <div class="ep-num">01</div>
+        <div><span class="ep-tag">Introduktion</span><div class="ep-title">Introduktion till buddhism</div></div>
+      </div>
+      <div class="ep-desc">Varför lider människor? Buddhism som livsfilosofi snarare än gudstro. Nirvana, karma och återfödelse – och varför Buddha inte är en gud.</div>
+      <div class="ep-foot">
+        <a href="https://open.spotify.com/episode/07rEl87e7Tdx3hTdxt52Y3?si=0a531332ff014eaf" target="_blank" class="btn-sp">▶ Spotify</a>
+        <button class="btn-qz" onclick="openQuiz(0)">📝 Quiz</button>
+      </div>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-head">
+        <div class="ep-num">02</div>
+        <div><span class="ep-tag">Filosofi</span><div class="ep-title">Buddhismens centrala tankar</div></div>
+      </div>
+      <div class="ep-desc">De fyra ädla sanningarna, den åttafaldiga vägen, samsara och karma. Varför insikt – inte tro – är vägen bort från lidandet.</div>
+      <div class="ep-foot">
+        <a href="https://open.spotify.com/episode/3eiUH5ht6cMNN5JR4nOGeZ?si=3621662594224f79" target="_blank" class="btn-sp">▶ Spotify</a>
+        <button class="btn-qz" onclick="openQuiz(1)">📝 Quiz</button>
+      </div>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-head">
+        <div class="ep-num">03</div>
+        <div><span class="ep-tag">Biografi</span><div class="ep-title">Buddhas liv</div></div>
+      </div>
+      <div class="ep-desc">Prins Siddhartha och de fyra mötena. Askesen, upplysningen under fikonträdet i Bodh-Gaya och Buddhas liv som lärare.</div>
+      <div class="ep-foot">
+        <a href="https://open.spotify.com/episode/3Rq77VWvMMotaID20RuSSs?si=dbec464ae4134f97" target="_blank" class="btn-sp">▶ Spotify</a>
+        <button class="btn-qz" onclick="openQuiz(2)">📝 Quiz</button>
+      </div>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-head">
+        <div class="ep-num">04</div>
+        <div><span class="ep-tag">Historia</span><div class="ep-title">Buddhismens spridning</div></div>
+      </div>
+      <div class="ep-desc">Kejsar Ashoka och missionen. Theravada, mahayana och vajrayana. Dalai lama, zenbuddhism och varför buddhismen lämnade sitt hemland Indien.</div>
+      <div class="ep-foot">
+        <a href="https://open.spotify.com/episode/1My1I0yP2yylYqfpkcUn6u?si=cdb84644c1d2410a" target="_blank" class="btn-sp">▶ Spotify</a>
+        <button class="btn-qz" onclick="openQuiz(3)">📝 Quiz</button>
+      </div>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-head">
+        <div class="ep-num">05</div>
+        <div><span class="ep-tag">Gemenskap</span><div class="ep-title">De tre tillflykterna</div></div>
+      </div>
+      <div class="ep-desc">Buddha, dharma och sangha – de tre juvelerna. Munklivet, 227 regler och hur gemenskapen bär läran vidare generation efter generation.</div>
+      <div class="ep-foot">
+        <a href="https://open.spotify.com/episode/3NDahoe8yGxfjLJIp7C1AQ?si=93762f1895f04c94" target="_blank" class="btn-sp">▶ Spotify</a>
+        <button class="btn-qz" onclick="openQuiz(4)">📝 Quiz</button>
+      </div>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-head">
+        <div class="ep-num">06</div>
+        <div><span class="ep-tag">Högtider</span><div class="ep-title">Högtider & ritualer</div></div>
+      </div>
+      <div class="ep-desc">Vesak, dharmadagen, songkran och magha-puja. Ljus, vatten och blommor som religiösa symboler – och hur buddhismen firas runt hela världen.</div>
+      <div class="ep-foot">
+        <a href="https://open.spotify.com/episode/3RtkoZz8xIah8IbhnPVi5A?si=4ceebff314ea4c97" target="_blank" class="btn-sp">▶ Spotify</a>
+        <button class="btn-qz" onclick="openQuiz(5)">📝 Quiz</button>
+      </div>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-head">
+        <div class="ep-num">07</div>
+        <div><span class="ep-tag">Samhälle</span><div class="ep-title">Buddhism i samhället</div></div>
+      </div>
+      <div class="ep-desc">Kastsystemet, daliter och Ambedkar. Kvinnors roll i sanghan, HBTQ-frågor och buddhismens koppling till fred, våld och klimatansvar.</div>
+      <div class="ep-foot">
+        <a href="https://open.spotify.com/episode/2OIk4JXXt0ZgqZJ1euEsa8?si=e44c912c5dda4d4f" target="_blank" class="btn-sp">▶ Spotify</a>
+        <button class="btn-qz" onclick="openQuiz(6)">📝 Quiz</button>
+      </div>
+    </div>
+
+    <div class="ep-card">
+      <div class="ep-head">
+        <div class="ep-num">08</div>
+        <div><span class="ep-tag">Religionsmöten</span><div class="ep-title">När religioner möts</div></div>
+      </div>
+      <div class="ep-desc">Konfucianism, daoism och shinto. Synkretism i Kina och Japan – hur religioner samarbetar snarare än konkurrerar med varandra.</div>
+      <div class="ep-foot">
+        <a href="https://open.spotify.com/episode/3ZlObsvKUQTO8VkmILIRVx?si=10f499d154cd44e6" target="_blank" class="btn-sp">▶ Spotify</a>
+        <button class="btn-qz" onclick="openQuiz(7)">📝 Quiz</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FLASHCARDS -->
+<section id="flashcards" style="position:relative;z-index:1;padding:6rem 2rem;">
+<div style="max-width:900px;margin:0 auto;">
+  <div class="sec-head">
+    <span class="sec-label">Plugga smart</span>
+    <h2 class="sec-title">Flashcards</h2>
+    <div class="sec-rule"><span>🃏</span></div>
+  </div>
+  <p class="fc-intro">Klicka på kortet för att se definitionen. Bläddra med pilarna eller tangentbordets pilar.</p>
+  <div class="fc-filters" id="fc-filters">
+    <button class="filt-btn active" onclick="filterCards('alla',this)">Alla</button>
+    <button class="filt-btn" onclick="filterCards('grunder',this)">Grunder</button>
+    <button class="filt-btn" onclick="filterCards('vägen',this)">Vägen</button>
+    <button class="filt-btn" onclick="filterCards('traditioner',this)">Traditioner</button>
+    <button class="filt-btn" onclick="filterCards('gemenskap',this)">Gemenskap</button>
+    <button class="filt-btn" onclick="filterCards('historia',this)">Historia</button>
+    <button class="filt-btn" onclick="filterCards('ostasien',this)">Östasien</button>
+  </div>
+  <div class="fc-count" id="fc-count">Kort 1 av 35</div>
+  <div class="fc-arena">
+    <button class="fc-btn" onclick="prevCard()">‹</button>
+    <div class="fc-wrap" id="fc-wrap" onclick="flipCard()">
+      <div class="fc-inner" id="fc-inner">
+        <div class="fc-face fc-front">
+          <div class="fc-cat" id="fc-front-cat">Grunder</div>
+          <div class="fc-term" id="fc-front-term">Nirvana</div>
+          <div class="fc-hint">Klicka för att se definitionen</div>
+        </div>
+        <div class="fc-face fc-back">
+          <div class="fc-cat" id="fc-back-cat">Grunder</div>
+          <div class="fc-def" id="fc-back-def">Tillståndet där lidandet upphör och återfödelsen avslutas.</div>
+          <div class="fc-ex" id="fc-back-ex">Nirvana är inte ett paradis utan ett tillstånd av full insikt.</div>
+        </div>
+      </div>
+    </div>
+    <button class="fc-btn" onclick="nextCard()">›</button>
+  </div>
+  <div class="fc-dots" id="fc-dots"></div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BEGREPP -->
+<section id="begrepp" style="position:relative;z-index:1;padding:6rem 2rem;">
+<div style="max-width:1200px;margin:0 auto;">
+  <div class="sec-head">
+    <span class="sec-label">Ordlista</span>
+    <h2 class="sec-title">Alla begrepp</h2>
+    <div class="sec-rule"><span>📖</span></div>
+  </div>
+  <div class="terms-grid" id="terms-grid"></div>
+</div>
+</section>
+
+<footer>
+  <span class="foot-logo">☸ SO med Petrus</span>
+  <p class="foot-sub">Buddhism · 8 avsnitt · so-portalen.se</p>
+</footer>
+
+<!-- QUIZ MODAL -->
+<div class="modal-bg" id="modal-bg">
+  <div class="quiz-box">
+    <div class="qz-head">
+      <h2 id="qz-title">Quiz – Avsnitt 1</h2>
+      <button class="qz-close" onclick="closeQuiz()">✕</button>
+    </div>
+    <div class="qz-body">
+      <div class="qz-prog">
+        <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+        <span class="prog-txt" id="prog-txt">1/5</span>
+      </div>
+      <div id="q-area">
+        <div class="q-text" id="q-text"></div>
+        <div class="opts" id="q-opts"></div>
+        <div class="fb-msg" id="q-fb"></div>
+      </div>
+      <div class="qz-result" id="qz-result">
+        <div class="res-stars" id="res-stars"></div>
+        <div class="res-score" id="res-score">5/5</div>
+        <div class="res-msg" id="res-msg"></div>
+        <button class="btn-retry" onclick="retryQuiz()">🔄 Försök igen</button>
+      </div>
+      <div class="qz-nav">
+        <div class="score-lbl" id="score-lbl">Poäng: 0</div>
+        <button class="btn-next" id="btn-next" onclick="nextQ()">Nästa →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==============================
+// QUIZ DATA
+// ==============================
+const quizzes = [
+  {
+    title: "Avsnitt 1 – Introduktion till buddhism",
+    questions: [
+      { q: "Vad är det centrala problemet buddhismen söker lösa?", opts: ["Varför människor lider och hur man tar sig ur det", "Hur man dyrkar gudarna rätt", "Hur samhällen ska organiseras", "Vem som skapade universum"], ans: 0 },
+      { q: "Vad menas med nirvana?", opts: ["Ett paradis man kommer till efter döden", "Tillståndet där lidandet upphör och återfödelsen avslutas", "En sorts himmel med gudar", "En meditationsform"], ans: 1 },
+      { q: "Vilka tre stora riktningar finns inom buddhism?", opts: ["Vishnuism, shivaism och shaktism", "Zenbuddhism, konfucianism och daoism", "Theravada, mahayana och vajrayana", "Karma-yoga, jnana-yoga och bhakti-yoga"], ans: 2 },
+      { q: "Hur beskrivs Buddha i buddhismen?", opts: ["Som en allsmäktig skapargud", "Som en profet", "Som en återfödd kung", "Som en lärare och förebild – inte en gud"], ans: 3 },
+      { q: "Vad innebär karma inom buddhism?", opts: ["Handling och konsekvens – det du gör påverkar framtida liv", "Öde som inte kan förändras", "Gudarnas dom", "Återfödelsens lag"], ans: 0 },
+      { q: "Vad är ahimsa?", opts: ["En meditationsteknik", "Ickevåld – principen att inte skada någon levande varelse", "En helig text", "En buddhistisk högtid"], ans: 1 },
+      { q: "Hur skiljer sig buddhism från religioner med en allsmäktig skapargud?", opts: ["Buddhism har fler ritualer", "Buddhism kräver mer fromhet", "Ingen gud räddar dig – du måste förstå och arbeta dig fri själv", "Buddha är en kraftfullare gud"], ans: 2 },
+      { q: "Vad är det yttersta målet i buddhism?", opts: ["Att samla bra karma", "Att tjäna Buddha", "Att bli munk", "Att bryta ur samsara och nå nirvana"], ans: 3 },
+    ]
+  },
+  {
+    title: "Avsnitt 2 – Buddhismens centrala tankar",
+    questions: [
+      { q: "Vad säger den första ädla sanningen?", opts: ["Livet innebär lidande – allt levande drabbas av sjukdom, åldrande och död", "Lidandet orsakas av begär", "Det finns en väg bort från lidandet", "Lidandet kan upphöra"], ans: 0 },
+      { q: "Vad menas med att Buddha är den uppvaknade?", opts: ["Att han väcktes av gudarna", "Att han fått full insikt i tillvaron och förstått vägen bort från lidandet", "Att han återuppstod", "Att han grundade en religion"], ans: 1 },
+      { q: "Vad beskriver samsara?", opts: ["Den gudomliga urgrunden", "Munkgemenskapen", "Återfödelsens kretslopp", "Den åttafaldiga vägens mål"], ans: 2 },
+      { q: "Vad innebär rätt tal i den åttafaldiga vägen?", opts: ["Att be dagligen", "Att studera skrifter", "Att tiga under meditation", "Att tala sanning och inte skada andra med ord"], ans: 3 },
+      { q: "Vad är nirvana beskrivet som på sanskrit?", opts: ["Utsläckandet – som när en eld slocknar utan bränsle", "Ljuset", "Friheten", "Himmelen"], ans: 0 },
+      { q: "Vad är skillnaden mellan karma i buddhism jämfört med hinduism?", opts: ["Det finns ingen skillnad", "I buddhism är målet att bryta ur samsara helt, inte bara förbättra nästa liv", "Karma är viktigare i hinduism", "Karma fungerar snabbare i buddhism"], ans: 1 },
+      { q: "Hur förhåller sig gudar i buddhism till samsara?", opts: ["Gudarna skapade samsara", "Gudarna är utanför samsara", "Gudarna är en del av samsara precis som människor", "Gudar existerar inte i buddhism"], ans: 2 },
+      { q: "Vad tränar rätt försjunkande (meditation)?", opts: ["Kroppens uthållighet", "Kunskaper om skrifter", "Minnet av Buddhas ord", "Sinnet mot djupare insikt"], ans: 3 },
+    ]
+  },
+  {
+    title: "Avsnitt 3 – Buddhas liv",
+    questions: [
+      { q: "Vad heter platsen där Siddhartha nådde upplysning?", opts: ["Bodh-Gaya", "Varanasi", "Lumbini", "Kushinagar"], ans: 0 },
+      { q: "Vad såg Siddhartha på sin första utflykt utanför palatset?", opts: ["Gudarna", "En gammal man, sjuk man, död människa och en asket", "En upplyst lärare", "En pilgrimsskara"], ans: 1 },
+      { q: "Vad kallas balansen som Siddhartha fann – varken lyx eller askes?", opts: ["Den gyllene regeln", "Karma-principen", "Medelvägen", "Dharmavägen"], ans: 2 },
+      { q: "Vad kallas samlingen av buddhistiska skrifter på pali?", opts: ["Sutra", "Dharma", "Sangha", "Tripitaka"], ans: 3 },
+      { q: "Vad innebär att Siddhartha blev en buddha?", opts: ["Att han vaknade upp ur okunskap och nådde full insikt", "Att han blev en gud", "Att han grundade en religion", "Att han dog och återuppstod"], ans: 0 },
+      { q: "Var höll Buddha sin första predikan?", opts: ["Bodh-Gaya", "Varanasi (Benares)", "Lumbini", "Kushinagar"], ans: 1 },
+      { q: "Vad heter Siddharthas hustru?", opts: ["Mayadevi", "Sita", "Yasodhara", "Pajapati"], ans: 2 },
+      { q: "Vad bildade munkarna som lämnade sina liv för att följa Buddha?", opts: ["Tripitaka", "Dharma", "Karma", "Sangha – den första buddhistiska gemenskapen"], ans: 3 },
+    ]
+  },
+  {
+    title: "Avsnitt 4 – Buddhismens spridning",
+    questions: [
+      { q: "Vad var Ashokas mest kända metod för att sprida buddhism?", opts: ["Fredliga pelare med budskap och utsändning av missionärer", "Militär erövring", "Förbud mot andra religioner", "Byggande av tempel"], ans: 0 },
+      { q: "Vad betyder theravada?", opts: ["Den stora farkosten", "De äldstes lära", "Diamantfarkosten", "Medelvägens lära"], ans: 1 },
+      { q: "I vilka länder är theravada vanligast?", opts: ["Kina, Korea, Japan", "Tibet, Nepal, Bhutan", "Sri Lanka, Thailand, Myanmar, Laos och Kambodja", "Indien, Bangladesh, Pakistan"], ans: 2 },
+      { q: "Vad tilldelades Dalai lama 1989?", opts: ["FN:s fredsmedalj", "Ashokas hederspris", "Titeln Världsbuddhist", "Nobels fredspris"], ans: 3 },
+      { q: "Vad är en bodhisattva?", opts: ["En som avstår nirvana frivilligt för att hjälpa andra till upplysning", "En buddhistisk präst", "En helig text", "En tempelledare"], ans: 0 },
+      { q: "Vad innebär zen?", opts: ["Kärlek", "Meditation – och betonar direkt upplevelse framför textstudier", "Frihet", "Medkänsla"], ans: 1 },
+      { q: "Varför försvann buddhismen nästan ur Indien?", opts: ["Den förbjöds av moguler", "Buddhister flydde till Sri Lanka", "En kombination av hinduismens framväxt och maktskiften", "Ashoka förbjöd den"], ans: 2 },
+      { q: "Vad är vajrayana och var är den vanligast?", opts: ["Sydbuddhism, vanlig i Thailand", "En meditationsform i Japan", "En form av zenbuddhism", "En tradition med ritualer och symboler, vanligast i Tibet"], ans: 3 },
+    ]
+  },
+  {
+    title: "Avsnitt 5 – De tre tillflykterna",
+    questions: [
+      { q: "Vad kallas de tre tillflykterna?", opts: ["Buddha, dharma och sangha", "Karma, samsara och nirvana", "Theravada, mahayana, vajrayana", "Meditation, askes och visdom"], ans: 0 },
+      { q: "Hur många regler har munkar att följa?", opts: ["100", "227", "311", "500"], ans: 1 },
+      { q: "Vad symboliserar ordet tillflykt?", opts: ["En flykt från världen", "En bön till gudarna", "Skydd och stöd för att möta livets svårigheter", "En rituell handling"], ans: 2 },
+      { q: "Vad sker vid invigningen till munk?", opts: ["Man döps i vatten", "Man fastar i 40 dagar", "Man läser alla regler", "Håret rakas och man tar emot enkla ägodelar som kläde, rakkniv och tiggarskål"], ans: 3 },
+      { q: "Vad är dharma som tillflykt?", opts: ["Buddhas lära – en riktning som visar hur man kan leva för att minska lidandet", "En helig gudabild", "En buddhistisk högtid", "Gemenskapen av munkar"], ans: 0 },
+      { q: "Hur bidrar vanliga buddhister till sanghan?", opts: ["Genom att bli munkar", "Genom att ge mat, underhålla tempel och stödja gemenskapen", "Genom att läsa Tripitaka", "Genom att meditera"], ans: 1 },
+      { q: "Vad kallas gemenskapen av munkar och nunnor?", opts: ["Dharma", "Karma", "Sangha", "Nirvana"], ans: 2 },
+      { q: "Hur många regler har nunnor?", opts: ["100", "150", "227", "311"], ans: 3 },
+    ]
+  },
+  {
+    title: "Avsnitt 6 – Högtider & ritualer",
+    questions: [
+      { q: "Vad kallas Buddhas födelsedag i Japan?", opts: ["Hana Matsuri", "Vesak", "Songkran", "Dharmadagen"], ans: 0 },
+      { q: "Vad uppmärksammar högtiden vesak?", opts: ["Buddhas första predikan", "Buddhas födelse, uppvaknande och inträde i nirvana", "Ashokas konvertering", "Mahayanas grundande"], ans: 1 },
+      { q: "Vad symboliserar vattnet under songkran?", opts: ["Monsunens ankomst", "De döda förfädernas välsignelse", "Rening och förnyelse inför det nya året", "Buddhas tårar"], ans: 2 },
+      { q: "Vilken högtid kallas sanghadagen?", opts: ["Vesak", "Songkran", "Dharmadagen", "Magha-puja"], ans: 3 },
+      { q: "Vad handlar dharmadagen om?", opts: ["Minnet av Buddhas första predikan", "Buddhas födelsedag", "Nyårsfirande", "Ashokas missionärer"], ans: 0 },
+      { q: "Vilken färg på buddhismens flagga symboliserar visdom?", opts: ["Blått", "Orange", "Rött", "Gult"], ans: 1 },
+      { q: "Varför vallfärdar buddhister till Bodh-Gaya?", opts: ["Det är Buddhas födelseort", "Det är platsen för Buddhas första predikan", "Det är platsen där Buddha nådde upplysning", "Ashokas grav finns där"], ans: 2 },
+      { q: "Under vilken månad infaller vesak vanligtvis?", opts: ["Januari eller februari", "Mars eller april", "Juni eller juli", "April eller maj"], ans: 3 },
+    ]
+  },
+  {
+    title: "Avsnitt 7 – Buddhism i samhället",
+    questions: [
+      { q: "Vad har Dalai lama sagt om en framtida Dalai lama?", opts: ["Det kan mycket väl vara en kvinna", "Det måste vara en tibetansk man", "Titeln ska avskaffas", "Det kan bara vara en munk"], ans: 0 },
+      { q: "Vem var Bhimrao Ramji Ambedkar?", opts: ["En zenbuddhist i Japan", "En dalit och politiker som konverterade till buddhism och följdes av hundratusentals", "En tibetansk lama", "Ashokas efterträdare"], ans: 1 },
+      { q: "Varför ses buddhismen som radikal i förhållande till kastsystemet?", opts: ["Den stödjer kastsystemet", "Den kräver att man lämnar sin kast", "I Buddhas lära spelar kastbakgrund ingen roll – handlingar avgör", "Karma är kopplad till familj"], ans: 2 },
+      { q: "Vad visar situationen i Myanmar om buddhismens roll?", opts: ["Att buddhism alltid är fredlig", "Att buddhism och makt aldrig blandas", "Att buddhism alltid bekämpar diktaturer", "Att religiösa ledare kan kopplas till förtryck trots fredliga ideal"], ans: 3 },
+      { q: "Vad är eko-dharma?", opts: ["En koppling mellan Buddhas lära om medvetenhet och miljöansvar", "En buddhistisk ritual för regn", "En högtid i Nepal", "En zenmeditationsform utomhus"], ans: 0 },
+      { q: "Hur ser Taiwan på samkönade äktenskap?", opts: ["De är förbjudna", "Taiwan tillät samkönade äktenskap 2019, som första land i Asien med stark buddhistisk tradition", "Frågan diskuteras", "De är tillåtna sedan 2000"], ans: 1 },
+      { q: "Vad pågår gällande nunnors rättigheter i theravadabuddhism?", opts: ["Frågan är löst", "Nunnor har fler rättigheter än munkar", "Debatter om invigning och stöd från mahayana-traditioner i andra länder", "Nunnor förbjuds"], ans: 2 },
+      { q: "Vad menas med rätt handlande i den åttafaldiga vägens samhällskontext?", opts: ["Att följa lagens bud", "Att delta i politiken", "Att ge allmösor", "Att inte skada andra och inte försörja sig på sådant som orsakar lidande"], ans: 3 },
+    ]
+  },
+  {
+    title: "Avsnitt 8 – När religioner möts",
+    questions: [
+      { q: "Vad är kärnan i konfucianism?", opts: ["Ansvar i relationer och samhällsharmoni", "Naturens ordning och wu wei", "Kami – heliga krafter i naturen", "Meditation och upplysning"], ans: 0 },
+      { q: "Vad är kami?", opts: ["Konfucianska lärare", "Heliga krafter inom shinto – i naturen, träd, berg och förfäder", "En daoistisk text", "Buddhistiska munkar"], ans: 1 },
+      { q: "Vad innebär dao?", opts: ["Konfuciansk dygd", "Naturguden", "Den naturliga ordning som finns i allt", "En buddhistisk skrift"], ans: 2 },
+      { q: "Hur kombinerar japaner typiskt shinto och buddhism?", opts: ["De väljer antingen-eller", "Shinto för dödsceremonier, buddhism för bröllop", "De praktiserar ingen av dem", "Shinto för liv och natur, buddhism för döden och det existentiella"], ans: 3 },
+      { q: "Vad kallas det när religioner blandas och lever sida vid sida?", opts: ["Synkretism", "Sekularism", "Monoteism", "Panteism"], ans: 0 },
+      { q: "Vilken funktion har shinto typiskt i det japanska religiösa livet?", opts: ["Svar på lidande och återfödelse", "Livet, naturen, förfäder och högtider", "Samhällsharmoni och moral", "Politisk ideologi"], ans: 1 },
+      { q: "Av vilka livsåskådningar påverkades zenbuddhism mest?", opts: ["Konfucianism och shinto", "Shinto och konfucianism", "Daoism och buddhism", "Hinduism och daoism"], ans: 2 },
+      { q: "Vad är wu wei?", opts: ["Kinesisk konfuciansk dygd", "En shintoritual", "En form av meditation", "Att inte tvinga fram saker – att handla i harmoni med naturens flöde"], ans: 3 },
+    ]
+  }
+];
+
+// ==============================
+// FLASHCARD DATA
+// ==============================
+const flashcards = [
+  { term:"Nirvana", cat:"grunder", def:"Tillståndet där lidandet upphör och återfödelsen avslutas. Inte ett paradis utan full insikt och frihet från begär.", ex:"Nirvana nås inte av slump – det kräver förståelse och träning." },
+  { term:"Samsara", cat:"grunder", def:"Återfödelsens kretslopp. Varje levande varelse föds om gång på gång tills den når nirvana.", ex:"Samsara är ett hjul som snurrar – karma bestämmer nästa varv." },
+  { term:"Karma", cat:"grunder", def:"Handling och konsekvens. Det du gör, säger och tänker – och varför du gör det – påverkar framtida liv.", ex:"Karma är inte ett straff utan en naturlig moralisk ordning." },
+  { term:"Buddha", cat:"grunder", def:"Den uppvaknade. Siddhartha Gautama var den som nådde full insikt om lidandets natur och vägen bort från det.", ex:"Buddha är inte en gud utan en lärare och förebild." },
+  { term:"Medelvägen", cat:"grunder", def:"Balansen mellan ett liv i lyx och extrem askes. Varken ytterligheten leder till befrielse.", ex:"Siddhartha insåg medelvägen efter år av onödig självplågeri." },
+  { term:"Ahimsa", cat:"grunder", def:"Ickevåld – principen att inte skada någon levande varelse.", ex:"Ahimsa är central i både buddhism och jainism." },
+  { term:"De fyra ädla sanningarna", cat:"vägen", def:"1. Livet innebär lidande. 2. Lidandet orsakas av begär. 3. Lidandet kan upphöra. 4. Det finns en väg dit.", ex:"De fyra sanningarna är kärnan i Buddhas första predikan." },
+  { term:"Den åttafaldiga vägen", cat:"vägen", def:"Åtta sammanvävda områden att träna: rätt insikt, beslut, tal, handlande, försörjning, strävan, medvetenhet och försjunkande.", ex:"Vägen framställs som ett hjul med åtta ekrar." },
+  { term:"Rätt medvetenhet", cat:"vägen", def:"En av den åttafaldiga vägens delar – att vara uppmärksam på sina egna tankar, känslor och begär.", ex:"Meditation är ett verktyg för att öva rätt medvetenhet." },
+  { term:"Meditation", cat:"vägen", def:"Träning av sinnet för att nå djupare insikt. Inte att stänga av tankar utan att se dem som tillfälliga.", ex:"Siddhartha mediterade under fikonträdet i Bodh-Gaya i sju dagar." },
+  { term:"Theravada", cat:"traditioner", def:"De äldstes lära – äldsta riktningen, vanligast i Sri Lanka och Sydostasien. Betonar strängt munkliv och att nirvana är svårt att nå.", ex:"Theravada kallas ibland sydbuddhism." },
+  { term:"Mahayana", cat:"traditioner", def:"Den stora farkosten. Betonar medkänsla och att alla kan nå upplysning. Vanligast i Kina, Korea och Japan.", ex:"Mahayana kallas ibland östbuddhism." },
+  { term:"Vajrayana", cat:"traditioner", def:"Diamantfarkosten. Utvecklades i Tibet och betonar ritualer, mantran och avancerade meditationsformer.", ex:"Dalai lama är ledare inom vajrayana-traditionen." },
+  { term:"Bodhisattva", cat:"traditioner", def:"En person som kommit nära upplysning men frivilligt stannar kvar i världen för att hjälpa alla levande varelser.", ex:"Avalokiteshvara symboliserar medkänsla och är en populär bodhisattva." },
+  { term:"Zenbuddhism", cat:"traditioner", def:"Uppstod i Kina, blomstrade i Japan. Betonar direkt upplevelse och meditation framför textsstudier.", ex:"Zen påverkades starkt av daoismens syn på enkelhet." },
+  { term:"Tripitaka", cat:"historia", def:"De tre korgarna – den stora samlingen buddhistiska skrifter skrivna på pali. Ungefär elva Biblar lång.", ex:"Tripitaka skrevs ned flera hundra år efter Buddhas död." },
+  { term:"Bodh-Gaya", cat:"historia", def:"Platsen i Indien där Siddhartha Gautama nådde upplysning under ett fikonträd.", ex:"Bodh-Gaya är en viktig pilgrimsort för buddhister världen över." },
+  { term:"Ashoka", cat:"historia", def:"Kejsare på 200-talet f.Kr. som tog starkt intryck av buddhismen och spred den fredligt via pelare, missionärer och stupor.", ex:"Utan Ashoka hade buddhismen troligen förblivit en liten regional rörelse." },
+  { term:"Stupa", cat:"historia", def:"Buddhistisk byggnad där delar av Buddhas aska förvaras. En helig samlingsplats för vördnad och meditation.", ex:"Buddhister går runt stupan medurs och offrar blommor." },
+  { term:"Dalai lama", cat:"historia", def:"Tibetansk religiös ledare som anses vara återfödelse av bodhisattvan Avalokiteshvara. Fick Nobels fredspris 1989.", ex:"Nuvarande Dalai lama flydde Tibet efter Kinas ockupation 1950." },
+  { term:"Sangha", cat:"gemenskap", def:"Gemenskapen av munkar och nunnor som bär Buddhas lära vidare. En av de tre tillflykterna.", ex:"Utan sangha – ingen som för vidare läran." },
+  { term:"De tre tillflykterna", cat:"gemenskap", def:"Buddha, dharma och sangha – de tre juvelerna. Grunden för att bli buddhist och en sammanfattning av hela religionen.", ex:"Att uttal de tre tillflykterna är steget in i buddhismen." },
+  { term:"Dharma", cat:"gemenskap", def:"Buddhas lära – de insikter och principer som visar hur man kan leva för att minska lidandet.", ex:"Dharma är en av de tre tillflykterna." },
+  { term:"Tiggarskålen", cat:"gemenskap", def:"En av munkens få ägodelar. Används för att ta emot mat från vanliga buddhister varje förmiddag.", ex:"Att ge mat till en munk anses vara en god handling som ger bra karma." },
+  { term:"Vesak", cat:"historia", def:"Buddhismens viktigaste högtid, firas vid fullmåne i april–maj. Uppmärksammar Buddhas födelse, uppvaknande och nirvana.", ex:"Under vesak tänds lampor som symboliserar Buddhas lära som lyser i mörkret." },
+  { term:"Songkran", cat:"historia", def:"Buddhistiskt nyår i Thailand. Firas med vattenlekar som symbol för rening och förnyelse.", ex:"Vattnet sköljer bort det gamla och ger ett renare sinne in i det nya året." },
+  { term:"Hana Matsuri", cat:"historia", def:"Japansk högtid som firar Buddhas födelsedag med parader, kimonor och blommor.", ex:"Hana Matsuri är en vidareutveckling av vesak i japansk kultur." },
+  { term:"Konfucianism", cat:"ostasien", def:"Livsåskådning grundad av Konfucius. Betonar ansvar i relationer, samhällsharmoni och moralisk självdisciplin.", ex:"Konfucianismens fem relationer styr hur man bör bete sig mot varandra." },
+  { term:"Daoism", cat:"ostasien", def:"Kinesisk tradition som betonar harmoni med naturens ordning (dao) och konceptet wu wei – att inte tvinga fram saker.", ex:"Yin och yang symboliserar daoismens syn på balans mellan motsatser." },
+  { term:"Shinto", cat:"ostasien", def:"Japans äldsta religion. Kami – heliga krafter – finns i natur och förfäder. Ingen grundare, inga bud.", ex:"Man gifter sig i shintotempel men begravas ofta enligt buddhistisk tradition." },
+  { term:"Kami", cat:"ostasien", def:"Gudomliga krafter inom shinto, närvarande i träd, berg, floder, stenar och förfäder.", ex:"Kami är inte allsmäktiga gudar utan närvaro av det heliga i naturen." },
+  { term:"Wu wei", cat:"ostasien", def:"Daoistiskt begrepp: att inte tvinga fram saker utan handla i harmoni med naturens flöde.", ex:"Vatten urholkar sten inte med styrka utan med ständigt följsamhet – wu wei." },
+  { term:"Synkretism", cat:"ostasien", def:"När olika religioner blandas, påverkar varandra och lever sida vid sida utan att utesluta varandra.", ex:"I Japan är det vanligt att kombinera shinto och buddhism i vardagen." },
+  { term:"Ambedkar", cat:"historia", def:"Indisk dalit-politiker som konverterade till buddhism och följdes av hundratusentals. Ses ibland som en bodhisattva.", ex:"Ambedkars konvertering var ett socialt och politiskt ställningstagande mot diskriminering." },
+  { term:"Eko-dharma", cat:"gemenskap", def:"Modern rörelse som kopplar Buddhas lära om medvetenhet och ansvar till miljö- och klimatfrågor.", ex:"Våra konsumtionsval skapar lidande – för oss och för framtida generationer." }
+];
+
+// ==============================
+// QUIZ LOGIC
+// ==============================
+let cQuiz=0, cQ=0, score=0, answered=false;
+
+function openQuiz(idx){
+  cQuiz=idx; cQ=0; score=0; answered=false;
+  document.getElementById('modal-bg').classList.add('open');
+  document.getElementById('qz-result').classList.remove('show');
+  document.getElementById('q-area').style.display='';
+  document.getElementById('qz-title').textContent=quizzes[idx].title;
+  renderQ();
+}
+function closeQuiz(){ document.getElementById('modal-bg').classList.remove('open'); }
+
+function renderQ(){
+  const quiz=quizzes[cQuiz], total=quiz.questions.length, q=quiz.questions[cQ];
+  answered=false;
+  document.getElementById('q-text').textContent=q.q;
+  document.getElementById('prog-fill').style.width=(cQ/total*100)+'%';
+  document.getElementById('prog-txt').textContent=`${cQ+1}/${total}`;
+  document.getElementById('score-lbl').textContent=`Poäng: ${score}`;
+  document.getElementById('q-fb').className='fb-msg';
+  document.getElementById('q-fb').textContent='';
+  document.getElementById('btn-next').className='btn-next';
+  const opts=document.getElementById('q-opts');
+  opts.innerHTML='';
+  ['A','B','C','D'].forEach((L,i)=>{
+    const b=document.createElement('button');
+    b.className='opt';
+    b.innerHTML=`<span class="opt-letter">${L}</span><span>${q.opts[i]}</span>`;
+    b.onclick=()=>selectA(i,q.ans);
+    opts.appendChild(b);
+  });
+}
+
+function selectA(chosen,correct){
+  if(answered)return;
+  answered=true;
+  const btns=document.querySelectorAll('.opt');
+  btns[correct].classList.add('correct');
+  const fb=document.getElementById('q-fb');
+  if(chosen===correct){
+    score++;
+    fb.textContent='✅ Rätt! Bra jobbat!';
+    fb.className='fb-msg show ok';
+  } else {
+    btns[chosen].classList.add('wrong');
+    btns[correct].classList.add('reveal');
+    fb.textContent='❌ Inte riktigt. Det rätta svaret är markerat.';
+    fb.className='fb-msg show fail';
+  }
+  document.getElementById('score-lbl').textContent=`Poäng: ${score}`;
+  document.getElementById('btn-next').className='btn-next show';
+}
+
+function nextQ(){
+  const total=quizzes[cQuiz].questions.length;
+  cQ++;
+  if(cQ>=total) showResult();
+  else renderQ();
+}
+
+function showResult(){
+  document.getElementById('q-area').style.display='none';
+  document.getElementById('btn-next').className='btn-next';
+  const total=quizzes[cQuiz].questions.length;
+  document.getElementById('prog-fill').style.width='100%';
+  document.getElementById('res-score').textContent=`${score}/${total}`;
+  const p=score/total;
+  let msg,stars;
+  if(p===1){msg='Fullpoäng! Mästare! 🏆';stars='⭐⭐⭐';}
+  else if(p>=0.6){msg='Bra jobbat! Du kan detta!';stars='⭐⭐';}
+  else {msg='Lyssna igen och försök!';stars='⭐';}
+  document.getElementById('res-msg').textContent=msg;
+  document.getElementById('res-stars').textContent=stars;
+  document.getElementById('qz-result').classList.add('show');
+}
+
+function retryQuiz(){ openQuiz(cQuiz); }
+
+document.getElementById('modal-bg').addEventListener('click',function(e){ if(e.target===this)closeQuiz(); });
+
+// ==============================
+// FLASHCARD LOGIC
+// ==============================
+let filtered=[...flashcards], fcIdx=0, seen=new Set();
+
+const catLabels={ grunder:'Grundbegrepp', vägen:'Vägen', traditioner:'Traditioner', gemenskap:'Gemenskap', historia:'Historia & högtider', ostasien:'Östasien' };
+
+function filterCards(cat,btn){
+  document.querySelectorAll('.filt-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  filtered=cat==='alla'?[...flashcards]:flashcards.filter(c=>c.cat===cat);
+  fcIdx=0; seen.clear();
+  document.getElementById('fc-wrap').classList.remove('flipped');
+  renderCard(); renderDots();
+}
+
+function flipCard(){
+  document.getElementById('fc-wrap').classList.toggle('flipped');
+  seen.add(fcIdx); renderDots();
+}
+
+function prevCard(){
+  if(!filtered.length)return;
+  document.getElementById('fc-wrap').classList.remove('flipped');
+  fcIdx=(fcIdx-1+filtered.length)%filtered.length;
+  setTimeout(renderCard,50);
+}
+
+function nextCard(){
+  if(!filtered.length)return;
+  document.getElementById('fc-wrap').classList.remove('flipped');
+  fcIdx=(fcIdx+1)%filtered.length;
+  setTimeout(renderCard,50);
+}
+
+function renderCard(){
+  if(!filtered.length)return;
+  const c=filtered[fcIdx];
+  const cl=catLabels[c.cat]||c.cat;
+  document.getElementById('fc-front-cat').textContent=cl;
+  document.getElementById('fc-front-term').textContent=c.term;
+  document.getElementById('fc-back-cat').textContent=cl;
+  document.getElementById('fc-back-def').textContent=c.def;
+  document.getElementById('fc-back-ex').textContent=c.ex;
+  document.getElementById('fc-count').textContent=`Kort ${fcIdx+1} av ${filtered.length}`;
+  renderDots();
+}
+
+function renderDots(){
+  const d=document.getElementById('fc-dots');
+  d.innerHTML='';
+  filtered.forEach((_,i)=>{
+    const dot=document.createElement('div');
+    dot.className='fc-dot'+(i===fcIdx?' active':(seen.has(i)?' seen':''));
+    dot.onclick=()=>{ document.getElementById('fc-wrap').classList.remove('flipped'); fcIdx=i; setTimeout(renderCard,50); };
+    d.appendChild(dot);
+  });
+}
+
+// ==============================
+// TERMS GRID
+// ==============================
+function buildTerms(){
+  const g=document.getElementById('terms-grid');
+  const tl={ grunder:'Grundbegrepp', vägen:'Vägen', traditioner:'Traditioner', gemenskap:'Gemenskap', historia:'Historia & högtider', ostasien:'Östasien' };
+  flashcards.forEach(c=>{
+    const tile=document.createElement('div');
+    tile.className='term-tile';
+    tile.innerHTML=`<div class="t-cat">${tl[c.cat]||c.cat}</div><h3>${c.term}</h3><p>${c.def}</p>`;
+    tile.onclick=()=>{
+      document.getElementById('flashcards').scrollIntoView({behavior:'smooth'});
+      setTimeout(()=>{
+        const cats=['alla','grunder','vägen','traditioner','gemenskap','historia','ostasien'];
+        const idx2=cats.indexOf(c.cat);
+        if(idx2>=0) filterCards(c.cat, document.querySelectorAll('.filt-btn')[idx2]);
+        const fi=filtered.findIndex(f=>f.term===c.term);
+        if(fi>=0){ fcIdx=fi; document.getElementById('fc-wrap').classList.remove('flipped'); setTimeout(renderCard,100); }
+      },650);
+    };
+    g.appendChild(tile);
+  });
+}
+
+// ==============================
+// INIT
+// ==============================
+renderCard(); renderDots(); buildTerms();
+
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('modal-bg').classList.contains('open')){
+    if(e.key==='Escape')closeQuiz();
+    if(e.key==='Enter'&&document.getElementById('btn-next').classList.contains('show'))nextQ();
+  } else {
+    if(e.key==='ArrowLeft')prevCard();
+    if(e.key==='ArrowRight')nextCard();
+    if(e.key===' '){ e.preventDefault(); flipCard(); }
+  }
+});
+</script>
+</body>
+</html>
