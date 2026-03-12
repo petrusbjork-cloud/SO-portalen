@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buddhism och samhällsfrågor – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0a0f0d;
+  --ink-lit:  #141e1a;
+  --paper:    #f0f4f1;
+  --leaf:     #2D6A4F;
+  --leaf-lt:  #40916C;
+  --earth:    #E76F51;
+  --water:    #118AB2;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.75);
+  --border:   rgba(64,145,108,0.3);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--water), var(--leaf-lt), var(--earth));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(circle at 50% 60%, #15241e 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-particles {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(64,145,108,0.2) 2px, transparent 2px);
+  background-size: 40px 40px;
+  opacity: 0.5; pointer-events: none;
+  animation: driftSlow 40s linear infinite;
+}
+@keyframes driftSlow { from { transform: translateY(0); } to { transform: translateY(-40px); } }
+
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--ink) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--leaf-lt); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards; z-index: 2;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 7vw, 86px);
+  font-weight: 900; line-height: 1.05;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(64,145,108,0.4);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--earth); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards; z-index: 2;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--leaf-lt); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--leaf-lt), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--leaf-lt); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--earth); font-style: italic; }
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--leaf-lt);
+  background: linear-gradient(135deg, rgba(64,145,108,0.1), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--leaf-lt); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── INTERACTIVE: THE MIRROR (FLIP CARDS) ── */
+.mirror-section { margin: 80px 0; }
+.mirror-intro { text-align: center; margin-bottom: 30px; }
+.mirror-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--paper); margin-bottom: 8px; }
+.mirror-sub { font-size: 16px; color: var(--text-dim); }
+.mirror-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; perspective: 1000px; }
+.m-card { background: transparent; height: 320px; cursor: pointer; perspective: 1000px; }
+.m-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+.m-card.flipped .m-inner { transform: rotateY(180deg); }
+.m-front, .m-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; }
+.m-front { background: rgba(255,255,255,0.02); border: 1px solid var(--border); }
+.m-front:hover { border-color: var(--leaf-lt); background: rgba(64,145,108,0.05); }
+.m-front-icon { font-size: 48px; margin-bottom: 16px; }
+.m-front-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); font-weight: 700; margin-bottom: 8px; }
+.m-front-hint { font-family: var(--mono); font-size: 10px; color: var(--leaf-lt); text-transform: uppercase; letter-spacing: 1px; }
+
+.m-back { background: var(--ink-lit); transform: rotateY(180deg); border-top: 4px solid; justify-content: flex-start; text-align: left; }
+.back-ideal { border-color: var(--water); }
+.back-reality { border-color: var(--earth); }
+.m-back-label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+.back-ideal .m-back-label { color: var(--water); }
+.back-reality .m-back-label { color: var(--earth); }
+.m-back-text { font-size: 16px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+
+/* ── INTERACTIVE: ACTION BOARD (TABS) ── */
+.action-board { margin: 80px 0; background: var(--ink-lit); border: 1px solid var(--border); border-radius: 12px; padding: 40px; }
+.ab-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--paper); margin-bottom: 12px; text-align: center; }
+.ab-sub { font-size: 16px; color: var(--text-dim); text-align: center; margin-bottom: 40px; }
+.ab-tabs { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.ab-tab { background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); padding: 12px 24px; border-radius: 30px; font-family: var(--mono); font-size: 13px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s; }
+.ab-tab:hover { border-color: var(--paper); color: var(--paper); }
+.ab-tab.active { background: var(--leaf); border-color: var(--leaf); color: var(--paper); font-weight: 700; }
+
+.ab-panel { display: none; animation: fadeUp 0.4s ease; background: rgba(0,0,0,0.3); padding: 30px; border-radius: 8px; border-left: 4px solid var(--leaf-lt); }
+.ab-panel.active { display: block; }
+.ab-p-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+.ab-p-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; }
+.ab-p-text { font-size: 17px; line-height: 1.6; color: var(--text-dim); margin: 0; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 45vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.3) saturate(0.8);
+  background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--paper); line-height: 1.3; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #060907; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--leaf-lt); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--leaf-lt); color: var(--leaf-lt); background: rgba(64,145,108,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(64,145,108,0.4); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin:0; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--leaf-lt); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(64,145,108,0.15); border: 1px solid var(--leaf-lt); color: var(--leaf-lt); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--leaf-lt); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--water); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--water); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--leaf-lt); background: rgba(64,145,108,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #27AE60; background: rgba(39,174,96,0.15); color: #EAFAF1; }
+.quiz-opt.wrong { border-color: #E76F51; background: rgba(231,111,81,0.15); color: #FCEEEE; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--paper); background: rgba(255,255,255,0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: var(--ink); }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(64,145,108,0.15); border-left: 3px solid var(--leaf-lt); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--leaf-lt); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--leaf), var(--water)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); color: var(--paper); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .mirror-grid { grid-template-columns: 1fr; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-particles"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion & Samhälle</div>
+
+  <h1>Buddhism och <em>samhällsfrågor</em></h1>
+  <p class="hero-sub">Ickevåld, miljöaktivism och nationalism. Hur religionen tolkas och används i den moderna världen.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att utforska</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Denna artikel studerar hur buddhismen syns i dagens stora samhällsfrågor. Vi tittar på idealet om ickevåld (ahimsa), hur religion och politik möts i Myanmar, och arbetet för klimatet. Målet är att visa att ingen religion är entydigt ”snäll eller ond” utan alltid tolkas av människor.
+  </p>
+
+  <div class="section-marker"><span>Grunden</span></div>
+  <h2>Ahimsa – att <em>inte skada</em></h2>
+
+  <p>Ordet <strong>ahimsa</strong> kommer från sanskrit och betyder ”icke-skada” eller ”ickevåld”. För en buddhist innebär ahimsa att man strävar efter att inte skada någon levande varelse, varken genom handlingar, ord eller ens tankar. Våld och illvilja skapar dålig karma. Många buddhister väljer därför en vegetarisk eller vegansk kost som ett konkret sätt att undvika att djur dödas.</p>
+
+  <p>Enligt buddhistisk psykologi handlar principen om att odla omtanke och medkänsla <em>inifrån</em>, så att även vår inställning blir icke-våldsam. I buddhistiska länder uttrycks detta i form av fredsmeditationer och stöd till fattiga. Men idealet har också tolkats olika – ickevåld har inte alltid följts i praktiken.</p>
+
+  <div class="mirror-section">
+    <div class="mirror-intro">
+      <h3 class="mirror-title">Myntets två sidor</h3>
+      <p class="mirror-sub">Klicka på korten för att se kontrasten mellan det vackra idealet och den politiska verkligheten.</p>
+    </div>
+    
+    <div class="mirror-grid">
+      <div class="m-card" onclick="this.classList.toggle('flipped')">
+        <div class="m-inner">
+          <div class="m-front">
+            <div class="m-front-icon">🕊️</div>
+            <div class="m-front-title">Det historiska fredsidealet</div>
+            <div class="m-front-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="m-back back-ideal">
+            <div class="m-back-label">Inspiration för fred</div>
+            <p class="m-back-text">Ett tydligt exempel är den indiske kejsaren <strong>Ashoka</strong>. Han erövrade delar av Indien med stor brutalitet, men ångrade sig, konverterade till buddhismen och införde ickevåld. Han menade att en härskare skulle styra genom mildhet och respekt för alla varelser.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-card" onclick="this.classList.toggle('flipped')">
+        <div class="m-inner">
+          <div class="m-front">
+            <div class="m-front-icon">⚔️</div>
+            <div class="m-front-title">Den politiska verkligheten</div>
+            <div class="m-front-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="m-back back-reality">
+            <div class="m-back-label">Nationalism & Konflikt</div>
+            <p class="m-back-text">I modern tid har nationalistiska munkar i Sri Lanka och <strong>Myanmar</strong> lett angrepp på minoriteter. I Myanmar har munkar spridit hatpropaganda och stöttat den etniska rensningen av den muslimska folkgruppen <em>rohingyerna</em>. Religionen eldar här på konflikten.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Politik</span></div>
+  <h2>Buddhism och <em>makt</em></h2>
+
+  <p>I modern tid finns ingen enhetlig ”buddhistisk politik”. Engagerade buddhister har väldigt olika uppfattningar om hur samhället bör förändras. Religiösa texter har historiskt använts för att motivera allt från hänsynslös kapitalism till auktoritär planhushållning.</p>
+
+  <p>Många buddhister förenas ändå av en grön och humanistisk linje där icke-våld, gräsrotsdemokrati och naturens roll betonas. Den thailändske munken Buddhadasa tolkade på 1900-talet buddhismen som en form av socialism och betonade att politiken måste vara samhällsengagerad för allas bästa.</p>
+
+  <div class="pullquote">
+    <p>Buddhismen ger ingen färdig partifärg, utan ett etiskt ramverk – medkänsla och ickevåld – som kan tillämpas på olika sätt i politiken.</p>
+  </div>
+
+  <div class="section-marker"><span>Aktion</span></div>
+  <h2>Engagerad <em>buddhism</em></h2>
+
+  <p>På 1960-talet myntade den vietnamesiske zenmästaren <strong>Thich Nhat Hanh</strong> begreppet <em>engagerad buddhism</em>. Det syftar på en rörelse där meditativt inre arbete kombineras med konkret samhällsaktivism utomhus.</p>
+
+  <div class="action-board">
+    <div class="ab-title">Det globala engagemanget</div>
+    <div class="ab-sub">Klicka på flikarna för att se hur buddister arbetar praktiskt i samhället idag.</div>
+    
+    <div class="ab-tabs">
+      <button class="ab-tab active" onclick="switchAction('fred', this)">Fredsarbete</button>
+      <button class="ab-tab" onclick="switchAction('eko', this)">Ekodharma</button>
+      <button class="ab-tab" onclick="switchAction('rätt', this)">Rättigheter</button>
+    </div>
+
+    <div class="ab-panel active" id="ab-fred">
+      <span class="ab-p-icon">🧘🏽‍♀️</span>
+      <div class="ab-p-title">Massmeditation som protest</div>
+      <p class="ab-p-text">I Sri Lanka organiserade aktivisten A.T. Ariyaratne under inbördeskriget en marsch där över en halv miljon människor klädda i vitt avslutade manifestationen med en gigantisk, tyst meditation. De använder en icke-dömande närvaro som ett vapen mot krig.</p>
+    </div>
+
+    <div class="ab-panel" id="ab-eko">
+      <span class="ab-p-icon">🌱</span>
+      <div class="ab-p-title">Ekodharma & Klimatkrisen</div>
+      <p class="ab-p-text">Ett begrepp där lärorna används för att hantera miljöproblem. Man betonar att allt liv hänger ihop. Projekt som "Buddhist Green Days" uppmanar till växtbaserad kost, och man samarbetar med organisationer för att uppmärksamma vattenbrist och naturförstöring.</p>
+    </div>
+
+    <div class="ab-panel" id="ab-rätt">
+      <span class="ab-p-icon">✊🏽</span>
+      <div class="ab-p-title">Social rättvisa</div>
+      <p class="ab-p-text">Engagerade buddhister arbetar praktiskt bland sluminvånare och för kvinnors rättigheter. I Thailand kämpar nunnor för att bli andliga ledare på samma villkor som män. I Indien drivs stora kampanjer för att skydda de fattigaste från diskriminering.</p>
+    </div>
+  </div>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Man skyddar klimatet – inte för att en gud har beordrat det, utan för att det minskar lidandet för allt levande."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Slutsats</span></div>
+  <h2>En religion med <em>många ansikten</em></h2>
+
+  <p>Buddhismen är en global religion som sträcker sig från tysta, små tempel till massiva, högljudda samhällsrörelser. Ideal som ahimsa och medkänsla ger hundratals miljoner människor inspiration till fredsarbete, klimatkamp och social rättvisa. Samtidigt har samma religion också använts för att rättfärdiga våld, politisk makt och förtryck, precis som i Myanmar.</p>
+
+  <p>När vi studerar hur buddhismen påverkar fred, våld och miljö upptäcker vi nyanser. <strong>Inga religioner är per automatik ”goda” eller ”onda”</strong>; det avgörs helt av hur människor tolkar och använder dem i sin egen tid. Att känna till både idealen och avvikelserna hjälper oss att föra smartare samtal om religionens plats i samhället.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet som rör religion, etik och konflikt, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--leaf-lt); border-color: var(--leaf-lt);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Våld och Ickevåld</h4>
+          <ul class="q-list">
+            <li>Ahimsa betyder att inte skada varken i handling, ord eller tanke. Hur kan våldsamma "tankar" vara skadliga, även om man inte agerar på dem fysiskt?</li>
+            <li>Texten lyfter fram konflikten i Myanmar där buddhistiska munkar sprider hatpropaganda och uppmanar till våld. Hur tror ni att en munk som studerat ickevåld (ahimsa) kan rättfärdiga sådana handlingar rent psykologiskt/politiskt?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Klimat och Engagemang</h4>
+          <ul class="q-list">
+            <li>"Ekodharma" handlar om att förstå att allt liv hänger ihop, och att man därför måste skydda klimatet. Hur skiljer sig detta motiv från att t.ex. skydda naturen för att "Gud har beordrat människan att förvalta skapelsen" (som i de abrahamitiska religionerna)?</li>
+            <li>Thich Nhat Hanh myntade "engagerad buddhism". Kan massmeditationer och tysta protester vara lika effektiva som högljudda demonstrationer? Vilka är för- och nackdelarna?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor om ahimsa, ekodharma och buddhismens roll i politiken.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── ACTION BOARD TABS ──
+function switchAction(id, btn) {
+  document.querySelectorAll('.ab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ab-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('ab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad betyder begreppet 'Ahimsa'?",
+    opts: ["Total tystnad", "Ickevåld och att inte skada", "En speciell sorts meditation", "Att offra till gudarna"],
+    correct: 1,
+    feedback: "Rätt! Ahimsa är den moraliska grundsatsen att inte skada andra varelser varken i handling, ord eller tanke."
+  },
+  {
+    q: "Varför väljer många buddhister just en vegetarisk eller vegansk kost?",
+    opts: ["Det är det enda som finns vid templen.", "För att kött anses vara för dyrt.", "Som ett konkret sätt att undvika att skada/döda djur och därmed undvika dålig karma.", "Det står i lagen i Asien."],
+    correct: 2,
+    feedback: "Det är en direkt praktisk tillämpning av Ahimsa-principen."
+  },
+  {
+    q: "Hur har buddhismen kopplats till våld i Myanmar under modern tid?",
+    opts: ["Nationalistiska munkar har spridit hatpropaganda och stöttat förföljelsen av rohingyerna.", "Munkarna tvingades ut i krig av kungen.", "Det finns inga munkar i Myanmar.", "Alla munkar där är pacifister och vägrar all form av konflikt."],
+    correct: 0,
+    feedback: "Det är ett tydligt, tragiskt exempel på hur religionen kan vändas till extrem nationalism och våld mot minoriteter."
+  },
+  {
+    q: "Vem var kejsare Ashoka?",
+    opts: ["En munk som startade Zen-buddhismen.", "En indisk härskare som efter blodiga erövringar konverterade till buddhismen och införde ett styre präglat av ickevåld.", "Buddhas kusin som blev mördad.", "Den första Dalai Lama."],
+    correct: 1,
+    feedback: "Ashoka är det klassiska exemplet på hur buddhismen framgångsrikt påverkat storpolitik mot fred."
+  },
+  {
+    q: "Vad innebär 'Engagerad buddhism'?",
+    opts: ["Att man måste vara gift för att bli munk.", "Att man enbart fokuserar på politik och struntar i meditation.", "En rörelse som kombinerar inre meditativt arbete med konkret samhällsaktivism (t.ex. fattigdomsbekämpning).", "Att man krigar för sin religion."],
+    correct: 2,
+    feedback: "Begreppet betonar att meditation och fred måste omsättas i praktisk handling i samhället."
+  },
+  {
+    q: "Vem myntade begreppet 'engagerad buddhism'?",
+    opts: ["Dalai Lama", "Kejsare Ashoka", "Siddhartha Gautama", "Den vietnamesiske zenmästaren Thich Nhat Hanh"],
+    correct: 3,
+    feedback: "Thich Nhat Hanh myntade begreppet på 60-talet för att beskriva denna aktiva, humanistiska form av religion."
+  },
+  {
+    q: "Vad menas med 'Ekodharma'?",
+    opts: ["Att man bara får bygga kloster i trä.", "Att använda buddhistiska läror om att allt liv hänger ihop för att förstå och hantera klimatkrisen.", "En buddhistisk bank för ekonomisk hjälp.", "Tron på att vädret styrs av en viss Buddha."],
+    correct: 1,
+    feedback: "Ekodharma knyter samman medkänsla med praktisk miljöaktivism och insikten om vårt beroende av naturen."
+  },
+  {
+    q: "Vilken slutsats drar texten om religionens natur kopplat till våld och fred?",
+    opts: ["Buddhism är alltid god och fredlig, oavsett land.", "Ingen religion är per automatik 'god' eller 'ond'; det avgörs helt av hur människor tolkar och använder den i sin egen tid.", "Alla religioner leder till krig förr eller senare.", "Politik och religion har aldrig någonsin kunnat blandas."],
+    correct: 1,
+    feedback: "Kärnan är att religion är ett mänskligt verktyg: det kan inspirera till enormt bra saker (klimatkamp) eller fruktansvärda saker (etnisk rensning)."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Briljant! Du har verkligen en djup förståelse för hur religion påverkar samhället."; }
+  else if(pct >= 0.6) { title = "Snyggt jobbat! ⭐"; msg = "Du har greppat buddhismens komplexa roll i modern politik och miljöarbete väldigt väl."; }
+  else { title = "Fortsätt läsa 📖"; msg = "Dessa samhällsfrågor är komplicerade. Läs gärna flikarna under 'Det globala engagemanget' igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
