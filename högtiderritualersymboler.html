@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Högtider, ritualer och symboler inom buddhism – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0f0b15;
+  --ink-lit:  #1b1325;
+  --paper:    #F5F0EA;
+  --lotus:    #F38181;
+  --saffron:  #FF9F1C;
+  --gold:     #F4D06F;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.75);
+  --border:   rgba(243,129,129,0.3);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--lotus), var(--gold), var(--saffron));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(circle at 50% 60%, #261633 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+/* Floating lanterns effect */
+.lantern {
+  position: absolute; width: 30px; height: 40px; background: rgba(255,159,28,0.4);
+  border-radius: 5px; box-shadow: 0 0 20px rgba(255,159,28,0.6);
+  animation: floatUp 15s linear infinite; bottom: -50px;
+}
+.l1 { left: 20%; animation-duration: 12s; animation-delay: 2s; }
+.l2 { left: 50%; width: 40px; height: 50px; animation-duration: 18s; animation-delay: 0s; }
+.l3 { left: 80%; animation-duration: 14s; animation-delay: 5s; }
+@keyframes floatUp { 0% { transform: translateY(0) rotate(0deg); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-100vh) rotate(15deg); opacity: 0; } }
+
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--ink) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards; z-index: 2;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 7vw, 86px);
+  font-weight: 900; line-height: 1.05;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(243,129,129,0.5);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--lotus); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards; z-index: 2;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--saffron); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--saffron), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--lotus); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--saffron); font-style: italic; }
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--lotus);
+  background: linear-gradient(135deg, rgba(243,129,129,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--lotus); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── INTERACTIVE: STUPA ANATOMY ── */
+.stupa-section { margin: 80px 0; background: var(--ink-lit); border: 1px solid var(--border); border-radius: 12px; padding: 40px; display: flex; gap: 40px; align-items: center; }
+.stupa-visual { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 300px; }
+.s-part { border: 2px solid var(--gold); background: rgba(244,208,111,0.05); cursor: pointer; transition: all 0.3s; display: flex; justify-content: center; align-items: center; color: var(--gold); font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; }
+.s-part:hover, .s-part.active { background: rgba(244,208,111,0.2); box-shadow: 0 0 20px rgba(244,208,111,0.3); }
+
+/* Spire */
+.s-spire { width: 30px; height: 100px; clip-path: polygon(50% 0%, 100% 100%, 0% 100%); margin-bottom: -2px; z-index: 3;}
+/* Dome */
+.s-dome { width: 140px; height: 80px; border-radius: 70px 70px 0 0; margin-bottom: -2px; z-index: 2;}
+/* Base */
+.s-base { width: 200px; height: 60px; z-index: 1;}
+
+.stupa-info { flex: 1.5; }
+.stupa-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--paper); margin-bottom: 10px; }
+.stupa-sub { font-size: 16px; color: var(--text-dim); margin-bottom: 24px; }
+.s-text-box { background: rgba(0,0,0,0.3); padding: 24px; border-radius: 8px; border-left: 3px solid var(--gold); min-height: 140px; }
+.s-text-title { font-family: var(--mono); font-size: 14px; color: var(--saffron); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.s-text-p { font-size: 17px; color: var(--text); line-height: 1.6; margin:0;}
+
+/* ── INTERACTIVE: SYMBOL GALLERY ── */
+.symbols-wrap { margin: 80px 0; }
+.sym-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.sym-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 30px; cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden; }
+.sym-card::before { content:''; position: absolute; top:0; left:0; width:4px; height:100%; background: var(--lotus); transition: width 0.3s; z-index: 0; opacity: 0;}
+.sym-card:hover, .sym-card.active { transform: translateY(-5px); border-color: var(--lotus); background: rgba(243,129,129,0.05); }
+.sym-card:hover::before, .sym-card.active::before { opacity: 1; }
+.sym-content { position: relative; z-index: 1; }
+.sym-icon { font-size: 48px; margin-bottom: 16px; display: block; }
+.sym-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); font-weight: bold; margin-bottom: 8px; }
+.sym-hint { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--lotus); letter-spacing: 2px; }
+.sym-desc { display: none; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 16px; color: var(--text-dim); line-height: 1.6; animation: fadeUp 0.3s ease; }
+.sym-card.active .sym-desc { display: block; }
+.sym-card.active .sym-hint { display: none; }
+
+/* ── TRADITIONS TABS ── */
+.trad-wrap { margin: 60px 0; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; }
+.trad-tabs { display: flex; border-bottom: 1px solid var(--border); }
+.tr-tab { flex: 1; padding: 20px; text-align: center; cursor: pointer; background: transparent; color: var(--text-dim); font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; transition: all 0.3s; border: none; border-bottom: 3px solid transparent; }
+.tr-tab:hover { color: var(--paper); background: rgba(255,255,255,0.02); }
+.tr-tab.active { color: var(--saffron); background: rgba(255,255,255,0.05); border-bottom-color: var(--saffron); }
+.tr-panel { display: none; padding: 40px; animation: fadeUp 0.4s ease; }
+.tr-panel.active { display: block; }
+.tr-panel p { font-size: 18px; margin-bottom: 0; line-height: 1.6; }
+.tr-geo { font-family: var(--mono); font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; display: block;}
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 45vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.3) saturate(1.2) hue-rotate(-20deg);
+  background-image: url('https://images.unsplash.com/photo-1548625361-ec853f191b65?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--gold); line-height: 1.3; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #0a070e; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--lotus); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--saffron); color: var(--saffron); background: rgba(255,159,28,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(255,159,28,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin:0; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--saffron); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(255,159,28,0.15); border: 1px solid var(--saffron); color: var(--saffron); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--saffron); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--saffron); background: rgba(255,159,28,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #27AE60; background: rgba(39,174,96,0.15); color: #EAFAF1; }
+.quiz-opt.wrong { border-color: #E74C3C; background: rgba(231,76,60,0.15); color: #FDEDEC; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--paper); background: rgba(255,255,255,0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: var(--ink); }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(255,159,28,0.15); border-left: 3px solid var(--saffron); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--gold); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--lotus), var(--saffron)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); color: var(--ink); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .stupa-section { flex-direction: column; }
+  .sym-grid { grid-template-columns: 1fr; }
+  .trad-tabs { flex-direction: column; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="lantern l1"></div>
+  <div class="lantern l2"></div>
+  <div class="lantern l3"></div>
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion · Buddhism</div>
+
+  <h1>Högtider, ritualer och <em>symboler</em></h1>
+  <p class="hero-sub">Hur religionen tar form i färgrika högtider, heliga byggnader och mystiska symboler världen över.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Buddhismen är inte bara en lära om meditation och filosofi skriven i böcker. I många länder syns religionen i form av färgrika högtider, enorma heliga byggnader, symboler och ritualer som levandegör läran i vardagen. 
+  </p>
+  
+  <p>För att förstå religionens kulturella uttryck måste man veta något om de viktigaste högtiderna, vad stupor betyder och vad de uråldriga symbolerna egentligen står för.</p>
+
+  <div class="section-marker"><span>Årets höjdpunkter</span></div>
+  <h2>Vesak och <em>Dharmadagen</em></h2>
+
+  <p>Den i särklass största högtiden inom buddhismen är <strong>Vesak</strong>. I länder som Sri Lanka, Myanmar och Thailand firas den i april–maj när månen är full. Vesak påminner om tre gigantiska händelser i Buddhas liv: hans födelse, hans upplysning och hans bortgång (Parinirvana).</p>
+
+  <p>Under Vesak lyser templen upp med lyktor och ljusslingor. Människor skickar gratulationskort, mediterar, sjunger hymner och delar ut mat och gåvor till munkar. Ofta bärs reliker (t.ex. en tand eller en hårlock från Buddha) i stora processioner.</p>
+
+  <div class="pullquote">
+    <p>Dharmadagen (Asalha Puja) infaller i juli. Den firar dagen då Buddha höll sin allra första predikan och "satte Dharmas (lärans) hjul i rörelse".</p>
+  </div>
+
+  <div class="section-marker"><span>Arkitektur & Geografi</span></div>
+  <h2>Stupor och <em>pilgrimsfärder</em></h2>
+
+  <p>Att göra en pilgrimsfärd innebär att resa till en helig plats för att få en andlig upplevelse. En av de viktigaste platserna är Bodh Gaya i Indien, där Buddha nådde upplysning. På sådana platser, och vid alla stora tempel, bygger man stupor.</p>
+
+  <div class="stupa-section">
+    <div class="stupa-visual">
+      <div class="s-part s-spire" onclick="showStupa('spire', this)"></div>
+      <div class="s-part s-dome" onclick="showStupa('dome', this)">Kupol</div>
+      <div class="s-part s-base active" onclick="showStupa('base', this)">Basen</div>
+    </div>
+    
+    <div class="stupa-info">
+      <div class="stupa-title">Stupans Anatomi</div>
+      <p class="stupa-sub">Klicka på de tre delarna av stupan för att se hur byggnadens form är en symbol för hela religionen.</p>
+      
+      <div class="s-text-box" id="stupa-text">
+        <div class="s-text-title">Basen (Grunden)</div>
+        <p class="s-text-p">Stupans fyrkantiga eller solida bas symboliserar Buddhas grundläggande lära: De fyra ädla sanningarna. Det är fundamentet som hela religionen – och byggnaden – vilar på.</p>
+      </div>
+    </div>
+  </div>
+
+  <p>En stupa var ursprungligen en hög som byggdes för att förvara Buddhas aska och reliker. Senare har formen utvecklats till de berömda Pagoderna i Östasien. I Sverige finns faktiskt en 11 meter hög stupa i Fellingsbro, som invigdes av Dalai Lama 1988.</p>
+
+  <div class="section-marker"><span>Det visuella språket</span></div>
+  <h2>Symboler och <em>färger</em></h2>
+
+  <p>Munkar och nunnor bär ofta saffran- eller orangefärgade dräkter i Sydostasien. Den brinnande färgen signalerar munkens löfte att lämna det vanliga världslivet. Utöver kläderna är religionen fylld av symboler som bär på djup mening.</p>
+
+  <div class="symbols-wrap">
+    <div class="sym-grid">
+      
+      <div class="sym-card" onclick="toggleSym(this)">
+        <div class="sym-content">
+          <span class="sym-icon">🪷</span>
+          <div class="sym-title">Lotusblomman</div>
+          <div class="sym-hint">Klicka för mening ↓</div>
+          <div class="sym-desc">Växer upp ur lerigt och mörkt vatten, men blommar helt ren och vacker uppe i solen. Den är den ultimata symbolen för människans andliga utveckling från okunnighet och lidande till visdom och upplysning.</div>
+        </div>
+      </div>
+
+      <div class="sym-card" onclick="toggleSym(this)">
+        <div class="sym-content">
+          <span class="sym-icon">☸️</span>
+          <div class="sym-title">Dharmahjulet</div>
+          <div class="sym-hint">Klicka för mening ↓</div>
+          <div class="sym-desc">Buddha "satte hjulet i rörelse" när han predikade. Hjulet har åtta ekrar som representerar den Åttafaldiga vägen. Den runda formen påminner också om Samsara – det eviga kretsloppet av återfödelse.</div>
+        </div>
+      </div>
+
+      <div class="sym-card" onclick="toggleSym(this)">
+        <div class="sym-content">
+          <span class="sym-icon">🏳️‍🌈</span>
+          <div class="sym-title">Färgflaggan</div>
+          <div class="sym-hint">Klicka för mening ↓</div>
+          <div class="sym-desc">Den buddhistiska flaggan skapades 1885 och har sex färger. Färgerna symboliserar bland annat medkänsla, medelvägen, renhet och visdom. De vertikala ränderna står för fred mellan länder.</div>
+        </div>
+      </div>
+
+      <div class="sym-card" onclick="toggleSym(this)">
+        <div class="sym-content">
+          <span class="sym-icon">🐍🐷🐓</span>
+          <div class="sym-title">De tre rötterna</div>
+          <div class="sym-hint">Klicka för mening ↓</div>
+          <div class="sym-desc">Kallas ibland "de tre gifterna". Avbildas ofta i tibetanska målningar som en tupp (begär), en orm (hat/ilska) och en gris (okunnighet) som biter varandra i svansen och håller livshjulet snurrande.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"En religion som färgas och formas av de lokala kulturerna den möter."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Regionalt</span></div>
+  <h2>Skillnader mellan <em>länder</em></h2>
+
+  <p>Eftersom det inte finns någon gemensam kyrka eller kalender, har buddhismen anpassats starkt till lokala kulturer under 2500 år.</p>
+
+  <div class="trad-wrap">
+    <div class="trad-tabs">
+      <button class="tr-tab active" onclick="switchTrad('thera', this)">Theravada</button>
+      <button class="tr-tab" onclick="switchTrad('maha', this)">Mahayana</button>
+      <button class="tr-tab" onclick="switchTrad('vajra', this)">Vajrayana</button>
+    </div>
+    
+    <div class="tr-panel active" id="tr-thera">
+      <span class="tr-geo">📍 Sri Lanka, Thailand, Myanmar</span>
+      <p>Högtiderna följer den uråldriga månkalendern slaviskt. I dessa länder ser man ofta processioner på gatorna där munkarnas orangea dräkter lyser starkt och vanligt folk donerar mat.</p>
+    </div>
+
+    <div class="tr-panel" id="tr-maha">
+      <span class="tr-geo">📍 Kina, Japan, Sydkorea</span>
+      <p>Här dekoreras templen ofta i rött och guld. I Japan firar man till exempel <em>Hanamatsuri</em> (Buddhas födelsedag) med storslagna blomsterdekorationer och söt teceremoni, medan Sydkorea hänger upp tusentals färggranna lotuslyktor.</p>
+    </div>
+
+    <div class="tr-panel" id="tr-vajra">
+      <span class="tr-geo">📍 Tibet, Bhutan, Mongoliet</span>
+      <p>Kännetecknas av kloster belägna högt uppe i bergen som liknar fort. Munkarna bär vinröda dräkter. Ritualerna är rika och fyllda av djupa bas-trumpeter, vackra mandalor (sandmålningar) och tusentals tibetanska böneflaggor som vajar i vinden.</p>
+    </div>
+  </div>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet om symbolik, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--saffron); border-color: var(--saffron);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Symbolernas Kraft</h4>
+          <ul class="q-list">
+            <li>Lotusblomman symboliserar att något rent och vackert (upplysning) kan växa fram ur smutsig lera (lidande och okunnighet i världen). Kan du komma på en liknande metafor eller symbol från vårt eget moderna samhälle eller kultur?</li>
+            <li>Dharmahjulet har 8 ekrar. Varför är just talet 8 så viktigt inom buddhismen?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Heliga Platser & Ritualer</h4>
+          <ul class="q-list">
+            <li>Vad är skillnaden på att resa som "turist" och att resa som "pilgrim" till ett tempel, enligt texten?</li>
+            <li>De "tre gifterna" avbildas som en tupp (begär), orm (hat) och gris (okunnighet) som biter varandra i svansen. Hur kan dessa tre känslor/sidor sägas hålla igång det eviga kretsloppet av konflikter och lidande hos människor idag?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor om buddhistiska högtider, symboler och traditioner.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── STUPA INTERACTION ──
+const stupaData = {
+  base: { title: "Basen (Grunden)", text: "Stupans fyrkantiga eller solida bas symboliserar Buddhas grundläggande lära: De fyra ädla sanningarna. Det är fundamentet som hela religionen vilar på." },
+  dome: { title: "Kupolen", text: "Den halvcirkelformade kupolen (och de uppåtgående delarna) symboliserar själva den andliga resan. Ofta förvaras heliga reliker inne i kupolen." },
+  spire: { title: "Spiran & Parasollet", text: "Spiran pekar uppåt mot upplysningen, och parasollet högst upp är en antik indisk symbol för beskydd och kunglighet/andlig makt." }
+};
+
+function showStupa(part, btn) {
+  document.querySelectorAll('.s-part').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const box = document.getElementById('stupa-text');
+  box.innerHTML = `<div class="s-text-title">${stupaData[part].title}</div><p class="s-text-p">${stupaData[part].text}</p>`;
+}
+
+// ── SYMBOL CARDS ──
+function toggleSym(card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.sym-card').forEach(c => c.classList.remove('active'));
+  if (!isActive) card.classList.add('active');
+}
+
+// ── TRADITION TABS ──
+function switchTrad(id, btn) {
+  document.querySelectorAll('.tr-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tr-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tr-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Vad är Vesak och vad firar man då (i Theravada-traditionen)?",
+    opts: ["Det är nyårsdagen då man skjuter raketer.", "Buddhismens största högtid, som firar Buddhas födelse, upplysning och bortgång.", "En dag då man bara får äta kött.", "Dagen då man renar sitt karma i havet."],
+    correct: 1,
+    feedback: "Rätt! Vesak är den överlägset största högtiden och knyter an till de tre stora händelserna i Buddhas liv."
+  },
+  {
+    q: "Vad uppmärksammas under Dharmadagen (Asalha Puja)?",
+    opts: ["Buddhas första predikan då han satte dharmas (lärans) hjul i rörelse.", "När klostren byggdes.", "Buddhas bröllop.", "När den första stupan färdigställdes."],
+    correct: 0,
+    feedback: "Dharmadagen minner om när Buddha för första gången delade sin insikt (de fyra ädla sanningarna) med andra."
+  },
+  {
+    q: "Vad är en Stupa?",
+    opts: ["En särskild bön.", "En munkklädsel.", "En helig byggnad/kulle som ursprungligen byggdes för att förvara Buddhas reliker.", "Det heliga trädet i Bodh Gaya."],
+    correct: 2,
+    feedback: "En stupa är en relikgömma vars arkitektur (bas, kupol, spira) har en djup symbolisk betydelse."
+  },
+  {
+    q: "Vad symboliserar Lotusblomman?",
+    opts: ["Den eviga själen.", "Döden och mörkret.", "Den andliga utvecklingen från okunnighet/lidande till ren visdom och upplysning.", "Gudarnas straff."],
+    correct: 2,
+    feedback: "Eftersom lotusen växer från lerbotten och blommar vackert i solen, symboliserar den resan mot upplysning."
+  },
+  {
+    q: "Hur många ekrar har Dharmahjulet, och vad står de för?",
+    opts: ["Fyra ekrar, för de fyra sanningarna.", "Åtta ekrar, som representerar Den åttafaldiga vägen.", "Sju ekrar, för veckans dagar.", "Tolv ekrar, för månaderna."],
+    correct: 1,
+    feedback: "Hjulet har åtta ekrar som påminner om de åtta stegen man ska följa för att nå nirvana."
+  },
+  {
+    q: "Vilka tre djur brukar representera 'de tre gifterna' (eller rötterna) i tibetanska målningar?",
+    opts: ["En tupp (begär), orm (hat) och gris (okunnighet).", "Ett lejon, en tiger och en björn.", "En elefant, en ko och en råtta.", "En drake, en fenix och en varg."],
+    correct: 0,
+    feedback: "Dessa tre djur biter varandra i svansen och symboliserar de känslor som håller människor fast i samsara (lidandet)."
+  },
+  {
+    q: "Vilken färg på munkdräkter är starkast förknippad med Theravada-länder som Thailand?",
+    opts: ["Grå", "Svart", "Orange/Saffran", "Vinröd"],
+    correct: 2,
+    feedback: "I Sydostasien (Theravada) är dräkterna oftast i lysande saffran eller orange färg."
+  },
+  {
+    q: "Vilken buddhistisk inriktning (och region) förknippas med kloster som liknar fästningar, vinröda dräkter och böneflaggor?",
+    opts: ["Zenbuddhism i Japan.", "Vajrayana i Tibet och Himalaya.", "Theravada i Sri Lanka.", "Mahayana i Kina."],
+    correct: 1,
+    feedback: "Rätt. Den tibetanska (Vajrayana) kulturen är känd för sina högt belägna kloster, trumpeter och böneflaggor."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Strålande! Du har full koll på buddhismens visuella språk och högtider."; }
+  else if(pct >= 0.6) { title = "Mycket bra! ⭐"; msg = "Du har greppat symboliken riktigt väl. Snyggt jobbat!"; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Det är många symboler och färger att hålla reda på. Klicka på korten i Symbolgalleriet och försök igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
