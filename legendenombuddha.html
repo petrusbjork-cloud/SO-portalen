@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buddhas liv: Historia, myt och mening – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0c0f0a;
+  --paper:    #F5F2EB;
+  --saffron:  #E76F51;
+  --saffron-lt:#F4A261;
+  --gold:     #E9C46A;
+  --bodhi:    #2A9D8F;
+  --bodhi-dk: #217A6F;
+  --text:     #EAE0D5;
+  --text-dim: rgba(234,224,213,0.7);
+  --border:   rgba(233,196,106,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--bodhi), var(--gold), var(--saffron));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 90vh;
+  background: radial-gradient(circle at 50% 30%, #151a14 0%, var(--ink) 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, var(--ink) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(38px, 7vw, 86px);
+  font-weight: 900; line-height: 1.05;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(42,157,143,0.3);
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+}
+.hero h1 em { color: var(--saffron-lt); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+}
+
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--bodhi); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--bodhi), transparent); }
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 780px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--saffron-lt); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--gold); font-style: italic; }
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 26px; font-weight: 700; color: var(--paper);
+  margin: 48px 0 16px;
+}
+
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+ul { margin-bottom: 24px; margin-left: 20px; color: var(--text-dim); }
+li { margin-bottom: 8px; padding-left: 10px; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--bodhi);
+  background: linear-gradient(135deg, rgba(42,157,143,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--bodhi); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative; margin: 0;
+}
+
+/* ── INTERACTIVE: DE FYRA MÖTENA ── */
+.encounters-wrap { margin: 60px 0; }
+.encounters-intro { text-align: center; margin-bottom: 30px; }
+.encounters-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--paper); margin-bottom: 8px; }
+.encounters-sub { font-size: 16px; color: var(--text-dim); }
+.encounters-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.enc-card {
+  background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+  border-radius: 8px; padding: 24px; cursor: pointer; text-align: center;
+  transition: all 0.3s ease;
+}
+.enc-card:hover, .enc-card.active { background: rgba(233,196,106,0.08); border-color: var(--gold); transform: translateY(-4px); }
+.enc-icon { font-size: 40px; margin-bottom: 12px; display: block; filter: grayscale(1); transition: filter 0.3s; }
+.enc-card:hover .enc-icon, .enc-card.active .enc-icon { filter: grayscale(0); }
+.enc-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); font-weight: 700; margin-bottom: 8px; }
+.enc-hint { font-family: var(--mono); font-size: 10px; text-transform: uppercase; color: var(--bodhi); letter-spacing: 1px; }
+.enc-desc { display: none; margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 16px; font-size: 15px; color: var(--text-dim); line-height: 1.5; animation: fadeUp 0.3s ease; }
+.enc-card.active .enc-desc { display: block; }
+.enc-card.active .enc-hint { display: none; }
+
+/* ── INTERACTIVE: MYT VS HISTORIA ── */
+.compare-box { margin: 80px 0; background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.compare-tabs { display: flex; border-bottom: 1px solid var(--border); }
+.c-tab {
+  flex: 1; padding: 20px; text-align: center; cursor: pointer; background: transparent;
+  color: var(--text-dim); font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700;
+  transition: all 0.3s; border: none; border-bottom: 3px solid transparent;
+}
+.c-tab:hover { color: var(--paper); background: rgba(255,255,255,0.02); }
+.c-tab.active { color: var(--paper); background: rgba(255,255,255,0.05); }
+.tab-hist.active { border-bottom-color: var(--bodhi); }
+.tab-myt.active { border-bottom-color: var(--saffron); }
+.compare-panel { display: none; padding: 40px; animation: fadeUp 0.4s ease; }
+.compare-panel.active { display: block; }
+.cp-tag { display: inline-block; font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; padding: 4px 12px; border-radius: 20px; }
+.cp-hist .cp-tag { background: rgba(42,157,143,0.15); color: var(--bodhi); border: 1px solid var(--bodhi); }
+.cp-myt .cp-tag { background: rgba(231,111,81,0.15); color: var(--saffron); border: 1px solid var(--saffron); }
+.cp-text { font-size: 18px; color: var(--text-dim); line-height: 1.6; margin-bottom: 0; }
+.cp-list { margin-top: 20px; margin-bottom: 0; }
+.cp-list li { margin-bottom: 12px; }
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 45vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.25) sepia(0.5) hue-rotate(-30deg);
+  background-image: url('https://images.unsplash.com/photo-1555581934-29f95f4eebda?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--ink) 0%, transparent 30%, transparent 70%, var(--ink) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 40px rgba(0,0,0,0.9); margin: 0; color: var(--gold); line-height: 1.3; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: #070907; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 12px 24px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--saffron-lt); color: var(--saffron-lt); background: rgba(244,162,97,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(233,196,106,0.3); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; margin:0; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--bodhi); }
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: var(--text-dim); margin-bottom: 32px; }
+.quiz-start-btn { background: rgba(233,196,106,0.15); border: 1px solid var(--gold); color: var(--gold); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--gold); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--bodhi); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(255,255,255,0.1); border-radius: 2px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--bodhi); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 19px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--saffron-lt); background: rgba(244,162,97,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A9D8F; background: rgba(42,157,143,0.15); color: #E9F5F4; }
+.quiz-opt.wrong { border-color: #E76F51; background: rgba(231,111,81,0.15); color: #FCEEEE; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--paper); background: rgba(255,255,255,0.1); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-opt.correct .quiz-letter { background: #2A9D8F; color: var(--ink); }
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(233,196,106,0.1); border-left: 3px solid var(--gold); font-size: 17px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--gold); color: var(--ink); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--bodhi), var(--saffron)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); color: var(--paper); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 120px; }
+  .encounters-grid { grid-template-columns: 1fr; }
+  .compare-tabs { flex-direction: column; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-vignette"></div>
+
+  <div class="hero-label">SO-Portalen · Religion · Buddhism</div>
+
+  <h1>Buddhas liv: <em>Historia, myt och mening</em></h1>
+  <p class="hero-sub">Vem var egentligen den historiske mannen bakom titeln, och vilka delar av hans liv är religiösa legender? Att förstå gränsen ger djupa insikter i läran.</p>
+
+  <div class="scroll-hint">
+    <span>Scrolla för att utforska</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p style="font-size:24px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Buddhas liv fascinerar människor världen över. Berättelserna om Siddhartha Gautama har överlevt i mer än två och ett halvt tusen år. Men vad vet vi egentligen om honom? Historiker menar att de grundläggande uppgifterna – att han föddes, levde och dog – är realistiska, men att nästan alla andra detaljer har ett legendartat ursprung.
+  </p>
+
+  <p>Samtidigt fungerar mytologin som en sammanfattning av den buddhistiska läran och som en modell för hur människor kan leva. Att skilja mellan historia och religion ger därför insikter både om buddhismens ursprung och om hur myter formar vår världsuppfattning.</p>
+
+  <div class="compare-box">
+    <div class="compare-tabs">
+      <button class="c-tab tab-hist active" onclick="switchCompare('hist', this)">Den historiske Gautama</button>
+      <button class="c-tab tab-myt" onclick="switchCompare('myt', this)">Den religiöse Buddha</button>
+    </div>
+    
+    <div class="compare-panel cp-hist active" id="cp-hist">
+      <span class="cp-tag">Vetenskap & Forskning</span>
+      <p class="cp-text">Historiska källor placerar Siddhartha Gautama i norra Indien under 500-talet f.v.t. Exakta årtal är omtvistade. Han var medlem av det aristokratiska Shakyasläktet nära Lumbini (dagens Nepal).</p>
+      <ul class="cp-list">
+        <li>Vissa tolkningar pekar på att hans far var medlem av en republik, snarare än en despotisk kung.</li>
+        <li>Han lämnade bevisligen sitt hem som vuxen, vandrade runt och undervisade i norra Indien.</li>
+        <li>Han framstår historiskt som en <strong>radikal samhällskritiker</strong> som motsatte sig vidskepelse, idoldyrkan och det strikta kastsystemet.</li>
+        <li>Han dog omkring 80 års ålder i Kushinara och uppmanade människor att tänka kritiskt framför att följa auktoriteter blint.</li>
+      </ul>
+    </div>
+
+    <div class="compare-panel cp-myt" id="cp-myt">
+      <span class="cp-tag">Legender & Teologi</span>
+      <p class="cp-text">I senare buddhistiska traditioner förvandlas Buddha från en mänsklig lärare till en kosmisk figur, ett mönster som alla buddhor antas följa genom tiderna.</p>
+      <ul class="cp-list">
+        <li>Hans livshistoria fungerar som ett pedagogiskt koncentrat av buddhistisk lära (jataka-berättelserna).</li>
+        <li>Han tillskrivs mirakulösa krafter, total perfektion och blir föremål för djup religiös dyrkan.</li>
+        <li>Legenden berättar hur han stod emot övernaturliga frestelser (demonen Mara) och manifesterades som en övermänniska (Mahapurusha).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Legenden</span></div>
+  <h2>Mirakulös födelse och <em>profetia</em></h2>
+
+  <p>Enligt religiösa texter började allt med en dröm. Drottning Maya drömde att en vit elefant kom in i hennes kropp; hon vaknade gravid och födde Siddhartha utan smärta i Lumbinis lund.</p>
+
+  <p>En siare förutsåg att barnet antingen skulle bli en mäktig härskare eller en stor andlig ledare. För att förhindra den andliga vägen – och garantera att sonen skulle ärva tronen – beslutade fadern att isolera honom i ett vackert palats, helt skyddad från världens lidande.</p>
+
+  <div class="encounters-wrap">
+    <div class="encounters-intro">
+      <h3 class="encounters-title">De fyra mötena</h3>
+      <p class="encounters-sub">Prinsen fick inte lämna palatset, men en dag smet han ut. Dessa fyra symboliska möten utlöste hans flykt från lyxlivet (vid 29 års ålder).</p>
+    </div>
+    
+    <div class="encounters-grid">
+      <div class="enc-card" onclick="toggleEnc(this)">
+        <span class="enc-icon">👴🏽</span>
+        <div class="enc-title">En gammal man</div>
+        <div class="enc-hint">Klicka för symbolik ↓</div>
+        <div class="enc-desc">Prinsen hade aldrig sett ålderdom förut. Han insåg med fasa att kroppens förfall är oundvikligt och drabbar alla människor, oavsett rikedom.</div>
+      </div>
+      <div class="enc-card" onclick="toggleEnc(this)">
+        <span class="enc-icon">🤒</span>
+        <div class="enc-title">En sjuk man</div>
+        <div class="enc-hint">Klicka för symbolik ↓</div>
+        <div class="enc-desc">Det andra mötet visade honom fysisk smärta och sjukdom. Han förstod att hälsan är bräcklig och att lidande är en naturlig del av den mänskliga existensen.</div>
+      </div>
+      <div class="enc-card" onclick="toggleEnc(this)">
+        <span class="enc-icon">⚰️</span>
+        <div class="enc-title">En död man</div>
+        <div class="enc-hint">Klicka för symbolik ↓</div>
+        <div class="enc-desc">Mötet med ett lik som bars till bålet fick Siddhartha att förstå livets slutgiltiga förgänglighet. Ingen makt eller lyx i världen kan stoppa döden.</div>
+      </div>
+      <div class="enc-card" onclick="toggleEnc(this)">
+        <span class="enc-icon">🧘🏽‍♂️</span>
+        <div class="enc-title">En asket</div>
+        <div class="enc-hint">Klicka för symbolik ↓</div>
+        <div class="enc-desc">Det sista mötet var med en lugn, fattig munk. Detta gav prinsen hopp; han insåg att det kanske fanns en andlig väg för att finna befrielse från allt detta lidande.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Sökandet</span></div>
+  <h2>Asketliv och <em>medelvägen</em></h2>
+
+  <p>Efter att ha flytt från familjen i natten levde Siddhartha under flera år som extrem asket. Källor beskriver hur han prövade extrem fasta och andra stränga praktiker tills han nästan dog. Legenden säger att han till slut åt enbart ett riskorn om dagen.</p>
+
+  <p>Då slog insikten honom: en torterad och svältande kropp ger bara grumlade tankar, inte upplysning. Han övergav det överdrivna självplågeriet och valde <strong>medelvägen</strong> – en balanserad livsstil mittemellan totalt överflöd (palatset) och brutal extrem-askes. Denna medelväg blev den absoluta grunden för hans framtida lära.</p>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Han övergav extrem fasta och insåg att en svältande kropp ger grumlade tankar, inte upplysning."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Målet</span></div>
+  <h2>Uppvaknandet och de fyra <em>sanningarna</em></h2>
+
+  <p>Den mest mytiska delen av biografin är själva upplysningen. Efter att ha mediterat djupt under ett fikonträd (bodhiträdet i Bodh Gaya), stod han enligt legenden emot demonen Mara som försökte distrahera honom med skräck och frestelser.</p>
+
+  <p>När han till slut såg bortom illusionerna, fokuserade han på sambanden mellan liv och lidande. Han insåg då <strong>De fyra ädla sanningarna</strong>:</p>
+  <ul>
+    <li><strong>Tillvaron är lidande:</strong> Allt liv innebär födelse, ålderdom, sjukdom och död.</li>
+    <li><strong>Lidandets orsak är begären:</strong> Begär efter sinnesnjutning och materia driver kretsloppet.</li>
+    <li><strong>Lidandet kan upphöra:</strong> Genom att utplåna begären.</li>
+    <li><strong>Vägen till befrielse:</strong> Den åttafaldiga vägen (rätt kunskap, handlande, meditation etc).</li>
+  </ul>
+
+  <p>Efter detta kallades han Buddha ("den uppvaknade"). Det betonas ofta att han inte såg sig själv som en gud, utan som en människa som hittat nyckeln till inre frid och ville hjälpa andra att göra detsamma.</p>
+
+  <div class="section-marker"><span>Paralleller</span></div>
+  <h2>Jesus och <em>Muhammed</em></h2>
+
+  <p>Fenomenet att religiösa grundare mytologiseras är absolut inte unikt för buddhismen. Inom kristendomen påpekar historiker ofta att den <em>historiske</em> Jesus från Nasaret – den judiske predikanten – inte är exakt densamme som evangeliernas teologiska gestalt (Guds son som gör mirakel).</p>
+
+  <p>På samma sätt framställs profeten Muhammed i den tidiga Koranen som en vanlig, dödlig människa som till och med uppmanas att be Gud om förlåtelse, och han förnekar att han utför mirakler. I senare muslimsk tradition tillskrivs han dock mirakulösa egenskaper (som att dela månen itu) och beskrivs ibland som en kosmisk ljusvarelse.</p>
+
+  <div class="pullquote">
+    <p>Dessa exempel visar hur historiska personer förvandlas till religiösa symboler, och hur berättelserna om dem ofta fyller djupa teologiska behov hos de troende snarare än att vara strikt historiska.</p>
+  </div>
+
+  <p>Oavsett om Siddhartha Gautamas livshistoria är historiskt bevisbar eller en legend påbyggd under 2500 år, så fyller den sitt huvudsakliga syfte: att ge människor pedagogisk vägledning och moralisk mening i hur man ska leva sitt liv.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor som utforskar gränslandet mellan myt och historia, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="color: var(--saffron-lt); border-color: var(--saffron-lt);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Myt vs. Historia</h4>
+          <ul class="q-list">
+            <li>Varför tror ni att berättelserna om historiska ledare (som Buddha, Jesus eller Muhammed) ofta "exaggereras" och får mirakulösa inslag ju längre tid som går? Vad fyller myterna för funktion för de troende?</li>
+            <li>Den historiske Buddha beskrivs ibland som en "radikal samhällskritiker". På vilket sätt var hans lära (exempelvis Medelvägen och att tänka själv) radikal i antikens Indien?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Legenden som moral</h4>
+          <ul class="q-list">
+            <li>Diskutera innebörden av "De fyra mötena". Om en människa idag skulle isoleras helt från nyheter och omvärlden, och plötsligt möta sjukdom, ålderdom och död för första gången vid 29 års ålder – hur tror ni reaktionen skulle bli?</li>
+            <li>En bloggare i texten menar att även om legenden inte är historiskt bevisad, så styr den hennes familjs liv. Kan en "påhittad" historia (eller myt) vara lika värdefull som en historisk sanning? Resonera.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta frågor om den historiske Buddha och de religiösa legenderna kring hans liv.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── COMPARE TABS ──
+function switchCompare(id, btn) {
+  document.querySelectorAll('.compare-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.c-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('cp-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── ENCOUNTER CARDS ──
+function toggleEnc(card) {
+  const isActive = card.classList.contains('active');
+  document.querySelectorAll('.enc-card').forEach(c => c.classList.remove('active'));
+  if (!isActive) card.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "När och var levde Siddhartha Gautama enligt de historiska källorna?",
+    opts: ["På 500-talet f.v.t. i norra Indien (dagens Nepal).", "År noll i Mellanöstern.", "På 1200-talet i Japan.", "För 10 000 år sedan i Sydamerika."],
+    correct: 0,
+    feedback: "Rätt! Historiker är överens om att han var en riktig person som levde i norra Indien/Lumbini för drygt 2500 år sedan."
+  },
+  {
+    q: "Vad drömde drottning Maya strax innan Siddhartha föddes, enligt legenden?",
+    opts: ["Att himlen brann.", "Att en vit elefant kom in i hennes kropp.", "Att han skulle bli en fattig tiggare.", "Att ett bodhiträd växte ur marken."],
+    correct: 1,
+    feedback: "Enligt legenden (som symboliserar det mirakulösa ursprunget) drömde hon om en vit elefant och vaknade upp gravid."
+  },
+  {
+    q: "Vilka var 'De fyra mötena' som fick Siddhartha att lämna palatset?",
+    opts: ["En kung, en drottning, en krigare, en bonde.", "En gammal man, en sjuk man, en död man, och en asket.", "En hund, en fågel, en ko, och en elefant.", "En präst, en handlare, en lärare, en elev."],
+    correct: 1,
+    feedback: "Dessa fyra möten fungerar i legenden som symboler för mänsklig sårbarhet (lidande) och sökandet efter andlig befrielse (asketen)."
+  },
+  {
+    q: "Vad menas med 'Medelvägen' som Buddha till slut valde?",
+    opts: ["Att han flyttade till en medelstor stad.", "En balanserad livsstil mellan totalt lyxöverflöd och extremt, plågande asketliv.", "Att man bara får äta kött varannan dag.", "En väg som gick genom mitten av Indien."],
+    correct: 1,
+    feedback: "Efter att ha testat både extrem lyx i palatset och extrem svält i skogen, insåg han att en balanserad 'medelväg' var bäst för sinnet."
+  },
+  {
+    q: "Var skedde själva uppvaknandet enligt den mytiska berättelsen?",
+    opts: ["Högst uppe på Mount Everest.", "I en grotta nära palatset.", "När han mediterade under bodhiträdet i Bodh Gaya.", "Ute på en båt på Ganges-floden."],
+    correct: 2,
+    feedback: "Legenden säger att han satt under fikonträdet (bodhiträdet), stod emot demonen Mara och insåg De fyra ädla sanningarna."
+  },
+  {
+    q: "Hur beskrivs den *historiske* Buddha av moderna forskare i texten?",
+    opts: ["Som en kung som regerade över hela Asien.", "Som en påhittad figur som aldrig har existerat.", "Som en radikal samhällskritiker som uppmanade människor att tänka kritiskt och pröva läran själva.", "Som en varelse från en annan planet."],
+    correct: 2,
+    feedback: "Forskare ser honom som en verklig, radikal tänkare som motsatte sig den tidens vidskepelse och auktoriteter."
+  },
+  {
+    q: "Varför anses de religiösa legenderna vara så viktiga för troende buddhister, även om de inte går att bevisa historiskt?",
+    opts: ["För att böckerna ser fina ut i templet.", "För att legenden fungerar som en pedagogisk berättelse som sammanfattar hela läran och ger en moralisk vägledning i vardagen.", "För att de är tvingade att tro på det av staten.", "För att det är det enda språket de förstår."],
+    correct: 1,
+    feedback: "Myterna fyller en funktion: de är pedagogiska verktyg (ett mönster) för att förklara hur människor kan nå inre frid."
+  },
+  {
+    q: "Vad har berättelserna om Buddha, Jesus och Muhammed gemensamt när man tittar på religionshistorien?",
+    opts: ["Alla tre var prinsar från Indien.", "De skrev alla ner sina egna böcker.", "Den historiska personen har med tiden mytologiserats och i senare traditioner tillskrivits mirakel och kosmiska/övernaturliga egenskaper.", "Alla tre förnekade att lidande existerade."],
+    correct: 2,
+    feedback: "Helt rätt. Texten drar paralleller till hur religiösa grundares biografier ofta utvecklas över tid för att fylla teologiska behov hos sina följare."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Strålande! Du har full koll på både den historiske och den religiöse Buddha."; }
+  else if(pct >= 0.6) { title = "Mycket bra! ⭐"; msg = "Snyggt jobbat! Du har greppat skillnaden mellan historia och myt väldigt väl."; }
+  else { title = "Fortsätt läsa 📖"; msg = "Ett fascinerande men lite klurigt ämne. Läs gärna faktakorten en gång till och försök igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
