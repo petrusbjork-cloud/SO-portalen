@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regionerna – sjukvård, kollektivtrafik och politik – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Vård och Samhälle Palett */
+  --bg-main:   #F8FAFC;
+  --surface:   #FFFFFF;
+  --text-dark: #0F172A;
+  --text-p:    #334155;
+  --text-dim:  #64748B;
+  
+  --reg-teal:  #0D9488; /* Vård-grön/blå */
+  --reg-lt:    #CCFBF1;
+  --reg-blue:  #2563EB; /* Samhälls-blå */
+  --reg-amber: #D97706; /* Trafik-gul/orange */
+  
+  --border:    #E2E8F0;
+  --mono:      'JetBrains Mono', monospace;
+  --serif:     'Playfair Display', serif;
+  --sans:      'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-main);
+  color: var(--text-p);
+  font-family: var(--sans);
+  font-size: 20px;
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 5px; width: 0%;
+  background: linear-gradient(90deg, var(--reg-blue), var(--reg-teal), var(--reg-amber));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 80vh;
+  background: var(--text-dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-pattern {
+  position: absolute; inset: 0;
+  background-image: 
+    radial-gradient(rgba(255, 255, 255, 0.05) 2px, transparent 2px);
+  background-size: 30px 30px;
+  pointer-events: none;
+}
+.hero-gradient {
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 50% 100%, rgba(13, 148, 136, 0.25) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--reg-lt); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards; z-index: 2; font-weight: 700;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(38px, 6vw, 80px);
+  font-weight: 900; line-height: 1.1;
+  color: #FFFFFF;
+  margin-bottom: 24px; max-width: 900px;
+  opacity: 0; animation: fadeUp 1s 0.4s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--reg-teal); font-style: italic; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: rgba(255,255,255,0.8);
+  max-width: 750px; line-height: 1.5; margin-bottom: 48px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-dim); white-space: nowrap; font-weight: 700;
+}
+
+h2 {
+  font-family: var(--serif);
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 900; line-height: 1.2;
+  color: var(--text-dark); margin-bottom: 24px;
+}
+h2 em { color: var(--reg-teal); font-style: italic; }
+
+p { margin-bottom: 24px; }
+strong { color: var(--text-dark); font-weight: 700; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -60px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--reg-teal);
+  background: linear-gradient(135deg, var(--reg-lt), transparent);
+  position: relative;
+  border-radius: 0 12px 12px 0;
+}
+.pullquote p {
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--text-dark); line-height: 1.4;
+  margin: 0;
+}
+
+/* ── INFO BOX ── */
+.info-box {
+  background: var(--surface); border: 1px solid var(--border);
+  border-left: 4px solid var(--reg-blue); border-radius: 8px;
+  padding: 30px; margin: 40px 0; box-shadow: 0 10px 25px rgba(0,0,0,0.02);
+}
+.ib-title { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--reg-blue); margin-bottom: 12px; font-weight: 700; }
+.info-box p { margin: 0; font-size: 18px; line-height: 1.6; }
+
+/* ── INTERACTIVE: CORE MISSIONS (TABS/ACCORDION) ── */
+.missions-section { margin: 80px 0; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+.m-header { text-align: center; margin-bottom: 30px; }
+.m-title { font-family: var(--serif); font-size: 28px; color: var(--text-dark); font-weight: 900; margin-bottom: 8px;}
+.m-sub { font-size: 16px; color: var(--text-dim); }
+
+.m-tabs { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.m-tab { background: var(--bg-main); border: 1px solid var(--border); color: var(--text-p); padding: 12px 24px; border-radius: 30px; font-family: var(--sans); font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;}
+.m-tab:hover { border-color: var(--reg-teal); color: var(--reg-teal); }
+.m-tab.active { background: var(--reg-teal); border-color: var(--reg-teal); color: #fff; }
+
+.m-panel { display: none; animation: fadeUp 0.3s ease; background: var(--bg-main); padding: 30px; border-radius: 8px; border-left: 4px solid var(--reg-teal); }
+.m-panel.active { display: block; }
+.mp-title { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 12px;}
+.mp-text { font-size: 17px; color: var(--text-p); line-height: 1.6; margin: 0; }
+
+/* ── INTERACTIVE: CONCEPT CLARIFIER (FLIP CARDS) ── */
+.concepts-section { margin: 80px 0; }
+.concepts-header { text-align: center; margin-bottom: 40px; }
+.concepts-title { font-family: var(--serif); font-size: 28px; color: var(--text-dark); font-weight: 900; margin-bottom: 8px; }
+.concepts-sub { font-size: 16px; color: var(--text-dim); }
+
+.concepts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; perspective: 1000px; }
+.concept-card { background: transparent; height: 260px; cursor: pointer; perspective: 1000px; }
+.concept-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; }
+.concept-card.flipped .concept-inner { transform: rotateY(180deg); }
+.c-front, .c-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; }
+.c-front { background: var(--surface); border: 1px solid var(--border); box-shadow: 0 10px 20px rgba(0,0,0,0.02); }
+.c-front:hover { border-color: var(--reg-blue); }
+.cf-icon { font-size: 40px; margin-bottom: 16px; }
+.cf-title { font-family: var(--serif); font-size: 24px; font-weight: 700; color: var(--text-dark); margin-bottom: 8px;}
+.cf-hint { font-size: 11px; font-family: var(--mono); text-transform: uppercase; color: var(--reg-blue); font-weight: 700; letter-spacing: 1px;}
+
+.c-back { background: var(--text-dark); border: 1px solid var(--text-dim); transform: rotateY(180deg); padding: 30px; text-align: center; }
+.c-back strong { color: #FFFFFF; } /* FIX FÖR FETSTIL PÅ MÖRK BAKGRUND */
+.cb-label { font-family: var(--mono); font-size: 12px; color: var(--reg-lt); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; font-weight: 700;}
+.cb-text { font-size: 15px; color: rgba(255,255,255,0.9); line-height: 1.5; margin: 0;}
+
+/* ── PARALLAX SECTIONS ── */
+.parallax-section {
+  height: 40vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.4) saturate(1.2);
+  background-image: url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=2000');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--bg-main) 0%, transparent 30%, transparent 70%, var(--bg-main) 100%);
+}
+.parallax-text {
+  position: relative; text-align: center; padding: 40px; max-width: 800px;
+}
+.parallax-text h2 { font-size: clamp(28px, 4vw, 46px); text-shadow: 0 4px 20px rgba(0,0,0,0.9); margin: 0; color: #fff; line-height: 1.3; font-weight: 900;}
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section {
+  background: var(--text-dark); border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 60px; color: #fff;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--reg-teal); margin-bottom: 14px; font-weight: 700;}
+.teacher-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 620px; line-height: 1.6; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2);
+  padding: 12px 24px; border-radius: 6px; font-family: var(--sans); font-size: 14px; font-weight: 600;
+  color: rgba(255,255,255,0.8); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--reg-teal); color: var(--text-dark); background: var(--reg-teal); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(13,148,136,0.5); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: var(--serif); font-size: 22px; color: #fff; margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 12px; margin:0; }
+.q-list li { font-size: 17px; color: rgba(255,255,255,0.8); padding-left: 20px; position: relative; line-height: 1.6; margin:0;}
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--reg-teal); font-weight: bold;}
+
+/* QUIZ STYLES */
+.quiz-wrap { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 40px; }
+.quiz-wrap h3 { font-family: var(--serif); font-size: 26px; color: #fff; font-weight: 900; margin-bottom: 12px; }
+.quiz-wrap p { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 32px; }
+.quiz-start-btn { background: var(--reg-teal); border: none; color: var(--surface); padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: #0F766E; }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--reg-teal); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;}
+.quiz-progress-bar-wrap { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-bottom: 32px; overflow: hidden; }
+.quiz-progress-bar { height: 100%; background: var(--reg-teal); border-radius: 3px; transition: width 0.3s; }
+.quiz-q-text { font-family: var(--serif); font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 18px 24px; border-radius: 8px; cursor: pointer; color: #fff; text-align: left; font-family: var(--sans); font-size: 17px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--reg-teal); background: rgba(13,148,136,0.15); }
+.quiz-opt.correct { border-color: #27AE60; background: rgba(39,174,96,0.2); color: #fff; }
+.quiz-opt.wrong { border-color: #E53E3E; background: rgba(229,62,62,0.2); color: #fff; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 13px; font-weight: 700; color: var(--text-dark); background: var(--reg-lt); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; border: 1px solid transparent;}
+.quiz-opt.correct .quiz-letter { background: #27AE60; color: white;}
+.quiz-opt.wrong .quiz-letter { background: #E53E3E; color: white;}
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(13,148,136,0.1); border: 1px solid rgba(13,148,136,0.3); border-left: 4px solid var(--reg-teal); font-size: 16px; color: #fff; line-height: 1.6; display: none; border-radius: 8px; }
+.quiz-next-btn { margin-top: 24px; background: var(--reg-teal); color: #fff; border: none; padding: 14px 28px; border-radius: 8px; cursor: pointer; font-family: var(--sans); font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: #0F766E; }
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--reg-teal), #0F766E); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 20px rgba(13,148,136,0.2); color: white; }
+.score-num { font-family: var(--serif); font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.9; margin-top: 4px; font-weight: bold;}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .article { padding: 40px 24px 60px; }
+  .pullquote { margin: 40px 0; padding: 30px 24px; border-radius: 8px; border-left-width: 3px;}
+  .concepts-grid { grid-template-columns: 1fr; }
+  .teacher-section { padding: 60px 24px; }
+  .quiz-wrap { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-gradient"></div>
+  
+  <div class="hero-label">Samhällskunskap · Mellannivån</div>
+
+  <h1>Regionerna – sjukvård, <em>kollektivtrafik och politik</em></h1>
+  <p class="hero-sub">Mellan staten och kommunen finns en politisk nivå som ofta glöms bort, men som bär ansvar för samhällets absolut viktigaste funktioner.</p>
+
+</section>
+
+<article class="article">
+
+  <p style="font-size:22px; color:var(--text-dark); line-height:1.7; margin-bottom:40px;">
+    Mellan staten och kommunen finns en politisk nivå som många tycker är lite svår att förstå – regionerna. Samtidigt är det just regionerna som ansvarar för några av de mest avgörande och livsviktiga delarna av vårt samhälle.
+  </p>
+
+  <p>Beslut som fattas på regional nivå påverkar människors vardag i oerhört hög grad, även om de inte alltid märks direkt. Sverige är indelat i <strong>21 regioner</strong>, och i varje region väljer invånarna politiker som ska styra och fatta beslut om regionala frågor.</p>
+
+  <div class="section-marker"><span>Ansvarsområden</span></div>
+  <h2>Vad ansvarar <em>regionerna för?</em></h2>
+
+  <p>Regionernas uppdrag är att sköta de samhällsfunktioner som är för stora och dyra för en enskild kommun att klara av själva, men som samtidigt är för lokala för att staten ska styra dem från Stockholm. Klicka på flikarna för att se de tre kärnuppdragen.</p>
+
+  <div class="missions-section">
+    <div class="m-header">
+      <div class="m-title">Regionens 3 Kärnuppdrag</div>
+      <div class="m-sub">Klicka på varje uppdrag för att se vad det innebär i praktiken.</div>
+    </div>
+    
+    <div class="m-tabs">
+      <button class="m-tab active" onclick="switchMission('vard', this)">🏥 Sjukvård</button>
+      <button class="m-tab" onclick="switchMission('trafik', this)">🚌 Kollektivtrafik</button>
+      <button class="m-tab" onclick="switchMission('utv', this)">📈 Regional utveckling</button>
+    </div>
+
+    <div class="m-panel active" id="mission-vard">
+      <div class="mp-title">Hälso- och Sjukvård</div>
+      <p class="mp-text">Regionens absolut viktigaste (och dyraste) uppgift. De ansvarar för alla stora sjukhus, vårdcentraler, akutmottagningar, psykiatri och specialistvård. Regionen har det <em>yttersta hälso- och sjukvårdsansvaret</em>, vilket betyder att de måste se till att du får vård, oavsett om själva vårdcentralen drivs privat eller i offentlig regi.</p>
+    </div>
+
+    <div class="m-panel" id="mission-trafik">
+      <div class="mp-title">Kollektivtrafik</div>
+      <p class="mp-text">Bussar, pendeltåg, tunnelbanor och spårvagnar. Att människor kan ta sig till jobb och skola på ett smidigt sätt över kommungränserna är regionens ansvar. Politikerna här bestämmer hur ofta bussarna ska gå, var nya linjer ska dras och hur dyra biljetterna ska vara.</p>
+    </div>
+
+    <div class="m-panel" id="mission-utv">
+      <div class="mp-title">Regional Utveckling</div>
+      <p class="mp-text">Ett bredare uppdrag som handlar om att få regionen att växa och må bra. Det handlar om att locka företag, stötta kultur, stärka arbetsmarknaden och planera för ny infrastruktur så att regionen förblir en attraktiv plats att bo och arbeta på.</p>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Beslutsfattarna</span></div>
+  <h2>Hur styrs en <em>region?</em></h2>
+
+  <p>Regionernas högsta beslutande organ kallas för <strong>Regionfullmäktige</strong>. Det fungerar ungefär som riksdagen fast på regional nivå. Dit väljs politiker i regionvalet vart fjärde år (samtidigt som riksdags- och kommunvalet).</p>
+
+  <p>I regionfullmäktige fattas de stora besluten, till exempel om regionens <strong>budget</strong>. Budgeten är planen för hur regionens skattepengar ska användas. Eftersom resurserna är begränsade måste politikerna prioritera, till exempel mellan att bygga fler vårdplatser, korta vårdköerna eller bygga ut kollektivtrafiken.</p>
+
+  <div class="info-box">
+    <div class="ib-title">Regionstyrelsen</div>
+    <p>För att besluten ska genomföras finns <strong>regionstyrelsen</strong>, som kan jämföras med en regional regering. Regionstyrelsen leder det dagliga politiska arbetet och ser till att regionfullmäktiges beslut blir verklighet.</p>
+  </div>
+
+  <div class="section-marker"><span>Organisationen</span></div>
+  <h2>Nämnder, tjänstemän och <em>politiskt ansvar</em></h2>
+
+  <p>Precis som i kommunen finns det olika <em>nämnder</em> i regionen, till exempel hälso- och sjukvårdsnämnden eller kollektivtrafiknämnden. Nämnderna ansvarar för varsitt område och följer upp hur verksamheten fungerar.</p>
+
+  <p>De politiker som sitter i regionens nämnder är oftast <strong>fritidspolitiker</strong>. Det betyder att de har helt andra yrken vid sidan av sitt politiska uppdrag. För att verksamheten ska fungera i praktiken finns det därför tiotusentals <strong>tjänstemän</strong> som arbetar inom regionen – till exempel läkare, sjuksköterskor, administratörer och planerare.</p>
+
+  <div class="pullquote">
+    <p>Politikerna bestämmer VAD regionen ska prioritera, medan tjänstemännen (experterna) ansvarar för HUR besluten ska genomföras i praktiken.</p>
+  </div>
+
+  <div class="section-marker"><span>Ekonomin</span></div>
+  <h2>Regionskatt – hur <em>finansieras de?</em></h2>
+
+  <p>För att kunna bedriva sin enorma verksamhet tar regionerna ut en <strong>regionskatt</strong>. Regionskatten är en del av den skatt som människor betalar på sin inkomst varje månad, och den används nästan uteslutande till att finansiera sjukvården.</p>
+
+  <p>Hur hög regionskatten är varierar mellan de olika 21 regionerna. Det beror bland annat på hur många invånare regionen har, hur stora vårdbehoven är i just den delen av landet, och vilka politiska prioriteringar man gjort.</p>
+
+  <div class="section-marker"><span>Begreppsförvirringen</span></div>
+  <h2>Region, län och landskap – <em>vad är skillnaden?</em></h2>
+
+  <p>Begreppen region, län och landskap blandas ständigt ihop i vardagsspråk, men de betyder tre helt olika saker i det svenska systemet. Klicka på korten nedan för att reda ut skillnaden!</p>
+
+  <div class="concepts-section">
+    <div class="concepts-grid">
+      <div class="concept-card" onclick="this.classList.toggle('flipped')">
+        <div class="concept-inner">
+          <div class="c-front">
+            <div class="cf-icon">🗳️</div>
+            <div class="cf-title">Region</div>
+            <div class="cf-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="c-back">
+            <div class="cb-label">Politisk styrning</div>
+            <p class="cb-text">Regioner är <strong>politiskt styrda</strong>. Det är här vi väljer politiker i allmänna val som ska ansvara för sjukvården och kollektivtrafiken för invånarna.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card" onclick="this.classList.toggle('flipped')">
+        <div class="concept-inner">
+          <div class="c-front">
+            <div class="cf-icon">🏛️</div>
+            <div class="cf-title">Län</div>
+            <div class="cf-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="c-back">
+            <div class="cb-label">Statlig administration</div>
+            <p class="cb-text">Län är en <strong>statlig indelning</strong>. Varje län leds av en Länsstyrelse (chef: Landshövdingen) som representerar staten och ser till att riksdagens lagar följs i området.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="concept-card" onclick="this.classList.toggle('flipped')">
+        <div class="concept-inner">
+          <div class="c-front">
+            <div class="cf-icon">🌲</div>
+            <div class="cf-title">Landskap</div>
+            <div class="cf-hint">Klicka för att vända ↺</div>
+          </div>
+          <div class="c-back">
+            <div class="cb-label">Kultur & Historia</div>
+            <p class="cb-text">Landskap är en <strong>historisk indelning</strong>. De saknar helt politisk och administrativ makt idag, men är fortfarande väldigt viktiga för vår kultur, turism och identitet (t.ex. Skåne eller Dalarna).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Beslut om vårdköer och busslinjer fattas inte i riksdagen, utan här på den regionala nivån."</h2>
+    </div>
+  </div>
+
+  <div class="section-marker"><span>Sammanfattning</span></div>
+  <h2>Varför är regionerna <em>viktiga i en demokrati?</em></h2>
+
+  <p>Regionerna ansvarar för frågor som är för stora för de små kommunerna att hantera ensamma, men för lokala för att staten ska kunna detaljstyra dem effektivt från Stockholm. Genom att ha politiska beslut på regional nivå kan den enormt dyra sjukvården och infrastrukturen anpassas efter just dina lokala behov.</p>
+
+  <p>Att förstå regionernas roll gör det lättare att förstå hur demokratin faktiskt fungerar i praktiken, och vem man ska utkräva ansvar av när tåget är försenat eller vårdkön är för lång.</p>
+
+</article>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns diskussionsfrågor för klassrummet som tränar begreppsförståelse, samt ett självrättande quiz med 8 frågor baserat på texten.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" style="border-color: var(--reg-teal);" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+      </div>
+    </div>
+
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Ansvar & Välfärd</h4>
+          <ul class="q-list">
+            <li>Varför är det logiskt att sjukvården styrs av <em>Regionerna</em> (som är ganska stora) och inte av de 290 <em>Kommunerna</em>? Vad skulle problemet vara om en väldigt liten kommun skulle behöva bygga och driva ett helt sjukhus själva?</li>
+            <li>En person är arg över att bussen till skolan alltid är försenad. Vilken politisk nivå bör personen kontakta för att klaga? (Staten, Regionen eller Kommunen?)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Begrepp & Skatt</h4>
+          <ul class="q-list">
+            <li>Förklara skillnaden mellan ett "Landskap" och en "Region" utifrån texten. Varför använder vi båda begreppen i vardagstal tror du?</li>
+            <li>Din region bestämmer sig för att bygga ut kollektivtrafiken massivt. Hur finansierar de detta projekt? Vilka konsekvenser får det för invånarna i just den regionen (jämfört med en region som inte bygger ut)?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper</h3>
+        <p>Åtta snabba frågor för att se om du har förstått regionernas roll i Sverige.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title">Resultat</h3>
+          <p id="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── MISSIONS TABS ──
+function switchMission(id, btn) {
+  document.querySelectorAll('.m-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.m-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('mission-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── FULL QUIZ ENGINE (8 QUESTIONS) ──
+const quizData = [
+  {
+    q: "Hur många regioner är Sverige indelat i?",
+    opts: ["10 st", "21 st", "100 st", "290 st"],
+    correct: 1,
+    feedback: "Sverige är indelat i exakt 21 regioner. (290 är antalet kommuner)."
+  },
+  {
+    q: "Vilket är regionernas absolut största och viktigaste ansvarsområde?",
+    opts: ["Hälso- och sjukvård (sjukhus och vårdcentraler)", "Grundskola och gymnasium", "Militärt försvar", "Snöröjning och sophämtning"],
+    correct: 0,
+    feedback: "Rätt! Regionen bär det yttersta ansvaret för att invånarna får den vård de behöver."
+  },
+  {
+    q: "Vad mer ansvarar regionerna för, utöver sjukvården?",
+    opts: ["Att bestämma statsbudgeten.", "Kollektivtrafik (bussar och tåg) samt regional utveckling.", "Att asfaltera alla vägar i Sverige.", "Att sköta förskolorna."],
+    correct: 1,
+    feedback: "Kollektivtrafiken och den regionala utvecklingen (arbetsmarknad/infrastruktur) ligger på regionens bord."
+  },
+  {
+    q: "Vad kallas regionens högsta beslutande organ (fungerar ungefär som en regional riksdag)?",
+    opts: ["Länsstyrelsen", "Regionstyrelsen", "Regionfullmäktige", "Kommunfullmäktige"],
+    correct: 2,
+    feedback: "Det är till Regionfullmäktige som vi väljer politiker i de allmänna valen vart fjärde år."
+  },
+  {
+    q: "Vad kallas den grupp som fungerar som en 'regional regering' och leder det dagliga arbetet?",
+    opts: ["Regionstyrelsen", "Tjänstemännen", "Länsrådet", "Regeringskansliet"],
+    correct: 0,
+    feedback: "Regionstyrelsen är de som ser till att fullmäktiges politiska beslut faktiskt genomförs."
+  },
+  {
+    q: "Vad är skillnaden på de politiker och tjänstemän som arbetar inom regionen?",
+    opts: ["Politikerna är anställda experter, tjänstemän är framröstade.", "Politikerna bestämmer VAD som ska göras, tjänstemännen (som sjuksköterskor och planerare) utför arbetet och bestämmer HUR.", "De gör exakt samma sak.", "Tjänstemän får bara arbeta med kollektivtrafik."],
+    correct: 1,
+    feedback: "De förtroendevalda politikerna (ofta fritidspolitiker) sätter målen, medan de anställda experterna utför dem."
+  },
+  {
+    q: "Hur finansieras regionernas verksamhet framför allt?",
+    opts: ["Genom frivilliga bidrag från medborgarna.", "Genom regionskatt som dras från invånarnas inkomst.", "Enbart genom biljettintäkter från bussarna.", "Staten betalar hela summan direkt."],
+    correct: 1,
+    feedback: "Regionskatten (som varierar i landet) är den primära inkomsten för att finansiera den tunga vården."
+  },
+  {
+    q: "Vad är skillnaden mellan en 'region' och ett 'län' enligt texten?",
+    opts: ["De är exakt samma sak.", "Ett län är politiskt styrt av folket, en region styrs av kungen.", "En region är politiskt styrd av folkvalda, ett län är en statlig indelning ledd av en Länsstyrelse.", "Ett län är mycket mindre än en region."],
+    correct: 2,
+    feedback: "Helt rätt. Regionen är den demokratiska plattformen för invånarna, länet är statens (riksdagens) förlängda arm lokalt."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Helt rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Tyvärr fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Strålande! Du har stenkoll på regionernas viktiga roll."; }
+  else if(pct >= 0.6) { title = "Bra jobbat! ⭐"; msg = "Du har förstått det mesta om mellannivån i politiken."; }
+  else { title = "Läs igenom en gång till 📖"; msg = "Klicka på flip-korten om Region/Län/Landskap för att reda ut begreppen och testa igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
