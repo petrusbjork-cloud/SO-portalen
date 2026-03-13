@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amerikanska revolutionen – Frihetens pris</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy:       #0B132B;
+  --navy-lt:    #1C2541;
+  --crimson:    #780000;
+  --crimson-lt: #C1121F;
+  --parchment:  #FDF0D5;
+  --parchment-dk:#E5D8BF;
+  --gold:       #F4D06F;
+  --text:       #FDF0D5;
+  --text-dim:   rgba(253, 240, 213, 0.7);
+  --border:     rgba(244, 208, 111, 0.2);
+  --mono:       'JetBrains Mono', monospace;
+  --serif-head: 'Playfair Display', serif;
+  --serif-body: 'Crimson Pro', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--navy); color: var(--text);
+  font-family: var(--serif-body); font-size: 20px; line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--navy-lt), var(--crimson-lt), var(--gold));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 60px 40px; text-align: center;
+  background: radial-gradient(ellipse at 50% 60%, var(--navy-lt) 0%, var(--navy) 80%);
+}
+.hero-smoke {
+  position: absolute; inset: 0; opacity: 0.1;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: drift 40s linear infinite; pointer-events: none;
+}
+@keyframes drift { from { background-position: 0 0; } to { background-position: 500px 500px; } }
+
+.hero-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 30%, rgba(11,19,43,0.95) 100%); pointer-events: none; }
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards; z-index: 2;
+}
+.hero h1 {
+  font-family: var(--serif-head); font-size: clamp(42px, 8vw, 96px);
+  font-weight: 900; line-height: 1.05; color: var(--parchment);
+  text-shadow: 0 10px 40px rgba(0,0,0,0.8); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--crimson-lt); font-style: italic; }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim);
+  max-width: 700px; line-height: 1.5; margin-bottom: 48px; font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards; z-index: 2;
+}
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-dim); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards; z-index: 2;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); }
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article { max-width: 780px; margin: 0 auto; padding: 80px 40px; position: relative; }
+p { margin-bottom: 28px; color: var(--text); }
+strong { color: var(--parchment); font-weight: 600; }
+.lead { font-size: 24px; font-style: italic; color: var(--parchment); line-height: 1.6; margin-bottom: 48px; }
+
+/* ── SECTION HEADS ── */
+.section-marker { display: flex; align-items: center; gap: 20px; margin: 80px 0 32px; }
+.section-marker::before, .section-marker::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+.section-marker span { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+
+h2 { font-family: var(--serif-head); font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; color: var(--parchment); margin-bottom: 28px; }
+h2 em { color: var(--gold); font-style: italic; }
+h3 { font-family: var(--serif-head); font-size: 24px; font-weight: 700; color: var(--gold); margin: 40px 0 16px; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -60px; padding: 40px 60px;
+  border-left: 4px solid var(--crimson-lt);
+  background: linear-gradient(135deg, rgba(193,18,31,0.1), transparent);
+  position: relative;
+}
+.pullquote p { font-family: var(--serif-head); font-size: clamp(22px, 3vw, 32px); font-style: italic; color: var(--parchment); line-height: 1.4; margin: 0; }
+
+/* ── FACT BOX ── */
+.fact-box {
+  background: rgba(244,208,111,0.05); border: 1px solid var(--border);
+  border-left: 3px solid var(--gold); border-radius: 0 6px 6px 0;
+  padding: 24px 32px; margin: 40px 0;
+}
+.fact-box-label { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.fact-box p { font-size: 18px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+
+/* ── TIMELINE ── */
+.timeline {
+  border-left: 2px solid var(--border);
+  margin: 60px 0 60px 20px; padding-left: 40px; position: relative;
+}
+.timeline-item { margin-bottom: 48px; position: relative; }
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-dot {
+  position: absolute; left: -49px; top: 4px; width: 16px; height: 16px;
+  background: var(--navy); border: 2px solid var(--gold); border-radius: 50%;
+  box-shadow: 0 0 10px rgba(244, 208, 111, 0.4);
+}
+.timeline-year { font-family: var(--mono); font-size: 14px; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; font-weight: bold; }
+.timeline-content h4 { font-family: var(--serif-head); color: var(--parchment); font-size: 22px; margin-bottom: 10px; }
+.timeline-content p { font-size: 17px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+
+/* ── PARALLAX ── */
+.parallax-section {
+  height: 60vh; position: relative;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; margin: 80px -100vw; width: 100vw; left: 50%; transform: translateX(-50%);
+}
+.parallax-bg {
+  position: absolute; inset: -20%; background-size: cover;
+  background-position: center; background-attachment: fixed;
+  filter: brightness(0.3) sepia(0.3) hue-rotate(180deg);
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Declaration_independence.jpg/1280px-Declaration_independence.jpg');
+}
+.parallax-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, var(--navy) 0%, transparent 30%, transparent 70%, var(--navy) 100%);
+}
+.parallax-text { position: relative; text-align: center; padding: 40px; max-width: 700px; }
+.parallax-text h2 { font-family: var(--serif-head); font-size: clamp(32px, 5vw, 60px); color: var(--parchment); text-shadow: 0 4px 30px rgba(0,0,0,0.9); margin: 0; }
+
+/* ── DILEMMA (Boston Tea Party) ── */
+.dilemma-wrap {
+  margin: 80px -40px; padding: 52px 60px; border-radius: 8px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, rgba(193,18,31,0.15), rgba(11,19,43,0.9));
+  border: 1px solid rgba(193,18,31,0.3);
+}
+.dilemma-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--crimson-lt); margin-bottom: 16px; }
+.dilemma-wrap h3 { font-family: var(--serif-head); font-size: clamp(22px, 3vw, 32px); color: var(--parchment); margin: 0 0 12px; font-weight: 700; }
+.dilemma-context { font-size: 18px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.65; }
+.dilemma-choices { display: flex; flex-direction: column; gap: 12px; }
+.choice-btn {
+  background: rgba(253,240,213,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer;
+  font-family: var(--serif-body); font-size: 18px; color: var(--text); text-align: left; transition: all 0.2s;
+  display: flex; align-items: flex-start; gap: 16px; line-height: 1.5;
+}
+.choice-btn:hover { border-color: var(--gold); background: rgba(244,208,111,0.08); color: var(--parchment); }
+.choice-btn .choice-letter {
+  width: 28px; height: 28px; border-radius: 50%; background: rgba(244,208,111,0.15); border: 1px solid var(--gold);
+  display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--gold); flex-shrink: 0; margin-top: 2px;
+}
+#dilemma-result { display: none; margin-top: 32px; border-top: 1px solid var(--border); padding-top: 28px; }
+.result-reveal { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+.result-text { font-size: 18px; color: var(--text); line-height: 1.7; }
+.result-text strong { color: var(--crimson-lt); }
+
+/* ── POWER TRIANGLE (Maktdelning) ── */
+.power-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 40px 0; }
+.power-card { background: var(--navy-lt); border: 1px solid var(--border); border-radius: 8px; padding: 24px; text-align: center; }
+.power-icon { font-size: 36px; margin-bottom: 12px; display: block; }
+.power-title { font-family: var(--serif-head); font-size: 20px; font-weight: 700; color: var(--gold); margin-bottom: 8px; }
+.power-desc { font-size: 15px; color: var(--text-dim); line-height: 1.5; margin: 0; }
+
+/* ── INTERACTIVE CARDS (Vinnare & Förlorare) ── */
+.actors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 32px 0; }
+.actor-card {
+  background: var(--navy-lt); border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer; transition: all 0.3s ease; overflow: hidden;
+}
+.actor-card:hover { border-color: var(--gold); transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+.actor-card.active { border-color: var(--crimson-lt); background: rgba(120,0,0,0.2); }
+.actor-top { padding: 24px; display: flex; align-items: center; gap: 16px; }
+.actor-emoji { font-size: 40px; background: rgba(253,240,213,0.05); width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
+.actor-info h4 { font-family: var(--serif-head); font-size: 20px; font-weight: 700; color: var(--parchment); margin-bottom: 4px; }
+.actor-info p { font-family: var(--mono); font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin: 0; }
+.actor-detail { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); margin-top: 16px; padding-top: 16px; }
+.actor-card.active .actor-detail { display: block; animation: fadeUp 0.3s ease forwards; }
+.actor-detail p { font-size: 16px; color: var(--text-dim); line-height: 1.6; margin: 0 0 12px; }
+.actor-detail blockquote { font-style: italic; border-left: 2px solid var(--gold); padding-left: 12px; margin: 12px 0; color: var(--parchment); font-size: 15px; }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── LÄRARSEKTION & QUIZ ── */
+.teacher-section { background: #080D1F; border-top: 1px solid var(--border); padding: 80px 40px; margin-top: 40px; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.teacher-title { font-family: var(--serif-head); font-size: clamp(28px, 4vw, 42px); font-weight: 900; color: var(--parchment); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 18px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.t-tab {
+  background: rgba(253,240,213,0.04); border: 1px solid var(--border); padding: 12px 24px; border-radius: 4px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover { border-color: var(--gold); color: var(--parchment); }
+.t-tab.active { background: rgba(244,208,111,0.1); border-color: var(--gold); color: var(--gold); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(244,208,111,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(244,208,111,0.25); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: var(--serif-head); font-size: 20px; color: var(--parchment); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.q-list li { font-size: 17px; color: var(--text-dim); padding-left: 24px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+/* Quiz Styles */
+.quiz-wrap { background: rgba(253,240,213,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: var(--serif-head); font-size: 26px; color: var(--parchment); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 18px; color: var(--text-dim); margin-bottom: 24px; }
+.quiz-start-btn { background: rgba(244,208,111,0.15); border: 1px solid var(--gold); color: var(--gold); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: rgba(244,208,111,0.3); color: var(--parchment); }
+
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(244,208,111,0.2); border-radius: 2px; margin-bottom: 28px; }
+.quiz-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: var(--serif-head); font-size: 24px; color: var(--parchment); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(253,240,213,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: var(--serif-body); font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(244,208,111,0.1); color: var(--parchment); }
+.quiz-opt.correct { border-color: #4CAF50; background: rgba(76,175,80,0.15); color: #E8F5E9; }
+.quiz-opt.wrong { border-color: #F44336; background: rgba(244,67,54,0.15); color: #FFEBEE; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--gold); background: rgba(244,208,111,0.15); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(244,208,111,0.1); border-left: 4px solid var(--gold); font-size: 18px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--gold); color: var(--navy); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--parchment); }
+
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--crimson-lt), var(--navy-lt)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 30px rgba(244,208,111,0.2); color: white; }
+.score-num { font-family: var(--serif-head); font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 42px; }
+  .article { padding: 60px 24px; }
+  .power-grid, .actors-grid { grid-template-columns: 1fr; }
+  .pullquote { margin: 40px -20px; padding: 30px 20px; }
+  .dilemma-wrap { margin: 60px -20px; padding: 32px 24px; }
+  .timeline { margin-left: 10px; padding-left: 20px; }
+  .timeline-dot { left: -29px; }
+  .teacher-section { padding: 60px 24px; }
+  .q-block { flex-direction: column; gap: 12px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-smoke"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-label">SO-Portalen · Historia · Den stora uppgraderingen</div>
+  <h1>Amerikanska revolutionen<br><em>Frihetens pris</em></h1>
+  <p class="hero-sub">Hur 13 brittiska kolonier, inspirerade av upplysningens farliga idéer, trotsade världens mäktigaste imperium och skapade en ny nation – men inte för alla.</p>
+  
+  <div class="scroll-hint">
+    <span>Scrolla in i historien</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ── ARTICLE ── -->
+<article class="article">
+
+  <p class="lead fade-in">
+    "No taxation without representation." Ett enkelt krav som startade en kedjereaktion. Den amerikanska revolutionen visade världen att ett samhälle kunde byggas utan kungar, baserat på idén att makten utgår från folket. Men när krutröken lade sig, blev det smärtsamt tydligt att "folket" inte inkluderade alla.
+  </p>
+
+  <div class="section-marker fade-in"><span>1. Bakgrunden</span></div>
+  <h2 class="fade-in">Imperiet kräver <em>betalt</em></h2>
+
+  <p class="fade-in">Allt började egentligen med en seger. Efter Sjuårskriget (1756–1763) stod Storbritannien som ensam herre över Nordamerika efter att ha tvingat bort Frankrike. Men kriget hade varit extremt dyrt. I London tittade parlamentet på sina enorma skulder och sedan på sina 13 kolonier i Amerika. Det var dags för kolonisterna att betala för det militära skydd de fått.</p>
+
+  <p class="fade-in">Längs östkusten levde omkring tre miljoner människor, varav flera hundratusen var förslavade. Många kolonister hade levt i Amerika i generationer. De kände sig inte längre som britter – de var amerikaner. Och nu var det franska hotet borta. Varför skulle de då betala skatt för brittiska soldater som de inte längre tyckte sig behöva?</p>
+
+  <h3 class="fade-in">Upplysningen – Ord som vapen</h3>
+  <p class="fade-in">Missnöjet handlade inte bara om pengar, utan om <em>idéer</em>. Under 1700-talet spreds Upplysningens tankar över världen. Den brittiske filosofen <strong>John Locke</strong> menade att alla människor hade naturliga rättigheter: rätten till liv, frihet och egendom. Om staten inte skyddade dessa, hade folket rätt att göra uppror.</p>
+  
+  <p class="fade-in">År 1776 publicerade författaren Thomas Paine en liten skrift kallad <em>"Common Sense"</em> (Sunt förnuft). Han argumenterade brutalt enkelt: Varför ska en liten ö på andra sidan havet styra en hel kontinent? Skriften blev en enorm bästsäljare och övertygade tusentals kolonister om att bryta sig loss helt.</p>
+
+  <div class="fact-box fade-in">
+    <div class="fact-box-label">Bojkott som motstånd</div>
+    <p>När det brittiska parlamentet införde nya skatter vägrade kolonisterna acceptera dem. "Ingen skatt utan representation", löd kravet. Kvinnorna spelade en avgörande roll i protesterna genom att sluta köpa brittiska textilier, väva egna kläder och vägra dricka det beskattade brittiska teet.</p>
+  </div>
+
+
+  <div class="section-marker fade-in"><span>2. Gnistan tänds</span></div>
+  <h2 class="fade-in">Snöbollar och <em>te i havet</em></h2>
+
+  <p class="fade-in">Spänningarna steg. I Boston urartade en konflikt där kolonister kastade snöbollar och sten på brittiska soldater. I kalabaliken öppnade soldaterna eld och fem kolonister dog – en händelse som snabbt spreds som propaganda under namnet "Bostonmassakern".</p>
+
+  <!-- BOSTON TEA PARTY DILEMMA -->
+  <div class="dilemma-wrap fade-in">
+    <div class="dilemma-label">⚡ Interaktivt moment</div>
+    <h3>Du står i Bostons hamn, december 1773.</h3>
+    <p class="dilemma-context">Tre brittiska skepp lastade med te ligger för ankar. London har bestämt att ni måste betala tull på teet, oavsett vad ni tycker. Runt omkring dig målar dina vänner ansiktena och klär ut sig till ursprungsbefolkning. Planen är att storma skeppen och kasta teet i havet som protest. Följer du med upp på däck?</p>
+    
+    <div class="dilemma-choices" id="choices">
+      <button class="choice-btn" onclick="chooseDilemma(0)">
+        <span class="choice-letter">A</span>
+        <span>Ja! Det är dags att visa London att vi inte viker oss. Kast i teet!</span>
+      </button>
+      <button class="choice-btn" onclick="chooseDilemma(1)">
+        <span class="choice-letter">B</span>
+        <span>Nej. Att förstöra privat egendom är ett brott. Det kommer bara leda till krig och onödigt blodspillan. Låt oss förhandla.</span>
+      </button>
+    </div>
+
+    <div id="dilemma-result">
+      <div class="result-reveal">Vad hände rent historiskt? →</div>
+      <div class="result-text" id="result-text"></div>
+      <button id="try-again-btn" onclick="resetDilemma()">Prova det andra valet ↺</button>
+    </div>
+  </div>
+
+
+  <div class="section-marker fade-in"><span>3. Krig och Självständighet</span></div>
+  <h2 class="fade-in">Från uppror till <em>ny nation</em></h2>
+
+  <p class="fade-in">Efter te-upproret stängde britterna Bostons hamn. Kriget var oundvikligt. Kolonierna samlade en gemensam armé under ledning av den erfarne plantageägaren <strong>George Washington</strong>. Trots att Storbritannien hade världens starkaste militär, hade de amerikanska "patrioterna" en fördel: de slogs på sin egen hemmaplan, för sin egen frihet.</p>
+
+  <div class="timeline fade-in">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">1775</div>
+      <div class="timeline-content">
+        <h4>Skotten i Lexington</h4>
+        <p>Kriget bryter ut när brittiska soldater är på väg för att beslagta vapen. Det första skottet kallas än idag för "the shot heard 'round the world".</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">4 Juli 1776</div>
+      <div class="timeline-content">
+        <h4>Självständighetsförklaringen</h4>
+        <p>De 13 kolonierna förklarar sig fria i ett dokument författat främst av Thomas Jefferson. Man bryter officiellt med den brittiska kronan.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">1777–1778</div>
+      <div class="timeline-content">
+        <h4>Vändpunkten & Frankrike</h4>
+        <p>Efter amerikanernas seger i slaget vid Saratoga går Frankrike in i kriget på USA:s sida. Utan de franska pengarna, soldaterna och flottan hade kriget troligen förlorats under den bittra vintern i Valley Forge.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-year">1781 & 1783</div>
+      <div class="timeline-content">
+        <h4>Seger och Fred</h4>
+        <p>Vid Yorktown (1781) omringas den sista stora brittiska armén av amerikanska och franska trupper och tvingas ge upp. Vid <strong>freden i Paris 1783</strong> erkänner Storbritannien slutligen USA som en självständig stat.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PARALLAX -->
+  <div class="parallax-section">
+    <div class="parallax-bg"></div>
+    <div class="parallax-overlay"></div>
+    <div class="parallax-text">
+      <h2>"Vi anser dessa sanningar vara självklara: att alla människor är skapade lika..."</h2>
+      <p style="color: var(--gold); font-family: var(--mono); font-size: 12px; letter-spacing: 2px; margin-top: 16px; text-transform: uppercase;">Utdrag ur Självständighetsförklaringen, 4 juli 1776</p>
+    </div>
+  </div>
+
+  <h3 class="fade-in">Hur skulle landet styras? (Maktdelningen)</h3>
+  <p class="fade-in">Den nya staten blev en <strong>förbundsstat</strong>. Delstaterna fick bestämma mycket själva, medan en centralregering skötte försvar och utrikespolitik. Men för att förhindra att en ny makthavare skulle bli lika mäktig som en tyrannisk kung, lånade man en idé från den franske filosofen <em>Montesquieu</em>: maktdelningsprincipen.</p>
+
+  <div class="power-grid fade-in">
+    <div class="power-card">
+      <span class="power-icon">🏛️</span>
+      <h4 class="power-title">Kongressen</h4>
+      <p class="power-desc">Den lagstiftande makten. Bestämmer över lagar och statens budget (skatter).</p>
+    </div>
+    <div class="power-card">
+      <span class="power-icon">⚖️</span>
+      <h4 class="power-title">Domstolarna</h4>
+      <p class="power-desc">Den dömande makten. Högsta domstolen tolkar lagarna helt oberoende av politiker.</p>
+    </div>
+    <div class="power-card">
+      <span class="power-icon">🦅</span>
+      <h4 class="power-title">Presidenten</h4>
+      <p class="power-desc">Den verkställande makten. Leder landet och är militärens högste befälhavare.</p>
+    </div>
+  </div>
+
+
+  <div class="section-marker fade-in"><span>4. Baksidan av myntet</span></div>
+  <h2 class="fade-in">Frihet för <em>vem?</em></h2>
+
+  <p class="fade-in">Revolutionen var en enorm framgång – i alla fall för vita, rika män. Det var de som skrev lagarna och skapade konstitutionen. För många andra grupper i Amerika innebar självständigheten att de förlorade inflytande, mark eller till och med allt hopp om frihet.</p>
+
+  <!-- ACTORS GRID (Vinnare & Förlorare) -->
+  <div class="actors-grid fade-in">
+    <div class="actor-card" onclick="toggleActor(this)">
+      <div class="actor-top">
+        <div class="actor-emoji">🪶</div>
+        <div class="actor-info">
+          <h4>Ursprungsbefolkningen</h4>
+          <p>De som förlorade landet</p>
+        </div>
+      </div>
+      <div class="actor-detail">
+        <p>Ursprungsbefolkningen hade tidigare slagits mot britterna i Pontiacs krig, men britterna hade därefter lovat att stoppa nybyggarnas expansion västerut. När USA blev självständigt försvann detta brittiska beskydd. Amerikanerna stormade väster om Appalacherna, och ursprungsbefolkningen trängdes brutalt undan.</p>
+      </div>
+    </div>
+
+    <div class="actor-card" onclick="toggleActor(this)">
+      <div class="actor-top">
+        <div class="actor-emoji">⛓️</div>
+        <div class="actor-info">
+          <h4>Slavarna</h4>
+          <p>Ofriheten kvarstod</p>
+        </div>
+      </div>
+      <div class="actor-detail">
+        <p>Trots att självständighetsförklaringen slog fast att "alla är skapade lika" gällde det inte förslavade människor. Många av "the founding fathers" (inklusive George Washington och Thomas Jefferson) ägde själva hundratals slavar. Trots att många svarta stred i kriget med löfte om frihet, behölls slaverisystemet intakt i framförallt de södra delstaterna.</p>
+      </div>
+    </div>
+
+    <div class="actor-card" onclick="toggleActor(this)">
+      <div class="actor-top">
+        <div class="actor-emoji">👩‍🌾</div>
+        <div class="actor-info">
+          <h4>Kvinnorna</h4>
+          <p>Bortglömda i lagboken</p>
+        </div>
+      </div>
+      <div class="actor-detail">
+        <p>Kvinnor spelade en oumbärlig roll under revolutionen genom politiska bojkotter och att sköta ekonomin medan männen stred. John Adams fru, Abigail Adams, skrev till honom under skapandet av lagarna:</p>
+        <blockquote>"Remember the Ladies, and be more generous and favourable to them than your ancestors."</blockquote>
+        <p>Men Adams och de andra männen lyssnade inte. Kvinnor nekades rösträtt och det dröjde över 100 år innan de fick politiskt inflytande.</p>
+      </div>
+    </div>
+
+    <div class="actor-card" onclick="toggleActor(this)">
+      <div class="actor-top">
+        <div class="actor-emoji">🇬🇧</div>
+        <div class="actor-info">
+          <h4>Lojalisterna</h4>
+          <p>De som tvingades fly</p>
+        </div>
+      </div>
+      <div class="actor-detail">
+        <p>Alla i kolonierna ville inte göra uppror. Upp till 20% av befolkningen förblev "lojala" mot Storbritannien. När USA vann kriget sågs de som förrädare, och uppemot 80 000 lojalister tvingades fly för sina liv. Många flyttade norrut till Kanada, vilket är en stor anledning till att engelska är huvudspråket där än idag.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="pullquote fade-in" style="margin-top: 60px;">
+    <p>Paradoxen i den amerikanska revolutionen är att den skapade den moderna demokratins grundstenar, samtidigt som den tolererade ett brutalt slaveri och stöld av mark.</p>
+  </div>
+
+</article>
+
+<!-- ── LÄRARSEKTION ── -->
+<section class="teacher-section">
+  <div class="teacher-inner">
+    
+    <div class="teacher-header">
+      <div class="teacher-label">SO-Portalen · För lärare och elever</div>
+      <h2 class="teacher-title">Fördjupning & <em>Övningar</em></h2>
+      <p class="teacher-intro">Testa dina kunskaper och diskutera konsekvenserna av den amerikanska revolutionen.</p>
+      
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+        <button class="t-tab" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('skriv', this)">✍️ Skrivuppgifter</button>
+      </div>
+    </div>
+
+    <!-- QUIZ TAB -->
+    <div class="t-panel active" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Quiz: Amerikanska revolutionen (Omfattande)</h3>
+        <p>Gör detta quiz på 9 frågor för att testa dina kunskaper från den fördjupade texten.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 9</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 9</div>
+          </div>
+          <h3 class="score-title" id="score-title">Resultat</h3>
+          <p class="score-msg" id="score-msg">Bra kämpat!</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISKUSSION TAB -->
+    <div class="t-panel" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Självständighetens orsaker & Upplysningen</h4>
+          <ul class="q-list">
+            <li>Britterna ansåg att det var rättvist att kolonisterna betalade skatt efter Sjuårskriget eftersom de fått militärt beskydd. Hur argumenterade kolonisterna emot detta? Vem har rätt?</li>
+            <li>Hur påverkade filosofer som John Locke och skrifter som Thomas Paines "Common Sense" att det faktiskt blev en revolution och inte bara en skattedebatt?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Motsägelsen i friheten</h4>
+          <ul class="q-list">
+            <li>Läs Abigail Adams citat "Remember the Ladies". Varför tror du att de grundande männen totalt ignorerade kvinnornas politiska rättigheter när de ändå byggde en helt ny "fri" stat?</li>
+            <li>"Alla människor är skapade lika" står det i förklaringen 1776. Ändå behölls slaveriet. Kan man kalla skapandet av USA för en sann demokrati?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKRIV TAB -->
+    <div class="t-panel" id="t-skriv">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>En soldat i Valley Forge</h4>
+          <p style="color:var(--text-dim); line-height:1.6; font-size:17px; margin-bottom:16px;">Det är vinter under frihetskriget (1777). Du ligger i ett läger i Valley Forge och fryser. Många svälter. Du är på väg att ge upp. Skriv ett dagboksinlägg där du reflekterar över varför du kämpar – vad betyder "frihet" för dig jämfört med det liv du levde innan?</p>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Analysera maktdelningen</h4>
+          <p style="color:var(--text-dim); line-height:1.6; font-size:17px;">Varför valde de amerikanska grundarna att dela makten mellan tre olika instanser (President, Kongress, Domstol) istället för att bara ha en stark ledare? Använd Montesquieus idéer i ditt resonemang (3-4 meningar).</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS & FADE-IN ANIMATIONS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in, .timeline-item').forEach(el => observer.observe(el));
+
+// ── ACTOR CARDS ──
+function toggleActor(card) {
+  const wasActive = card.classList.contains('active');
+  document.querySelectorAll('.actor-card').forEach(c => c.classList.remove('active'));
+  if (!wasActive) card.classList.add('active');
+}
+
+// ── BOSTON TEA PARTY DILEMMA ──
+const outcomes = [
+  `<strong>Revolutionen eskalerar!</strong> Som en del av "Sons of Liberty" kastar du hundratals lådor te i havet. Som svar stänger britterna hela Bostons hamn och skickar in fler trupper. Konflikten går nu inte att stoppa – kriget är nära.`,
+  `<strong>Många tänkte som du.</strong> Många kolonister tyckte att förstörelse av egendom var fel och farligt. Men din röst drunknade. Boston Tea Party ägde rum ändå, britterna straffade hela staden stenhårt, och du drogs in i kriget vare sig du ville eller inte.`
+];
+
+function chooseDilemma(idx) {
+  document.getElementById('choices').style.opacity = '0.4';
+  document.getElementById('choices').style.pointerEvents = 'none';
+  document.getElementById('result-text').innerHTML = outcomes[idx];
+  document.getElementById('dilemma-result').style.display = 'block';
+  document.getElementById('dilemma-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetDilemma() {
+  document.getElementById('choices').style.opacity = '1';
+  document.getElementById('choices').style.pointerEvents = 'auto';
+  document.getElementById('dilemma-result').style.display = 'none';
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── QUIZ ENGINE ──
+const quizData = [
+  {
+    q: "Vad var en stor orsak till att britterna började införa nya skatter i kolonierna på 1760-talet?",
+    opts: [
+      "Storbritannien behövde betala av enorma skulder efter Sjuårskriget.",
+      "Kungen ville bygga ett nytt slott i London.",
+      "De ville tvinga kolonisterna att flytta tillbaka till Europa.",
+      "Kolonisterna hade själva bett om att få betala skatt för att visa sin lojalitet."
+    ],
+    correct: 0,
+    feedback: "Rätt! Efter Sjuårskriget var Storbritannien svårt skuldsatt. Parlamentet tyckte det var rimligt att kolonisterna skulle vara med och betala för det militära beskyddet."
+  },
+  {
+    q: "Vilken upplysningsfilosof formulerade idén om 'naturliga rättigheter' (liv, frihet, egendom)?",
+    opts: [
+      "Karl Marx",
+      "John Locke",
+      "George Washington",
+      "Aristoteles"
+    ],
+    correct: 1,
+    feedback: "Exakt! John Lockes tankar om människans naturliga rättigheter och folkets rätt till uppror blev bränsle för de amerikanska revolutionärerna."
+  },
+  {
+    q: "Varför protesterade kolonisterna mot de brittiska skatterna?",
+    opts: [
+      "De ville hellre betala skatt till Frankrike.",
+      "De ansåg det orättvist att betala skatt utan att få vara representerade i parlamentet i London.",
+      "De hade inga pengar kvar efter att ha köpt allt te.",
+      "Skatterna gällde bara bönder, inte stadsbor."
+    ],
+    correct: 1,
+    feedback: "Rätt! 'No taxation without representation' blev deras slagord. Eftersom de inte fick rösta fram politiker till parlamentet i London, vägrade de acceptera lagarna."
+  },
+  {
+    q: "Vad hette den bästsäljande skrift från 1776, skriven av Thomas Paine, som övertygade många om att bryta med britterna?",
+    opts: ["Common Sense", "The Declaration", "Boston News", "The Prince"],
+    correct: 0,
+    feedback: "Helt rätt. 'Common Sense' var skriven på ett enkelt språk och argumenterade för att det var löjligt att en liten ö skulle styra en hel kontinent."
+  },
+  {
+    q: "Vad hände under 'Boston Tea Party' 1773?",
+    opts: [
+      "Britterna bjöd in George Washington på te för att diskutera fred.",
+      "Kolonister klädde ut sig till ursprungsbefolkning och kastade brittiskt te i havet.",
+      "Kolonisterna startade en egen tefabrik för att konkurrera ut britterna.",
+      "Kvinnor samlades för att bojkotta brittiska tyger."
+    ],
+    correct: 1,
+    feedback: "Korrekt! Som protest mot tetullen bordade kolonister skeppen och förstörde lasten. Britterna svarade med att stänga Bostons hamn."
+  },
+  {
+    q: "Vilket land var absolut avgörande för amerikanernas seger, då de bidrog med pengar, soldater och en stark flotta?",
+    opts: ["Spanien", "Sverige", "Frankrike", "Nederländerna"],
+    correct: 2,
+    feedback: "Frankrike är rätt. Utan fransmännens stöd, särskilt under de avgörande slagen (som Yorktown), hade den amerikanska revolutionen sannolikt misslyckats."
+  },
+  {
+    q: "I den nya staten skapades en maktdelning baserad på filosofen Montesquieu. Vilka tre delar bestod denna av?",
+    opts: [
+      "Kung, Parlament och Kyrka",
+      "President, Kongress och Domstolar",
+      "Militär, President och Folket",
+      "Guvernör, Senat och Utrikesminister"
+    ],
+    correct: 1,
+    feedback: "Korrekt! Makten delades mellan Presidenten (verkställande), Kongressen (lagstiftande) och Domstolarna (dömande). Detta för att förhindra maktmissbruk."
+  },
+  {
+    q: "Vilken kvinnlig historisk person skrev till sin man och sa 'Remember the Ladies' under lagstiftningsarbetet (även om hon ignorerades)?",
+    opts: ["Joan of Arc", "Abigail Adams", "Martha Washington", "Marie Antoinette"],
+    correct: 1,
+    feedback: "Rätt. Abigail Adams påminde sin man John Adams om att kvinnor också behövde rättigheter i den nya republiken, men tyvärr fick kvinnor inte rösträtt förrän långt senare."
+  },
+  {
+    q: "Vilken grupp förlorade på att USA blev självständigt, eftersom de blev av med det skydd mot västlig expansion som britterna hade lovat?",
+    opts: [
+      "Slavägarna i södern",
+      "Köpmännen i New York",
+      "Ursprungsbefolkningen",
+      "De franska generalerna"
+    ],
+    correct: 2,
+    feedback: "Rätt! Många ur ursprungsbefolkningen hade allierat sig med britterna eftersom kronan försökt hindra nybyggare från att ta land i väst. Med USA:s självständighet öppnades dammluckorna."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Strålande resultat! Du har stenkoll på den amerikanska revolutionens fördjupade historia."; }
+  else if(pct >= 0.7) { title = "Snyggt jobbat! ⭐"; msg = "Du har förstått de viktigaste historiska sammanhangen riktigt bra."; }
+  else { title = "Läs en gång till 📖"; msg = "Det är mycket nytt material att ta in. Repetera tidslinjen och texten så sitter det snart!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
