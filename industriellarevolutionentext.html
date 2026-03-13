@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Industriella revolutionen – När världen bytte spår</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --coal:       #111111;
+  --coal-lt:    #1A1A1A;
+  --smoke:      #2C2C2C;
+  --paper:      #F4EFE6;
+  --rust:       #A33B20;
+  --rust-dk:    #7A2A15;
+  --brass:      #C59B6D;
+  --brass-dk:   #96734E;
+  --text:       #E0D9CC;
+  --text-dim:   rgba(224,217,204,0.65);
+  --border:     rgba(197,155,109,0.2);
+  --mono:       'JetBrains Mono', monospace;
+  --serif-head: 'Playfair Display', serif;
+  --serif-body: 'Crimson Pro', Georgia, serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--coal); color: var(--text);
+  font-family: var(--serif-body); font-size: 20px; line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 4px; width: 0%;
+  background: linear-gradient(90deg, var(--coal), var(--rust), var(--brass));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 60px 40px; text-align: center;
+  background: radial-gradient(ellipse at 50% 50%, #1a1512 0%, var(--coal) 80%);
+}
+.hero-smoke {
+  position: absolute; inset: 0; opacity: 0.15;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.02' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: drift 60s linear infinite; pointer-events: none;
+}
+@keyframes drift { from { background-position: 0 0; } to { background-position: 1000px 500px; } }
+
+.hero-vignette { position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 30%, rgba(17,17,17,0.95) 100%); pointer-events: none; }
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--brass); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards; z-index: 2;
+}
+.hero h1 {
+  font-family: var(--serif-head); font-size: clamp(42px, 8vw, 96px);
+  font-weight: 900; line-height: 1.05; color: var(--paper);
+  text-shadow: 0 10px 40px rgba(0,0,0,0.8); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; z-index: 2;
+}
+.hero h1 em { color: var(--rust); font-style: italic; }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim);
+  max-width: 650px; line-height: 1.5; margin-bottom: 48px; font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards; z-index: 2;
+}
+.scroll-hint {
+  position: absolute; bottom: 40px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--text-dim); display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards; z-index: 2;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--brass), transparent); }
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article { max-width: 780px; margin: 0 auto; padding: 80px 40px; position: relative; }
+p { margin-bottom: 28px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+.lead { font-size: 24px; font-style: italic; color: var(--paper); line-height: 1.6; margin-bottom: 48px; }
+
+/* ── SECTION HEADS ── */
+.section-marker { display: flex; align-items: center; gap: 20px; margin: 80px 0 32px; }
+.section-marker::before, .section-marker::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+.section-marker span { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--brass); white-space: nowrap; }
+
+h2 { font-family: var(--serif-head); font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; color: var(--paper); margin-bottom: 28px; }
+h2 em { color: var(--brass); font-style: italic; }
+h3 { font-family: var(--serif-head); font-size: 24px; font-weight: 700; color: var(--brass); margin: 40px 0 16px; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -60px; padding: 40px 60px;
+  border-left: 4px solid var(--rust);
+  background: linear-gradient(135deg, rgba(163,59,32,0.1), transparent);
+  position: relative;
+}
+.pullquote p { font-family: var(--serif-head); font-size: clamp(22px, 3vw, 32px); font-style: italic; color: var(--paper); line-height: 1.4; margin: 0; }
+
+/* ── FACT BOX ── */
+.fact-box {
+  background: rgba(197,155,109,0.05); border: 1px solid var(--border);
+  border-left: 3px solid var(--brass); border-radius: 0 6px 6px 0;
+  padding: 24px 32px; margin: 40px 0;
+}
+.fact-box-label { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--brass); margin-bottom: 12px; }
+.fact-box p { font-size: 18px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+
+/* ── INTERACTIVE CAUSES (Varför Storbritannien?) ── */
+.causes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 40px 0 60px; }
+.cause-card {
+  background: var(--coal-lt); border: 1px solid var(--border); border-radius: 8px;
+  padding: 24px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative; overflow: hidden;
+}
+.cause-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+  background: var(--brass); transform: scaleY(0); transition: transform 0.3s; transform-origin: bottom;
+}
+.cause-card:hover { border-color: var(--brass); background: #1f1a18; transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.5); }
+.cause-card:hover::before { transform: scaleY(1); }
+.cause-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+.cause-title { font-family: var(--serif-head); font-size: 20px; font-weight: 700; color: var(--paper); margin-bottom: 8px; }
+.cause-desc { font-size: 16px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+
+/* ── COMPARISON (Klassamhället) ── */
+.class-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 40px 0; }
+.class-panel { padding: 32px; border-radius: 8px; }
+.class-working { background: linear-gradient(135deg, #1a1a1a, #0f0f0f); border: 1px solid #333; }
+.class-upper { background: linear-gradient(135deg, rgba(197,155,109,0.1), rgba(197,155,109,0.02)); border: 1px solid var(--border); }
+.class-label { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 16px; }
+.class-working .class-label { color: #888; }
+.class-upper .class-label { color: var(--brass); }
+.class-panel h4 { font-family: var(--serif-head); font-size: 24px; color: var(--paper); margin-bottom: 16px; }
+.class-panel p { font-size: 16px; line-height: 1.6; margin-bottom: 0; }
+.class-working p { color: #aaa; }
+.class-upper p { color: var(--text); }
+
+/* ── DILEMMA (Ludditerna) ── */
+.dilemma-wrap {
+  margin: 80px -40px; padding: 52px 60px; border-radius: 8px; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, rgba(163,59,32,0.15), rgba(17,17,17,0.9));
+  border: 1px solid rgba(163,59,32,0.3);
+}
+.dilemma-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--rust); margin-bottom: 16px; }
+.dilemma-wrap h3 { font-family: var(--serif-head); font-size: clamp(22px, 3vw, 32px); color: var(--paper); margin: 0 0 12px; font-weight: 700; }
+.dilemma-context { font-size: 18px; color: var(--text-dim); margin-bottom: 32px; line-height: 1.65; }
+.dilemma-choices { display: flex; flex-direction: column; gap: 12px; }
+.choice-btn {
+  background: rgba(244,239,230,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer;
+  font-family: var(--serif-body); font-size: 18px; color: var(--text); text-align: left; transition: all 0.2s;
+  display: flex; align-items: flex-start; gap: 16px; line-height: 1.5;
+}
+.choice-btn:hover { border-color: var(--brass); background: rgba(197,155,109,0.08); color: var(--paper); }
+.choice-btn .choice-letter {
+  width: 28px; height: 28px; border-radius: 50%; background: rgba(197,155,109,0.15); border: 1px solid var(--brass);
+  display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--brass); flex-shrink: 0; margin-top: 2px;
+}
+#dilemma-result { display: none; margin-top: 32px; border-top: 1px solid var(--border); padding-top: 28px; }
+.result-reveal { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--brass); margin-bottom: 12px; }
+.result-text { font-size: 18px; color: var(--text); line-height: 1.7; }
+.result-text strong { color: var(--rust); }
+#try-again-btn {
+  margin-top: 20px; background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+  font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; padding: 10px 20px; cursor: pointer; transition: all 0.2s; border-radius: 4px;
+}
+#try-again-btn:hover { border-color: var(--brass); color: var(--brass); }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+/* ── LÄRARSEKTION & QUIZ ── */
+.teacher-section { background: #0a0a0a; border-top: 1px solid var(--border); padding: 80px 40px; margin-top: 40px; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--brass); margin-bottom: 14px; }
+.teacher-title { font-family: var(--serif-head); font-size: clamp(28px, 4vw, 42px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 18px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px; }
+.t-tab {
+  background: rgba(244,239,230,0.04); border: 1px solid var(--border); padding: 12px 24px; border-radius: 4px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover { border-color: var(--brass); color: var(--paper); }
+.t-tab.active { background: rgba(197,155,109,0.1); border-color: var(--brass); color: var(--brass); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(197,155,109,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(197,155,109,0.25); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: var(--serif-head); font-size: 20px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.q-list li { font-size: 17px; color: var(--text-dim); padding-left: 24px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--brass); }
+
+/* Quiz Styles */
+.quiz-wrap { background: rgba(244,239,230,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 40px; }
+.quiz-wrap h3 { font-family: var(--serif-head); font-size: 26px; color: var(--paper); margin-bottom: 12px; }
+.quiz-wrap p { font-size: 18px; color: var(--text-dim); margin-bottom: 24px; }
+.quiz-start-btn { background: rgba(197,155,109,0.15); border: 1px solid var(--brass); color: var(--brass); padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: rgba(197,155,109,0.3); color: var(--paper); }
+
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--brass); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(197,155,109,0.2); border-radius: 2px; margin-bottom: 28px; }
+.quiz-progress-bar { height: 100%; background: var(--brass); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: var(--serif-head); font-size: 24px; color: var(--paper); margin-bottom: 24px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 12px; }
+.quiz-opt { background: rgba(244,239,230,0.03); border: 1px solid var(--border); padding: 18px 24px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: var(--serif-body); font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--brass); background: rgba(197,155,109,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A7A2A; background: rgba(42,122,42,0.15); color: #EAF6EA; }
+.quiz-opt.wrong { border-color: #C0392B; background: rgba(192,57,43,0.15); color: #FDECEA; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--brass); background: rgba(197,155,109,0.15); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+
+.quiz-feedback { margin-top: 24px; padding: 20px 24px; background: rgba(197,155,109,0.1); border-left: 4px solid var(--brass); font-size: 18px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 24px; background: var(--brass); color: var(--coal); border: none; padding: 14px 28px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+
+.quiz-score-view { text-align: center; padding: 30px 0; display: none; }
+.score-circle { width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--rust), var(--brass-dk)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 10px 30px rgba(197,155,109,0.2); color: white; }
+.score-num { font-family: var(--serif-head); font-size: 48px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 14px; opacity: 0.8; margin-top: 4px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 42px; }
+  .article { padding: 60px 24px; }
+  .causes-grid, .class-compare { grid-template-columns: 1fr; }
+  .pullquote { margin: 40px -20px; padding: 30px 20px; }
+  .dilemma-wrap { margin: 60px -20px; padding: 32px 24px; }
+  .teacher-section { padding: 60px 24px; }
+  .q-block { flex-direction: column; gap: 12px; }
+  .quiz-wrap { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-smoke"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-label">SO-Portalen · Historia · Del I</div>
+  <h1>Industriella revolutionen<br><em>När världen bytte spår</em></h1>
+  <p class="hero-sub">Under 1700-talet tog mänskligheten klivet från handkraft till maskinkraft. Det är en av de största förändringarna i historien. Så här började allt.</p>
+  
+  <div class="scroll-hint">
+    <span>Scrolla för att läsa</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<!-- ── ARTICLE ── -->
+<article class="article">
+
+  <p class="lead fade-in">
+    För 250 år sedan levde nästan hela jordens befolkning som bönder på landsbygden. Mycket av det vi idag tycker är självklart existerade inte. Sedan hände något. En revolution som var så snabb och genomgripande att samhället aldrig mer blev sig likt.
+  </p>
+
+  <p class="fade-in">Före den här perioden arbetade de flesta med jordbruk eller hantverk i liten skala. Men när revolutionen fått fart hade fabriker, maskiner och industrier tagit över. Ett av de tidigaste tecknen syntes vid de brittiska kolgruvorna. Ångmaskiner började pumpa vatten. Hästar och enkla verktyg byttes successivt ut, och i bakgrunden reste sig skorstenar som pekade mot framtiden.</p>
+
+  <div class="section-marker fade-in"><span>1. Förändringen börjar i myllan</span></div>
+  <h2 class="fade-in">Jordbruket förändras – <em>och förändrar allt</em></h2>
+
+  <p class="fade-in">Allt började i Storbritannien på 1700-talet. Och det började inte i fabrikerna, utan på fälten.</p>
+
+  <h3 class="fade-in">Skiftet – från smala tegar till stora åkrar</h3>
+  <p class="fade-in">Tidigare var en bys åkrar uppdelade i smala remsor (tegar). Alla bönder odlade på flera platser och måste samarbeta. Men nu beslutade parlamentet att slå ihop dessa tegar. Rika jordägare köpte upp mark och skapade stora gods. För många småbönder innebar detta katastrof – de förlorade sin mark och tvingades lämna sina hem.</p>
+
+  <div class="fact-box fade-in">
+    <div class="fact-box-label">Nya metoder & Grödor</div>
+    <p>Man upptäckte att växter som <strong>klöver</strong> gav näring till jorden, så marken behövde inte längre vila i träda. Dessutom slog <strong>potatisen</strong> igenom – den var lättodlad, näringsrik och klarade kalla klimat. Mer mat innebar att befolkningen växte kraftigt.</p>
+  </div>
+
+  <p class="fade-in">När jordbruket blev effektivare behövdes färre människor på åkrarna. Samtidigt behövde de växande städerna och de nya fabrikerna arbetskraft. Det var en perfekt kombination för att starta en industriell revolution.</p>
+
+
+  <div class="section-marker fade-in"><span>2. Den perfekta stormen</span></div>
+  <h2 class="fade-in">Varför började det just i <em>Storbritannien?</em></h2>
+  <p class="fade-in">En industri omvandlar råvaror till färdiga produkter med hjälp av maskiner. Men varför blev just Storbritannien först i världen med detta? Svaret ligger i att sex avgörande faktorer sammanföll vid exakt rätt tidpunkt.</p>
+
+  <div class="causes-grid">
+    <div class="cause-card fade-in">
+      <span class="cause-icon">💰</span>
+      <h4 class="cause-title">1. Kapital</h4>
+      <p class="cause-desc">Storbritannien tjänade enorma summor på världshandeln (bl.a. triangelhandeln). Rika köpmän hade pengar att investera i de nya fabrikerna.</p>
+    </div>
+    <div class="cause-card fade-in" style="transition-delay: 0.1s;">
+      <span class="cause-icon">🪨</span>
+      <h4 class="cause-title">2. Råvaror</h4>
+      <p class="cause-desc">Det fanns gott om ull från fårskötseln, samt stora tillgångar på järnmalm och stenkol (som blev till koks för att smälta järnet).</p>
+    </div>
+    <div class="cause-card fade-in" style="transition-delay: 0.2s;">
+      <span class="cause-icon">👥</span>
+      <h4 class="cause-title">3. Arbetskraft</h4>
+      <p class="cause-desc">När jordbruket moderniserades blev många arbetslösa. De flyttade till städerna och utgjorde en enorm, billig arbetskraftsreserv.</p>
+    </div>
+    <div class="cause-card fade-in" style="transition-delay: 0.3s;">
+      <span class="cause-icon">⚙️</span>
+      <h4 class="cause-title">4. Uppfinningar</h4>
+      <p class="cause-desc">Smarta maskiner som spinnmaskiner och vävstolar effektiviserade arbetet tusenfalt jämfört med mänsklig handkraft.</p>
+    </div>
+    <div class="cause-card fade-in" style="transition-delay: 0.4s;">
+      <span class="cause-icon">🌍</span>
+      <h4 class="cause-title">5. Marknad</h4>
+      <p class="cause-desc">De växande städernas befolkning behövde köpa kläder och mat. Dessutom tvingades Storbritanniens kolonier köpa brittiska varor.</p>
+    </div>
+    <div class="cause-card fade-in" style="transition-delay: 0.5s;">
+      <span class="cause-icon">📜</span>
+      <h4 class="cause-title">6. Lagar</h4>
+      <p class="cause-desc">Lagstiftningen skyddade äganderätten och gynnade företagare, vilket gjorde det säkert och lönsamt att satsa sina pengar.</p>
+    </div>
+  </div>
+
+  <div class="pullquote fade-in">
+    <p>"Men den största förändringen kom med James Watts ångmaskin (1769). Plötsligt var fabrikerna inte längre beroende av rinnande vatten."</p>
+  </div>
+
+  <p class="fade-in">Ångmaskinen förändrade allt. Den kunde driva fabrikerna var som helst, och snart monterades ångmaskiner även på fartyg och rullande hjul – tåget var fött.</p>
+
+
+  <div class="section-marker fade-in"><span>3. Baksidan och motståndet</span></div>
+  <h2 class="fade-in">När maskinen <em>tog jobbet</em></h2>
+
+  <p class="fade-in">Alla var inte vinnare. Lagarna var extremt hårda mot de som protesterade. Arbetare som såg sina hantverksjobb ersättas av maskiner var desperata. Vissa tog till våld.</p>
+
+  <!-- LUDDITE DILEMMA -->
+  <div class="dilemma-wrap fade-in">
+    <div class="dilemma-label">⚡ Interaktivt moment</div>
+    <h3>Du är handvävare år 1812.</h3>
+    <p class="dilemma-context">Under generationer har din familj levt på att väva tyg. Nu har en stor fabrik öppnat i byn. De nya vävmaskinerna gör jobbet 50 gånger snabbare. Fabriksägaren anställer barn för en spottstyver för att sköta maskinerna, och du svälter. Ikväll planerar några av dina grannar (de kallar sig "Ludditer") att storma fabriken och slå sönder maskinerna. Går du med dem?</p>
+    
+    <div class="dilemma-choices" id="choices">
+      <button class="choice-btn" onclick="chooseDilemma(0)">
+        <span class="choice-letter">A</span>
+        <span>Ja. Maskinerna förstör våra liv. Om vi krossar dem måste fabriksägaren ge oss våra riktiga jobb tillbaka.</span>
+      </button>
+      <button class="choice-btn" onclick="chooseDilemma(1)">
+        <span class="choice-letter">B</span>
+        <span>Nej. Det är farligt. Maskinerna går inte att stoppa. Jag måste försöka hitta ett jobb inne i fabriken för att överleva.</span>
+      </button>
+    </div>
+
+    <div id="dilemma-result">
+      <div class="result-reveal">Vad hände med Ludditerna? →</div>
+      <div class="result-text" id="result-text"></div>
+      <button id="try-again-btn" onclick="resetDilemma()">Prova det andra valet ↺</button>
+    </div>
+  </div>
+
+
+  <div class="section-marker fade-in"><span>4. Samhället formas om</span></div>
+  <h2 class="fade-in">Urbanisering och <em>ett nytt klassamhälle</em></h2>
+
+  <p class="fade-in">Allt fler lämnade jordbruket. Detta ledde till en enorm flyttvåg från landsbygden in till städerna, vilket kallas för <strong>urbanisering</strong>. Städer som Manchester exploderade i storlek – från 20 000 invånare år 1760 till nästan 100 000 år 1800.</p>
+
+  <p class="fade-in">Samtidigt ökade befolkningen rekordsnabbt. Varför? Mer mat från jordbruket och nya medicinska framsteg. Ett av de viktigaste var när <strong>Edward Jenner år 1796 upptäckte vaccinet</strong> mot smittkoppor, inspirerad av en mjölkerska som blivit immun via kokoppor.</p>
+
+  <h3 class="fade-in">Sprickan i staden</h3>
+  <p class="fade-in">De snabba förändringarna skapade tydliga skillnader mellan människor. Industrisamhället blev ett utpräglat klassamhälle.</p>
+
+  <div class="class-compare fade-in">
+    <div class="class-panel class-working">
+      <div class="class-label">Arbetarklassen</div>
+      <h4>Rök och trångboddhet</h4>
+      <p>Långa, farliga arbetsdagar i fabrikerna för både vuxna och barn. Man bodde i trånga, smutsiga slumområden nära fabrikerna. Skolgång för barnen var mycket sällsynt eftersom deras lön behövdes för familjens överlevnad.</p>
+    </div>
+    <div class="class-panel class-upper">
+      <div class="class-label">Över- & Medelklassen</div>
+      <h4>Villor och privatskolor</h4>
+      <p>Fabriksägare och tjänstemän levde långt från fabrikernas rök. Hemmen var rymliga. Kvinnorna skötte hushållet (ofta med tjänstefolk) medan männen arbetade. Barnen undervisades i hemmet eller i dyra privatskolor.</p>
+    </div>
+  </div>
+
+  <h3 class="fade-in">Skuggan som dröjer kvar</h3>
+  <p class="fade-in">Den industriella revolutionen gav oss modern medicin, billiga kläder och snabba transporter. Men den hade ett pris. Arbetsmiljöerna var ofta dödsfällor och luften blev svart av rök. </p>
+  <p class="fade-in">Förbränningen av enorma mängder fossila bränslen – först kol, sedan olja – påbörjade utsläppen av växthusgaser i atmosfären. Den klimatförändring som världen brottas med idag är en direkt konsekvens av de maskiner som drogs igång under 1700-talets slut.</p>
+
+</article>
+
+<!-- ── LÄRARSEKTION ── -->
+<section class="teacher-section">
+  <div class="teacher-inner">
+    
+    <div class="teacher-header">
+      <div class="teacher-label">SO-Portalen · För lärare och elever</div>
+      <h2 class="teacher-title">Fördjupning & <em>Övningar</em></h2>
+      <p class="teacher-intro">Här hittar du material för att testa dina kunskaper och diskutera konsekvenserna av den industriella revolutionen.</p>
+      
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+        <button class="t-tab" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('skriv', this)">✍️ Skrivuppgifter</button>
+      </div>
+    </div>
+
+    <!-- QUIZ TAB -->
+    <div class="t-panel active" id="t-quiz">
+      <div class="quiz-wrap">
+        <h3>Testa dina kunskaper – Del I</h3>
+        <p>Gör detta quiz om 7 frågor för att se hur väl du förstod texten.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 7</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          <div class="quiz-options" id="quiz-opts"></div>
+          
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 7</div>
+          </div>
+          <h3 class="score-title" id="score-title">Resultat</h3>
+          <p class="score-msg" id="score-msg">Bra kämpat!</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISKUSSION TAB -->
+    <div class="t-panel" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Jordbrukets roll</h4>
+          <ul class="q-list">
+            <li>Varför var förändringarna i jordbruket (skiftet) en absolut nödvändighet för att industrin skulle kunna växa?</li>
+            <li>Vad hade hänt om befolkningen inte hade ökat samtidigt som man uppfann nya maskiner?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Vinnare och förlorare</h4>
+          <ul class="q-list">
+            <li>Vilka grupper i samhället gynnades mest av den industriella revolutionen i början? Vilka förlorade mest?</li>
+            <li>Tycker du att Ludditernas våldsamma motstånd mot maskinerna var förståeligt? Motivera.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKRIV TAB -->
+    <div class="t-panel" id="t-skriv">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Brev från Manchester</h4>
+          <p style="color:var(--text-dim); line-height:1.6; font-size:17px; margin-bottom:16px;">Du är en 14-åring som flyttat från landet in till Manchester år 1800 för att arbeta i en textilfabrik. Skriv ett brev hem till din mormor som bor kvar på landsbygden. Berätta om skillnaderna, lukterna, bullret och ditt dagliga liv.</p>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Orsak och konsekvens (Fakta-text)</h4>
+          <p style="color:var(--text-dim); line-height:1.6; font-size:17px;">Välj två av de sex orsakerna till att revolutionen startade i Storbritannien (t.ex. Kapital och Uppfinningar). Skriv en resonerande text där du förklarar varför just dessa två var så avgörande, och hur de påverkade varandra.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS & FADE-IN ANIMATIONS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// ── LUDDITE DILEMMA ──
+const outcomes = [
+  `<strong>Ett historiskt misstag.</strong> Du ansluter dig till upproret. Men den brittiska regeringen har noll tolerans för sabotage. Maskinförstörelse beläggs med dödsstraff. Det slutar med att militären sätts in; maskinerna vinner och 17 ludditer avrättas offentligt. Er kamp tystnas.`,
+  `<strong>Ett hårt, men nödvändigt val.</strong> Du biter ihop och tar ett jobb i fabriken. Arbetsmiljön är fruktansvärd och lönen är låg, men du överlever. Ludditupproret misslyckas och slås ner blodigt av regeringen. Den industriella utvecklingen gick inte att stoppa.`
+];
+
+function chooseDilemma(idx) {
+  document.getElementById('choices').style.opacity = '0.4';
+  document.getElementById('choices').style.pointerEvents = 'none';
+  document.getElementById('result-text').innerHTML = outcomes[idx];
+  document.getElementById('dilemma-result').style.display = 'block';
+  document.getElementById('dilemma-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function resetDilemma() {
+  document.getElementById('choices').style.opacity = '1';
+  document.getElementById('choices').style.pointerEvents = 'auto';
+  document.getElementById('dilemma-result').style.display = 'none';
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── QUIZ ENGINE ──
+const quizData = [
+  {
+    q: "Vad menas med att jordbruket 'skiftades' i Storbritannien under 1700-talet?",
+    opts: [
+      "Bönderna bytte gårdar med varandra varje år.",
+      "Smala tegar slogs ihop till större, sammanhängande åkrar som ägdes av rika godsägare.",
+      "Man slutade odla vete och började enbart odla potatis.",
+      "Jordbruket förbjöds helt för att tvinga fram industrier."
+    ],
+    correct: 1,
+    feedback: "Rätt! Skiftet innebar att man gick från uppstyckade tegar till stora jordbruk. Detta gjorde jordbruket mer effektivt, men tvingade samtidigt bort många fattiga småbönder som sedan fick söka jobb i städernas fabriker."
+  },
+  {
+    q: "Vilket nytt bränsle ersatte träkol och gjorde det möjligt att tillverka mycket mer och billigare järn?",
+    opts: ["Koks (framställt av stenkol)", "Olja", "Uran", "Torf"],
+    correct: 0,
+    feedback: "Koks (från stenkol) var avgörande. Eftersom skogarna i Storbritannien höll på att ta slut, räddade stenkolen industrin och möjliggjorde massproduktion av järn till maskiner och järnvägar."
+  },
+  {
+    q: "Vilken uppfinning (förbättrad av James Watt 1769) gjorde att fabriker kunde byggas var som helst, oberoende av rinnande vatten?",
+    opts: ["Vävmaskinen", "Ångmaskinen", "Telegrafen", "Spinnrocken"],
+    correct: 1,
+    feedback: "Exakt! James Watts förbättrade ångmaskin var revolutionerande. Nu kunde den mekaniska kraften placeras precis där den behövdes, och den drev senare även de första tågen och ångfartygen."
+  },
+  {
+    q: "Vilka var ludditerna?",
+    opts: [
+      "Rika fabriksägare som uppfann nya maskiner.",
+      "Parlamentsledamöter som stiftade lagar mot barnarbete.",
+      "Arbetare och hantverkare som slog sönder fabriksmaskiner i protest mot att de förlorat sina jobb.",
+      "Läkare som arbetade med att ta fram vaccin."
+    ],
+    correct: 2,
+    feedback: "Helt rätt. Ludditerna såg maskinerna som ett hot mot sin försörjning och tog till våld. Regeringen svarade skoningslöst och införde dödsstraff för maskinförstörelse."
+  },
+  {
+    q: "Vem upptäckte det första vaccinet (mot smittkoppor) i slutet av 1700-talet?",
+    opts: ["Louis Pasteur", "Alexander Fleming", "Edward Jenner", "Florence Nightingale"],
+    correct: 2,
+    feedback: "Edward Jenner insåg att kokoppor kunde ge immunitet mot de dödliga smittkopporna. Detta, tillsammans med mer mat, bidrog starkt till befolkningsökningen."
+  },
+  {
+    q: "Vad kallas den enorma flyttvågen från landsbygden in till städerna under denna period?",
+    opts: ["Globalisering", "Urbanisering", "Emigration", "Segregation"],
+    correct: 1,
+    feedback: "Urbanisering är ordet. Manchester är ett bra exempel, där befolkningen nästan femdubblades på några få decennier på grund av textilindustrins jobbmöjligheter."
+  },
+  {
+    q: "Vilken allvarlig miljökonsekvens av den industriella revolutionen (som startade då) brottas vi med än idag?",
+    opts: [
+      "Kärnavfall i haven",
+      "Utsläpp av växthusgaser på grund av förbränning av fossila bränslen (kol och olja)",
+      "Skogsdöd på grund av surt regn från hästvagnar",
+      "Uttorkning av stora floder"
+    ],
+    correct: 1,
+    feedback: "Rätt! När människan började bränna kol (och senare olja) i industriell skala påbörjades de koldioxidutsläpp som driver dagens globala uppvärmning."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Ett strålande resultat! Du har stenkoll på industrialiseringens start."; }
+  else if(pct >= 0.7) { title = "Snyggt jobbat! ⭐"; msg = "Du har förstått de viktigaste historiska sammanhangen riktigt bra."; }
+  else { title = "Läs en gång till 📖"; msg = "Det är ett stort ämne. Repetera texten så sitter det perfekt nästa gång!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
