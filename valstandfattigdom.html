@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Välstånd & Fattigdom – SO med Petrus · SO-portalen.se</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:     #1A1209;
+  --amber:   #92400E;
+  --amber-m: #B45309;
+  --gold:    #D97706;
+  --gold-lt: #FEF3C7;
+  --sand:    #FFFBF0;
+  --parch:   #FDF8ED;
+  --green:   #166534;
+  --green-m: #15803D;
+  --green-lt:#DCFCE7;
+  --red:     #991B1B;
+  --red-lt:  #FEE2E2;
+  --blue:    #1E40AF;
+  --blue-lt: #EFF6FF;
+  --muted:   #78716C;
+  --border:  #E7E0D0;
+  --white:   #FFFFFF;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--sand);color:var(--ink);line-height:1.7;}
+
+/* ─── COIN BAR ─── */
+.coin-bar{height:5px;background:linear-gradient(to right,#92400E,#D97706,#FBBF24,#A3E635,#166534);position:sticky;top:0;z-index:200;}
+
+/* ─── HERO ─── */
+.hero{
+  background:#1A1209;
+  background-image:
+    radial-gradient(ellipse at 75% 30%,rgba(217,119,6,0.35) 0%,transparent 55%),
+    radial-gradient(ellipse at 15% 70%,rgba(22,101,52,0.2) 0%,transparent 50%);
+  color:#fff;padding:56px 44px 48px;position:relative;overflow:hidden;min-height:340px;display:flex;align-items:center;
+}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:44px 44px;}
+.hero-coin{position:absolute;right:60px;top:50%;transform:translateY(-50%);width:240px;height:240px;opacity:0.06;pointer-events:none;}
+.hero-inner{position:relative;z-index:1;max-width:640px;}
+.hero-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#FBBF24;margin-bottom:14px;font-weight:600;}
+.hero h1{font-family:'Fraunces',serif;font-size:clamp(32px,6vw,58px);font-weight:900;line-height:1.05;margin-bottom:14px;}
+.hero h1 em{color:#FCD34D;font-style:normal;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.6);margin-bottom:22px;max-width:540px;line-height:1.7;}
+.hero-tags{display:flex;gap:8px;flex-wrap:wrap;}
+.hero-tag{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.75);padding:5px 14px;border-radius:20px;font-size:12px;font-weight:500;}
+
+/* ─── NAV ─── */
+.nav-tabs{background:#fff;border-bottom:2px solid var(--border);display:flex;overflow-x:auto;position:sticky;top:5px;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.07);scrollbar-width:none;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{padding:14px 18px;font-size:13px;font-weight:600;color:var(--muted);cursor:pointer;white-space:nowrap;border:none;border-bottom:3px solid transparent;background:none;transition:all .2s;flex-shrink:0;}
+.nav-tab:hover{color:var(--amber);background:#FFFBEB;}
+.nav-tab.active{color:var(--amber);border-bottom-color:var(--gold);}
+
+/* ─── SECTIONS ─── */
+.section{display:none;padding:40px 44px;max-width:980px;margin:0 auto;}
+.section.active{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ─── SEC HEADER ─── */
+.sec-label{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;font-weight:600;}
+.sec-title{font-family:'Fraunces',serif;font-size:clamp(22px,4vw,36px);font-weight:700;color:var(--amber);line-height:1.15;}
+.sec-divider{width:44px;height:3px;background:linear-gradient(to right,var(--gold),var(--green-m));margin:12px 0 14px;border-radius:2px;}
+.sec-desc{color:var(--muted);max-width:600px;font-size:15px;line-height:1.7;font-style:italic;}
+.sec-header{margin-bottom:28px;}
+
+/* ─── EPISODE CARDS ─── */
+.ep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:32px;}
+.ep-card{background:#1A1209;color:#fff;border-radius:12px;padding:22px 18px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.06);}
+.ep-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(to right,var(--gold),var(--green-m));}
+.ep-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(26,18,9,0.4);}
+.ep-num{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#FBBF24;margin-bottom:10px;font-weight:600;}
+.ep-icon{font-size:30px;margin-bottom:10px;display:block;}
+.ep-card h3{font-family:'Fraunces',serif;font-size:15px;font-weight:700;line-height:1.3;margin-bottom:6px;}
+.ep-card p{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.5;}
+
+/* ─── STATS STRIP ─── */
+.stats-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:32px;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.stat-box{padding:20px 16px;text-align:center;background:#fff;border-right:1px solid var(--border);}
+.stat-box:last-child{border-right:none;}
+.stat-num{font-family:'Fraunces',serif;font-size:26px;font-weight:900;color:var(--gold);line-height:1;}
+.stat-label{font-size:11px;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:1px;font-weight:500;}
+
+/* ─── INTRO BOX ─── */
+.intro-box{background:#1A1209;color:#fff;border-radius:12px;padding:26px 30px;margin-bottom:28px;background-image:radial-gradient(ellipse at 90% 50%,rgba(217,119,6,0.25) 0%,transparent 60%);}
+.intro-box p{font-size:15px;line-height:1.8;color:rgba(255,255,255,0.82);}
+.intro-box strong{color:#FCD34D;}
+
+/* ─── SPOTIFY ─── */
+.spotify-card{display:block;text-decoration:none;background:#0D1619;border:1px solid rgba(29,185,84,0.25);border-radius:12px;margin-bottom:28px;transition:all .25s;box-shadow:0 4px 20px rgba(0,0,0,0.15);}
+.spotify-card:hover{transform:translateY(-2px);border-color:#1DB954;box-shadow:0 8px 32px rgba(29,185,84,0.18);}
+.spotify-card-inner{display:flex;align-items:center;gap:18px;padding:18px 22px;}
+.spotify-logo{width:34px;height:34px;flex-shrink:0;}
+.spotify-card-text{flex:1;}
+.spotify-card-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#1DB954;margin-bottom:4px;font-weight:600;}
+.spotify-card-title{font-size:14px;font-weight:600;color:#fff;line-height:1.4;}
+.spotify-play-btn{flex-shrink:0;background:#1DB954;color:#000;font-size:11px;font-weight:700;letter-spacing:1px;padding:9px 16px;border-radius:20px;white-space:nowrap;}
+.spotify-card:hover .spotify-play-btn{background:#1ed760;}
+
+/* ─── ACCORDION ─── */
+.akt-list{margin-bottom:28px;}
+.akt{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden;background:#fff;}
+.akt-header{width:100%;display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:none;border:none;font-weight:700;font-size:14px;color:var(--amber);cursor:pointer;text-align:left;transition:background .2s;}
+.akt-header:hover{background:var(--gold-lt);}
+.akt-header.open{background:#1A1209;color:#fff;}
+.akt-num{color:var(--gold);margin-right:10px;flex-shrink:0;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;}
+.akt-header.open .akt-num{color:#FBBF24;}
+.akt-arrow{transition:transform .3s;font-size:11px;flex-shrink:0;}
+.akt-header.open .akt-arrow{transform:rotate(180deg);}
+.akt-body{display:none;padding:20px 24px;border-top:1px solid var(--border);line-height:1.8;font-size:15px;}
+.akt-body.open{display:block;animation:fadeUp .2s ease;}
+.akt-body p{margin-bottom:12px;}
+.akt-body p:last-child{margin-bottom:0;}
+.akt-body strong{color:var(--amber-m);}
+.highlight-box{background:var(--gold-lt);border-left:4px solid var(--gold);padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;font-style:italic;font-size:14px;color:var(--amber);}
+
+/* ─── FACT GRID ─── */
+.fact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:28px;}
+.fact-box{background:#fff;border:1px solid var(--border);border-top:4px solid var(--gold);border-radius:8px;padding:18px;}
+.fact-box.green{border-top-color:var(--green-m);}
+.fact-box.red{border-top-color:var(--red);}
+.fact-box.blue{border-top-color:var(--blue);}
+.fact-box h4{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-weight:600;}
+.fact-box p{font-size:14px;line-height:1.65;}
+
+/* ─── INCOME LEVELS INTERACTIVE ─── */
+.income-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:28px;}
+.income-box h3{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--amber);margin-bottom:4px;}
+.income-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
+.income-levels{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.income-level{padding:0;cursor:pointer;transition:all .2s;border-right:1px solid var(--border);position:relative;}
+.income-level:last-child{border-right:none;}
+.income-level-header{padding:16px 14px;text-align:center;}
+.income-level:hover .income-level-header{background:var(--gold-lt);}
+.income-level.active .income-level-header{background:#1A1209;}
+.income-lvl-num{font-family:'Fraunces',serif;font-size:28px;font-weight:900;color:var(--gold);}
+.income-level.active .income-lvl-num{color:#FBBF24;}
+.income-lvl-kr{font-size:11px;font-weight:700;color:var(--muted);margin-top:2px;}
+.income-level.active .income-lvl-kr{color:rgba(255,255,255,0.6);}
+.income-lvl-label{font-size:11px;color:var(--muted);font-weight:600;}
+.income-level.active .income-lvl-label{color:rgba(255,255,255,0.7);}
+.income-detail{margin-top:14px;padding:18px 20px;background:var(--gold-lt);border-radius:10px;display:none;}
+.income-detail.show{display:block;animation:fadeUp .2s ease;}
+.income-detail h4{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--amber);margin-bottom:8px;}
+.income-detail p{font-size:14px;line-height:1.7;color:var(--ink);}
+.income-countries{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.country-chip{background:#fff;border:1px solid var(--border);padding:4px 10px;border-radius:12px;font-size:12px;font-weight:600;color:var(--amber);}
+.income-bar-wrap{margin-top:12px;}
+.income-bar-bg{height:16px;background:rgba(0,0,0,0.06);border-radius:8px;overflow:hidden;}
+.income-bar-fill{height:100%;border-radius:8px;background:var(--gold);transition:width .8s cubic-bezier(.4,0,.2,1);}
+
+/* ─── POVERTY CIRCLE ─── */
+.poverty-circle-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:28px;}
+.poverty-circle-box h3{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--amber);margin-bottom:4px;}
+.poverty-circle-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
+.circle-steps{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:16px;}
+.circle-step{background:#fff;border:2px solid var(--border);border-radius:10px;padding:12px 14px;text-align:center;cursor:pointer;transition:all .25s;width:130px;}
+.circle-step:hover{border-color:var(--gold);background:var(--gold-lt);}
+.circle-step.active{border-color:var(--amber);background:#1A1209;color:#fff;}
+.circle-step-icon{font-size:22px;margin-bottom:4px;}
+.circle-step-label{font-size:11px;font-weight:700;line-height:1.3;}
+.circle-step.active .circle-step-label{color:#fff;}
+.circle-arrow{font-size:20px;color:var(--gold);display:flex;align-items:center;padding:0 2px;}
+.circle-detail{padding:16px 20px;background:var(--red-lt);border:1px solid #FCA5A5;border-radius:10px;display:none;}
+.circle-detail.show{display:block;animation:fadeUp .2s ease;}
+.circle-detail h4{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:var(--red);margin-bottom:6px;}
+.circle-detail p{font-size:14px;line-height:1.7;}
+.circle-break-btn{margin-top:10px;padding:8px 18px;background:var(--green-m);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s;}
+.circle-break-btn:hover{background:var(--green);}
+
+/* ─── GLOBAL GOALS ─── */
+.sdg-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:28px;}
+.sdg-box h3{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--amber);margin-bottom:4px;}
+.sdg-sub{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.sdg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(72px,1fr));gap:8px;margin-bottom:16px;}
+.sdg-card{border-radius:8px;padding:10px 6px;text-align:center;cursor:pointer;transition:all .2s;position:relative;border:2px solid transparent;}
+.sdg-card:hover{transform:scale(1.07);}
+.sdg-card.selected{border-color:#1A1209;box-shadow:0 0 0 3px rgba(26,18,9,0.15);}
+.sdg-num{font-family:'Fraunces',serif;font-size:16px;font-weight:900;color:#fff;line-height:1;}
+.sdg-name{font-size:9px;font-weight:700;color:rgba(255,255,255,0.9);line-height:1.2;margin-top:3px;}
+.sdg-detail{padding:16px 20px;background:var(--gold-lt);border-radius:10px;display:none;border:1px solid var(--border);}
+.sdg-detail.show{display:block;animation:fadeUp .2s ease;}
+.sdg-detail h4{font-family:'Fraunces',serif;font-size:16px;font-weight:700;color:var(--amber);margin-bottom:8px;}
+.sdg-detail p{font-size:14px;line-height:1.7;}
+.sdg-pillars{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.sdg-pillar{font-size:11px;font-weight:700;padding:4px 12px;border-radius:12px;}
+.sdg-soc{background:#DBEAFE;color:#1E40AF;}
+.sdg-eco{background:#D1FAE5;color:#065F46;}
+.sdg-env{background:#FEF3C7;color:#92400E;}
+
+/* ─── WELFARE COMPARE ─── */
+.welfare-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:28px;margin-bottom:28px;}
+.welfare-box h3{font-family:'Fraunces',serif;font-size:18px;font-weight:700;color:var(--amber);margin-bottom:4px;}
+.welfare-sub{font-size:13px;color:var(--muted);margin-bottom:22px;}
+.welfare-scenario{margin-bottom:14px;padding:14px 18px;border-radius:10px;border:2px solid var(--border);cursor:pointer;transition:all .2s;}
+.welfare-scenario:hover{border-color:var(--gold);}
+.welfare-scenario.active{border-color:var(--amber);background:var(--gold-lt);}
+.welfare-scenario h4{font-size:14px;font-weight:700;color:var(--amber);margin-bottom:4px;}
+.welfare-scenario p{font-size:13px;color:var(--muted);}
+.welfare-compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;}
+.welfare-col{padding:18px;border-radius:10px;}
+.welfare-col.good{background:var(--green-lt);border:1px solid #86EFAC;}
+.welfare-col.bad{background:var(--red-lt);border:1px solid #FCA5A5;}
+.welfare-col h4{font-size:13px;font-weight:700;margin-bottom:10px;}
+.welfare-col.good h4{color:var(--green);}
+.welfare-col.bad h4{color:var(--red);}
+.welfare-col ul{list-style:none;padding:0;}
+.welfare-col ul li{font-size:13px;line-height:1.6;padding:3px 0;padding-left:16px;position:relative;}
+.welfare-col.good ul li::before{content:'✓';position:absolute;left:0;color:var(--green-m);font-weight:700;}
+.welfare-col.bad ul li::before{content:'✗';position:absolute;left:0;color:var(--red);font-weight:700;}
+
+/* ─── HDI BAR CHART ─── */
+.hdi-box{background:#1A1209;color:#fff;border-radius:12px;padding:28px;margin-bottom:28px;}
+.hdi-box h3{font-family:'Fraunces',serif;font-size:18px;font-weight:700;margin-bottom:4px;}
+.hdi-sub{font-size:13px;color:rgba(255,255,255,0.55);margin-bottom:22px;}
+.hdi-rows{display:flex;flex-direction:column;gap:10px;}
+.hdi-row{display:flex;align-items:center;gap:12px;}
+.hdi-flag{font-size:18px;width:28px;flex-shrink:0;}
+.hdi-country{font-size:12px;font-weight:600;width:110px;flex-shrink:0;color:rgba(255,255,255,0.8);}
+.hdi-bar-bg{flex:1;height:24px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;}
+.hdi-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding:0 8px;font-size:11px;font-weight:700;color:#fff;transition:width 1s cubic-bezier(.4,0,.2,1);}
+.hdi-val{font-size:12px;font-weight:700;color:rgba(255,255,255,0.6);width:40px;text-align:right;flex-shrink:0;}
+
+/* ─── BEGREPP ─── */
+.begrep-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:32px;}
+.begrep-card{perspective:800px;height:155px;cursor:pointer;}
+.begrep-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s;}
+.begrep-card.flipped .begrep-inner{transform:rotateY(180deg);}
+.begrep-front,.begrep-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:10px;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:16px;text-align:center;}
+.begrep-front{background:#1A1209;color:#fff;border:1px solid rgba(255,255,255,0.1);}
+.begrep-front h4{font-family:'Fraunces',serif;font-size:15px;font-weight:700;color:#FBBF24;margin-bottom:6px;}
+.begrep-front span{font-size:10px;color:rgba(255,255,255,0.4);letter-spacing:2px;text-transform:uppercase;}
+.begrep-back{background:var(--parch);color:var(--ink);transform:rotateY(180deg);border:1px solid var(--border);}
+.begrep-back p{font-size:13px;line-height:1.6;}
+
+/* ─── PULL QUOTE ─── */
+.pull-quote{border-left:5px solid var(--gold);padding:14px 22px;margin:20px 0;background:#fff;border-radius:0 8px 8px 0;}
+.pull-quote blockquote{font-family:'Fraunces',serif;font-size:17px;font-style:italic;color:var(--amber);margin-bottom:6px;line-height:1.6;}
+.pull-quote cite{font-size:11px;letter-spacing:1px;color:var(--muted);font-weight:600;text-transform:uppercase;}
+
+/* ─── QUIZ ─── */
+.quiz-container{background:#1A1209;border-radius:12px;padding:28px;margin-bottom:28px;color:#fff;}
+.quiz-header{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#FBBF24;margin-bottom:6px;font-weight:600;}
+.quiz-progress-bar{height:4px;background:rgba(255,255,255,0.15);border-radius:2px;margin-bottom:22px;overflow:hidden;}
+.quiz-progress-fill{height:100%;background:#FBBF24;border-radius:2px;transition:width .4s ease;}
+.quiz-q-count{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:8px;}
+.quiz-question-text{font-family:'Fraunces',serif;font-size:17px;font-weight:600;line-height:1.5;margin-bottom:20px;}
+.quiz-options{display:flex;flex-direction:column;gap:10px;}
+.quiz-option{padding:12px 18px;border-radius:8px;border:1px solid rgba(255,255,255,0.15);background:rgba(255,255,255,0.05);color:#fff;cursor:pointer;font-size:14px;text-align:left;transition:all .2s;}
+.quiz-option:hover:not(:disabled){background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.35);}
+.quiz-option.correct{background:rgba(16,185,129,0.3);border-color:#34D399;}
+.quiz-option.wrong{background:rgba(220,38,38,0.3);border-color:#F87171;}
+.quiz-option:disabled{cursor:not-allowed;}
+.quiz-feedback{margin-top:14px;padding:14px;border-radius:8px;font-size:14px;line-height:1.6;display:none;}
+.quiz-feedback.correct{background:rgba(16,185,129,0.2);border:1px solid rgba(52,211,153,0.3);}
+.quiz-feedback.wrong{background:rgba(220,38,38,0.2);border:1px solid rgba(248,113,113,0.3);}
+.quiz-feedback.show{display:block;animation:fadeUp .2s ease;}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px;}
+.quiz-btn{padding:10px 22px;border-radius:8px;font-size:12px;font-weight:700;letter-spacing:1px;cursor:pointer;border:none;transition:all .2s;}
+.quiz-btn.primary{background:#FBBF24;color:#1A1209;}
+.quiz-btn.primary:hover{background:#F59E0B;}
+.quiz-btn.primary:disabled{background:rgba(255,255,255,0.2);color:rgba(255,255,255,0.4);cursor:not-allowed;}
+.quiz-score{text-align:center;padding:24px;}
+.quiz-score .score-num{font-family:'Fraunces',serif;font-size:58px;font-weight:900;color:#FBBF24;line-height:1;}
+.quiz-score .score-label{font-size:14px;color:rgba(255,255,255,0.6);margin-top:6px;}
+.quiz-score .score-msg{margin-top:14px;font-size:15px;color:rgba(255,255,255,0.85);}
+
+@media(max-width:640px){
+  .hero{padding:36px 22px;}
+  .section{padding:24px 18px;}
+  .income-levels{grid-template-columns:repeat(2,1fr);}
+  .welfare-compare-grid{grid-template-columns:1fr;}
+  .hero-coin{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="coin-bar"></div>
+
+<header class="hero">
+  <div class="hero-grid"></div>
+  <svg class="hero-coin" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" fill="none" stroke="white" stroke-width="8"/>
+    <circle cx="100" cy="100" r="78" fill="none" stroke="white" stroke-width="2"/>
+    <text x="100" y="85" text-anchor="middle" font-size="28" fill="white" font-weight="bold">$</text>
+    <text x="100" y="118" text-anchor="middle" font-size="13" fill="white">VÄRDE</text>
+    <text x="100" y="140" text-anchor="middle" font-size="10" fill="white">RÄTTVISA</text>
+  </svg>
+  <div class="hero-inner">
+    <div class="hero-label">SO med Petrus &nbsp;·&nbsp; SO-portalen.se &nbsp;·&nbsp; Geografi</div>
+    <h1>Välstånd &amp;<br><em>Fattigdom</em></h1>
+    <p class="hero-sub">Varför lever en miljard på 20 kronor om dagen? Hur funkar fattigdomscirkeln? Vad är de globala målen – och hur tar ett land sig ur fattigdom?</p>
+    <div class="hero-tags">
+      <span class="hero-tag">🎙️ 4 avsnitt</span>
+      <span class="hero-tag">🌍 Globala målen</span>
+      <span class="hero-tag">📊 Inkomstnivåer</span>
+      <span class="hero-tag">🔄 Fattigdomscirkeln</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-tabs" id="navTabs">
+  <button class="nav-tab active" data-tab="hem">🏠 Hem</button>
+  <button class="nav-tab" data-tab="del1">Del 1 · Välstånd &amp; Fattigdom</button>
+  <button class="nav-tab" data-tab="del2">Del 2 · Globala Målen</button>
+  <button class="nav-tab" data-tab="del3">Del 3 · Indelning av länder</button>
+  <button class="nav-tab" data-tab="del4">Del 4 · Ta sig ur fattigdom</button>
+  <button class="nav-tab" data-tab="begrepp">📖 Begrepp</button>
+  <button class="nav-tab" data-tab="stortestet">🏆 Stortestet</button>
+</nav>
+
+<main>
+
+<!-- ══════════════ HEM ══════════════ -->
+<section class="section active" id="tab-hem">
+  <div class="sec-header">
+    <div class="sec-label">Välkommen</div>
+    <h2 class="sec-title">Välstånd &amp; Fattigdom i Världen</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Du är, med stor sannolikhet, en av världens rikare människor. Inte rik som i "äger en ö" – men rik om man jämför med knappt åtta miljarder. Det är här vi börjar.</p>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat-box"><div class="stat-num">800 M</div><div class="stat-label">Lever i extrem fattigdom</div></div>
+    <div class="stat-box"><div class="stat-num">20 kr</div><div class="stat-label">Per dag – extrem fattigdom</div></div>
+    <div class="stat-box"><div class="stat-num">17</div><div class="stat-label">Globala hållbarhetsmål</div></div>
+    <div class="stat-box"><div class="stat-num">2030</div><div class="stat-label">Deadline för de globala målen</div></div>
+  </div>
+
+  <div class="ep-grid">
+    <div class="ep-card" onclick="switchTab('del1')">
+      <span class="ep-icon">💸</span>
+      <div class="ep-num">Avsnitt 1</div>
+      <h3>Välstånd &amp; Fattigdom</h3>
+      <p>Tre världar, fattigdomscirkeln och välfärdens roll.</p>
+    </div>
+    <div class="ep-card" onclick="switchTab('del2')">
+      <span class="ep-icon">🎯</span>
+      <div class="ep-num">Avsnitt 2</div>
+      <h3>De Globala Målen</h3>
+      <p>17 mål. 169 delmål. En deadline: 2030.</p>
+    </div>
+    <div class="ep-card" onclick="switchTab('del3')">
+      <span class="ep-icon">🗂️</span>
+      <div class="ep-num">Avsnitt 3</div>
+      <h3>Indelning av länder</h3>
+      <p>BNI, HDI, MUL-länder och varför lådor är farliga men användbara.</p>
+    </div>
+    <div class="ep-card" onclick="switchTab('del4')">
+      <span class="ep-icon">🌱</span>
+      <div class="ep-num">Avsnitt 4</div>
+      <h3>Att ta sig ur fattigdom</h3>
+      <p>Fabriker, demokrati, bistånd, Sida och rättvisare handel.</p>
+    </div>
+  </div>
+
+  <!-- Income levels interactive on home -->
+  <div class="income-box">
+    <h3>Världens fyra inkomstnivåer</h3>
+    <p class="income-sub">Klicka på varje nivå för att förstå hur livet ser ut – i kronor per dag.</p>
+    <div class="income-levels">
+      <div class="income-level active" onclick="showLevel(1,this)">
+        <div class="income-level-header">
+          <div class="income-lvl-num">1</div>
+          <div class="income-lvl-kr">&lt;20 kr/dag</div>
+          <div class="income-lvl-label">~1 miljard</div>
+        </div>
+      </div>
+      <div class="income-level" onclick="showLevel(2,this)">
+        <div class="income-level-header">
+          <div class="income-lvl-num">2</div>
+          <div class="income-lvl-kr">~40 kr/dag</div>
+          <div class="income-lvl-label">~3,5 miljarder</div>
+        </div>
+      </div>
+      <div class="income-level" onclick="showLevel(3,this)">
+        <div class="income-level-header">
+          <div class="income-lvl-num">3</div>
+          <div class="income-lvl-kr">~160 kr/dag</div>
+          <div class="income-lvl-label">~2,5 miljarder</div>
+        </div>
+      </div>
+      <div class="income-level" onclick="showLevel(4,this)">
+        <div class="income-level-header">
+          <div class="income-lvl-num">4</div>
+          <div class="income-lvl-kr">&gt;320 kr/dag</div>
+          <div class="income-lvl-label">~1 miljard</div>
+        </div>
+      </div>
+    </div>
+    <div class="income-detail show" id="inc-1">
+      <h4>Nivå 1 – Extrem fattigdom</h4>
+      <p>Mindre än 20 kronor om dagen – totalt. Mat, kläder, allt. Livet handlar om att fixa mat och vatten, och hitta någonstans att sova. Vatten kan vara långt borta eller smutsigt. En sjukdom kan krascha hela familjeekonomin.</p>
+      <div class="income-bar-wrap"><div class="income-bar-bg"><div class="income-bar-fill" style="width:12%;background:#DC2626;"></div></div></div>
+      <div class="income-countries"><span class="country-chip">🇸🇴 Somalia</span><span class="country-chip">🇿🇼 Zimbabwe</span><span class="country-chip">🇪🇹 Etiopien</span></div>
+    </div>
+    <div class="income-detail" id="inc-2">
+      <h4>Nivå 2 – Fortfarande sårbart</h4>
+      <p>Ungefär 40 kronor per dag. Barnen kan i högre grad gå i skolan eftersom de slipper lägga timmar på att hämta vatten. Maten lagas på gasspis. Livet är hårt, men det mest grundläggande fungerar bättre.</p>
+      <div class="income-bar-wrap"><div class="income-bar-bg"><div class="income-bar-fill" style="width:40%;background:#D97706;"></div></div></div>
+      <div class="income-countries"><span class="country-chip">🇮🇳 Indien</span><span class="country-chip">🇵🇰 Pakistan</span><span class="country-chip">🇳🇬 Nigeria</span></div>
+    </div>
+    <div class="income-detail" id="inc-3">
+      <h4>Nivå 3 – Medelinkomst, växande möjligheter</h4>
+      <p>Ungefär 160 kronor per dag. Kallt rinnande vatten indraget i bostaden, vanlig spis, tid till annat än bara överlevnad. Möjlighet att spara lite och planera framåt.</p>
+      <div class="income-bar-wrap"><div class="income-bar-bg"><div class="income-bar-fill" style="width:70%;background:#65A30D;"></div></div></div>
+      <div class="income-countries"><span class="country-chip">🇨🇳 Kina</span><span class="country-chip">🇧🇷 Brasilien</span><span class="country-chip">🇪🇬 Egypten</span></div>
+    </div>
+    <div class="income-detail" id="inc-4">
+      <h4>Nivå 4 – Vår nivå</h4>
+      <p>Mer än 320 kronor per dag. Varmt och kallt rinnande vatten, el dygnet runt, minst tolv år i skolan. Det är här vi i Sverige befinner oss – och det är ett globalt undantag, inte en regel.</p>
+      <div class="income-bar-wrap"><div class="income-bar-bg"><div class="income-bar-fill" style="width:100%;background:#166534;"></div></div></div>
+      <div class="income-countries"><span class="country-chip">🇸🇪 Sverige</span><span class="country-chip">🇵🇱 Polen</span><span class="country-chip">🇰🇷 Sydkorea</span></div>
+    </div>
+  </div>
+
+  <!-- HDI chart -->
+  <div class="hdi-box">
+    <h3>HDI – Mänskligt Utvecklingsindex</h3>
+    <p class="hdi-sub">FN mäter mer än bara pengar: medellivslängd + utbildning + inkomst = HDI (0–1). Ju högre, desto bättre.</p>
+    <div class="hdi-rows" id="hdiRows"></div>
+  </div>
+
+</section>
+
+<!-- ══════════════ DEL 1 ══════════════ -->
+<section class="section" id="tab-del1">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 1</div>
+    <h2 class="sec-title">Välstånd &amp; Fattigdom i Världen</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Världen i tre "nivåer", vad fattigdom faktiskt betyder, medianinkomst, fattigdomscirkeln och välfärdssystemets roll.</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/6EVs0KBBMuNlaSiK04luFp" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 1</div>
+        <div class="spotify-card-title">Välstånd och fattigdom i världen</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="intro-box">
+    <p>Du är, med väldigt stor sannolikhet, en av världens <strong>rikare</strong> människor. Inte rik som i "äger en ö" – men rik om man jämför med knappt åtta miljarder. En miljard lever på under 20 kronor om dagen. <strong>Det sjuka är att för de flesta länder har livet faktiskt blivit bättre än förr.</strong> Men världen är fortfarande brutalt ojämn.</p>
+  </div>
+
+  <div class="akt-list">
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 1</span> Världen i tre nivåer</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>Ungefär <strong>en miljard</strong> lever som vi gör i Sverige: rinnande vatten, sjukvård, internet, semester. Ungefär <strong>en miljard</strong> lever i stor fattigdom – under 20 kr/dag. <strong>Sex miljarder</strong> finns någonstans mitt emellan.</p><p>Sverige är ett exempel: för hundra år sedan var vi fortfarande ett land där många bara fick sina grundläggande behov tillgodosedda. Idag har vi hög levnadsstandard – och många andra länder har gjort en liknande resa.</p><div class="highlight-box">Vissa ungdomar funderar på vilken telefon de ska köpa. Andra funderar på om de får något att äta idag.</div></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 2</span> Extrem och relativ fattigdom</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p><strong>Extrem fattigdom:</strong> under 20 kr om dagen – totalt. Mat, kläder, allt. 800 miljoner lever så idag. Nästan 385 miljoner av dem är barn.</p><p><strong>Relativ fattigdom:</strong> handlar inte om att svälta, utan om att ligga långt efter andra i samma land. I Sverige: inkomst under 60% av medianinkomsten. Relativ fattigdom ökar i Sverige – även bland barn.</p><p>Mönster: fler utrikes födda, ensamstående med barn och barn till föräldrar utan EU-bakgrund löper större risk.</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Medianinkomst – matten bakom orden</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p><strong>Medianinkomst</strong> = mittpersonens inkomst. Fem personer: 25 000 – 25 000 – 30 000 – 50 000 – 70 000 kr. Medianen = 30 000 kr.</p><p>Gräns för relativ fattigdom: 60% av medianinkomsten. Om medianinkomen efter skatt är 20 000 kr → gränsen är 12 000 kr/månad.</p><div class="highlight-box">Varför median och inte medelvärde? En ensam supermiljardär kan lyfta medelvärdet för hela landet. Medianen påverkas inte alls lika lätt av extremvärden.</div></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4</span> Fattigdomscirkeln – en loop som förstärker sig</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>Fattigdomscirkeln visar att den som hamnat i fattigdom ofta blir kvar – hela livet, och ibland i generationer. Den förstärker sig själv.</p><p>Exempel: Smutsigt vatten → sjukdomar → kan inte jobba → inga pengar → ingen utbildning → lågbetalda jobb → inget socialt nätverk → diskriminering → fattigdom ärvs av barnen.</p><p>Forskning visar att fattigdom ofta går vidare i minst tre generationer. En enda oförutsedd händelse – brand, sjukdom, stöld – kan krascha ekonomin även för dem som precis klarat sig.</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 5–6</span> Välfärd &amp; ansvar</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>Ett <strong>välfärdssystem</strong> skyddar när oväntade saker händer: gratis utbildning, sjukvård, pension, sjukpenning, VAB, a-kassa, socialbidrag. I länder utan utbyggd välfärd är man beroende av familj, grannar och hjälporganisationer.</p><p>Välfärden tar inte bort all fattigdom. Men den gör att färre faller längst ner, och fler har en chans att ta sig upp igen.</p><p>Ansvar ligger på: länder själva (bygga system) · rika länder (bistånd, dela kunskap) · internationella organisationer (FN, Världsbanken) · individer (förstå, rösta, engagera sig).</p></div></div>
+  </div>
+
+  <!-- Poverty circle interactive -->
+  <div class="poverty-circle-box">
+    <h3>Fattigdomscirkeln – Klicka igenom loopen</h3>
+    <p class="poverty-circle-sub">Varje steg förstärker nästa. Klicka på varje ruta för att se hur det hänger ihop.</p>
+    <div class="circle-steps" id="circleSteps"></div>
+    <div class="circle-detail" id="circleDetail"></div>
+  </div>
+
+  <!-- Welfare compare -->
+  <div class="welfare-box">
+    <h3>Med och utan välfärd – vad händer?</h3>
+    <p class="welfare-sub">Välj ett scenario och se skillnaden.</p>
+    <div class="welfare-scenario active" onclick="showWelfare('sjukdom',this)"><h4>😷 Du blir allvarligt sjuk i 3 månader</h4><p>Klicka för att se hur det ser ut med och utan välfärdssystem</p></div>
+    <div class="welfare-scenario" onclick="showWelfare('jobbloss',this)"><h4>📉 Du förlorar jobbet oväntat</h4><p>Klicka för att se hur det ser ut med och utan välfärdssystem</p></div>
+    <div class="welfare-scenario" onclick="showWelfare('barn',this)"><h4>👶 Du behöver vara hemma med sjukt barn</h4><p>Klicka för att se hur det ser ut med och utan välfärdssystem</p></div>
+    <div class="welfare-compare-grid" id="welfareCompare"></div>
+  </div>
+
+  <div id="quiz-del1"></div>
+</section>
+
+<!-- ══════════════ DEL 2 ══════════════ -->
+<section class="section" id="tab-del2">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 2</div>
+    <h2 class="sec-title">De Globala Målen</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">År 2015 satte sig hela världen ner och bestämde sig. 17 mål. 169 delmål. En deadline: 2030. Och de gäller alla länder – även Sverige.</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/4mmKaYUazcAFzwFtKb2dU4" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 2</div>
+        <div class="spotify-card-title">De Globala Målen – världens hemläxa till 2030</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="akt-list">
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 1</span> När världen bestämde sig – 2015</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>Tänk dig att alla världens länder sitter i samma sal. Någon tar till orda: <em>"Världen är orättvis. Klimatet håller på att spåra ur. Ska vi göra något åt det – på riktigt?"</em></p><p>Det är ungefär det som händer 2015, när FN:s generalförsamling antar De Globala Målen för hållbar utveckling. 17 mål, 169 delmål, tidsram 2016–2030. Gäller <strong>alla</strong> länder.</p><p>Tre perspektiv på hållbarhet: <strong>social</strong> (människors liv och rättigheter) · <strong>ekonomisk</strong> (ekonomin utan att krossa planeten) · <strong>ekologisk</strong> (naturen och klimatet).</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Millenniemålen – beviset på att förändring är möjlig</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>Innan Globala Målen hade vi <strong>Millenniemålen</strong> (2000–2015). Utvärderingen visade:</p><p>✅ Andelen i extrem fattigdom halverades. ✅ Antalet barn utanför skolan halverades. ✅ Barnadödligheten halverades.</p><p>Men: 700+ miljoner lever fortfarande i extrem fattigdom. Skogsskövlingen för hög. Haven mår dåligt. En sjättedel av världens vuxna kan inte läsa – varav 2/3 är kvinnor.</p><div class="highlight-box">"Vi har visat att förändring är möjlig. Nu skruvar vi upp ambitionsnivån." – den tanken ledde till de 17 Globala Målen.</div></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4</span> Fattigdom, ojämlikhet och jämställdhet – tre syskon</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>Mål 1 (Ingen fattigdom), 5 (Jämställdhet) och 10 (Minskad ojämlikhet) hänger ihop. Du kan inte ta bort fattigdomen utan att jobba med jämlikhet och jämställdhet.</p><p><strong>Jämlikhet</strong> = alla grupper ska ha samma möjligheter oavsett etnicitet, religion, funktionsnedsättning etc. <strong>Jämställdhet</strong> = specifikt jämlikhet mellan kvinnor och män.</p><p>Kvinnor drabbas hårdare av fattigdom: lägre lön, mer obetalt hemarbete, utsatta för våld och diskriminering, hindras ibland från skola och arbete. Jämställdhet är inte "snäll" – det är en förutsättning för hållbar utveckling.</p></div></div>
+  </div>
+
+  <!-- SDG Interactive Grid -->
+  <div class="sdg-box">
+    <h3>De 17 Globala Målen – Klicka på valfritt mål</h3>
+    <p class="sdg-sub">Varje mål är en del av pusslet. Klicka för att läsa mer om det.</p>
+    <div class="sdg-grid" id="sdgGrid"></div>
+    <div class="sdg-detail" id="sdgDetail"></div>
+  </div>
+
+  <div id="quiz-del2"></div>
+</section>
+
+<!-- ══════════════ DEL 3 ══════════════ -->
+<section class="section" id="tab-del3">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 3</div>
+    <h2 class="sec-title">Indelning av länder</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">BNI per capita, HDI, MUL-länder och medelinkomstländerna där sex av åtta miljarder bor. Lådor är farliga – men ibland nödvändiga.</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/0dfnTE3qcmAwEwexRDCml0" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 3</div>
+        <div class="spotify-card-title">Indelning av länder – BNI, HDI och MUL</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="intro-box">
+    <p>Vi delar in länder i grupper – det är <strong>supernyttigt och lite farligt</strong>. Vi tittar nästan alltid på genomsnitt. Men i ett och samma land kan vissa bo i lyx och andra i plåtskjul utan vatten. <strong>Snittet är aldrig hela sanningen.</strong></p>
+  </div>
+
+  <div class="akt-list">
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 2</span> Fyra inkomstnivåer – från 20 kr till vår vardag</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>BNI per capita (bruttonationalinkomst per person) ger fyra nivåer. Nivå 1: under 20 kr/dag (~1 mrd). Nivå 2: ~40 kr/dag (~3,5 mrd). Nivå 3: ~160 kr/dag (~2,5 mrd). Nivå 4: över 320 kr/dag (~1 mrd, inkl. Sverige).</p><p>De flesta av världens människor bor på nivå 2 och 3 – det är världens stora mellanskikt.</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Medelinkomstländerna – sex av åtta miljarder</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>I medelinkomstländerna bor ungefär sex miljarder – alltså majoriteten. Typiskt: grundläggande behov tillgodosedda, barn kan gå i skolan, man har råd att spara lite. Om något oväntat händer leder det inte automatiskt till total katastrof.</p><p>Kina: världens näst största ekonomi, snabbast växande under 2000-talet. Indien: tätt efter. Men i båda länderna är fattigdomen fortfarande stor, och klyftan stad/landsbygd är gigantisk.</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4</span> HDI – när man mäter mer än bara pengar</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p><strong>HDI – Human Development Index</strong> mäter: medellivslängd + utbildning/läskunnighet + levnadsstandard (BNI). Värde mellan 0 och 1. Fyra grupper: mycket högt / högt / medel / lågt HDI.</p><p>Skillnaden mot bara BNI: ett land kan ha högt BNI men nästan alla pengar hos en liten elit. HDI visar hur det faktiskt går för befolkningen – lever de länge? Kan de läsa?</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 5–6</span> MUL-länder – längst ner i trappan</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p><strong>MUL = Minst Utvecklade Länder.</strong> FN:s lista. Tre kriterier: låg BNI per capita (700–800 USD/år) + låg mänsklig utveckling + hög ekonomisk sårbarhet. Ca 50 länder, 2/3 i Afrika.</p><p>Syfte: MUL-länder ska få förmåner i handelsavtal, bistånd och skuldavskrivning. Varför så många i Afrika? Kolonialism (råvaror tömdes, industrialisering hindrades), svår geografi (tropisk mark, skadeinsekter) och sjukdomar (malaria, HIV).</p><div class="highlight-box">Det handlar inte om att folk är "sämre" – utan om historiska, geografiska och sociala hinder som är extremt svåra att bryta utan stöd.</div></div></div>
+  </div>
+
+  <div class="fact-grid">
+    <div class="fact-box"><h4>📊 BNI per capita</h4><p>Bruttonationalinkomst delat på antal invånare. Visar genomsnittlig inkomst per person – men säger inget om hur jämnt fördelad den är.</p></div>
+    <div class="fact-box green"><h4>🌱 HDI</h4><p>Human Development Index. Mäter medellivslängd, utbildning och inkomst. Ger en mer rättvis bild av befolkningens verkliga välmående.</p></div>
+    <div class="fact-box red"><h4>🚩 MUL-länder</h4><p>Ca 50 länder, 2/3 i Afrika. Behöver alla tre: låg inkomst + låg mänsklig utveckling + hög sårbarhet. Ska få skuldavskrivning och bistånd.</p></div>
+    <div class="fact-box blue"><h4>🏙️ Kina &amp; Indien</h4><p>Båda är stora ekonomier med snabb tillväxt – och fortfarande enorm fattigdom. Klyftan stad/landsbygd, utbildad/outbildad är gigantisk i båda länderna.</p></div>
+  </div>
+
+  <div id="quiz-del3"></div>
+</section>
+
+<!-- ══════════════ DEL 4 ══════════════ -->
+<section class="section" id="tab-del4">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 4</div>
+    <h2 class="sec-title">Att Ta Sig Ur Fattigdom</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Fabriker, demokrati, IMF, skuldavskrivning, rättvisare handel, bistånd, Sida och organisationer som jobbar på marken. Ingen quick fix – men det finns vägar ut.</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/4sQmeW1Czdul9zV3siJApl" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 4</div>
+        <div class="spotify-card-title">Hur tar man sig ur fattigdom?</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="akt-list">
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 1–2</span> Fabriker, vägar och investeringar</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>Investeringar utifrån skapar arbetstillfällen. Familjer får lön varje månad, kan köpa mer mat, betala skolavgifter. Men för att en fabrik ens ska vara möjlig behövs vägar, hamnar, el och säkerhet.</p><p>Men det stora MEN: företag vill göra vinst. Om lönerna är jättelåga, arbetsmiljön dålig och vinsten förs ut ur landet – då gynnar det inte landet nämnvärt. Man kan byta en sorts fattigdom mot en annan.</p><div class="highlight-box">Investeringar kan vara en del av lösningen – men bara kombinerat med rimliga löner, säker arbetsmiljö och lagar som skyddar arbetarna.</div></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Demokrati som utvecklingsmotor</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p>I en diktatur kontrollerar en liten grupp landets resurser. Om landet plötsligt får in pengar – olja, gruvor, investeringar – riskerar de att hamna i elitens fickor och aldrig nå vanliga människor.</p><p>En demokratiseringsprocess = makten flyttas till folket: fria val, yttrandefrihet, oberoende domstolar, fria medier. Då finns större chans att skattepengar används till skola, sjukvård och välfärd.</p><p>Demokrati är ingen garanti – men det är en viktig pusselbit för att utveckling ska komma hela befolkningen till del.</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4</span> IMF, skuldavskrivning &amp; rättvisare handel</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p><strong>IMF</strong> lånar ut pengar så att länder kan bygga vägar, elnät och satsa på utbildning – och på sikt klara sig bättre.</p><p><strong>Skuldavskrivning:</strong> fattiga länder har ofta stora lån. Räntor äter upp statsbudgeten. Om skulderna skrivs av frigörs pengar till skola och sjukhus istället.</p><p><strong>Rättvisare handel:</strong> rika länder har tullar som gör det svårt för fattiga länder att sälja sina varor. EU-bönder får bidrag som gör deras mat billigare – och konkurrerar ut bönder i fattiga länder. Det är inte fri handel – det är riggat.</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 5–6</span> Bistånd &amp; Sida</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p><strong>Humanitärt bistånd</strong> (nödhjälp): räddar liv vid krig, jordbävningar, svält. Mat, vatten, mediciner, tält. Släcka branden.</p><p><strong>Utvecklingsbistånd</strong>: långsiktigt. Bygga skolor, utbildning, jordbruk, stärka kvinnors rättigheter. Bygga huset i brandsäkert material från början.</p><p><strong>Sida</strong> (Styrelsen för internationellt utvecklingssamarbete) sköter Sveriges statliga bistånd. Ca 40 miljarder kr/år (2019), ungefär 1% av BNI. Riksdagen bestämmer nivån, regeringen inriktningen, Sida genomför och utvärderar.</p></div></div>
+
+    <div class="akt"><button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 7</span> Kvinna till Kvinna, Läkare utan gränser &amp; SOS Barnbyar</span><span class="akt-arrow">▼</span></button>
+    <div class="akt-body"><p><strong>Kvinna till Kvinna</strong> (1995): stöttar kvinnorättsorganisationer i konfliktdrabbade länder. Utbildning om rättigheter, mot våld, för att kvinnor ska vara med i fredsprocesser.</p><p><strong>Läkare utan gränser</strong> (1971): medicinsk vård i kriser + vittnesmål offentligt om övergrepp. Nobels fredspris 1999.</p><p><strong>SOS Barnbyar</strong> (1949): familjeliknande hem istället för stora barnhem. Finansieras av faddrar – privatpersoner som ger varje månad.</p></div></div>
+  </div>
+
+  <div class="pull-quote">
+    <blockquote>"Att ta sig ur fattigdom är ingen quick fix. Det är politik, ekonomi, historia och mänskliga rättigheter i en enda stor röra."</blockquote>
+    <cite>SO med Petrus</cite>
+  </div>
+
+  <div class="fact-grid">
+    <div class="fact-box"><h4>💰 Sida 2019</h4><p>Ca 40 miljarder kronor i statligt bistånd. Ungefär 1% av Sveriges BNI. Riksdagen bestämmer hur mycket, regeringen bestämmer inriktning.</p></div>
+    <div class="fact-box green"><h4>🏥 Läkare utan gränser</h4><p>Grundades 1971 av franska läkare. Nobels fredspris 1999. Jobbar i kriser, konflikter och katastrofer. Vittnar offentligt om övergrepp.</p></div>
+    <div class="fact-box red"><h4>⚖️ Rättvisare handel</h4><p>EU-bönder får bidrag som gör maten billigare. Det konkurrerar ut bönder i fattiga länder. Rika länder måste ändra reglerna för att handel ska vara verkligt fri.</p></div>
+  </div>
+
+  <div id="quiz-del4"></div>
+</section>
+
+<!-- ══════════════ BEGREPP ══════════════ -->
+<section class="section" id="tab-begrepp">
+  <div class="sec-header">
+    <div class="sec-label">Ordlista</div>
+    <h2 class="sec-title">Viktiga Begrepp</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Klicka på korten för definitionen. Alla viktiga begrepp från alla fyra avsnitt.</p>
+  </div>
+  <div class="begrep-grid">
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Extrem fattigdom</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Att leva på mindre än 20 kronor om dagen – totalt. Ca 800 miljoner människor lever så, varav 385 miljoner barn.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Relativ fattigdom</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Att ha en inkomst under 60% av landets medianinkomst. Handlar inte om att svälta, utan om att ligga långt efter andra i samma land.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Medianinkomst</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Mittpersonens inkomst i en befolkning – lika många tjänar mer som tjänar mindre. Används istället för medelvärde för att inte störas av extremt rika.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Fattigdomscirkeln</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>En ond, självförstärkande loop: brist på vatten → sjukdom → låg inkomst → ingen utbildning → diskriminering → fattigdomen ärvs av nästa generation.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Välfärdssystem</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Samhällets skyddsnät: gratis utbildning, subventionerad sjukvård, pension, sjukpenning, VAB, a-kassa, socialbidrag. Minskar risken att falla i fattigdom vid oväntade händelser.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>BNI per capita</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Bruttonationalinkomst dividerat med antal invånare. Visar genomsnittlig inkomst men inte hur jämnt fördelad den är.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>HDI</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Human Development Index. FN:s mått på välmående: medellivslängd + utbildning + inkomst. Värde 0–1. Visar hur det faktiskt går för befolkningen, inte bara hur rika länderna är.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>MUL-länder</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Minst Utvecklade Länder. Ca 50 länder, 2/3 i Afrika. Krav: låg BNI + låg mänsklig utveckling + hög sårbarhet. Ger rätt till bistånd, förmåner i handel och skuldavskrivning.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Skuldavskrivning</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Att ett fattigt lands skulder till banker eller rika länder skrivs av. Pengarna som gick till räntor kan istället användas till skola, sjukvård och infrastruktur.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Humanitärt bistånd</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Nödhjälp: snabbt stöd vid krig, naturkatastrofer och svältkriser. Mat, vatten, mediciner, skydd. Räddar liv här och nu.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Utvecklingsbistånd</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Långsiktigt stöd för att stärka länders egna kapacitet: skolor, jordbruk, företagande, demokrati, kvinnors rättigheter. Målet är att landet inte längre ska behöva bistånd.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Sida</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Styrelsen för internationellt utvecklingssamarbete. Sveriges statliga biståndsmyndighet. Ca 40 miljarder kr/år (2019). Planerar, genomför och utvärderar biståndsinsatser.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Hållbar utveckling</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Utveckling som tillgodoser dagens behov utan att förstöra för kommande generationer. Tre dimensioner: social + ekonomisk + ekologisk hållbarhet.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Jämlikhet vs Jämställdhet</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Jämlikhet = alla grupper ska ha samma rättigheter (etnicitet, religion, etc.). Jämställdhet = specifikt lika rättigheter mellan könen. Båda krävs för att bekämpa fattigdom.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>IMF</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Internationella valutafonden. Lånar ut pengar till länder med ekonomiska problem. Stöder projekt för vägar, el, utbildning – för att hjälpa länder att växa ekonomiskt.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Kolonialism</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Europeiska länder ockuperade och styrde länder i Afrika, Asien och Amerika. Tömde dem på råvaror, hindrade industrialisering. Historisk orsak till varför många länder fastnat i fattigdom.</p></div></div></div>
+  </div>
+</section>
+
+<!-- ══════════════ STORTESTET ══════════════ -->
+<section class="section" id="tab-stortestet">
+  <div class="sec-header">
+    <div class="sec-label">Det stora testet</div>
+    <h2 class="sec-title">Stortestet – Alla Fyra Avsnitt</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">20 frågor från alla avsnitt. Klara 16+ och du är redo för provet!</p>
+  </div>
+  <div style="max-width:700px;margin:0 auto;" id="big-quiz"></div>
+</section>
+
+</main>
+
+<footer style="background:#1A1209;color:rgba(255,255,255,0.35);text-align:center;padding:24px;font-size:11px;letter-spacing:2px;font-weight:600;">
+  SO-PORTALEN.SE &nbsp;·&nbsp; SO MED PETRUS &nbsp;·&nbsp; VÄLSTÅND &amp; FATTIGDOM
+  <div style="height:4px;background:linear-gradient(to right,#92400E,#D97706,#FBBF24,#A3E635,#166534);margin-top:14px;opacity:0.4;border-radius:2px;"></div>
+</footer>
+
+<script>
+// ─── TAB ──────────────────────────────────────
+function switchTab(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelector('[data-tab="'+id+'"]').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav-tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+
+// ─── ACCORDION ────────────────────────────────
+function toggleAkt(h){
+  const body=h.nextElementSibling;
+  const open=h.classList.contains('open');
+  h.closest('.akt-list').querySelectorAll('.akt-header').forEach(x=>{x.classList.remove('open');x.nextElementSibling.classList.remove('open');});
+  if(!open){h.classList.add('open');body.classList.add('open');}
+}
+
+// ─── INCOME LEVELS ────────────────────────────
+function showLevel(n,btn){
+  document.querySelectorAll('.income-level').forEach(l=>l.classList.remove('active'));
+  document.querySelectorAll('.income-detail').forEach(d=>d.classList.remove('show'));
+  btn.classList.add('active');
+  document.getElementById('inc-'+n).classList.add('show');
+}
+
+// ─── HDI DATA ─────────────────────────────────
+const hdiData=[
+  {flag:'🇳🇴',country:'Norge',val:0.961,color:'#15803D'},
+  {flag:'🇸🇪',country:'Sverige',val:0.947,color:'#166534'},
+  {flag:'🇩🇪',country:'Tyskland',val:0.942,color:'#1E40AF'},
+  {flag:'🇨🇳',country:'Kina',val:0.768,color:'#D97706'},
+  {flag:'🇮🇳',country:'Indien',val:0.633,color:'#EA580C'},
+  {flag:'🇳🇬',country:'Nigeria',val:0.535,color:'#B45309'},
+  {flag:'🇨🇩',country:'DR Kongo',val:0.481,color:'#991B1B'},
+  {flag:'🇳🇪',country:'Niger',val:0.394,color:'#7F1D1D'},
+];
+window.addEventListener('load',()=>{
+  const cont=document.getElementById('hdiRows');
+  if(!cont)return;
+  cont.innerHTML=hdiData.map(d=>`
+    <div class="hdi-row">
+      <div class="hdi-flag">${d.flag}</div>
+      <div class="hdi-country">${d.country}</div>
+      <div class="hdi-bar-bg"><div class="hdi-bar-fill" style="width:0%;background:${d.color};" data-w="${d.val*100}%">${d.val}</div></div>
+      <div class="hdi-val">${d.val}</div>
+    </div>`).join('');
+  setTimeout(()=>{
+    cont.querySelectorAll('.hdi-bar-fill').forEach(b=>{b.style.width=b.dataset.w;});
+  },300);
+});
+
+// ─── POVERTY CIRCLE ───────────────────────────
+const circleData=[
+  {icon:'💧',label:'Smutsigt vatten',detail:'Familjen måste gå långt till en brunn. Vattnet är ibland förorenat. Magsjuka är vanlig. Barn missar skolan, vuxna missar jobbet.',title:'Steg 1: Brist på rent vatten → sjukdomar'},
+  {icon:'😷',label:'Sjukdomar',detail:'När familjemedlemmar är sjuka kan de inte jobba. Ingen inkomst. Ibland måste man sälja ägodelar för att köpa medicin. Pengar som kunde gått till skola försvinner.',title:'Steg 2: Sjukdomar → låg produktivitet'},
+  {icon:'💸',label:'Låg inkomst',detail:'Inga sparpengar. Ingen buffert. Om något oväntat händer – brand, stöld, olycka – finns ingenting att ta av. Familjen är extremt sårbar.',title:'Steg 3: Låg inkomst → inga sparpengar'},
+  {icon:'📚',label:'Ingen utbildning',detail:'Familjen har inte råd med skoluniform, avgifter eller material. Barnen måste kanske hoppa av skolan för att arbeta. Utan utbildning, inga bättre jobb.',title:'Steg 4: Ingen utbildning → lågbetalda jobb'},
+  {icon:'🔗',label:'Inget nätverk',detail:'Familjen känner inga "rätt" personer. Ingen kusin på bank, ingen med eget företag. Allas situation i nätverket är lika tuff. Inget stöd utifrån.',title:'Steg 5: Inget socialt nätverk'},
+  {icon:'⚖️',label:'Diskriminering',detail:'Lägre löner och sämre arbetsvillkor p.g.a. kön eller etnisk tillhörighet. Ännu svårare att hitta bra jobb och ta sig vidare.',title:'Steg 6: Diskriminering'},
+  {icon:'👨‍👩‍👧',label:'Fattigdomen ärvs',detail:'Barnen växer upp i samma situation. Samma bostad, samma brist på vatten, samma risk att hoppa av skolan. Forskning visar att fattigdom ofta förs vidare i minst tre generationer.',title:'Steg 7: Fattigdomen ärvs → cirkeln börjar om'},
+];
+function buildCircle(){
+  const steps=document.getElementById('circleSteps');
+  if(!steps)return;
+  steps.innerHTML=circleData.map((s,i)=>`
+    <div class="circle-step" onclick="showCircleStep(${i},this)">
+      <div class="circle-step-icon">${s.icon}</div>
+      <div class="circle-step-label">${s.label}</div>
+    </div>${i<circleData.length-1?'<div class="circle-arrow">→</div>':''}`).join('');
+  showCircleStep(0,steps.querySelector('.circle-step'));
+}
+function showCircleStep(i,btn){
+  document.querySelectorAll('.circle-step').forEach(s=>s.classList.remove('active'));
+  btn.classList.add('active');
+  const d=circleData[i];
+  const det=document.getElementById('circleDetail');
+  det.innerHTML='<h4>'+d.title+'</h4><p>'+d.detail+'</p>'+(i===6?'<button class="circle-break-btn" onclick="alert(\'Precis! Välfärd, utbildning och stöd utifrån kan bryta cirkeln – men det kräver insatser på alla steg.\')">💡 Hur kan man bryta cirkeln?</button>':'');
+  det.className='circle-detail show';
+}
+
+// ─── WELFARE COMPARE ──────────────────────────
+const welfareData={
+  sjukdom:{
+    good:['Sjukpenning täcker 77% av lönen','Sjukvård till låg patientavgift','Jobbet är skyddat under sjukskrivning','Socialbidrag som sista skyddsnät'],
+    bad:['Ingen inkomst alls under sjukperioden','Full kostnad för vård och medicin','Risk att förlora jobbet','Kan tvingas sälja ägodelar för att överleva']
+  },
+  jobbloss:{
+    good:['A-kassa ger ersättning i upp till 60 veckor','Arbetsförmedlingen hjälper till','Omskolning och kurser stöds','Socialbidrag om a-kassan inte räcker'],
+    bad:['Ingen ersättning alls','Snabbt skuldsatt om hyran ska betalas','Beroende av familj och välgörenhet','Kan tvingas flytta och bryta upp']
+  },
+  barn:{
+    good:['VAB ger 77% av lönen','Upp till 120 dagar per barn och år','Gäller för alla föräldrar oavsett arbetsgivare','Barnet kan vara hemma och återhämta sig'],
+    bad:['Måste jobba trots sjukt barn – eller ta oavlönad dag','Risk att barnet skickas sjukt till skolan','Ingen ersättning, ekonomin tar direkt skada','Arbetsgivaren kan reagera negativt']
+  }
+};
+function showWelfare(key,el){
+  document.querySelectorAll('.welfare-scenario').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  const d=welfareData[key];
+  document.getElementById('welfareCompare').innerHTML=
+    '<div class="welfare-col good"><h4>🇸🇪 Med välfärdssystem (Sverige)</h4><ul>'+d.good.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>'+
+    '<div class="welfare-col bad"><h4>❌ Utan välfärdssystem</h4><ul>'+d.bad.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>';
+}
+
+// ─── SDG GOALS ────────────────────────────────
+const sdgGoals=[
+  {num:1,name:'Ingen fattigdom',color:'#E5243B',cat:'soc',desc:'Avskaffa extrem fattigdom överallt och för alla. Inte bara om pengar – även frihet, inflytande och rätt till utbildning. Mål: ingen i extrem fattigdom 2030.'},
+  {num:2,name:'Ingen hunger',color:'#DDA63A',cat:'soc',desc:'Alla ska kunna äta sig mätta – och maten ska vara näringsrik. Jordbruket måste också bli hållbart så att vi kan fortsätta producera mat utan att förstöra jord och vatten.'},
+  {num:3,name:'God hälsa',color:'#4C9F38',cat:'soc',desc:'Fler ska leva friska liv, slippa dö i sjukdomar som går att förebygga och ha tillgång till vård. Gäller alla åldrar, alla länder.'},
+  {num:4,name:'God utbildning',color:'#C5192D',cat:'soc',desc:'Varje person ska ha chans att gå i skolan och fortsätta lära livet ut. Kvalitativ utbildning för alla – inte bara för dem som har råd.'},
+  {num:5,name:'Jämställdhet',color:'#FF3A21',cat:'soc',desc:'Kvinnor och män, flickor och pojkar ska ha samma rättigheter och möjligheter. Jämställdhet är en förutsättning för hållbar utveckling – inte bara en snäll grej.'},
+  {num:6,name:'Rent vatten',color:'#26BDE2',cat:'env',desc:'Alla ska ha tillgång till rent dricksvatten och fungerande sanitet. Ja, det handlar om allt från dricksvatten till att kunna gå på toaletten tryggt.'},
+  {num:7,name:'Hållbar energi',color:'#FCC30B',cat:'env',desc:'Pålitlig, hållbar och ekonomiskt rimlig energi för alla – utan att förstöra klimatet. Fortfarande miljarder utan el.'},
+  {num:8,name:'Anständigt arbete',color:'#A21942',cat:'eco',desc:'Alla ska kunna leva på sin lön och ha ett arbete där de inte riskerar livet. Ekonomisk tillväxt som gynnar alla, inte bara toppen.'},
+  {num:9,name:'Industri & innovation',color:'#FD6925',cat:'eco',desc:'Hållbar industri, smarta innovationer och robust infrastruktur. Vägar, järnvägar, internet – byggda säkert, rättvist och klimatsmart.'},
+  {num:10,name:'Minskad ojämlikhet',color:'#DD1367',cat:'soc',desc:'Klyftan inom och mellan länder ska minska. Alla grupper ska ha rättvis tillgång till resurser och möjligheter.'},
+  {num:11,name:'Hållbara städer',color:'#FD9D24',cat:'eco',desc:'Städer och samhällen ska vara säkra, trygga och hållbara – för alla som bor där, inte bara de välbärgade.'},
+  {num:12,name:'Hållbar konsumtion',color:'#BF8B2E',cat:'env',desc:'Hur vi producerar och konsumerar varor, mat och energi måste förändras. Planeten tål inte nuvarande nivåer.'},
+  {num:13,name:'Bekämpa klimat',color:'#3F7E44',cat:'env',desc:'Omedelbara åtgärder mot klimatförändringar och dess konsekvenser. Inte "sen" – nu.'},
+  {num:14,name:'Hav & marina resurser',color:'#0A97D9',cat:'env',desc:'Hav och sjöar ska användas hållbart. Fiskar, koraller och marina ekosystem måste skyddas och återhämtas.'},
+  {num:15,name:'Ekosystem på land',color:'#56C02B',cat:'env',desc:'Skogar, mark, djur och växter på land måste skyddas och återställas. Biologisk mångfald är grundförutsättningen för allt liv.'},
+  {num:16,name:'Fredliga samhällen',color:'#00689D',cat:'soc',desc:'Trygga, rättvisa och inkluderande samhällen. Alla ska få sina rättigheter respekterade och slippa våld och förtryck.'},
+  {num:17,name:'Genomförande',color:'#19486A',cat:'eco',desc:'Det avgörande målet: att det faktiskt finns pengar, vilja och samarbeten för att göra alla andra mål verklighet – inte bara på papper.'},
+];
+function buildSDG(){
+  const grid=document.getElementById('sdgGrid');
+  if(!grid)return;
+  grid.innerHTML=sdgGoals.map((g,i)=>`
+    <div class="sdg-card" style="background:${g.color};" onclick="showSDG(${i},this)">
+      <div class="sdg-num">${g.num}</div>
+      <div class="sdg-name">${g.name}</div>
+    </div>`).join('');
+}
+function showSDG(i,card){
+  document.querySelectorAll('.sdg-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  const g=sdgGoals[i];
+  const catMap={soc:['Social hållbarhet','sdg-soc'],eco:['Ekonomisk hållbarhet','sdg-eco'],env:['Ekologisk hållbarhet','sdg-env']};
+  const [catLabel,catClass]=catMap[g.cat];
+  const det=document.getElementById('sdgDetail');
+  det.innerHTML='<h4>Mål '+g.num+': '+g.name+'</h4><p>'+g.desc+'</p><div class="sdg-pillars"><span class="sdg-pillar '+catClass+'">'+catLabel+'</span></div>';
+  det.className='sdg-detail show';
+}
+
+// ─── QUIZ DATA ─────────────────────────────────
+const quizData={
+  del1:[
+    {q:'Hur definieras extrem fattigdom?',opts:['Inkomst under 60% av medianinkomsten','Att leva på under 20 kronor per dag totalt','Att sakna tillgång till internet','Att bo i ett land med BNI under medel'],c:1,exp:'Extrem fattigdom definieras som att leva på under 20 kronor om dagen – totalt för mat, kläder och allt annat. Ungefär 800 miljoner människor lever så.'},
+    {q:'Vad är medianinkomst?',opts:['Genomsnittet av alla inkomster','Den högsta inkomsten i mitten av skalan','Mittpersonens inkomst – lika många tjänar mer som mindre','Den inkomst som de flesta har'],c:2,exp:'Medianinkomst är mittpersonens inkomst i en befolkning. Lika många tjänar mer som tjänar mindre. Används för att undvika att extremt rika snedvrider bilden.'},
+    {q:'Varför förs fattigdom vidare i generationer?',opts:['Det är biologiskt nedärvt','Fattigdomscirkeln: brist → sjukdom → låg inkomst → ingen utbildning → fattigdom ärvs','Fattiga länder har dåliga politiker','Det är slumpen som avgör'],c:1,exp:'Fattigdomscirkeln är en självförstärkande loop: brist på vatten leder till sjukdomar, som leder till låg inkomst, som leder till att barnen inte kan gå i skolan, vilket för fattigdomen vidare.'},
+    {q:'Vad ingår INTE i ett typiskt välfärdssystem?',opts:['Gratis grundskola och gymnasium','Sjukpenning','Arbetsförmedling och a-kassa','Gratis lyxboende för alla'],c:3,exp:'Välfärdssystemet inkluderar gratis utbildning, sjukvård, pension, sjukpenning, VAB och a-kassa – men inte lyxboende. Tanken är ett grundskydd mot katastrofal fattigdom.'},
+    {q:'Relativ fattigdom i Sverige – vilken grupp löper störst risk?',opts:['Pensionärer med full pension','Ensamstående föräldrar och utrikes födda','Välutbildade utan barn','Ungdomar med sommarjobb'],c:1,exp:'Ensamstående föräldrar (en lön till flera personer), utrikes födda och barn till föräldrar utan EU-bakgrund löper statistiskt störst risk för relativ fattigdom i Sverige.'},
+  ],
+  del2:[
+    {q:'Vilket år antog FN de 17 Globala Målen?',opts:['2000','2010','2015','2020'],c:2,exp:'År 2015 antog FN:s generalförsamling De Globala Målen för hållbar utveckling. De gäller perioden 2016–2030 och är bindande för alla 193 FN-länder.'},
+    {q:'Vad visade utvärderingen av Millenniemålen (2000–2015)?',opts:['Ingenting hade förbättrats','Extrem fattigdom, barnadödlighet och antal barn utan skola halverades','Klimatmålen uppnåddes','Alla länder nådde sina mål'],c:1,exp:'Millenniemålen (2000–2015) visade att extrem fattigdom halverades, barnadödligheten halverades och antalet barn utanför skolan halverades – historiska framsteg, men långt kvar.'},
+    {q:'Vad menas med ekologisk hållbarhet?',opts:['Att ekonomin går runt utan att exploatera människor','Att alla har rätt till utbildning och sjukvård','Att naturen, klimatet och ekosystemen mår bra nog för att vi ska kunna leva här','Att städer byggs hållbart'],c:2,exp:'Ekologisk hållbarhet handlar om att jordens natur, klimat och ekosystem inte kraschar av det vi gör – att planeten håller på lång sikt.'},
+    {q:'Varför är jämställdhet viktigt för att bekämpa fattigdom?',opts:['Det är bara en moralisk fråga utan ekonomisk effekt','Kvinnor drabbas hårdare av fattigdom och diskriminering – ojämställdhet håller tillbaka hela samhällets potential','Det handlar mest om att vara schysst','Det påverkar bara rika länder'],c:1,exp:'Jämställdhet är en förutsättning för hållbar utveckling. Kvinnor drabbas hårdare av fattigdom, och när hälften av befolkningen hindras från att använda sin fulla potential kan inte samhället heller nå sin.'},
+    {q:'Vilket mål kallas "makes it or breaks it"-målet för de Globala Målen?',opts:['Mål 1 – Ingen fattigdom','Mål 13 – Bekämpa klimatförändringar','Mål 17 – Genomförande och globalt partnerskap','Mål 5 – Jämställdhet'],c:2,exp:'Mål 17 handlar om att det faktiskt finns pengar, vilja och samarbeten för att genomföra alla de andra målen – utan det är alla andra mål bara vackra ord på papper.'},
+  ],
+  del3:[
+    {q:'Vad mäter BNI per capita?',opts:['Hur jämnt inkomster är fördelade','Genomsnittlig inkomst per person i ett land','Hur länge invånarna lever','Hur hög utbildningsnivån är'],c:1,exp:'BNI per capita är bruttonationalinkomsten dividerat med antal invånare. Det visar den genomsnittliga inkomsten – men säger inget om hur jämnt fördelad den är.'},
+    {q:'Vad tittar HDI på utöver inkomst?',opts:['Militärstyrka och export','Medellivslängd och utbildningsnivå','Demokratiindex och pressfrihet','Urbaniseringsgrad och befolkningstäthet'],c:1,exp:'HDI mäter tre saker: medellivslängd + utbildning/läskunnighet + levnadsstandard (BNI). Det ger en mer rättvis bild av befolkningens välmående än enbart pengar.'},
+    {q:'Hur många kriterier måste uppfyllas för att ett land ska klassas som MUL?',opts:['Ett av tre','Minst två av tre','Alla tre','Inget specifikt krav – FN bestämmer fritt'],c:2,exp:'Alla tre kriterier måste uppfyllas: låg BNI per capita + låg mänsklig utveckling + hög ekonomisk sårbarhet.'},
+    {q:'Varför finns många MUL-länder i Afrika?',opts:['Geografin är alla länders eget ansvar','Historik av kolonialism, svår tropisk geografi och sjukdomar som HIV och malaria','Afrika har alltid haft en svag ekonomi','FN:s klassificering är orättvis'],c:1,exp:'En kombination av kolonialismens råvarutömning, uteblivet industriellt kapital, svår tropisk geografi med näringfattig mark och spridning av sjukdomar som malaria och HIV förklarar många MUL-länders situation.'},
+    {q:'På vilken nivå bor majoritet av världens befolkning?',opts:['Nivå 1 – extrem fattigdom','Nivå 4 – vår nivå','Nivå 2 och 3 – medelinkomst','Lika jämnt fördelat över alla nivåer'],c:2,exp:'Ca 6 av 8 miljarder människor bor på nivå 2 och 3 – i medelinkomstländer. Det är världens stora mellanskikt, som ofta hamnar i skymundan när media fokuserar på extremer.'},
+  ],
+  del4:[
+    {q:'Vad är skuldavskrivning?',opts:['Att ett rikt land lånar ut pengar utan ränta','Att ett fattigt lands skulder skrivs av – pengar som då kan gå till skola och sjukvård istället','Att IMF beslutar om handelsavtal','Att ett land ger bistånd som gåva'],c:1,exp:'Skuldavskrivning innebär att gamla lån tas bort eller minskas. Pengarna som annars gick till räntor kan istället investeras i utbildning, sjukvård och infrastruktur.'},
+    {q:'Vad är skillnaden mellan humanitärt bistånd och utvecklingsbistånd?',opts:['Humanitärt är långsiktigt, utvecklingsbistånd är akut','Humanitärt räddar liv nu (nödhjälp), utvecklingsbistånd bygger kapacitet långsiktigt','Det är samma sak, bara olika namn','Humanitärt bistånd ges bara av privatpersoner'],c:1,exp:'Humanitärt bistånd är nödhjälp vid katastrofer – mat, vatten, medicin. Utvecklingsbistånd är långsiktigt och syftar till att stärka länders egna kapacitet så att de inte längre behöver hjälp.'},
+    {q:'Varför kan utländska fabriksinvesteringar ge begränsad effekt för ett fattigt land?',opts:['Fabriker skapar aldrig jobb','Om lönerna är låga och vinsten förs ut ur landet gynnar det inte landet nämnvärt','Fattiga länder vill inte ha fabriker','Fabriksarbete är alltid bättre än jordbruk'],c:1,exp:'Om ett utländskt företag pressar lönerna maximalt och för hem vinsten till ägare i rika länder, kan landet visserligen ha jobb – men utan att bygga upp kapital, skattebas eller välfärd.'},
+    {q:'Vilket år grundades Läkare utan gränser, och vad fick de 1999?',opts:['1945, Nobels fredspris','1971, Nobels fredspris','1984, EU:s humanitära pris','1968, FN:s erkännande'],c:1,exp:'Läkare utan gränser grundades 1971 av franska läkare efter inbördeskriget i Nigeria. De fick Nobels fredspris 1999 för sitt medicinska arbete och sina offentliga vittnesmål om kränkningar.'},
+    {q:'Vad är Sidas uppdrag?',opts:['Att sälja svenska varor utomlands','Att förbättra levnadsvillkoren för människor i fattigdom och förtryck','Att driva FN:s fredsoperationer','Att sprida svensk kultur internationellt'],c:1,exp:'Sida – Styrelsen för internationellt utvecklingssamarbete – har i uppdrag att förbättra levnadsvillkoren för människor som lever i fattigdom och förtryck, via projekt som skola, vatten, demokrati och sjukvård.'},
+  ]
+};
+const bigQuizData=[...quizData.del1,...quizData.del2,...quizData.del3,...quizData.del4];
+
+// ─── QUIZ ENGINE (namespaced) ─────────────────
+const _quizzes={};
+function buildQuiz(el,data,id){
+  var cur=0,score=0,answered=false;
+  function render(){
+    if(cur>=data.length){showScore();return;}
+    var q=data[cur];
+    var pct=(cur/data.length)*100;
+    _quizzes[id].exp=q.exp;
+    _quizzes[id].correct=q.c;
+    var optsHtml=q.opts.map(function(o,i){
+      return '<button class="quiz-option" onclick="_quizzes[\''+id+'\'].ans(this,'+i+')">'+['A','B','C','D'][i]+'. '+o+'</button>';
+    }).join('');
+    el.innerHTML='<div class="quiz-container">'
+      +'<div class="quiz-header">Quiz – Välstånd &amp; Fattigdom</div>'
+      +'<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:'+pct+'%"></div></div>'
+      +'<div class="quiz-q-count">Fråga '+(cur+1)+' av '+data.length+'</div>'
+      +'<div class="quiz-question-text">'+q.q+'</div>'
+      +'<div class="quiz-options">'+optsHtml+'</div>'
+      +'<div class="quiz-feedback" id="qfb-'+id+'"></div>'
+      +'<div class="quiz-nav"><span style="font-size:12px;color:rgba(255,255,255,0.4);">Poäng: '+score+'/'+cur+'</span>'
+      +'<button class="quiz-btn primary" id="qnext-'+id+'" onclick="_quizzes[\''+id+'\'].next()" disabled>Nästa →</button>'
+      +'</div></div>';
+  }
+  function showScore(){
+    var pct=Math.round((score/data.length)*100);
+    var msg=pct>=90?'Utmärkt! Du är redo!':pct>=70?'Bra jobbat!':pct>=50?'Halvvägs – försök igen.':'Lyssna igenom och testa igen!';
+    el.innerHTML='<div class="quiz-container"><div class="quiz-score">'
+      +'<div class="score-num">'+score+'/'+data.length+'</div>'
+      +'<div class="score-label">'+pct+'% rätt</div>'
+      +'<div class="score-msg">'+msg+'</div>'
+      +'<div style="margin-top:18px;"><button class="quiz-btn primary" onclick="_quizzes[\''+id+'\'].restart()">↺ Försök igen</button></div>'
+      +'</div></div>';
+  }
+  _quizzes[id]={
+    exp:'',correct:0,
+    ans:function(btn,chosen){
+      if(answered)return;
+      answered=true;
+      var correct=_quizzes[id].correct;
+      var exp=_quizzes[id].exp;
+      btn.closest('.quiz-options').querySelectorAll('.quiz-option').forEach(function(o,i){
+        o.disabled=true;
+        if(i===correct)o.classList.add('correct');
+      });
+      if(chosen!==correct)btn.classList.add('wrong');else score++;
+      var fb=document.getElementById('qfb-'+id);
+      fb.textContent=(chosen===correct?'✅ Rätt! ':'❌ Inte riktigt. ')+exp;
+      fb.className='quiz-feedback show '+(chosen===correct?'correct':'wrong');
+      document.getElementById('qnext-'+id).disabled=false;
+    },
+    next:function(){cur++;answered=false;render();},
+    restart:function(){cur=0;score=0;answered=false;render();}
+  };
+  render();
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  buildCircle();
+  buildSDG();
+  showWelfare('sjukdom',document.querySelector('.welfare-scenario'));
+  buildQuiz(document.getElementById('quiz-del1'),quizData.del1,'del1');
+  buildQuiz(document.getElementById('quiz-del2'),quizData.del2,'del2');
+  buildQuiz(document.getElementById('quiz-del3'),quizData.del3,'del3');
+  buildQuiz(document.getElementById('quiz-del4'),quizData.del4,'del4');
+  buildQuiz(document.getElementById('big-quiz'),bigQuizData,'big');
+});
+</script>
+</body>
+</html>
