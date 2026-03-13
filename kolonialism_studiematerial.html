@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kolonialism – Studiematerial · SO-portalen.se</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0D1A12; --parch:#F6F2E8; --cream:#EDE8D6;
+  --green:#1A5C2A; --green-m:#237A38; --green-lt:#D4EDDA;
+  --amber:#8B5E0A; --amber-lt:#D4940A; --gold:#C4891E;
+  --ocean:#0E3B5C; --ocean-lt:#1A5C8A;
+  --red:#7A1A1A; --white:#fff;
+  --muted:#5A5040; --border:#D8D0B8; --shadow:rgba(13,26,18,0.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--parch);color:var(--ink);line-height:1.75;}
+
+.compass-bar{height:5px;background:linear-gradient(to right,var(--ocean) 0%,var(--green) 33%,var(--amber-lt) 66%,var(--red) 100%);position:sticky;top:0;z-index:300;}
+
+.hero{background:var(--ink);padding:52px 48px 44px;position:relative;overflow:hidden;}
+.hero-map{position:absolute;right:0;top:0;bottom:0;width:50%;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Ccircle cx='200' cy='200' r='180' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3Ccircle cx='200' cy='200' r='140' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3Ccircle cx='200' cy='200' r='100' fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1'/%3E%3Cline x1='200' y1='20' x2='200' y2='380' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3Cline x1='20' y1='200' x2='380' y2='200' stroke='rgba(255,255,255,0.04)' stroke-width='1'/%3E%3Cline x1='73' y1='73' x2='327' y2='327' stroke='rgba(255,255,255,0.02)' stroke-width='1'/%3E%3Cline x1='327' y1='73' x2='73' y2='327' stroke='rgba(255,255,255,0.02)' stroke-width='1'/%3E%3C/svg%3E");background-size:cover;background-position:center;opacity:.6;pointer-events:none;}
+.hero-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 85% 40%,rgba(26,92,42,0.3) 0%,transparent 55%),radial-gradient(ellipse at 15% 70%,rgba(14,59,92,0.3) 0%,transparent 50%);pointer-events:none;}
+.hero-inner{position:relative;z-index:1;max-width:700px;}
+.hero-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.hero-badge::before{content:'';display:inline-block;width:20px;height:1px;background:var(--amber-lt);}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,6vw,56px);font-weight:900;color:#fff;line-height:1.06;margin-bottom:14px;}
+.hero h1 em{color:var(--amber-lt);font-style:italic;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.55);max-width:560px;line-height:1.75;margin-bottom:22px;}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{padding:5px 14px;border-radius:20px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;}
+.chip-g{background:rgba(26,92,42,0.3);border:1px solid rgba(26,92,42,0.55);color:#86EFAC;}
+.chip-b{background:rgba(14,59,92,0.3);border:1px solid rgba(14,59,92,0.5);color:#93C5FD;}
+.chip-a{background:rgba(139,94,10,0.3);border:1px solid rgba(196,137,30,0.4);color:#FCD34D;}
+.chip-r{background:rgba(122,26,26,0.3);border:1px solid rgba(122,26,26,0.5);color:#FCA5A5;}
+
+.nav-outer{background:var(--ink);border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:5px;z-index:200;}
+.nav-inner{max-width:1140px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-btn{padding:13px 18px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);cursor:pointer;white-space:nowrap;border:none;border-bottom:2px solid transparent;background:none;transition:all .2s;flex-shrink:0;}
+.nav-btn:hover{color:rgba(255,255,255,0.75);}
+.nav-btn.active{color:var(--amber-lt);border-bottom-color:var(--amber-lt);}
+
+.wrap{max-width:1140px;margin:0 auto;padding:0 48px;}
+.section{display:none;padding:44px 0 60px;}
+.section.active{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(7px);}to{opacity:1;transform:translateY(0);}}
+
+.s-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,38px);font-weight:900;color:var(--green);line-height:1.15;margin-bottom:12px;}
+.s-divider{width:40px;height:3px;background:linear-gradient(to right,var(--green),var(--amber-lt));border-radius:2px;margin-bottom:14px;}
+.s-desc{color:var(--muted);font-size:15px;font-style:italic;max-width:600px;line-height:1.7;margin-bottom:32px;}
+
+.part-item{background:#fff;border:1px solid var(--border);border-radius:4px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);margin-bottom:14px;}
+.part-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:none;border:none;cursor:pointer;text-align:left;gap:14px;transition:background .2s;}
+.part-toggle:hover{background:var(--cream);}
+.part-toggle.open{background:var(--ink);}
+.pt-left{display:flex;align-items:center;gap:16px;}
+.pt-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--gold);padding:5px 10px;background:rgba(196,137,30,0.1);border:1px solid rgba(196,137,30,0.25);border-radius:3px;flex-shrink:0;white-space:nowrap;}
+.part-toggle.open .pt-num{background:rgba(212,148,10,0.2);color:var(--amber-lt);}
+.pt-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--green);line-height:1.3;}
+.part-toggle.open .pt-title{color:var(--amber-lt);}
+.pt-arrow{font-size:12px;color:var(--muted);transition:transform .3s;flex-shrink:0;}
+.part-toggle.open .pt-arrow{transform:rotate(180deg);color:rgba(255,255,255,0.4);}
+.part-body{display:none;padding:28px 32px;border-top:1px solid var(--border);}
+.part-body.open{display:block;animation:fadeUp .25s ease;}
+.part-body h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--ocean);margin:26px 0 8px;}
+.part-body h3:first-child{margin-top:0;}
+.part-body h4{font-family:'Playfair Display',serif;font-size:14.5px;font-style:italic;color:var(--muted);margin:16px 0 6px;}
+.part-body p{font-size:15.5px;line-height:1.85;margin-bottom:12px;color:#1A120A;}
+.part-body p:last-child{margin-bottom:0;}
+.part-body ul,.part-body ol{margin:10px 0 16px 22px;}
+.part-body li{font-size:15px;line-height:1.75;margin-bottom:4px;}
+.reading-lead{font-size:16.5px;font-style:italic;color:var(--green);border-left:4px solid var(--green);padding-left:18px;margin-bottom:20px;line-height:1.7;}
+
+.del-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+.del-btn{padding:7px 18px;border-radius:3px;border:1px solid var(--border);background:#fff;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;color:var(--muted);}
+.del-btn:hover{border-color:var(--gold);}
+.del-btn.active{background:var(--ink);color:var(--amber-lt);border-color:var(--ink);}
+.questions-list{display:none;}
+.questions-list.active{display:flex;flex-direction:column;gap:14px;}
+.q-card{background:#fff;border:1px solid var(--border);border-radius:4px;overflow:hidden;box-shadow:0 2px 10px var(--shadow);transition:border-color .25s;}
+.q-card:focus-within{border-color:var(--gold);}
+.q-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--gold);padding:16px 22px 0;text-transform:uppercase;}
+.q-text{font-size:15px;font-weight:600;padding:6px 22px 14px;line-height:1.6;color:var(--ink);}
+.q-area{width:100%;border:none;border-top:1px solid var(--border);padding:14px 22px;font-family:'Source Serif 4',serif;font-size:14.5px;line-height:1.75;resize:vertical;min-height:85px;background:var(--parch);color:var(--ink);outline:none;transition:background .2s;}
+.q-area:focus{background:#fff;}
+.q-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--cream);border-top:1px solid var(--border);}
+.q-hint{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.show-answer-btn{display:flex;align-items:center;gap:7px;padding:8px 18px;background:var(--ink);color:#fff;border:none;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.show-answer-btn:hover{background:var(--green);}
+.show-answer-btn.shown{background:var(--ocean);}
+.q-model-answer{display:none;padding:18px 22px;background:var(--green);color:rgba(255,255,255,0.92);font-size:14.5px;line-height:1.8;border-top:1px solid rgba(255,255,255,0.1);}
+.q-model-answer.show{display:block;animation:fadeUp .25s ease;}
+.q-model-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.45);margin-bottom:8px;text-transform:uppercase;}
+.q-model-answer strong{color:#FCD34D;}
+
+.fc-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.fc-btn{padding:7px 18px;border-radius:20px;border:1px solid var(--border);background:#fff;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .2s;color:var(--muted);}
+.fc-btn.active{background:var(--ink);color:var(--amber-lt);border-color:var(--ink);}
+.fc-count{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+.fc-card{perspective:900px;height:138px;cursor:pointer;}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:4px;display:flex;flex-direction:column;justify-content:center;padding:16px 18px;}
+.fc-front{background:var(--ink);}
+.fc-front h4{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--amber-lt);line-height:1.35;margin-bottom:6px;}
+.fc-front .del-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.28);text-transform:uppercase;}
+.fc-front .flip-hint{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.18);margin-top:8px;}
+.fc-back{background:#fff;border:1px solid var(--border);transform:rotateY(180deg);}
+.fc-back p{font-size:13px;line-height:1.65;color:var(--ink);}
+
+.timeline-container{position:relative;padding:8px 0 24px;}
+.tl-line{position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--ocean),var(--green),var(--amber));transform:translateX(-50%);}
+.tl-events{position:relative;display:flex;flex-direction:column;gap:0;}
+.tl-event{display:grid;grid-template-columns:1fr 44px 1fr;align-items:start;margin-bottom:8px;}
+.tl-event:nth-child(odd) .tl-content{grid-column:1;text-align:right;padding:0 28px 0 0;}
+.tl-event:nth-child(odd) .tl-center{grid-column:2;grid-row:1;}
+.tl-event:nth-child(odd) .tl-empty{grid-column:3;grid-row:1;}
+.tl-event:nth-child(even) .tl-empty{grid-column:1;grid-row:1;}
+.tl-event:nth-child(even) .tl-center{grid-column:2;grid-row:1;}
+.tl-event:nth-child(even) .tl-content{grid-column:3;text-align:left;padding:0 0 0 28px;}
+.tl-center{display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:3px solid #fff;flex-shrink:0;cursor:pointer;transition:transform .2s;position:relative;z-index:2;}
+.tl-dot:hover{transform:scale(1.4);}
+.tl-year-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);white-space:nowrap;text-align:center;}
+.tl-content{padding-top:2px;}
+.tl-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:14px 16px;cursor:pointer;transition:all .25s;box-shadow:0 2px 8px var(--shadow);}
+.tl-card:hover{box-shadow:0 6px 24px rgba(13,26,18,0.14);transform:translateY(-2px);}
+.tl-card.active{border-color:var(--gold);box-shadow:0 6px 24px rgba(196,137,30,0.2);}
+.tl-card h4{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--green);line-height:1.35;margin-bottom:4px;}
+.tl-event:nth-child(odd) .tl-card h4{text-align:right;}
+.tl-card .tl-desc{font-size:12.5px;color:var(--muted);line-height:1.6;display:none;}
+.tl-event:nth-child(odd) .tl-card .tl-desc{text-align:right;}
+.tl-card.active .tl-desc{display:block;}
+.tl-card .tl-icon{font-size:20px;margin-bottom:4px;}
+.tl-event:nth-child(odd) .tl-icon{text-align:right;}
+
+/* Triangle trade visualizer */
+.triangle-vis{background:var(--ink);border-radius:6px;padding:32px;margin:32px 0;position:relative;overflow:hidden;}
+.triangle-vis h3{font-family:'Playfair Display',serif;color:var(--amber-lt);font-size:20px;margin-bottom:24px;text-align:center;}
+.tri-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;position:relative;}
+.tri-node{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:20px;text-align:center;}
+.tri-node .icon{font-size:32px;margin-bottom:10px;}
+.tri-node h4{font-family:'Playfair Display',serif;color:#fff;font-size:15px;margin-bottom:8px;}
+.tri-node p{font-size:12.5px;color:rgba(255,255,255,0.55);line-height:1.6;}
+.tri-arrow{display:flex;align-items:center;justify-content:center;font-size:11px;font-family:'DM Mono',monospace;letter-spacing:1px;color:var(--amber-lt);margin-top:16px;gap:8px;text-align:center;}
+.tri-arrow::before,.tri-arrow::after{content:'';display:inline-block;flex:1;height:1px;background:rgba(212,148,10,0.4);}
+.tri-goods{margin-top:8px;}
+.tri-goods span{display:inline-block;padding:3px 8px;background:rgba(212,148,10,0.15);border:1px solid rgba(212,148,10,0.3);border-radius:10px;font-size:10px;font-family:'DM Mono',monospace;color:var(--amber-lt);margin:2px;}
+
+@media(max-width:700px){
+  .hero{padding:32px 20px;}
+  .wrap{padding:0 18px;}
+  .hero-map{display:none;}
+  .tl-line{left:20px;}
+  .tl-event{grid-template-columns:28px 1fr;}
+  .tl-event:nth-child(odd) .tl-content,.tl-event:nth-child(even) .tl-content{grid-column:2;text-align:left;padding:0 0 0 16px;}
+  .tl-event:nth-child(odd) .tl-center,.tl-event:nth-child(even) .tl-center{grid-column:1;grid-row:1;}
+  .tl-event:nth-child(odd) .tl-empty,.tl-event:nth-child(even) .tl-empty{display:none;}
+  .tl-event:nth-child(odd) .tl-card h4,.tl-event:nth-child(odd) .tl-card .tl-desc,.tl-event:nth-child(odd) .tl-icon{text-align:left;}
+  .part-body{padding:20px;}
+  .q-footer{flex-wrap:wrap;gap:8px;}
+  .tri-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="compass-bar"></div>
+
+<header class="hero">
+  <div class="hero-map"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">SO med Petrus &nbsp;·&nbsp; SO-portalen.se</div>
+    <h1>Kolonialism &amp;<br><em>Världshandel</em></h1>
+    <p class="hero-sub">Från medeltiden till triangelhandeln – hur européerna seglade ut i världen, erövrade riken och skapade ett globalt handelssystem på bekostnad av miljoner liv.</p>
+    <div class="hero-chips">
+      <span class="chip chip-g">🌍 7 delar text</span>
+      <span class="chip chip-b">⚓ 1300–1800-talet</span>
+      <span class="chip chip-a">🃏 Flashcards</span>
+      <span class="chip chip-r">✍️ Skrivfrågor</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-outer">
+  <div class="nav-inner">
+    <button class="nav-btn active" data-tab="lasning">📖 Läsning</button>
+    <button class="nav-btn" data-tab="fragor">✍️ Skrivfrågor</button>
+    <button class="nav-btn" data-tab="begrepp">🃏 Begrepp</button>
+    <button class="nav-btn" data-tab="tidslinje">📅 Tidslinje</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ══════════ LÄSNING ══════════ -->
+<div class="section active" id="tab-lasning">
+  <div class="wrap">
+    <div class="s-label">Kursmaterial</div>
+    <h2 class="s-title">Läs texterna</h2>
+    <div class="s-divider"></div>
+    <p class="s-desc">Sju delar om hur Europa förändrades, erövrade världen och hur slavhandeln växte fram. Klicka på varje del för att läsa.</p>
+
+    <!-- DEL 1 -->
+    <div class="part-item">
+      <button class="part-toggle" onclick="togglePart(this)">
+        <div class="pt-left"><span class="pt-num">Del 1</span><span class="pt-title">Ett Europa i förändring</span></div>
+        <span class="pt-arrow">▼</span>
+      </button>
+      <div class="part-body">
+        <p class="reading-lead">Med små och enkla fartyg gav sig europeiska sjöfarare ut på riskfyllda resor över världshaven. De nådde kontinenter som var okända för dem och mötte människor med andra traditioner, levnadssätt och kulturer. För många av de folk européerna kom i kontakt med fick mötet allvarliga konsekvenser.</p>
+        <h3>Medeltiden – nedgång eller utveckling?</h3>
+        <p>När det romerska riket föll samman under 400-talet inleddes den period som kallas medeltiden. Eftersom det inte längre fanns ett stort, enhetligt rike styrt från Rom har perioden länge beskrivits som en tid av nedgång och förfall – därför kallad den "mörka" medeltiden.</p>
+        <p>Denna bild har dock förändrats. Genom den kristna kyrkan bevarades delar av det antika kulturarvet, bland annat genom kloster som fungerade som centra för lärande. Det östromerska riket levde vidare med sin huvudstad i Konstantinopel, och i de muslimska rikena runt Medelhavet bevarades och utvecklades mycket av antikens vetenskap och filosofi.</p>
+        <h3>Jordbruk, bönder och befolkningstillväxt</h3>
+        <p>Under medeltiden förändrades jordbrukssamhället. Till skillnad från antiken, då stora gods drevs med slavarbete, brukades jorden nu av <strong>livegna</strong> bönder – bundna till jorden men räknade som fria människor. Jordägarna bestämde arrendet, ofta i form av en del av skörden. När bönderna fick behålla resten fanns drivkrafter att förbättra jordbruket. Skördarna ökade, befolkningen växte och handeln tog fart, vilket ledde till att städer växte fram.</p>
+        <h3>Digerdöden och samhällets förändring</h3>
+        <p>I mitten av 1300-talet drabbades Europa av <strong>digerdöden</strong>, en pandemi som dödade omkring en tredjedel av befolkningen. För dem som överlevde förbättrades levnadsförhållandena – jordägarna hade svårare att kräva höga arrenden, och hantverkare fick bättre betalt. Tekniska förbättringar som järnskor, bättre sele och plogar med hjul bidrog till ökad produktion.</p>
+        <h3>Ny teknik förändrar världen</h3>
+        <p><strong>Tryckpressen</strong> på 1400-talet gjorde kunskap billigare och mer tillgänglig. <strong>Eldvapen</strong> förändrade krigföringen. <strong>Kompassen</strong> underlättade navigation till sjöss. Papper, krut och kompassen hade alla sitt ursprung i <strong>Kina</strong>.</p>
+        <h3>Handelns utveckling</h3>
+        <p>Handeln längs <strong>Sidenvägen</strong> mellan Europa och Asien var lönsam – kryddor, siden och ädelstenar transporterades i stora karavaner. Venedig, Florens och Genua dominerade i söder; Amsterdam, Antwerpen, Lübeck och Hamburg i norr. Lübeck och Hamburg ingick i <strong>Hansan</strong>, ett mäktigt handelsförbund. Under 1400-talet erövrade kristna kungar Spanien från muslimska härskare, medan osmanerna intog Konstantinopel och grundade det mäktiga <strong>Osmanska riket</strong>.</p>
+      </div>
+    </div>
+
+    <!-- DEL 2 -->
+    <div class="part-item">
+      <button class="part-toggle" onclick="togglePart(this)">
+        <div class="pt-left"><span class="pt-num">Del 2</span><span class="pt-title">Världen bortom Europa</span></div>
+        <span class="pt-arrow">▼</span>
+      </button>
+      <div class="part-body">
+        <p class="reading-lead">Vid medeltidens slut var stora delar av världen okända för européerna. Det fanns sedan länge rykten om avlägsna länder, men kunskaperna om Afrika och Asien var bristfälliga – och att det fanns två stora världsdelar västerut kände man inte till alls.</p>
+        <h3>Riken i Amerika</h3>
+        <h4>Aztekriket</h4>
+        <p>I området som i dag är Mexiko låg <strong>Aztekriket</strong> – det mäktigaste riket i regionen. Aztekerna styrde hundratals städer och byar som tvingades betala skatt. Huvudstaden <strong>Tenochtitlán</strong>, med över 200 000 invånare, var en av världens största städer. Där fanns palats, tempel och akvedukter. Jämfört med europeiska städer var Tenochtitlán mycket ren – det fanns offentliga toaletter och avföring användes som gödsel.</p>
+        <h4>Mayariket</h4>
+        <p>Mayariket bestod av självständiga stadsstater. Det rymde avancerade kunskaper inom astronomi och matematik, men försvagades av inbördeskrig och missväxt. Vid slutet av 1400-talet hade storhetstiden passerat.</p>
+        <h4>Inkariket</h4>
+        <p>Inkafolket skapade under 1400-talet ett enormt imperium i nutidens Peru. Riket hade välutvecklat vägnät samt stora palats och tempel. Bönderna saknade dragdjur, vagnar med hjul och kunskap om järn och brons.</p>
+        <h3>Afrikanska riken</h3>
+        <p>Afrika hade mäktiga kungariken med stora städer. Timbuktu i Mali var berömt för bibliotek och lärdom. Afrikanska riken kände till järnframställning. Längs östkusten bedrevs livlig handel med arabländer.</p>
+        <h3>Riken i Asien</h3>
+        <p><strong>Osmanska riket</strong> (erövrade Konstantinopel 1453) var ett av historiens mäktigaste imperier. <strong>Mogulriket</strong> i Indien styrde stora delar av Indien och var känt för rik konst. <strong>Japan</strong> var relativt slutet – formellt styrde kejsaren men den verkliga makten låg hos <strong>shogunen</strong> och samurajerna. <strong>Kina</strong> under Mingdynastin låg långt före Europa i vetenskap och teknik. <strong>Zheng He</strong> ledde enorma expeditioner till Indien, Arabien och Östafrika på 1400-talet – men resorna upphörde på 1430-talet.</p>
+      </div>
+    </div>
+
+    <!-- DEL 3 -->
+    <div class="part-item">
+      <button class="part-toggle" onclick="togglePart(this)">
+        <div class="pt-left"><span class="pt-num">Del 3</span><span class="pt-title">Europa söker nya vägar</span></div>
+        <span class="pt-arrow">▼</span>
+      </button>
+      <div class="part-body">
+        <p class="reading-lead">Under 1400-talet var handeln mellan Europa och Asien mycket lönsam. Kryddor, siden och bomull kontrollerades av mellanhänder. I Portugal och Spanien växte idén om att en direktsjöväg till Asien kunde ge mycket större vinster.</p>
+        <h3>Portugals väg runt Afrika</h3>
+        <p><strong>Prins Henrik Sjöfararen</strong> arbetade målmedvetet för att utveckla navigation och skeppsbyggnad. Portugiserna seglade längs Afrikas västkust och nådde <strong>Guineabukten</strong>, där de mötte välutvecklade samhällen som <strong>Beninriket</strong> – känt för städer och konst i elfenben och brons av mycket hög kvalitet.</p>
+        <p><strong>Vasco da Gama</strong> lyckades segla runt <strong>Godahoppsudden</strong> – Afrikas sydspets – med hjälp av en erfaren arabisk <strong>lots</strong>. I Calicut i Indien mötte portugiserna dock besvikelse: de lokala köpmännen var inte intresserade av europeiska varor.</p>
+        <h3>Kanoner förändrar handeln</h3>
+        <p>Portugiserna återvände med bättre utrustade fartyg med tunga <strong>kanoner</strong>. De arabiska skeppen saknade motsvarande beväpning. Portugiserna vann sjöslag och tog kontroll över hamnar runt Indiska oceanen, ända till <strong>Malackahalvön</strong>. De styrde dock mest kuststäder – inte stora landområden.</p>
+        <h3>Columbus och Spaniens väg västerut</h3>
+        <p>År 1492 seglade <strong>Christofer Columbus</strong> med tre fartyg västerut. Efter drygt två månader nådde expeditionen <strong>Västindien</strong> – men Columbus trodde sig ha nått Indien. Spanjorerna kände inte till att en ny kontinent (Amerika) låg i vägen. Den befolkning Columbus mötte kallade han <strong>indianer</strong> – ett felaktigt namn som lever kvar.</p>
+        <p>De spanska erövrarna som följde kallades <strong>conquistadorer</strong>. Ombord fanns vetenskapsmän, handelsmän, soldater och <strong>missionärer</strong>.</p>
+      </div>
+    </div>
+
+    <!-- DEL 4 -->
+    <div class="part-item">
+      <button class="part-toggle" onclick="togglePart(this)">
+        <div class="pt-left"><span class="pt-num">Del 4</span><span class="pt-title">Landstigningen som förändrade allt</span></div>
+        <span class="pt-arrow">▼</span>
+      </button>
+      <div class="part-body">
+        <p class="reading-lead">År 1519 seglade en spansk expedition in mot Mexikos kust under ledning av Hernán Cortés. Det som följde förändrade Amerika för alltid.</p>
+        <h3>Aztekernas fall</h3>
+        <p>Cortés hade militärt övertag genom metallrustningar, eldvapen, kanoner och hästar – teknik okänd i Amerika. Dessutom fick han stöd av tusentals krigare från folk missnöjda med aztekernas skatter. <strong>Montezuma II</strong> tillfångatogs. Spanjorerna förstörde stadens vattenförsörjning. Smittkoppor – sjukdomar ursprungsbefolkningen saknade immunitet mot – tog enorma dödstal.</p>
+        <p>Tenochtitlán föll i ruiner. Området blev kolonin <strong>Nya Spanien</strong>; på ruinerna byggdes <strong>Mexico City</strong>.</p>
+        <h3>Inkarikets fall</h3>
+        <p>År 1533 nådde <strong>Francisco Pizarro</strong> inkarikets huvudstad Cusco. Samma mönster upprepades: militära angrepp, plundring, sjukdomar och politiskt sammanbrott.</p>
+        <h3>Konsekvenser för ursprungsbefolkningarna</h3>
+        <p>Kombinationen av sjukdomar, våld och hårt <strong>tvångsarbete</strong> i gruvor och jordbruk ledde till en av historiens största befolkningskatastrofer. Under 1500-talet sjönk befolkningen i Amerika dramatiskt – från tiotals miljoner till en bråkdel. Den minskade arbetskraften ersattes av förslavade afrikaner.</p>
+        <h3>Silver, guld och nya grödor</h3>
+        <p>Silverfyndigheterna var enorma och bidrog till att göra Spanien till en ledande stormakt. Nya grödor spreds till Europa: <strong>potatis, majs, tomater och kakao</strong>. Mot slutet av 1500-talet var nästan hela Syd- och Mellanamerika koloniserat.</p>
+      </div>
+    </div>
+
+    <!-- DEL 5 -->
+    <div class="part-item">
+      <button class="part-toggle" onclick="togglePart(this)">
+        <div class="pt-left"><span class="pt-num">Del 5</span><span class="pt-title">Andra länder gör entré</span></div>
+        <span class="pt-arrow">▼</span>
+      </button>
+      <div class="part-body">
+        <p class="reading-lead">Portugal och Spanien dominerade till en början. Men under 1600–1700-talen tog Nederländerna, England och Frankrike över – och en hård konkurrens om haven och handeln tog form.</p>
+        <h3>Nederländernas framväxt</h3>
+        <p>Från slutet av 1500-talet satsade Nederländerna på effektiva fartyg – <strong>fluyt</strong> – lättseglade och med liten besättning men stor lastkapacitet. Nederländerna etablerade <strong>Nya Amsterdam</strong> i Nordamerika (1664 erövrat av England och döpt om till <strong>New York</strong>). Störst framgång nåddes i Asien där man konkurrerade med Portugal om kryddhandeln, framförallt muskotnöt från nutidens Indonesien.</p>
+        <h3>Engelska och franska kolonier i Nordamerika</h3>
+        <p>År 1620 anlände <strong>Mayflower</strong> med engelska nybyggare till östkusten – grunden till New England. Frankrike hade kolonier i Kanada och vid Mexikanska golfen. De motstridiga intressena bidrog till spänningar mellan länderna.</p>
+        <h3>Engelsk dominans till havs</h3>
+        <p>År 1588 besegrade England oväntat den spanska armadan. Vinsterna från handeln – bland annat <strong>triangelhandeln</strong> – stärkte flottan. Parlamentet bestämde att handeln med kolonier endast fick ske med brittiska fartyg. Successivt fick England ett tydligt övertag på världshaven.</p>
+        <h3>Sjuårskriget 1756–1763</h3>
+        <p>Det sista stora uppgöret stod mellan Storbritannien och Frankrike. Kriget utkämpades i Europa, Nordamerika och Asien – därför kallas det ibland "det första världskriget". Storbritanniens seger var tydlig: stora delar av Frankrikes nordamerikanska kolonier togs över och inflytandet i Indien ökade. Vid mitten av 1700-talet var <strong>Storbritannien</strong> världens ledande stormakt.</p>
+      </div>
+    </div>
+
+    <!-- DEL 6 -->
+    <div class="part-item">
+      <button class="part-toggle" onclick="togglePart(this)">
+        <div class="pt-left"><span class="pt-num">Del 6</span><span class="pt-title">Världshandelns baksida – Slaveriet</span></div>
+        <span class="pt-arrow">▼</span>
+      </button>
+      <div class="part-body">
+        <p class="reading-lead">Mest lönsam av all handel blev handeln med människor. Miljontals afrikaner tvingades lämna sina hem för att arbeta utan lön och frihet i Amerika. Det var en av historiens största tvångsförflyttningar.</p>
+        <h3>Slavhandel före den europeiska expansionen</h3>
+        <p>Slavhandel existerade redan i östra Afrika, i arabiska handelsnätverk. Lokala afrikanska slavjägare tillfångatog människor, ibland i räder långt in i inlandet. Förhållandena på marschen till kusten var brutala och många dog. De som överlevde såldes i kuststäderna och transporterades till Mellanöstern.</p>
+        <p>När portugiserna började utforska Afrikas västkust tog de över detta system. År 1444 anlände den första kända transporten med tillfångatagna afrikaner till Portugal.</p>
+        <h3>Den transatlantiska slavhandeln</h3>
+        <p>Under 1700-talet ökade slavhandeln kraftigt. Portugisiska, brittiska, franska och nederländska handelsmän – och även danska och svenska köpmän – deltog. De tillfångatagna packades tätt i <strong>slavskepp</strong> utan tillräcklig mat, vatten eller hygien. Sjukdomar spreds snabbt och dödligheten var hög. De som dog under resan kastades överbord.</p>
+        <h3>Slaveriet i Amerika</h3>
+        <p>Framme i Amerika såldes slavarna vidare. Många hamnade på <strong>sockerplantager</strong> i Västindien, i gruvor i Brasilien, eller på <strong>bomullsplantager</strong> i Nordamerika. Bomull, ris och tobak var de viktigaste grödorna. Det uppskattas att minst <strong>elva miljoner</strong> människor fördes från Afrika till Amerika som slavar.</p>
+        <h3>Triangelhandeln</h3>
+        <p>Städer som Liverpool, Bristol och London var viktigaste centra. Fartyg seglade till Västafrika med industrivaror (vapen, verktyg). Varorna byttes mot människor. Slavarna skeppades till Amerika och såldes. Med vinsterna köptes socker, tobak, bomull och rom – såldes sedan i Europa med stor förtjänst. Tre ben, tre kontinenter: <strong>triangelhandeln</strong>.</p>
+
+        <!-- Triangle Visualizer -->
+        <div class="triangle-vis">
+          <h3>⚓ Triangelhandeln – visualisering</h3>
+          <div class="tri-grid">
+            <div class="tri-node">
+              <div class="icon">🏭</div>
+              <h4>Europa</h4>
+              <p>Fartyg lastar varor i Liverpool, Bristol och London</p>
+              <div class="tri-goods">
+                <span>Vapen</span><span>Verktyg</span><span>Textiler</span>
+              </div>
+            </div>
+            <div class="tri-node">
+              <div class="icon">🌍</div>
+              <h4>Afrika</h4>
+              <p>Varor byts mot tillfångatagna människor vid kusten</p>
+              <div class="tri-goods">
+                <span>Slavar</span>
+              </div>
+            </div>
+            <div class="tri-node">
+              <div class="icon">🌿</div>
+              <h4>Amerika</h4>
+              <p>Slavarna säljs på plantager och i gruvor</p>
+              <div class="tri-goods">
+                <span>Socker</span><span>Bomull</span><span>Tobak</span><span>Rom</span>
+              </div>
+            </div>
+          </div>
+          <div class="tri-arrow">Europa → Afrika → Amerika → Europa</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEL 7 -->
+    <div class="part-item">
+      <button class="part-toggle" onclick="togglePart(this)">
+        <div class="pt-left"><span class="pt-num">Del 7</span><span class="pt-title">Från Östersjön till Atlanten – Svenska kolonier</span></div>
+        <span class="pt-arrow">▼</span>
+      </button>
+      <div class="part-body">
+        <p class="reading-lead">Sverige ville bli stormakt – och deltog i världshandeln, grundade kolonier i Afrika och Amerika, och handlade med Kina via Ostindiska kompaniet.</p>
+        <h3>Svenska Afrikakompaniet</h3>
+        <p>I mitten av 1600-talet etablerades en handelsstation på <strong>Guldkusten</strong> (nuvarande Ghana) i <strong>Cabo Corso</strong>. Handel med guld, elfenben – och slavar. Konkurrensen var för hård: Nederländerna tog snart över stationen.</p>
+        <h3>Nya Sverige i Nordamerika</h3>
+        <p>År 1638 seglade fartygen <strong>Kalmar Nyckel</strong> och <strong>Fågel Grip</strong> till Delawarefloden. Kolonin <strong>Nya Sverige</strong> grundades – bland nybyggarna fanns finska svedjebönder. Sverige var engagerat i trettioåriga kriget och saknade resurser. År 1655 angrep Nederländerna och Nya Sverige upphörde. Området hamnade senare under brittiskt styre – men svenska och finska språk och traditioner levde kvar långt in på 1700-talet.</p>
+        <h3>Svenska Ostindiska kompaniet</h3>
+        <p>År 1731 grundades <strong>Svenska Ostindiska kompaniet</strong>. Från Göteborg seglade fartygen via Cádiz, där silver köptes in – det enda betalningsmedlet som accepterades i Asien. Hemvändande skepp bar te, kryddor, siden, porslin och ris. Totalt 132 resor, de flesta till Kina. Dokumentationen förstördes efter varje resa för att skydda affärshemligheter.</p>
+        <h3>Vetenskap och världshandel</h3>
+        <p>1700-talets globala kontakter bidrog till vetenskaplig blomstring i Sverige. <strong>Carl von Linné</strong> skapade det biologiska klassificeringssystemet som fortfarande används – hans elever följde med Ostindiska kompaniets fartyg. <strong>Jonas Alströmer</strong> startade textilindustri i Alingsås. <strong>Anders Celsius</strong> skapade temperaturskalan. <strong>Eva Ekeblad</strong> visade hur potatis kunde användas industriellt.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ SKRIVFRÅGOR ══════════ -->
+<div class="section" id="tab-fragor">
+  <div class="wrap">
+    <div class="s-label">Träna skriva</div>
+    <h2 class="s-title">Skrivfrågor</h2>
+    <div class="s-divider"></div>
+    <p class="s-desc">Skriv ditt svar – sedan klickar du för att se modellsvaret. Formulera dig med egna ord först!</p>
+    <div class="del-selector">
+      <button class="del-btn active" onclick="showDel('d1',this)">Del 1</button>
+      <button class="del-btn" onclick="showDel('d2',this)">Del 2</button>
+      <button class="del-btn" onclick="showDel('d3',this)">Del 3</button>
+      <button class="del-btn" onclick="showDel('d4',this)">Del 4</button>
+      <button class="del-btn" onclick="showDel('d5',this)">Del 5</button>
+      <button class="del-btn" onclick="showDel('d6',this)">Del 6</button>
+      <button class="del-btn" onclick="showDel('d7',this)">Del 7</button>
+    </div>
+    <div class="questions-list active" id="qs-d1"></div>
+    <div class="questions-list" id="qs-d2"></div>
+    <div class="questions-list" id="qs-d3"></div>
+    <div class="questions-list" id="qs-d4"></div>
+    <div class="questions-list" id="qs-d5"></div>
+    <div class="questions-list" id="qs-d6"></div>
+    <div class="questions-list" id="qs-d7"></div>
+  </div>
+</div>
+
+<!-- ══════════ BEGREPP ══════════ -->
+<div class="section" id="tab-begrepp">
+  <div class="wrap">
+    <div class="s-label">Begreppsträning</div>
+    <h2 class="s-title">Flashcards – Alla Begrepp</h2>
+    <div class="s-divider"></div>
+    <p class="s-desc">Klicka på ett kort för att se definitionen. Filtrera efter del eller visa alla.</p>
+    <div class="fc-filter" id="fcFilter"></div>
+    <div class="fc-count" id="fcCount"></div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </div>
+</div>
+
+<!-- ══════════ TIDSLINJE ══════════ -->
+<div class="section" id="tab-tidslinje">
+  <div class="wrap">
+    <div class="s-label">Kronologi</div>
+    <h2 class="s-title">Tidslinje 1300–1800</h2>
+    <div class="s-divider"></div>
+    <p class="s-desc">Klicka på varje händelse för mer information. Från digerdöden till triangelhandelns höjdpunkt.</p>
+    <div class="timeline-container">
+      <div class="tl-line"></div>
+      <div class="tl-events" id="tlEvents"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer style="background:var(--ink);color:rgba(255,255,255,0.3);text-align:center;padding:22px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;">
+  SO-PORTALEN.SE &nbsp;·&nbsp; KOLONIALISM &amp; VÄRLDSHANDEL
+  <div style="height:3px;background:linear-gradient(to right,var(--ocean) 0%,var(--green) 33%,var(--amber-lt) 66%,var(--red) 100%);margin-top:14px;opacity:0.3;border-radius:2px;"></div>
+</footer>
+
+<script>
+// ── TABS ──
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+b.dataset.tab).classList.add('active');
+  b.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+function togglePart(btn){
+  const body=btn.nextElementSibling;
+  const open=btn.classList.contains('open');
+  document.querySelectorAll('.part-toggle.open').forEach(x=>{x.classList.remove('open');x.nextElementSibling.classList.remove('open');});
+  if(!open){btn.classList.add('open');body.classList.add('open');}
+}
+
+// ── QUESTION DATA (exakta frågor från kursmaterialet) ──
+const qData={
+  d1:[
+    {q:"Vad var upptäcktsresor, och varför gav sig europeiska sjöfarare ut på dem?",
+     a:"Upptäcktsresor var långa sjöresor där européer seglade till för dem okända delar av världen. De drevs av drömmen om rikedomar – framförallt direkta handelsvägar till Asien utan mellanhänder – men också av nyfikenhet och viljan att sprida kristendomen."},
+    {q:"Nämn två saker som ofta hände när européer kom i kontakt med folk i andra världsdelar.",
+     a:"1) Nya sjukdomar spreds till ursprungsbefolkningarna som saknade immunitet, med massiv död som följd. 2) Européerna tog kontroll över mark, resurser och rikedomar och omvandlade områden till kolonier styrda från Europa."},
+    {q:"Vad är en koloni? Svara med en egen kort förklaring.",
+     a:"En koloni är ett område som styrs och kontrolleras av ett annat land (ett moderland), ofta långt bort. Kolonin exploateras för dess resurser och råvaror till moderlandets fördel."},
+    {q:"Varför har medeltiden ibland kallats den 'mörka' medeltiden?",
+     a:"Eftersom det romerska riket föll har perioden länge beskrivits som en tid av nedgång och förfall. Men bilden är mer nyanserad – kyrkan bevarade kunskap, kloster fungerade som lärandecentra och tekniken utvecklades."},
+    {q:"Ge ett exempel på hur kunskap bevarades eller spreds under medeltiden.",
+     a:"Kloster fungerade som centra för lärande och bevarade delar av det antika kulturarvet. I det östromerska riket och i muslimska riken bevarades och vidareutvecklades antikens vetenskap. Tryckpressen på 1400-talet spred sedan kunskap snabbare än någonsin."},
+    {q:"Vad betyder det att en bonde var livegen?",
+     a:"En livegen bonde var bunden till den jord hen brukade och behövde jordägarens tillstånd för att flytta. Livegna räknades som fria – de var inte slavar och kunde inte säljas – men de hade begränsad frihet."},
+    {q:"Vad är arrende, och hur kunde arrende betalas?",
+     a:"Arrende är den avgift bönder betalade till jordägaren för rätten att bruka marken. Det betalades ofta som en del av skörden – jordägaren fick en andel och bonden fick behålla resten."},
+    {q:"Vad var digerdöden, och ungefär hur påverkades befolkningen av den?",
+     a:"Digerdöden var en pestpandemi på 1300-talet som spreds över stora delar av världen. Den dödade ungefär en tredjedel av Europas befolkning."},
+    {q:"Varför kunde vissa bönder och hantverkare få bättre villkor efter digerdöden?",
+     a:"När många dog minskade tillgången på arbetskraft. Jordägare hade svårare att kräva höga arrenden. I vissa fall såldes stora jordegendomar. Hantverkare fick bättre betalt för sina varor och tjänster eftersom de var färre."},
+    {q:"Förklara kort hur ny teknik (t.ex. tryckpress, krut eller kompass) bidrog till förändringar i Europa och handeln.",
+     a:"Tryckpressen spred kunskap billigare och bredare. Krut och eldvapen förändrade krigföringen och gav militärt övertag. Kompassen möjliggjorde längre sjöresor. Sammantaget lade dessa uppfinningar – med ursprung i Kina – grunden för Europas expansion."},
+  ],
+  d2:[
+    {q:"Varför kände européer till så lite om världen utanför Europa vid medeltidens slut?",
+     a:"Kunskaperna om Afrika och Asien var bristfälliga. Amerika kände européerna inte till alls. Begränsad navigationsteknik och avsaknad av direkta kontakter höll stora delar av världen okänd."},
+    {q:"Nämn ett rike i Amerika (azteker, maya eller inka) och skriv en sak som visar att det var välutvecklat.",
+     a:"Aztekriket hade Tenochtitlán med över 200 000 invånare – en av världens största städer med palats, tempel och akvedukter. Inkariket hade ett välutvecklat vägnät. Mayariket hade avancerade kunskaper i astronomi och matematik."},
+    {q:"Var låg Tenochtitlán, och ungefär hur stor var staden?",
+     a:"Tenochtitlán låg på öar i Texcocosjön i nutidens Mexiko. Staden hade över 200 000 invånare och var en av världens största städer i början av 1500-talet."},
+    {q:"Hur ordnade aztekerna dricksvatten till sin huvudstad?",
+     a:"Aztekerna byggde akvedukter som ledde färskvatten från bergen till Tenochtitlán. Eftersom staden låg på öar i en sjö saknade den naturliga dricksvattenkällor."},
+    {q:"Ge två exempel på sådant som gjorde hygienen bättre i Tenochtitlán än i många europeiska städer.",
+     a:"1) Det fanns offentliga toaletter i staden. 2) Avföring användes som gödsel i jordbruket istället för att dumpas på gatorna – det bidrog till bättre hygien och minskad sjukdomsspridning."},
+    {q:"Vem var Montezuma och vilka två viktiga uppgifter hade han som ledare?",
+     a:"Montezuma II var aztekernas härskare i början av 1500-talet. Han var både politisk ledare – styrde riket och alla undersåtar – och religiös ledare som ledde religiösa ceremonier."},
+    {q:"Vilka skyldigheter hade bönder i Aztekriket? Nämn minst två.",
+     a:"Bönderna hade rätt att bruka sin jord hela livet, men var skyldiga att betala skatt och delta i arbete eller krig när de kallades till det."},
+    {q:"Vad hände år 1453 i Konstantinopel, och varför var det viktigt?",
+     a:"Osmanska riket erövrade Konstantinopel 1453. Det markerade slutet på det östromerska riket och stärkte osmanernas kontroll över handelsvägar mellan Europa och Asien – vilket drev på europeernas sökande efter alternativa sjövägar."},
+    {q:"Vad var speciellt med Japans styre: vem hade mest makt, kejsaren eller shogunen?",
+     a:"Formellt styrdes Japan av en kejsare, men den verkliga makten låg hos shogunen – den militäre ledaren – och de adliga samurajerna. Kejsaren var mer av en symbolisk figur."},
+    {q:"Nämn två saker som Kina låg före Europa i under den här tiden.",
+     a:"Kina hade uppfunnit krut, kompassen och papper. Städerna var större och jordbruket effektivare med avancerade bevattningssystem. Zheng He ledde flottor långt större än europeiska fartyg."},
+  ],
+  d3:[
+    {q:"Varför ville Portugal och Spanien hitta nya sjövägar till Asien under 1400-talet?",
+     a:"Handeln med Asien var extremt lönsam men kontrollerades av mellanhänder. En direktsjöväg skulle göra det möjligt att undvika mellanhänderna och ta hem mycket större vinster."},
+    {q:"Varför tjänade mellanhänder (t.ex. Osmanska riket och italienska handelsstäder) pengar på handeln?",
+     a:"Varor bytte händer i flera led – varje mellanhand lade på sin vinst. Osmanska riket kontrollerade nyckelrutter och tog tullar. Italienska städer som Venedig var knutpunkter där varor såldes vidare till resten av Europa."},
+    {q:"Vad gjorde prins Henrik Sjöfararen för att hjälpa Portugals sjöfart?",
+     a:"Henrik Sjöfararen arbetade målmedvetet för att utveckla navigation och skeppsbyggnad. Han drev på expeditioner längs Afrikas västkust med det långsiktiga målet att hitta en sjöväg till Indien."},
+    {q:"Vad var särskilt med de samhällen portugiserna mötte vid Guineabukten, till exempel Benin?",
+     a:"Beninriket var ett välutvecklat samhälle med städer och konst i elfenben och brons av mycket hög kvalitet – vilket förvånade européerna som inte förväntade sig avancerade civilisationer i Afrika."},
+    {q:"Varför kallas Afrikas sydspets för Godahoppsudden?",
+     a:"Platsen symboliserade hoppet om att sjövägen till Indien nu var inom räckhåll. Att lyckas runda Afrikas sydspets var ett avgörande genombrott för Portugals mål."},
+    {q:"Varför lyckades Vasco da Gama till slut ta sig över Indiska oceanen?",
+     a:"Da Gama tog hjälp av en erfaren arabisk lots som kände Indiska oceanen och dess vindar väl. Utan denna lokala expertis hade expeditionen inte klarat att navigera sig till Indien."},
+    {q:"Varför blev portugiserna besvikna när de kom till Calicut?",
+     a:"De lokala köpmännen var inte intresserade av européernas varor – de ansågs enkla jämfört med de eftertraktade kryddorna och bomullstyget. Handeln fortsatte med arabiska sjöfarare istället."},
+    {q:"Hur kunde portugiserna ta kontroll över viktiga hamnar i Indiska oceanen?",
+     a:"Portugiserna återvände med bättre beväpnade fartyg med tunga kanoner. De arabiska skeppen saknade motsvarande beväpning. Med militärt övertag vann portugiserna sjöslag och tog kontroll över hamnar."},
+    {q:"Varför valde Spanien att segla västerut istället för runt Afrika?",
+     a:"Portugal hade redan påbörjat den östliga rutten. Spanien sökte en alternativ väg och satsade på att segla västerut – man kände inte till att Amerika låg i vägen och underskattade jordens storlek."},
+    {q:"Vem var Columbus, vart kom han egentligen och varför kallades ursprungsbefolkningen 'indianer'?",
+     a:"Columbus seglade i spansk tjänst och nådde 1492 Västindien – men trodde sig ha nått Indien. Han kallade befolkningen 'indianer'. Det var felaktigt men namnet lever kvar."},
+  ],
+  d4:[
+    {q:"Varför hade spanjorerna militärt övertag när de kom till Amerika?",
+     a:"De hade metallrustningar, svärd, eldvapen och kanoner – okänt i Amerika. Hästarna väckte stor rädsla. Ursprungsbefolkningarnas vapen och rustning kunde inte mäta sig med denna teknologi."},
+    {q:"Beskriv varför vissa folkgrupper valde att samarbeta med spanjorerna.",
+     a:"Många folk levde under aztekiskt styre och var missnöjda med tunga skatter. De såg spanjorernas ankomst som en möjlighet att göra uppror. Cortés fick stöd av tusentals krigare från dessa grupper."},
+    {q:"Förklara varför Tenochtitlán var så viktig för aztekriket.",
+     a:"Tenochtitlán var aztekernas huvudstad – det politiska, religiösa och ekonomiska centrumet. Härifrån styrdes hundratals städer. Stadens fall innebar hela rikets sammanbrott."},
+    {q:"Vad hände med aztekernas härskare Montezuma under erövringen?",
+     a:"Montezuma II tillfångatogs av Cortés. Omständigheterna kring hans fångenskap och död är fortfarande oklara – det debatteras om han dödades av spanjorerna eller egna undersåtar."},
+    {q:"Nämn flera orsaker till att aztekriket besegrades.",
+     a:"1) Spanjorernas militära överlägsenhet. 2) Stödet från folk missnöjda med aztekernas styre. 3) Smittkoppor och sjukdomar ursprungsbefolkningen saknade immunitet mot. 4) Förstörelsen av stadens vattenförsörjning."},
+    {q:"Beskriv vad som hände när spanjorerna erövrade inkariket.",
+     a:"1533 nådde Pizarro Cusco. Samma mönster upprepades: militära angrepp, plundring, sjukdomar och politiskt sammanbrott. Inkariket gick samma öde till mötes som aztekerna."},
+    {q:"Varför blev silver viktigare än guld för Spaniens ekonomi?",
+     a:"Spanjorerna hittade inte lika mycket guld som man hoppats. Men silverfyndigheterna var enorma och finansierade Spaniens expansion, vilket bidrog till att landet blev ledande stormakt."},
+    {q:"Hur påverkades Amerikas ursprungsbefolkning av de spanska erövringarna?",
+     a:"Kombinationen av sjukdomar, våld och tvångsarbete ledde till en katastrofal befolkningsminskning. Under 1500-talet sjönk befolkningen från tiotals miljoner till en bråkdel."},
+    {q:"Vad menas med att Spanien och Portugal var kolonialmakter?",
+     a:"De styrde stora områden utanför Europa – kolonier – tagna med militär makt. Kolonierna styrdes av ämbetsmän från moderlandet och exploaterades för råvaror och arbetskraft."},
+    {q:"Varför ville andra europeiska länder skaffa egna kolonier?",
+     a:"Spaniens och Portugals enorma rikedomar väckte avund. Kolonier gav råvaror, nya marknader och strategiska handelspositioner. Konkurrensen om världshandeln drev på expansionen."},
+  ],
+  d5:[
+    {q:"Hur förändrades världshandeln genom de geografiska upptäckterna?",
+     a:"Direkta sjövägar till Asien och Amerika öppnades, vilket bröt upp gamla handelsrutter via Osmanska riket. En hård konkurrens om kontrollen över haven uppstod mellan Europas stater."},
+    {q:"Varför fick Nederländerna stora framgångar inom handeln?",
+     a:"Nederländerna byggde effektiva fluyt-fartyg som fraktade stora laster med liten besättning. De konkurrerade ut Portugal i Asien och tog kontroll över den lönsamma kryddhandeln."},
+    {q:"Beskriv vad som gjorde nederländska fartyg effektiva.",
+     a:"Fluyt-fartygen var rundbottnade med stor lastkapacitet och liten besättning. Den effektiva konstruktionen sänkte driftskostnaderna och gjorde handeln mer lönsam."},
+    {q:"Varför var kryddor som muskotnöt så eftertraktade i Europa?",
+     a:"Kryddor användes för smaksättning av mat och ansågs kunna bota sjukdomar. De odlades på specifika öar i Asien och köptes billigt men såldes med enorm vinst i Europa."},
+    {q:"Vad hände med Nya Amsterdam?",
+     a:"Nya Amsterdam var en nederländsk koloni i Nordamerika. År 1664 erövrades det av England och döptes om till New York."},
+    {q:"Hur skilde sig Englands och Frankrikes mål i Nordamerika?",
+     a:"England etablerade kolonier längs östkusten och sträckte sig västerut. Frankrike hade kolonier i Kanada och vid Mexikanska golfen. De motstridiga intressena skapade spänningar."},
+    {q:"Varför blev England allt starkare till havs?",
+     a:"England besegrade den spanska armadan 1588. Vinsterna från handeln – bl.a. triangelhandeln – finansierade en stark krigsflotta. Parlamentet bestämde att kolonialhandeln bara fick ske med brittiska fartyg."},
+    {q:"Förklara hur handel bidrog till att bygga upp en stark krigsflotta.",
+     a:"Handelsvinster genererade skatteintäkter som användes för att bygga krigsfartyg. En stark flotta skyddade handelsrutterna, vilket genererade mer vinster – en positiv spiral."},
+    {q:"Vad var sjuårskriget och varför kallas det ibland det första världskriget?",
+     a:"Sjuårskriget (1756–1763) var ett krig med Storbritannien och Frankrike som huvudmotståndare. Det kallas 'det första världskriget' för att strider utkämpades på tre kontinenter: Europa, Nordamerika och Asien."},
+    {q:"På vilka sätt stärkte sjuårskriget Storbritanniens ställning?",
+     a:"Storbritanniens seger innebar att stora delar av Frankrikes nordamerikanska kolonier togs över och inflytandet i Indien ökade. Vid mitten av 1700-talet var Storbritannien världens ledande stormakt."},
+  ],
+  d6:[
+    {q:"Varför blev slavhandeln en mycket lönsam del av världshandeln?",
+     a:"Plantager och gruvor i Amerika krävde enorma mängder arbetskraft. Slavarbete var den billigaste lösningen. Slavar köptes billigt i Afrika och såldes med stor vinst i Amerika."},
+    {q:"Förklara varför slavhandeln räknas som en av historiens största tvångsförflyttningar.",
+     a:"Minst elva miljoner människor – troligtvis fler – tvingades från Afrika till Amerika. De fråntogs frihet, hem och identitet. Många dog under transporterna."},
+    {q:"Hur gick slavhandeln till i Afrika innan européerna deltog?",
+     a:"Under medeltiden bedrevs slavhandel i arabiska handelsnätverk. Lokala slavjägare tillfångatog människor i räder och sålde dem till arabiska köpmän i kuststäderna, varifrån de transporterades till Mellanöstern."},
+    {q:"Beskriv hur människor tillfångatogs och fördes till kusten.",
+     a:"Beväpnade grupper genomförde räder mot byar. De tillfångatagna tvingades vandra långa sträckor till kusten under brutala förhållanden. Många dog redan under marschen."},
+    {q:"Hur förändrades slavhandeln när européerna seglade över Atlanten?",
+     a:"Den transatlantiska slavhandeln var mycket större i skala. Européerna organiserade slavtransporter industriellt. Istället för Mellanöstern skeppades miljontals afrikaner till Amerika."},
+    {q:"Hur såg förhållandena ut ombord på slavskeppen?",
+     a:"De tillfångatagna packades tätt utan tillräcklig mat, vatten eller hygien. Sjukdomar spreds snabbt och dödligheten var mycket hög. De som dog kastades överbord."},
+    {q:"Vilka arbetsuppgifter fick slavarna i Nord- och Sydamerika?",
+     a:"Många hamnade på sockerplantager i Västindien eller gruvor i Brasilien. I Nordamerika användes slavarbete på bomullsplantager, och för odling av ris och tobak."},
+    {q:"Varför ökade behovet av slavarbetskraft under 1700-talet?",
+     a:"Kolonialmakterna expanderade sina plantager och gruvor. Ursprungsbefolkningarnas antal hade kollapsat. Europeiska nybyggare ville inte arbeta som slavar. Slavarbete var den billigaste lösningen."},
+    {q:"Hur många beräknas ha förts från Afrika till Amerika som slavar?",
+     a:"Minst elva miljoner. Många forskare menar att det kan ha varit fler – exakt antal kan inte fastställas då dokumentationen är ofullständig."},
+    {q:"Varför började slavhandeln avskaffas under 1800-talet?",
+     a:"En växande abolitionistisk rörelse baserad på moraliska och religiösa argument spreds. Politiska rörelser och slavuppror ökade trycket. Länder avskaffade successivt slavhandeln och sedan slaveriet."},
+  ],
+  d7:[
+    {q:"Varför ville Sverige bli stormakt, och hur försökte landet uppnå det?",
+     a:"Sverige ville stärka sin politiska och ekonomiska ställning. Genom krig runt Östersjön byggdes ett östersjöimperium. Sverige försökte ta del av världshandeln via Afrikakompaniet, Nya Sverige och Ostindiska kompaniet."},
+    {q:"Vad var Svenska Afrikakompaniet och varför var Guldkusten viktig?",
+     a:"Svenska Afrikakompaniet var ett handelssällskap med station vid Cabo Corso på Guldkusten (Ghana). Guldkusten var viktig för tillgång till guld, elfenben – och slavar."},
+    {q:"Vilka varor handlade man med vid Cabo Corso, och vad visar det om Sveriges mål?",
+     a:"Man handlade med guld, elfenben och slavar. Det visar att Sverige ville ta del av världshandeln – även den lönsamma men brutala slavhandeln – precis som de stora kolonialmakterna."},
+    {q:"Varför blev den svenska handelsstationen i Afrika kortlivad?",
+     a:"Konkurrensen från starkare europeiska makter var för hård. Nederländerna tog snart över handelsstationen. Sverige saknade resurser att hävda sig."},
+    {q:"Varför startade Sverige Nya Sverige, och var låg kolonin?",
+     a:"Sverige ville etablera sig i nordamerikansk handel. Nya Sverige grundades 1638 vid Delawarefloden på östkusten, mellan engelska och nederländska kolonier."},
+    {q:"Vilka följde med till Nordamerika och hur försörjde de sig?",
+     a:"Ombord fanns soldater och civila nybyggare, däribland finska svedjebönder. De livnärde sig på jordbruk, jakt och handel med ursprungsbefolkningen."},
+    {q:"Varför kunde Sverige inte satsa på Nya Sverige, och vad hände?",
+     a:"Sverige var djupt engagerat i trettioåriga kriget och saknade resurser. År 1655 angrep en nederlandsk styrka och Nya Sverige upphörde. Området hamnade sedan under brittiskt styre."},
+    {q:"Hur förändrades Nya Sverige när niederländare och britter tog över?",
+     a:"Politiskt gick det från svensk till nederlandsk till brittisk koloni. Men svenska och finska språk och traditioner levde kvar i området långt in på 1700-talet."},
+    {q:"Hur fungerade Ostindiska kompaniets handel, och varför var silver viktigt?",
+     a:"Fartygen seglade från Göteborg via Cádiz (där silver köptes) till Kina. Silver var nödvändigt då handelsmän i Asien inte accepterade europeiska varor. Hemvändande fartyg bar te, porslin, kryddor och siden."},
+    {q:"På vilka sätt hängde världshandel och vetenskap ihop i Sverige under 1700-talet?",
+     a:"Ostindiska kompaniets resor spred kunskaper. Linnés elever följde med fartygen och dokumenterade flora och fauna. Alströmer startade textilindustri, Celsius skapade temperaturskalan, Ekeblad visade potatisets industriella användning."},
+  ],
+};
+
+function showDel(id,btn){
+  document.querySelectorAll('.questions-list').forEach(q=>q.classList.remove('active'));
+  document.querySelectorAll('.del-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('qs-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function renderQuestions(){
+  Object.entries(qData).forEach(([del,qs])=>{
+    const c=document.getElementById('qs-'+del);
+    c.innerHTML=qs.map((q,i)=>`
+      <div class="q-card">
+        <div class="q-num">Fråga ${i+1} av ${qs.length}</div>
+        <div class="q-text">${q.q}</div>
+        <textarea class="q-area" placeholder="Skriv ditt svar här (1–3 meningar)..." rows="3"></textarea>
+        <div class="q-footer">
+          <span class="q-hint">Formulera dig själv innan du visar svaret</span>
+          <button class="show-answer-btn" onclick="toggleAnswer('${del}',${i},this)">👁 Visa modellsvar</button>
+        </div>
+        <div class="q-model-answer" id="qa-${del}-${i}">
+          <div class="q-model-label">Modellsvar</div>${q.a}
+        </div>
+      </div>`).join('');
+  });
+}
+function toggleAnswer(del,i,btn){
+  const ans=document.getElementById('qa-'+del+'-'+i);
+  if(ans.classList.contains('show')){ans.classList.remove('show');btn.textContent='👁 Visa modellsvar';btn.classList.remove('shown');}
+  else{ans.classList.add('show');btn.textContent='✕ Dölj svar';btn.classList.add('shown');}
+}
+
+// ── FLASHCARD DATA (från källdokumentets begreppslistor) ──
+const fcData=[
+  // Del 1
+  {t:"Upptäcktsresor",d:"Långa sjöresor där européer seglade till för dem okända delar av världen.",del:1},
+  {t:"Koloni",d:"Område som styrs och kontrolleras av ett annat land, ofta långt bort.",del:1},
+  {t:"Kolonialism",d:"När europeiska länder erövrade och styrde områden i andra världsdelar.",del:1},
+  {t:"Medeltiden",d:"Historisk period i Europa mellan cirka år 500 och 1500.",del:1},
+  {t:"Antiken",d:"Tidsperioden före medeltiden, då bland annat det romerska riket dominerade.",del:1},
+  {t:"Livegen",d:"Bonde som var bunden till jorden och inte fritt kunde flytta, men som inte var slav.",del:1},
+  {t:"Arrende",d:"Avgift eller hyra som bönder betalade till jordägaren för att få bruka mark.",del:1},
+  {t:"Digerdöden",d:"En pestpandemi på 1300-talet som dödade en stor del av Europas befolkning.",del:1},
+  {t:"Pandemi",d:"Sjukdom som sprids över stora delar av världen.",del:1},
+  {t:"Tryckpressen",d:"Uppfinning som möjliggjorde att snabbt trycka många böcker och sprida kunskap.",del:1},
+  {t:"Eldvapen",d:"Vapen som använder krut, till exempel kanoner och gevär.",del:1},
+  {t:"Sidenvägen",d:"Nätverk av handelsvägar mellan Asien och Europa där lyxvaror transporterades.",del:1},
+  {t:"Hansan",d:"Ett mäktigt handelsförbund av städer runt Östersjön och Nordsjön.",del:1},
+  {t:"Osmanska riket",d:"Stort muslimskt rike som växte fram efter erövringen av Konstantinopel.",del:1},
+  // Del 2
+  {t:"Imperium",d:"Ett mycket stort rike som styr över många olika folk och områden.",del:2},
+  {t:"Stadsstat",d:"En stad med omgivningar som fungerar som ett eget land med egen makt.",del:2},
+  {t:"Akvedukt",d:"Vattenledning som leder dricksvatten till en stad.",del:2},
+  {t:"Sultan",d:"Härskartitel i Osmanska riket.",del:2},
+  {t:"Mogulriket",d:"Ett mäktigt muslimskt rike i Indien som växte fram på 1500-talet.",del:2},
+  {t:"Shogun",d:"Japans militära ledare som i praktiken hade den största makten.",del:2},
+  {t:"Samuraj",d:"Adlig krigare i Japan.",del:2},
+  {t:"Dynasti",d:"En kunglig eller kejserlig släkt som styr ett land under lång tid.",del:2},
+  {t:"Mingdynastin",d:"Dynasti som styrde Kina mellan 1368 och 1644.",del:2},
+  {t:"Expedition",d:"En större resa med ett tydligt uppdrag, ofta till okända områden.",del:2},
+  {t:"Förbjudna staden",d:"Kejserligt palatsområde i Beijing där endast kejsaren och hans närmaste fick vistas.",del:2},
+  // Del 3
+  {t:"Mellanhänder",d:"De som tjänar pengar genom att köpa och sälja varor vidare i flera led.",del:3},
+  {t:"Henrik Sjöfararen",d:"Portugisisk prins som satsade på sjöfart och expeditioner längs Afrikas kust.",del:3},
+  {t:"Beninriket",d:"Rike i Västafrika känt för städer och konst.",del:3},
+  {t:"Godahoppsudden",d:"Afrikas sydspets – symboliserade hoppet om sjövägen till Indien.",del:3},
+  {t:"Vasco da Gama",d:"Sjöfarare som nådde Indien genom att segla runt Afrika.",del:3},
+  {t:"Lots",d:"Erfaren vägvisare som hjälper fartyg att navigera.",del:3},
+  {t:"Christofer Columbus",d:"Seglade västerut 1492 i spansk tjänst och nådde Västindien.",del:3},
+  {t:"Conquistadorer",d:"Spanska erövrare som följde Columbus till Amerika.",del:3},
+  {t:"Missionär",d:"Person som sprider sin religion, ofta kristendomen.",del:3},
+  // Del 4
+  {t:"Erövring",d:"När ett land tar kontroll över ett område med våld eller militär makt.",del:4},
+  {t:"Ursprungsbefolkning",d:"De människor som levde i ett område innan det erövrades eller koloniserades.",del:4},
+  {t:"Aztekriket",d:"Mäktigt rike i Centralamerika före spanjorernas ankomst.",del:4},
+  {t:"Inkariket",d:"Stort rike i Sydamerika som erövrades av spanjorerna på 1500-talet.",del:4},
+  {t:"Smittkoppor",d:"Dödlig sjukdom som spanjorerna förde med sig till Amerika – befolkningen saknade immunitet.",del:4},
+  {t:"Tvångsarbete",d:"Arbete som utförs utan frivillighet eller lön.",del:4},
+  {t:"Moderland",d:"Det land som styr och kontrollerar sina kolonier.",del:4},
+  // Del 5
+  {t:"Fluyt",d:"Nederländskt handelsskepp som kunde frakta stora laster med liten besättning.",del:5},
+  {t:"Triangelhandel",d:"Handelsmönster Europa → Afrika (varor mot slavar) → Amerika → Europa (koloniprodukter).",del:5},
+  {t:"Sjuårskriget",d:"Krig 1756–1763 där Storbritannien besegrade Frankrike – kallas ibland 'det första världskriget'.",del:5},
+  {t:"Sjöfartsnation",d:"Land som har stark handel och makt till havs.",del:5},
+  {t:"Kryddhandel",d:"Handel med eftertraktade kryddor som muskot, peppar och ingefära.",del:5},
+  // Del 6
+  {t:"Slavhandel",d:"Handel där människor köps och säljs som arbetskraft.",del:6},
+  {t:"Slaveri",d:"System där människor saknar frihet och ägs av andra.",del:6},
+  {t:"Tvångsförflyttning",d:"När människor tvingas lämna sina hem och flyttas till andra platser.",del:6},
+  {t:"Plantager",d:"Stora jordbruk där man odlade exempelvis socker, bomull och tobak.",del:6},
+  {t:"Slavskepp",d:"Fartyg som användes för att transportera slavar över Atlanten.",del:6},
+  {t:"Abolitionism",d:"Rörelse som arbetade för att avskaffa slaveriet.",del:6},
+  // Del 7
+  {t:"Stormakt",d:"Ett land med stor militär och politisk makt som påverkar andra länder.",del:7},
+  {t:"Handelsstation",d:"Plats där ett land bedriver handel och lagrar varor i ett annat område.",del:7},
+  {t:"Guldkusten",d:"Område i Västafrika där europeiska länder bedrev handel (nutidens Ghana).",del:7},
+  {t:"Svenska Afrikakompaniet",d:"Svenskt handelsbolag som hade verksamhet på Guldkusten på 1600-talet.",del:7},
+  {t:"Nya Sverige",d:"Svensk koloni vid Delawarefloden i Nordamerika, 1638–1655.",del:7},
+  {t:"Svedjebruk",d:"Odling där man bränner mark för att kunna så och skapa ny åkermark.",del:7},
+  {t:"Svenska Ostindiska kompaniet",d:"Handelsbolag som bedrev handel mellan Sverige och Asien från 1730-talet.",del:7},
+  {t:"Carl von Linné",d:"Svensk botaniker som skapade ett system för att ordna växter och djur efter släktskap.",del:7},
+];
+
+function renderFlashcards(filter){
+  const grid=document.getElementById('fcGrid');
+  const count=document.getElementById('fcCount');
+  const cards=filter==='alla'?fcData:fcData.filter(c=>c.del===parseInt(filter));
+  count.textContent=cards.length+' begrepp';
+  grid.innerHTML=cards.map(c=>`
+    <div class="fc-card" onclick="this.classList.toggle('flipped')">
+      <div class="fc-inner">
+        <div class="fc-front">
+          <span class="del-tag">Del ${c.del}</span>
+          <h4>${c.t}</h4>
+          <span class="flip-hint">▸ klicka för definition</span>
+        </div>
+        <div class="fc-back"><p>${c.d}</p></div>
+      </div>
+    </div>`).join('');
+}
+function buildFCFilter(){
+  const wrap=document.getElementById('fcFilter');
+  const opts=[['alla','Alla'],['1','Del 1'],['2','Del 2'],['3','Del 3'],['4','Del 4'],['5','Del 5'],['6','Del 6'],['7','Del 7']];
+  wrap.innerHTML=opts.map(([v,l])=>`<button class="fc-btn${v==='alla'?' active':''}" onclick="fcSwitch('${v}',this)">${l}</button>`).join('');
+}
+function fcSwitch(v,btn){
+  document.querySelectorAll('.fc-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFlashcards(v);
+}
+
+// ── TIMELINE ──
+const tlData=[
+  {year:"1300-t",icon:"💀",title:"Digerdöden",desc:"Pesten dödar ca en tredjedel av Europas befolkning – förändrar maktbalansen mellan jordägare och bönder.",col:"#7A1A1A"},
+  {year:"1400-t",icon:"📚",title:"Tryckpressen uppfinns",desc:"Böcker kan produceras snabbare och billigare – kunskapsspridningen revolutioneras och bidrar till Europas expansion.",col:"#1A5C2A"},
+  {year:"1453",icon:"⚔️",title:"Konstantinopel erövras",desc:"Osmanska riket tar Konstantinopel. Det östromerska riket upphör. Handelsvägar till Asien kontrolleras nu av osmanerna.",col:"#7A1A1A"},
+  {year:"1488",icon:"⚓",title:"Godahoppsudden rundas",desc:"Bartolomeu Dias rundar Afrikas sydspets – öppnar vägen för direkthandel med Indien sjövägen.",col:"#0E3B5C"},
+  {year:"1492",icon:"🌊",title:"Columbus når Amerika",desc:"Columbus seglar västerut och når Västindien. Europa 'upptäcker' Amerika – men tror det är Indien.",col:"#8B5E0A"},
+  {year:"1498",icon:"🧭",title:"Vasco da Gama når Indien",desc:"Med hjälp av en arabisk lots rundar da Gama Afrika och når Calicut. Direkthandeln med Asien är öppen.",col:"#0E3B5C"},
+  {year:"1519",icon:"🏛️",title:"Cortés erövrar Aztekriket",desc:"Med kanoner, hästar och lokala allierade besegras aztekerna. Tenochtitlán förstörs – Nya Spanien grundas.",col:"#7A1A1A"},
+  {year:"1533",icon:"🏔️",title:"Pizarro erövrar Inkariket",desc:"Inkarikets huvudstad Cusco faller. Spanien dominerar nu hela Syd- och Mellanamerika.",col:"#7A1A1A"},
+  {year:"1588",icon:"🚢",title:"Spanska armadan besegras",desc:"England besegrar oväntat Spaniens flotta. Englands självförtroende till havs växer kraftigt.",col:"#1A5C8A"},
+  {year:"1620",icon:"🌿",title:"Mayflower till Amerika",desc:"Engelska nybyggare grundar New England – grunden för det som ska bli USA.",col:"#1A5C2A"},
+  {year:"1638",icon:"🇸🇪",title:"Nya Sverige grundas",desc:"Svenska och finska nybyggare etablerar sig vid Delawarefloden. Kolonin varar till 1655.",col:"#1A5C2A"},
+  {year:"1664",icon:"🗽",title:"Nya Amsterdam → New York",desc:"England erövrar den nederlandska kolonin Nya Amsterdam och döper om den till New York.",col:"#0E3B5C"},
+  {year:"1700-t",icon:"⛓️",title:"Triangelhandeln på topp",desc:"Den transatlantiska slavhandeln når sin höjdpunkt. Minst 11 miljoner afrikaner förs till Amerika.",col:"#7A1A1A"},
+  {year:"1731",icon:"⚓",title:"Svenska Ostindiska kompaniet",desc:"Grundas i Göteborg. Totalt 132 resor till Kina under 70 år – te, porslin och kryddor.",col:"#1A5C2A"},
+  {year:"1756",icon:"🌍",title:"Sjuårskriget",desc:"Strider i Europa, Amerika och Asien. Storbritanniens seger gör landet till världens ledande stormakt.",col:"#0E3B5C"},
+];
+const dotClrs={"#7A1A1A":"#F87171","#1A5C2A":"#4ADE80","#0E3B5C":"#60A5FA","#1A5C8A":"#38BDF8","#8B5E0A":"#FCD34D"};
+function renderTimeline(){
+  const wrap=document.getElementById('tlEvents');
+  wrap.innerHTML=tlData.map((e,i)=>{
+    const dc=dotClrs[e.col]||'#FCD34D';
+    const card=`<div class="tl-card" id="tlc-${i}" onclick="toggleTL(${i})">
+      <div class="tl-icon">${e.icon}</div>
+      <h4>${e.title}</h4>
+      <p class="tl-desc">${e.desc}</p>
+    </div>`;
+    const center=`<div class="tl-center">
+      <div class="tl-dot" style="background:${dc};" onclick="toggleTL(${i})"></div>
+      <div class="tl-year-label">${e.year}</div>
+    </div>`;
+    if(i%2===0) return `<div class="tl-event"><div class="tl-content">${card}</div>${center}<div class="tl-empty"></div></div>`;
+    return `<div class="tl-event"><div class="tl-empty"></div>${center}<div class="tl-content">${card}</div></div>`;
+  }).join('');
+}
+function toggleTL(i){document.getElementById('tlc-'+i).classList.toggle('active');}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  renderQuestions();
+  buildFCFilter();
+  renderFlashcards('alla');
+  renderTimeline();
+});
+</script>
+</body>
+</html>
