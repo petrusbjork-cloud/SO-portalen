@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Befolkning – SO med Petrus · SO-portalen.se</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,600;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ocean:   #0A3040;
+  --teal:    #0D6E6E;
+  --teal-lt: #E0F4F4;
+  --earth:   #5C4B1E;
+  --sand:    #F7F3EC;
+  --parch:   #FBF8F2;
+  --green:   #1A7A4A;
+  --green-lt:#E6F5ED;
+  --amber:   #D97706;
+  --amber-lt:#FEF3C7;
+  --red:     #C0392B;
+  --text:    #1A1209;
+  --muted:   #6B7280;
+  --border:  #DDD5C8;
+  --white:   #FFFFFF;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', system-ui, sans-serif; background: var(--sand); color: var(--text); line-height: 1.7; }
+
+/* ─── GLOBE BAR ─── */
+.globe-bar { height: 5px; background: linear-gradient(to right, var(--ocean), var(--teal), var(--green), var(--amber), var(--red)); position: sticky; top: 0; z-index: 200; }
+
+/* ─── HERO ─── */
+.hero {
+  background: var(--ocean);
+  background-image:
+    radial-gradient(ellipse at 80% 20%, rgba(13,110,110,0.4) 0%, transparent 55%),
+    radial-gradient(ellipse at 10% 80%, rgba(26,122,74,0.25) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 110%, rgba(217,119,6,0.1) 0%, transparent 50%);
+  color: #fff; padding: 56px 44px 48px;
+  position: relative; overflow: hidden; min-height: 360px; display: flex; align-items: center;
+}
+.hero-globe {
+  position: absolute; right: 60px; top: 50%; transform: translateY(-50%);
+  width: 260px; height: 260px; opacity: 0.07; pointer-events: none;
+}
+.hero-grid {
+  position: absolute; inset: 0; pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.hero-inner { position: relative; z-index: 1; max-width: 680px; }
+.hero-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: #5EEAD4; margin-bottom: 14px; font-weight: 600; }
+.hero h1 { font-family: 'Fraunces', serif; font-size: clamp(34px, 6vw, 62px); font-weight: 900; line-height: 1.05; margin-bottom: 14px; }
+.hero h1 em { color: #34D399; font-style: normal; }
+.hero-sub { font-size: 15px; color: rgba(255,255,255,0.62); margin-bottom: 22px; max-width: 540px; line-height: 1.7; }
+.hero-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-tag { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); color: rgba(255,255,255,0.78); padding: 5px 14px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+
+/* ─── NAV ─── */
+.nav-tabs { background: #fff; border-bottom: 2px solid var(--border); display: flex; overflow-x: auto; position: sticky; top: 5px; z-index: 100; box-shadow: 0 2px 16px rgba(0,0,0,0.07); scrollbar-width: none; }
+.nav-tabs::-webkit-scrollbar { display: none; }
+.nav-tab { padding: 14px 18px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; white-space: nowrap; border: none; border-bottom: 3px solid transparent; background: none; transition: all 0.2s; flex-shrink: 0; }
+.nav-tab:hover { color: var(--ocean); background: #F0FDF9; }
+.nav-tab.active { color: var(--ocean); border-bottom-color: var(--teal); }
+
+/* ─── SECTIONS ─── */
+.section { display: none; padding: 40px 44px; max-width: 980px; margin: 0 auto; }
+.section.active { display: block; animation: fadeUp 0.3s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+/* ─── SEC HEADER ─── */
+.sec-label { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--teal); margin-bottom: 8px; font-weight: 600; }
+.sec-title { font-family: 'Fraunces', serif; font-size: clamp(24px, 4vw, 38px); font-weight: 700; color: var(--ocean); line-height: 1.15; }
+.sec-divider { width: 44px; height: 3px; background: linear-gradient(to right, var(--teal), var(--green)); margin: 12px 0 14px; border-radius: 2px; }
+.sec-desc { color: var(--muted); max-width: 600px; font-size: 15px; line-height: 1.7; font-style: italic; }
+.sec-header { margin-bottom: 28px; }
+
+/* ─── HOME EPISODE CARDS ─── */
+.ep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 14px; margin-bottom: 32px; }
+.ep-card {
+  background: var(--ocean); color: #fff; border-radius: 12px; padding: 22px 18px;
+  cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.ep-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(to right, var(--teal), var(--green)); }
+.ep-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(10,48,64,0.35); }
+.ep-num { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #5EEAD4; margin-bottom: 10px; font-weight: 600; }
+.ep-icon { font-size: 30px; margin-bottom: 10px; display: block; }
+.ep-card h3 { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; line-height: 1.3; margin-bottom: 6px; }
+.ep-card p { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+/* ─── STATS ─── */
+.stats-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); margin-bottom: 32px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.stat-box { padding: 20px 16px; text-align: center; background: #fff; border-right: 1px solid var(--border); }
+.stat-box:last-child { border-right: none; }
+.stat-num { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 900; color: var(--teal); line-height: 1; }
+.stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; font-weight: 500; }
+
+/* ─── INTRO BOX ─── */
+.intro-box { background: var(--ocean); color: #fff; border-radius: 12px; padding: 26px 30px; margin-bottom: 28px; background-image: radial-gradient(ellipse at 90% 50%, rgba(13,110,110,0.3) 0%, transparent 60%); }
+.intro-box p { font-size: 15px; line-height: 1.8; color: rgba(255,255,255,0.82); }
+.intro-box strong { color: #5EEAD4; }
+
+/* ─── SPOTIFY CARD ─── */
+.spotify-card { display: block; text-decoration: none; background: #0D1619; border: 1px solid rgba(29,185,84,0.25); border-radius: 12px; margin-bottom: 28px; transition: all 0.25s; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+.spotify-card:hover { transform: translateY(-2px); border-color: #1DB954; box-shadow: 0 8px 32px rgba(29,185,84,0.18); }
+.spotify-card-inner { display: flex; align-items: center; gap: 18px; padding: 18px 22px; }
+.spotify-logo { width: 34px; height: 34px; flex-shrink: 0; }
+.spotify-card-text { flex: 1; }
+.spotify-card-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #1DB954; margin-bottom: 4px; font-weight: 600; }
+.spotify-card-title { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.4; }
+.spotify-play-btn { flex-shrink: 0; background: #1DB954; color: #000; font-size: 11px; font-weight: 700; letter-spacing: 1px; padding: 9px 16px; border-radius: 20px; white-space: nowrap; transition: background 0.2s; }
+.spotify-card:hover .spotify-play-btn { background: #1ed760; }
+
+/* ─── AKT ACCORDION ─── */
+.akt-list { margin-bottom: 28px; }
+.akt { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; background: #fff; }
+.akt-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: none; border: none; font-weight: 700; font-size: 14px; color: var(--ocean); cursor: pointer; text-align: left; transition: background 0.2s; }
+.akt-header:hover { background: var(--teal-lt); }
+.akt-header.open { background: var(--ocean); color: #fff; }
+.akt-num { color: var(--teal); margin-right: 10px; flex-shrink: 0; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+.akt-header.open .akt-num { color: #5EEAD4; }
+.akt-arrow { transition: transform 0.3s; font-size: 11px; flex-shrink: 0; }
+.akt-header.open .akt-arrow { transform: rotate(180deg); }
+.akt-body { display: none; padding: 20px 24px; border-top: 1px solid var(--border); line-height: 1.8; font-size: 15px; }
+.akt-body.open { display: block; animation: fadeUp 0.2s ease; }
+.akt-body p { margin-bottom: 12px; }
+.akt-body p:last-child { margin-bottom: 0; }
+.akt-body strong { color: var(--teal); }
+.highlight-box { background: var(--teal-lt); border-left: 4px solid var(--teal); padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0; font-style: italic; font-size: 14px; color: var(--ocean); }
+
+/* ─── FACT GRID ─── */
+.fact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px,1fr)); gap: 14px; margin-bottom: 28px; }
+.fact-box { background: #fff; border: 1px solid var(--border); border-top: 4px solid var(--teal); border-radius: 8px; padding: 18px; }
+.fact-box.amber { border-top-color: var(--amber); }
+.fact-box.green { border-top-color: var(--green); }
+.fact-box.red { border-top-color: var(--red); }
+.fact-box h4 { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; font-weight: 600; }
+.fact-box p { font-size: 14px; line-height: 1.65; }
+
+/* ─── POPULATION PYRAMID ─── */
+.pyramid-container { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 28px; }
+.pyramid-container h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--ocean); margin-bottom: 4px; }
+.pyramid-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.pyramid-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.pyr-btn { padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 2px solid var(--border); background: #fff; transition: all 0.2s; }
+.pyr-btn.active { background: var(--ocean); color: #fff; border-color: var(--ocean); }
+.pyramid-chart { display: flex; gap: 4px; justify-content: center; align-items: flex-end; height: 220px; }
+.pyr-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.pyr-bar-container { flex: 1; width: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+.pyr-bar-pair { display: flex; gap: 2px; justify-content: center; margin-bottom: 2px; }
+.pyr-bar-m { background: var(--ocean); height: 10px; border-radius: 2px 0 0 2px; transition: width 0.6s; }
+.pyr-bar-f { background: var(--teal); height: 10px; border-radius: 0 2px 2px 0; transition: width 0.6s; }
+.pyr-age-label { font-size: 10px; color: var(--muted); font-weight: 600; white-space: nowrap; }
+.pyramid-legend { display: flex; gap: 16px; justify-content: center; margin-top: 14px; }
+.pyr-legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.pyr-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.pyramid-insight { margin-top: 14px; padding: 12px 16px; border-radius: 8px; font-size: 13px; line-height: 1.6; }
+.pyramid-insight.young { background: #FEF3C7; color: #92400E; }
+.pyramid-insight.old { background: var(--teal-lt); color: var(--ocean); }
+.pyramid-insight.balanced { background: var(--green-lt); color: #065F46; }
+
+/* ─── PUSH PULL INTERACTIVE ─── */
+.pushpull-box { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 28px; }
+.pushpull-box h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--ocean); margin-bottom: 6px; }
+.pushpull-box .sub { font-size: 13px; color: var(--muted); margin-bottom: 22px; }
+.pushpull-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.push-col, .pull-col { display: flex; flex-direction: column; gap: 8px; }
+.pp-header { font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 10px 16px; border-radius: 8px; text-align: center; margin-bottom: 4px; }
+.push-col .pp-header { background: #FEE2E2; color: #991B1B; }
+.pull-col .pp-header { background: var(--green-lt); color: #065F46; }
+.pp-chip {
+  padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500;
+  cursor: pointer; border: 2px solid transparent; transition: all 0.2s; text-align: center;
+  user-select: none;
+}
+.push-col .pp-chip { background: #FEF2F2; color: #7F1D1D; border-color: #FCA5A5; }
+.pull-col .pp-chip { background: var(--green-lt); color: #065F46; border-color: #6EE7B7; }
+.pp-chip:hover { transform: scale(1.03); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+.pp-chip.selected { transform: scale(1.05); box-shadow: 0 4px 16px rgba(0,0,0,0.15); font-weight: 700; }
+.push-col .pp-chip.selected { border-color: #EF4444; background: #FEE2E2; }
+.pull-col .pp-chip.selected { border-color: #10B981; background: #D1FAE5; }
+.pp-result { margin-top: 16px; padding: 14px; border-radius: 8px; font-size: 14px; line-height: 1.7; text-align: center; background: var(--teal-lt); color: var(--ocean); display: none; }
+.pp-result.show { display: block; animation: fadeUp 0.2s ease; }
+
+/* ─── DEMOG TRANSITION ─── */
+.demog-container { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 28px; margin-bottom: 28px; }
+.demog-container h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--ocean); margin-bottom: 4px; }
+.demog-subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.demog-stages { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.demog-stage { padding: 16px 12px; text-align: center; cursor: pointer; transition: all 0.2s; border-right: 1px solid var(--border); }
+.demog-stage:last-child { border-right: none; }
+.demog-stage:hover { background: var(--teal-lt); }
+.demog-stage.active { background: var(--ocean); color: #fff; }
+.demog-stage-num { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 900; color: var(--teal); margin-bottom: 4px; }
+.demog-stage.active .demog-stage-num { color: #5EEAD4; }
+.demog-stage-label { font-size: 12px; font-weight: 600; color: var(--muted); }
+.demog-stage.active .demog-stage-label { color: rgba(255,255,255,0.8); }
+.demog-detail { margin-top: 16px; padding: 18px 20px; background: var(--teal-lt); border-radius: 10px; display: none; }
+.demog-detail.show { display: block; animation: fadeUp 0.2s ease; }
+.demog-detail h4 { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 700; color: var(--ocean); margin-bottom: 8px; }
+.demog-detail p { font-size: 14px; line-height: 1.7; color: var(--ocean); }
+.demog-example { display: inline-block; margin-top: 10px; background: var(--ocean); color: #fff; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+
+/* ─── WORLD POP CHART ─── */
+.popcount-box { background: var(--ocean); color: #fff; border-radius: 12px; padding: 28px; margin-bottom: 28px; }
+.popcount-box h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+.popcount-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+.popcount-timeline { display: flex; flex-direction: column; gap: 8px; }
+.pct-row { display: flex; align-items: center; gap: 12px; }
+.pct-year { font-size: 12px; font-weight: 700; color: #5EEAD4; width: 44px; flex-shrink: 0; font-family: 'Fraunces', serif; }
+.pct-bar-bg { flex: 1; height: 22px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+.pct-bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 11px; font-weight: 700; transition: width 1s cubic-bezier(0.4,0,0.2,1); }
+.pct-val { font-size: 12px; font-weight: 700; color: rgba(255,255,255,0.7); width: 60px; text-align: right; flex-shrink: 0; }
+
+/* ─── BEGREPP CARDS ─── */
+.begrep-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 14px; margin-bottom: 32px; }
+.begrep-card { perspective: 800px; height: 155px; cursor: pointer; }
+.begrep-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.5s; }
+.begrep-card.flipped .begrep-inner { transform: rotateY(180deg); }
+.begrep-front, .begrep-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 16px; text-align: center; }
+.begrep-front { background: var(--ocean); color: #fff; border: 1px solid rgba(255,255,255,0.1); }
+.begrep-front h4 { font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; color: #5EEAD4; margin-bottom: 6px; }
+.begrep-front span { font-size: 10px; color: rgba(255,255,255,0.4); letter-spacing: 2px; text-transform: uppercase; }
+.begrep-back { background: var(--parch); color: var(--text); transform: rotateY(180deg); border: 1px solid var(--border); }
+.begrep-back p { font-size: 13px; line-height: 1.6; }
+
+/* ─── QUIZ ─── */
+.quiz-container { background: var(--ocean); border-radius: 12px; padding: 28px; margin-bottom: 28px; color: #fff; }
+.quiz-header { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: #5EEAD4; margin-bottom: 6px; font-weight: 600; }
+.quiz-progress-bar { height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; margin-bottom: 22px; overflow: hidden; }
+.quiz-progress-fill { height: 100%; background: #5EEAD4; border-radius: 2px; transition: width 0.4s ease; }
+.quiz-q-count { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+.quiz-question-text { font-family: 'Fraunces', serif; font-size: 17px; font-weight: 600; line-height: 1.5; margin-bottom: 20px; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option { padding: 12px 18px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff; cursor: pointer; font-size: 14px; text-align: left; transition: all 0.2s; }
+.quiz-option:hover:not(:disabled) { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.35); }
+.quiz-option.correct { background: rgba(16,185,129,0.3); border-color: #34D399; }
+.quiz-option.wrong { background: rgba(220,38,38,0.3); border-color: #F87171; }
+.quiz-option:disabled { cursor: not-allowed; }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 8px; font-size: 14px; line-height: 1.6; display: none; }
+.quiz-feedback.correct { background: rgba(16,185,129,0.2); border: 1px solid rgba(52,211,153,0.3); }
+.quiz-feedback.wrong { background: rgba(220,38,38,0.2); border: 1px solid rgba(248,113,113,0.3); }
+.quiz-feedback.show { display: block; animation: fadeUp 0.2s ease; }
+.quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+.quiz-btn { padding: 10px 22px; border-radius: 8px; font-size: 12px; font-weight: 700; letter-spacing: 1px; cursor: pointer; border: none; transition: all 0.2s; }
+.quiz-btn.primary { background: #5EEAD4; color: var(--ocean); }
+.quiz-btn.primary:hover { background: #2DD4BF; }
+.quiz-btn.primary:disabled { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.4); cursor: not-allowed; }
+.quiz-score { text-align: center; padding: 24px; }
+.quiz-score .score-num { font-family: 'Fraunces', serif; font-size: 58px; font-weight: 900; color: #5EEAD4; line-height: 1; }
+.quiz-score .score-label { font-size: 14px; color: rgba(255,255,255,0.6); margin-top: 6px; }
+.quiz-score .score-msg { margin-top: 14px; font-size: 15px; color: rgba(255,255,255,0.85); }
+
+/* ─── PULL QUOTE ─── */
+.pull-quote { border-left: 5px solid var(--teal); padding: 14px 22px; margin: 20px 0; background: #fff; border-radius: 0 8px 8px 0; }
+.pull-quote blockquote { font-family: 'Fraunces', serif; font-size: 17px; font-style: italic; color: var(--ocean); margin-bottom: 6px; line-height: 1.6; }
+.pull-quote cite { font-size: 11px; letter-spacing: 1px; color: var(--muted); font-weight: 600; text-transform: uppercase; }
+
+/* ─── URBAN RURAL VIZ ─── */
+.urban-box { background: #fff; border: 1px solid var(--border); border-radius: 12px; padding: 26px; margin-bottom: 28px; }
+.urban-box h3 { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 700; color: var(--ocean); margin-bottom: 4px; }
+.urban-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+.urban-tabs { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.urban-btn { padding: 7px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; border: 2px solid var(--border); background: #fff; transition: all 0.2s; }
+.urban-btn.active { background: var(--teal); color: #fff; border-color: var(--teal); }
+.urban-view { display: none; }
+.urban-view.active { display: block; animation: fadeUp 0.2s ease; }
+.country-bars { display: flex; flex-direction: column; gap: 10px; }
+.c-bar-row { display: flex; align-items: center; gap: 12px; }
+.c-bar-label { font-size: 13px; font-weight: 600; color: var(--ocean); width: 130px; flex-shrink: 0; }
+.c-bar-bg { flex: 1; height: 28px; background: #F3F4F6; border-radius: 4px; overflow: hidden; }
+.c-bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding: 0 10px; font-size: 12px; font-weight: 700; color: #fff; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.c-bar-pct { font-size: 13px; font-weight: 700; color: var(--muted); width: 38px; text-align: right; flex-shrink: 0; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 640px) {
+  .hero { padding: 36px 24px; }
+  .section { padding: 24px 20px; }
+  .ep-grid { grid-template-columns: 1fr 1fr; }
+  .pushpull-grid { grid-template-columns: 1fr; }
+  .demog-stages { grid-template-columns: repeat(2,1fr); }
+  .hero-globe { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="globe-bar"></div>
+
+<!-- ══ HERO ══ -->
+<header class="hero">
+  <div class="hero-grid"></div>
+  <!-- Globe SVG -->
+  <svg class="hero-globe" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="95" fill="none" stroke="white" stroke-width="1.5"/>
+    <ellipse cx="100" cy="100" rx="50" ry="95" fill="none" stroke="white" stroke-width="1"/>
+    <ellipse cx="100" cy="100" rx="95" ry="30" fill="none" stroke="white" stroke-width="1"/>
+    <ellipse cx="100" cy="100" rx="95" ry="60" fill="none" stroke="white" stroke-width="0.7"/>
+    <line x1="5" y1="100" x2="195" y2="100" stroke="white" stroke-width="1"/>
+    <line x1="100" y1="5" x2="100" y2="195" stroke="white" stroke-width="1"/>
+  </svg>
+  <div class="hero-inner">
+    <div class="hero-label">SO med Petrus &nbsp;·&nbsp; SO-portalen.se &nbsp;·&nbsp; Geografi</div>
+    <h1>Befolkning &amp;<br><em>Vår Värld</em></h1>
+    <p class="hero-sub">Varför är vi 8 miljarder? Var bor vi? Varför flyttar vi? Och hur ser det ut just här i Sverige? Fem avsnitt – ett globalt pussel.</p>
+    <div class="hero-tags">
+      <span class="hero-tag">🎙️ 5 avsnitt</span>
+      <span class="hero-tag">🌍 Globalt perspektiv</span>
+      <span class="hero-tag">🏙️ Urbanisering</span>
+      <span class="hero-tag">📊 Quiz &amp; Begrepp</span>
+    </div>
+  </div>
+</header>
+
+<!-- ══ NAV ══ -->
+<nav class="nav-tabs" id="navTabs">
+  <button class="nav-tab active" data-tab="hem">🏠 Hem</button>
+  <button class="nav-tab" data-tab="del1">Del 1 · Kåkstaden</button>
+  <button class="nav-tab" data-tab="del2">Del 2 · Varför fler?</button>
+  <button class="nav-tab" data-tab="del3">Del 3 · Befolkningskartan</button>
+  <button class="nav-tab" data-tab="del4">Del 4 · Migration</button>
+  <button class="nav-tab" data-tab="del5">Del 5 · Sverige</button>
+  <button class="nav-tab" data-tab="begrepp">📖 Begrepp</button>
+  <button class="nav-tab" data-tab="stortestet">🏆 Stortestet</button>
+</nav>
+
+<main>
+
+<!-- ══════════════ HEM ══════════════ -->
+<section class="section active" id="tab-hem">
+  <div class="sec-header">
+    <div class="sec-label">Välkommen</div>
+    <h2 class="sec-title">Befolkning &amp; Geografi</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Fem avsnitt om hur vi bor, varför vi blir fler, vad som driver folk att flytta och hur Sverige utvecklats från ett fattigt jordbruksland till ett av världens rikaste länder.</p>
+  </div>
+
+  <div class="stats-strip">
+    <div class="stat-box"><div class="stat-num">8 mdr</div><div class="stat-label">Världsbefolkning 2023</div></div>
+    <div class="stat-box"><div class="stat-num">55%</div><div class="stat-label">Bor i städer globalt</div></div>
+    <div class="stat-box"><div class="stat-num">100M+</div><div class="stat-label">Flyktingar &amp; internflyktingar</div></div>
+    <div class="stat-box"><div class="stat-num">10M</div><div class="stat-label">Invånare i Sverige 2017</div></div>
+  </div>
+
+  <div class="ep-grid">
+    <div class="ep-card" onclick="switchTab('del1')">
+      <span class="ep-icon">🏘️</span>
+      <div class="ep-num">Avsnitt 1</div>
+      <h3>Att leva i en kåkstad</h3>
+      <p>Lagos, Makoko och livet när städer växer snabbare än planerna.</p>
+    </div>
+    <div class="ep-card" onclick="switchTab('del2')">
+      <span class="ep-icon">📈</span>
+      <div class="ep-num">Avsnitt 2</div>
+      <h3>Varför blir vi fler?</h3>
+      <p>Från savann till 8 miljarder – och den demografiska övergången.</p>
+    </div>
+    <div class="ep-card" onclick="switchTab('del3')">
+      <span class="ep-icon">🗺️</span>
+      <div class="ep-num">Avsnitt 3</div>
+      <h3>Läs befolkningskartan</h3>
+      <p>Vatten, jord och vägar – varför bor vi just där vi bor?</p>
+    </div>
+    <div class="ep-card" onclick="switchTab('del4')">
+      <span class="ep-icon">✈️</span>
+      <div class="ep-num">Avsnitt 4</div>
+      <h3>Migration &amp; urbanisering</h3>
+      <p>Push, pull och megastäder – världens största folkförflyttning.</p>
+    </div>
+    <div class="ep-card" onclick="switchTab('del5')">
+      <span class="ep-icon">🇸🇪</span>
+      <div class="ep-num">Avsnitt 5</div>
+      <h3>Sveriges befolkning</h3>
+      <p>Från 1,8 miljoner på 1700-talet till 10 miljoner idag.</p>
+    </div>
+  </div>
+
+  <!-- World Population Timeline -->
+  <div class="popcount-box">
+    <h3>Världsbefolkningens resa</h3>
+    <p class="popcount-sub">Från nästan ingenting till nästan 10 miljarder – och kurvan pekar uppåt</p>
+    <div class="popcount-timeline" id="popTimeline"></div>
+  </div>
+
+  <!-- Demographic Transition on home -->
+  <div class="demog-container">
+    <h3>Den demografiska övergången</h3>
+    <p class="demog-subtitle">Alla länder går igenom fyra faser. Klicka på varje fas för att förstå vad som händer.</p>
+    <div class="demog-stages">
+      <div class="demog-stage active" onclick="showDemog(1, this)">
+        <div class="demog-stage-num">1</div>
+        <div class="demog-stage-label">Hög-hög</div>
+      </div>
+      <div class="demog-stage" onclick="showDemog(2, this)">
+        <div class="demog-stage-num">2</div>
+        <div class="demog-stage-label">Dödlighet sjunker</div>
+      </div>
+      <div class="demog-stage" onclick="showDemog(3, this)">
+        <div class="demog-stage-num">3</div>
+        <div class="demog-stage-label">Födelsal sjunker</div>
+      </div>
+      <div class="demog-stage" onclick="showDemog(4, this)">
+        <div class="demog-stage-num">4</div>
+        <div class="demog-stage-label">Låg-låg</div>
+      </div>
+    </div>
+    <div class="demog-detail show" id="demog-1">
+      <h4>Fas 1 – Högt födelseltal, hög dödlighet</h4>
+      <p>Innan modern medicin, vacciner och trygg livsmedelsförsörjning. Många barn föds men många dör också tidigt. Befolkningstillväxten är låg trots att många föds. <span class="demog-example">🌍 Historiskt: alla länder, förhistorisk tid</span></p>
+    </div>
+    <div class="demog-detail" id="demog-2">
+      <h4>Fas 2 – Dödligheten faller, födelsetalen höga</h4>
+      <p>Bättre sjukvård, rent vatten, vacciner och mer mat gör att fler överlever. Men familjer fortsätter att ha många barn av tradition. Resultat: befolkningsexplosion. <span class="demog-example">🌍 Exempel: Niger, Mali, Chad idag</span></p>
+    </div>
+    <div class="demog-detail" id="demog-3">
+      <h4>Fas 3 – Födelsetalen börjar sjunka</h4>
+      <p>När fler går i skolan, urbaniserar och får tillgång till preventivmedel väljer familjer att få färre barn. Befolkningskurvan börjar plana ut. <span class="demog-example">🌍 Exempel: Indien, delar av Afrika idag</span></p>
+    </div>
+    <div class="demog-detail" id="demog-4">
+      <h4>Fas 4 – Lågt födelseltal, låg dödlighet</h4>
+      <p>Stabiliserad befolkning. Utmaning: allt fler äldre i förhållande till dem i yrkesverksam ålder. Pensioner, sjukvård och äldreomsorg sätts under press. <span class="demog-example">🌍 Exempel: Sverige, Japan, Tyskland idag</span></p>
+    </div>
+  </div>
+
+  <!-- Push Pull on home -->
+  <div class="pushpull-box">
+    <h3>Push &amp; Pull – Varför Flyttar Människor?</h3>
+    <p class="sub">Klicka på faktorer på båda sidor – kombinationen skapar migrationsströmmar.</p>
+    <div class="pushpull-grid">
+      <div class="push-col">
+        <div class="pp-header">⬅️ Push – Knuffar bort</div>
+        <div class="pp-chip" onclick="selectPP(this,'push')">💣 Krig &amp; konflikter</div>
+        <div class="pp-chip" onclick="selectPP(this,'push')">💸 Arbetslöshet</div>
+        <div class="pp-chip" onclick="selectPP(this,'push')">🌵 Torka &amp; missväxt</div>
+        <div class="pp-chip" onclick="selectPP(this,'push')">😷 Sjukdomar &amp; brist på vård</div>
+        <div class="pp-chip" onclick="selectPP(this,'push')">⚖️ Förföljelse</div>
+      </div>
+      <div class="pull-col">
+        <div class="pp-header">➡️ Pull – Lockar dit</div>
+        <div class="pp-chip" onclick="selectPP(this,'pull')">💼 Jobbmöjligheter</div>
+        <div class="pp-chip" onclick="selectPP(this,'pull')">🎓 Utbildning &amp; skola</div>
+        <div class="pp-chip" onclick="selectPP(this,'pull')">🏥 Bra sjukvård</div>
+        <div class="pp-chip" onclick="selectPP(this,'pull')">👨‍👩‍👧 Familj &amp; nätverk</div>
+        <div class="pp-chip" onclick="selectPP(this,'pull')">🕊️ Trygghet &amp; frihet</div>
+      </div>
+    </div>
+    <div class="pp-result" id="ppResult"></div>
+  </div>
+
+</section>
+
+<!-- ══════════════ DEL 1 ══════════════ -->
+<section class="section" id="tab-del1">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 1</div>
+    <h2 class="sec-title">Att leva i en kåkstad – Lagos &amp; Makoko</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Urbanisering, informell sektor och kåkstäder. Vi zoomar in på Lagos i Nigeria och stadsdelen Makoko – ett samhälle på pålar i vattnet.</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/3MeXlTgeYLqJuXTEx2zMmY" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 1</div>
+        <div class="spotify-card-title">Att leva i en kåkstad – Lagos &amp; Makoko</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="intro-box">
+    <p>Urbanisering skapar möjligheter – men också <strong>glapp mellan behov och kapacitet</strong>. Bostäder, vatten, avlopp och skolor byggs långsammare än befolkningen ökar. Då växer kåkstäderna fram. Lagos visar hur det ser ut i verkligheten.</p>
+  </div>
+
+  <div class="akt-list">
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 1</span> Introduktion – tre delar av ett pussel</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Det här arbetsområdet kretsar kring tre delar: <strong>befolkning, urbanisering och migration</strong>. Vi utgår från globala mönster men följer en konkret fallstudie – Lagos i Nigeria och stadsdelen Makoko.</p>
+        <p>Det vi undersöker är i grunden enkelt: hur många som föds, hur många som dör, hur länge vi lever och varför vi flyttar. När de delarna förändras påverkas allt från skolplatser och bostadsmarknad till jobb, skatter och kollektivtrafik.</p>
+        <div class="highlight-box">Begreppen du ska ha koll på: demografisk övergång · befolkningspyramid · försörjningskvot · migration · urbanisering · informell sektor · kåkstad</div>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 2</span> När landsbygden flyttar in</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p><strong>Urbanisering</strong> drivs av två typer av krafter. På landsbygden: osäkra inkomster, långa avstånd till skola och vård. I staden: chans till arbete, utbildning, bättre service.</p>
+        <p>Vad möter den som just har flyttat in? Ofta tillfälliga, trånga boenden och otrygga anställningar i <strong>den informella sektorn</strong> – småhandel, enklare hantverk, transporter. Jobb som fungerar men sällan ger trygghet eller försäkringar.</p>
+        <p>En del av lönen skickas hem som <strong>remitteringar</strong> – pengar som gör stor skillnad för familjen som bor kvar: skolavgifter, mediciner, ett nytt tak.</p>
+        <div class="highlight-box">Tre byggstenar för att urbanisering ska bli en vinst: prisvärda bostäder nära arbete · utbyggd infrastruktur · vägar in i det formella (adresser, tillstånd, utbildning).</div>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Lagos – vardag i en megastad</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Lagos är en av Afrikas största städer – och en stad som växer snabbare än planeringen. Vardagen börjar med avstånd. Långa pendlingstider stjäl tid från familjeliv, skolgång och extra arbete.</p>
+        <p><strong>Makoko</strong> är kanske Lagos mest kända informella stadsdel – ett samhälle som växt från fiskeby till en stor stadsdel med hus på pålar i vattnet. Service löses lokalt: vatten köps i dunkar, skolor startades av de boende själva.</p>
+        <p>Strax intill ligger <strong>Eko Atlantic</strong> – en planerad, modern stadsdel byggd för företag och välbärgade boende. Kontrasten är skarp: uppgradera det som finns, eller bygga nytt för dem som har råd?</p>
+        <div class="highlight-box">Klimatrisk är konkret i Makoko: häftiga regn och stigande vattennivåer drabbar dem som bor lägst och enklast – först.</div>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4</span> Människor mitt i statistiken</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>I Makoko formas skola, arbete och boende av enkla men uthålliga lösningar. Klassrummet kan vara ett skjul med plåttak. Avgiften är låg men avgörande. Närvaron ojämn – ibland måste barnen hjälpa till att försörja familjen.</p>
+        <p>Grannar delar kostnader för brunnsvatten, frivilliga håller ordning runt bryggor. Det håller verksamheten igång även när elen är osäker.</p>
+        <p>Hävstängerna är konkreta: en vattenledning minskar sjukdomar. En busslinje kortar restiden. När kvarter får adresser kan småföretag växa in i det formella – med möjlighet till lån och långsiktiga beställningar.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="fact-grid">
+    <div class="fact-box"><h4>🏙️ Lagos idag</h4><p>Ca 15–20 miljoner invånare i storstadsregionen. En av Afrikas snabbast växande städer. Drivs av inflyttning från hela Nigeria och angränsande länder.</p></div>
+    <div class="fact-box amber"><h4>💧 Informell sektor</h4><p>Jobb som fungerar utan formella kontrakt, försäkringar eller arbetsrätt. Gatuhandel, transport, hantverk. Bärare av enorma delar av Afrikas ekonomi.</p></div>
+    <div class="fact-box green"><h4>📦 Remitteringar</h4><p>Pengar som migranter skickar hem till familjer. Globalt uppgår dessa till hundratals miljarder dollar per år – mer än allt bistånd sammanlagt.</p></div>
+  </div>
+
+  <div id="quiz-del1"></div>
+</section>
+
+<!-- ══════════════ DEL 2 ══════════════ -->
+<section class="section" id="tab-del2">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 2</div>
+    <h2 class="sec-title">Varför Blir Vi Fler?</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Från savannen för 200 000 år sedan till nästan 10 miljarder 2050. Vad driver befolkningsökningen – och kan planeten bära oss?</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/5trHGjQW3xgOYfLXCMZILh" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 2</div>
+        <div class="spotify-card-title">Varför blir vi fler? – från savann till 10 miljarder</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="intro-box">
+    <p>Befolkningens storlek är aldrig bara biologi. Den formas av hur vi lever – hur vi producerar mat, vilken teknik vi har och vilka risker vi kan undvika. <strong>Jordbruket la grunden. Industrialismen och medicinen tryckte på gasen.</strong></p>
+  </div>
+
+  <div class="akt-list">
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 1</span> Från savannen till åkern</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Homo sapiens uppstod i Östafrika för 200 000 år sedan. I tiotusentals år levde nästan alla som jägare, fiskare och samlare. Befolkningen hölls låg – inte för att ingen ville ha barn, utan för att döden ständigt var nära.</p>
+        <p>Sedan händer det som vänder på allt: vi lär oss odla. För 8–10 000 år sedan börjar människor på flera platser att tämja frön och jord. Mat kan lagras, planeras och bytas. Fler barn överlever. Grupper kan bygga något som liknar städer.</p>
+        <p>För 2 000 år sedan: ca 250 miljoner. Krig, sjukdomar, missväxt gör att ökningen går långsamt. Kring <strong>1820 passerar vi en miljard</strong> – i nästan hela vår historia var vi få.</p>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 2</span> Från långsam till turbo</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Från 1900-talets mitt händer något explosivt: mellan 1920 och 1999 går vi från ca 2 till 6 miljarder. Varför? <strong>Dödligheten föll snabbare än födelsetalen</strong>. Bättre jordbruk, renare vatten, avlopp, vaccinationer, läkemedel.</p>
+        <p>Fler barn överlever. Vuxna lever längre. Men familjernas beteende hänger inte omedelbart med – i samhällen där barn länge var försäkringen för äldre dagar dröjer normen att ändras.</p>
+        <p>Det här kallas <strong>den demografiska övergången</strong> – och det är en av de viktigaste nycklarna till att förstå världsbefolkningens tillväxt.</p>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Kina &amp; Indien – när staten lägger sig i</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p><strong>Kina</strong> efter rekordfödelsetalen på 1960-talet: ledningen bestämmer att bromsa. Kampanjer, preventivmedel, och det berömda ettbarnssystemet (1980–2015) – ibland med tvångsmässiga åtgärder.</p>
+        <p>Politiken "fungerade" men skapade nya problem: åldrande befolkning, färre unga som fyller på. 2015 öppnas för tvåbarnspolitik – men att byta kurs är inte detsamma som att vända utvecklingen.</p>
+        <p><strong>Indien</strong> har sedan 1970-talet drivit familjeplanering. Starten kantades av tvångssteriliseringar. Numera bygger det mer på information och frivilliga program – med varierande resultat beroende på delstat.</p>
+        <div class="highlight-box">Att styra födelsetal kan bromsa en kurva – men skapar andra kurvor i änden. Du flyttar problemet i tid och i befolkningens åldersprofil.</div>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4</span> Klarar jorden 10 miljarder?</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Prognoserna landar på nästan 10 miljarder runt 2050. Frågan "ryms vi?" är inte hela bilden – det avgörande är <strong>hur vi lever och var ökningen sker</strong>.</p>
+        <p>Odlingsbar mark minskar på flera håll. Haven fiskas hårt. Vattenresurserna är ojämnt fördelade. Klimatförändringar gör torra områden torrare och stressade vattenresurser ännu mer ansträngda.</p>
+        <p>Finns det en broms utan förbud? Ja – <strong>ekonomisk och social utveckling</strong>. När spädbarn överlever, skolan är gratis, det finns jobb och pensionen inte hänger på barnens plånbok väljer familjer ofta färre barn av sig själva. Det syns redan i siffrorna.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Population Pyramid Interactive -->
+  <div class="pyramid-container">
+    <h3>Befolkningspyramiden – Läs den som en röntgenbild</h3>
+    <p class="pyramid-subtitle">Pyramidens form berättar allt om ett lands framtid. Välj ett land och jämför!</p>
+    <div class="pyramid-tabs">
+      <button class="pyr-btn active" onclick="showPyramid('niger',this)">🌍 Niger (ung)</button>
+      <button class="pyr-btn" onclick="showPyramid('india',this)">🇮🇳 Indien (under övergång)</button>
+      <button class="pyr-btn" onclick="showPyramid('sweden',this)">🇸🇪 Sverige (åldrande)</button>
+      <button class="pyr-btn" onclick="showPyramid('japan',this)">🇯🇵 Japan (inverterad)</button>
+    </div>
+    <div style="overflow-x:auto;">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:0;min-width:340px;">
+        <div style="display:flex;flex-direction:column;justify-content:space-around;padding-right:8px;padding-top:10px;" id="pyrAgeLabels"></div>
+        <div id="pyrChart" style="display:flex;flex-direction:column;gap:3px;padding-top:10px;"></div>
+      </div>
+    </div>
+    <div class="pyramid-legend">
+      <div class="pyr-legend-item"><div class="pyr-dot" style="background:var(--ocean)"></div>Män</div>
+      <div class="pyr-legend-item"><div class="pyr-dot" style="background:var(--teal)"></div>Kvinnor</div>
+    </div>
+    <div class="pyramid-insight" id="pyrInsight"></div>
+  </div>
+
+  <div id="quiz-del2"></div>
+</section>
+
+<!-- ══════════════ DEL 3 ══════════════ -->
+<section class="section" id="tab-del3">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 3</div>
+    <h2 class="sec-title">Läs Befolkningskartan som en Detektiv</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Var bor alla egentligen – och varför? Vatten, jord, vägar och handel formar var prickarna klumpar ihop sig på kartan.</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/1GzEbFTjYvtWyWHHCCC66e" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 3</div>
+        <div class="spotify-card-title">Läs befolkningskartan som en detektiv</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="intro-box">
+    <p>Världen är inte jämnt prickad av oss. Vissa platser myllrar, andra är nästan helt tysta. Kartan är <strong>inte bara linjer och färger – den är historia i rörelse</strong>. Och den går att knäcka med tre nycklar: vatten, jord och vägar.</p>
+  </div>
+
+  <div class="akt-list">
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 1–2</span> Vatten och jord – de primära magneter</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Spåren leder nästan alltid till vattnet. Drickbart vatten och odlingsbar jord är grunden. Det är därför vi håller till nära stora floder – samma vatten som släcker törsten kan ledas ut på åkrarna.</p>
+        <p>Järiko vid Jordanfloden, Luoyang vid Huang He – inte slumpmässiga val. Shanghai vid Yangtzeflodens mynning – flodtrafik inåt landet, havshandel utåt. <strong>Floddalarna är kartans pulsådror.</strong></p>
+        <p>Kontrasten förklarar resten: öknar och stäpper ger svår försörjning. Tropisk regnskog har vatten men urlakar jorden. Lång vinter och kort odlingssäsong gör norr glest. Totalt är 4/5 av jordens yta mycket glest befolkad.</p>
+        <div class="highlight-box">Tre detektivfrågor: Var finns vattnet? Var finns den bra jorden? Var flödar floderna ut i havet?</div>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Handel, industrier och klimat – nya magneter</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Under de senaste hundra åren har världshandeln dragit på som en turbo. Platser med rätt läge – flodmynningar och naturliga hamnar – suger åt sig människor. London, S:t Petersburg, Mumbai, Shanghai.</p>
+        <p>Klimat kan vara en magnet: Kalifornien – sol, kust, stora städer. Men torrt klimat kräver enorma vattenpipelines. Lösningen är teknisk men skapar beroenden.</p>
+        <p>Turismen tillkom som tredje magnet: Medelhavet, Kanarieöarna, Thailand. Stränder som för 150 år sedan var tomma är nu jobbmaskiner – hotell, restauranger, transport.</p>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4</span> Storstadens baksidor &amp; markens tålamod</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Täta städer ger fart och idéer – men också köer, avgaser och slitna lungor. Beijing, Mexico City, Aten och Rom dyker ofta upp i mätningar av dålig luftkvalitet. Det drabbar framför allt äldre och sjuka.</p>
+        <p>Städer tuggar i sig bördig åkermark. Bostäder, motorvägar, flygplatser – det händer i megastäder och i Sverige. Frågan: är det rimligt att bygga på vår bästa odlingsjord?</p>
+        <p><strong>Konstbevattning och försaltning</strong>: för att pressa upp skördarna konstbevattnar vi – men salt stannar kvar i marken. År efter år kan salthalten växa tills marken tappar sin kraft. Det har hänt i delar av Irak, Pakistan och Indien.</p>
+        <div class="highlight-box">Tre ansvarsnycklarna: vattnet ska räcka · jorden ska skyddas · luften ska vara möjlig att andas.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fact-grid">
+    <div class="fact-box"><h4>🌊 Flodernas kraft</h4><p>Nildalen, Indusdalen, Mekong – tätt befolkade för att floderna bär näringsilikt slam som gör jorden bördig år efter år.</p></div>
+    <div class="fact-box amber"><h4>🏜️ 4/5 av ytan</h4><p>Fyra femtedelar av jordens yta är mycket glesbefolkad. Öknar, fjäll, arktis och tät regnskog håller oss borta.</p></div>
+    <div class="fact-box green"><h4>🌾 Försaltning</h4><p>När bevattningsvatten avdunstar lämnar det salt i marken. En av de tystaste men allvarligaste marknedbrytningsprocesserna globalt.</p></div>
+  </div>
+
+  <div id="quiz-del3"></div>
+</section>
+
+<!-- ══════════════ DEL 4 ══════════════ -->
+<section class="section" id="tab-del4">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 4</div>
+    <h2 class="sec-title">Migration &amp; Urbanisering</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Krig, drömmar, jobb, familj, rädsla, hopp – migration rymmer allt detta. Och den största rörelsen är faktiskt inte mellan länder, utan från landsbygd till stad.</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/3aOmTPkWY9F0ThVrgZKDnV" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 4</div>
+        <div class="spotify-card-title">Migration &amp; urbanisering – push, pull och megastäder</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="intro-box">
+    <p>Migration är inte bara siffror i en tabell. Det är <strong>människors liv</strong>. Oavsett om det handlar om flyktingar, arbetskraftsinvandrare eller unga som lämnar landsbygden för att nå en storstad.</p>
+  </div>
+
+  <div class="akt-list">
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 1</span> Vad är migration?</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p><strong>Migration</strong> betyder att flytta. Det delas upp i emigration (lämna ett land) och immigration (komma till ett land). Om du tänker Sverige som ett klassrum: emigration är att gå ut, immigration är att komma in.</p>
+        <p>I Sverige har befolkningen ökat mycket de senaste åren – inte bara för att det föds fler än det dör, utan väldigt mycket på grund av invandring. Många som kom har gjort det som asylsökande – människor som flytt från krig och konflikter.</p>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 2</span> Flyktingar och internflyktingar</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Den vanligaste flykten idag sker inte från ett fattigt land till ett rikt. Den går ofta från ett fattigt land till ett annat fattigt land i samma region. Bara en liten del tar sig vidare till Europa eller USA.</p>
+        <p><strong>Internflyktingar</strong> korsar ingen landsgräns – de är på flykt inom sitt eget land. De har kvar sitt medborgarskap på pappret men har förlorat nästan allt: hem, jobb, trygghet.</p>
+        <p>De länder som tar emot allra flest flyktingar är ofta länder som redan har det ekonomiskt tufft: Turkiet, Pakistan, Uganda, Libanon. Det är en praktisk fråga – hur ska ett fattigt land ge vård, skola, bostad och jobb till så många?</p>
+        <div class="highlight-box">Flyktingläger kan bli permanenta städer. Vad som börjar som "tillfälligt" kan pågå i decennier.</div>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Arbetskraftsinvandring &amp; push–pull</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Alla som flyttar gör det inte på grund av krig. Många gör det för jobb, bättre lön eller en annan livsstil. I Filippinerna beräknas var tionde medborgare bo utomlands – en stor del skickar hem lön som är viktig för hela landets ekonomi.</p>
+        <p>Qatar och Förenade Arabemiraten: ca 9 av 10 invånare är ditflyttade arbetare. Städer och arenor byggs av människor som lämnat sin familj långt borta.</p>
+        <p><strong>Push-faktorer</strong> knuffar bort: krig, arbetslöshet, torka, korruption, naturkatastrofer.<br>
+        <strong>Pull-faktorer</strong> lockar till: jobb, högre lön, bättre skola, tryggare samhälle, familj som redan finns där.</p>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4–5</span> Urbanisering &amp; megastäder</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Den största rörelsen idag är från landsbygd till stad – <strong>urbanisering</strong>. Mer än hälften av världens 8 miljarder bor nu i städer. Det finns 30+ megastäder med över 10 miljoner invånare.</p>
+        <p>Tokyo, Jakarta, Delhi, Mumbai, Beijing, Shanghai, São Paulo, Mexico City. Prognoser: 2050 bor ca 2/3 av jordens befolkning i städer.</p>
+        <p>Städer lockar med: möjligheter, jobb, utbildning, kultur. Men när de växer snabbt hinner infrastrukturen inte med. Bostäder byggs inte fort nog. Vatten och avlopp hänger inte med. Mer än <strong>en miljard</strong> människor bor idag i slumområden.</p>
+        <div class="highlight-box">Framtiden avgörs till stor del av hur världens städer löser sina problem: trafik, luft, vatten, bostäder och rättvisa.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pull-quote">
+    <blockquote>"En del flyttar för att slippa bomber. Andra för att kunna jobba. Oavsett anledning – det påverkar vilka språk som hörs i din skola och vilka val du själv kan göra."</blockquote>
+    <cite>SO med Petrus</cite>
+  </div>
+
+  <!-- Urban % comparison -->
+  <div class="urban-box">
+    <h3>Hur Urban är Världen? – Jämförelse</h3>
+    <p class="urban-sub">Andel av befolkningen som bor i städer och tätorter, per land/region.</p>
+    <div class="urban-tabs">
+      <button class="urban-btn active" onclick="showUrban('today',this)">🌍 Idag</button>
+      <button class="urban-btn" onclick="showUrban('2050',this)">🔮 Prognos 2050</button>
+    </div>
+    <div class="urban-view active" id="urban-today">
+      <div class="country-bars">
+        <div class="c-bar-row"><div class="c-bar-label">🇯🇵 Japan</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:92%;background:#0A3040;">92%</div></div><div class="c-bar-pct">92%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🇸🇪 Sverige</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:88%;background:#0D6E6E;">88%</div></div><div class="c-bar-pct">88%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🇩🇪 Tyskland</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:77%;background:#1A7A4A;">77%</div></div><div class="c-bar-pct">77%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🌍 Världen</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:57%;background:#D97706;">57%</div></div><div class="c-bar-pct">57%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🇮🇳 Indien</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:36%;background:#C0392B;">36%</div></div><div class="c-bar-pct">36%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🌍 Afrika söder om Sahara</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:42%;background:#92400E;">42%</div></div><div class="c-bar-pct">42%</div></div>
+      </div>
+    </div>
+    <div class="urban-view" id="urban-2050">
+      <div class="country-bars">
+        <div class="c-bar-row"><div class="c-bar-label">🇯🇵 Japan</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:96%;background:#0A3040;">96%</div></div><div class="c-bar-pct">96%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🇸🇪 Sverige</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:93%;background:#0D6E6E;">93%</div></div><div class="c-bar-pct">93%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🌍 Världen</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:68%;background:#D97706;">68%</div></div><div class="c-bar-pct">68%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🇮🇳 Indien</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:52%;background:#C0392B;">52%</div></div><div class="c-bar-pct">52%</div></div>
+        <div class="c-bar-row"><div class="c-bar-label">🌍 Afrika söder om Sahara</div><div class="c-bar-bg"><div class="c-bar-fill" style="width:60%;background:#92400E;">60%</div></div><div class="c-bar-pct">60%</div></div>
+      </div>
+      <div style="margin-top:14px;padding:12px 16px;background:var(--amber-lt);border-radius:8px;font-size:13px;color:#92400E;">
+        <strong>Afrikas urbaniseringstakt</strong> är den snabbaste i världens historia. Det är i Afrika och Asien som framtidens megastäder byggs – med eller utan tillräcklig infrastruktur.
+      </div>
+    </div>
+  </div>
+
+  <div id="quiz-del4"></div>
+</section>
+
+<!-- ══════════════ DEL 5 ══════════════ -->
+<section class="section" id="tab-del5">
+  <div class="sec-header">
+    <div class="sec-label">Avsnitt 5</div>
+    <h2 class="sec-title">Sveriges Befolkningsutveckling</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Från 1,8 miljoner på 1700-talet till 10 miljoner 2017. Från massutvandring till USA till stor invandring. Från bondesamhälle till 85% i tätorter.</p>
+  </div>
+
+  <a href="https://open.spotify.com/episode/3GMnJiZZsokUreEAlOy4we" target="_blank" class="spotify-card">
+    <div class="spotify-card-inner">
+      <svg class="spotify-logo" viewBox="0 0 24 24" fill="#1DB954"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      <div class="spotify-card-text">
+        <div class="spotify-card-label">SO med Petrus · Avsnitt 5</div>
+        <div class="spotify-card-title">Sveriges befolkningsutveckling – 300 år på fem minuter</div>
+      </div>
+      <div class="spotify-play-btn">▶ Lyssna</div>
+    </div>
+  </a>
+
+  <div class="intro-box">
+    <p>Samma land, samma yta – men ett helt annat antal människor och ett helt annat samhälle. <strong>Det här är inte bara siffror. Det är dina mor- och farföräldrar, dina föräldrar – och du.</strong></p>
+  </div>
+
+  <div class="akt-list">
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 1</span> Från fattigt jordbruksland till 10 miljoner</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>År 1749 – första folkräkningen: 1,8 miljoner invånare (inkl. Finland). Genomsnitt 8 barn per familj men ändå långsam tillväxt – för att många barn dog tidigt. Sjukdomar, svält, dålig hygien, inga vacciner.</p>
+        <p>Under 1800-talet: effektivare jordbruk, bättre sjukvård, vaccin, långvarig fred. Dödligheten sjunker. Runt <strong>1850: 3,5 miljoner</strong>. Vid 1900-talets början: drygt 5 miljoner – trots att mer än en miljon hunnit utvandra till USA.</p>
+        <p>År 2017 passerar Sverige <strong>tio miljoner invånare</strong>. SCB:s prognos: runt 11 miljoner före 2030.</p>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 2</span> Invandringens Sverige</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Under nästan hundra år har Sverige haft större invandring än utvandring. Skälen har skiftat: tidigare framför allt <strong>arbetskraftsinvandring</strong> till fabriker, industrin och vård. På 2000-talet: flyktingar från krig, framför allt Syrien.</p>
+        <p>Idag är nästan <strong>2 miljoner</strong> av Sveriges invånare födda utomlands – lite under en femtedel. De vanligaste åldrarna: 25–44 år, alltså i arbetsför ålder.</p>
+        <p>Jämfört med grannar: Sverige ~20% utrikes födda · Norge ~14% · Danmark ~10% · Finland ~6%. Sverige är mer mixat än de flesta tänker.</p>
+        <div class="highlight-box">Invandring syns i vilka språk du hör på bussen, vilken mat som säljs, vilka namn som finns i klasslistan och hur städerna ser ut.</div>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 3</span> Ålderspyramiden som håller på att vända</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>Sverige, liksom många rika länder, har ett växande utmaningar: andelen äldre ökar. Medellivslängd ca 82–84 år. Det gör att många hinner leva länge efter att de slutat jobba.</p>
+        <p>Födelseöverskottet är litet – fler föds än dör, men inte explosivt. Medelåldern: runt 40 år.</p>
+        <p>Konsekvens: allt färre i yrkesverksam ålder ska försörja allt fler äldre. Det är en av anledningarna till debatter om höjd pensionsålder, fler som jobbar längre och hur vård och omsorg ska planeras framöver.</p>
+        <p>Invandring av människor i arbetsför ålder dämpar problemet – fler ingår i gruppen som jobbar och betalar skatt.</p>
+      </div>
+    </div>
+    <div class="akt">
+      <button class="akt-header" onclick="toggleAkt(this)"><span><span class="akt-num">Akt 4–5</span> Var bor vi – och avfolkningsbygden</span><span class="akt-arrow">▼</span></button>
+      <div class="akt-body">
+        <p>För 200 år sedan bodde 90% på landsbygden. Idag: ca 85% i tätorter. Urbaniseringen tog fart under 1800-talets andra hälft när industrierna växte fram.</p>
+        <p>Trots det är Sverige fortfarande glesbefolkat i internationell jämförelse – ca 25 inv/km². Orsak: stora arealer barrskog och fjäll, olämplig mark för jordbruk, svårt klimat i norr.</p>
+        <p>I glesbygden pågår en <strong>avfolkningsprocess</strong>: butiken stänger (för få kunder), skolan läggs ner (för få elever), bussen dras in. En självförstärkande spiral.</p>
+        <p>Men det finns motljus: <strong>digitalisering</strong> gör det möjligt att driva företag och jobba hemifrån även i glesbygd. Natur, lägre bostadspriser och lugnare miljö lockar – om infrastruktur och uppkoppling fungerar.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="fact-grid">
+    <div class="fact-box"><h4>🇸🇪 25 inv/km²</h4><p>Genomsnittlig befolkningstäthet i Sverige. Stockholmsområdet: ~360 inv/km². Norra glesbygden: under 5 inv/km².</p></div>
+    <div class="fact-box amber"><h4>👴 Medelålder 40 år</h4><p>Hälften av befolkningen yngre, hälften äldre. Utmaningen: finansiera pensioner, vård och omsorg när allt färre arbetar relativt allt fler äldre.</p></div>
+    <div class="fact-box green"><h4>🏙️ 85% i tätorter</h4><p>Sverige gick från 90% på landsbygden år 1800 till 85% i tätorter idag. Urbaniseringen pågår fortfarande.</p></div>
+  </div>
+
+  <div id="quiz-del5"></div>
+</section>
+
+<!-- ══════════════ BEGREPP ══════════════ -->
+<section class="section" id="tab-begrepp">
+  <div class="sec-header">
+    <div class="sec-label">Ordlista</div>
+    <h2 class="sec-title">Viktiga Begrepp</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">Klicka på korten för definitionen. Kan du dem utantill? Testa dig!</p>
+  </div>
+  <div class="begrep-grid">
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Urbanisering</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Att en allt större andel av befolkningen bor i städer. Pågår globalt, snabbast i Afrika och Asien.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Migration</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Att flytta från en plats till en annan. Kan vara inom ett land (intern) eller mellan länder (internationell).</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Emigration</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Att lämna ett land – utvandring. Sverige hade stor emigration till USA på 1800-talet: mer än en miljon utvandrade.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Immigration</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Att komma till ett land – invandring. Sverige har haft fler invandrare än utvandrare under nästan hundra år.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Push-faktorer</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Faktorer som knuffar bort människor från ett område: krig, arbetslöshet, torka, förföljelse, naturkatastrofer.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Pull-faktorer</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Faktorer som lockar till ett område: jobb, högre lön, bra skola, trygghet, familj och nätverk.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Demografisk övergång</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Modell som beskriver hur länder går från högt till lågt födelseltal och hög till låg dödlighet i fyra faser.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Befolkningspyramid</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Diagram som visar åldersfördelningen i en befolkning. Formen berättar om framtiden: bred bas = ung befolkning, inverterad = åldrande.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Försörjningskvot</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Kvoten mellan dem som är i yrkesverksam ålder och dem som måste försörjas (barn + pensionärer). En hög kvot sätter press på välfärden.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Informell sektor</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Ekonomisk verksamhet utan formella kontrakt, skatt eller arbetsrättsligt skydd. Gatuhandel, enklare hantverk, transporter. Stor del av ekonomin i många låginkomstländer.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Kåkstad / Slum</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Informellt bostadsområde som uppstår när städer växer snabbare än planeringen. Ofta utan bygglov, säkra ägandeförhållanden, rent vatten eller avlopp. Mer än 1 miljard bor i sådana områden globalt.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Remitteringar</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Pengar som migranter skickar hem till sin familj. Globalt uppgår de till hundratals miljarder dollar per år – ofta mer än allt offentligt bistånd.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Megastad</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Stad med mer än 10 miljoner invånare. Det finns ca 30 megastäder globalt. Tokyo, Delhi, Shanghai, Mumbai, São Paulo, Mexico City.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Internflykting</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Person som är på flykt inom sitt eget land utan att ha korsat en nationsgräns. Har formellt kvar sitt medborgarskap men har förlorat hem, jobb och trygghet.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Avfolkningsbygd</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Område med kontinuerlig befolkningsminskning när folk flyttar därifrån. Butiker stänger, skolor läggs ner, service minskar – vilket driver ytterligare utflyttning.</p></div></div></div>
+    <div class="begrep-card" onclick="this.classList.toggle('flipped')"><div class="begrep-inner"><div class="begrep-front"><h4>Infrastruktur</h4><span>Klicka för definition</span></div><div class="begrep-back"><p>Allt som behövs för att ett samhälle ska fungera: vägar, järnvägar, vatten- och avloppssystem, el, internet. "Blodomloppet" i en stad eller ett land.</p></div></div></div>
+  </div>
+</section>
+
+<!-- ══════════════ STORTESTET ══════════════ -->
+<section class="section" id="tab-stortestet">
+  <div class="sec-header">
+    <div class="sec-label">Det stora testet</div>
+    <h2 class="sec-title">Stortestet – Alla Fem Avsnitt</h2>
+    <div class="sec-divider"></div>
+    <p class="sec-desc">20 frågor från alla avsnitt. Klara av 16+ så är du redo för provet!</p>
+  </div>
+  <div style="max-width:700px;margin:0 auto;" id="big-quiz"></div>
+</section>
+
+</main>
+
+<footer style="background:var(--ocean);color:rgba(255,255,255,0.4);text-align:center;padding:24px;font-size:11px;letter-spacing:2px;margin-top:0;font-weight:600;">
+  SO-PORTALEN.SE &nbsp;·&nbsp; SO MED PETRUS &nbsp;·&nbsp; BEFOLKNING &amp; GEOGRAFI
+  <div style="height:4px;background:linear-gradient(to right,var(--ocean),var(--teal),var(--green),var(--amber),var(--red));margin-top:14px;opacity:0.5;border-radius:2px;"></div>
+</footer>
+
+<script>
+// ─── TAB ─────────────────────────────────────────────
+function switchTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelector(`[data-tab="${id}"]`).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.nav-tab').forEach(b => b.addEventListener('click', () => switchTab(b.dataset.tab)));
+
+// ─── ACCORDION ────────────────────────────────────────
+function toggleAkt(h) {
+  const body = h.nextElementSibling;
+  const open = h.classList.contains('open');
+  h.closest('.akt-list').querySelectorAll('.akt-header').forEach(x => { x.classList.remove('open'); x.nextElementSibling.classList.remove('open'); });
+  if (!open) { h.classList.add('open'); body.classList.add('open'); }
+}
+
+// ─── DEMOGRAPHIC TRANSITION ───────────────────────────
+function showDemog(n, btn) {
+  document.querySelectorAll('.demog-stage').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.demog-detail').forEach(d => { d.classList.remove('show'); });
+  btn.classList.add('active');
+  document.getElementById('demog-' + n).classList.add('show');
+}
+
+// ─── WORLD POP TIMELINE ───────────────────────────────
+const popData = [
+  {year:'10 000 f.Kr', val:'~5 miljoner', pct:1},
+  {year:'År 1', val:'~250 miljoner', pct:3},
+  {year:'1820', val:'1 miljard', pct:12},
+  {year:'1930', val:'2 miljarder', pct:24},
+  {year:'1975', val:'4 miljarder', pct:48},
+  {year:'2000', val:'6 miljarder', pct:72},
+  {year:'2023', val:'8 miljarder', pct:96},
+  {year:'2050 (prognos)', val:'~10 miljarder', pct:100},
+];
+const colors = ['#5EEAD4','#2DD4BF','#0D9488','#0F766E','#1A7A4A','#D97706','#DC2626','#991B1B'];
+window.addEventListener('load', () => {
+  const cont = document.getElementById('popTimeline');
+  if (!cont) return;
+  cont.innerHTML = popData.map((d,i) => `
+    <div class="pct-row">
+      <div class="pct-year">${d.year}</div>
+      <div class="pct-bar-bg"><div class="pct-bar-fill" style="width:0%;background:${colors[i]};" data-w="${d.pct}%">${d.val}</div></div>
+    </div>
+  `).join('');
+  setTimeout(() => {
+    cont.querySelectorAll('.pct-bar-fill').forEach(b => { b.style.width = b.dataset.w; });
+  }, 200);
+});
+
+// ─── POPULATION PYRAMID ───────────────────────────────
+const pyramidData = {
+  niger: {
+    label:'Niger – Mycket ung befolkning',
+    type:'young',
+    insight:'🔺 Bred bas = väldigt ung befolkning. Extremt högt födelseltal. Varje generation är mycket större än den förra. Enorm utmaning att bygga skolor och jobb fort nog.',
+    ages:['75+','65-74','55-64','45-54','35-44','25-34','15-24','5-14','0-4'],
+    m:[1,2,3,4,5,7,9,14,16],
+    f:[1,2,3,4,5,7,9,14,16]
+  },
+  india: {
+    label:'Indien – Under demografisk övergång',
+    type:'balanced',
+    insight:'🔶 Trapezeform = under övergång. Basen krymper, mitten är stor. Indien är mitt i den demografiska övergången – födelsetalen sjunker men är fortfarande höga.',
+    ages:['75+','65-74','55-64','45-54','35-44','25-34','15-24','5-14','0-4'],
+    m:[1,2,4,6,8,10,11,10,8],
+    f:[1,2,3,5,7,9,10,9,7]
+  },
+  sweden: {
+    label:'Sverige – Åldrande befolkning',
+    type:'old',
+    insight:'🔷 Rektangelform = åldrande befolkning. Jämt fördelad men med en bred topp. Utmaningen är försörjningskvoten – relativt få unga ska bära relativt många äldre.',
+    ages:['75+','65-74','55-64','45-54','35-44','25-34','15-24','5-14','0-4'],
+    m:[4,6,7,7,7,7,6,6,5],
+    f:[5,7,7,7,7,7,6,5,5]
+  },
+  japan: {
+    label:'Japan – Inverterad pyramid',
+    type:'old',
+    insight:'🔻 Inverterad form = krympande befolkning. Japans befolkning minskar. Enorma utmaningar med pensioner, omsorg och att ekonomin ska hålla. Robotisering ses som en del av lösningen.',
+    ages:['75+','65-74','55-64','45-54','35-44','25-34','15-24','5-14','0-4'],
+    m:[7,8,8,8,7,6,5,4,3],
+    f:[9,10,8,8,7,6,5,4,3]
+  }
+};
+
+function showPyramid(key, btn) {
+  document.querySelectorAll('.pyr-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const d = pyramidData[key];
+  const maxVal = Math.max(...d.m, ...d.f);
+
+  document.getElementById('pyrAgeLabels').innerHTML = d.ages.map(a =>
+    `<div style="font-size:10px;color:var(--muted);font-weight:600;height:16px;line-height:16px;margin-bottom:3px;">${a}</div>`
+  ).join('');
+
+  document.getElementById('pyrChart').innerHTML = d.ages.map((a,i) => {
+    const mW = Math.round((d.m[i]/maxVal)*140);
+    const fW = Math.round((d.f[i]/maxVal)*140);
+    return `<div class="pyr-bar-pair">
+      <div class="pyr-bar-m" style="width:${mW}px;"></div>
+      <div class="pyr-bar-f" style="width:${fW}px;"></div>
+    </div>`;
+  }).join('');
+
+  const ins = document.getElementById('pyrInsight');
+  ins.textContent = d.insight;
+  ins.className = 'pyramid-insight ' + d.type;
+}
+
+// ─── PUSH PULL ────────────────────────────────────────
+let selectedPush = null, selectedPull = null;
+const ppMessages = {
+  'Krig & konflikter_Trygghet & frihet': 'Klassisk flykting-rörelse: kriget driver bort, och löftet om trygghet drar till ett nytt land.',
+  'Arbetslöshet_Jobbmöjligheter': 'Typisk arbetskraftsmigration. En person kan inte försörja sig hemma – men ser möjligheter på annan ort.',
+  'Torka & missväxt_Bra sjukvård': 'Klimatmigration kombinerat med sökt vård – vanligt i Sahel-regionen där bönder lämnar torkdrabbad landsbygd.',
+  'Förföljelse_Trygghet & frihet': 'Politisk eller religiös flykting – söker skydd mot den förföljelse de flyr ifrån.',
+  'Sjukdomar & brist på vård_Bra sjukvård': 'Söker medicinsk vård som inte finns hemma. Vanligt för människor med kroniska sjukdomar i resurssvaga länder.',
+  'default': 'En kombination av push och pull-faktorer driver varje migrationsrörelse. I verkligheten blandas de alltid – ingen lämnar sitt hem av en enda anledning.'
+};
+
+function selectPP(chip, type) {
+  const col = chip.closest('.push-col, .pull-col');
+  col.querySelectorAll('.pp-chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+  if (type === 'push') selectedPush = chip.textContent.trim().replace(/^[^\w]+/,'');
+  else selectedPull = chip.textContent.trim().replace(/^[^\w]+/,'');
+  if (selectedPush && selectedPull) {
+    const key = `${selectedPush}_${selectedPull}`;
+    const msg = ppMessages[key] || ppMessages['default'];
+    const el = document.getElementById('ppResult');
+    el.textContent = '💡 ' + msg;
+    el.className = 'pp-result show';
+  }
+}
+
+// ─── URBAN TOGGLE ─────────────────────────────────────
+function showUrban(key, btn) {
+  document.querySelectorAll('.urban-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.urban-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('urban-' + key).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ─── QUIZ DATA ────────────────────────────────────────
+const quizData = {
+  del1:[
+    {q:"Vad kallas stadsdelen i Lagos som växt upp på pålar i vattnet?", opts:["Eko Atlantic","Makoko","Accra North","Lagosvik"], c:1, exp:"Makoko är den informella stadsdelen i Lagos som vuxit från en liten fiskeby till en stor stadsdel med hus på pålar i vattnet."},
+    {q:"Vad är den informella sektorn?", opts:["Staten ägda företag","Företag som döljer sin vinst","Jobb utan kontrakt, försäkringar eller arbetsrätt","Internationell handel utanför WTO"], c:2, exp:"Den informella sektorn innehåller jobb som fungerar men utan formella kontrakt, trygghet eller arbetsrättsligt skydd – gatuhandel, transport, enklare hantverk."},
+    {q:"Vad är remitteringar?", opts:["Bistånd från rika länder","Pengar migranter skickar hem","Lån från Världsbanken","Statliga pensioner"], c:1, exp:"Remitteringar är pengar som migranter skickar hem till familjen. Globalt uppgår de till hundratals miljarder dollar – mer än allt offentligt bistånd sammanlagt."},
+    {q:"Vad är Eko Atlantic i Lagos?", opts:["Ett slumområde vid vattnet","En planerad modern stadsdel för företag och välbärgade","En hamn för containerfrakt","En nationalpark"], c:1, exp:"Eko Atlantic är en planerad, modern stadsdel som byggs bredvid Makoko. Den illustrerar spänningen: satsa på uppgradering av befintliga områden – eller bygga nytt för dem som har råd?"},
+    {q:"Vilka tre faktorer behöver urbanisering för att bli en vinst?", opts:["Flyktingar, handel, turism","Prisvärda bostäder, infrastruktur och vägar in i det formella","Fabriker, motorvägar och flygplatser","Export, import och finansmarknad"], c:1, exp:"Tre byggstenar återkommer: prisvärda bostäder nära arbete, utbyggd infrastruktur (vatten, el, avlopp) och vägar in i det formella systemet (adresser, tillstånd, utbildning)."}
+  ],
+  del2:[
+    {q:"Vilken milstolpe passerade världens befolkning runt 1820?", opts:["500 miljoner","En miljard","Två miljarder","Tre miljarder"], c:1, exp:"Runt 1820 passerade världen en miljard invånare. Kunden hade gått i nästan hela vår historia som art."},
+    {q:"Varför kallas perioden 1920–1999 för 'befolkningsexplosionen'?", opts:["Födelsetalen fördubblades","Dödligheten sjönk snabbare än födelsetalen","En ny kontinent befolkades","Krig ökade födelsetalen"], c:1, exp:"Dödligheten – framför allt bland spädbarn – sjönk drastiskt tack vare vacciner, rent vatten och bättre mat. Men familjers beteende och födelsetalen hänger inte omedelbart med."},
+    {q:"Vad kallas modellen som beskriver länders väg från högt till lågt födelseltal?", opts:["Befolkningspyramiden","Den demografiska övergången","Push-pull-modellen","Försörjningskvoten"], c:1, exp:"Den demografiska övergången beskriver hur länder går igenom fyra faser – från hög dödlighet och höga födelseltal till låg dödlighet och låga födelseltal."},
+    {q:"Vad skapade Kinas ettbarnspolitik för problem på lång sikt?", opts:["För stor befolkning","Åldrande befolkning med för få unga","Brist på döttrar","Hög barnfattigdom"], c:1, exp:"Ettbarnspolitiken sänkte födelsetalen men skapade en åldrande befolkning med färre unga som fyller på. Kina öppnade för tvåbarnspolitik 2015."},
+    {q:"Vad är den bästa 'bromsen' för befolkningstillväxt utan tvång?", opts:["Lagstiftning om barnbegränsning","Ekonomisk och social utveckling – utbildning, jobb, sjukvård","Statliga kampanjer","Skatter på stora barnafödsel"], c:1, exp:"Historien visar att när spädbarn överlever, skolan är gratis, det finns jobb och pensionen inte hänger på barnens plånbok väljer familjer att få färre barn – utan tvång."}
+  ],
+  del3:[
+    {q:"Vad är den primära anledningen till att folk bosatt sig nära stora floder?", opts:["Försvar mot fiender","Drickbart vatten och bördig mark till jordbruk","Fisk som mat","Enkel transport av varor"], c:1, exp:"Spåren leder nästan alltid till vattnet – drickbart vatten och mark som kan odlas är grundförutsättningen för bebyggelse. Floder ger båda."},
+    {q:"Vilka tre 'detektivfrågor' hjälper dig läsa befolkningskartan?", opts:["Var finns jobben, var är det varmt, var finns internet?","Var finns vattnet, var finns god jord, var flödar floder ut i havet?","Var finns hamnar, fabriker och flygplatser?","Var bor de rika, de fattiga och de medelrika?"], c:1, exp:"Vatten, god jord och flodernas mynningar – det är de tre primära faktorerna. Därifrån är steget kort till hamnar, sjöfart och handel."},
+    {q:"Varför är tropisk regnskog glesbefolkad trots att det finns gott om vatten?", opts:["För varmt att leva","Regnet urlakar jordar som då blir dåliga att odla","Sjukdomar gör det omöjligt","Terrängen är för brant"], c:1, exp:"Intensivt regn urlakar jordarna i tropisk regnskog – det gör att marken är dålig att odla trots att vatten finns i överflöd."},
+    {q:"Vad är försaltning och varför är det ett problem?", opts:["Salt i maten – en hälsorisk","Salt i havet som sprids vid översvämning","Saltansamling i mark efter konstbevattning som förstör odlingsmark","Föroreningar från industrin"], c:2, exp:"När bevattningsvatten avdunstar lämnar det salt i marken. År efter år ökar salthalten tills marken tappar sin produktionsförmåga – det har hänt i delar av Irak, Pakistan och Indien."},
+    {q:"Vilket av dessa är ett exempel på en 'ny magnet' som lockar folk sedan 1900-talet?", opts:["Floder och bördiga floddalar","Hamnar, industridistrikt och turistkuster","Skogstillgångar","Sötvattenjöar"], c:1, exp:"Världshandeln och industrialiseringen skapade nya magneter: hamnar med hög genomströmning, industridistrikt och – på senare tid – turistkuster och klimat."}
+  ],
+  del4:[
+    {q:"Vad är skillnaden mellan en flykting och en internflykting?", opts:["Flyktingen flyr krig, internflykting flyr ekonomisk nöd","Flyktingen korsar en landsgräns, internflykting flyr inom sitt eget land","Flyktingen söker asyl, internflykting söker arbete","Det är samma sak – bara olika ord"], c:1, exp:"En flykting har korsat en internationell gräns. En internflykting är på flykt inom sitt eget lands gränser och har formellt kvar sitt medborgarskap, men har förlorat hem och trygghet."},
+    {q:"Vilket land tar emot flest flyktingar i världen per capita?", opts:["Sverige","USA","Libanon och Turkiet","Tyskland"], c:2, exp:"De allra flesta flyktingar tas emot av grannländer – ofta fattigare länder. Turkiet, Pakistan, Uganda och Libanon är bland världens största flyktingmottagare i absoluta tal."},
+    {q:"Hur stor andel av befolkningen i Qatar och UAE är migrantarbetare?", opts:["Ungefär en tredjedel","Ungefär hälften","Ungefär nio av tio","Alla är migrantarbetare"], c:2, exp:"I länder som Qatar och Förenade Arabemiraten är ungefär 9 av 10 invånare ditflyttade arbetare, många från Sydasien. Städer och arenor byggs av dem som lämnat familjen långt borta."},
+    {q:"Vad menas med urbanisering?", opts:["Att städer renoveras och moderniseras","Att fler och fler bor i städer – stadsandelen av befolkningen ökar","Att migranter söker asyl i städer","Att landsbygden befolkas av stadsbor"], c:1, exp:"Urbanisering betyder att en allt större andel av befolkningen bor i städer. Det är historiens största folkförflyttning och pågår fortfarande, snabbast i Afrika och Asien."},
+    {q:"Hur många människor beräknas bo i slumområden globalt?", opts:["Hundra miljoner","En halv miljard","Mer än en miljard","Tre miljarder"], c:2, exp:"Mer än en miljard människor bor idag i informella slumområden – ofta utan rinnande vatten, säker el eller fungerande avlopp."}
+  ],
+  del5:[
+    {q:"Hur stor var Sveriges befolkning vid den första folkräkningen 1749?", opts:["Ca 800 000","Ca 1,8 miljoner","Ca 3 miljoner","Ca 5 miljoner"], c:1, exp:"Den första svenska folkräkningen 1749 visade ungefär 1,8 miljoner invånare (inkl. Finland). Trots 8 barn per familj i genomsnitt växte befolkningen långsamt p.g.a. hög barnadödlighet."},
+    {q:"Varför utvandrade mer än en miljon svenskar på 1800-talet?", opts:["Kriget mot Norge","Industrialismens försämrade arbetsvillkor","Fattigdom, brist på mark och hungersnöd","Religionsförföljelse"], c:2, exp:"Sverige var ett av Europas fattigaste länder på 1800-talet. Missväxt, brist på mark och inga jobbalternativ drev mer än en miljon att emigrera – framför allt till USA."},
+    {q:"När passerade Sverige 10 miljoner invånare?", opts:["År 2000","År 2010","År 2017","År 2022"], c:2, exp:"År 2017 passerade Sverige tio miljoner invånare. Tillväxten drevs av en kombination av födelseöverskott och stor invandring."},
+    {q:"Hur stor andel av Sveriges befolkning är utrikes födda?", opts:["Ca 5%","Ca 10%","Ca 20%","Ca 30%"], c:2, exp:"Nästan var femte person i Sverige (ca 20%) är utrikes född. Det är mer än i Norge (14%), Danmark (10%) och Finland (6%)."},
+    {q:"Vad menas med avfolkningsbygd?", opts:["Område med hög inflyttning","Område som evakuerats p.g.a. naturkatastrof","Område med kontinuerlig befolkningsminskning när folk flyttar bort","Område med låg nativitet"], c:2, exp:"Avfolkningsbygd är ett område där befolkningen kontinuerligt minskar. Butiker stänger, skolor läggs ner, bussen dras in – vilket driver ytterligare utflyttning i en självförstärkande spiral."}
+  ]
+};
+
+const bigQuizData = [...quizData.del1,...quizData.del2,...quizData.del3,...quizData.del4,...quizData.del5];
+
+// --- QUIZ ENGINE (namespaced) ---
+const _quizzes = {};
+
+function buildQuiz(el, data, id) {
+  var cur = 0, score = 0, answered = false;
+
+  function render() {
+    if (cur >= data.length) { showScore(); return; }
+    var q = data[cur];
+    var pct = (cur / data.length) * 100;
+    _quizzes[id].exp = q.exp;
+    _quizzes[id].correct = q.c;
+    var optsHtml = q.opts.map(function(o, i) {
+      return '<button class="quiz-option" onclick="_quizzes[\'' + id + '\'].ans(this,' + i + ')">' + ['A','B','C','D'][i] + '. ' + o + '</button>';
+    }).join('');
+    el.innerHTML = '<div class="quiz-container">'
+      + '<div class="quiz-header">Quiz – Befolkning &amp; Geografi</div>'
+      + '<div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:' + pct + '%"></div></div>'
+      + '<div class="quiz-q-count">Fråga ' + (cur+1) + ' av ' + data.length + '</div>'
+      + '<div class="quiz-question-text">' + q.q + '</div>'
+      + '<div class="quiz-options">' + optsHtml + '</div>'
+      + '<div class="quiz-feedback" id="qfb-' + id + '"></div>'
+      + '<div class="quiz-nav"><span style="font-size:12px;color:rgba(255,255,255,0.4);">Poäng: ' + score + '/' + cur + '</span>'
+      + '<button class="quiz-btn primary" id="qnext-' + id + '" onclick="_quizzes[\'' + id + '\'].next()" disabled>Nästa →</button>'
+      + '</div></div>';
+  }
+
+  function showScore() {
+    var pct = Math.round((score / data.length) * 100);
+    var msg = pct>=90 ? 'Utmärkt! Du är redo!' : pct>=70 ? 'Bra jobbat!' : pct>=50 ? 'Halvvägs – försök igen.' : 'Lyssna på avsnitten och testa igen!';
+    el.innerHTML = '<div class="quiz-container"><div class="quiz-score">'
+      + '<div class="score-num">' + score + '/' + data.length + '</div>'
+      + '<div class="score-label">' + pct + '% rätt</div>'
+      + '<div class="score-msg">' + msg + '</div>'
+      + '<div style="margin-top:18px;"><button class="quiz-btn primary" onclick="_quizzes[\'' + id + '\'].restart()">Försök igen</button></div>'
+      + '</div></div>';
+  }
+
+  _quizzes[id] = {
+    exp: '', correct: 0,
+    ans: function(btn, chosen) {
+      if (answered) return;
+      answered = true;
+      var correct = _quizzes[id].correct;
+      var exp = _quizzes[id].exp;
+      btn.closest('.quiz-options').querySelectorAll('.quiz-option').forEach(function(o, i) {
+        o.disabled = true;
+        if (i === correct) o.classList.add('correct');
+      });
+      if (chosen !== correct) btn.classList.add('wrong'); else score++;
+      var fb = document.getElementById('qfb-' + id);
+      fb.textContent = (chosen === correct ? '✅ Rätt! ' : '❌ Inte riktigt. ') + exp;
+      fb.className = 'quiz-feedback show ' + (chosen === correct ? 'correct' : 'wrong');
+      document.getElementById('qnext-' + id).disabled = false;
+    },
+    next: function() { cur++; answered = false; render(); },
+    restart: function() { cur = 0; score = 0; answered = false; render(); }
+  };
+
+  render();
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildQuiz(document.getElementById('quiz-del1'),quizData.del1,'del1');
+  buildQuiz(document.getElementById('quiz-del2'),quizData.del2,'del2');
+  buildQuiz(document.getElementById('quiz-del3'),quizData.del3,'del3');
+  buildQuiz(document.getElementById('quiz-del4'),quizData.del4,'del4');
+  buildQuiz(document.getElementById('quiz-del5'),quizData.del5,'del5');
+  buildQuiz(document.getElementById('big-quiz'),bigQuizData,'big');
+  showPyramid('niger',document.querySelector('.pyr-btn'));
+});
+</script>
+</body>
+</html>
