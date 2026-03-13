@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sverige & Demokratin – Studiematerial · SO-portalen.se</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#005B99;--blue-dk:#003764;--blue-lt:#E6F0F9;
+  --yellow:#FECC02;--yellow-dk:#C9A100;--yellow-lt:#FFF8D6;
+  --ink:#0A1628;--paper:#F4F7FA;--white:#fff;
+  --red:#CC2936;--green:#217A4B;--purple:#5B2D8E;
+  --muted:#5A6478;--border:#D0D9E4;--shadow:rgba(10,22,40,0.09);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Lora',Georgia,serif;background:var(--paper);color:var(--ink);line-height:1.75;}
+
+/* ── FLAG STRIPE ── */
+.flag-bar{height:6px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) 36%,var(--yellow) 36%,var(--yellow) 44%,var(--blue) 44%,var(--blue) 100%);position:sticky;top:0;z-index:300;}
+
+/* ── HERO ── */
+.hero{background:var(--ink);padding:56px 48px 48px;position:relative;overflow:hidden;min-height:320px;}
+.hero-bg-cross{position:absolute;right:5%;top:50%;transform:translateY(-50%);width:320px;height:320px;pointer-events:none;}
+.hero-bg-cross::before,.hero-bg-cross::after{content:'';position:absolute;background:var(--yellow);opacity:.05;}
+.hero-bg-cross::before{width:38%;height:100%;left:31%;}
+.hero-bg-cross::after{width:100%;height:38%;top:31%;}
+.hero-glow{position:absolute;top:-100px;right:100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,91,153,0.3) 0%,transparent 65%);pointer-events:none;}
+.hero-glow2{position:absolute;bottom:-50px;left:200px;width:300px;height:300px;background:radial-gradient(circle,rgba(254,204,2,0.08) 0%,transparent 70%);pointer-events:none;}
+.hero-inner{position:relative;z-index:1;max-width:800px;}
+.hero-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:rgba(255,255,255,0.38);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.hero-badge::before{content:'';display:inline-block;width:28px;height:1px;background:var(--yellow);}
+.hero h1{font-family:'Big Shoulders Display',sans-serif;font-size:clamp(40px,7.5vw,80px);font-weight:900;color:#fff;line-height:.93;letter-spacing:-1.5px;margin-bottom:18px;}
+.hero h1 .accent{color:var(--yellow);}
+.hero h1 .sub{display:block;font-size:.42em;font-weight:600;color:rgba(255,255,255,0.42);letter-spacing:3px;font-family:'DM Mono',monospace;margin-top:6px;}
+.hero-desc{font-size:15px;color:rgba(255,255,255,0.48);max-width:580px;line-height:1.78;margin-bottom:26px;}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{padding:5px 13px;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;}
+.chip-y{background:rgba(254,204,2,0.14);border:1px solid rgba(254,204,2,0.35);color:#FECC02;}
+.chip-b{background:rgba(0,91,153,0.28);border:1px solid rgba(0,91,153,0.5);color:#7FC3FF;}
+.chip-w{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.14);color:rgba(255,255,255,0.55);}
+
+/* ── NAV ── */
+.nav-outer{background:var(--ink);border-bottom:2px solid rgba(254,204,2,0.12);position:sticky;top:6px;z-index:200;}
+.nav-inner{max-width:1200px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-btn{padding:14px 20px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.32);cursor:pointer;white-space:nowrap;border:none;border-bottom:2px solid transparent;background:none;transition:all .2s;flex-shrink:0;margin-bottom:-2px;}
+.nav-btn:hover{color:rgba(255,255,255,0.72);}
+.nav-btn.active{color:var(--yellow);border-bottom-color:var(--yellow);}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1200px;margin:0 auto;padding:0 48px;}
+.section{display:none;padding:48px 0 72px;}
+.section.active{display:block;animation:fadeUp .32s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* ── SECTION HEADER ── */
+.sh{margin-bottom:36px;}
+.sh-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--yellow-dk);text-transform:uppercase;margin-bottom:8px;}
+.sh-title{font-family:'Big Shoulders Display',sans-serif;font-size:clamp(28px,5vw,54px);font-weight:900;color:var(--blue-dk);line-height:.93;letter-spacing:-1px;margin-bottom:12px;}
+.sh-bar{width:52px;height:4px;background:linear-gradient(to right,var(--blue),var(--yellow));border-radius:2px;margin-bottom:16px;}
+.sh-desc{color:var(--muted);font-size:15px;font-style:italic;max-width:560px;line-height:1.72;}
+
+/* ── PART ACCORDIONS ── */
+.parts-list{display:flex;flex-direction:column;gap:12px;margin-bottom:8px;}
+.part-card{background:#fff;border:1px solid var(--border);border-radius:3px;overflow:hidden;box-shadow:0 2px 14px var(--shadow);transition:box-shadow .22s;}
+.part-card:hover{box-shadow:0 6px 28px rgba(10,22,40,0.13);}
+.part-header{width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:none;border:none;cursor:pointer;text-align:left;gap:14px;transition:background .2s;}
+.part-header:hover{background:var(--blue-lt);}
+.part-header.open{background:var(--ink);}
+.ph-left{display:flex;align-items:center;gap:16px;}
+.ph-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--yellow-dk);padding:5px 9px;background:rgba(254,204,2,0.1);border:1px solid rgba(254,204,2,0.28);border-radius:2px;flex-shrink:0;}
+.part-header.open .ph-num{color:var(--yellow);background:rgba(254,204,2,0.18);}
+.ph-title{font-family:'Big Shoulders Display',sans-serif;font-size:19px;font-weight:700;color:var(--blue-dk);letter-spacing:-.3px;}
+.part-header.open .ph-title{color:var(--yellow);}
+.ph-arrow{font-size:11px;color:var(--muted);transition:transform .3s;flex-shrink:0;}
+.part-header.open .ph-arrow{transform:rotate(180deg);color:rgba(255,255,255,0.35);}
+.part-body{display:none;padding:28px 32px;border-top:1px solid var(--border);}
+.part-body.open{display:block;animation:fadeUp .22s ease;}
+.part-body h3{font-family:'Big Shoulders Display',sans-serif;font-size:19px;font-weight:700;color:var(--blue);letter-spacing:-.2px;margin:24px 0 8px;}
+.part-body h3:first-child{margin-top:0;}
+.part-body h4{font-family:'Lora',serif;font-size:14px;font-style:italic;color:var(--muted);margin:14px 0 5px;}
+.part-body p{font-size:15.5px;line-height:1.87;margin-bottom:11px;color:#18253A;}
+.part-body p:last-child{margin-bottom:0;}
+.part-body ul,.part-body ol{margin:8px 0 14px 22px;}
+.part-body li{font-size:15px;line-height:1.75;margin-bottom:4px;}
+.part-body strong{color:var(--blue-dk);}
+.reading-lead{font-size:16px;font-style:italic;color:var(--blue);border-left:4px solid var(--yellow);padding-left:16px;margin-bottom:22px;line-height:1.75;}
+
+/* ── INTERACTIVE WIDGET CONTAINER ── */
+.widget-section{background:var(--blue-lt);border:1px solid rgba(0,91,153,0.15);border-radius:4px;padding:28px;margin:32px 0;box-shadow:0 4px 20px var(--shadow);}
+.widget-title{font-family:'Big Shoulders Display',sans-serif;font-size:22px;font-weight:900;color:var(--blue-dk);letter-spacing:-.3px;margin-bottom:4px;}
+.widget-sub{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:20px;}
+
+/* ════════════════════════════════
+   MAKTPYRAMID
+════════════════════════════════ */
+.pyramid-wrap{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 0;}
+.py-level{cursor:pointer;transition:all .25s;border-radius:2px;display:flex;align-items:center;justify-content:center;position:relative;}
+.py-level:hover{filter:brightness(1.08);}
+.py-level.active{transform:scale(1.035);box-shadow:0 8px 32px rgba(10,22,40,0.22);z-index:2;}
+.py-level span{font-family:'Big Shoulders Display',sans-serif;font-weight:700;text-align:center;pointer-events:none;line-height:1.15;}
+.py-info-box{background:#fff;border:1px solid var(--border);border-radius:3px;padding:22px 26px;margin:14px 0 6px;box-shadow:0 6px 24px var(--shadow);animation:fadeUp .22s ease;width:100%;max-width:680px;}
+.py-info-box h3{font-family:'Big Shoulders Display',sans-serif;font-size:22px;font-weight:900;letter-spacing:-.3px;margin-bottom:10px;}
+.py-info-box p{font-size:14.5px;line-height:1.78;color:var(--ink);margin-bottom:10px;}
+.py-info-box p:last-child{margin-bottom:0;}
+.py-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.py-tag{padding:4px 10px;border-radius:2px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;background:var(--blue-lt);border:1px solid rgba(0,91,153,0.2);color:var(--blue);}
+
+/* ════════════════════════════════
+   GRUNDLAGSKARUSELL
+════════════════════════════════ */
+.gl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:20px 0;}
+.gl-card{perspective:900px;height:175px;cursor:pointer;}
+.gl-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.gl-card.flipped .gl-inner{transform:rotateY(180deg);}
+.gl-front,.gl-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:3px;padding:20px 18px;display:flex;flex-direction:column;}
+.gl-front{background:var(--ink);}
+.gl-back{background:var(--blue-dk);transform:rotateY(180deg);}
+.gl-icon{font-size:26px;margin-bottom:10px;}
+.gl-num-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.3);text-transform:uppercase;margin-bottom:5px;}
+.gl-name{font-family:'Big Shoulders Display',sans-serif;font-size:18px;font-weight:900;color:var(--yellow);line-height:1.1;letter-spacing:-.2px;margin-bottom:6px;}
+.gl-short{font-size:12px;color:rgba(255,255,255,0.5);line-height:1.55;flex:1;}
+.gl-flip-hint{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);margin-top:8px;}
+.gl-back .gl-back-title{font-family:'Big Shoulders Display',sans-serif;font-size:17px;font-weight:900;color:var(--yellow);letter-spacing:-.2px;margin-bottom:10px;}
+.gl-back ul{margin-left:14px;flex:1;}
+.gl-back li{font-size:12.5px;color:rgba(255,255,255,0.85);line-height:1.6;margin-bottom:3px;}
+
+/* ════════════════════════════════
+   RIKSDAG FLOW
+════════════════════════════════ */
+.rf-container{overflow-x:auto;padding-bottom:6px;}
+.rf-steps{display:flex;align-items:flex-start;gap:0;min-width:720px;}
+.rf-step{flex:1;display:flex;flex-direction:column;align-items:stretch;}
+.rf-step-btn{background:#fff;border:2px solid var(--border);border-radius:3px;padding:16px 13px;cursor:pointer;transition:all .22s;text-align:center;flex:1;}
+.rf-step-btn:hover{border-color:var(--blue);background:var(--blue-lt);}
+.rf-step-btn.active{border-color:var(--blue);background:var(--blue-dk);}
+.rf-step-icon{font-size:24px;margin-bottom:8px;}
+.rf-step-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;}
+.rf-step-btn.active .rf-step-num{color:rgba(255,255,255,0.45);}
+.rf-step-title{font-family:'Big Shoulders Display',sans-serif;font-size:14px;font-weight:700;color:var(--blue-dk);letter-spacing:-.2px;line-height:1.2;}
+.rf-step-btn.active .rf-step-title{color:var(--yellow);}
+.rf-connector{display:flex;align-items:center;padding:0 4px;padding-top:28px;flex-shrink:0;}
+.rf-arrow{width:20px;height:2px;background:var(--border);position:relative;}
+.rf-arrow::after{content:'▶';font-size:10px;color:var(--border);position:absolute;right:-6px;top:-5px;}
+.rf-detail{background:var(--blue-dk);border-radius:3px;padding:20px 24px;margin-top:14px;animation:fadeUp .22s ease;}
+.rf-detail h4{font-family:'Big Shoulders Display',sans-serif;font-size:20px;font-weight:900;color:var(--yellow);letter-spacing:-.3px;margin-bottom:10px;}
+.rf-detail p{font-size:14px;line-height:1.78;color:rgba(255,255,255,0.88);}
+.rf-detail strong{color:var(--yellow);}
+
+/* ════════════════════════════════
+   VALSYSTEM JÄMFÖRARE
+════════════════════════════════ */
+.vs-country-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;}
+.vs-ctab{padding:7px 14px;border:1px solid var(--border);background:#fff;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;cursor:pointer;color:var(--muted);transition:all .2s;text-transform:uppercase;}
+.vs-ctab.active{background:var(--ink);color:var(--yellow);border-color:var(--ink);}
+.vs-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.vs-panel{background:#fff;border:1px solid var(--border);border-radius:3px;padding:20px;}
+.vs-panel h4{font-family:'Big Shoulders Display',sans-serif;font-size:18px;font-weight:900;color:var(--blue-dk);letter-spacing:-.2px;margin-bottom:4px;}
+.vs-panel-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:14px;}
+.parliament-hem{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:14px;min-height:100px;align-content:flex-start;}
+.seat{width:13px;height:13px;border-radius:50%;transition:all .3s;}
+.vs-legend{display:flex;flex-direction:column;gap:4px;}
+.vs-leg-item{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:9.5px;color:var(--muted);}
+.vs-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.vs-note{margin-top:12px;font-size:12.5px;color:var(--muted);font-style:italic;line-height:1.6;padding-top:10px;border-top:1px solid var(--border);}
+.vs-efficiency{margin-top:10px;background:var(--paper);border-radius:2px;padding:10px 12px;}
+.vs-eff-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;}
+.vs-eff-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.vs-eff-fill{height:100%;border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+
+/* ════════════════════════════════
+   POLITISK KOMPASS
+════════════════════════════════ */
+.pc-wrap{display:grid;grid-template-columns:auto 1fr;grid-template-rows:1fr auto;gap:0;max-width:820px;margin:0 auto;}
+.pc-y-axis{writing-mode:vertical-rl;transform:rotate(180deg);display:flex;align-items:center;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding:8px 10px 8px 0;grid-row:1;grid-column:1;}
+.pc-plot-outer{grid-row:1;grid-column:2;position:relative;}
+.pc-plot{width:100%;aspect-ratio:1;position:relative;border:2px solid var(--border);border-radius:3px;overflow:hidden;background:#fff;}
+.pc-quadrant{position:absolute;width:50%;height:50%;}
+.pc-q1{top:0;left:0;background:rgba(33,122,75,0.05);}
+.pc-q2{top:0;right:0;background:rgba(204,41,54,0.05);}
+.pc-q3{bottom:0;left:0;background:rgba(33,122,75,0.05);}
+.pc-q4{bottom:0;right:0;background:rgba(204,41,54,0.05);}
+.pc-axis-h,.pc-axis-v{position:absolute;background:var(--border);}
+.pc-axis-h{height:1px;width:100%;top:50%;}
+.pc-axis-v{width:1px;height:100%;left:50%;}
+.pc-axis-label{position:absolute;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);padding:4px;font-weight:500;text-transform:uppercase;}
+.pc-axis-label.top{top:2px;left:50%;transform:translateX(-50%);}
+.pc-axis-label.bottom{bottom:2px;left:50%;transform:translateX(-50%);}
+.pc-axis-label.left-l{top:50%;left:2px;transform:translateY(-50%);}
+.pc-axis-label.right-l{top:50%;right:2px;transform:translateY(-50%);}
+.pc-party-dot{position:absolute;cursor:pointer;transform:translate(-50%,-50%);z-index:2;transition:transform .2s;}
+.pc-party-dot:hover{z-index:10;transform:translate(-50%,-50%) scale(1.5);}
+.pc-dot-inner{width:22px;height:22px;border-radius:50%;border:3px solid rgba(255,255,255,0.9);box-shadow:0 2px 10px rgba(0,0,0,0.28);}
+.pc-dot-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:.3px;background:rgba(255,255,255,0.95);padding:3px 7px;border-radius:2px;position:absolute;top:24px;left:50%;transform:translateX(-50%);white-space:nowrap;box-shadow:0 1px 4px rgba(0,0,0,0.12);color:var(--ink);font-weight:500;}
+.pc-x-axis-wrap{grid-row:2;grid-column:2;display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;padding-top:6px;}
+.pc-info{background:#fff;border:1px solid var(--border);border-radius:3px;padding:18px 22px;margin-top:20px;display:none;animation:fadeUp .22s ease;}
+.pc-info.show{display:block;}
+.pc-info-header{display:flex;align-items:center;gap:12px;margin-bottom:12px;}
+.pc-info-dot{width:20px;height:20px;border-radius:50%;flex-shrink:0;}
+.pc-info-name{font-family:'Big Shoulders Display',sans-serif;font-size:24px;font-weight:900;letter-spacing:-.3px;}
+.pc-info-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.pc-info-tag{padding:3px 9px;border-radius:2px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;}
+.pc-info-desc{font-size:14px;line-height:1.75;color:var(--ink);}
+.pc-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.pc-leg-item{display:flex;align-items:center;gap:6px;font-family:'DM Mono',monospace;font-size:9.5px;color:var(--muted);}
+.pc-leg-dot{width:11px;height:11px;border-radius:50%;flex-shrink:0;}
+
+/* ════════════════════════════════
+   Q&A SYSTEM
+════════════════════════════════ */
+.del-selector{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:26px;}
+.del-btn{padding:7px 15px;border-radius:2px;border:1px solid var(--border);background:#fff;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;color:var(--muted);}
+.del-btn:hover{border-color:var(--blue);}
+.del-btn.active{background:var(--ink);color:var(--yellow);border-color:var(--ink);}
+.qs-list{display:none;}
+.qs-list.active{display:flex;flex-direction:column;gap:11px;}
+.q-card{background:#fff;border:1px solid var(--border);border-radius:3px;overflow:hidden;box-shadow:0 2px 8px var(--shadow);}
+.q-num-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--yellow-dk);padding:14px 20px 0;text-transform:uppercase;}
+.q-text{font-family:'Big Shoulders Display',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.2px;padding:5px 20px 12px;line-height:1.45;color:var(--ink);}
+.q-area{width:100%;border:none;border-top:1px solid var(--border);padding:13px 20px;font-family:'Lora',serif;font-size:14px;line-height:1.75;resize:vertical;min-height:78px;background:var(--paper);color:var(--ink);outline:none;transition:background .18s;}
+.q-area:focus{background:#fff;}
+.q-footer{display:flex;align-items:center;justify-content:space-between;padding:9px 13px;background:#F2F6FA;border-top:1px solid var(--border);flex-wrap:wrap;gap:8px;}
+.q-hint{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;}
+.show-ans-btn{display:flex;align-items:center;gap:6px;padding:8px 15px;background:var(--blue-dk);color:#fff;border:none;border-radius:2px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;}
+.show-ans-btn:hover{background:var(--blue);}
+.show-ans-btn.shown{background:var(--green);}
+.q-answer{display:none;padding:16px 20px;background:var(--blue-dk);color:rgba(255,255,255,0.9);font-size:14px;line-height:1.8;border-top:1px solid rgba(255,255,255,0.07);}
+.q-answer.show{display:block;animation:fadeUp .2s ease;}
+.q-ans-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;color:rgba(255,255,255,0.35);margin-bottom:7px;text-transform:uppercase;}
+.q-answer strong{color:var(--yellow);}
+
+/* ════════════════════════════════
+   FLASHCARDS
+════════════════════════════════ */
+.fc-filter{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:18px;}
+.fc-btn{padding:6px 14px;border-radius:2px;border:1px solid var(--border);background:#fff;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;color:var(--muted);}
+.fc-btn.active{background:var(--ink);color:var(--yellow);border-color:var(--ink);}
+.fc-count{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:13px;}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:10px;}
+.fc-card{perspective:900px;height:128px;cursor:pointer;}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:3px;padding:14px 15px;display:flex;flex-direction:column;justify-content:center;}
+.fc-front{background:var(--ink);}
+.fc-front h4{font-family:'Big Shoulders Display',sans-serif;font-size:15px;font-weight:700;color:var(--yellow);line-height:1.2;margin-bottom:5px;letter-spacing:-.2px;}
+.fc-front .fc-del{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.22);text-transform:uppercase;}
+.fc-front .fc-hint{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.15);margin-top:7px;}
+.fc-back{background:#fff;border:1px solid var(--border);}
+.fc-back p{font-size:12.5px;line-height:1.62;color:var(--ink);}
+
+/* ── TIMELINE ── */
+.tl-container{position:relative;padding:4px 0 24px;}
+.tl-line{position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--blue),var(--blue-dk));transform:translateX(-50%);}
+.tl-events{position:relative;}
+.tl-event{display:grid;grid-template-columns:1fr 48px 1fr;align-items:start;margin-bottom:8px;}
+.tl-event:nth-child(odd) .tl-content{grid-column:1;text-align:right;padding:0 26px 0 0;}
+.tl-event:nth-child(odd) .tl-center{grid-column:2;grid-row:1;}
+.tl-event:nth-child(odd) .tl-empty{grid-column:3;grid-row:1;}
+.tl-event:nth-child(even) .tl-empty{grid-column:1;grid-row:1;}
+.tl-event:nth-child(even) .tl-center{grid-column:2;grid-row:1;}
+.tl-event:nth-child(even) .tl-content{grid-column:3;text-align:left;padding:0 0 0 26px;}
+.tl-center{display:flex;flex-direction:column;align-items:center;gap:5px;padding-top:4px;}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:3px solid #fff;z-index:2;cursor:pointer;transition:transform .2s;flex-shrink:0;}
+.tl-dot:hover{transform:scale(1.4);}
+.tl-year-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);white-space:nowrap;}
+.tl-card{background:#fff;border:1px solid var(--border);border-radius:3px;padding:13px 14px;cursor:pointer;transition:all .22s;box-shadow:0 2px 8px var(--shadow);}
+.tl-card:hover{box-shadow:0 6px 22px rgba(10,22,40,0.13);transform:translateY(-2px);}
+.tl-card.active{border-color:var(--yellow);}
+.tl-icon{font-size:18px;margin-bottom:4px;}
+.tl-event:nth-child(odd) .tl-icon{text-align:right;}
+.tl-card h4{font-family:'Big Shoulders Display',sans-serif;font-size:14px;font-weight:700;color:var(--blue-dk);letter-spacing:-.2px;line-height:1.25;}
+.tl-event:nth-child(odd) .tl-card h4{text-align:right;}
+.tl-desc{font-size:12px;color:var(--muted);line-height:1.58;display:none;margin-top:5px;}
+.tl-event:nth-child(odd) .tl-desc{text-align:right;}
+.tl-card.active .tl-desc{display:block;}
+
+@media(max-width:768px){
+  .hero{padding:30px 20px;}
+  .wrap{padding:0 16px;}
+  .vs-layout{grid-template-columns:1fr;}
+  .rf-steps{min-width:540px;}
+  .tl-line{left:18px;}
+  .tl-event{grid-template-columns:26px 1fr;}
+  .tl-event:nth-child(odd) .tl-content,.tl-event:nth-child(even) .tl-content{grid-column:2;text-align:left;padding:0 0 0 14px;}
+  .tl-event:nth-child(odd) .tl-center,.tl-event:nth-child(even) .tl-center{grid-column:1;grid-row:1;}
+  .tl-event:nth-child(odd) .tl-empty,.tl-event:nth-child(even) .tl-empty{display:none;}
+  .tl-event:nth-child(odd) .tl-icon,.tl-event:nth-child(odd) .tl-card h4,.tl-event:nth-child(odd) .tl-desc{text-align:left;}
+  .part-body{padding:18px;}
+  .pc-wrap{grid-template-columns:1fr;}
+  .pc-y-axis{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="flag-bar"></div>
+
+<header class="hero">
+  <div class="hero-bg-cross"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">SO med Petrus &nbsp;·&nbsp; SO-portalen.se</div>
+    <h1>Sverige &amp;<br><span class="accent">Demokratin</span><span class="sub">Studiematerial</span></h1>
+    <p class="hero-desc">Från statsskick och grundlagar till valsystem och partipolitik – en komplett interaktiv guide till hur Sverige styrs.</p>
+    <div class="hero-chips">
+      <span class="chip chip-y">🏛️ 7 delar text</span>
+      <span class="chip chip-b">🗳️ Valsystemjämförare</span>
+      <span class="chip chip-b">🧭 Politisk kompass</span>
+      <span class="chip chip-w">⚙️ Riksdagsprocessen live</span>
+      <span class="chip chip-w">🃏 Flashcards</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-outer">
+  <div class="nav-inner">
+    <button class="nav-btn active" data-tab="lasning">📖 Läsning</button>
+    <button class="nav-btn" data-tab="interaktivt">⚡ Interaktivt</button>
+    <button class="nav-btn" data-tab="fragor">✍️ Skrivfrågor</button>
+    <button class="nav-btn" data-tab="begrepp">🃏 Begrepp</button>
+    <button class="nav-btn" data-tab="tidslinje">📅 Tidslinje</button>
+  </div>
+</nav>
+
+<main>
+<!-- ═══════════ LÄSNING ═══════════ -->
+<div class="section active" id="tab-lasning">
+  <div class="wrap">
+    <div class="sh">
+      <div class="sh-num">Kursmaterial</div>
+      <h2 class="sh-title">Läs texterna</h2>
+      <div class="sh-bar"></div>
+      <p class="sh-desc">Sju delar om hur Sverige styrs, från grundlagar till partipolitik. Klicka för att expandera varje del.</p>
+    </div>
+    <div class="parts-list">
+
+      <!-- DEL 1 -->
+      <div class="part-card">
+        <button class="part-header" onclick="togglePart(this)">
+          <div class="ph-left"><span class="ph-num">Del 1</span><span class="ph-title">Vem bestämmer i Sverige?</span></div>
+          <span class="ph-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">För att ett samhälle ska fungera måste det vara tydligt vem som fattar beslut. I Sverige finns tydliga bestämmelser – kallade <strong>statsskick</strong> – för hur landet ska styras och hur makten används.</p>
+          <h3>Statsskick och grundlagar</h3>
+          <p>Statsskicket regleras av Sveriges grundlagar – de viktigaste lagarna i landet, extra svåra att ändra, som skyddar demokratin. De bestämmer hur politiker utses, vilka fri- och rättigheter medborgare har och hur makten delas upp.</p>
+          <p>Sverige är en <strong>demokratisk rättsstat</strong>, en <strong>monarki</strong> och ett land med allmänna och fria val vart fjärde år. Som rättsstat måste alla – även myndigheter och politiker – följa lagen. Domstolarna är självständiga och får inte påverkas av politiken. Kungen är statschef men har ingen politisk makt.</p>
+          <h3>Fyra politiska nivåer</h3>
+          <p>Makten är uppdelad på <strong>nationell, regional, kommunal</strong> och <strong>europeisk nivå</strong>. Grundtanken: beslut ska fattas så nära människors vardag som möjligt.</p>
+          <p><strong>Riksdagen</strong> stiftar lagar, beslutar om budget och kontrollerar regeringen. <strong>Regeringen</strong> styr landet och genomför riksdagens beslut. Den måste ha riksdagens förtroende – parlamentarism. <strong>Regionerna</strong> ansvarar för sjukvård, kollektivtrafik och regional utveckling. <strong>Kommunerna</strong> sköter grundskola, förskola, äldreomsorg och lokal infrastruktur. <strong>EU</strong> beslutar om handel, miljö och konsumentskydd för alla 27 medlemsländer.</p>
+          <p>Uppdelningen gör att makt inte samlas hos en enda aktör och att fler kan påverka.</p>
+        </div>
+      </div>
+
+      <!-- DEL 2 -->
+      <div class="part-card">
+        <button class="part-header" onclick="togglePart(this)">
+          <div class="ph-left"><span class="ph-num">Del 2</span><span class="ph-title">Sveriges grundlagar</span></div>
+          <span class="ph-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">Sverige har fyra grundlagar som tillsammans utgör <strong>författningen</strong> – reglerna för hur makten ska användas och begränsas. De ändras sällan och kräver ett riksdagsbeslut, ett val och ytterligare ett riksdagsbeslut.</p>
+          <h3>Regeringsformen</h3>
+          <p>Den viktigaste grundlagen. Slår fast att all offentlig makt utgår från folket och beskriver hur ansvaret fördelas mellan riksdag, regering, kommuner, regioner och domstolar. Skyddar demokratiska rättigheter: åsiktsfrihet, demonstrationsfrihet, föreningsfrihet och religionsfrihet.</p>
+          <h3>Tryckfrihetsförordningen</h3>
+          <p>Skyddar rätten att publicera texter utan att staten kan censurera dem i förväg. Journalister kan granska makthavare fritt.</p>
+          <h3>Yttrandefrihetsgrundlagen</h3>
+          <p>Utvidgar tryckfriheten till radio, tv, webbplatser och sociala medier. Inte obegränsat – hets mot folkgrupp, hot och förtal är förbjudet.</p>
+          <h3>Successionsordningen</h3>
+          <p>Reglerar vem som ärver rollen som statschef. Sedan 1979 ärver äldsta barnet titeln, oavsett kön.</p>
+          <h3>Skydd och demokrati</h3>
+          <p>Sverige är bundet av internationella mänskliga rättigheter. EU:s lagar gäller före svensk lag inom EU:s beslutanderätt. Diskriminering på grund av kön, etnicitet, religion, funktionsnedsättning eller sexuell läggning är förbjudet. <strong>Sametinget</strong> är samernas folkvalda organ för frågor om samisk kultur, språk och renskötsel.</p>
+        </div>
+      </div>
+
+      <!-- DEL 3 -->
+      <div class="part-card">
+        <button class="part-header" onclick="togglePart(this)">
+          <div class="ph-left"><span class="ph-num">Del 3</span><span class="ph-title">Riksdagen – folkets röst</span></div>
+          <span class="ph-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">Riksdagen är Sveriges högsta beslutande församling med <strong>349 ledamöter</strong>. Antalet per parti speglar väljarnas röster. Arbetet leds av den opartiske <strong>talmannen</strong>.</p>
+          <h3>Riksdagens tre huvuduppgifter</h3>
+          <ul>
+            <li><strong>Stifta lagar</strong> – bestämmer vilka regler som gäller i samhället</li>
+            <li><strong>Besluta om statens budget</strong> – prioriterar skola, vård, försvar m.m.</li>
+            <li><strong>Kontrollera regeringen</strong> – kan tvinga den att avgå vid förlorat förtroende</li>
+          </ul>
+          <h3>Motioner och propositioner</h3>
+          <p>Riksdagsledamöter lämnar <strong>motioner</strong>. Regeringen lämnar <strong>propositioner</strong> – genomarbetade lagförslag utredda av experter. Många förslag kopplar till EU-beslut som Sverige måste anpassa till svensk lag.</p>
+          <h3>Utskotten – det riktiga arbetet</h3>
+          <p>Det tyngsta arbetet sker i utskotten – specialiserade arbetsgrupper för utbildning, rättsväsende, ekonomi och försvar. Sammansättning speglar väljarresultatet. Utskotten granskar förslag och sammanfattar i ett <strong>betänkande</strong>, som kan innehålla <strong>reservationer</strong> från partier som inte håller med.</p>
+          <h3>Kammaren – debatt och omröstning</h3>
+          <p>Betänkandet tas upp i kammaren för öppen debatt. Sedan omröstning: ja, nej eller avstå. Majoritetens beslut är bindande. Debatterna är offentliga – medborgarna kan följa demokratin i realtid.</p>
+          <h3>Från beslut till verklighet</h3>
+          <p>Riksdagens beslut verkställs av regeringen och myndigheterna. Myndigheterna ska arbeta självständigt och sakligt – inte driva politik.</p>
+        </div>
+      </div>
+
+      <!-- DEL 4 -->
+      <div class="part-card">
+        <button class="part-header" onclick="togglePart(this)">
+          <div class="ph-left"><span class="ph-num">Del 4</span><span class="ph-title">Regeringen – leder landet</span></div>
+          <span class="ph-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">Regeringen leder arbetet med att styra Sverige i praktiken – alltid inom ramarna som riksdagen och lagarna sätter. Den leds av <strong>statsministern</strong>, som utses av riksdagen.</p>
+          <h3>Regeringens uppgifter</h3>
+          <ul>
+            <li>Ta fram <strong>propositioner</strong> – förslag på lagar till riksdagen</li>
+            <li>Presentera <strong>statsbudgeten</strong> varje år</li>
+            <li>Ansvara för <strong>utrikespolitik</strong> och EU-samarbete</li>
+            <li>Tillsätta <strong>utredningar</strong> i komplexa frågor</li>
+          </ul>
+          <h3>Ministrar och departement</h3>
+          <p>Varje minister ansvarar för ett politikområde (utbildning, ekonomi, miljö, försvar) och leder ofta ett departement. <strong>Regeringskansliet</strong> med tusentals tjänstemän – experter, inte politiker – förbereder besluten.</p>
+          <h3>Myndigheter</h3>
+          <p>Myndigheter verkställer lagar och regler inom skola, skatt, socialförsäkring och rättsväsende. En avgörande princip: ministrar får <em>inte</em> styra enskilda myndighetsbeslut. Skyddar rättssäkerheten. <strong>Länsstyrelserna</strong> – 21 stycken – är statens representant i varje län.</p>
+          <h3>Kris och kontroll</h3>
+          <p>I kriser kan viss frihetsbegränsning ske med stöd i lag – men alltid tidsbegränsat. Riksdagen granskar ständigt: frågestunder, utskottshearing, möjlighet till misstroendevotum. Vid allvarliga fel kan minister eller hela regering tvingas avgå.</p>
+        </div>
+      </div>
+
+      <!-- DEL 5 -->
+      <div class="part-card">
+        <button class="part-header" onclick="togglePart(this)">
+          <div class="ph-left"><span class="ph-num">Del 5</span><span class="ph-title">Regioner, kommuner och staten</span></div>
+          <span class="ph-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">Sverige styrs inte från ett enda ställe. Ansvaret är uppdelat så att beslut kan fattas där de passar bäst – nära människors vardag.</p>
+          <h3>Regioner</h3>
+          <p>Ansvarar för <strong>hälso- och sjukvård</strong>, <strong>kollektivtrafik</strong> och regional utveckling. Regionpolitiker väljs av invånarna. Du väljer regionpolitiker i samma val som riksdag och kommunfullmäktige.</p>
+          <h3>Kommuner</h3>
+          <p>Ansvarar för det som märks mest i vardagen: <strong>grundskola, gymnasium, förskola, äldreomsorg, vatten, avlopp och sophämtning</strong>. Styrs av <strong>kommunfullmäktige</strong> – kommunens "riksdag". Kommunstyrelse och nämnder genomför besluten.</p>
+          <h3>Budgeten är politikens kärna</h3>
+          <p>Pengar räcker sällan till allt. En kommun med många barn prioriterar skolor. En med många äldre prioriterar omsorg. Skatteintäkterna varierar beroende på befolkning och ekonomi.</p>
+          <h3>Länsstyrelserna</h3>
+          <p>Sveriges 21 länsstyrelser representerar staten i varje län och ser till att nationella beslut får genomslag lokalt. Samordnar, utövar tillsyn och fungerar som länk mellan nationell politik och regional verklighet. Leds av <strong>landshövdingen</strong>.</p>
+          <h3>Kriser kräver samverkan</h3>
+          <p>Regioner hanterar vård och smittskydd. Kommuner hanterar omsorg och skola lokalt. Staten samordnar nationella åtgärder. Samarbete är nyckeln – kriser påverkar alltid flera nivåer.</p>
+        </div>
+      </div>
+
+      <!-- DEL 6 -->
+      <div class="part-card">
+        <button class="part-header" onclick="togglePart(this)">
+          <div class="ph-left"><span class="ph-num">Del 6</span><span class="ph-title">Val i Sverige – grunden för demokratin</span></div>
+          <span class="ph-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">I en demokrati är val ett av de viktigaste sätten för medborgare att påverka. Sverige bygger på <strong>fria, hemliga och regelbundna val</strong>.</p>
+          <h3>Fyra allmänna val</h3>
+          <p>Vart fjärde år, andra söndagen i september: <strong>riksdagsval, regionfullmäktigeval</strong> och <strong>kommunfullmäktigeval</strong>. Vart femte år: <strong>europaparlamentsvalet</strong>.</p>
+          <h3>Rösträtt</h3>
+          <p>Riksdagsval: svenskt medborgarskap + 18 år. Kommun- och regionval: även EU-medborgare och norrmän/islänningar folkbokförda i Sverige, plus andra utländska medborgare efter 3 år i Sverige.</p>
+          <h3>Valdeltagande</h3>
+          <p>Över 80% i allmänna val – högt internationellt. Lägre i Europaparlamentsvalet. Yngre, lågutbildade och vissa grupper röstar i lägre utsträckning – en demokratisk utmaning.</p>
+          <h3>Proportionella val (Sverige)</h3>
+          <p>Platser i riksdagen fördelas i proportion till röstantal. 20% av rösterna → ca 20% av platserna. Fler partier representeras, fler röster räknas. Nackdel: svårare att bilda stabil regering.</p>
+          <h3>Majoritetsval (bl.a. UK, USA)</h3>
+          <p><strong>First past the post</strong> – varje valkrets väljer en representant, vinnaren tar allt. Gynnar stora partier, kan ge tydliga majoriteter. Nackdel: många röster "försvinner".</p>
+          <h3>Andra valsystem</h3>
+          <p><strong>Frankrike:</strong> Två omgångar – ingen majoritet i omgång 1 → omval mellan de starkaste. <strong>USA:</strong> Presidentval via elektorer – kan vinna med färre röster totalt. <strong>Tyskland:</strong> Blandat – en röst på kandidat, en på parti.</p>
+        </div>
+      </div>
+
+      <!-- DEL 7 -->
+      <div class="part-card">
+        <button class="part-header" onclick="togglePart(this)">
+          <div class="ph-left"><span class="ph-num">Del 7</span><span class="ph-title">Politiska åsikter och partier</span></div>
+          <span class="ph-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">I demokratier tycker människor olika. Modeller som <strong>höger–vänster-skalan</strong> och <strong>GAL–TAN-skalan</strong> hjälper oss förstå dessa skillnader – trots att de förenklar verkligheten.</p>
+          <h3>Höger–vänster: ekonomi och välfärd</h3>
+          <p><strong>Vänster:</strong> Jämlikhet och gemensamt ansvar. Staten ska aktivt minska klyftor genom skatter och stark välfärd – skola, vård, omsorg för alla.<br>
+          <strong>Höger:</strong> Individens frihet och ansvar. Lägre skatter och mindre statlig styrning skapar tillväxt. Välfärden kan organiseras på andra sätt.<br>
+          Gränsen är flytande – många partier kombinerar idéer från båda sidor.</p>
+          <h3>GAL–TAN: värderingar och samhällssyn</h3>
+          <p><strong>GAL</strong> (Grön, Alternativ, Libertariansk): individfrihet, mänskliga rättigheter, internationellt samarbete, kulturell mångfald, miljöfokus.<br>
+          <strong>TAN</strong> (Traditionell, Auktoritär, Nationalistisk): traditioner, nationell gemenskap, lag och ordning, kulturell kontinuitet, långsam förändring.</p>
+          <p>Partier kan ligga nära varandra ekonomiskt men ändå ha svårt att samarbeta – om de har olika syn på värderingsfrågor.</p>
+          <h3>De 8 riksdagspartierna</h3>
+          <ul>
+            <li><strong>Socialdemokraterna (S):</strong> Jämlikhet, stark välfärd. Vänster, mittenvärderingar.</li>
+            <li><strong>Moderaterna (M):</strong> Individansvar, tillväxt, sänkta skatter. Höger.</li>
+            <li><strong>Sverigedemokraterna (SD):</strong> Nationell identitet, begränsad invandring. TAN.</li>
+            <li><strong>Centerpartiet (C):</strong> Landsbygd, frihet, decentralisering. Mitten, GAL.</li>
+            <li><strong>Vänsterpartiet (V):</strong> Ekonomisk jämlikhet, stark offentlig sektor. Vänster, progressivt.</li>
+            <li><strong>Kristdemokraterna (KD):</strong> Familj, civilsamhälle, valfrihet. Höger, traditionellt.</li>
+            <li><strong>Liberalerna (L):</strong> Utbildning, individfrihet, rättsstat. Mitten-höger, liberalt.</li>
+            <li><strong>Miljöpartiet (MP):</strong> Klimat, hållbarhet, internationalism. Vänster, GAL.</li>
+          </ul>
+          <h3>Samarbete och kompromisser</h3>
+          <p>Inget parti får ensam majoritet i riksdagen. Samarbete och kompromisser är nödvändiga. Utöver partierna påverkar <strong>sakfrågeorganisationer</strong> politiken via kampanjer, rapporter och opinionsbildning.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ INTERAKTIVT ═══════════ -->
+<div class="section" id="tab-interaktivt">
+  <div class="wrap">
+    <div class="sh">
+      <div class="sh-num">Interaktiva verktyg</div>
+      <h2 class="sh-title">Utforska demokratin</h2>
+      <div class="sh-bar"></div>
+      <p class="sh-desc">Klicka, utforska och förstå. Alla verktyg nedan är interaktiva.</p>
+    </div>
+
+    <!-- MAKTPYRAMID -->
+    <div class="widget-section">
+      <div class="widget-title">🏛️ Maktpyramiden</div>
+      <div class="widget-sub">Klicka på en nivå för att se mer</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;" id="pyramidWrap">
+        <div class="py-level" id="py0" onclick="showPyLevel(0)" style="width:200px;height:50px;background:linear-gradient(135deg,#FECC02,#C9A100);">
+          <span style="font-size:15px;color:#0A1628;">🌍 Europeisk / EU</span>
+        </div>
+        <div class="py-level" id="py1" onclick="showPyLevel(1)" style="width:320px;height:54px;background:linear-gradient(135deg,#005B99,#003764);margin-top:5px;">
+          <span style="font-size:15px;color:#fff;">🏛️ Nationell nivå</span>
+        </div>
+        <div class="py-level" id="py2" onclick="showPyLevel(2)" style="width:440px;height:54px;background:linear-gradient(135deg,#1A7A9A,#0A4A6A);margin-top:5px;">
+          <span style="font-size:15px;color:#fff;">🏥 Regional nivå (21 regioner)</span>
+        </div>
+        <div class="py-level" id="py3" onclick="showPyLevel(3)" style="width:560px;height:54px;background:linear-gradient(135deg,#217A4B,#0E5030);margin-top:5px;">
+          <span style="font-size:15px;color:#fff;">🏘️ Kommunal nivå (290 kommuner)</span>
+        </div>
+        <div id="pyInfo" style="display:none;width:100%;max-width:560px;margin-top:16px;"></div>
+      </div>
+    </div>
+
+    <!-- GRUNDLAGARNA FLIP CARDS -->
+    <div class="widget-section">
+      <div class="widget-title">📜 Sveriges fyra grundlagar</div>
+      <div class="widget-sub">Klicka på ett kort för att vända det och se mer</div>
+      <div class="gl-grid">
+        <div class="gl-card" onclick="this.classList.toggle('flipped')">
+          <div class="gl-inner">
+            <div class="gl-front">
+              <div class="gl-icon">⚖️</div>
+              <div class="gl-num-tag">Grundlag 1 – viktigast</div>
+              <div class="gl-name">Regerings­formen</div>
+              <div class="gl-short">Hur Sverige styrs och hur makten fördelas. All offentlig makt utgår från folket.</div>
+              <div class="gl-flip-hint">▸ klicka för detaljer</div>
+            </div>
+            <div class="gl-back">
+              <div class="gl-back-title">Regeringsformen</div>
+              <ul>
+                <li>All offentlig makt utgår från folket</li>
+                <li>Riksdag, regering, kommuner och domstolars ansvar</li>
+                <li>Domstolar är självständiga</li>
+                <li>Skyddar åsiktsfrihet, demonstrationsfrihet och religionsfrihet</li>
+                <li>Stiftad 1974, ersatte 1809 års RF</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="gl-card" onclick="this.classList.toggle('flipped')">
+          <div class="gl-inner">
+            <div class="gl-front">
+              <div class="gl-icon">📰</div>
+              <div class="gl-num-tag">Grundlag 2 – äldst</div>
+              <div class="gl-name">Tryckfrihets­förordningen</div>
+              <div class="gl-short">Skyddar rätten att publicera texter. Censur är förbjudet.</div>
+              <div class="gl-flip-hint">▸ klicka för detaljer</div>
+            </div>
+            <div class="gl-back">
+              <div class="gl-back-title">Tryckfrihetsförordningen</div>
+              <ul>
+                <li>Förbjuder censur av tidningar och böcker</li>
+                <li>Garanterar medias granskningsroll</li>
+                <li>Journalister kan inte tvingas avslöja sina källor</li>
+                <li>Från 1766 – en av världens äldsta</li>
+                <li>Gäller tryckt text</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="gl-card" onclick="this.classList.toggle('flipped')">
+          <div class="gl-inner">
+            <div class="gl-front">
+              <div class="gl-icon">📢</div>
+              <div class="gl-num-tag">Grundlag 3</div>
+              <div class="gl-name">Yttrandefrihets­grundlagen</div>
+              <div class="gl-short">Utvidgar tryckfriheten till radio, tv och digitala medier.</div>
+              <div class="gl-flip-hint">▸ klicka för detaljer</div>
+            </div>
+            <div class="gl-back">
+              <div class="gl-back-title">Yttrandefrihetsgrundlagen</div>
+              <ul>
+                <li>Skyddar yttranden i radio, tv och på nätet</li>
+                <li>Rätt att uttrycka åsikter via bild och tal</li>
+                <li>Hets mot folkgrupp, hot och förtal är förbjudet</li>
+                <li>Stiftad 1991 för att möta ny medieteknik</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="gl-card" onclick="this.classList.toggle('flipped')">
+          <div class="gl-inner">
+            <div class="gl-front">
+              <div class="gl-icon">👑</div>
+              <div class="gl-num-tag">Grundlag 4</div>
+              <div class="gl-name">Successionsordningen</div>
+              <div class="gl-short">Reglerar vem som ärver rollen som statschef.</div>
+              <div class="gl-flip-hint">▸ klicka för detaljer</div>
+            </div>
+            <div class="gl-back">
+              <div class="gl-back-title">Successionsordningen</div>
+              <ul>
+                <li>Äldsta barnet ärver statschefsrollen (sedan 1979)</li>
+                <li>Oavsett kön – jämställdhetsprincip</li>
+                <li>Statschefen har ingen politisk makt</li>
+                <li>Representerar Sverige vid ceremonier och statsbesök</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIKSDAG FLOW -->
+    <div class="widget-section">
+      <div class="widget-title">⚙️ Riksdagsprocessen – från idé till lag</div>
+      <div class="widget-sub">Klicka på varje steg för att se vad som händer</div>
+      <div class="rf-container">
+        <div class="rf-steps" id="rfSteps"></div>
+      </div>
+      <div id="rfDetail" style="display:none;margin-top:12px;"></div>
+    </div>
+
+    <!-- VALSYSTEM JÄMFÖRARE -->
+    <div class="widget-section">
+      <div class="widget-title">🗳️ Valsystemjämföraren</div>
+      <div class="widget-sub">Välj land och se hur mandaten fördelas</div>
+      <div class="vs-country-tabs" id="vsCountryTabs"></div>
+      <div class="vs-layout" id="vsLayout"></div>
+    </div>
+
+    <!-- POLITISK KOMPASS -->
+    <div class="widget-section">
+      <div class="widget-title">🧭 Politisk kompass</div>
+      <div class="widget-sub">Alla 8 riksdagspartier placerade – klicka för info</div>
+      <div class="pc-wrap">
+        <div class="pc-y-axis"><span>GAL</span><span>TAN</span></div>
+        <div class="pc-plot-outer">
+          <div class="pc-plot" id="pcPlot">
+            <div class="pc-quadrant pc-q1"></div>
+            <div class="pc-quadrant pc-q2"></div>
+            <div class="pc-quadrant pc-q3"></div>
+            <div class="pc-quadrant pc-q4"></div>
+            <div class="pc-axis-h"></div>
+            <div class="pc-axis-v"></div>
+            <div class="pc-axis-label top">GAL ▲</div>
+            <div class="pc-axis-label bottom">▼ TAN</div>
+            <div class="pc-axis-label left-l">◄ Vänster</div>
+            <div class="pc-axis-label right-l">Höger ►</div>
+          </div>
+        </div>
+        <div style="grid-column:2;"><div class="pc-x-axis-wrap"><span>Vänster</span><span>Höger</span></div></div>
+      </div>
+      <div class="pc-legend" id="pcLegend"></div>
+      <div class="pc-info" id="pcInfo"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════ SKRIVFRÅGOR ═══════════ -->
+<div class="section" id="tab-fragor">
+  <div class="wrap">
+    <div class="sh">
+      <div class="sh-num">Träna skriva</div>
+      <h2 class="sh-title">Skrivfrågor</h2>
+      <div class="sh-bar"></div>
+      <p class="sh-desc">Skriv ditt svar – sen visar du modellsvaret. Formulera dig själv först!</p>
+    </div>
+    <div class="del-selector">
+      <button class="del-btn active" onclick="showQDel('q1',this)">Del 1</button>
+      <button class="del-btn" onclick="showQDel('q2',this)">Del 2</button>
+      <button class="del-btn" onclick="showQDel('q3',this)">Del 3</button>
+      <button class="del-btn" onclick="showQDel('q4',this)">Del 4</button>
+      <button class="del-btn" onclick="showQDel('q5',this)">Del 5</button>
+      <button class="del-btn" onclick="showQDel('q6',this)">Del 6</button>
+      <button class="del-btn" onclick="showQDel('q7',this)">Del 7</button>
+    </div>
+    <div id="qs-q1" class="qs-list active"></div>
+    <div id="qs-q2" class="qs-list"></div>
+    <div id="qs-q3" class="qs-list"></div>
+    <div id="qs-q4" class="qs-list"></div>
+    <div id="qs-q5" class="qs-list"></div>
+    <div id="qs-q6" class="qs-list"></div>
+    <div id="qs-q7" class="qs-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════ BEGREPP ═══════════ -->
+<div class="section" id="tab-begrepp">
+  <div class="wrap">
+    <div class="sh">
+      <div class="sh-num">Begreppsträning</div>
+      <h2 class="sh-title">Flashcards</h2>
+      <div class="sh-bar"></div>
+      <p class="sh-desc">Klicka på kortet för att vända det. Filtrera per del eller visa alla.</p>
+    </div>
+    <div class="fc-filter" id="fcFilter"></div>
+    <div class="fc-count" id="fcCount"></div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </div>
+</div>
+
+<!-- ═══════════ TIDSLINJE ═══════════ -->
+<div class="section" id="tab-tidslinje">
+  <div class="wrap">
+    <div class="sh">
+      <div class="sh-num">Kronologi</div>
+      <h2 class="sh-title">Demokratins milstolpar</h2>
+      <div class="sh-bar"></div>
+      <p class="sh-desc">Viktiga datum i svensk demokratihistoria. Klicka på varje händelse.</p>
+    </div>
+    <div class="tl-container">
+      <div class="tl-line"></div>
+      <div class="tl-events" id="tlEvents"></div>
+    </div>
+  </div>
+</div>
+</main>
+
+<footer style="background:var(--ink);color:rgba(255,255,255,0.28);text-align:center;padding:22px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;">
+  SO-portalen.se &nbsp;·&nbsp; Sverige &amp; Demokratin
+  <div style="height:4px;background:linear-gradient(90deg,var(--blue) 0%,var(--blue) 36%,var(--yellow) 36%,var(--yellow) 44%,var(--blue) 44%,var(--blue) 100%);margin-top:14px;opacity:.2;border-radius:2px;"></div>
+</footer>
+
+<script>
+// ── TABS ──
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+b.dataset.tab).classList.add('active');
+  b.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+// ── ACCORDIONS ──
+function togglePart(btn){
+  const body=btn.nextElementSibling;
+  const isOpen=btn.classList.contains('open');
+  document.querySelectorAll('.part-header.open').forEach(x=>{x.classList.remove('open');x.nextElementSibling.classList.remove('open');});
+  if(!isOpen){btn.classList.add('open');body.classList.add('open');}
+}
+
+// ── MAKTPYRAMID ──
+const pyData=[
+  {color:'#C9A100',text:'#0A1628',title:'🌍 Europeisk nivå – EU',
+   body:'EU är en samarbetsorganisation med 27 medlemsländer. Beslut om handel, miljö, konsumentskydd och fri rörlighet fattas gemensamt. EU:s lagar gäller före nationell lag inom de områden EU har beslutanderätt.',
+   tags:['Europaparlamentet','EU-kommissionen','EU-rådet','Gemensamma regler']},
+  {color:'#003764',text:'#fff',title:'🏛️ Nationell nivå',
+   body:'Riksdagen (349 ledamöter) stiftar lagar och beslutar om budget. Regeringen (statsminister + ministrar) styr landet och genomför riksdagens beslut. Relationen kallas parlamentarism – regeringen måste ha riksdagens förtroende.',
+   tags:['Riksdagen','Regeringen','Statsministern','Talmannen','349 ledamöter']},
+  {color:'#0A4A6A',text:'#fff',title:'🏥 Regional nivå – 21 regioner',
+   body:'Regionerna ansvarar för hälso- och sjukvård och kollektivtrafik. De styrs av regionfullmäktige med folkvalda politiker. Länsstyrelserna representerar staten i varje län och säkerställer att nationella beslut genomförs.',
+   tags:['Sjukvård','Kollektivtrafik','Regionfullmäktige','Länsstyrelserna','Landshövdingen']},
+  {color:'#0E5030',text:'#fff',title:'🏘️ Kommunal nivå – 290 kommuner',
+   body:'Kommunerna ansvarar för vardagen: grundskola, gymnasium, förskola, äldreomsorg, vatten och avlopp. Styrs av kommunfullmäktige. Har rätt att ta ut kommunalskatt för att finansiera verksamheten.',
+   tags:['Skola','Äldreomsorg','Förskola','Kommunfullmäktige','Kommunalskatt']},
+];
+function showPyLevel(i){
+  const box=document.getElementById('pyInfo');
+  const allPy=document.querySelectorAll('.py-level');
+  if(allPy[i].classList.contains('active')){
+    allPy[i].classList.remove('active');
+    box.style.display='none';
+    return;
+  }
+  allPy.forEach((p,j)=>p.classList.toggle('active',j===i));
+  const d=pyData[i];
+  box.innerHTML=`<div class="py-info-box"><h3 style="color:${d.color==='#C9A100'?'#8B6000':d.color}">${d.title}</h3><p>${d.body}</p><div class="py-tags">${d.tags.map(t=>`<span class="py-tag">${t}</span>`).join('')}</div></div>`;
+  box.style.display='block';
+  box.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── GRUNDLAG CARDS (defined in HTML) ──
+
+// ── RIKSDAG FLOW ──
+const rfStepsData=[
+  {icon:'💡',num:'01',title:'Idé / Motion',detail:'En riksdagsledamot eller ett parti har en idé om en ny lag eller förändring. Ledamoten lämnar in en <strong>motion</strong> till riksdagen. Motionen innehåller ett konkret förslag och motivering. Varje riksdagsledamot kan lämna motioner.'},
+  {icon:'📋',num:'02',title:'Proposition',detail:'Om idén kommer från <strong>regeringen</strong> kallas förslaget en <strong>proposition</strong>. Innan propositioner lämnas in utreder ofta en statlig utredning (kommitté) frågan noggrant. Experter, myndigheter och organisationer lämnar synpunkter – en process som kallas remiss.'},
+  {icon:'🔍',num:'03',title:'Utskott',detail:'Förslaget skickas till det <strong>utskott</strong> som ansvarar för ämnet – t.ex. utbildningsutskottet för skolfrågor. Utskottets ledamöter granskar förslaget noggrant, diskuterar konsekvenser och lyssnar på experter. Sammansättningen speglar riksdagsresultatet.'},
+  {icon:'📄',num:'04',title:'Betänkande',detail:'Utskottet sammanfattar sitt arbete i ett <strong>betänkande</strong>. Det innehåller ett förslag om hur riksdagen bör besluta. Om partier inte håller med skriver de en <strong>reservation</strong> – en formell markering av avvikande åsikt. Betänkandet skickas till kammaren.'},
+  {icon:'🎤',num:'05',title:'Kammarens debatt',detail:'Betänkandet tas upp i riksdagens <strong>kammare</strong> – den stora plenisalen. Ledamöter debatterar offentligt: argumenterar för och emot förslaget. Debatterna är öppna för allmänheten och kan streamas live. Alla har rätt att sätta sig in i hur beslut fattas.'},
+  {icon:'🗳️',num:'06',title:'Omröstning',detail:'Efter debatten röstar riksdagens 349 ledamöter: <strong>ja, nej</strong> eller <strong>avstå</strong>. Majoritetens beslut vinner. Omröstningsresultatet är riksdagens officiella beslut och är bindande. Det speglar den representativa demokratin: ledamöterna röstar för sina väljares räkning.'},
+  {icon:'✅',num:'07',title:'Genomförande',detail:'Riksdagsbeslutet skickas till <strong>regeringen</strong>, som ansvarar för att det genomförs i praktiken. Ofta får en <strong>myndighet</strong> i uppdrag att ta fram regler och praktiska lösningar. Myndigheterna arbetar självständigt och sakligt – de driver inte politik.'},
+];
+function buildRFFlow(){
+  const cont=document.getElementById('rfSteps');
+  const det=document.getElementById('rfDetail');
+  cont.innerHTML=rfStepsData.map((s,i)=>`
+    ${i>0?'<div class="rf-connector"><div class="rf-arrow"></div></div>':''}
+    <div class="rf-step">
+      <button class="rf-step-btn" onclick="showRFStep(${i})" id="rfb-${i}">
+        <div class="rf-step-icon">${s.icon}</div>
+        <div class="rf-step-num">${s.num}</div>
+        <div class="rf-step-title">${s.title}</div>
+      </button>
+    </div>`).join('');
+}
+let activeRF=-1;
+function showRFStep(i){
+  const det=document.getElementById('rfDetail');
+  if(activeRF===i){document.querySelectorAll('.rf-step-btn').forEach(b=>b.classList.remove('active'));det.style.display='none';activeRF=-1;return;}
+  document.querySelectorAll('.rf-step-btn').forEach((b,j)=>b.classList.toggle('active',j===i));
+  const s=rfStepsData[i];
+  det.style.display='block';
+  det.innerHTML=`<div class="rf-detail"><h4>${s.icon} ${s.title}</h4><p>${s.detail}</p></div>`;
+  activeRF=i;
+}
+
+// ── VALSYSTEM COMPARATOR ──
+const vsCountries=[
+  {id:'se',name:'🇸🇪 Sverige',system:'Proportionellt',seats:349,
+   parties:[
+     {name:'S',pct:.31,color:'#E4003A',seats:108},
+     {name:'M',pct:.19,color:'#52B3FF',seats:68},
+     {name:'SD',pct:.21,color:'#D4B800',seats:73},
+     {name:'C',pct:.065,color:'#009933',seats:24},
+     {name:'V',pct:.064,color:'#820000',seats:24},
+     {name:'KD',pct:.055,color:'#1B1464',seats:19},
+     {name:'L',pct:.047,color:'#5BA4D0',seats:16},
+     {name:'MP',pct:.039,color:'#5DAD00',seats:18},
+   ],
+   note:'Riksdagens 349 platser fördelas proportionellt – ett parti med 20% av rösterna får ca 20% av platserna. Spärr: ett parti måste få minst 4% nationellt eller 12% i en valkrets.',
+   efficiency:92},
+  {id:'uk',name:'🇬🇧 UK',system:'Majority (FPTP)',seats:650,
+   parties:[
+     {name:'Labour',pct:.34,color:'#E4003A',seats:412},
+     {name:'Conservative',pct:.24,color:'#52B3FF',seats:121},
+     {name:'Lib Dem',pct:.12,color:'#D4940A',seats:72},
+     {name:'SNP',pct:.03,color:'#FCD34D',seats:9},
+     {name:'Other',pct:.07,color:'#9CA3AF',seats:36},
+   ],
+   note:'2024 valet: Labour fick 34% av rösterna men 63% av platserna. Conservative fick 24% men bara 18% av platserna. "First past the post" gynnar kraftigt det ledande partiet.',
+   efficiency:45},
+  {id:'us',name:'🇺🇸 USA',system:'Majority (FPTP)',seats:435,
+   parties:[
+     {name:'Republican',pct:.48,color:'#E4003A',seats:220},
+     {name:'Democrat',pct:.47,color:'#52B3FF',seats:213},
+     {name:'Other',pct:.05,color:'#9CA3AF',seats:2},
+   ],
+   note:'Representanthuset väljer en representant per valkrets. Presidentvalet sker via elektorer – en kandidat kan vinna med färre röster totalt (som 2000 och 2016).',
+   efficiency:55},
+  {id:'fr',name:'🇫🇷 Frankrike',system:'Två omgångar',seats:577,
+   parties:[
+     {name:'NFP (vänster)',pct:.26,color:'#E4003A',seats:193},
+     {name:'Centre',pct:.17,color:'#52B3FF',seats:166},
+     {name:'RN + allians',pct:.32,color:'#1B1464',seats:143},
+     {name:'Other',pct:.25,color:'#9CA3AF',seats:75},
+   ],
+   note:'Två omgångar: om ingen får >50% i omgång 1 hålls ny röstning. Välgare bildar ofta taktiska allianser i omgång 2. Resultatet kan kraftigt skilja sig från folkviljan i %.',
+   efficiency:60},
+  {id:'de',name:'🇩🇪 Tyskland',system:'Blandat system',seats:736,
+   parties:[
+     {name:'CDU/CSU',pct:.29,color:'#1B1464',seats:197},
+     {name:'SPD',pct:.26,color:'#E4003A',seats:206},
+     {name:'Gröna',pct:.15,color:'#5DAD00',seats:118},
+     {name:'FDP',pct:.12,color:'#D4B800',seats:92},
+     {name:'AfD',pct:.10,color:'#009999',seats:83},
+     {name:'Other',pct:.08,color:'#9CA3AF',seats:40},
+   ],
+   note:'Väljarna har två röster: en på en kandidat i valkretsen, en på ett parti. Hälften av platserna väljs direkt, hälften proportionellt. Speglar väljarviljan väl.',
+   efficiency:88},
+];
+let activeCountry='se';
+function buildVS(){
+  const tabs=document.getElementById('vsCountryTabs');
+  tabs.innerHTML=vsCountries.map(c=>`<button class="vs-ctab${c.id===activeCountry?' active':''}" onclick="setVSCountry('${c.id}')">${c.name}</button>`).join('');
+  renderVS();
+}
+function setVSCountry(id){activeCountry=id;buildVS();}
+function renderVS(){
+  const c=vsCountries.find(x=>x.id===activeCountry);
+  const lay=document.getElementById('vsLayout');
+  const totalSeats=c.seats;
+  const seatsHTML=c.parties.flatMap(p=>Array(p.seats).fill(`<div class="seat" style="background:${p.color};"></div>`)).join('');
+  const legendHTML=c.parties.map(p=>`<div class="vs-leg-item"><div class="vs-leg-dot" style="background:${p.color};"></div>${p.name}: ${p.seats} (${Math.round(p.pct*100)}%)</div>`).join('');
+  lay.innerHTML=`
+    <div class="vs-panel">
+      <h4>${c.name} – ${c.system}</h4>
+      <div class="vs-panel-sub">${totalSeats} platser totalt</div>
+      <div class="parliament-hem">${seatsHTML}</div>
+      <div class="vs-legend">${legendHTML}</div>
+      <div class="vs-note">${c.note}</div>
+    </div>
+    <div class="vs-panel">
+      <h4>Röster → Platser: Hur rättvist?</h4>
+      <div class="vs-panel-sub">Representationseffektivitet</div>
+      ${c.parties.map(p=>`
+        <div style="margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:3px;">
+            <span>${p.name}</span><span>${Math.round(p.pct*100)}% röster → ${Math.round(p.seats/c.seats*100)}% platser</span>
+          </div>
+          <div style="position:relative;height:12px;background:var(--border);border-radius:6px;overflow:hidden;">
+            <div style="position:absolute;height:100%;background:${p.color};opacity:.5;width:${p.pct*100}%;border-radius:6px;"></div>
+            <div style="position:absolute;height:100%;background:${p.color};width:${(p.seats/c.seats)*100}%;border-radius:6px;border:2px solid ${p.color};opacity:.85;"></div>
+          </div>
+        </div>`).join('')}
+      <div class="vs-efficiency">
+        <div class="vs-eff-label">Proportionalitetspoäng</div>
+        <div class="vs-eff-bar"><div class="vs-eff-fill" style="width:${c.efficiency}%;background:${c.efficiency>80?'var(--green)':c.efficiency>60?'var(--yellow-dk)':'var(--red)'}"></div></div>
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-top:4px;">${c.efficiency}/100 – ${c.efficiency>80?'Mycket proportionellt':c.efficiency>60?'Delvis proportionellt':'Låg proportionalitet'}</div>
+      </div>
+    </div>`;
+}
+
+// ── POLITISK KOMPASS ──
+const parties=[
+  {id:'s',name:'Socialdemokraterna',abbr:'S',color:'#E4003A',x:30,y:45,
+   tags:['Vänster','Välfärdsstat','Jämlikhet'],
+   desc:'Betonar jämlikhet och stark välfärd. Staten ska ta ansvar för skola, vård och omsorg. Generellt till vänster ekonomiskt, mer mittenorienterade i värderingsfrågor. Har historiskt dominerat svensk politik.'},
+  {id:'m',name:'Moderaterna',abbr:'M',color:'#52B3FF',x:72,y:55,
+   tags:['Höger','Individuellt ansvar','Tillväxt'],
+   desc:'Betonar individens ansvar, företagande och ekonomisk tillväxt. Vill sänka skatter och minska statens roll. Placerar sig till höger och betonar ordning och arbete. Partiet är en hörnpelare i det borgerliga blocket.'},
+  {id:'sd',name:'Sverigedemokraterna',abbr:'SD',color:'#D4B800',x:58,y:85,
+   tags:['TAN','Nationalism','Restriktiv migration'],
+   desc:'Fokuserar på nationell identitet, migration och lag och ordning. Kritiskt till invandring och betonar svenska traditioner. Ekonomiskt en blandning av vänster och höger, men tydligt åt TAN-hållet i värderingar.'},
+  {id:'c',name:'Centerpartiet',abbr:'C',color:'#009933',x:55,y:28,
+   tags:['Mitten','GAL','Decentralisering'],
+   desc:'Rötter i landsbygden, profilerar sig idag med frihet, miljö och decentralisering. Betonar entreprenörskap och ett öppet samhälle. Mittenorienterade ekonomiskt och åt GAL-hållet värderingsmässigt.'},
+  {id:'v',name:'Vänsterpartiet',abbr:'V',color:'#820000',x:18,y:32,
+   tags:['Vänster','Jämlikhet','Offentlig sektor'],
+   desc:'Vill minska ekonomiska klyftor och förespråkar en stark offentlig sektor. Kritiskt till kapitalismens konsekvenser. Tydligt till vänster ekonomiskt och progressivt i frågor om jämställdhet och mänskliga rättigheter.'},
+  {id:'kd',name:'Kristdemokraterna',abbr:'KD',color:'#1B1464',x:68,y:65,
+   tags:['Höger','Traditionellt','Familj'],
+   desc:'Betonar familjens betydelse, civilsamhällets roll och personligt ansvar. Förespråkar valfrihet i välfärden. Något till höger ekonomiskt och mer traditionellt i värderingsfrågor.'},
+  {id:'l',name:'Liberalerna',abbr:'L',color:'#5BA4D0',x:62,y:25,
+   tags:['Mitten-höger','Liberalt','Utbildning'],
+   desc:'Betonar individens frihet, utbildningens betydelse och en stark rättsstat. Skolan är central. Ekonomiskt mitten till höger, men tydligt liberala och öppna i värderingsfrågor.'},
+  {id:'mp',name:'Miljöpartiet',abbr:'MP',color:'#5DAD00',x:32,y:20,
+   tags:['Vänster','GAL','Klimat'],
+   desc:'Klimat och miljö är kärnan. Betonar hållbar utveckling, internationellt samarbete och social rättvisa. Placeras ofta till vänster ekonomiskt och tydligt åt GAL-hållet värderingsmässigt.'},
+];
+function buildCompass(){
+  const plot=document.getElementById('pcPlot');
+  parties.forEach(p=>{
+    const dot=document.createElement('div');
+    dot.className='pc-party-dot';
+    dot.style.left=p.x+'%';
+    dot.style.top=p.y+'%';
+    dot.innerHTML=`<div class="pc-dot-inner" style="background:${p.color};"></div><div class="pc-dot-label">${p.abbr}</div>`;
+    dot.addEventListener('click',()=>showPartyInfo(p));
+    plot.appendChild(dot);
+  });
+  const leg=document.getElementById('pcLegend');
+  leg.innerHTML=parties.map(p=>`<div class="pc-leg-item"><div class="pc-leg-dot" style="background:${p.color};"></div>${p.name}</div>`).join('');
+}
+function showPartyInfo(p){
+  const info=document.getElementById('pcInfo');
+  info.classList.add('show');
+  info.innerHTML=`<div class="pc-info-header"><div class="pc-info-dot" style="background:${p.color};"></div><div class="pc-info-name">${p.name}</div></div>
+    <div class="pc-info-tags">${p.tags.map(t=>`<span class="pc-info-tag" style="background:${p.color}22;border:1px solid ${p.color}55;color:${p.color}">${t}</span>`).join('')}</div>
+    <div class="pc-info-desc">${p.desc}</div>`;
+  info.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── QUESTION DATA ──
+const qData={
+  q1:[
+    {q:'Vad menas med statsskick och varför är det viktigt?',a:'Statsskicket är reglerna för hur Sverige styrs och hur den politiska makten är organiserad. Det är viktigt för att det tydliggör vem som får fatta vilka beslut och hur makten fördelas och begränsas – utan tydliga regler riskerar makten att missbrukas.'},
+    {q:'Ge två exempel på vad Sveriges grundlagar bestämmer.',a:'1) Hur politiker utses genom allmänna val. 2) Vilka fri- och rättigheter alla medborgare har, t.ex. åsiktsfrihet och demonstrationsfrihet.'},
+    {q:'Vad betyder det att Sverige är en demokrati?',a:'Att folket ytterst har makten. Medborgarna styr landet genom att rösta fram politiker som fattar beslut i deras ställe – representativ demokrati. Alla medborgare har lika rösträtt.'},
+    {q:'Förklara vad det innebär att Sverige är en rättsstat.',a:'Alla – både medborgare och myndigheter – måste följa lagen. Ingen står över lagen. Domstolarna är självständiga och dömer efter lagen, utan politisk påverkan. Det skyddar medborgarnas rättigheter och förhindrar maktmissbruk.'},
+    {q:'Varför har kungen ingen politisk makt?',a:'Sverige är en parlamentarisk demokrati där den reella makten ligger hos de folkvalda politikerna. Kungen är statschef och symbolisk representant, men kan inte påverka lagar eller politiska beslut – det är riksdag och regering som styr.'},
+    {q:'Varför fattas politiska beslut på flera olika nivåer?',a:'Grundtanken är att beslut ska fattas så nära människors vardag som möjligt. Det sprider också makten så att den inte samlas hos en enda aktör, och gör det möjligt för fler att påverka. Lokala frågor avgörs lokalt, nationella nationellt.'},
+    {q:'Vad är riksdagens viktigaste uppgifter?',a:'Riksdagen stiftar lagar, beslutar om statens budget och kontrollerar regeringen. Riksdagen kan också tvinga regeringen att avgå om den förlorar riksdagens förtroende.'},
+    {q:'Vad gör regeringen som riksdagen inte gör?',a:'Regeringen styr landet i praktiken och genomför riksdagens beslut. Den leder myndigheterna, ansvarar för utrikespolitiken och tar fram förslag på lagar (propositioner) som skickas till riksdagen för beslut.'},
+    {q:'Ge exempel på två frågor som regionerna ansvarar för.',a:'Regionerna ansvarar för hälso- och sjukvård (t.ex. var sjukhus ska ligga och hur vården organiseras) och kollektivtrafik (bussar och tåg för pendlare).'},
+    {q:'Varför märks kommunala beslut ofta tydligt i vardagen?',a:'Kommunerna ansvarar för verksamheter som medborgare möter dagligen: grundskolan, förskolan, äldreomsorgen, vatten och avlopp. Det är beslut om lokala skolor, äldreboenden och parkanläggningar som direkt påverkar livet i bostadsområdet.'},
+    {q:'Ge exempel på en fråga som kan bestämmas på EU-nivå.',a:'EU beslutar om regler för handel mellan medlemsländer, miljö- och klimatregler, konsumentskydd och möjligheten att arbeta, studera och bo i andra EU-länder.'},
+    {q:'Förklara varför det är bra att makten inte samlas på ett enda ställe.',a:'När makten är spridd och uppdelad minskar risken för maktmissbruk. Olika beslutsnivåer kontrollerar varandra. Det gör demokratin mer robust och gör att fler medborgare kan påverka genom sina lokala, regionala och nationella representanter.'},
+  ],
+  q2:[
+    {q:'Vad menas med en författning och varför är den viktig?',a:'En författning är det grundläggande regelverket för hur ett land styrs – hur makten används och begränsas. Den är viktig för att den skyddar demokratin och hindrar tillfälliga politiska majoriteter från att avskaffa grundläggande rättigheter.'},
+    {q:'Varför är Sveriges grundlagar svåra att ändra?',a:'För att skydda demokratin och hindra snabba förändringar som en tillfällig politisk majoritet kan vilja genomföra. Om grundlagarna var lika enkla att ändra som vanliga lagar riskerades demokratiska rättigheter att avskaffas.'},
+    {q:'Hur går det till när en grundlag ändras?',a:'Riksdagen måste fatta samma beslut två gånger. Mellan besluten måste det hållas ett allmänt val, vilket ger väljarna möjlighet att säga sitt – och i förlängningen välja bort politiker som föreslår förändringar de inte stöder.'},
+    {q:'Ge ett exempel på en viktig förändring i grundlagarna.',a:'1921: Kvinnor fick rösträtt – de fick för första gången delta i allmänna val. Successionsordningens ändring 1979 innebar att äldsta barnet ärver statschefsrollen oavsett kön. Dödsstraffet avskaffades i grundlagen i början av 1900-talet.'},
+    {q:'Vad är regeringsformen och vad säger den?',a:'Regeringsformen är den viktigaste av Sveriges fyra grundlagar. Den slår fast att all offentlig makt utgår från folket och beskriver hur ansvaret fördelas mellan riksdag, regering, kommuner, regioner och domstolar.'},
+    {q:'Vad betyder att all offentlig makt utgår från folket?',a:'Det innebär att Sverige är en demokrati – medborgarna är källan till all politisk makt. Makten utövas av folkvalda representanter, men det är folket som i grunden bestämmer genom fria val.'},
+    {q:'Ge exempel på två demokratiska rättigheter i regeringsformen.',a:'Rätten att uttrycka åsikter (åsiktsfrihet), delta i demonstrationer (demonstrationsfrihet), gå med i föreningar (föreningsfrihet) och utöva sin religion (religionsfrihet).'},
+    {q:'Vad är syftet med tryckfrihetsförordningen?',a:'Att skydda rätten att publicera texter i tidningar och böcker utan att staten kan stoppa eller förhandsgranska innehållet. Censur är förbjudet och journalister ska fritt kunna granska makthavare.'},
+    {q:'Vad är yttrandefrihetsgrundlagen och vad ger den rätt till?',a:'Yttrandefrihetsgrundlagen utvidgar tryckfriheten till radio, tv, webbplatser och sociala medier. Människor har rätt att uttrycka åsikter via tal, bilder och digitala medier – men hot, förtal, rasism och hets mot folkgrupp är förbjudet.'},
+    {q:'Vilka begränsningar finns för yttrandefriheten?',a:'Det är inte tillåtet att hota, förtala eller diskriminera andra människor. Rasism och hets mot folkgrupp är förbjudet, även på internet. Friheten slutar där andras trygghet och värdighet kränks.'},
+    {q:'Vad reglerar successionsordningen och varför ändrades den 1979?',a:'Successionsordningen reglerar vem som ärver rollen som statschef. 1979 ändrades den så att äldsta barnet ärver titeln oavsett kön – en viktig jämställdhetsprincip som ersatte det tidigare systemet där söner prioriterades.'},
+    {q:'Vad är Sametinget och vilka frågor arbetar det med?',a:'Sametinget är samernas folkvalda organ – fungerar som ett parlament och en myndighet. Det arbetar med frågor om samisk kultur, språk och traditioner, t.ex. bevarandet av samiska och frågor kopplade till renskötsel. Val hålls vart fjärde år.'},
+  ],
+  q3:[
+    {q:'Varför sker en stor del av riksdagens arbete i utskotten?',a:'Utskotten är specialiserade arbetsgrupper som kan granska lagförslag noggrant inom ett politikområde. Det är ett mer effektivt sätt att bearbeta komplexa frågor än att hantera allt direkt i kammaren. Grundliga utskottsarbeten minskar risken för ogenomtänkta beslut.'},
+    {q:'Hur är utskotten sammansatta och varför är det viktigt?',a:'Utskottens sammansättning speglar valresultatet – partier med fler riksdagsledamöter har fler platser i utskotten. Det är viktigt för att utskottsarbetet ska följa väljarnas vilja och för att alla partier ska ha inflytande i proportion till sin storlek.'},
+    {q:'Vad är ett betänkande och vilken funktion har det?',a:'Ett betänkande är utskottets sammanfattning och förslag till hur riksdagen bör besluta i en fråga. Det är grunden för debatten och omröstningen i kammaren och säkerställer att alla ledamöter kan sätta sig in i frågan innan beslut fattas.'},
+    {q:'Varför kan det finnas reservationer i ett betänkande?',a:'Reservationer uppstår när ett eller flera partier inte håller med om majoritetens förslag. Det är ett sätt för partierna att formellt markera avvikande åsikt och synliggöra politiska meningsskiljaktigheter – viktigt för transparensen i demokratin.'},
+    {q:'Vad händer med ett ärende i kammaren?',a:'Betänkandet tas upp och ledamöterna håller en offentlig debatt där de argumenterar för och emot förslaget. Debatten följs av en omröstning där varje ledamot röstar ja, nej eller avstår. Majoritetens beslut gäller.'},
+    {q:'Hur går en omröstning i riksdagen till?',a:'Varje ledamot kan rösta ja, nej eller avstå. Det förslag som får flest röster vinner och blir riksdagens beslut. Omröstningen är bindande för regeringen som sedan ska genomföra beslutet.'},
+    {q:'Varför är riksdagens debatter öppna för allmänheten?',a:'Öppenheten är central för demokratin – medborgarna ska kunna se hur beslut fattas och vad deras valda representanter säger och gör. Transparens är en förutsättning för ansvarsutkrävande och för ett informerat medborgarskap.'},
+    {q:'Vad händer efter att riksdagen fattat ett beslut?',a:'Regeringen tar över och ansvarar för att beslutet genomförs. Myndigheter får ofta i uppdrag att ta fram regler, riktlinjer och praktiska lösningar. Myndigheterna arbetar självständigt och sakligt.'},
+    {q:'Vilken roll har myndigheterna?',a:'Myndigheter implementerar lagar och regler inom sina respektive områden (skola, skatt, sjukvård etc.). En viktig princip är att de är självständiga – en minister får inte styra hur de fattar beslut i enskilda ärenden, för att skydda rättssäkerheten.'},
+    {q:'Varför kan man säga att demokrati tar tid?',a:'Riksdagens arbete är utformat för att säkerställa att beslut inte fattas för hastigt. Frågor utreds i utskott, diskuteras offentligt och granskas av flera parter. Det skyddar både majoritetens och minoritetens rättigheter och minskar risken för ogenomtänkta beslut.'},
+  ],
+  q4:[
+    {q:'Vilken roll har regeringen i förhållande till riksdagen?',a:'Riksdagen representerar folket och fattar de viktigaste besluten. Regeringen är den verkställande makten som planerar, samordnar och genomför politiken i praktiken – alltid inom de ramar riksdagen och lagarna sätter. Regeringen ska ha riksdagens förtroende.'},
+    {q:'Hur utses statsministern och vad är hens roll?',a:'Statsministern utses av riksdagen – talmannen föreslår en kandidat som sedan godkänns eller förkastas. Statsministern är regeringens chef, väljer övriga ministrar och samordnar regeringens arbete.'},
+    {q:'Varför behöver regeringen riksdagens stöd?',a:'I en parlamentarisk demokrati måste den verkställande makten ha stöd av folkrepresentationen. Om riksdagen inte har förtroende för regeringen kan den tvingas avgå. Det gör att folkets vilja (via riksdagen) styr vad regeringen kan genomföra.'},
+    {q:'Vad är en proposition?',a:'En proposition är ett lagförslag som regeringen lämnar till riksdagen. Det är ett genomarbetat förslag, ofta resultatet av utredningar och remissförfarande där experter, myndigheter och organisationer fått yttra sig.'},
+    {q:'Varför är statsbudgeten viktig?',a:'Budgeten visar hur mycket pengar staten tar in och hur de fördelas. Genom budgeten prioriterar regeringen vilka samhällsområden som ska satsa på – skola, vård, försvar eller infrastruktur. Det är det tydligaste uttrycket för regeringens politiska prioriteringar.'},
+    {q:'Ge exempel på utrikespolitiska frågor regeringen ansvarar för.',a:'Regeringen ansvarar för diplomatiska relationer med andra länder, säkerhetspolitik (t.ex. NATO-samarbetet), EU-förhandlingar och att representera Sverige vid internationella toppmöten och avtal.'},
+    {q:'Vad gör departementen och tjänstemännen i Regeringskansliet?',a:'Varje departement samordnar arbetet inom ett politikområde (t.ex. utbildningsdepartementet för skolfrågor). Tusentals tjänstemän – experter, inte politiker – tar fram underlag, analyserar konsekvenser och förbereder beslut.'},
+    {q:'Varför får ministrar inte styra myndigheters enskilda beslut?',a:'Det är en grundläggande rättssäkerhetsprincip. Om ministrar kunde styra enskilda myndighetsbeslut riskerades att politiska hänsyn togs istället för sakliga. Medborgare ska kunna lita på att myndigheter agerar efter lag, inte efter politikers önskemål.'},
+    {q:'Vad kan regeringen göra i kris, och vilka begränsningar finns?',a:'Regeringen kan fatta snabba beslut för att skydda befolkningen och kan tillfälligt begränsa vissa fri- och rättigheter. Men åtgärderna måste ha stöd i lag och vara tidsbegränsade. Grundlagarna och riksdagens kontroll sätter gränser även i krissituationer.'},
+    {q:'Hur och varför granskar riksdagen regeringen?',a:'Riksdagen kan ställa frågor till ministrar, kräva förklaringar och kritisera beslut. Vid allvarliga fel kan riksdagen visa misstroendevotum, vilket kan tvinga minister eller hela regering att avgå. Det är en grundläggande del av maktdelning och demokratisk kontroll.'},
+  ],
+  q5:[
+    {q:'Varför är ansvaret i Sverige uppdelat på flera politiska nivåer?',a:'Grundtanken är att beslut ska fattas där de passar bäst – nära människors vardag. Uppdelningen sprider också makten så att den inte samlas hos en enda aktör, och gör det möjligt för fler att delta i demokratin.'},
+    {q:'Vilka typer av frågor ansvarar regionerna för?',a:'Regionerna ansvarar för hälso- och sjukvård och kollektivtrafik – frågor som är för stora för en enskild kommun men som inte behöver skötas av staten. De arbetar också med regional utveckling, utbildning och arbetsmarknad på sikt.'},
+    {q:'Hur påverkar regionernas beslut vardagen?',a:'Regionernas beslut påverkar var du kan söka vård, hur länge du behöver vänta, vilka bussar och tåg som finns och när de går. Det är beslut som märks direkt om du är sjuk, pendlar till jobbet eller ska ta med barnen till sjukhuset.'},
+    {q:'Varför kan kommunpolitiken upplevas som mer nära?',a:'Kommunerna ansvarar för verksamheter som medborgare möter varje dag: skolan barnen går i, äldreboendet föräldrarna bor på, vatten och avlopp, sophämtningen. Det är konkreta och lokala frågor som direkt berör livet i det egna bostadsområdet.'},
+    {q:'Ge exempel på verksamheter kommunen ansvarar för.',a:'Grundskola, gymnasium, förskola, fritidshem, äldreomsorg, vatten och avlopp, sophämtning och avfallshantering, idrotts- och fritidsanläggningar samt lokal planering och stadsbyggnad.'},
+    {q:'Hur fungerar kommunfullmäktige i jämförelse med riksdagen?',a:'Kommunfullmäktige är kommunens "riksdag" – det är där de stora besluten om mål, riktning och ekonomi tas. Riksdagen beslutar för hela landet, kommunfullmäktige för kommunen. Båda är folkvalda och väljs i allmänna val.'},
+    {q:'Varför är budgeten viktig i kommuner och regioner?',a:'Pengarna räcker sällan till allt och politiker måste prioritera. Budgeten avgör i praktiken vad som satsas på och vad som minskas. Det är ett av de tydligaste uttrycken för politiska prioriteringar på lokal och regional nivå.'},
+    {q:'Varför kan ekonomiska beslut se olika ut i olika kommuner?',a:'Behoven varierar: en kommun med många barn behöver mer resurser till skola, en med många äldre till omsorg. Skatteintäkterna skiljer sig beroende på hur många som arbetar och kommunens ekonomiska situation. Lokala förutsättningar kräver lokala lösningar.'},
+    {q:'Vilken roll har länsstyrelsen i Sveriges politiska system?',a:'Länsstyrelsen representerar staten i varje länk och fungerar som länken mellan nationell politik och regional verklighet. Den utövar tillsyn, samordnar frågor som berör flera kommuner och säkerställer att nationella beslut genomförs likvärdigt i hela landet.'},
+    {q:'Hur samarbetar stat, regioner och kommuner vid kriser?',a:'Regioner hanterar vård och smittskydd, kommuner hanterar omsorg och skola lokalt, och staten samordnar nationella åtgärder. Samverkan är avgörande eftersom kriser påverkar flera nivåer och sektorer samtidigt.'},
+    {q:'Varför är det viktigt att veta vilken nivå som ansvarar?',a:'Kunskap om ansvarsfördelningen gör det lättare att påverka och att förstå nyheter om politik. Om du vet att skolfrågor är kommunens ansvar vet du att du ska kontakta kommunpolitiker – inte rikspolitiker – om du vill påverka din skola.'},
+    {q:'Hur kan kunskap om politiska nivåer göra det lättare att påverka?',a:'Om du vet vem som ansvarar för vad vet du vem du ska vända dig till. Vill du påverka vården kontaktar du regionpolitiker. Vill du påverka skolan kontaktar du kommunen. Rätt adressat ökar chansen att din röst faktiskt hörs.'},
+  ],
+  q6:[
+    {q:'Varför är val ett viktigt sätt att påverka i demokratin?',a:'Genom val ger medborgarna mandat åt politiker att fatta beslut. Det är det viktigaste formella sättet att utkräva ansvar – politiker som inte levererar kan väljas bort. Valet omvandlar folkviljan till politisk representation.'},
+    {q:'Vad är syftet med en valrörelse?',a:'Under valrörelsen försöker partierna presentera sin politik och nå ut till väljarna via debatter, kampanjer och personliga möten. Det är också en tid för partierna att lyssna på väljarnas prioriteringar. Valrörelsen intensifierar den politiska debatten i samhället.'},
+    {q:'Vad menas med fria och hemliga val?',a:'Fria val: ingen får tvinga eller påverka hur man röstar. Hemliga val: ingen behöver berätta hur man röstat. Hemligheten skyddar väljaren från konsekvenser och möjliggör ett ärligt uttryck för väljarviljan utan rädsla.'},
+    {q:'Varför är flerpartisystem viktiga?',a:'För att ett val ska vara genuint demokratiskt måste det finnas flera alternativ att välja mellan. Flerpartisystem och politisk mångfald säkerställer att olika åsikter och perspektiv kan representeras i folkförsamlingen.'},
+    {q:'Vilka fyra allmänna val finns i Sverige?',a:'1) Riksdagsval, 2) Regionfullmäktigeval, 3) Kommunfullmäktigeval – alla tre hålls vart fjärde år, samma dag. 4) Val till Europaparlamentet – hålls vart femte år, separat från de övriga.'},
+    {q:'Vad är skillnaden mellan riksdagsval och EU-parlamentsval?',a:'Riksdagsvalet hålls vart fjärde år och avgör vilka som styr Sverige nationellt. EU-parlamentsvalet hålls vart femte år och väljer representanter till EU:s parlament. De hålls inte samma år. Valdeltagandet är historiskt lägre i EU-valet.'},
+    {q:'Vilka regler gäller för rösträtt i Sverige?',a:'Riksdagsvalet: krävs svenskt medborgarskap och att man fyllt 18 år på valdagen. Kommun- och regionval: även EU-medborgare, norrmän och islänningar folkbokförda i Sverige får rösta, liksom andra utländska medborgare som bott i Sverige minst tre år.'},
+    {q:'Vad visar texten om valdeltagandet och demokratiska utmaningar?',a:'Valdeltagandet i Sverige är högt – över 80% i allmänna val. Men yngre, lågutbildade och vissa grupper röstar i lägre utsträckning. Det är en demokratisk utmaning eftersom valresultatet påverkas av vem som faktiskt deltar.'},
+    {q:'Vad är kyrkoval och hur skiljer det sig från allmänna val?',a:'I kyrkovalet väljs ledamöter till Svenska kyrkans beslutande organ. Det är inte ett allmänt val – bara medlemmar i Svenska kyrkan får rösta. Rösträttsålder är 16 år. Kyrkovalet hålls vart fjärde år, men inte samma år som de allmänna valen.'},
+    {q:'Hur fungerar proportionellt valsystem i Sverige?',a:'Platserna i riksdagen fördelas i proportion till röstantalet. Ett parti med 20% av rösterna får ca 20% av platserna. Det gör att fler röster räknas och att även mindre partier kan representeras. Nackdel: kan vara svårt att bilda stabil majoritet.'},
+    {q:'Vad menas med majoritetsval i enmansvalkretsar (UK)?',a:'Landet delas in i valkretsar som var och en väljer en representant. Den kandidat som får flest röster vinner, oavsett om det är 51% eller 32%. Alla andra röster "försvinner". Gynnar stora partier och ger ofta tydliga majoriteter.'},
+    {q:'Hur skiljer sig USA:s valsystem från det svenska?',a:'USA använder majoritetssystemet FPTP för kongressen. Presidentvalet sker indirekt via elektorer – en kandidat kan vinna trots att hen fått färre totala röster (som 2000 och 2016). Systemet leder till ett tvåpartisystem.'},
+    {q:'Hur fungerar Frankrikes valsystem med två omgångar?',a:'Om ingen kandidat får mer än 50% i omgång 1, hålls en andra omgång med de starka kandidaterna. Syftet är att den valde ska ha ett tydligare folkligt stöd. Väljare kan rösta taktiskt i omgång 2. Gäller presidentval och nationalförsamling.'},
+    {q:'Vad innebär Tysklands blandade valsystem?',a:'Väljarna har två röster: en på en personlig kandidat i valkretsen och en på ett parti. Hälften av platserna ges till direktvalda kandidater, hälften proportionellt. Kombinationen ger både lokal representation och proportionellt rättvist resultat.'},
+    {q:'Varför har länder valt olika valsystem?',a:'Olika historiska, kulturella och politiska traditioner har format valsystemen. Inget system är perfekt – proportionella system ger rättvisare representation men kan ge instabila regeringar. Majoritetsval ger tydliga vinnare men missar många röster. Alla system är kompromisser.'},
+  ],
+  q7:[
+    {q:'Varför tycker människor olika om hur ett land ska styras?',a:'Samhället består av individer med olika erfarenheter, behov och värderingar. Dessa skillnader påverkar vilka lösningar man föredrar. En person med dåliga erfarenheter av statliga lösningar kan föredra privata, medan en som behövt välfärden kan prioritera den högt.'},
+    {q:'Ge exempel på politiska frågor där åsikter skiljer sig.',a:'Hur höga skatterna ska vara, om välfärden ska drivas av staten eller privata aktörer, hur strikta reglerna för invandring ska vara, hur ambitiös klimatpolitiken ska vara, hur mycket satsning som ska göras på lag och ordning.'},
+    {q:'Varför används politiska modeller?',a:'Modeller som höger–vänster-skalan och GAL–TAN-skalan hjälper oss att orientera oss i den komplexa politiska terrängen. De är förenklade kartor som gör det lättare att förstå varför partier samarbetar, konkurrerar och hamnar i konflikt.'},
+    {q:'Vad beskriver höger–vänster-skalan?',a:'Den beskriver primärt partiers syn på ekonomi och välfärd: hur stor roll staten ska ha, hur höga skatterna ska vara och hur välfärden ska organiseras. Ursprungligen handlade den om historiska konflikter om makt och resurser.'},
+    {q:'Hur skiljer sig vänsterpartier från högerpartier i synen på staten?',a:'Vänsterpartier betonar jämlikhet och gemensamt ansvar – staten ska aktivt minska klyftor via skatter och välfärd. Högerpartier betonar individens frihet och ansvar – lägre skatter och minskad statlig styrning skapar tillväxt och frihet.'},
+    {q:'Varför är gränsen mellan höger och vänster ibland flytande?',a:'Många partier kombinerar idéer från båda sidor. Ett parti kan förespråka stark välfärd (typiskt vänster) men betona vikten av företagande (typiskt höger). Verkligheten är mer komplex än en endimensionell skala.'},
+    {q:'Varför räcker inte ekonomi för att förstå politiska skillnader?',a:'Många politiska konflikter handlar om värderingar, identitet och samhällssyn – inte ekonomi. Frågor om migration, hbtq-rättigheter, nationalism, miljö och traditioner kan skilja partier som är ekonomiskt nära varandra.'},
+    {q:'Vad står GAL för och vilka värderingar betonas?',a:'GAL = Grön, Alternativ, Libertariansk. Partier åt GAL-hållet betonar individens frihet, mänskliga rättigheter, öppenhet, internationellt samarbete, kulturell mångfald och miljöfokus.'},
+    {q:'Vad står TAN för och vilka värderingar är viktiga?',a:'TAN = Traditionell, Auktoritär, Nationalistisk. Partier åt TAN-hållet betonar traditioner, nationell gemenskap, lag och ordning, nationellt självbestämmande och att förändringar ska ske långsamt med hänsyn till traditioner.'},
+    {q:'Varför kan ekonomiskt nära partier ha svårt att samarbeta?',a:'Om de har olika syn på värderingsfrågor – t.ex. migration, HBTQ-rättigheter eller nationalism – kan skiljelinjerna vara oöverkomliga trots ekonomisk likhet. GAL–TAN-skalan hjälper förklara dessa konflikter.'},
+    {q:'Varför behövs båda modellerna?',a:'Höger–vänster beskriver ekonomiska skiljelinjer, GAL–TAN beskriver värderingsskiljelinjer. Många partier placerar sig olika på de två skalorna. Utan båda modellerna missar man en viktig dimension av vad som faktiskt driver politiska konflikter och samarbeten.'},
+    {q:'Varför är samarbete nödvändigt i svensk politik?',a:'Inget enskilt parti brukar få egen majoritet i riksdagen. Koalitioner och stödöverenskommelser är nödvändiga för att kunna styra landet. Det kräver förhandlingar och kompromisser där partierna ger upp delar av sin politik.'},
+    {q:'Vad menas med sakfrågeorganisationer och hur påverkar de politiken?',a:'Organisationer som arbetar med enskilda frågor – t.ex. miljö, djurskydd eller mänskliga rättigheter. De påverkar via kampanjer, rapporter, demonstrationer och möten med politiker. Trots att de inte ställer upp i val kan de ha stort politiskt inflytande.'},
+    {q:'Välj två riksdagspartier och beskriv deras politik.',a:'Exempel: Vänsterpartiet betonar ekonomisk jämlikhet och stark offentlig sektor – tydligt till vänster ekonomiskt och progressivt i värderingsfrågor. Sverigedemokraterna fokuserar på nationell identitet och restriktiv migration – ekonomiskt blandat men tydligt åt TAN-hållet.'},
+    {q:'Hur kan kunskap om politiska modeller hjälpa en medborgare?',a:'Modellerna gör det lättare att förstå varför partier samarbetar eller inte, att se mönster i debatten och att placera in partier och politiska frågor i ett sammanhang. Det gör det enklare att ta informerade ställningstaganden i politiken.'},
+  ],
+};
+
+function showQDel(id,btn){
+  document.querySelectorAll('.qs-list').forEach(q=>q.classList.remove('active'));
+  document.querySelectorAll('.del-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('qs-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function renderQuestions(){
+  Object.entries(qData).forEach(([del,qs])=>{
+    const c=document.getElementById('qs-'+del);
+    c.innerHTML=qs.map((q,i)=>`
+      <div class="q-card">
+        <div class="q-num-label">Fråga ${i+1} av ${qs.length}</div>
+        <div class="q-text">${q.q}</div>
+        <textarea class="q-area" placeholder="Skriv ditt svar…" rows="3"></textarea>
+        <div class="q-footer">
+          <span class="q-hint">Formulera med egna ord först</span>
+          <button class="show-ans-btn" onclick="toggleAns('${del}',${i},this)">👁 Visa modellsvar</button>
+        </div>
+        <div class="q-answer" id="qa-${del}-${i}">
+          <div class="q-ans-label">Modellsvar</div>${q.a}
+        </div>
+      </div>`).join('');
+  });
+}
+function toggleAns(del,i,btn){
+  const el=document.getElementById('qa-'+del+'-'+i);
+  if(el.classList.contains('show')){el.classList.remove('show');btn.textContent='👁 Visa modellsvar';btn.classList.remove('shown');}
+  else{el.classList.add('show');btn.textContent='✕ Dölj';btn.classList.add('shown');}
+}
+
+// ── FLASHCARDS ──
+const fcData=[
+  {t:'Statsskick',d:'Reglerna för hur Sverige styrs och hur den politiska makten är organiserad.',del:1},
+  {t:'Grundlag',d:'De viktigaste lagarna i Sverige – extra svåra att ändra, skyddar demokratin.',del:1},
+  {t:'Rättsstat',d:'Alla – även myndigheter och politiker – måste följa lagen. Domstolarna är självständiga.',del:1},
+  {t:'Parlamentarism',d:'Systemet där regeringen måste ha riksdagens förtroende för att kunna styra.',del:1},
+  {t:'Riksdag',d:'Sveriges högsta beslutande församling med 349 folkvalda ledamöter.',del:1},
+  {t:'Talman',d:'Riksdagens ordförande – ska vara opartisk och föreslår statsministerkandidat.',del:1},
+  {t:'Kommunfullmäktige',d:'Kommunens folkvalda beslutande organ – kommunens "riksdag".',del:1},
+  {t:'Länsstyrelse',d:'Statens representant i varje län – samordnar och ser till att nationella beslut genomförs.',del:1},
+  {t:'Regeringsformen',d:'Den viktigaste grundlagen – beskriver hur Sverige styrs och att all makt utgår från folket.',del:2},
+  {t:'Tryckfrihetsförordningen',d:'Grundlag som förbjuder censur och skyddar rätten att publicera texter fritt.',del:2},
+  {t:'Yttrandefrihetsgrundlagen',d:'Utvidgar tryckfriheten till radio, tv och digitala medier.',del:2},
+  {t:'Successionsordningen',d:'Grundlag som reglerar vem som ärver rollen som statschef (äldsta barnet, oavsett kön).',del:2},
+  {t:'Sametinget',d:'Samernas folkvalda organ – beslutar i frågor om samisk kultur, språk och renskötsel.',del:2},
+  {t:'Diskriminering',d:'Att behandla människor orättvist på grund av kön, etnicitet, religion, ålder m.m.',del:2},
+  {t:'Censur',d:'Staten stoppandet av information innan publicering – förbjudet i Sverige.',del:2},
+  {t:'Motion',d:'Lagförslag som lämnas in av en riksdagsledamot.',del:3},
+  {t:'Proposition',d:'Lagförslag som lämnas in av regeringen till riksdagen.',del:3},
+  {t:'Utskott',d:'Riksdagens specialiserade arbetsgrupper som granskar lagförslag inom ett politikområde.',del:3},
+  {t:'Betänkande',d:'Utskottets sammanfattning och förslag till hur riksdagen bör besluta.',del:3},
+  {t:'Reservation',d:'Formell markering när ett parti inte håller med om majoritetens förslag i ett betänkande.',del:3},
+  {t:'Kammare',d:'Den stora salen i riksdagen där debatter och omröstningar hålls.',del:3},
+  {t:'Statsminister',d:'Regeringens chef – utses av riksdagen via talmannens förslag.',del:4},
+  {t:'Departement',d:'Del av Regeringskansliet som samordnar arbetet inom ett politikområde (t.ex. utbildning).',del:4},
+  {t:'Regeringskansliet',d:'Statsministerns kansli och alla departement – tusentals tjänstemän stödjer regeringens arbete.',del:4},
+  {t:'Myndighet',d:'Statlig organisation som verkställer lagar och regler självständigt.',del:4},
+  {t:'Misstroendevotum',d:'Riksdagens möjlighet att tvinga en minister eller hel regering att avgå.',del:4},
+  {t:'Landshövding',d:'Statens högste representant i ett län – leder länsstyrelsens arbete.',del:5},
+  {t:'Region',d:'Den politiska nivån ovanför kommunen – ansvarar för sjukvård och kollektivtrafik.',del:5},
+  {t:'Kommunalskatt',d:'Skatten kommuninvånare betalar till sin kommun för att finansiera lokal verksamhet.',del:5},
+  {t:'Samverkan',d:'Samarbete mellan stat, regioner och kommuner – viktigt vid kriser och komplexa frågor.',del:5},
+  {t:'Proportionellt valsystem',d:'Platser fördelas i proportion till röster – Sverige använder detta. Fler röster "räknas".',del:6},
+  {t:'Majoritetsval / FPTP',d:'"First past the post" – vinnaren tar allt i varje valkrets. Används i UK och USA.',del:6},
+  {t:'Rösträtt',d:'Rätten att delta i val. I riksdagsval krävs svenskt medborgarskap och 18 år.',del:6},
+  {t:'Valdeltagande',d:'Andelen röstberättigade som faktiskt röstar. Sverige har ca 80% i riksdagsval.',del:6},
+  {t:'Valrörelse',d:'Perioden före val då partierna kampanjar och presenterar sin politik.',del:6},
+  {t:'Kyrkoval',d:'Val till Svenska kyrkans beslutsorgans – enbart för kyrkomedlemmar, rösträttsålder 16 år.',del:6},
+  {t:'Elektorer (USA)',d:'Valda representanter i USA som formellt röstar fram presidenten – kan ge "fel" vinnare.',del:6},
+  {t:'Höger–vänster-skalan',d:'Modell för partiers syn på ekonomi och statens roll – vänster vill mer stat, höger mer frihet.',del:7},
+  {t:'GAL–TAN-skalan',d:'Modell för värderingar: GAL = öppenhet och frihet, TAN = traditioner och nationell gemenskap.',del:7},
+  {t:'GAL',d:'Grön, Alternativ, Libertariansk – öppenhet, mångfald, miljöfokus, mänskliga rättigheter.',del:7},
+  {t:'TAN',d:'Traditionell, Auktoritär, Nationalistisk – traditioner, lag & ordning, nationell identitet.',del:7},
+  {t:'Koalition',d:'Regeringssamarbete mellan två eller fler partier när inget parti ensamt har majoritet.',del:7},
+  {t:'Sakfrågeorganisation',d:'Organisation som arbetar för en specifik fråga (miljö, djurskydd) och påverkar politiken utan att ställa upp i val.',del:7},
+  {t:'Kompromiss',d:'Att partierna ger upp en del av sin politik för att nå en gemensam lösning.',del:7},
+];
+function renderFC(filter){
+  const grid=document.getElementById('fcGrid');
+  const count=document.getElementById('fcCount');
+  const cards=filter==='alla'?fcData:fcData.filter(c=>c.del===parseInt(filter));
+  count.textContent=cards.length+' begrepp';
+  grid.innerHTML=cards.map(c=>`
+    <div class="fc-card" onclick="this.classList.toggle('flipped')">
+      <div class="fc-inner">
+        <div class="fc-front">
+          <div class="fc-del">Del ${c.del}</div>
+          <h4>${c.t}</h4>
+          <div class="fc-hint">▸ klicka för definition</div>
+        </div>
+        <div class="fc-back"><p>${c.d}</p></div>
+      </div>
+    </div>`).join('');
+}
+function buildFCFilter(){
+  const wrap=document.getElementById('fcFilter');
+  const opts=[['alla','Alla'],['1','Del 1'],['2','Del 2'],['3','Del 3'],['4','Del 4'],['5','Del 5'],['6','Del 6'],['7','Del 7']];
+  wrap.innerHTML=opts.map(([v,l])=>`<button class="fc-btn${v==='alla'?' active':''}" onclick="fcSwitch('${v}',this)">${l}</button>`).join('');
+}
+function fcSwitch(v,btn){
+  document.querySelectorAll('.fc-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFC(v);
+}
+
+// ── TIMELINE ──
+const tlData=[
+  {year:'1766',icon:'📰',title:'Tryckfrihetsförordningen',desc:'Världens äldsta tryckfrihetslag antas. Sverige förbjuder censur och garanterar pressfrihet.',col:'#005B99'},
+  {year:'1809',icon:'⚖️',title:'Nya regeringsformen',desc:'En ny grundlag antas efter Gustaf IV Adolfs avsättning. JO – Justitieombudsmannen – inrättas som folkets skydd mot staten.',col:'#217A4B'},
+  {year:'1864',icon:'🚶',title:'Näringsfrihet och rörlighet',desc:'Rätten att flytta och välja yrke fritt slås fast. Livegenskap och skråväsende avskaffas.',col:'#005B99'},
+  {year:'1921',icon:'🗳️',title:'Allmän rösträtt för kvinnor',desc:'Alla vuxna svenska medborgare – oavsett kön – får rätt att rösta i riksdagsval.',col:'#CC2936'},
+  {year:'1944',icon:'🏭',title:'Folkhemsbygget',desc:'Socialdemokraterna presenterar efterkrigsprogrammet som formar det moderna välfärdssamhället.',col:'#E4003A'},
+  {year:'1974',icon:'📜',title:'Ny regeringsform',desc:'Sverige antar en helt ny regeringsform som fortfarande gäller. Kungen mister formellt all politisk makt.',col:'#005B99'},
+  {year:'1979',icon:'👑',title:'Successionsordningen ändras',desc:'Äldsta barnet ärver statschefsrollen oavsett kön. En viktig jämställdhetsreform.',col:'#217A4B'},
+  {year:'1991',icon:'📢',title:'Yttrandefrihetsgrundlagen',desc:'Den fjärde grundlagen stiftas – utvidgar skyddet till radio, tv och digitala medier.',col:'#005B99'},
+  {year:'1995',icon:'🇪🇺',title:'Sverige går med i EU',desc:'Efter en folkomröstning (52,3% ja) blir Sverige EU-medlem från 1 januari 1995.',col:'#FECC02'},
+  {year:'2000',icon:'🤝',title:'Riksdag och regering samlas',desc:'Riksdagen flyttar till Riksdagshuset på Helgeandsholmen. Ny ordning för riksmötet.',col:'#217A4B'},
+  {year:'2010',icon:'🏛️',title:'Kommunalt självstyre stärks',desc:'Den kommunala självstyrelsen stärks i grundlagen – kommunernas rätt att sköta egna angelägenheter tydliggörs.',col:'#005B99'},
+  {year:'2022',icon:'🛡️',title:'NATO-ansökan',desc:'Sverige ansöker om NATO-medlemskap – en historisk förändring av det svenska säkerhetspolitiska valet.',col:'#CC2936'},
+];
+function renderTimeline(){
+  const wrap=document.getElementById('tlEvents');
+  wrap.innerHTML=tlData.map((e,i)=>{
+    const card=`<div class="tl-card" id="tlc-${i}" onclick="toggleTL(${i})">
+      <div class="tl-icon">${e.icon}</div>
+      <h4>${e.title}</h4>
+      <p class="tl-desc">${e.desc}</p>
+    </div>`;
+    const center=`<div class="tl-center">
+      <div class="tl-dot" style="background:${e.col};"></div>
+      <div class="tl-year-lbl">${e.year}</div>
+    </div>`;
+    if(i%2===0)return`<div class="tl-event"><div class="tl-content">${card}</div>${center}<div class="tl-empty"></div></div>`;
+    return`<div class="tl-event"><div class="tl-empty"></div>${center}<div class="tl-content">${card}</div></div>`;
+  }).join('');
+}
+function toggleTL(i){document.getElementById('tlc-'+i).classList.toggle('active');}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildRFFlow();
+  buildVS();
+  buildCompass();
+  buildFCFilter();
+  renderFC('alla');
+  renderQuestions();
+  renderTimeline();
+});
+</script>
+</body>
+</html>
