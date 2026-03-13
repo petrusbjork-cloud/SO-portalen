@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Välstånd och fattigdom – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Inter:wght@300;400;600&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Premium Dark Theme */
+  --bg-deep: #080B12;
+  --bg-panel: #111827;
+  --bg-glass: rgba(17, 24, 39, 0.7);
+  
+  --primary: #38BDF8; /* Ljusblå (Hopp/Utveckling) */
+  --primary-glow: rgba(56, 189, 248, 0.4);
+  --accent-red: #F43F5E; /* Varning/Extrem fattigdom */
+  --accent-gold: #FBBF24; /* Välstånd/Kapital */
+  --accent-green: #34D399; /* Ekologi/Höginkomst */
+  
+  --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(255, 255, 255, 0.25);
+  
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', sans-serif;
+  --mono: 'Space Mono', monospace;
+  
+  --shadow-neon: 0 0 20px var(--primary-glow);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  font-family: var(--sans);
+  line-height: 1.8;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(244, 63, 94, 0.05) 0%, transparent 50%);
+}
+
+/* ── PROGRESS BAR ── */
+#progress { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: linear-gradient(90deg, var(--accent-red), var(--primary), var(--accent-green)); z-index: 9999; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 70vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 4rem 2rem; position: relative;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url('data:image/svg+xml;utf8,<svg width="40" height="40" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="rgba(255,255,255,0.05)"/></svg>');
+  z-index: -1;
+}
+.kicker { font-family: var(--mono); font-size: 0.85rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--primary); margin-bottom: 1.5rem; animation: fadeInDown 1s ease; }
+.hero h1 { font-family: var(--serif); font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; animation: fadeInUp 1s ease 0.2s both; }
+.hero h1 em { color: transparent; -webkit-text-stroke: 1px var(--text-main); font-style: italic; }
+.hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; animation: fadeInUp 1s ease 0.4s both; }
+
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── APP NAVIGATION (GLASSMORPHISM) ── */
+.nav-container {
+  position: sticky; top: 20px; z-index: 100; max-width: 1000px; margin: 0 auto 3rem;
+  background: var(--bg-glass); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-light); border-radius: 100px; padding: 0.5rem;
+  display: flex; overflow-x: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  scrollbar-width: none;
+}
+.nav-container::-webkit-scrollbar { display: none; }
+.nav-btn {
+  flex: 1; min-width: max-content; padding: 0.75rem 1.5rem; background: transparent; border: none;
+  color: var(--text-muted); font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;
+  border-radius: 100px; cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-btn:hover { color: var(--text-main); background: rgba(255,255,255,0.05); }
+.nav-btn.active { background: var(--text-main); color: var(--bg-deep); font-weight: bold; box-shadow: 0 0 15px rgba(255,255,255,0.2); }
+.nav-btn.quiz-btn { color: var(--accent-green); border: 1px solid rgba(52, 211, 153, 0.3); margin-left: 0.5rem; }
+.nav-btn.quiz-btn:hover { background: rgba(52, 211, 153, 0.1); color: var(--accent-green); }
+.nav-btn.quiz-btn.active { background: var(--accent-green); color: var(--bg-deep); box-shadow: 0 0 15px rgba(52, 211, 153, 0.4); }
+
+/* ── MAIN CONTENT ── */
+.content-wrapper { max-width: 800px; margin: 0 auto; padding: 0 2rem 6rem; }
+.tab-pane { display: none; opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
+.tab-pane.active { display: block; opacity: 1; transform: translateY(0); }
+
+h2 { font-family: var(--serif); font-size: 2.5rem; font-weight: 700; color: var(--primary); margin: 3rem 0 1.5rem; line-height: 1.2; }
+h3 { font-family: var(--serif); font-size: 1.75rem; color: var(--text-main); margin: 2.5rem 0 1rem; }
+p { margin-bottom: 1.5rem; font-size: 1.125rem; }
+.lead { font-size: 1.35rem; font-weight: 300; color: var(--text-muted); border-left: 3px solid var(--primary); padding-left: 1.5rem; margin-bottom: 2.5rem; }
+ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+li { margin-bottom: 0.75rem; font-size: 1.125rem; }
+strong { color: var(--text-main); font-weight: 600; }
+
+.fact-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border-light); border-left: 3px solid var(--accent-gold); padding: 1.5rem 2rem; border-radius: 0 12px 12px 0; margin: 2rem 0; }
+.fact-box-title { font-family: var(--mono); font-size: 0.8rem; text-transform: uppercase; color: var(--accent-gold); margin-bottom: 0.5rem; letter-spacing: 1px; }
+
+/* ── MAGISK INTERAKTIV 1: ÖVERLEVNADSSIMULATORN ── */
+.sim-panel {
+  background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 16px;
+  padding: 2rem; margin: 3rem 0; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+.sim-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border-light); padding-bottom: 1rem; }
+.sim-title { font-family: var(--mono); color: var(--accent-gold); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+.sim-stats { display: flex; gap: 2rem; }
+.stat-box { text-align: right; }
+.stat-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 1px; }
+.stat-value { font-family: var(--mono); font-size: 1.5rem; font-weight: bold; color: var(--text-main); transition: color 0.3s; }
+.stat-value.danger { color: var(--accent-red); animation: shake 0.5s; }
+.sim-story { font-size: 1.2rem; min-height: 100px; margin-bottom: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 4px solid var(--primary); }
+.sim-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn-action {
+  flex: 1; min-width: 200px; padding: 1rem; background: transparent; border: 1px solid var(--border-focus);
+  color: var(--text-main); border-radius: 8px; font-family: var(--sans); font-size: 1rem; cursor: pointer;
+  transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+}
+.btn-action:hover { background: rgba(255,255,255,0.05); border-color: var(--primary); transform: translateY(-2px); }
+.btn-action span { font-size: 1.5rem; }
+.game-over { display: none; text-align: center; color: var(--accent-red); font-family: var(--serif); font-size: 2rem; margin-top: 1rem; }
+
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+/* ── MAGISK INTERAKTIV 2: HÅLLBARHETSMOTORN ── */
+.engine-container { display: flex; flex-direction: column; align-items: center; margin: 4rem 0; padding: 3rem; background: var(--bg-panel); border-radius: 24px; position: relative; overflow: hidden; }
+.engine-container::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle, rgba(52, 211, 153, 0.05) 0%, transparent 70%); pointer-events: none; }
+.pillars { display: flex; gap: 2rem; width: 100%; justify-content: center; flex-wrap: wrap; position: relative; z-index: 2; }
+.pillar-btn {
+  background: rgba(0,0,0,0.4); border: 2px solid var(--border-light); padding: 2rem 1.5rem; border-radius: 16px; width: 200px;
+  text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.pillar-btn:hover { border-color: var(--text-muted); }
+.pillar-btn.active.soc { border-color: var(--accent-red); box-shadow: 0 0 20px rgba(244, 63, 94, 0.3); }
+.pillar-btn.active.eco { border-color: var(--accent-gold); box-shadow: 0 0 20px rgba(251, 191, 36, 0.3); }
+.pillar-btn.active.env { border-color: var(--accent-green); box-shadow: 0 0 20px rgba(52, 211, 153, 0.3); }
+.pillar-icon { font-size: 2.5rem; margin-bottom: 1rem; filter: grayscale(1); transition: 0.4s; }
+.pillar-btn.active .pillar-icon { filter: grayscale(0) drop-shadow(0 0 8px rgba(255,255,255,0.5)); }
+.pillar-btn h4 { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 0.5rem; }
+.pillar-btn p { font-size: 0.8rem; color: var(--text-muted); margin: 0; line-height: 1.4; }
+
+.engine-core { margin-top: 3rem; text-align: center; opacity: 0.3; transition: all 0.8s; transform: scale(0.9); }
+.engine-core.activated { opacity: 1; transform: scale(1); }
+.core-orb {
+  width: 120px; height: 120px; margin: 0 auto 1.5rem; border-radius: 50%;
+  background: linear-gradient(135deg, var(--bg-deep), var(--bg-panel)); border: 2px solid var(--border-light);
+  display: flex; align-items: center; justify-content: center; font-size: 3rem; transition: all 0.8s;
+}
+.engine-core.activated .core-orb {
+  background: linear-gradient(135deg, var(--primary), var(--accent-green));
+  border-color: white; box-shadow: 0 0 40px var(--primary-glow), inset 0 0 20px rgba(255,255,255,0.8);
+}
+.engine-core h3 { font-family: var(--serif); font-size: 2rem; margin: 0; color: var(--text-muted); transition: 0.8s; }
+.engine-core.activated h3 { color: white; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+/* ── MAGISK INTERAKTIV 3: VÄRLDENS TRAPPA (SLIDER) ── */
+.world-staircase { margin: 4rem 0; border-radius: 24px; overflow: hidden; position: relative; transition: background-color 0.8s ease; background-color: #1a0f14; border: 1px solid var(--border-light); }
+.stair-header { padding: 3rem 2rem 2rem; text-align: center; position: relative; z-index: 2; }
+.stair-pop { font-family: var(--mono); font-size: 0.9rem; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem; }
+.stair-title { font-family: var(--serif); font-size: 2.5rem; font-weight: 900; margin: 0; transition: color 0.5s; }
+
+.slider-area { padding: 0 3rem 3rem; position: relative; z-index: 2; }
+input[type=range].stair-slider { -webkit-appearance: none; width: 100%; background: transparent; }
+input[type=range].stair-slider:focus { outline: none; }
+input[type=range].stair-slider::-webkit-slider-runnable-track { width: 100%; height: 12px; background: rgba(255,255,255,0.1); border-radius: 6px; cursor: pointer; backdrop-filter: blur(4px); }
+input[type=range].stair-slider::-webkit-slider-thumb {
+  height: 40px; width: 40px; border-radius: 50%; background: white; cursor: pointer; -webkit-appearance: none; margin-top: -14px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5); border: 4px solid var(--bg-deep); transition: transform 0.2s;
+}
+input[type=range].stair-slider::-webkit-slider-thumb:hover { transform: scale(1.15); }
+.stair-labels { display: flex; justify-content: space-between; margin-top: 1rem; font-family: var(--mono); font-size: 0.8rem; color: rgba(255,255,255,0.5); }
+
+.stair-visuals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; padding: 0 2rem 3rem; position: relative; z-index: 2; }
+.s-card { background: rgba(0,0,0,0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 2rem 1rem; text-align: center; transition: all 0.5s; }
+.s-icon { font-size: 3rem; margin-bottom: 1rem; display: block; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.s-card:hover .s-icon { transform: scale(1.2) rotate(5deg); }
+.s-text { font-size: 0.9rem; font-weight: 600; color: #fff; }
+.s-desc-box { padding: 0 3rem 3rem; text-align: center; font-size: 1.1rem; color: rgba(255,255,255,0.8); position: relative; z-index: 2; }
+
+/* ── MAGISK INTERAKTIV 4: MINISTERN (SWIPE CARDS) ── */
+.dilemma-deck { position: relative; width: 100%; max-width: 500px; height: 450px; margin: 3rem auto; perspective: 1000px; }
+.d-card {
+  position: absolute; inset: 0; background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 20px;
+  padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5); transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  transform-origin: bottom center;
+}
+.d-card.hidden { opacity: 0; pointer-events: none; transform: translateY(50px) rotateX(-10deg) scale(0.9); }
+.d-label { font-family: var(--mono); font-size: 0.8rem; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+.d-card h4 { font-family: var(--serif); font-size: 1.8rem; margin-bottom: 1rem; color: white; }
+.d-card p { font-size: 1rem; color: var(--text-muted); margin-bottom: 2rem; line-height: 1.6; }
+.d-btns { display: flex; gap: 1rem; width: 100%; }
+.d-btn { flex: 1; padding: 1rem; border: none; border-radius: 8px; font-family: var(--sans); font-weight: 600; cursor: pointer; transition: 0.2s; }
+.d-btn.accept { background: var(--primary); color: #000; }
+.d-btn.reject { background: transparent; border: 1px solid var(--text-muted); color: var(--text-main); }
+.d-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+/* ── LÄRARSEKTION: DIGITAL ARBETSBOK (Magi) ── */
+.workbook { margin-top: 6rem; border-top: 1px solid var(--border-light); padding-top: 4rem; }
+.wb-header { text-align: center; margin-bottom: 4rem; }
+.wb-header h2 { font-size: 3rem; margin-bottom: 1rem; }
+.wb-header p { color: var(--text-muted); max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
+
+.q-block { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; transition: border-color 0.3s, box-shadow 0.3s; }
+.q-block:focus-within { border-color: var(--primary); box-shadow: var(--shadow-neon); }
+.q-tag { display: inline-block; background: rgba(255,255,255,0.05); padding: 0.25rem 0.75rem; border-radius: 4px; font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem; text-transform: uppercase; }
+.q-question { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 1.5rem; color: white; line-height: 1.4; }
+
+.q-textarea {
+  width: 100%; min-height: 120px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-focus);
+  border-radius: 8px; padding: 1rem; color: var(--text-main); font-family: var(--sans); font-size: 1rem;
+  resize: vertical; margin-bottom: 1rem; transition: all 0.3s; line-height: 1.6;
+}
+.q-textarea:focus { outline: none; border-color: var(--primary); background: rgba(0,0,0,0.4); }
+.q-textarea::placeholder { color: rgba(255,255,255,0.2); font-style: italic; }
+
+.q-actions { display: flex; justify-content: flex-end; }
+.btn-toggle-ans {
+  background: transparent; border: 1px solid var(--accent-gold); color: var(--accent-gold);
+  padding: 0.5rem 1rem; border-radius: 6px; font-family: var(--mono); font-size: 0.8rem;
+  text-transform: uppercase; font-weight: bold; cursor: pointer; transition: all 0.3s;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.btn-toggle-ans:hover { background: rgba(251, 191, 36, 0.1); }
+.btn-toggle-ans.active { background: var(--accent-gold); color: var(--bg-deep); }
+
+.q-facit {
+  max-height: 0; overflow: hidden; opacity: 0; transform: translateY(-10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.q-facit.show { max-height: 300px; opacity: 1; transform: translateY(0); margin-top: 1.5rem; }
+.facit-inner {
+  padding: 1.5rem; background: rgba(251, 191, 36, 0.05); border-left: 4px solid var(--accent-gold);
+  border-radius: 0 8px 8px 0;
+}
+.facit-label { display: block; font-family: var(--mono); font-size: 0.75rem; color: var(--accent-gold); text-transform: uppercase; margin-bottom: 0.5rem; }
+.facit-text { font-size: 1.05rem; color: rgba(255,255,255,0.9); margin: 0; line-height: 1.6; }
+
+/* ── MAGISKT QUIZ (🎮) ── */
+.quiz-container { background: var(--bg-panel); border: 1px solid var(--border-light); border-radius: 20px; padding: 3rem 2rem; margin: 2rem auto; text-align: center; position: relative; overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+.quiz-header { margin-bottom: 2rem; }
+.quiz-progress { font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1rem; }
+.quiz-question { font-family: var(--serif); font-size: 2rem; color: white; line-height: 1.3; margin-bottom: 2rem; }
+
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.quiz-option {
+  background: rgba(255,255,255,0.03); border: 2px solid var(--border-light); border-radius: 12px;
+  padding: 1.5rem; color: var(--text-main); font-family: var(--sans); font-size: 1.1rem;
+  cursor: pointer; transition: all 0.3s; text-align: left; position: relative; overflow: hidden;
+}
+.quiz-option:hover:not(:disabled) { border-color: var(--primary); background: rgba(56, 189, 248, 0.05); transform: translateY(-2px); box-shadow: var(--shadow-neon); }
+.quiz-option.correct { border-color: var(--accent-green); background: rgba(52, 211, 153, 0.1); color: white; box-shadow: 0 0 20px rgba(52, 211, 153, 0.4); }
+.quiz-option.wrong { border-color: var(--accent-red); background: rgba(244, 63, 94, 0.1); color: white; }
+.quiz-option:disabled { cursor: default; }
+
+.quiz-feedback { margin-top: 2rem; padding: 1.5rem; border-radius: 12px; display: none; font-size: 1.1rem; animation: slideUp 0.3s ease forwards; }
+.quiz-feedback.success { background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.3); color: var(--accent-green); }
+.quiz-feedback.error { background: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.3); color: var(--accent-red); }
+
+.quiz-next-btn {
+  margin-top: 2rem; background: var(--primary); color: var(--bg-deep); border: none; padding: 1rem 2.5rem;
+  border-radius: 100px; font-family: var(--sans); font-weight: bold; font-size: 1.1rem; cursor: pointer;
+  display: none; transition: all 0.3s;
+}
+.quiz-next-btn:hover { filter: brightness(1.2); transform: scale(1.05); box-shadow: var(--shadow-neon); }
+
+.quiz-result { display: none; text-align: center; animation: slideUp 0.5s ease; }
+.quiz-result-icon { font-size: 5rem; margin-bottom: 1rem; }
+.quiz-result-score { font-family: var(--mono); font-size: 3rem; color: var(--accent-gold); font-weight: bold; margin-bottom: 1rem; }
+.quiz-result-text { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; }
+
+@media (max-width: 768px) {
+  .hero h1 { font-size: 3rem; }
+  .content-wrapper { padding: 0 1.5rem 4rem; }
+  .nav-container { margin: 0 1.5rem 2rem; }
+  .pillars { flex-direction: column; align-items: center; }
+  .pillar-btn { width: 100%; max-width: 300px; }
+  .stair-visuals { grid-template-columns: 1fr; }
+  .sim-stats { gap: 1rem; }
+  .d-btns { flex-direction: column; }
+  .quiz-options { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="hero">
+  <div class="kicker">SO-Portalen · Samhällskunskap</div>
+  <h1>Välstånd & <br><em>Fattigdom</em></h1>
+  <p>Hur lever vi på jorden, varför är klyftorna så stora, och vad krävs för att bryta mönstret och skapa en hållbar utveckling för alla?</p>
+</header>
+
+<nav class="nav-container">
+  <button class="nav-btn active" onclick="switchTab('tab1', this)">1. Fattigdomsfällan</button>
+  <button class="nav-btn" onclick="switchTab('tab2', this)">2. Globala målen</button>
+  <button class="nav-btn" onclick="switchTab('tab3', this)">3. Världens trappa</button>
+  <button class="nav-btn" onclick="switchTab('tab4', this)">4. Vägen ut</button>
+  <button class="nav-btn" onclick="switchTab('tab-wb', this)">✍️ Arbetsbok</button>
+  <button class="nav-btn quiz-btn" onclick="switchTab('tab-quiz', this)">🎮 Spela Quiz</button>
+</nav>
+
+<main class="content-wrapper">
+
+  <!-- ================= DEL 1: FATTIGDOMSFÄLLAN ================= -->
+  <section id="tab1" class="tab-pane active">
+    <h2>Introduktion till välstånd</h2>
+    <p class="lead">I dag lever nästan åtta miljarder människor på jorden. Hur människor lever skiljer sig dock kraftigt åt beroende på var de bor och vilka resurser de har tillgång till.</p>
+    
+    <p>En mindre del av världens befolkning lever med hög levnadsstandard (som vi gör i Sverige). Vi har rent vatten i kranen, kostnadsfri grundskola och ett utbyggt skyddsnät. Samtidigt saknar hundratals miljoner människor inkomster för sina mest grundläggande behov. Mellan dessa ytterligheter lever den stora majoriteten av jordens befolkning: deras absolut mest grundläggande behov är täckta, men de saknar marginaler och lever utan den ekonomiska trygghet vi är vana vid.</p>
+
+    <h3>Att mäta fattigdom</h3>
+    <p>Fattigdom är mer än att bara sakna pengar. Därför pratar man idag ofta om <strong>multidimensionell fattigdom (MPI)</strong>. Det innebär att man inte bara tittar på inkomst, utan även om människor lider brist på utbildning (får barnen gå i skolan?), hälsa (finns det rent vatten och sjukvård?) och levnadsstandard (har de el och sanitet?). Rent ekonomiskt skiljer man ofta på två begrepp:</p>
+
+    <ul>
+      <li><strong>Extrem fattigdom:</strong> Att leva på så små inkomster att man inte kan tillgodose grundläggande behov som mat, rent vatten och kläder. <em>Världsbanken</em> sätter idag gränsen för extrem fattigdom till att leva på mindre än <strong>2,15 amerikanska dollar per dag</strong> (justerat för köpkraft). Runt 10 % av världens befolkning tvingas leva så här, och en stor del av dem är barn.</li>
+      <li><strong>Relativ fattigdom:</strong> Ett begrepp som ofta används i höginkomstländer som Sverige. Det handlar om att ha det betydligt sämre ställt än majoriteten i det samhälle man lever i. Oftast definieras det som att leva på mindre än 60 procent av <strong>medianinkomsten</strong> i landet. Du dör inte av svält, men du hamnar i ett socialt utanförskap eftersom du inte har råd att delta i samhället (t.ex. ha råd med fritidsaktiviteter, en dator till skolan eller nya kläder).</li>
+    </ul>
+
+    <!-- INTERAKTIV: ÖVERLEVNADSSIMULATORN -->
+    <div class="sim-panel">
+      <div class="sim-header">
+        <div class="sim-title">Minispel: Brist på marginaler</div>
+        <div class="sim-stats">
+          <div class="stat-box">
+            <div class="stat-label">Hälsa</div>
+            <div class="stat-value" id="sim-hp">100%</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Besparingar</div>
+            <div class="stat-value" id="sim-money">50 kr</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="sim-story" id="sim-story">
+        Du lever i extrem fattigdom i ett fattigt land utan välfärd. Du har precis tillräckligt för att överleva dagen. Vad gör du idag?
+      </div>
+
+      <div class="sim-actions" id="sim-actions">
+        <button class="btn-action" onclick="simPlay('work')"><span>⛏️</span> Arbeta på fältet (+20 kr, -10% hälsa)</button>
+        <button class="btn-action" onclick="simPlay('water')"><span>🪣</span> Hämta smutsigt vatten (Gratis, -20% hälsa risk)</button>
+      </div>
+      
+      <div class="game-over" id="sim-gameover">
+        Cirkeln sluts.<br><span style="font-size: 1.2rem; color: var(--text-muted); font-family: var(--sans);">Utan välfärdssystem (som sjukförsäkring) räcker en enda oförutsedd händelse för att kasta in en familj i djup fattigdom. Så fungerar fattigdomscirkeln.</span>
+        <button class="btn-action" style="margin: 2rem auto 0; border-color: var(--primary);" onclick="simReset()">Börja om</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DEL 2: GLOBALA MÅLEN ================= -->
+  <section id="tab2" class="tab-pane">
+    <h2>Agenda 2030 och Målen</h2>
+    <p class="lead">År 2015 fattade FN ett historiskt beslut i New York. Resultatet blev Agenda 2030 – 17 globala mål för hållbar utveckling. Det handlar inte bara om att bekämpa fattigdom, utan om att rädda själva planeten och skapa fredliga samhällen.</p>
+
+    <p>Tidigare hade FN haft "Millenniemålen" (2000–2015) som mest riktade in sig på att rika länder skulle hjälpa fattiga länder att minska svält och sjukdomar. Men med de nya <strong>Globala Målen</strong> ändrades spelreglerna: Målen gäller nu <em>alla</em> världens länder. Det krävs av Sverige lika mycket som av Somalia. </p>
+
+    <div class="fact-box">
+      <div class="fact-box-title">Några av de viktigaste målen:</div>
+      <p style="margin:0;"><strong>Mål 1:</strong> Ingen fattigdom. Att helt utrota extrem fattigdom.<br>
+      <strong>Mål 4:</strong> God utbildning för alla.<br>
+      <strong>Mål 5:</strong> Jämställdhet (att stärka kvinnors och flickors rättigheter).<br>
+      <strong>Mål 13:</strong> Bekämpa klimatförändringarna.</p>
+    </div>
+
+    <p>För låginkomstländer handlar arbetet just nu mycket om att bygga sjukhus och säkra skördar, medan höginkomstländer (som Sverige) måste ta sitt enorma ansvar för klimatutsläpp, återvinning och att sluta överkonsumera.</p>
+
+    <h3>Jämlikhet och Jämställdhet</h3>
+    <p>För att lyckas med målen räcker det inte med att ländernas ekonomi växer (ekonomisk tillväxt). Om alla nya pengar hamnar hos de rikaste minskar ju inte fattigdomen! Klyftorna måste minska. <strong>Jämlikhet</strong> innebär att alla människor, oavsett klass, religion eller hudfärg, ska ha samma möjligheter i samhället. <strong>Jämställdhet</strong> handlar specifikt om rättvisa mellan kvinnor och män. I många länder får flickor inte gå i skolan och kvinnor får inte äga mark. När halva befolkningen diskrimineras hålls hela landets utveckling och ekonomi tillbaka.</p>
+
+    <!-- INTERAKTIV: HÅLLBARHETSMOTORN -->
+    <div class="engine-container">
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <span style="font-family: var(--mono); color: var(--primary); font-size: 0.8rem; letter-spacing: 2px;">Interaktion</span>
+        <h3 style="margin-top: 0.5rem; font-family: var(--serif); font-size: 2rem;">Lås upp Hållbar Utveckling</h3>
+        <p style="color: var(--text-muted); font-size: 1rem;">Klicka för att aktivera de tre nödvändiga perspektiven.</p>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar-btn soc" id="btn-soc" onclick="activatePillar('soc')">
+          <div class="pillar-icon">🤝</div>
+          <h4>Social</h4>
+          <p>Mänskliga rättigheter, vård, skola och jämställdhet.</p>
+        </div>
+        <div class="pillar-btn eco" id="btn-eco" onclick="activatePillar('eco')">
+          <div class="pillar-icon">📈</div>
+          <h4>Ekonomisk</h4>
+          <p>Långsiktig tillväxt utan att klyftorna ökar.</p>
+        </div>
+        <div class="pillar-btn env" id="btn-env" onclick="activatePillar('env')">
+          <div class="pillar-icon">🌍</div>
+          <h4>Ekologisk</h4>
+          <p>Skydd av klimat, hav och jordens resurser.</p>
+        </div>
+      </div>
+
+      <div class="engine-core" id="engine-core">
+        <div class="core-orb" id="core-orb">🔒</div>
+        <h3 id="core-text">System Inaktivt</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DEL 3: INDELNING ================= -->
+  <section id="tab3" class="tab-pane">
+    <h2>Indelning av världen</h2>
+    <p class="lead">Vi måste sluta dela in världen i "U-länder (utvecklingsländer) och I-länder (industriländer)". Det är ett föråldrat sätt att se på världen. Verkligheten är mycket mer nyanserad.</p>
+
+    <p>Idag pratar forskare och politiker ofta om "Det Globala Syd" (länder i Afrika, Latinamerika och delar av Asien som ofta har varit kolonier) och "Det Globala Nord" (rika, industrialiserade länder i Europa och Nordamerika). Men för att kunna mäta exakt hur folk har det, använder FN och Världsbanken olika mätinstrument.</p>
+
+    <p>Att mäta <strong>BNI per capita</strong> (landets totala inkomst från allt som produceras, delat på antalet invånare) är vanligast, och delar in världen i fyra inkomstnivåer. Tvärtemot vad många tror, bor idag faktiskt *majoriteten* av jordens befolkning i medelinkomstländer (Nivå 2 och 3), inte i den djupaste fattigdomen.</p>
+
+    <!-- INTERAKTIV: VÄRLDENS TRAPPA (SLIDER) -->
+    <div class="world-staircase" id="staircase-bg">
+      <div class="stair-header">
+        <div class="stair-pop" id="stair-pop">Knappt 1 miljard människor</div>
+        <h3 class="stair-title" id="stair-title">Nivå 1: Mycket låg inkomst</h3>
+      </div>
+
+      <div class="slider-area">
+        <input type="range" min="1" max="4" value="1" class="stair-slider" id="incomeSlider">
+        <div class="stair-labels">
+          <span>Nivå 1</span>
+          <span>Nivå 2</span>
+          <span>Nivå 3</span>
+          <span>Nivå 4</span>
+        </div>
+      </div>
+
+      <div class="stair-visuals">
+        <div class="s-card">
+          <span class="s-icon" id="s-icon-1">🪣</span>
+          <div class="s-text" id="s-text-1">Hämta vatten i hink</div>
+        </div>
+        <div class="s-card">
+          <span class="s-icon" id="s-icon-2">🔥</span>
+          <div class="s-text" id="s-text-2">Laga mat över eld</div>
+        </div>
+        <div class="s-card">
+          <span class="s-icon" id="s-icon-3">👣</span>
+          <div class="s-text" id="s-text-3">Gå till fots</div>
+        </div>
+      </div>
+      
+      <div class="s-desc-box" id="stair-desc">
+        Extrem fattigdom. Inkomsten är ofta mindre än 2.15 dollar per dag. En ständig kamp för överlevnad. (Ex: Somalia)
+      </div>
+    </div>
+
+    <h3>HDI & Gini-koefficienten</h3>
+    <p>Ett stort problem med BNI är att det är ett <em>genomsnitt</em>. Om en person i landet tjänar miljarder och resten tjänar noll, ser genomsnittet högt ut. För att mäta hur rättvist pengarna är fördelade använder man <strong>Gini-koefficienten</strong> (ett mått mellan 0 och 1, där 0 betyder att alla har exakt lika mycket och 1 betyder att en enda person äger allt).</p>
+    
+    <p>Eftersom pengar inte är lika med lycka eller hälsa använder FN även <strong>HDI (Human Development Index)</strong>. Detta mäter BNI, men lägger även till <em>medellivslängd</em> (hur bra sjukvård landet har) och <em>utbildningsnivå</em> (hur många som får gå i skolan). Ett land med stora oljeinkomster kan ha hög BNI men låg HDI om landets ledare inte investerar pengarna i skolor för folket.</p>
+
+    <div class="fact-box">
+      <div class="fact-box-title">Vad är MUL-länder?</div>
+      <p style="margin:0; font-size: 1rem;">De allra fattigaste länderna med lägst HDI kallas <strong>MUL-länder</strong> (Minst utvecklade länder). Fattigdomen här är extremt svår att bryta på grund av historiska orsaker (som kolonialism) och geografiska problem (tropiska klimat med extrem torka, översvämningar och sjukdomar).</p>
+    </div>
+  </section>
+
+  <!-- ================= DEL 4: VÄGEN UT ================= -->
+  <section id="tab4" class="tab-pane">
+    <h2>Hur bryter vi mönstret?</h2>
+    <p class="lead">För att ett land ska ta sig ur fattigdom krävs oftast kapital (investeringar) utifrån. Men om inte landet har starka, demokratiska institutioner utan korruption, riskerar befolkningen bara att bli utnyttjad.</p>
+
+    <p>En av de största utmaningarna för fattiga länder idag är så kallad <strong>Brain drain (kompetensflykt)</strong>. Det innebär att de få personer i ett fattigt land som lyckas skaffa sig en hög utbildning (som läkare eller ingenjörer) ofta flyttar till rika länder i Nordamerika eller Europa för att få bättre lön. Landet förlorar då exakt den kunskap de hade behövt för att bygga upp sitt eget samhälle.</p>
+
+    <!-- INTERAKTIV: DILEMMAT -->
+    <div style="text-align: center; margin: 3rem 0 1rem;">
+      <span style="font-family: var(--mono); color: var(--primary); font-size: 0.8rem; letter-spacing: 2px;">Simulation</span>
+      <h3 style="margin-top: 0.5rem; font-family: var(--serif); font-size: 2rem;">Presidentens Dilemma</h3>
+      <p style="color: var(--text-muted); font-size: 1rem;">Ta rollen som ledare i ett låginkomstland. Vad väljer du?</p>
+    </div>
+
+    <div class="dilemma-deck">
+      <div class="d-card" id="card-result" style="z-index: 1;">
+        <div id="res-icon" style="font-size: 4rem; margin-bottom: 1rem;"></div>
+        <h4 id="res-title">Resultat</h4>
+        <p id="res-desc"></p>
+        <button class="d-btn accept" onclick="resetCards()">Spela igen ↺</button>
+      </div>
+
+      <div class="d-card" id="card-1" style="z-index: 2;">
+        <div class="d-label">Utländsk Investering</div>
+        <h4>Fabriksbygget</h4>
+        <p>Ett enormt klädföretag vill bygga fabriker i ert land. Det ger 10 000 jobb direkt! Men de kräver extremt låga löner, skattefrihet, och vägrar skriva på fackliga säkerhetskrav. Säger du nej, bygger de i grannlandet istället.</p>
+        <div class="d-btns">
+          <button class="d-btn reject" onclick="swipeCard(false)">Avvisa (Kräv drägliga villkor)</button>
+          <button class="d-btn accept" onclick="swipeCard(true)">Acceptera (Vi behöver jobben)</button>
+        </div>
+      </div>
+    </div>
+
+    <h3>Rättvis handel och Mikrolån</h3>
+    <p>Ett annat sätt att bekämpa fattigdom, bortom stora fabriker, är <strong>Mikrolån</strong>. Detta är väldigt små lån (kanske bara några hundra kronor) som ges till fattiga människor, ofta kvinnor, så att de kan starta en småskalig verksamhet – till exempel köpa en symaskin eller höns. Eftersom de saknar säkerhet får de normalt sett inte låna på en vanlig bank, men mikrolånen har visat sig vara ett kraftfullt verktyg för att lyfta familjer ur extrem fattigdom.</p>
+
+    <p>Höginkomstländer bär också ett stort ansvar. Rika länders handelspolitik missgynnar ofta fattiga länder genom orättvisa tullar. Sverige och andra länder hjälper till genom <strong>bistånd</strong> (vilket i Sverige sköts av myndigheten <strong>SIDA</strong>). Man skiljer på:</p>
+    <ul>
+      <li><strong>Humanitärt bistånd:</strong> Akut nödhjälp för att rädda liv vid krig eller naturkatastrofer (mat, tält, medicin). Det löser inga långsiktiga problem, men det håller folk vid liv i krisen.</li>
+      <li><strong>Utvecklingsbistånd:</strong> Långsiktig hjälp för att landet på sikt ska klara sig självt. Till exempel att utbilda lärare, bygga brunnar eller införa bättre jordbrukstekniker.</li>
+      <li><strong>Skuldavskrivning:</strong> Att helt enkelt stryka ländernas gamla utlandsskulder så de kan använda sina skattepengar till skolor istället för att betala ränta till västvärlden.</li>
+    </ul>
+  </section>
+
+  <!-- ================= LÄRARSEKTION: ARBETSBOKEN ================= -->
+  <section id="tab-wb" class="tab-pane workbook">
+    <div class="wb-header">
+      <h2>Digital Arbetsbok</h2>
+      <p>Här kan du testa dina kunskaper. Skriv ner dina tankar i rutorna. Dina svar sparas lokalt medan du läser. Klicka sedan på <strong>Visa Exempelsvar</strong> för att rätta dig själv.</p>
+    </div>
+
+    <div class="q-block">
+      <div class="q-tag">Del 1 · Begrepp</div>
+      <h4 class="q-question">Vad menas med extrem fattigdom och hur ser vardagen ut för den som drabbas? Var går Världsbankens gräns?</h4>
+      <textarea class="q-textarea" placeholder="Ditt svar här... (Sparas automatiskt)" id="ans1"></textarea>
+      <div class="q-actions">
+        <button class="btn-toggle-ans" onclick="toggleFacit('facit1', this)"><span>👁️</span> Visa Exempelsvar</button>
+      </div>
+      <div class="q-facit" id="facit1">
+        <div class="facit-inner">
+          <span class="facit-label">Kort Facit (1-3 meningar)</span>
+          <p class="facit-text">Extrem fattigdom innebär att man inte har råd att täcka sina mest grundläggande behov, såsom mat och rent vatten. Vardagen styrs helt av kampen för överlevnad. Världsbankens gräns går vid 2,15 dollar per dag.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-tag">Del 1 · Analys</div>
+      <h4 class="q-question">Förklara hur fattigdomscirkeln fungerar och varför den är svår att bryta utan ett välfärdssystem.</h4>
+      <textarea class="q-textarea" placeholder="Ditt svar här... (Sparas automatiskt)" id="ans2"></textarea>
+      <div class="q-actions">
+        <button class="btn-toggle-ans" onclick="toggleFacit('facit2', this)"><span>👁️</span> Visa Exempelsvar</button>
+      </div>
+      <div class="q-facit" id="facit2">
+        <div class="facit-inner">
+          <span class="facit-label">Kort Facit (1-3 meningar)</span>
+          <p class="facit-text">Det är en ond spiral där brist på resurser leder till ohälsa, vilket gör att man inte kan arbeta eller gå i skolan. Utan skyddsnät (som sjukförsäkring) leder en oförutsedd händelse direkt till minskad inkomst, och fattigdomen går i arv.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-tag">Del 2 · Mål & Jämställdhet</div>
+      <h4 class="q-question">Förklara skillnaden mellan Millenniemålen och de nuvarande Globala Målen (Agenda 2030).</h4>
+      <textarea class="q-textarea" placeholder="Ditt svar här... (Sparas automatiskt)" id="ans3"></textarea>
+      <div class="q-actions">
+        <button class="btn-toggle-ans" onclick="toggleFacit('facit3', this)"><span>👁️</span> Visa Exempelsvar</button>
+      </div>
+      <div class="q-facit" id="facit3">
+        <div class="facit-inner">
+          <span class="facit-label">Kort Facit (1-3 meningar)</span>
+          <p class="facit-text">Millenniemålen fokuserade mest på att hjälpa utvecklingsländer med grundläggande problem som svält. De Globala målen riktar sig till *alla* länder och inkluderar även ekologisk hållbarhet (klimatet), där rika länder måste ta stort ansvar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-tag">Del 3 · Mäta utveckling</div>
+      <h4 class="q-question">Vad är Gini-koefficienten och varför behövs den som komplement till BNI per capita?</h4>
+      <textarea class="q-textarea" placeholder="Ditt svar här... (Sparas automatiskt)" id="ans4"></textarea>
+      <div class="q-actions">
+        <button class="btn-toggle-ans" onclick="toggleFacit('facit4', this)"><span>👁️</span> Visa Exempelsvar</button>
+      </div>
+      <div class="q-facit" id="facit4">
+        <div class="facit-inner">
+          <span class="facit-label">Kort Facit (1-3 meningar)</span>
+          <p class="facit-text">BNI per capita visar bara genomsnittet av landets rikedom, vilket döljer om en elit äger allt. Gini-koefficienten mäter hur rättvist pengarna faktiskt är fördelade i samhället (klyftorna mellan rik och fattig).</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-tag">Del 3 · Geografi</div>
+      <h4 class="q-question">Vad står MUL för? Ge ett historiskt och ett geografiskt skäl till att många MUL-länder ligger i Afrika.</h4>
+      <textarea class="q-textarea" placeholder="Ditt svar här... (Sparas automatiskt)" id="ans5"></textarea>
+      <div class="q-actions">
+        <button class="btn-toggle-ans" onclick="toggleFacit('facit5', this)"><span>👁️</span> Visa Exempelsvar</button>
+      </div>
+      <div class="q-facit" id="facit5">
+        <div class="facit-inner">
+          <span class="facit-label">Kort Facit (1-3 meningar)</span>
+          <p class="facit-text">MUL står för Minst Utvecklade Länder. Ett historiskt skäl är kolonialismen som sög ut råvaror utan att bygga infrastruktur. Ett geografiskt skäl är det varma klimatet som försvårar jordbruk och sprider tropiska sjukdomar.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-tag">Del 4 · Arbetsmarknad</div>
+      <h4 class="q-question">Vad menas med "Brain Drain" (kompetensflykt) och hur påverkar det fattiga länder?</h4>
+      <textarea class="q-textarea" placeholder="Ditt svar här... (Sparas automatiskt)" id="ans6"></textarea>
+      <div class="q-actions">
+        <button class="btn-toggle-ans" onclick="toggleFacit('facit6', this)"><span>👁️</span> Visa Exempelsvar</button>
+      </div>
+      <div class="q-facit" id="facit6">
+        <div class="facit-inner">
+          <span class="facit-label">Kort Facit (1-3 meningar)</span>
+          <p class="facit-text">Det är när högutbildade personer (som läkare och ingenjörer) i fattiga länder flyttar till rika länder för att få bättre lön. Det är förödande, eftersom det fattiga landet förlorar precis den kompetens som krävs för att bygga upp samhället.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-tag">Del 4 · Finans</div>
+      <h4 class="q-question">Hur kan ett mikrolån hjälpa en familj ur fattigdom? Ge ett konkret exempel.</h4>
+      <textarea class="q-textarea" placeholder="Ditt svar här... (Sparas automatiskt)" id="ans7"></textarea>
+      <div class="q-actions">
+        <button class="btn-toggle-ans" onclick="toggleFacit('facit7', this)"><span>👁️</span> Visa Exempelsvar</button>
+      </div>
+      <div class="q-facit" id="facit7">
+        <div class="facit-inner">
+          <span class="facit-label">Kort Facit (1-3 meningar)</span>
+          <p class="facit-text">Eftersom fattiga saknar säkerhet får de inte låna på vanliga banker. Ett mikrolån (ett väldigt litet lån) kan ge en kvinna råd att köpa en symaskin eller några höns, starta en liten rörelse och skapa en egen inkomst som lyfter familjen.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-tag">Del 4 · Bistånd</div>
+      <h4 class="q-question">Vad är skillnaden mellan humanitärt bistånd och utvecklingsbistånd?</h4>
+      <textarea class="q-textarea" placeholder="Ditt svar här... (Sparas automatiskt)" id="ans8"></textarea>
+      <div class="q-actions">
+        <button class="btn-toggle-ans" onclick="toggleFacit('facit8', this)"><span>👁️</span> Visa Exempelsvar</button>
+      </div>
+      <div class="q-facit" id="facit8">
+        <div class="facit-inner">
+          <span class="facit-label">Kort Facit (1-3 meningar)</span>
+          <p class="facit-text">Humanitärt bistånd är akut nödhjälp (tält, mat) vid krig eller naturkatastrofer för att rädda liv. Utvecklingsbistånd är långsiktiga projekt (bygga skolor eller utbilda bönder) så att landet på sikt ska klara sig självt.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= SPELA QUIZ ================= -->
+  <section id="tab-quiz" class="tab-pane">
+    <div class="quiz-container">
+      <div id="quiz-screen-play">
+        <div class="quiz-header">
+          <div class="quiz-progress" id="quiz-progress">Fråga 1 av 7</div>
+          <h3 class="quiz-question" id="quiz-question">Laddar fråga...</h3>
+        </div>
+        
+        <div class="quiz-options" id="quiz-options">
+          <button class="quiz-option" onclick="checkAnswer(0)" id="opt-0">Alternativ 1</button>
+          <button class="quiz-option" onclick="checkAnswer(1)" id="opt-1">Alternativ 2</button>
+          <button class="quiz-option" onclick="checkAnswer(2)" id="opt-2">Alternativ 3</button>
+          <button class="quiz-option" onclick="checkAnswer(3)" id="opt-3">Alternativ 4</button>
+        </div>
+
+        <div class="quiz-feedback" id="quiz-feedback">Feedback text</div>
+        <button class="quiz-next-btn" id="quiz-next-btn" onclick="nextQuizQuestion()">Nästa fråga →</button>
+      </div>
+
+      <div class="quiz-result" id="quiz-screen-result">
+        <div class="quiz-result-icon" id="quiz-result-icon">🏆</div>
+        <div class="quiz-result-score" id="quiz-result-score">7 / 7</div>
+        <div class="quiz-result-text" id="quiz-result-text">Strålande jobbat! Du har stenkoll på de globala målen och utvecklingsfrågor.</div>
+        <button class="quiz-next-btn" style="display:inline-block;" onclick="startQuiz()">Spela igen ↺</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+// ── GLOBALA FUNKTIONER ──
+window.addEventListener('scroll', () => {
+  const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({ top: document.querySelector('.nav-container').offsetTop - 20, behavior: 'smooth' });
+}
+
+// ── SIMULATOR 1: FATTIGDOMSFÄLLAN ──
+let simHp = 100;
+let simMoney = 50;
+
+function updateSimUI() {
+  const hpEl = document.getElementById('sim-hp');
+  hpEl.textContent = simHp + '%';
+  document.getElementById('sim-money').textContent = simMoney + ' kr';
+  
+  if (simHp <= 30) hpEl.classList.add('danger'); else hpEl.classList.remove('danger');
+  if (simHp <= 0 || simMoney < 0) {
+    document.getElementById('sim-actions').style.display = 'none';
+    document.getElementById('sim-story').style.display = 'none';
+    document.getElementById('sim-gameover').style.display = 'block';
+  }
+}
+
+function simPlay(action) {
+  const story = document.getElementById('sim-story');
+  if (action === 'work') {
+    simMoney += 20; simHp -= 10;
+    story.innerHTML = "Du arbetar 14 timmar på fältet i brännande sol. Din kropp värker, men du tjänade 20 kr.<br><br><strong>Händelse:</strong> Du måste köpa mat till familjen. Kostnad: -30 kr.";
+    simMoney -= 30;
+  } else if (action === 'water') {
+    const sick = Math.random() > 0.5;
+    if(sick) {
+      simHp -= 30;
+      story.innerHTML = "Vattnet var förorenat! Du blir svårt sjuk i kolera och kan inte arbeta.<br><br><strong>Händelse:</strong> Medicin kostar pengar du inte har. Kostnad: -50 kr.";
+      simMoney -= 50;
+    } else {
+      story.innerHTML = "Du överlevde vattnet utan att bli sjuk idag. Men du missade en hel dags arbete för att gå till brunnen.<br><br><strong>Händelse:</strong> Taket läcker in. Reparation kostar -20 kr.";
+      simMoney -= 20;
+    }
+  }
+  updateSimUI();
+}
+
+function simReset() {
+  simHp = 100; simMoney = 50;
+  document.getElementById('sim-actions').style.display = 'flex';
+  document.getElementById('sim-story').style.display = 'block';
+  document.getElementById('sim-gameover').style.display = 'none';
+  document.getElementById('sim-story').innerHTML = "Du lever i extrem fattigdom i ett fattigt land utan välfärd. Du har precis tillräckligt för att överleva dagen. Vad gör du idag?";
+  updateSimUI();
+}
+
+// ── SIMULATOR 2: HÅLLBARHETSMOTORN ──
+let statePillars = { soc: false, eco: false, env: false };
+function activatePillar(type) {
+  statePillars[type] = !statePillars[type];
+  document.getElementById(`btn-${type}`).classList.toggle('active');
+  
+  if(statePillars.soc && statePillars.eco && statePillars.env) {
+    document.getElementById('engine-core').classList.add('activated');
+    document.getElementById('core-orb').textContent = '🌟';
+    document.getElementById('core-text').textContent = 'Hållbar Utveckling Uppnådd!';
+  } else {
+    document.getElementById('engine-core').classList.remove('activated');
+    document.getElementById('core-orb').textContent = '🔒';
+    document.getElementById('core-text').textContent = 'System Inaktivt (Kräver alla tre)';
+  }
+}
+
+// ── SIMULATOR 3: VÄRLDENS TRAPPA (SLIDER) ──
+const stairData = {
+  1: { bg: '#1a0f14', pop: 'Knappt 1 miljard människor', title: 'Nivå 1: Mycket låg inkomst', i1:'🪣', t1:'Hämta vatten i hink', i2:'🔥', t2:'Laga mat över eld', i3:'👣', t3:'Gå till fots', desc:'Extrem fattigdom. Inkomsten är ofta mindre än 2.15 dollar per dag. En ständig kamp för överlevnad. (Ex: Somalia)' },
+  2: { bg: '#23160a', pop: 'Ca 3.5 miljarder människor', title: 'Nivå 2: Låg till medel', i1:'🚰', t1:'Vattenpump i byn', i2:'🍳', t2:'Enkel gasolspis', i3:'🚲', t3:'Cykel', desc:'Vardagen styrs inte helt av överlevnad. Fler barn kan gå i skolan, och man sparar tid. (Ex: Indien, Nigeria)' },
+  3: { bg: '#182414', pop: 'Ca 2.5 miljarder människor', title: 'Nivå 3: Medelhög inkomst', i1:'🚿', t1:'Rinnande vatten inne', i2:'🥘', t2:'Elspis & kylskåp', i3:'🛵', t3:'Moped', desc:'Här konsumeras mer än det nödvändiga. Säker el dygnet runt och kanske en enkel semester. (Ex: Kina, Brasilien)' },
+  4: { bg: '#081c15', pop: 'Ca 1 miljard människor', title: 'Nivå 4: Hög inkomst', i1:'🛁', t1:'Varmt & kallt vatten', i2:'🍽️', t2:'Fullt kök & restaurang', i3:'🚗', t3:'Egen bil / Flyg', desc:'Hög levnadsstandard, 12 års säker skolgång och god tillgång till sjukvård. (Ex: Sverige, Sydkorea)' }
+};
+document.getElementById('incomeSlider').addEventListener('input', (e) => {
+  const d = stairData[e.target.value];
+  document.getElementById('staircase-bg').style.backgroundColor = d.bg;
+  document.getElementById('stair-pop').textContent = d.pop;
+  document.getElementById('stair-title').textContent = d.title;
+  document.getElementById('s-icon-1').textContent = d.i1; document.getElementById('s-text-1').textContent = d.t1;
+  document.getElementById('s-icon-2').textContent = d.i2; document.getElementById('s-text-2').textContent = d.t2;
+  document.getElementById('s-icon-3').textContent = d.i3; document.getElementById('s-text-3').textContent = d.t3;
+  document.getElementById('stair-desc').textContent = d.desc;
+});
+
+// ── SIMULATOR 4: DILEMMAT (SWIPE) ──
+function swipeCard(accepted) {
+  document.getElementById('card-1').classList.add('hidden');
+  const resTitle = document.getElementById('res-title');
+  const resDesc = document.getElementById('res-desc');
+  const resIcon = document.getElementById('res-icon');
+  
+  if(accepted) {
+    resIcon.textContent = '🏭';
+    resTitle.textContent = 'Tillväxt, men till vilket pris?';
+    resDesc.textContent = 'Jobben kommer och ert BNI ökar! Men lönerna är för låga för att bryta fattigdomen och företagets vinster försvinner utomlands. Ekonomisk tillväxt gav inte automatisk välfärd för folket. Nästa steg: Kämpa för fackliga rättigheter.';
+  } else {
+    resIcon.textContent = '✈️';
+    resTitle.textContent = 'Företaget lämnar landet';
+    resDesc.textContent = 'Ni stod på er! Företaget byggde fabriken i grannlandet istället. Er arbetslöshet förblir skyhög och bristen på kapital hindrar er från att bygga skolor. Men befolkningen exploaterades inte. Dilemmat kvarstår: Hur skapar vi tillväxt på egna villkor?';
+  }
+}
+function resetCards() {
+  document.getElementById('card-1').classList.remove('hidden');
+}
+
+// ── DIGITAL ARBETSBOK (LOKAL SPARING & FACIT) ──
+function toggleFacit(facitId, btn) {
+  const facit = document.getElementById(facitId);
+  if(facit.classList.contains('show')) {
+    facit.classList.remove('show');
+    btn.innerHTML = '<span>👁️</span> Visa Exempelsvar';
+    btn.classList.remove('active');
+  } else {
+    facit.classList.add('show');
+    btn.innerHTML = '<span>✕</span> Dölj Svar';
+    btn.classList.add('active');
+  }
+}
+
+document.querySelectorAll('.q-textarea').forEach(ta => {
+  ta.value = sessionStorage.getItem(ta.id) || '';
+  ta.addEventListener('input', () => { sessionStorage.setItem(ta.id, ta.value); });
+});
+
+// ── QUIZ LOGIK ──
+const quizData = [
+  {
+    q: "Var går Världsbankens gräns för extrem fattigdom?",
+    options: ["1 dollar per dag", "2,15 dollar per dag", "10 dollar per dag", "Medianinkomsten"],
+    correct: 1,
+    feedback: "Exakt! Gränsen för extrem fattigdom mäts för närvarande vid ca 2,15 amerikanska dollar om dagen justerat för köpkraft."
+  },
+  {
+    q: "Vad är skillnaden på Millenniemålen och de Globala målen (Agenda 2030)?",
+    options: ["Millenniemålen var viktigare", "Globala målen gäller bara i Afrika", "Globala målen gäller alla länder, även rika", "Millenniemålen handlade om klimatet"],
+    correct: 2,
+    feedback: "Rätt! Ett stort skifte med Agenda 2030 var att ansvaret lades på alla länder, där rika länder måste ansvara mycket för miljö och konsumtion."
+  },
+  {
+    q: "Vad är ett MUL-land?",
+    options: ["Ett Medel-Utvecklat Land", "Minst Utvecklat Land", "Mest Utbildade Landet", "Ett land med hög BNI men låg HDI"],
+    correct: 1,
+    feedback: "Korrekt. MUL står för Minst utvecklade länder, och är de länder i världen som är allra mest sårbara och har lägst utveckling."
+  },
+  {
+    q: "Vad menas med begreppet 'Brain Drain'?",
+    options: ["När skolsystemet i ett land kollapsar", "Att hjärnan utvecklas sämre vid undernäring", "Högutbildade flyttar från fattiga till rika länder", "När teknisk utrustning exporteras"],
+    correct: 2,
+    feedback: "Bra! Kompetensflykt är förödande för fattiga länder som förlorar de läkare och ingenjörer de desperat behöver."
+  },
+  {
+    q: "Varför används Gini-koefficienten som ett komplement till BNI per capita?",
+    options: ["För att mäta läskunnighet", "För att mäta klyftorna mellan rik och fattig i landet", "För att mäta klimatutsläpp", "För att räkna ut extrem fattigdom"],
+    correct: 1,
+    feedback: "Helt rätt. BNI visar bara genomsnittet, medan Gini visar hur rättvist (eller orättvist) dessa pengar är fördelade."
+  },
+  {
+    q: "Vad är syftet med ett 'mikrolån'?",
+    options: ["Ett hemligt lån mellan stater", "Ett lån för att köpa en lyxbil", "Ett extremt litet lån för att starta småföretagande", "Ett lån Världsbanken ger till MUL-länder"],
+    correct: 2,
+    feedback: "Rätt! Mikrolån ges ofta till fattiga kvinnor utan säkerhet så de kan köpa t.ex. en symaskin och starta en verksamhet."
+  },
+  {
+    q: "Vad innebär relativ fattigdom i ett land som Sverige?",
+    options: ["Att man svälter regelbundet", "Att man lever under Världsbankens dollargräns", "Att man saknar rent vatten i kranen", "Att man har betydligt sämre ekonomi än majoriteten i landet"],
+    correct: 3,
+    feedback: "Snyggt! Relativ fattigdom handlar om socialt utanförskap – att inte ha råd att leva samma liv (t.ex. ha fritidsaktiviteter) som de flesta andra."
+  }
+];
+
+let currentQ = 0;
+let quizScore = 0;
+let answered = false;
+
+function loadQuizQuestion() {
+  answered = false;
+  document.getElementById('quiz-next-btn').style.display = 'none';
+  document.getElementById('quiz-feedback').style.display = 'none';
+  
+  const qData = quizData[currentQ];
+  document.getElementById('quiz-progress').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-question').textContent = qData.q;
+  
+  for(let i=0; i<4; i++) {
+    const btn = document.getElementById(`opt-${i}`);
+    btn.textContent = qData.options[i];
+    btn.className = 'quiz-option';
+    btn.disabled = false;
+  }
+}
+
+function checkAnswer(selectedIdx) {
+  if(answered) return;
+  answered = true;
+  
+  const qData = quizData[currentQ];
+  const isCorrect = (selectedIdx === qData.correct);
+  const fb = document.getElementById('quiz-feedback');
+  
+  // Styla alla knappar
+  for(let i=0; i<4; i++) {
+    const btn = document.getElementById(`opt-${i}`);
+    btn.disabled = true;
+    if(i === qData.correct) {
+      btn.classList.add('correct');
+    } else if (i === selectedIdx) {
+      btn.classList.add('wrong');
+    }
+  }
+
+  // Sätt feedback
+  if(isCorrect) {
+    quizScore++;
+    fb.innerHTML = `<strong>Rätt svar! 🎉</strong><br>${qData.feedback}`;
+    fb.className = 'quiz-feedback success';
+  } else {
+    fb.innerHTML = `<strong>Tyvärr fel. ❌</strong><br>${qData.feedback}`;
+    fb.className = 'quiz-feedback error';
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next-btn');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se ditt resultat 🏆';
+}
+
+function nextQuizQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    loadQuizQuestion();
+  } else {
+    showQuizResult();
+  }
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-screen-play').style.display = 'none';
+  const resScreen = document.getElementById('quiz-screen-result');
+  resScreen.style.display = 'block';
+  
+  document.getElementById('quiz-result-score').textContent = `${quizScore} / ${quizData.length}`;
+  
+  const pct = quizScore / quizData.length;
+  let icon = '🏆', text = '';
+  
+  if(pct === 1) {
+    icon = '👑'; text = "Felfritt! Du har en fantastisk förståelse för globala utvecklingsfrågor.";
+  } else if(pct >= 0.7) {
+    icon = '🌟'; text = "Väldigt bra jobbat! Du har koll på de flesta begreppen.";
+  } else if(pct >= 0.4) {
+    icon = '📚'; text = "På god väg! Men du kanske borde läsa igenom delarna om indelning och mål igen.";
+  } else {
+    icon = '🌱'; text = "Det var klurigt! Läs igenom de fyra delarna i menyn en gång till och gör ett nytt försök.";
+  }
+  
+  document.getElementById('quiz-result-icon').textContent = icon;
+  document.getElementById('quiz-result-text').textContent = text;
+}
+
+function startQuiz() {
+  currentQ = 0;
+  quizScore = 0;
+  document.getElementById('quiz-screen-result').style.display = 'none';
+  document.getElementById('quiz-screen-play').style.display = 'block';
+  loadQuizQuestion();
+}
+
+// Starta quizet i bakgrunden
+startQuiz();
+
+</script>
+</body>
+</html>
