@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Franska Revolutionen – Studiematerial · SO-portalen.se</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#1a0a0a; --parch:#FDF6E8; --cream:#F5EDD6; --red:#9B1B1B; --red-lt:#C0392B;
+  --blue:#1A3066; --gold:#BF8A1A; --gold-lt:#D4A843; --white:#fff;
+  --muted:#6b5a4a; --border:#DDD0B8; --shadow:rgba(26,10,10,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--parch);color:var(--ink);line-height:1.75;}
+
+/* TRICOLOR */
+.tricolor{height:5px;background:linear-gradient(to right,var(--blue) 33.3%,#fff 33.3% 66.6%,var(--red) 66.6%);position:sticky;top:0;z-index:300;}
+
+/* HERO */
+.hero{background:var(--ink);padding:52px 48px 44px;position:relative;overflow:hidden;}
+.hero-bg-year{font-family:'Playfair Display',serif;font-size:200px;font-weight:900;color:rgba(255,255,255,0.03);position:absolute;right:-10px;bottom:-30px;line-height:1;pointer-events:none;letter-spacing:-6px;}
+.hero-bg-dots{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:28px 28px;pointer-events:none;}
+.hero-badge{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.hero-badge::before{content:'';display:inline-block;width:20px;height:1px;background:var(--gold-lt);}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,6vw,56px);font-weight:900;color:#fff;line-height:1.06;margin-bottom:14px;position:relative;z-index:1;}
+.hero h1 em{color:var(--gold-lt);font-style:italic;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.55);max-width:560px;line-height:1.75;margin-bottom:22px;position:relative;z-index:1;}
+.hero-chips{display:flex;gap:8px;flex-wrap:wrap;position:relative;z-index:1;}
+.chip{padding:5px 14px;border-radius:20px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;}
+.chip-red{background:rgba(155,27,27,0.3);border:1px solid rgba(155,27,27,0.5);color:#F8A0A0;}
+.chip-blue{background:rgba(26,48,102,0.3);border:1px solid rgba(26,48,102,0.5);color:#A0B4F8;}
+.chip-gold{background:rgba(191,138,26,0.2);border:1px solid rgba(191,138,26,0.4);color:#FBBF24;}
+
+/* NAV */
+.nav-outer{background:var(--ink);border-bottom:1px solid rgba(255,255,255,0.07);position:sticky;top:5px;z-index:200;}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-btn{padding:14px 22px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,0.38);cursor:pointer;white-space:nowrap;border:none;border-bottom:2px solid transparent;background:none;transition:all .2s;flex-shrink:0;}
+.nav-btn:hover{color:rgba(255,255,255,0.75);}
+.nav-btn.active{color:var(--gold-lt);border-bottom-color:var(--gold-lt);}
+
+/* WRAPPER */
+.wrap{max-width:1100px;margin:0 auto;padding:0 48px;}
+.section{display:none;padding:44px 0 60px;}
+.section.active{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* SECTION HEADERS */
+.s-label{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:4px;color:var(--gold);text-transform:uppercase;margin-bottom:8px;}
+.s-title{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,38px);font-weight:900;color:var(--red);line-height:1.15;margin-bottom:12px;}
+.s-divider{width:40px;height:3px;background:linear-gradient(to right,var(--red),var(--gold-lt));border-radius:2px;margin-bottom:14px;}
+.s-desc{color:var(--muted);font-size:15px;font-style:italic;max-width:600px;line-height:1.7;margin-bottom:32px;}
+
+/* ── READING ── */
+.parts-grid{display:grid;gap:14px;margin-bottom:8px;}
+.part-item{background:#fff;border:1px solid var(--border);border-radius:4px;overflow:hidden;box-shadow:0 2px 12px var(--shadow);}
+.part-toggle{width:100%;display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:none;border:none;cursor:pointer;text-align:left;gap:14px;transition:background .2s;}
+.part-toggle:hover{background:var(--cream);}
+.part-toggle.open{background:var(--ink);}
+.pt-left{display:flex;align-items:center;gap:16px;}
+.pt-num{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--gold);padding:6px 10px;background:rgba(191,138,26,0.1);border:1px solid rgba(191,138,26,0.25);border-radius:3px;flex-shrink:0;white-space:nowrap;}
+.part-toggle.open .pt-num{background:rgba(212,168,67,0.2);color:var(--gold-lt);}
+.pt-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--red);line-height:1.3;}
+.part-toggle.open .pt-title{color:var(--gold-lt);}
+.pt-arrow{font-size:12px;color:var(--muted);transition:transform .3s;flex-shrink:0;}
+.part-toggle.open .pt-arrow{transform:rotate(180deg);color:rgba(255,255,255,0.5);}
+.part-body{display:none;padding:28px 32px;border-top:1px solid var(--border);}
+.part-body.open{display:block;animation:fadeUp .25s ease;}
+.part-body h3{font-family:'Playfair Display',serif;font-size:17px;font-weight:700;color:var(--blue);margin:26px 0 8px;}
+.part-body h3:first-child{margin-top:0;}
+.part-body h4{font-family:'Playfair Display',serif;font-size:14.5px;font-style:italic;color:var(--muted);margin:16px 0 6px;}
+.part-body p{font-size:15.5px;line-height:1.85;margin-bottom:12px;color:#2a1a0a;}
+.part-body p:last-child{margin-bottom:0;}
+.part-body ul,.part-body ol{margin:10px 0 16px 22px;}
+.part-body li{font-size:15px;line-height:1.75;margin-bottom:4px;}
+.reading-lead{font-size:16.5px;font-style:italic;color:var(--red);border-left:4px solid var(--red);padding-left:18px;margin-bottom:20px;line-height:1.7;}
+
+/* ── QUESTIONS ── */
+.del-selector{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:28px;}
+.del-btn{padding:8px 20px;border-radius:3px;border:1px solid var(--border);background:#fff;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;transition:all .2s;color:var(--muted);}
+.del-btn:hover{border-color:var(--gold);}
+.del-btn.active{background:var(--ink);color:var(--gold-lt);border-color:var(--ink);}
+.questions-list{display:none;}
+.questions-list.active{display:flex;flex-direction:column;gap:14px;}
+.q-card{background:#fff;border:1px solid var(--border);border-radius:4px;overflow:hidden;box-shadow:0 2px 10px var(--shadow);transition:border-color .25s;}
+.q-card:focus-within{border-color:var(--gold);}
+.q-num{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--gold);padding:16px 22px 0;text-transform:uppercase;}
+.q-text{font-size:15px;font-weight:600;padding:6px 22px 14px;line-height:1.6;color:var(--ink);}
+.q-area{width:100%;border:none;border-top:1px solid var(--border);padding:14px 22px;font-family:'Source Serif 4',serif;font-size:14.5px;line-height:1.75;resize:vertical;min-height:85px;background:var(--parch);color:var(--ink);outline:none;transition:background .2s;}
+.q-area:focus{background:#fff;}
+.q-footer{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:var(--cream);border-top:1px solid var(--border);}
+.q-hint{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.show-answer-btn{display:flex;align-items:center;gap:7px;padding:8px 18px;background:var(--ink);color:#fff;border:none;border-radius:3px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .2s;}
+.show-answer-btn:hover{background:var(--red);}
+.show-answer-btn.shown{background:var(--blue);}
+.q-model-answer{display:none;padding:18px 22px;background:var(--blue);color:rgba(255,255,255,0.9);font-size:14.5px;line-height:1.8;border-top:1px solid rgba(255,255,255,0.1);}
+.q-model-answer.show{display:block;animation:fadeUp .25s ease;}
+.q-model-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:3px;color:rgba(255,255,255,0.4);margin-bottom:8px;text-transform:uppercase;}
+.q-model-answer strong{color:#FBBF24;}
+
+/* ── FLASHCARDS ── */
+.fc-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
+.fc-btn{padding:7px 18px;border-radius:20px;border:1px solid var(--border);background:#fff;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;cursor:pointer;transition:all .2s;color:var(--muted);}
+.fc-btn.active{background:var(--ink);color:var(--gold-lt);border-color:var(--ink);}
+.fc-count{font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:14px;}
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+.fc-card{perspective:900px;height:135px;cursor:pointer;}
+.fc-inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,0,.2,1);}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:4px;display:flex;flex-direction:column;justify-content:center;padding:16px 18px;border:1px solid rgba(255,255,255,0.06);}
+.fc-front{background:var(--ink);}
+.fc-front h4{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--gold-lt);line-height:1.35;margin-bottom:6px;}
+.fc-front .del-tag{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,0.28);text-transform:uppercase;}
+.fc-front .flip-hint{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,0.2);margin-top:8px;}
+.fc-back{background:#fff;border:1px solid var(--border);transform:rotateY(180deg);}
+.fc-back p{font-size:13px;line-height:1.65;color:var(--ink);}
+
+/* ── TIMELINE ── */
+.timeline-container{position:relative;padding:8px 0 24px;}
+.tl-line{position:absolute;left:50%;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--red),var(--blue));transform:translateX(-50%);}
+.tl-events{position:relative;display:flex;flex-direction:column;gap:0;}
+.tl-event{display:grid;grid-template-columns:1fr 44px 1fr;align-items:start;margin-bottom:8px;}
+.tl-event:nth-child(odd) .tl-content{grid-column:1;text-align:right;padding:0 28px 0 0;}
+.tl-event:nth-child(odd) .tl-center{grid-column:2;grid-row:1;}
+.tl-event:nth-child(odd) .tl-empty{grid-column:3;grid-row:1;}
+.tl-event:nth-child(even) .tl-empty{grid-column:1;grid-row:1;}
+.tl-event:nth-child(even) .tl-center{grid-column:2;grid-row:1;}
+.tl-event:nth-child(even) .tl-content{grid-column:3;text-align:left;padding:0 0 0 28px;}
+.tl-center{display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:4px;}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:3px solid #fff;flex-shrink:0;cursor:pointer;transition:transform .2s;position:relative;z-index:2;}
+.tl-dot:hover{transform:scale(1.4);}
+.tl-year-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:1px;color:var(--muted);white-space:nowrap;text-align:center;}
+.tl-content{padding-top:2px;}
+.tl-card{background:#fff;border:1px solid var(--border);border-radius:4px;padding:14px 16px;cursor:pointer;transition:all .25s;box-shadow:0 2px 8px var(--shadow);}
+.tl-card:hover{box-shadow:0 6px 24px rgba(26,10,10,0.14);transform:translateY(-2px);}
+.tl-card.active{border-color:var(--gold);box-shadow:0 6px 24px rgba(191,138,26,0.2);}
+.tl-card h4{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--red);line-height:1.35;margin-bottom:4px;}
+.tl-event:nth-child(odd) .tl-card h4{text-align:right;}
+.tl-card .tl-desc{font-size:12.5px;color:var(--muted);line-height:1.6;display:none;}
+.tl-event:nth-child(odd) .tl-card .tl-desc{text-align:right;}
+.tl-card.active .tl-desc{display:block;}
+.tl-card .tl-icon{font-size:20px;margin-bottom:4px;}
+.tl-event:nth-child(odd) .tl-icon{text-align:right;}
+
+@media(max-width:700px){
+  .hero{padding:32px 20px;}
+  .wrap{padding:0 18px;}
+  .tl-line{left:20px;}
+  .tl-event{grid-template-columns:28px 1fr;}
+  .tl-event:nth-child(odd) .tl-content,.tl-event:nth-child(even) .tl-content{grid-column:2;text-align:left;padding:0 0 0 16px;}
+  .tl-event:nth-child(odd) .tl-center,.tl-event:nth-child(even) .tl-center{grid-column:1;grid-row:1;}
+  .tl-event:nth-child(odd) .tl-empty,.tl-event:nth-child(even) .tl-empty{display:none;}
+  .tl-event:nth-child(odd) .tl-card h4,.tl-event:nth-child(odd) .tl-card .tl-desc,.tl-event:nth-child(odd) .tl-icon{text-align:left;}
+  .tl-center{align-items:center;}
+  .part-body{padding:20px;}
+  .q-footer{flex-wrap:wrap;gap:8px;}
+}
+</style>
+</head>
+<body>
+
+<div class="tricolor"></div>
+
+<header class="hero">
+  <div class="hero-bg-dots"></div>
+  <div class="hero-bg-year">1789</div>
+  <div style="max-width:1100px;margin:0 auto;position:relative;z-index:1;">
+    <div class="hero-badge">SO med Petrus &nbsp;·&nbsp; SO-portalen.se</div>
+    <h1>Franska<br><em>Revolutionen</em></h1>
+    <p class="hero-sub">Läs, förstå och träna – alla fyra delar av kursmaterialet samlat på ett ställe. Skriv dina svar, kontrollera mot modellsvar och träna begreppen med flashcards.</p>
+    <div class="hero-chips">
+      <span class="chip chip-red">🗡️ 1789–1815</span>
+      <span class="chip chip-blue">📖 4 delar text</span>
+      <span class="chip chip-gold">🃏 Flashcards</span>
+      <span class="chip chip-gold">✍️ Skrivfrågor</span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-outer">
+  <div class="nav-inner">
+    <button class="nav-btn active" data-tab="lasning">📖 Läsning</button>
+    <button class="nav-btn" data-tab="fragor">✍️ Skrivfrågor</button>
+    <button class="nav-btn" data-tab="begrepp">🃏 Begrepp</button>
+    <button class="nav-btn" data-tab="tidslinje">📅 Tidslinje</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════ LÄSNING ═══════════ -->
+<div class="section active" id="tab-lasning">
+  <div class="wrap">
+    <div class="s-label">Kursmaterial</div>
+    <h2 class="s-title">Läs texterna</h2>
+    <div class="s-divider"></div>
+    <p class="s-desc">Klicka på varje del för att läsa. Alla fyra delar av kursmaterialet finns här.</p>
+    <div class="parts-grid">
+
+      <!-- DEL 1 -->
+      <div class="part-item">
+        <button class="part-toggle" onclick="togglePart(this)">
+          <div class="pt-left">
+            <span class="pt-num">Del 1</span>
+            <span class="pt-title">Bakgrund till den franska revolutionen</span>
+          </div>
+          <span class="pt-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">I Frankrike växte under slutet av 1700-talet ett starkt missnöje fram mot hur landet styrdes. Nästan all politisk makt låg hos kungen och adeln, medan stora delar av befolkningen saknade inflytande.</p>
+          <h3>Missnöje och förändring</h3>
+          <p>När landet dessutom drabbades av en djup ekonomisk kris bröt en revolution ut. Den franska revolutionen påminde på flera sätt om den amerikanska, men blev betydligt mer våldsam. Revolutionens idéer om mänskliga rättigheter kom att få stor betydelse långt in i framtiden. Samtidigt präglades tiden av blodiga uppgörelser, långvariga krig och politisk osäkerhet. Till slut tog Napoleon Bonaparte makten och blev en ny sorts ledare.</p>
+          <h3>Lyxliv och verklighet</h3>
+          <p>Sedan slutet av 1600-talet hade den franska kungafamiljen bott i slottet Versailles, strax utanför Paris. Där levde hovet ett praktfullt liv fyllt av fester, musik, teater och överdådiga måltider. Versailles blev en symbol för rikedom och makt. Bakom glansen dolde sig dock allvarliga problem. I slutet av 1780-talet led stora delar av befolkningen av brist på bröd och missväxt.</p>
+          <p>Staten hade dragit på sig stora skulder efter långa och dyra krig – bland annat mot Storbritannien och genom stödet till de amerikanska kolonisterna. Nu var statskassan nästan tom.</p>
+          <h3>Ståndssamhället i Frankrike</h3>
+          <h4>Tre grupper – olika villkor</h4>
+          <p>Frankrikes befolkning var indelad i tre stånd med mycket olika rättigheter och skyldigheter. <strong>Prästerna</strong> (första ståndet) betalade inte vanlig skatt – kyrkan tog istället ut tionde. <strong>Adeln</strong> (andra ståndet) slapp också skatt och hade ensamrätt på höga militärposter, jakt och fiske. <strong>Tredje ståndet</strong> – nästan 25 miljoner människor – betalade all skatt och var skyldiga att göra dagsverken åt adeln, betala avgifter för att använda kvarnar och vinpressar samt betala tionde till kyrkan.</p>
+          <h3>Generalständerna sammankallas</h3>
+          <p>När statens skulder växte uppstod frågan om vem som skulle betala. Kung Ludvig XVI, som blivit kung 1774, hade svårt att hantera krisen. Finansministern föreslog reformer, men adeln krävde att generalständerna – som inte sammankallats sedan 1614 – skulle besluta. År 1789 hade kungen inget val utan kallade samman riksdagen.</p>
+          <h3>Upplysningen och amerikanska förebilder</h3>
+          <p>Bland borgare och intellektuella spreds nya idéer. Många inspirerades av den amerikanska revolutionen och av upplysningens tankar om förnuft, frihet och människors lika värde. Dessa idéer ifrågasatte det gamla samhällets maktordning och kom att spela en avgörande roll för revolutionens utbrott.</p>
+        </div>
+      </div>
+
+      <!-- DEL 2 -->
+      <div class="part-item">
+        <button class="part-toggle" onclick="togglePart(this)">
+          <div class="pt-left"><span class="pt-num">Del 2</span><span class="pt-title">Revolutionen 1789</span></div>
+          <span class="pt-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">År 1789 kallades generalständerna samman till Versailles – och det som följde förändrade Frankrike för alltid.</p>
+          <h3>Från generalständer till nationalförsamling</h3>
+          <p>Tidigare hade varje stånd en gemensam röst, vilket innebar att prästerna och adeln alltid kunde rösta ner tredje ståndet. Tredje ståndet vägrade acceptera detta och bildade en ny riksdag – <strong>nationalförsamlingen</strong> – där varje ledamot hade en egen röst. Kungen stängde möteslokalen, varpå ledamöterna samlades i ett bollhus och svor eden att inte lämnas förrän Frankrike fått en ny grundlag.</p>
+          <h3>Bastiljen stormas – 14 juli 1789</h3>
+          <p>När befolkningen i Paris hörde att kungen samlade soldater kände de sig hotade. Den 14 juli 1789 stormade folkmassor fästningen Bastiljen för att komma åt vapen. Befälhavarens död blev en symbol för folkets vrede. Nyheten spred sig snabbt, och uppror bröt ut i hela landet – inklusive bondeuppror där adelsslott brändes och privilegiedokument förstördes.</p>
+          <h3>Det gamla systemet avskaffas</h3>
+          <p>Nationalförsamlingen avskaffade dagsverkena, prästerna avstod tiondet, och alla invånare skulle hädanefter betala skatt. Man antog också en förklaring om de mänskliga rättigheterna som slog fast att alla människor är födda fria och lika. Slagorden <em>"frihet, jämlikhet och broderskap"</em> föddes.</p>
+          <h3>Kungens makt försvagas</h3>
+          <p>Trots förändringarna fortsatte brödbristen. I oktober 1789 marscherade tusentals kvinnor till Versailles och krävde bröd. Kungen tvingades flytta till Paris och sattes i husarrest på Tuilerierna. Sommaren 1791 försökte kungafamiljen fly med hjälp av svenske greve Axel von Fersen – men avslöjades i Varennes och fördes tillbaka. Kraven på republik växte.</p>
+          <h3>Vänster, höger och krig</h3>
+          <p>I nationalförsamlingen satt de republikanska jakobinerna till vänster och monarkisterna till höger – begreppen vänster och höger i politiken föds här. Kungen lyckades övertala nationalförsamlingen att förklara krig mot grannländerna – i hemlighet hoppande han att Frankrike skulle förlora. Trots motgångar anmälde sig tusentals frivilliga och sjöng Marseljäsen, som senare blev nationalsång.</p>
+        </div>
+      </div>
+
+      <!-- DEL 3 -->
+      <div class="part-item">
+        <button class="part-toggle" onclick="togglePart(this)">
+          <div class="pt-left"><span class="pt-num">Del 3</span><span class="pt-title">Republiken, Skräckvälde och Napoleon</span></div>
+          <span class="pt-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">Kungen avsätts, guillotinen arbetar och en ung general tar makten – Frankrike genomgår sina våldsaste år.</p>
+          <h3>Republiken utropas</h3>
+          <p>Kungen greps och fördes till Tempeltornet. Monarkin avskaffades och Frankrike utropades till republik. I slutet av 1792 ställdes Ludvig XVI inför rätta. Hemliga dokument visade att han kontaktat landets fiender. Han dömdes till döden och avrättades med giljotin i januari 1793 – en chock för Europa.</p>
+          <h3>Välfärdsutskottet och Skräckväldet</h3>
+          <p>Med kriget utomlands och motståndare inomlands bildades välfärdsutskottet, lett av advokaten Robespierre. Det fungerade som en diktatorisk regering. Under <strong>skräckväldet 1793–1794</strong> avrättades ca 2 500 personer i Paris, däribland drottning Marie-Antoinette. Ute i landet dödades tusentals bönder som protesterade mot tvångsutskrivningar.</p>
+          <p>Till slut vände sig även medrevolut ionärer mot Robespierre. Han greps 1794 och avrättades – skräckväldet tog slut. Rika borgare tog kontrollen och ville bevara revolutionens reformer men hindra nya radikala rörelser.</p>
+          <h3>Napoleon tar makten</h3>
+          <p>Napoleon Bonaparte steg snabbt i graderna tack vare sina militära framgångar. År 1799 genomförde han en statskupp och blev envåldshärskare. Han genomförde reformer: vägar byggdes, handel uppmuntrades och <strong>Code Napoléon</strong> – en lagbok baserad på revolutionens idéer om likhet inför lagen – antogs. År 1804 krönte han sig till kejsare.</p>
+          <h3>Napoleons uppgång och fall</h3>
+          <p>Napoleon försökte besegra Storbritannien men förlorade sjöslaget vid Trafalgar 1805. Fälttåget mot Ryssland 1812 slutade i katastrof – av hundratusentals soldater återvände bara en bråkdel. Han besegrades vid Leipzig 1813, förvisades till Elba, återvände ("de hundra dagarna"), men besegrades slutgiltigt vid Waterloo 1815 och förvisades till S:t Helena.</p>
+          <h3>Wienkongressen</h3>
+          <p>Europas ledare samlades och ritade om kartan, återinförde kungahus och skapade ett system av maktbalans. Det dröjde nästan hundra år innan Europa åter drabbades av ett lika stort krig.</p>
+        </div>
+      </div>
+
+      <!-- DEL 4 -->
+      <div class="part-item">
+        <button class="part-toggle" onclick="togglePart(this)">
+          <div class="pt-left"><span class="pt-num">Del 4</span><span class="pt-title">Revolutionens efterdyningar</span></div>
+          <span class="pt-arrow">▼</span>
+        </button>
+        <div class="part-body">
+          <p class="reading-lead">Krigen är slut – men vad blev kvar? Mer än man tror.</p>
+          <h3>Ideal och verklighet 1815</h3>
+          <p>Många upplevde 1815 att revolutionen misslyckats: Frankrike styrdes åter av en kung, kvinnor saknade politiska rättigheter, slaveriet hade återinförts i kolonierna och kyrkan hade återfått inflytande. Men det gamla ståndssamhället gick aldrig att återställa fullt ut – revolutionen hade visat att makthavare kan störtas.</p>
+          <h3>Bestående förändringar</h3>
+          <ul>
+            <li>Grundläggande mänskliga rättigheter erkändes i lag</li>
+            <li>Lagen gäller lika för alla oavsett bakgrund</li>
+            <li>Tortyr avskaffades som straffmetod</li>
+            <li>Yrken öppnades för alla, inte bara privilegierade grupper</li>
+            <li>Kyrkans politiska makt begränsades</li>
+            <li>Tryckfrihet infördes</li>
+            <li>Handel underlättades (tullar togs bort)</li>
+            <li>Gemensamt måttsystem: meter, liter och kilo</li>
+            <li>Bibliotek och konstmuseer öppnades för allmänheten</li>
+            <li>Grunden lades för allmän folkskola</li>
+          </ul>
+          <p>Stormningen av Bastiljen den 14 juli 1789 firas fortfarande som Frankrikes nationaldag.</p>
+          <h3>Sverige i revolutionens skugga</h3>
+          <p>Sverige gick från envälde till maktdelning. Gustaf III styrde med nästan all makt när revolutionen bröt ut – han sköts 1792 på en maskeradbal av en adelsman. Gustav IV Adolf avsattes 1809 efter förlusten av Finland till Ryssland. Ny grundlag med maktdelning antogs. Den franske generalen Jean Baptiste Bernadotte valdes till tronföljare 1810 och besteg tronen 1818 som Karl Johan.</p>
+          <p>Karl Johan valde att stödja koalitionen mot Napoleon och riktade istället svenska trupper mot Danmark. Norge överfördes till Sverige men behöll sin riksdag och grundlag – en union bildades, och kriget 1814 räknas som Sveriges sista.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ SKRIVFRÅGOR ═══════════ -->
+<div class="section" id="tab-fragor">
+  <div class="wrap">
+    <div class="s-label">Träna skriva</div>
+    <h2 class="s-title">Skrivfrågor</h2>
+    <div class="s-divider"></div>
+    <p class="s-desc">Skriv ditt svar – sedan klickar du på "Visa modellsvar" för att jämföra. Försök formulera dig själv först!</p>
+
+    <div class="del-selector">
+      <button class="del-btn active" onclick="showDel('d1',this)">Del 1</button>
+      <button class="del-btn" onclick="showDel('d2',this)">Del 2</button>
+      <button class="del-btn" onclick="showDel('d3',this)">Del 3</button>
+      <button class="del-btn" onclick="showDel('d4',this)">Del 4</button>
+    </div>
+
+    <!-- DEL 1 FRÅGOR -->
+    <div class="questions-list active" id="qs-d1"></div>
+    <!-- DEL 2 FRÅGOR -->
+    <div class="questions-list" id="qs-d2"></div>
+    <!-- DEL 3 FRÅGOR -->
+    <div class="questions-list" id="qs-d3"></div>
+    <!-- DEL 4 FRÅGOR -->
+    <div class="questions-list" id="qs-d4"></div>
+  </div>
+</div>
+
+<!-- ═══════════ BEGREPP ═══════════ -->
+<div class="section" id="tab-begrepp">
+  <div class="wrap">
+    <div class="s-label">Begreppsträning</div>
+    <h2 class="s-title">Flashcards – Alla Begrepp</h2>
+    <div class="s-divider"></div>
+    <p class="s-desc">Klicka på ett kort för att se definitionen. Filtrera efter del eller visa alla på en gång.</p>
+    <div class="fc-filter" id="fcFilter"></div>
+    <div class="fc-count" id="fcCount"></div>
+    <div class="fc-grid" id="fcGrid"></div>
+  </div>
+</div>
+
+<!-- ═══════════ TIDSLINJE ═══════════ -->
+<div class="section" id="tab-tidslinje">
+  <div class="wrap">
+    <div class="s-label">Kronologi</div>
+    <h2 class="s-title">Tidslinje 1789–1815</h2>
+    <div class="s-divider"></div>
+    <p class="s-desc">Klicka på varje händelse för mer information. Följ revolutionens gång från Bastiljen till Waterloo.</p>
+    <div class="timeline-container">
+      <div class="tl-line"></div>
+      <div class="tl-events" id="tlEvents"></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer style="background:var(--ink);color:rgba(255,255,255,0.3);text-align:center;padding:22px;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:3px;">
+  SO-PORTALEN.SE &nbsp;·&nbsp; FRANSKA REVOLUTIONEN
+  <div style="height:3px;background:linear-gradient(to right,var(--blue) 33.3%,#fff 33.3% 66.6%,var(--red) 66.6%);margin-top:14px;opacity:0.3;"></div>
+</footer>
+
+<script>
+// ── TABS ──
+document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>{
+  const id=b.dataset.tab;
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(x=>x.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  b.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}));
+
+// ── PART ACCORDIONS ──
+function togglePart(btn){
+  const body=btn.nextElementSibling;
+  const open=btn.classList.contains('open');
+  document.querySelectorAll('.part-toggle.open').forEach(x=>{x.classList.remove('open');x.nextElementSibling.classList.remove('open');});
+  if(!open){btn.classList.add('open');body.classList.add('open');}
+}
+
+// ── QUESTIONS DATA ──
+const qData={
+  d1:[
+    {q:"Varför bröt den franska revolutionen ut? Nämn två orsaker.",a:"Ekonomisk kris och statsskulder – krigen mot bl.a. Storbritannien hade tömt statskassan. Missväxt och brödbrist som ökade missnöjet bland vanliga människor. (Ytterligare orsaker: det orättvisa ståndssamhället där tredje ståndet bar hela skattebördan, och upplysningens idéer som ifrågasatte kungens makt.)"},
+    {q:"Vad var Versailles, och varför blev det en symbol för lyx och makt?",a:"Versailles var ett storslaget slott utanför Paris där den franska kungafamiljen bodde sedan slutet av 1600-talet. Hovet levde där ett praktfullt liv med fester, musik och överdådiga måltider. Det blev en symbol för rikedom och makt eftersom det kontrasterade så kraftigt mot fattigdomen bland vanligt folk, och stod för allt det som revolutionen ville göra upp med."},
+    {q:"Vilka problem drabbade vanliga människor i slutet av 1780-talet när det gäller mat och priser?",a:"Missväxt ledde till brödbrist, och brödpriserna steg kraftigt – särskilt i städerna. Bönderna drabbades hårt av dåliga skördar och kunde inte föda sina familjer. Hunger och svält var utbredda."},
+    {q:"Varför hade Frankrike så stora skulder vid den här tiden? Nämn två exempel.",a:"Staten hade lånat enorma summor för att finansiera dyra krig, bland annat mot Storbritannien. Man hade också stöttat de amerikanska kolonisterna ekonomiskt i deras frihetskrig. Dessutom kostade hovlivet på Versailles enorma summor."},
+    {q:"Vad menas med att Frankrike var ett ståndssamhälle?",a:"Det innebär att befolkningen var indelad i tre grupper – stånd – med mycket olika rättigheter och skyldigheter. Präster och adel hade privilegier och betalade inte vanlig skatt, medan tredje ståndet (nästan hela befolkningen) bar hela skattebördan och hade färre rättigheter."},
+    {q:"Vilka två grupper slapp betala vanlig skatt, och vilka fördelar hade de?",a:"Prästerna (första ståndet) och adeln (andra ståndet) slapp betala vanlig skatt. Prästerna tog istället ut tionde av bönderna. Adeln hade dessutom ensamrätt på jakt, fiske, kvarnar och vinpressar, samt monopol på höga militärposter som officerare."},
+    {q:"Varför hade bönderna det särskilt svårt jämfört med andra grupper? Ge två exempel på bördor/avgifter.",a:"Bönderna var tvungna att göra dagsverken – obetalt arbete åt adeln. De betalade också tionde till kyrkan (en del av skörden), avgifter för att använda kvarnar och vinpressar, samt vanliga skatter. Dessutom drabbades de hårt av missväxt."},
+    {q:"Vad var tionde, och vem betalade det?",a:"Tionde var en obligatorisk avgift till kyrkan där bönderna tvingades lämna en del – ursprungligen en tiondel – av sin skörd. Det var bönderna i tredje ståndet som betalade det, till fördel för kyrkan (prästerna i första ståndet)."},
+    {q:"Vad var generalständerna, och varför blev det viktigt att kalla samman dem 1789?",a:"Generalständerna var Frankrikes riksdag med representanter från de tre stånden. De hade inte mötts sedan 1614. Det blev viktigt att kalla samman dem 1789 eftersom adeln hävdade att bara riksdagen fick besluta om nya skatter – och staten behövde desperat nya inkomster för att klara sin skuldbörda."},
+    {q:"Vilka nya idéer spreds under 1700-talet, och varifrån hämtade många inspiration?",a:"Upplysningens idéer om förnuft, frihet och människors lika värde spreds – de ifrågasatte kungens och adelns makt och talade om att samhället borde styras med förnuftet som grund. Många hämtade också inspiration från den amerikanska revolutionen (1776), där kolonierna befriat sig från brittiskt styre och skapat en ny friare stat."},
+  ],
+  d2:[
+    {q:"Varför kallades generalständerna samman till Versailles år 1789?",a:"Staten hade enorma skulder och saknade pengar. För att kunna förändra skattesystemet – och kanske tvinga adeln att betala skatt – krävde adeln att generalständerna skulle sammankallas. Kungen Ludvig XVI hade inget val och kallade samman riksdagen för första gången sedan 1614."},
+    {q:"Hur fungerade röstningen i generalständerna tidigare, och varför missgynnades det tredje ståndet?",a:"Varje stånd hade en gemensam röst. Det innebar att prästerna och adeln (två stånd) alltid kunde rösta ner tredje ståndet (ett stånd) med 2–1. Tredje ståndet representerade nästan hela befolkningen men saknade reellt inflytande."},
+    {q:"Vad var nationalförsamlingen, och varför bildades den?",a:"Nationalförsamlingen var en ny riksdag som bildades av tredje ståndet år 1789. Den bildades för att tredje ståndet vägrade acceptera det gamla systemet där de alltid röstades ner. I nationalförsamlingen fick varje ledamot en egen röst, vilket gav tredje ståndet reellt inflytande."},
+    {q:"Vad var eden i bollhuset, och varför var den ett hot mot kungens makt?",a:"Eden i bollhuset var ett löfte som nationalförsamlingens ledamöter avlade i ett bollhus i Versailles – de svor att inte lämnas förrän Frankrike fått en ny grundlag. Det var ett direkt hot mot kungen eftersom det innebar att de vägrade lyda hans order och tog makten att skriva en ny grundlag i egna händer."},
+    {q:"Varför stormades Bastiljen den 14 juli 1789?",a:"Befolkningen i Paris kände sig hotad när kungen beordrade soldater att samlas i Versailles och Paris. Man stormade Bastiljen – en gammal fästning – för att komma åt vapen och krut, och för att visa motstånd mot kungens makt. Händelsen blev en symbol för revolutionen."},
+    {q:"Hur spreds oroligheterna från Paris till resten av Frankrike?",a:"Nyheten om stormningen av Bastiljen spreds snabbt. Oroligheter bröt ut i många städer. På landsbygden genomförde bönder uppror och angrep adelns slott och herrgårdar – de brände byggnader och förstörde dokument som beskrev adelns rättigheter och böndernas skyldigheter."},
+    {q:"Vad gjorde nationalförsamlingen för att avskaffa det gamla ståndssamhället? Nämn två beslut.",a:"1) Dagsverkena avskaffades – bönderna slapp göra obetalt arbete åt adeln. 2) Tiondet avskaffades – prästerna avstod från sin skördeandel. Dessutom beslutades att alla invånare hädanefter skulle betala skatt, och man antog en förklaring om de mänskliga rättigheterna."},
+    {q:"Vad innehöll förklaringen om de mänskliga rättigheterna i stora drag?",a:"Den slog fast att alla människor är födda fria och lika i rättigheter. Den inspirerades av den amerikanska revolutionen och betonade frihet, jämlikhet och broderskap – som också blev revolutionens centrala slagord."},
+    {q:"Varför marscherade kvinnor till Versailles hösten 1789, och vad blev följden?",a:"Brödbristen fortsatte och priserna var höga. Tusentals kvinnor i Paris krävde bröd och marscherade till Versailles med allt från gevär till köksredskap. Nationalgardet följde. De trängde in i slottet och krävde att kungen följde med till Paris. Ludvig XVI kapitulerade och familjen fördes till Tuilerierna i Paris, där de hölls i husarrest."},
+    {q:"Varför försökte kungen fly 1791, och vad ledde flyktförsöket till?",a:"Kungen var missnöjd med sin begränsade makt och hoppades på hjälp från utländska kungahus. Med hjälp av svenske greve Axel von Fersen planerade de flykten till gränsen, men avslöjades i Varennes. Efter detta uppfattade många att kungen svek sitt land, och kraven på att avskaffa monarkin och bilda republik ökade kraftigt."},
+  ],
+  d3:[
+    {q:"Varför ökade misstänksamheten mot Ludvig XVI under revolutionen? Nämn en orsak.",a:"Kungen använde ofta sin vetorätt för att blockera nationalförsamlingens reformer, vilket ökade misstron. Man hittade också hemliga dokument som visade att han haft kontakt med Frankrikes fiender och aktivt motarbetat revolutionen."},
+    {q:"Vad innebar det att Frankrike blev en republik?",a:"Det innebar att monarkin avskaffades – kungen avsattes och landet styrdes inte längre av en kung. Makten låg i princip hos folkvalda representanter. Frankrike fick ett statsskick utan kung (och utan adel med formell makt)."},
+    {q:"Varför dömdes Ludvig XVI till döden? Nämn en sak som användes som bevis.",a:"I kungens residens hittades hemliga dokument som visade att han haft kontakt med Frankrikes fiender och aktivt motarbetat revolutionen. Samtliga närvarande vid rättegången ansåg honom skyldig till landsförräderi."},
+    {q:"Vad var välfärdsutskottet, och varför bildades det?",a:"Välfärdsutskottet var en grupp som fick i uppgift att leda landets försvar och säkra revolutionen, eftersom Frankrike hotades av krig utifrån och motståndare inifrån. Det leddes av Robespierre och fungerade snart som en diktatorisk regering."},
+    {q:"Vem var Robespierre, och varför fick han så stor makt?",a:"Robespierre var en advokat och ledare för välfärdsutskottet. Han fick stor makt för att han framstod som en kompromisslös försvarare av revolutionen. Han menade att landet behövde styras av 'en enda vilja' för att rädda revolutionen, och det gav honom stöd att koncentrera makten."},
+    {q:"Vad menas med skräckväldet, och vad hände med människor som misstänktes vara revolutionens fiender?",a:"Skräckväldet (1793–1794) var en period då terror användes som politiskt verktyg. Människor som misstänktes vara fiender till revolutionen greps, ställdes inför snabba rättegångar och avrättades med giljotin. I Paris avrättades ca 2 500 personer, däribland Marie-Antoinette. Ute i landet förekom massavrättningar av bönder."},
+    {q:"Varför vände sig andra revolutionärer mot Robespierre till slut?",a:"Skräckväldet drev till slut även medrevolut ionärer att vända sig mot Robespierre – ingen var säker från misstankar och avrättningar, inte ens revolutionens egna anhängare. De grep honom 1794 och han avrättades med giljotin, vilket avslutade skräckväldet."},
+    {q:"Hur tog Napoleon Bonaparte makten 1799?",a:"Napoleon hade blivit en folkkär militär hjälte och använde sitt stöd i armén för att genomföra en statskupp 1799. Han avskaffade republiken och blev landets envåldshärskare med militärens stöd."},
+    {q:"Ge två exempel på reformer/förändringar under Napoleon som nämns i texten.",a:"1) Code Napoléon – en lagbok baserad på likhet inför lagen och principen att alla ska betala skatt. 2) Infrastruktur – vägar byggdes och handel uppmuntrades. (Ytterligare: utbildning och vetenskap gynnades.)"},
+    {q:"Vad var Wienkongressen, och vad var målet efter Napoleonkrigen?",a:"Wienkongressen var ett möte där Europas ledare samlades efter Napoleons slutliga nederlag. Målet var att skapa stabilitet och förhindra nya stora krig. Europas karta ritades om, småstater slogs samman och man skapade ett system av maktbalans. Frankrike fick åter en kung."},
+  ],
+  d4:[
+    {q:"Varför kunde många år 1815 uppleva att den franska revolutionen hade misslyckats? Nämn två orsaker.",a:"Frankrike styrdes åter av en kung, och monarkin verkade ha återvänt. Slaveriet hade återinförts i kolonierna, och kvinnor hade fortfarande inte fått politiska rättigheter. Adeln och kyrkan hade dessutom återfått en del av sitt inflytande."},
+    {q:"Ge två exempel på saker som inte blev som revolutionens ideal om frihet och jämlikhet.",a:"Kvinnor fick inte rösträtt eller politiska rättigheter – trots talet om att alla är fria och lika. Slaveriet återinfördes i kolonierna, trots att revolutionen proklamerat alla människors frihet och lika värde."},
+    {q:"Varför gick det gamla ståndssamhället inte att återställa helt, även när Frankrike fick kung igen?",a:"Revolutionen hade visat att makthavare faktiskt kan störtas om de uppfattas som orättvisa – det var en erfarenhet som inte gick att sudda ut. De grundläggande förändringarna i lagar och samhällssystem (t.ex. likhet inför lagen, avskaffade privilegier) hade spridit sig och satt sig fast, även utanför Frankrike."},
+    {q:"Vad var Code Napoléon, och varför fick den betydelse även utanför Frankrike?",a:"Code Napoléon var en lagbok som Napoleon lät utforma, baserad på revolutionens idéer om likhet inför lagen och att alla ska betala skatt. Den fick betydelse utanför Frankrike eftersom Napoleons arméer spred den till erövrade territorier, och den blev en förebild för modern lagstiftning i många europeiska länder."},
+    {q:"Nämn tre långsiktiga förändringar som revolutionen bidrog till i Frankrike.",a:"Mänskliga rättigheter erkändes i lag. Lagen gäller lika för alla oavsett bakgrund. Tortyr avskaffades. Tryckfrihet infördes. Gemensamt måttsystem (meter, liter, kilo) infördes. Grunden lades för allmän folkskola. Bibliotek och museer öppnades för allmänheten. (Välj tre av dessa.)"},
+    {q:"Varför firar Frankrike nationaldag den 14 juli?",a:"Den 14 juli 1789 stormades Bastiljen i Paris – en händelse som kom att symbolisera revolutionens början och folkets uppror mot enväldet. Därför firas detta datum varje år som Frankrikes nationaldag."},
+    {q:"På vilka sätt påverkades Sverige av franska revolutionen och Napoleontiden? Nämn två förändringar.",a:"Sverige gick från envälde till ett system med maktdelning (ny grundlag 1809). Sverige förlorade Finland till Ryssland 1809 och bildade istället union med Norge 1814. En ny dynasti (Bernadotte) grundades. Det var också Sveriges sista krig (1814)."},
+    {q:"Vad hände med Gustav III år 1792, och varför styrdes Sverige sedan av en förmyndarregering?",a:"Gustav III sköts på en maskeradbal på Stockholms opera av en missnöjd adelsman och avled senare av sina skador. Eftersom hans son Gustav IV Adolf var minderårig tog en förmyndarregering över styret tills prinsen var gammal nog att regera."},
+    {q:"Varför förlorade Sverige Finland 1809, och vad hände med Gustav IV Adolf?",a:"Gustav IV Adolf styrde med envälde och var starkt motståndare till Napoleon. Ryssland utnyttjade situationen och angrep Finland 1808. Den svenska armén var dåligt rustad och förlorade. Kungen vägrade acceptera nederlaget, vilket skapade splittring i armén. En grupp officerare genomförde en statskupp: Gustav IV Adolf avsattes och fängslades, och i freden 1809 tvingades Sverige överlämna Finland till Ryssland."},
+    {q:"Hur uppstod unionen mellan Sverige och Norge 1814, och vilken kompromiss blev lösningen?",a:"Karl Johan (Bernadotte) riktade svenska trupper mot Danmark, som stod på Napoleons sida. Danmark tvingades överlämna Norge till Sverige. Norge hade dock utropat självständighet och antagit en grundlag. Ett kort krig följde, men avslutades i kompromiss: Norge fick behålla sin riksdag och sina egna lagar, men delade kung med Sverige – en personalunion bildades."},
+  ],
+};
+
+// ── RENDER QUESTIONS ──
+function showDel(id,btn){
+  document.querySelectorAll('.questions-list').forEach(q=>q.classList.remove('active'));
+  document.querySelectorAll('.del-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('qs-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function renderQuestions(){
+  Object.entries(qData).forEach(([del,qs])=>{
+    const container=document.getElementById('qs-'+del);
+    container.innerHTML=qs.map((q,i)=>`
+      <div class="q-card" id="qc-${del}-${i}">
+        <div class="q-num">Fråga ${i+1} av ${qs.length}</div>
+        <div class="q-text">${q.q}</div>
+        <textarea class="q-area" placeholder="Skriv ditt svar här (1–3 meningar)..." rows="3"></textarea>
+        <div class="q-footer">
+          <span class="q-hint">Försök formulera dig själv innan du visar svaret</span>
+          <button class="show-answer-btn" onclick="toggleAnswer('${del}',${i},this)">👁 Visa modellsvar</button>
+        </div>
+        <div class="q-model-answer" id="qa-${del}-${i}">
+          <div class="q-model-label">Modellsvar</div>
+          ${q.a}
+        </div>
+      </div>`).join('');
+  });
+}
+function toggleAnswer(del,i,btn){
+  const ans=document.getElementById('qa-'+del+'-'+i);
+  if(ans.classList.contains('show')){
+    ans.classList.remove('show');
+    btn.textContent='👁 Visa modellsvar';
+    btn.classList.remove('shown');
+  } else {
+    ans.classList.add('show');
+    btn.textContent='✕ Dölj svar';
+    btn.classList.add('shown');
+  }
+}
+
+// ── FLASHCARDS DATA ──
+const fcData=[
+  // DEL 1
+  {t:"Franska revolutionen",d:"En revolution i Frankrike som startade 1789 på grund av ekonomisk kris och missnöje med kungens makt.",del:1},
+  {t:"Versailles",d:"Slott utanför Paris där den franska kungafamiljen bodde och hovet levde ett mycket lyxigt liv.",del:1},
+  {t:"Statskuld",d:"Pengar som staten är skyldig eftersom den lånat för att betala utgifter, till exempel krig.",del:1},
+  {t:"Missväxt",d:"När skördarna slår fel, vilket leder till matbrist och höga priser.",del:1},
+  {t:"Ståndssamhälle",d:"Ett samhälle indelat i olika grupper (stånd) med olika rättigheter och skyldigheter.",del:1},
+  {t:"Tionde",d:"Avgift till kyrkan där bönderna tvingades lämna en del av sin skörd.",del:1},
+  {t:"Dagsverken",d:"Obetalt arbete som bönderna var tvungna att utföra åt adeln.",del:1},
+  {t:"Generalständerna",d:"Frankrikes riksdag med representanter från de tre stånden.",del:1},
+  {t:"Upplysningen",d:"Idérörelse under 1700-talet som betonade förnuft, frihet och kritik av gamla maktordningar.",del:1},
+  // DEL 2
+  {t:"Nationalförsamlingen",d:"Ny riksdag som bildades 1789 där varje ledamot hade en egen röst.",del:2},
+  {t:"Eden i bollhuset",d:"Löfte om att inte lämna Versailles förrän Frankrike fått en ny grundlag.",del:2},
+  {t:"Bastiljen",d:"Fästning i Paris som stormades den 14 juli 1789 och blev en symbol för revolutionen.",del:2},
+  {t:"Mänskliga rättigheter",d:"Idén att alla människor är födda fria och lika i rättigheter.",del:2},
+  {t:"Frihet, jämlikhet, broderskap",d:"Revolutionens centrala slagord.",del:2},
+  {t:"Flyktförsöket till Varennes",d:"Kungens misslyckade försök att fly landet 1791, som stärkte kraven på republik.",del:2},
+  {t:"Jakobiner / Vänster",d:"Politiskt läger som ville avskaffa monarkin. Satt till vänster i salen – därav 'vänster' i politiken.",del:2},
+  {t:"Marseljäsen",d:"Revolutionssång som sjöngs av soldater från Marseille och senare blev Frankrikes nationalsång.",del:2},
+  // DEL 3
+  {t:"Republik",d:"Statsskick utan kung – makten ligger hos folket eller folkvalda representanter.",del:3},
+  {t:"Giljotin",d:"Avrättningsredskap som användes under revolutionen och skräckväldet.",del:3},
+  {t:"Välfärdsutskottet",d:"Grupp som fick stor makt för att styra och försvara Frankrike under hotet från krig och inre motståndare.",del:3},
+  {t:"Robespierre",d:"Revolutionär ledare som styrde under skräckväldet och avrättades 1794.",del:3},
+  {t:"Skräckväldet",d:"Period 1793–1794 med terror som maktmedel och tusentals avrättningar.",del:3},
+  {t:"Statskupp",d:"Snabbt maktövertagande, ofta med militärt stöd – som Napoleons 1799.",del:3},
+  {t:"Code Napoléon",d:"Lagbok som spreds och påverkade lagar i Europa, baserad på likhet inför lagen.",del:3},
+  {t:"Wienkongressen",d:"Möte 1815 där Europas ledare skapade fred och ritade om kartan efter Napoleontiden.",del:3},
+  // DEL 4
+  {t:"Tryckfrihet",d:"Rätten att ge ut och sprida texter utan statlig censur – en av revolutionens bestående reformer.",del:4},
+  {t:"Folkskola",d:"Skola som är till för alla – grunden lades av revolutionens reformer.",del:4},
+  {t:"Maktdelning",d:"När makten delas mellan olika delar av staten (kung, riksdag, domstolar).",del:4},
+  {t:"Jean Baptiste Bernadotte (Karl Johan)",d:"Fransk general som valdes till svensk kronprins 1810 och blev kung 1818.",del:4},
+  {t:"Unionen Sverige–Norge",d:"Personalunion 1814–1905 där Sverige och Norge delade kung men Norge behöll sin riksdag och lagar.",del:4},
+];
+
+function renderFlashcards(filter){
+  const grid=document.getElementById('fcGrid');
+  const count=document.getElementById('fcCount');
+  const cards=filter==='alla' ? fcData : fcData.filter(c=>c.del===parseInt(filter));
+  count.textContent=cards.length+' begrepp';
+  grid.innerHTML=cards.map((c,i)=>`
+    <div class="fc-card" onclick="this.classList.toggle('flipped')">
+      <div class="fc-inner">
+        <div class="fc-front">
+          <span class="del-tag">Del ${c.del}</span>
+          <h4>${c.t}</h4>
+          <span class="flip-hint">▸ klicka för definition</span>
+        </div>
+        <div class="fc-back"><p>${c.d}</p></div>
+      </div>
+    </div>`).join('');
+}
+function buildFCFilter(){
+  const wrap=document.getElementById('fcFilter');
+  const opts=[['alla','Alla'],['1','Del 1'],['2','Del 2'],['3','Del 3'],['4','Del 4']];
+  wrap.innerHTML=opts.map(([v,l])=>`<button class="fc-btn${v==='alla'?' active':''}" onclick="fcSwitch('${v}',this)">${l}</button>`).join('');
+}
+function fcSwitch(v,btn){
+  document.querySelectorAll('.fc-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFlashcards(v);
+}
+
+// ── TIMELINE ──
+const tlData=[
+  {year:"1789",month:"Maj",icon:"🏛️",title:"Generalständerna sammankallas",desc:"Kung Ludvig XVI kallar samman riksdagen för första gången sedan 1614 för att lösa den ekonomiska krisen.",color:"#1A3066"},
+  {year:"1789",month:"Juni",icon:"🎾",title:"Eden i bollhuset",desc:"Tredje ståndets representanter bildar nationalförsamlingen och svär att inte lämnas förrän Frankrike fått en ny grundlag.",color:"#9B1B1B"},
+  {year:"1789",month:"14 jul",icon:"⚔️",title:"Bastiljen stormas",desc:"Folkmassor stormar Bastiljen i Paris. Händelsen sprider sig som en löpeld och utlöser uppror i hela landet.",color:"#9B1B1B"},
+  {year:"1789",month:"Aug",icon:"📜",title:"Mänskliga rättigheter antas",desc:"Nationalförsamlingen antar förklaringen om de mänskliga rättigheterna – alla människor är födda fria och lika.",color:"#BF8A1A"},
+  {year:"1789",month:"Okt",icon:"👩",title:"Kvinnotåget till Versailles",desc:"Tusentals kvinnor marscherar till Versailles och kräver bröd. Kungen tvingas flytta till Paris.",color:"#1A3066"},
+  {year:"1791",month:"Jun",icon:"🏃",title:"Flyktförsöket i Varennes",desc:"Kungafamiljen försöker fly med hjälp av greve Axel von Fersen men avslöjas och förs tillbaka till Paris.",color:"#9B1B1B"},
+  {year:"1792",month:"Sep",icon:"🇫🇷",title:"Republiken utropas",desc:"Monarkin avskaffas och Frankrike utropas till republik. Ludvig XVI sätts i fängelse.",color:"#BF8A1A"},
+  {year:"1793",month:"Jan",icon:"🪓",title:"Ludvig XVI avrättas",desc:"Den tidigare kungen döms för landsförräderi och avrättas med giljotin. Europa chockas.",color:"#9B1B1B"},
+  {year:"1793",month:"–1794",icon:"😨",title:"Skräckväldet",desc:"Robespierre och välfärdsutskottet styr med terror. Tusentals avrättas, däribland Marie-Antoinette.",color:"#9B1B1B"},
+  {year:"1794",month:"Jul",icon:"⚖️",title:"Robespierres fall",desc:"Medrevolut ionärer vänder sig mot Robespierre. Han grips och avrättas. Skräckväldet tar slut.",color:"#1A3066"},
+  {year:"1799",month:"Nov",icon:"⭐",title:"Napoleon tar makten",desc:"Napoleon Bonaparte genomför statskupp, avskaffar republiken och blir Frankrikes envåldshärskare.",color:"#BF8A1A"},
+  {year:"1804",month:"Dec",icon:"👑",title:"Napoleon kröner sig till kejsare",desc:"I Notre-Dame kröner Napoleon sig själv till kejsare – en symbol för hans egenrådiga makt.",color:"#BF8A1A"},
+  {year:"1812",month:"–",icon:"❄️",title:"Katastrofen i Ryssland",desc:"Napoleons invasion av Ryssland slutar i katastrof. Av hundratusentals soldater återvänder bara en bråkdel.",color:"#1A3066"},
+  {year:"1815",month:"Jun",icon:"🏳️",title:"Waterloo – Napoleons sista nederlag",desc:"Napoleon besegras slutgiltigt vid Waterloo och förvisas till ön S:t Helena, där han dör 1821.",color:"#9B1B1B"},
+  {year:"1815",month:"–",icon:"🗺️",title:"Wienkongressen",desc:"Europas ledare ritar om kartan och skapar ett system av maktbalans för att förhindra nya stora krig.",color:"#1A3066"},
+];
+function renderTimeline(){
+  const wrap=document.getElementById('tlEvents');
+  const dotColors={
+    "#9B1B1B":"#EF4444","#1A3066":"#60A5FA","#BF8A1A":"#FBBF24"
+  };
+  wrap.innerHTML=tlData.map((e,i)=>`
+    <div class="tl-event">
+      ${i%2===0?`
+        <div class="tl-content">
+          <div class="tl-card" id="tlc-${i}" onclick="toggleTL(${i})">
+            <div class="tl-icon">${e.icon}</div>
+            <h4>${e.title}</h4>
+            <p class="tl-desc">${e.desc}</p>
+          </div>
+        </div>
+        <div class="tl-center">
+          <div class="tl-dot" style="background:${dotColors[e.color]||'#FBBF24'};" onclick="toggleTL(${i})"></div>
+          <div class="tl-year-label">${e.year}<br>${e.month}</div>
+        </div>
+        <div class="tl-empty"></div>
+      `:`
+        <div class="tl-empty"></div>
+        <div class="tl-center">
+          <div class="tl-dot" style="background:${dotColors[e.color]||'#FBBF24'};" onclick="toggleTL(${i})"></div>
+          <div class="tl-year-label">${e.year}<br>${e.month}</div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-card" id="tlc-${i}" onclick="toggleTL(${i})">
+            <div class="tl-icon">${e.icon}</div>
+            <h4>${e.title}</h4>
+            <p class="tl-desc">${e.desc}</p>
+          </div>
+        </div>
+      `}
+    </div>`).join('');
+}
+function toggleTL(i){
+  const card=document.getElementById('tlc-'+i);
+  card.classList.toggle('active');
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded',()=>{
+  renderQuestions();
+  buildFCFilter();
+  renderFlashcards('alla');
+  renderTimeline();
+});
+</script>
+</body>
+</html>
