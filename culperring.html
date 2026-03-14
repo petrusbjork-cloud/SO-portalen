@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Washingtons spioner – Culper Ring</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #08090b;
+  --ink-lt:   #121418;
+  --paper:    #e8dfd3;
+  --paper-dk: #d0c2ac;
+  --gold:     #C8A96E;
+  --gold-dk:  #8B6914;
+  --red:      #8B1A1A;
+  --red-lt:   #C0392B;
+  --blue:     #1A365D;
+  --text:     #E8E0D0;
+  --text-dim: rgba(232,224,208,0.65);
+  --border:   rgba(200,169,110,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 40%, #11141a 0%, #08090b 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 80px 40px; text-align: center;
+}
+.hero-grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.95) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 7vw, 80px); font-weight: 900; line-height: 1.05;
+  color: var(--paper); text-shadow: 0 0 40px rgba(200,169,110,0.2);
+  margin-bottom: 24px; opacity: 0; animation: fadeUp 1s 0.5s forwards;
+}
+.hero h1 em { color: var(--gold); font-style: italic; font-weight: 400; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 650px; line-height: 1.5; font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.8s forwards; margin-bottom: 40px;
+}
+.scroll-hint {
+  position: absolute; bottom: 40px; font-family: var(--mono); font-size: 11px;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--gold), transparent); }
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article { max-width: 760px; margin: 0 auto; padding: 80px 40px; }
+.intro-text { font-size: 24px; font-style: italic; color: var(--paper); line-height: 1.6; margin-bottom: 48px; }
+
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; color: var(--paper); margin-bottom: 28px; }
+h2 em { color: var(--gold); font-style: italic; }
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+.section-marker { display: flex; align-items: center; gap: 20px; margin: 80px 0 32px; }
+.section-marker::before, .section-marker::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+.section-marker span { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px; padding: 40px 60px; border-left: 4px solid var(--gold);
+  background: linear-gradient(135deg, rgba(200,169,110,0.08), transparent); position: relative;
+}
+.pullquote::before {
+  content: '"'; font-family: 'Playfair Display', serif; font-size: 180px; line-height: 0.7;
+  color: var(--gold); opacity: 0.15; position: absolute; top: 20px; left: 20px; pointer-events: none;
+}
+.pullquote p { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); font-style: italic; font-weight: 400; color: var(--paper); line-height: 1.4; position: relative; }
+.pullquote cite { display: block; margin-top: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); font-style: normal; }
+
+/* ── CHARACTER CARDS ── */
+.agents-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 40px 0; }
+.agent-card { background: var(--ink-lt); border: 1px solid var(--border); padding: 32px; border-radius: 8px; position: relative; overflow: hidden; }
+.agent-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--gold); }
+.agent-code { font-family: var(--mono); font-size: 12px; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; }
+.agent-name { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; font-weight: 700; }
+.agent-desc { font-size: 16px; color: var(--text-dim); line-height: 1.6; margin: 0; }
+
+/* ── INVISIBLE INK INTERACTIVE ── */
+.ink-section { margin: 80px -40px; padding: 60px 40px; background: #050607; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); text-align: center; }
+.ink-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+.letter-wrapper {
+  background: var(--paper); color: #2b2620; max-width: 600px; margin: 0 auto 32px;
+  padding: 40px 50px; border-radius: 4px; box-shadow: inset 0 0 60px rgba(139,105,20,0.1), 0 20px 40px rgba(0,0,0,0.5);
+  text-align: left; font-family: 'Crimson Pro', serif; position: relative; transition: all 1.5s ease;
+}
+.letter-wrapper.revealed { background: #e3d3b8; box-shadow: inset 0 0 80px rgba(184,115,51,0.2), 0 0 30px rgba(200,169,110,0.2); }
+.letter-date { font-family: var(--mono); font-size: 12px; border-bottom: 1px solid rgba(0,0,0,0.2); padding-bottom: 10px; margin-bottom: 20px; }
+.letter-content { font-size: 20px; line-height: 2; position: relative; }
+.normal-text { position: relative; z-index: 2; }
+.secret-text {
+  position: absolute; color: var(--red); font-family: 'Playfair Display', cursive; font-style: italic; font-size: 18px;
+  opacity: 0; transition: opacity 2s ease; transform: translateY(-12px); pointer-events: none;
+  text-shadow: 0 0 5px rgba(139,26,26,0.3);
+}
+.letter-wrapper.revealed .secret-text { opacity: 1; }
+.fire-btn {
+  background: transparent; border: 1px solid var(--gold); color: var(--gold); padding: 16px 32px; border-radius: 30px;
+  font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.3s;
+}
+.fire-btn:hover { background: rgba(200,169,110,0.1); box-shadow: 0 0 15px rgba(200,169,110,0.3); }
+.fire-btn.active { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+
+/* ── CIPHER INTERACTIVE ── */
+.cipher-wrap {
+  margin: 60px 0; background: linear-gradient(135deg, rgba(26,54,93,0.2), rgba(8,9,11,0.9));
+  border: 1px solid rgba(44,82,130,0.5); border-radius: 8px; padding: 40px; display: flex; flex-direction: column; gap: 24px;
+}
+.cipher-header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px; }
+.cipher-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin: 0; }
+.cipher-badge { font-family: var(--mono); font-size: 10px; padding: 4px 8px; background: rgba(200,169,110,0.15); color: var(--gold); border-radius: 4px; }
+.cipher-machine { display: flex; gap: 20px; align-items: center; }
+.cipher-input-group { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.cipher-input-group label { font-family: var(--mono); font-size: 11px; text-transform: uppercase; color: var(--text-dim); }
+.cipher-input { background: rgba(0,0,0,0.5); border: 1px solid var(--border); color: var(--gold); font-family: var(--mono); font-size: 24px; padding: 16px; border-radius: 4px; text-align: center; outline: none; transition: border-color 0.2s; }
+.cipher-input:focus { border-color: var(--gold); }
+.cipher-arrow { font-size: 24px; color: var(--text-dim); }
+.cipher-result { background: rgba(200,169,110,0.05); border: 1px dashed var(--gold); color: var(--paper); font-family: 'Playfair Display', serif; font-size: 24px; padding: 16px; border-radius: 4px; text-align: center; min-height: 64px; display: flex; align-items: center; justify-content: center; font-style: italic; }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section { background: #050607; border-top: 1px solid var(--border); padding: 80px 40px; margin-top: 80px; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--gold); color: var(--gold); background: rgba(200,169,110,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+/* QUIZ UI */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 36px; }
+.quiz-level-selector { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.ql-btn { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px; border-radius: 6px; cursor: pointer; text-align: center; color: var(--text-dim); transition: all 0.2s; }
+.ql-btn:hover { border-color: var(--gold); background: rgba(200,169,110,0.05); }
+.ql-btn.active { border-color: var(--gold); background: rgba(200,169,110,0.1); color: var(--paper); }
+.ql-btn strong { display: block; font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 4px; color: inherit; }
+.ql-btn span { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+#quiz-play { display: none; margin-top: 24px; }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(200,169,110,0.2); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); margin-bottom: 20px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt { background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: 16px 20px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--gold); background: rgba(200,169,110,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A7A2A; background: rgba(42,122,42,0.15); color: #EAF6EA; }
+.quiz-opt.wrong { border-color: #C0392B; background: rgba(192,57,43,0.15); color: #FDECEA; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--gold); background: rgba(200,169,110,0.15); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 20px; padding: 16px 20px; background: rgba(200,169,110,0.1); border-left: 3px solid var(--gold); font-size: 16px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 20px; background: var(--blue); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); color: var(--ink); }
+
+.quiz-score-view { text-align: center; padding: 20px 0; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-dk)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(200,169,110,0.2); color: var(--ink); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.restart-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 20px; font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 2px; }
+.restart-btn:hover { color: var(--gold); border-color: var(--gold); }
+
+/* LISTS FOR DISCUSSION */
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(200,169,110,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(200,169,110,0.25); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--gold); }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .article { padding: 60px 24px; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 100px; }
+  .agents-grid { grid-template-columns: 1fr; }
+  .cipher-machine { flex-direction: column; }
+  .cipher-arrow { transform: rotate(90deg); }
+  .ink-section { margin: 60px -24px; padding: 40px 24px; }
+  .letter-wrapper { padding: 30px 20px; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-label">SO-Portalen · Historia · Amerikanska Revolutionen</div>
+  <h1>Washingtons<br><em>spioner</em></h1>
+  <p class="hero-sub">Året var 1776. Den amerikanska armén höll på att förlora kriget mot britterna. George Washington insåg att han inte behövde fler soldater – han behövde hemligheter.</p>
+  <div class="scroll-hint">
+    <span>Avkoda historien</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p class="intro-text">
+    "Jag ångrar endast att jag bara har ett liv att förlora för mitt land." Orden uttalades av Nathan Hale sekunder innan britterna hängde honom i New York. Hale var den amerikanska arméns första spion, och han var usel på det. Han blev påkommen nästan direkt.
+  </p>
+
+  <p>George Washington lärde sig en bitter läxa av Hales död. Militärer i uniform var dåliga spioner. De stack ut. För att infiltrera britternas högkvarter i New York behövde Washington människor som smälte in. Han behövde vanliga medborgare. Ur detta föddes <strong>The Culper Ring</strong> – nätverket som skulle komma att vända kriget.</p>
+
+  <div class="section-marker"><span>Del 1 · Nätverket i skuggorna</span></div>
+  <h2>De oväntade <em>hjältarna</em></h2>
+
+  <p>Spionnätverket grundades 1778 av officeren Benjamin Tallmadge, men det var inte han som utförde spionaget. Istället rekryterade han sina barndomsvänner från byn Setauket på Long Island.</p>
+
+  <div class="agents-grid">
+    <div class="agent-card">
+      <div class="agent-code">Agent 722</div>
+      <div class="agent-name">Abraham Woodhull</div>
+      <p class="agent-desc">En nervös, till synes harmlös bonde. Han reste ständigt in till New York för att "sälja grönsaker", men samlade egentligen in information om truppförflyttningar och brittiska krigsfartyg.</p>
+    </div>
+    <div class="agent-card">
+      <div class="agent-code">Agent 723</div>
+      <div class="agent-name">Robert Townsend</div>
+      <p class="agent-desc">En lojalistisk krogägare i New York. Brittiska officerare drack öl på hans krog och skröt om sina militära planer, ovetande om att ägaren memorerade varenda ord.</p>
+    </div>
+    <div class="agent-card">
+      <div class="agent-code">Agent 355</div>
+      <div class="agent-name">Den okända kvinnan</div>
+      <p class="agent-desc">Identiteten på "Agent 355" är än idag ett mysterium. Hon var troligen en kvinna i New Yorks societet som kunde charma ur hemligheter från högt uppsatta brittiska generaler på fester.</p>
+    </div>
+    <div class="agent-card">
+      <div class="agent-code">Signalisten</div>
+      <div class="agent-name">Anna Strong</div>
+      <p class="agent-desc">Hemmafru i Setauket. Hon hängde ut en svart kjol på sin tvättlina för att signalera till smugglare att ett hemligt meddelande var redo att hämtas. Antalet näsdukar bredvid kjolen angav exakt vilken vik de skulle gömma sig i.</p>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>Washington redigerade inte kriget med sitt svärd, utan med sin penna och sina spioner.</p>
+    <cite>Historikern Alexander Rose</cite>
+  </div>
+
+  <div class="section-marker"><span>Del 2 · Sympatiskt bläck</span></div>
+  <h2>Magin mellan <em>raderna</em></h2>
+
+  <p>Hur smugglade man ut hemlig information från en stad full av fiendesoldater? Om britterna hittade papper med truppförflyttningar väntade döden. Lösningen kom från en läkare vid namn James Jay: <strong>Sympathetic Stain</strong> (osynligt bläck).</p>
+
+  <p>Spionerna skrev vanliga, tråkiga brev om familjen eller affärer. Men mellan raderna målade de med det kemiska bläcket. När brevet nådde Washingtons högkvarter penslades det med en speciell framkallningsvätska. Prova själv nedan.</p>
+
+  <!-- INVISIBLE INK INTERACTIVE -->
+  <div class="ink-section">
+    <div class="ink-label">⚡ Interaktivt dokument</div>
+    <div class="letter-wrapper" id="spy-letter">
+      <div class="letter-date">New York, 14 Augusti 1779</div>
+      <div class="letter-content">
+        <span class="normal-text">Min käre vän. Affärerna går strålande här i staden.</span><br>
+        <span class="secret-text" style="left: 10px;">Amiral Arbuthnot har anlänt med flottan.</span><br>
+        <span class="normal-text">Vi har fått in ett nytt parti med fint tyg från London.</span><br>
+        <span class="secret-text" style="left: 40px;">Över 3000 soldater redo att marschera.</span><br>
+        <span class="normal-text">Jag hoppas din skörd blir god i höst.</span><br>
+        <span class="secret-text" style="left: 20px;">Varna 711. Attack planeras mot Rhode Island.</span><br>
+        <span class="normal-text">Hälsa familjen från mig. Vänligen, John.</span>
+      </div>
+    </div>
+    <button class="fire-btn" id="fire-btn" onclick="revealInk()">🔍 Aktivera framkallningsvätska</button>
+  </div>
+
+  <div class="section-marker"><span>Del 3 · Washingtons chiffer</span></div>
+  <h2>Att tala i <em>siffror</em></h2>
+
+  <p>Även om breven blev funna och framkallade av britterna, fanns ett extra lager av säkerhet. Major Tallmadge skapade en kodbok. Han tog 763 vanliga ord och bytte ut dem mot siffror. Människor fick också egna nummer.</p>
+
+  <!-- CIPHER INTERACTIVE -->
+  <div class="cipher-wrap">
+    <div class="cipher-header">
+      <h3 class="cipher-title">Culper Codebook</h3>
+      <span class="cipher-badge">Testa chiffermaskinen</span>
+    </div>
+    <p style="font-size: 16px; color: var(--text-dim); margin: 0 0 10px;">Skriv in koden <strong>711</strong>, <strong>727</strong>, <strong>355</strong> eller <strong>135</strong> i rutan för att se vad spionerna menade.</p>
+    <div class="cipher-machine">
+      <div class="cipher-input-group">
+        <label>Ange sifferkod</label>
+        <input type="number" id="cipher-input" class="cipher-input" placeholder="T.ex. 711" oninput="decode()">
+      </div>
+      <div class="cipher-arrow">→</div>
+      <div class="cipher-input-group">
+        <label>Betydelse (Avkodat)</label>
+        <div class="cipher-result" id="cipher-result">...</div>
+      </div>
+    </div>
+  </div>
+
+  <p>The Culper Ring räddade den franska flottan (som kom för att hjälpa amerikanerna) från ett brittiskt bakhåll, och de avslöjade den amerikanska generalen Benedict Arnold som en förrädare. Trots att de levde i livsfara varje dag, blev ingen av kärnmedlemmarna i The Culper Ring någonsin påkomna av britterna.</p>
+
+</article>
+
+<!-- ══════════════════════════════
+     TEACHER SECTION & QUIZ
+══════════════════════════════ -->
+<section class="teacher-section">
+  <div class="teacher-inner">
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns quiz i två nivåer för att testa begreppsförståelsen, samt förslag på diskussionsfrågor för klassrummet.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+        <button class="t-tab" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Lgr22 Syfte</button>
+      </div>
+    </div>
+
+    <!-- QUIZ TAB -->
+    <div class="t-panel active" id="t-quiz">
+      <div class="quiz-wrap">
+        <div class="quiz-level-selector" id="lvl-selector">
+          <button class="ql-btn active" onclick="selectQuizLevel(1, this)">
+            <strong>Nivå 1</strong><span>Fakta om nätverket</span>
+          </button>
+          <button class="ql-btn" onclick="selectQuizLevel(2, this)">
+            <strong>Nivå 2</strong><span>Analys av metoder</span>
+          </button>
+        </div>
+
+        <div id="quiz-intro">
+          <h3 id="qi-title">Nivå 1: Fakta om nätverket</h3>
+          <p id="qi-desc">Testa om du minns vilka spionerna var och hur de dolde sina spår.</p>
+          <button class="quiz-next-btn" onclick="startQuiz()">Starta Quiz →</button>
+        </div>
+
+        <div id="quiz-play">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 4</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          <div class="quiz-options" id="quiz-opts"></div>
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 4</div>
+          </div>
+          <h3 style="color:var(--paper); margin-bottom:10px;" id="score-title">Bra jobbat!</h3>
+          <p style="color:var(--text-dim);" id="score-msg">Du har slutfört nivån.</p>
+          <button class="restart-btn" onclick="resetQuizUI()">Välj en ny nivå ↺</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISKUSSION TAB -->
+    <div class="t-panel" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Vem är lämpligast som spion?</h4>
+          <ul class="q-list">
+            <li>George Washington ville inte använda soldater i uniform som spioner i New York. Varför var civila (som krogägare och bönder) mycket farligare för britterna än tränade soldater?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Risk och belöning</h4>
+          <ul class="q-list">
+            <li>Att vara spion innebar säker död (hängning) om man blev påkommen. Varför tror ni att vanliga människor som Abraham Woodhull riskerade sina liv för detta, istället för att bara stanna hemma och sköta sina gårdar?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- LGR22 TAB -->
+    <div class="t-panel" id="t-lgr">
+      <div class="q-block">
+        <div class="q-num">📋</div>
+        <div class="q-content">
+          <h4>Historia (Åk 7-9)</h4>
+          <p style="color:var(--text-dim); line-height:1.6;"><strong>Centralt innehåll:</strong> Revolutioner och framväxten av nya idéer. Historiska berättelser från olika delar av världen och hur de har använts och används för att skapa gemenskaper.<br><br>Att studera The Culper Ring ger eleverna en förståelse för att historia inte bara skapas av de som står längst fram, utan även av "vanliga" människor. Det lyfter också fram kvinnors avgörande (men ofta osynliga) roller i historiska konflikter (Anna Strong, Agent 355).</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── INVISIBLE INK ──
+let isRevealed = false;
+function revealInk() {
+  const letter = document.getElementById('spy-letter');
+  const btn = document.getElementById('fire-btn');
+  
+  if(!isRevealed) {
+    letter.classList.add('revealed');
+    btn.classList.add('active');
+    btn.innerHTML = '✨ Texten är framkallad';
+    isRevealed = true;
+  } else {
+    letter.classList.remove('revealed');
+    btn.classList.remove('active');
+    btn.innerHTML = '🔍 Aktivera framkallningsvätska';
+    isRevealed = false;
+  }
+}
+
+// ── CIPHER MACHINE ──
+const dictionary = {
+  "711": "George Washington",
+  "727": "New York",
+  "355": "Dam / Kvinna",
+  "135": "Fiende",
+  "722": "Abraham Woodhull (Spion)",
+  "723": "Robert Townsend (Spion)",
+  "38": "Attack",
+  "349": "Skepp"
+};
+
+function decode() {
+  const input = document.getElementById('cipher-input').value;
+  const resultDiv = document.getElementById('cipher-result');
+  
+  if(input === '') {
+    resultDiv.textContent = '...';
+    resultDiv.style.color = 'var(--paper)';
+  } else if (dictionary[input]) {
+    resultDiv.textContent = dictionary[input];
+    resultDiv.style.color = 'var(--gold)';
+  } else {
+    resultDiv.textContent = '[Okänd kod]';
+    resultDiv.style.color = 'var(--red-lt)';
+  }
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── QUIZ ENGINE ──
+const quizDB = {
+  1: [
+    { q: "Vad hette det berömda spionnätverket som George Washington skapade?", opts: ["The Sons of Liberty", "The Culper Ring", "The Redcoats", "MI6"], correct: 1, fb: "Rätt! Namnet 'Culper' var taget från de alias som de två huvudspionerna använde (Samuel Culper Sr. och Jr.)." },
+    { q: "Varför valde Washington att anlita civila istället för soldater?", opts: ["Soldaterna var för dyra.", "De civila krävde inte vapen.", "Civila (som bönder) smälte in och misstänktes inte lika lätt av britterna.", "Han litade inte på generalerna i sin armé."], correct: 2, fb: "Helt rätt. En bonde som sålde kål eller en krogägare väckte ingen misstanke hos fienden." },
+    { q: "Hur signalerade Anna Strong att ett hemligt meddelande var redo att hämtas?", opts: ["Hon tände en eld på stranden.", "Hon sjöng en speciell sång på gatan.", "Hon hängde ut en svart kjol på tvättlinan.", "Hon ringde i kyrkklockan tre gånger."], correct: 2, fb: "Korrekt! Ett genialiskt sätt att signalera i hemlighet, eftersom det bara såg ut som vanlig vardagssyssla." },
+    { q: "Vad hände om man blev påkommen som spion under denna tid?", opts: ["Man fick böter.", "Man blev utvisad till England.", "Man sattes i fängelse i 5 år.", "Man blev hängd."], correct: 3, fb: "Rätt. Spionage ansågs vara det värsta brottet, och bestraffades nästan alltid med döden genom hängning, som för Nathan Hale." }
+  ],
+  2: [
+    { q: "Vad var 'Sympathetic Stain' för något?", opts: ["En sjukdom som drabbade soldater.", "Ett osynligt bläck som trädde fram genom kemikalier/värme.", "Ett kodord för Washingtons högkvarter.", "Britternas tortyrmetod."], correct: 1, fb: "Rätt! Spionerna skrev mellan raderna med detta bläck för att dölja riktiga meddelanden i falska brev." },
+    { q: "Agent 355 är känd i spionringen, men varför pratar vi fortfarande om henne?", opts: ["Hon mördade en brittisk kung.", "Hon var den enda som avslöjade sig i en bok.", "Hennes sanna identitet är fortfarande ett olöst mysterium.", "Hon designade den amerikanska flaggan."], correct: 2, fb: "Korrekt! Historiker vet än idag inte vem denna extremt viktiga kvinnliga spion var." },
+    { q: "Vad är fördelen med att använda ett 'sifferchiffer' som kodbok?", opts: ["Breven tog mindre plats.", "Även om britterna kunde läsa orden, visste de inte vem '711' eller '727' var.", "Siffror var billigare att trycka.", "Spionerna kunde inte skriva bokstäver."], correct: 1, fb: "Rätt! Chiffret lade till ett extra lager av säkerhet om bläcket skulle bli upptäckt." },
+    { q: "Vilken är en stor historisk slutsats man kan dra av The Culper Ring?", opts: ["Att krig enbart vinns på slagfältet med stora kanoner.", "Att Storbritannien egentligen inte ville vinna kriget.", "Att underrättelsetjänst och civilas insatser kan vara avgörande för en nations framtid.", "Att spionage är ett modernt påhitt från 1900-talet."], correct: 2, fb: "Helt rätt. Culper Ring visar att information och hemligheter var precis lika viktiga som krut och kulor." }
+  ]
+};
+
+let currentLvl = 1;
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A','B','C','D'];
+
+function selectQuizLevel(lvl, btn) {
+  document.querySelectorAll('.ql-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLvl = lvl;
+  document.getElementById('qi-title').textContent = btn.querySelector('strong').textContent;
+  document.getElementById('qi-desc').textContent = btn.querySelector('span').textContent;
+}
+
+function resetQuizUI() {
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-intro').style.display = 'block';
+  document.getElementById('lvl-selector').style.display = 'flex';
+}
+
+function startQuiz() {
+  document.getElementById('lvl-selector').style.display = 'none';
+  document.getElementById('quiz-intro').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0; score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const data = quizDB[currentLvl];
+  const q = data[currentQ];
+  
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${data.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / data.length * 100) + '%';
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const data = quizDB[currentLvl];
+  const q = data[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.fb}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.fb}`;
+  }
+  
+  fb.style.display = 'block';
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < data.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizDB[currentLvl].length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const len = quizDB[currentLvl].length;
+  const pct = score / len;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Du skulle platsa perfekt i The Culper Ring."; }
+  else if(pct >= 0.5) { title = "Bra jobbat! ⭐"; msg = "Du har greppat huvuddragen i spionnätverket."; }
+  else { title = "Läs igenom igen 📖"; msg = "Ett hemligt meddelande: Läs texten igen och försök på nytt!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
