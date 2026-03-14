@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="En komplett sammanfattning av Franska revolutionen (1789-1799). Läs om orsakerna, händelseförloppet, konsekvenserna, gör vårt quiz och öva på provfrågor.">
+<title>Franska revolutionen: Sammanfattning, orsaker, konsekvenser & Quiz | SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --royal-blue: #0A1B3F;
+  --royal-blue-lt: #1E346A;
+  --blood-red: #8B1A1A;
+  --blood-red-lt: #C02A2A;
+  --gold: #C89B3C;
+  --gold-lt: #FDF8ED;
+  --paper: #F5F0E6;
+  --paper-dk: #E8DFCE;
+  --text: #1A1A1A;
+  --muted: #5C5549;
+  --border: #D5CABD;
+  --green: #2E5A2E;
+  --green-lt: #EBF2EB;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { 
+  font-family: 'Source Serif 4', Georgia, serif; 
+  background: var(--paper); 
+  color: var(--text); 
+  line-height: 1.8; 
+  font-size: 18px;
+}
+
+/* ── TYPOGRAPHY & LAYOUT ── */
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--royal-blue); line-height: 1.2; }
+h2 { font-size: 32px; font-weight: 900; margin: 48px 0 24px; position: relative; padding-bottom: 12px; }
+h2::after { content: ''; position: absolute; left: 0; bottom: 0; width: 60px; height: 4px; background: var(--blood-red); }
+p { margin-bottom: 24px; }
+strong { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; color: var(--royal-blue); }
+
+.container { max-width: 800px; margin: 0 auto; padding: 0 24px 60px; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--royal-blue); color: white;
+  padding: 80px 24px; text-align: center;
+  border-bottom: 6px solid var(--gold);
+  background-image: linear-gradient(rgba(10,27,63,0.9), rgba(10,27,63,0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" opacity="0.05"><text x="10" y="50" fill="white" font-family="serif" font-size="40">Liberté</text></svg>');
+}
+.hero-label { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+.hero h1 { color: white; font-size: clamp(36px, 6vw, 56px); font-weight: 900; margin-bottom: 24px; }
+.hero p { font-size: 20px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; line-height: 1.5; }
+
+/* ── INTERACTIVE 1: PERSPEKTIV ── */
+.perspective-box {
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  padding: 32px; margin: -40px auto 48px; position: relative; z-index: 10;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08); max-width: 800px;
+}
+.perspective-box h3 { font-size: 24px; text-align: center; margin-bottom: 24px; }
+.roles { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+.role-btn {
+  flex: 1; min-width: 120px; padding: 16px; border: 2px solid var(--border);
+  background: var(--paper); border-radius: 6px; cursor: pointer;
+  font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--muted);
+  transition: all 0.2s; text-align: center;
+}
+.role-btn:hover { border-color: var(--royal-blue); color: var(--royal-blue); }
+.role-btn.active { background: var(--royal-blue); color: white; border-color: var(--royal-blue); }
+.role-content { display: none; padding: 24px; background: var(--gold-lt); border-left: 4px solid var(--gold); font-style: italic; font-size: 17px; }
+.role-content.active { display: block; animation: fadeIn 0.4s ease; }
+
+/* ── INTERACTIVE 2: KRUTTUNNAN (Orsaker) ── */
+.cause-machine {
+  background: var(--royal-blue); border-radius: 8px; padding: 40px; color: white;
+  margin: 40px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  box-shadow: 0 8px 30px rgba(10,27,63,0.15);
+}
+@media(max-width: 768px) { .cause-machine { grid-template-columns: 1fr; } }
+.cause-machine h3 { color: white; font-size: 24px; margin-bottom: 16px; }
+.cause-machine p { color: rgba(255,255,255,0.7); font-size: 16px; }
+.cause-btns { display: flex; flex-direction: column; gap: 12px; }
+.cause-btn {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  color: white; padding: 16px; border-radius: 6px; cursor: pointer;
+  font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600;
+  text-align: left; transition: all 0.2s; display: flex; justify-content: space-between;
+}
+.cause-btn:hover { background: rgba(255,255,255,0.2); }
+.cause-btn.active { background: var(--blood-red); border-color: var(--blood-red); }
+.meter-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.meter-glass { width: 100px; height: 250px; background: rgba(0,0,0,0.3); border: 4px solid var(--gold); border-radius: 50px; position: relative; overflow: hidden; margin-bottom: 20px; }
+.meter-fill { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; background: var(--blood-red); transition: height 0.5s ease; }
+.meter-label { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); }
+.explosion { display: none; color: #FF4500; font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; text-align: center; animation: pulse 1s infinite; text-shadow: 0 0 10px rgba(255,69,0,0.5); }
+
+/* ── INTERACTIVE 3: TIDSLINJEN ── */
+.timeline { margin: 48px 0; border-left: 4px solid var(--royal-blue); padding-left: 32px; position: relative; }
+.tl-item { margin-bottom: 40px; position: relative; cursor: pointer; }
+.tl-item::before {
+  content: ''; position: absolute; left: -42px; top: 0; width: 20px; height: 20px;
+  background: white; border: 4px solid var(--royal-blue); border-radius: 50%;
+  transition: all 0.3s;
+}
+.tl-item:hover::before { background: var(--blood-red); border-color: var(--blood-red); }
+.tl-year { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: var(--blood-red); letter-spacing: 2px; }
+.tl-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--royal-blue); margin: 4px 0 12px; }
+.tl-content { 
+  display: none; background: white; border: 1px solid var(--border); padding: 24px; 
+  border-radius: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); font-size: 16px;
+}
+.tl-item.active .tl-content { display: block; animation: slideDown 0.3s ease; }
+.tl-item.active::before { background: var(--blood-red); border-color: var(--blood-red); }
+
+/* ── SUMMARY BOX ── */
+.summary-box {
+  background: var(--gold-lt); border: 2px dashed var(--gold); border-radius: 8px;
+  padding: 32px; margin: 60px 0; text-align: center;
+}
+.summary-box h3 { font-size: 28px; margin-bottom: 16px; color: var(--royal-blue); }
+.summary-box ul { list-style: none; text-align: left; max-width: 500px; margin: 0 auto; }
+.summary-box li { margin-bottom: 12px; position: relative; padding-left: 24px; font-size: 16px; }
+.summary-box li::before { content: '→'; position: absolute; left: 0; color: var(--blood-red); font-weight: 700; }
+
+/* ── INTERACTIVE 4: QUIZ ── */
+.quiz-section { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 40px; margin-top: 60px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
+.quiz-header { text-align: center; margin-bottom: 32px; }
+.quiz-header h3 { font-size: 28px; margin-bottom: 8px; }
+.quiz-header p { color: var(--muted); margin: 0; font-size: 16px; }
+.q-progress { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; display: block; }
+.q-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--royal-blue); margin-bottom: 24px; line-height: 1.4; }
+.q-opts { display: flex; flex-direction: column; gap: 12px; }
+.q-opt {
+  background: white; border: 2px solid var(--border); border-radius: 6px;
+  padding: 16px 20px; font-family: 'Source Serif 4', serif; font-size: 16px; color: var(--text);
+  text-align: left; cursor: pointer; transition: all 0.2s;
+}
+.q-opt:hover:not(:disabled) { border-color: var(--royal-blue); background: rgba(10,27,63,0.03); }
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); font-weight: 600; }
+.q-opt.wrong { background: var(--blood-red-lt); border-color: var(--blood-red); color: white; }
+.q-opt:disabled { cursor: default; }
+.q-feedback { display: none; margin-top: 24px; padding: 16px 20px; border-radius: 6px; border-left: 4px solid; font-size: 16px; animation: fadeIn 0.3s ease; }
+.q-feedback.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.q-feedback.wrong { background: rgba(139,26,26,0.1); border-color: var(--blood-red); color: var(--blood-red); }
+.q-next-btn { background: var(--royal-blue); color: white; border: none; font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 700; padding: 14px 28px; border-radius: 4px; cursor: pointer; margin-top: 24px; display: none; width: 100%; transition: background 0.2s; }
+.q-next-btn:hover { background: var(--royal-blue-lt); }
+
+/* Quiz Score View */
+#quiz-score-view { text-align: center; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--royal-blue); border: 4px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.7); }
+.retry-btn { background: transparent; border: 2px solid var(--royal-blue); color: var(--royal-blue); padding: 12px 24px; border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+.retry-btn:hover { background: rgba(10,27,63,0.05); }
+
+/* ── INTERACTIVE 5: WRITING PROMPTS ── */
+.essay-section { margin-top: 60px; }
+.essay-card { background: white; border: 1px solid var(--border); border-left: 6px solid var(--gold); padding: 32px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+.essay-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
+.essay-q { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--royal-blue); margin-bottom: 20px; }
+.essay-textarea { width: 100%; padding: 16px; border: 2px solid var(--border); border-radius: 6px; font-family: 'Source Serif 4', serif; font-size: 16px; background: var(--paper); resize: vertical; margin-bottom: 16px; transition: border-color 0.2s; }
+.essay-textarea:focus { outline: none; border-color: var(--royal-blue); background: white; }
+.hint-btn { background: transparent; border: none; color: var(--blood-red); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; padding: 0; }
+.hint-box { display: none; background: var(--gold-lt); padding: 20px; border-radius: 6px; border: 1px dashed var(--gold); margin-top: 16px; font-size: 15px; color: var(--text); animation: fadeIn 0.3s ease; }
+.hint-box strong { color: var(--royal-blue); display: block; margin-bottom: 8px; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="hero-label">SO-Portalen · Historia</span>
+  <h1>Franska revolutionen: Sammanfattning (1789–1799)</h1>
+  <p>Hur ett land gick från absolut monarki till skräckvälde, och slutligen gav upphov till de idéer som formade dagens moderna demokratier.</p>
+</header>
+
+<main class="container">
+  
+  <section class="perspective-box">
+    <h3>Innan vi börjar: Vem är du i 1780-talets Frankrike?</h3>
+    <div class="roles">
+      <button class="role-btn" onclick="setRole(1)">Adeln</button>
+      <button class="role-btn" onclick="setRole(2)">Prästen</button>
+      <button class="role-btn" onclick="setRole(3)">Bonden</button>
+    </div>
+    <div id="role-1" class="role-content">"Livet är underbart! Jag betalar ingen skatt, jag äger all mark runt min by, och bönderna måste arbeta gratis för mig. Kungen bjuder in mig till fester på slottet Versailles. Varför klagar folk?"</div>
+    <div id="role-2" class="role-content">"Gud har ordnat samhället precis som det ska vara. Kyrkan äger en femtedel av all mark i Frankrike och vi betalar ingen skatt. Istället betalar folket tionde (skatt) till oss. Vi ber, adeln krigar, bönderna arbetar."</div>
+    <div id="role-3" class="role-content">"Jag svälter. Skörden slog fel i år igen. Jag måste betala skatt till kungen, avgift till kyrkan, och hyra till adelsmannen. Jag har inte ens råd att köpa bröd till mina barn, men om jag jagar en kanin i skogen blir jag hängd. Något måste förändras!"</div>
+  </section>
+
+  <article>
+    <p>Franska revolutionen är en av världshistoriens mest dramatiska händelser. På bara några år förvandlades Frankrike från ett land där en enväldig kung och en lyxig adel styrde allt, till en blodig republik där kungen halshöggs. Men för att förstå <em>varför</em> det small, måste vi titta på hur samhället var uppbyggt.</p>
+
+    <h2>Bakgrund: Hur såg samhället ut i Frankrike?</h2>
+    <p>På 1700-talet var Frankrike indelat i ett <strong>ståndssamhälle</strong>. Detta innebar att befolkningen delades in i tre grupper (stånd) med helt olika lagar och rättigheter:</p>
+    <ul>
+      <li><strong>Första ståndet (Prästerna):</strong> Cirka 100 000 personer. Betalade ingen skatt, men drev in skatt från folket.</li>
+      <li><strong>Andra ståndet (Adeln):</strong> Cirka 400 000 personer. Betalade ingen skatt, ägde den mesta marken och hade ensamrätt på alla höga yrken (som officerare i armén).</li>
+      <li><strong>Tredje ståndet (Alla andra):</strong> Cirka 24 miljoner människor! Här fanns rika advokater och köpmän (borgare), men framförallt miljontals fattiga bönder. Det var <em>bara</em> det tredje ståndet som betalade skatt.</li>
+    </ul>
+    <p>På toppen av detta orättvisa system satt kung Ludvig XVI. Han var enväldig, vilket betyder att han (och hans fru Marie Antoinette) i teorin kunde bestämma precis vad de ville eftersom de ansågs ha fått sin makt direkt från Gud.</p>
+
+    <h2>Vilka var orsakerna till franska revolutionen?</h2>
+    <p>Varför bröt revolutionen ut just 1789? Det var inte en enda händelse, utan en perfekt storm av problem som tvingade landet över kanten. Klicka på faktorerna i vår revolutions-mätare nedan för att se hur kruttunnan fylldes!</p>
+
+    <!-- INTERACTIVE CAUSE MACHINE -->
+    <div class="cause-machine">
+      <div>
+        <h3>Fyll Kruttunnan</h3>
+        <p>Klicka på orsakerna för att se hur trycket ökar i det franska samhället.</p>
+        <div class="cause-btns">
+          <button class="cause-btn" onclick="addCause(this)">Den djupa ekonomiska krisen <span>+</span></button>
+          <button class="cause-btn" onclick="addCause(this)">Svält och missväxt (Brödbristen) <span>+</span></button>
+          <button class="cause-btn" onclick="addCause(this)">Upplysningens nya idéer <span>+</span></button>
+          <button class="cause-btn" onclick="addCause(this)">Inspiration från USA <span>+</span></button>
+          <button class="cause-btn" onclick="addCause(this)">Ett svagt ledarskap <span>+</span></button>
+        </div>
+      </div>
+      <div class="meter-wrap">
+        <div class="meter-glass">
+          <div class="meter-fill" id="meter-fill"></div>
+        </div>
+        <div class="meter-label" id="meter-label">0% Tryck</div>
+        <div class="explosion" id="explosion">REVOLUTION! 💥</div>
+      </div>
+    </div>
+    
+    <p>När statskassan var helt tom 1789 tvingades kung Ludvig XVI göra något han verkligen inte ville: Han kallade in <strong>Generalständerna</strong> (den gamla franska riksdagen) för att be om lov att höja skatterna. Det blev startskottet för katastrofen.</p>
+
+    <h2>Händelseförlopp: Från Bastiljen till Skräckväldet</h2>
+    <p>Revolutionen var inte en enda händelse, utan en tio år lång berg-och-dalbana av hopp, lagar, krig och terror. Här är de viktigaste hålltiderna du behöver känna till.</p>
+    <p><em>Klicka på händelserna för att läsa vad som hände!</em></p>
+
+    <!-- INTERACTIVE TIMELINE -->
+    <div class="timeline">
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year">JUNI 1789</div>
+        <div class="tl-title">Eden i Bollhuset</div>
+        <div class="tl-content">När riksdagen samlas blir det bråk direkt. Det tredje ståndet (som representerar 98% av folket) får bara 1/3 av rösterna. De vägrar acceptera detta, låser in sig i ett idrottshus (Bollhuset) och svär en ed: De går inte därifrån förrän Frankrike har fått en ny, rättvis grundlag. De utropar sig till "Nationalförsamlingen".</div>
+      </div>
+      
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year">14 JULI 1789</div>
+        <div class="tl-title">Stormningen av Bastiljen</div>
+        <div class="tl-content">Rykten sprids i Paris om att kungen ska skicka armén mot folket. Desperata Parisare behöver vapen och krut, så de stormar fängelset och fästningen Bastiljen. Detta datum räknas som revolutionens riktiga utbrott och är idag Frankrikes nationaldag.</div>
+      </div>
+
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year">AUGUSTI 1789</div>
+        <div class="tl-title">Deklarationen om mänskliga rättigheter</div>
+        <div class="tl-content">Nationalförsamlingen stryker ett streck över ståndssamhället. De skriver en historisk deklaration: <em>"Människor föds och förblir fria och lika i rättigheter."</em> Lagarna ska gälla lika för adel som för bonde.</div>
+      </div>
+
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year">1791 - 1792</div>
+        <div class="tl-title">Kungens flykt & Krig</div>
+        <div class="tl-content">Kungafamiljen försöker i hemlighet fly från revolutionen men avslöjas nära gränsen. Folket tappar all tillit till honom. Samtidigt förklarar Frankrike krig mot länder som Österrike, eftersom de andra kungarna i Europa är livrädda att revolutionen ska sprida sig till deras länder.</div>
+      </div>
+
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year">JANUARI 1793</div>
+        <div class="tl-title">Kungen avrättas</div>
+        <div class="tl-content">Kungen anklagas för landsförräderi och döms till döden. Han halshuggs i giljotinen inför tusentals människor i Paris. Några månader senare går drottningen Marie Antoinette samma öde till mötes.</div>
+      </div>
+
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year">1793 - 1794</div>
+        <div class="tl-title">Skräckväldet</div>
+        <div class="tl-content">Revolutionen blir radikal och paranoid. Under ledning av Maximilien de Robespierre letar man fiender överallt. Under ett års tid avrättas över 30 000 fransmän i giljotinen, ofta på lösa rykten om att de är "mot revolutionen". Skräckväldet tar slut först när Robespierre själv blir avrättad.</div>
+      </div>
+
+      <div class="tl-item" onclick="toggleTl(this)">
+        <div class="tl-year">1799</div>
+        <div class="tl-title">Napoleon tar makten</div>
+        <div class="tl-content">Efter flera år av kaos och korrupta politiker tar en populär general, Napoleon Bonaparte, makten i en militärkupp. Han lovar ordning och reda. Många anser att revolutionen slutar här, eftersom Napoleon så småningom kröner sig själv till Kejsare och återinför ett envälde.</div>
+      </div>
+    </div>
+
+    <h2>Vilka blev konsekvenserna av franska revolutionen?</h2>
+    <p>Blev revolutionen ett misslyckande eftersom de slutade med en kejsare (Napoleon) istället för en kung? Nej, absolut inte. Franska revolutionen förändrade världen för alltid. Här är de största konsekvenserna:</p>
+    <ul>
+      <li><strong>Slutet för ståndssamhället:</strong> Idén om att adel och präster skulle ha medfödda privilegier och slippa skatt krossades. Inför lagen blev man (i teorin) lika.</li>
+      <li><strong>Mänskliga rättigheter:</strong> Deklarationen från 1789 blev en förebild för hela den moderna demokratin och FN:s deklaration om mänskliga rättigheter långt senare.</li>
+      <li><strong>Idéerna spreds:</strong> När Napoleons arméer senare marscherade över Europa hade de med sig revolutionens idéer (Lagboken "Code civil"). Fler länder började ifrågasätta sina gamla kungar.</li>
+      <li><strong>Mått och Vikt:</strong> För att förenkla för alla skapade man under revolutionen Metersystemet och Kilogrammet, något vi använder varje dag!</li>
+      <li><strong>Konservatismen föds:</strong> Som en reaktion mot allt blodigt kaos och det snabba förändringarna i Frankrike, skapades Konservatismen – en politisk ideologi som menar att samhällsförändringar måste ske extremt långsamt och försiktigt.</li>
+    </ul>
+
+    <div class="summary-box">
+      <h3>Snabbsammanfattning: 3 snabba punkter</h3>
+      <ul>
+        <li><strong>Orsak:</strong> Ståndssamhällets orättvisor, en bankrutt stat (efter bl.a. amerikanska kriget) och missväxt (svält) blandat med Upplysningens nya idéer om jämlikhet.</li>
+        <li><strong>Händelse:</strong> Folket stormade Bastiljen 1789, tog makten, halshögg kungen och övergick i det blodiga "Skräckväldet" innan Napoleon tog över 1799.</li>
+        <li><strong>Konsekvens:</strong> Ståndssamhället dog, idén om mänskliga rättigheter föddes, och Europas karta och politik förändrades för alltid.</li>
+      </ul>
+    </div>
+
+    <!-- ── NEW: QUIZ SECTION ── -->
+    <h2>Testa dina kunskaper: Quiz</h2>
+    <p>Har du koll på revolutionens viktigaste händelser och begrepp? Testa dig själv innan provet!</p>
+    
+    <div class="quiz-section">
+      <div id="quiz-play-view">
+        <div class="quiz-header">
+          <span class="q-progress" id="q-progress">Fråga 1 av 5</span>
+          <div class="q-text" id="q-text">Laddar fråga...</div>
+        </div>
+        <div class="q-opts" id="q-opts">
+          <!-- Options injected here -->
+        </div>
+        <div class="q-feedback" id="q-feedback"></div>
+        <button class="q-next-btn" id="q-next-btn" onclick="nextQuiz()">Nästa fråga →</button>
+      </div>
+
+      <div id="quiz-score-view">
+        <div class="score-circle">
+          <div class="score-num" id="score-num">0</div>
+          <div class="score-den" id="score-den">av 10</div>
+        </div>
+        <h3 id="score-title">Bra jobbat!</h3>
+        <p id="score-msg" style="color:var(--muted); margin-bottom:24px;">Du kan grunderna.</p>
+        <button class="retry-btn" onclick="startQuiz()">Gör quizet igen ↺</button>
+      </div>
+    </div>
+
+    <!-- ── NEW: WRITING PROMPTS SECTION ── -->
+    <h2 class="essay-section">Öva inför provet: Analysfrågor</h2>
+    <p>För att nå de högre betygen (C-A) i SO behöver du ofta kunna föra resonemang och jämföra olika händelser. Skriv ner dina tankar nedan och klicka sedan på "Lärarens tips" för att se hur du kan bygga upp ditt svar.</p>
+
+    <div class="essay-card">
+      <span class="essay-label">Analysera orsaker</span>
+      <div class="essay-q">Vilken anser du var den absolut viktigaste orsaken till att den franska revolutionen bröt ut? Motivera!</div>
+      <textarea class="essay-textarea" rows="4" placeholder="Skriv ditt resonemang här. Tänk på att börja med en åsikt och sedan ge konkreta exempel..."></textarea>
+      <button class="hint-btn" onclick="toggleHint('hint1')">Visa lärarens tips för ett utvecklat svar ↓</button>
+      <div class="hint-box" id="hint1">
+        <strong>Tips för ett A-svar:</strong> 
+        Det finns inget "rätt" svar här, det viktiga är <em>hur</em> du motiverar det! 
+        <br><br>
+        Om du väljer <strong>Ekonomin/Svälten:</strong> Beskriv hur ett folk som inte har råd med mat blir desperata. Ett land utan pengar (efter krigen) tvingas höja skatterna, vilket drabbar de fattigaste hårdast och leder till uppror (som Stormningen av Bastiljen).<br>
+        Om du väljer <strong>Upplysningens idéer:</strong> Förklara att svält har funnits förr, men det var först när filosofer (som Voltaire och Rousseau) sa att "kungen är inte utsedd av Gud, alla människor har rättigheter" som folket fick en ideologi att kämpa för.
+      </div>
+    </div>
+
+    <div class="essay-card">
+      <span class="essay-label">Orsak & Konsekvens</span>
+      <div class="essay-q">Hur gick revolutionen från vackra ord om "frihet, jämlikhet och broderskap" 1789, till att sluta i ett blodigt Skräckvälde bara några år senare?</div>
+      <textarea class="essay-textarea" rows="4" placeholder="Tänk på vad som hände med kungen, och hur andra länder (och folk i Frankrike) reagerade på revolutionen..."></textarea>
+      <button class="hint-btn" onclick="toggleHint('hint2')">Visa lärarens tips för ett utvecklat svar ↓</button>
+      <div class="hint-box" id="hint2">
+        <strong>Tips för ett A-svar:</strong>
+        Här ska du visa att du förstår hur panik och rädsla påverkar ett samhälle. Ta upp följande:
+        <ul>
+          <li><strong>Yttre hot:</strong> Andra länder (Österrike, Preussen) attackerade Frankrike för att stoppa revolutionen. Detta skapade enorm stress och rädsla.</li>
+          <li><strong>Inre hot:</strong> Många adelsmän och präster (och kungen själv som försökte fly) var emot revolutionen. Ledarna (som Robespierre) blev paranoida och trodde att spioner fanns överallt.</li>
+          <li><strong>Slutsats:</strong> När man är livrädd att förlora sin nyvunna frihet blir man ibland beredd att använda extremt våld (giljotinen) för att "försvara" revolutionen, vilket tragiskt nog leder till motsatsen.</li>
+        </ul>
+      </div>
+    </div>
+
+  </article>
+</main>
+
+<script>
+// ── Existing Scripts (Perspective, Cause Machine, Timeline) ──
+function setRole(id) {
+  document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.role-content').forEach(content => content.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('role-' + id).classList.add('active');
+}
+
+let causesActive = 0;
+function addCause(btn) {
+  if(btn.classList.contains('active')) return;
+  btn.classList.add('active');
+  btn.innerHTML = btn.innerHTML.replace('+', '✓');
+  causesActive++;
+  const percentage = causesActive * 20;
+  const meter = document.getElementById('meter-fill');
+  const label = document.getElementById('meter-label');
+  meter.style.height = percentage + '%';
+  label.textContent = percentage + '% Tryck';
+  if(percentage === 100) {
+    label.style.display = 'none';
+    document.getElementById('explosion').style.display = 'block';
+  }
+}
+
+function toggleTl(element) {
+  const wasActive = element.classList.contains('active');
+  document.querySelectorAll('.tl-item').forEach(el => el.classList.remove('active'));
+  if(!wasActive) {
+    element.classList.add('active');
+    setTimeout(() => {
+      const y = element.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({top: y, behavior: 'smooth'});
+    }, 150);
+  }
+}
+
+// ── NEW: QUIZ SCRIPT ──
+const quizData = [
+  {
+    q: "Vilket stånd var det enda som betalade skatt i Frankrike före revolutionen?",
+    opts: ["Första ståndet (Prästerna)", "Andra ståndet (Adeln)", "Tredje ståndet (Bönder och borgare)", "Alla betalade lika mycket"],
+    correct: 2,
+    exp: "Rätt! Endast tredje ståndet (98% av befolkningen) betalade skatt, vilket var djupt orättvist."
+  },
+  {
+    q: "Vad menas med 'Upplysningen' i samband med franska revolutionen?",
+    opts: ["Att man började använda elektriska lampor i Paris.", "Nya filosofiska idéer om att människan är förnuftig och ska ha rättigheter.", "Att kungen blev upplyst av Gud om hur han skulle styra.", "En ny lagbok skriven av Napoleon."],
+    correct: 1,
+    exp: "Helt rätt. Upplysningsfilosofer ifrågasatte enväldet och kyrkan och krävde jämlikhet och frihet."
+  },
+  {
+    q: "Vilken händelse räknas som startskottet för franska revolutionen (14 juli 1789)?",
+    opts: ["Skräckväldet börjar", "Eden i Bollhuset", "Stormningen av Bastiljen", "Kungen avrättas"],
+    correct: 2,
+    exp: "Bra! Bastiljen stormades av folket som letade efter krut och vapen för att försvara sig mot armén."
+  },
+  {
+    q: "Vem var den fanatiska ledaren under den blodiga perioden som kallas 'Skräckväldet'?",
+    opts: ["Ludvig XVI", "Napoleon Bonaparte", "Maximilien de Robespierre", "Voltaire"],
+    correct: 2,
+    exp: "Rätt! Robespierre lät avrätta tiotusentals misstänkta 'fiender till revolutionen' innan han själv blev ett offer."
+  },
+  {
+    q: "Vilken var en av de viktigaste konsekvenserna av franska revolutionen?",
+    opts: ["Frankrike blev omedelbart ett helt fredligt demokratiskt land.", "Ståndssamhället avskaffades och idéer om mänskliga rättigheter spreds.", "Kungen fick mer makt än någonsin tidigare.", "Slaveriet återinfördes över hela Europa."],
+    correct: 1,
+    exp: "Exakt. Även om revolutionen var blodig, lade den grunden för de mänskliga rättigheter och lagar vi har i dagens demokratier."
+  },
+  {
+    q: "Vad kallades de vanliga arbetare och hantverkare i Paris som drev på revolutionen och vägrade bära adelns kläder?",
+    opts: ["Girondister", "Sanskulotter", "Aristokrater", "Livegna"],
+    correct: 1,
+    exp: "Snyggt! Sanskulotter (de 'utan knäbyxor') var revolutionens fotfolk och stod för många av de radikala kraven."
+  },
+  {
+    q: "Vem var drottning i Frankrike när revolutionen bröt ut?",
+    opts: ["Katarina den stora", "Elisabet I", "Marie Antoinette", "Jeanne d'Arc"],
+    correct: 2,
+    exp: "Helt rätt. Marie Antoinette, ursprungligen från Österrike, var gift med Ludvig XVI och blev avskydd av folket för sitt upplevda slöseri."
+  },
+  {
+    q: "Vilken ny 'human' avrättningsmetod användes för att avrätta kungen, drottningen och tiotusentals andra?",
+    opts: ["Arkebusering", "Galgen", "Elektriska stolen", "Giljotinen"],
+    correct: 3,
+    exp: "Korrekt! Giljotinen infördes för att alla, oavsett klass, skulle få en jämlik och snabb död."
+  },
+  {
+    q: "Vad krävde de tusentals kvinnor som i oktober 1789 marscherade ut till Versailles (Kvinnotåget)?",
+    opts: ["Rösträtt för alla kvinnor i Frankrike.", "Att skräckväldet omedelbart skulle stoppas.", "Bröd till sina familjer och att kungen skulle flytta till Paris.", "Att Frankrike skulle förklara krig mot Österrike."],
+    correct: 2,
+    exp: "Bra! Svälten var brutal i Paris. Kvinnorna tvingade med sig kungafamiljen från det lyxiga Versailles in till Paris för att ha kontroll över dem."
+  },
+  {
+    q: "Vilket berömt slagord förknippas med den franska revolutionens ideal?",
+    opts: ["Ordning, plikt och fosterland", "En för alla, alla för en", "Frihet, jämlikhet, broderskap", "Blod, svett och tårar"],
+    correct: 2,
+    exp: "Exakt. 'Liberté, égalité, fraternité' sammanfattade kraven på mänskliga rättigheter och ett rättvist samhälle."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function startQuiz() {
+  currentQ = 0;
+  score = 0;
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play-view').style.display = 'block';
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const q = quizData[currentQ];
+  document.getElementById('q-progress').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('q-text').textContent = q.q;
+  
+  const optsContainer = document.getElementById('q-opts');
+  optsContainer.innerHTML = '';
+  
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(idx);
+    optsContainer.appendChild(btn);
+  });
+  
+  document.getElementById('q-feedback').style.display = 'none';
+  document.getElementById('q-next-btn').style.display = 'none';
+}
+
+function answerQuiz(chosenIdx) {
+  const q = quizData[currentQ];
+  const btns = document.querySelectorAll('.q-opt');
+  const fb = document.getElementById('q-feedback');
+  
+  btns.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === q.correct) btn.classList.add('correct');
+    else if (idx === chosenIdx) btn.classList.add('wrong');
+  });
+
+  if (chosenIdx === q.correct) {
+    score++;
+    fb.className = 'q-feedback correct';
+    fb.innerHTML = `<strong>Rätt!</strong> ${q.exp}`;
+  } else {
+    fb.className = 'q-feedback wrong';
+    fb.innerHTML = `<strong>Fel.</strong> Det rätta svaret är: <em>${q.opts[q.correct]}</em>`;
+  }
+  
+  fb.style.display = 'block';
+  const nextBtn = document.getElementById('q-next-btn');
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se resultat →';
+  nextBtn.style.display = 'block';
+}
+
+function nextQuiz() {
+  currentQ++;
+  if (currentQ < quizData.length) {
+    renderQuiz();
+  } else {
+    showQuizScore();
+  }
+}
+
+function showQuizScore() {
+  document.getElementById('quiz-play-view').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-den').textContent = 'av ' + quizData.length;
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if (pct === 1) { title = 'Fantastiskt!'; msg = 'Full pott! Du är redo för A på provet.'; }
+  else if (pct >= 0.6) { title = 'Bra jobbat!'; msg = 'Du har bra koll på de stora dragen. Repetera det du missade.'; }
+  else { title = 'På rätt väg!'; msg = 'Det här är klurigt. Läs igenom sammanfattningen en gång till och försök igen.'; }
+  
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+
+// ── NEW: WRITING PROMPTS SCRIPT ──
+function toggleHint(id) {
+  const hint = document.getElementById(id);
+  const btn = event.target;
+  
+  if (hint.style.display === 'block') {
+    hint.style.display = 'none';
+    btn.textContent = 'Visa lärarens tips för ett utvecklat svar ↓';
+  } else {
+    hint.style.display = 'block';
+    btn.textContent = 'Dölj tips ↑';
+  }
+}
+
+// Initialize quiz
+startQuiz();
+</script>
+</body>
+</html>
