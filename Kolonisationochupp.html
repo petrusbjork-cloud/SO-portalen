@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Begreppsträning – Kolonialism & Handel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ocean:   #0F2027; /* Deep sea */
+  --ocean-lt:#203A43;
+  --brass:   #C89B3C; /* Nautical brass */
+  --brass-lt:#FDF8ED;
+  --paper:   #F5F0E6; /* Old map */
+  --text:    #1A1A1A;
+  --muted:   #5C5549;
+  --border:  #D5CABD;
+  --green:   #2E5A2E;
+  --green-lt:#EBF2EB;
+  --crimson: #8B2626; /* Imperial red */
+  --crimson-lt:#F4E6E6;
+  --teal:    #245E5E;
+  --teal-lt: #E8F0F0;
+  --purple:  #4A2E5A;
+  --purple-lt:#F3EBF5;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Source Serif 4', Georgia, serif; background: var(--paper); color: var(--text); line-height: 1.7; min-height: 100vh; }
+
+/* ── HEADER ── */
+.site-header {
+  background: var(--ocean); color: white; padding: 36px 40px 32px;
+  background-image: radial-gradient(circle at 80% 20%, rgba(200,155,60,0.15) 0%, transparent 60%);
+  border-bottom: 4px solid var(--brass);
+}
+.site-header .label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--brass); margin-bottom: 10px; }
+.site-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(24px, 4.5vw, 42px); font-weight: 900; line-height: 1.1; }
+.site-header h1 span { color: var(--brass); font-style: italic; }
+.site-header p { font-size: 15px; color: rgba(255,255,255,0.7); margin-top: 8px; max-width: 600px; }
+
+/* ── TOTAL PROGRESS ── */
+.total-progress {
+  background: rgba(0,0,0,0.2); padding: 16px 40px;
+  display: flex; align-items: center; gap: 16px;
+}
+.total-progress-label { font-size: 12px; color: rgba(255,255,255,0.7); white-space: nowrap; letter-spacing: 1px; text-transform: uppercase; }
+.total-bar-wrap { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; }
+.total-bar { height: 100%; background: linear-gradient(90deg, var(--brass), #E0B962); border-radius: 3px; transition: width 0.6s ease; }
+.total-pct { font-size: 14px; font-weight: 700; color: var(--brass); white-space: nowrap; min-width: 40px; text-align: right; }
+
+/* ── MAIN CONTENT ── */
+.main { max-width: 900px; margin: 0 auto; padding: 48px 40px; }
+
+/* ── DASHBOARD ── */
+.dashboard-intro { font-size: 18px; color: var(--muted); margin-bottom: 40px; font-style: italic; text-align: center; }
+.level-cards { display: grid; grid-template-columns: repeat(2,1fr); gap: 24px; margin-bottom: 48px; }
+.level-card {
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  padding: 32px 24px; display: flex; flex-direction: column; gap: 14px;
+  transition: all 0.25s; position: relative; overflow: hidden;
+}
+.level-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--border); transition: background 0.3s; }
+.level-card:hover { box-shadow: 0 8px 30px rgba(15,32,39,0.08); transform: translateY(-4px); }
+.level-card:hover::before { background: var(--brass); }
+.level-card .lc-icon { font-size: 40px; }
+.level-card .lc-num { font-family: 'Playfair Display', serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--brass); }
+.level-card h3 { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 900; color: var(--ocean); line-height: 1.2; }
+.level-card p { font-size: 14px; color: var(--muted); line-height: 1.6; flex: 1; margin: 0; }
+.lc-progress-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+.lc-bar-wrap { height: 5px; background: var(--border); border-radius: 3px; }
+.lc-bar { height: 100%; background: var(--ocean); border-radius: 3px; transition: width 0.6s ease; }
+.lc-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  background: var(--ocean); color: white; border: none;
+  font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600;
+  padding: 12px 20px; border-radius: 4px; cursor: pointer;
+  transition: background 0.2s; width: 100%; margin-top: 8px;
+}
+.lc-btn:hover { background: var(--ocean-lt); }
+.lc-btn.done { background: var(--teal); }
+
+/* Term grid */
+.term-section-title { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: var(--ocean); margin-bottom: 20px; text-align: center; border-top: 1px solid var(--border); padding-top: 40px; }
+.term-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-bottom: 16px; }
+.term-chip {
+  padding: 10px 12px; border-radius: 4px; border: 1px solid var(--border);
+  background: white; font-size: 13px; font-weight: 600; color: var(--muted);
+  text-align: center; display: flex; align-items: center; justify-content: center;
+  gap: 6px; line-height: 1.3; transition: all 0.2s;
+}
+.term-chip.cleared-1 { border-color: #A0C4C4; background: #F0F7F7; color: var(--teal); }
+.term-chip.cleared-2 { border-color: var(--brass); background: var(--brass-lt); color: var(--ocean); }
+.term-chip.cleared-3 { border-color: var(--crimson); background: var(--crimson-lt); color: var(--crimson); }
+.term-chip.cleared-4 { border-color: var(--purple); background: var(--purple); color: white; box-shadow: 0 4px 10px rgba(74,46,90,0.2); }
+.term-chip .star { font-size: 12px; }
+.chip-legend { display: flex; justify-content: center; gap: 20px; margin-top: 16px; flex-wrap: wrap; }
+.chip-legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.chip-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+/* Reset */
+.reset-wrap { text-align: center; margin-top: 40px; }
+.reset-btn { background: none; border: 1px dashed var(--muted); color: var(--muted); font-size: 12px; padding: 8px 16px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.reset-btn:hover { border-color: var(--crimson); color: var(--crimson); }
+
+/* ── EXERCISE VIEW ── */
+.ex-view { display: none; }
+.back-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: none; border: 1px solid var(--border); color: var(--muted);
+  font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 600; padding: 10px 20px;
+  border-radius: 4px; cursor: pointer; margin-bottom: 32px; transition: all 0.2s;
+}
+.back-btn:hover { border-color: var(--ocean); color: var(--ocean); background: rgba(15,32,39,0.03); }
+.ex-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 24px; border-bottom: 2px solid var(--border); padding-bottom: 16px; }
+.ex-header h2 { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--ocean); margin-bottom: 4px; }
+.ex-header p { font-size: 15px; color: var(--muted); margin: 0; }
+.ex-badge { display: inline-block; font-family: var(--ocean); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 6px 14px; border-radius: 4px; }
+.badge-l1 { background: var(--teal-lt); color: var(--teal); border: 1px solid var(--teal); }
+.badge-l2 { background: var(--brass-lt); color: var(--ocean); border: 1px solid var(--brass); }
+.badge-l3 { background: var(--crimson-lt); color: var(--crimson); border: 1px solid var(--crimson); }
+.badge-l4 { background: var(--purple-lt); color: var(--purple); border: 1px solid var(--purple); }
+.ex-progress-bar-wrap { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: 40px; }
+.ex-progress-bar { height: 100%; background: var(--ocean); border-radius: 3px; transition: width 0.4s ease; }
+.ex-count { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
+
+/* ── FLASHCARD (L1) ── */
+.fc-card {
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  padding: 48px 40px; margin-bottom: 32px; text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03); border-top: 4px solid var(--teal);
+}
+.fc-category { font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 16px; }
+.fc-term { font-family: 'Playfair Display', serif; font-size: clamp(32px,6vw,56px); font-weight: 900; color: var(--ocean); line-height: 1.1; }
+.fc-opts { display: flex; flex-direction: column; gap: 12px; }
+.fc-opt {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px 20px; border: 2px solid var(--border); border-radius: 6px;
+  background: white; cursor: pointer; font-family: 'Source Serif 4', serif;
+  font-size: 16px; text-align: left; color: var(--text); line-height: 1.6;
+  transition: all 0.2s;
+}
+.fc-opt:hover:not(:disabled) { border-color: var(--teal); background: var(--teal-lt); }
+.fc-opt.correct { border-color: var(--green); background: var(--green-lt); }
+.fc-opt.wrong { border-color: var(--crimson); background: var(--crimson-lt); }
+.fc-opt:disabled { cursor: default; }
+.opt-letter { font-weight: 700; color: var(--muted); min-width: 20px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── EXERCISE CARD (L2/L3/L4) ── */
+.ex-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 40px; margin-bottom: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+.ex-type-label { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 16px; }
+.ex-type-hittafelet { color: var(--crimson); }
+.ex-type-vemharratt { color: var(--ocean); }
+.ex-type-koppling { color: var(--teal); }
+.ex-type-scenario { color: var(--brass); }
+.ex-type-freetext { color: var(--purple); }
+
+.ex-term-badge { display: inline-block; background: var(--brass-lt); border: 1px solid var(--brass); color: var(--ocean); font-size: 14px; font-weight: 700; padding: 6px 16px; border-radius: 4px; margin-bottom: 24px; }
+.ex-statement { font-size: 18px; line-height: 1.8; color: var(--text); background: var(--paper); border-left: 4px solid var(--brass); padding: 20px 24px; margin-bottom: 28px; font-style: italic; }
+.ex-question { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 900; color: var(--ocean); margin-bottom: 20px; line-height: 1.4; }
+
+/* Students (Vem har rätt) */
+.students { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+.student-card {
+  border: 2px solid var(--border); border-radius: 6px; padding: 20px;
+  display: flex; gap: 16px; align-items: flex-start; cursor: pointer;
+  background: white; transition: all 0.2s;
+}
+.student-card:hover:not(.locked) { border-color: var(--ocean); background: rgba(15,32,39,0.03); }
+.student-card.correct { border-color: var(--green); background: var(--green-lt); }
+.student-card.wrong { border-color: var(--crimson); background: var(--crimson-lt); }
+.student-card.locked { cursor: default; }
+.student-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; background: var(--paper); border: 1px solid var(--border); }
+.student-name { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+.student-text { font-size: 16px; color: var(--text); line-height: 1.6; }
+
+/* Koppling & Scenario */
+.koppling-terms { display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 32px; flex-wrap: wrap; background: var(--paper); padding: 24px; border-radius: 8px; border: 1px dashed var(--brass); }
+.koppling-term { background: var(--ocean); color: white; font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; padding: 12px 24px; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.koppling-plus { font-size: 28px; color: var(--brass); font-weight: 900; }
+.scenario-box { background: rgba(200,155,60,0.1); border: 1px solid var(--brass); border-radius: 6px; padding: 24px; margin-bottom: 28px; }
+.scenario-box p { font-size: 16px; line-height: 1.8; color: var(--ocean); margin: 0; font-family: 'Source Serif 4', serif; }
+
+/* L4 Loggbok Freetext */
+.logbook-input { width: 100%; padding: 20px; font-family: 'Source Serif 4', serif; font-size: 16px; border: 2px solid var(--border); border-radius: 6px; background: var(--paper); color: var(--text); resize: vertical; margin-bottom: 20px; transition: border-color 0.2s; line-height: 1.6; }
+.logbook-input:focus { outline: none; border-color: var(--purple); background: white; }
+.reveal-btn { background: var(--purple); color: white; border: none; font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 700; padding: 14px 24px; border-radius: 4px; cursor: pointer; transition: background 0.2s; width: 100%; }
+.reveal-btn:hover { background: #372044; }
+.example-box { display: none; background: white; border: 2px solid var(--purple); border-radius: 6px; padding: 24px; margin-top: 24px; animation: fadeIn 0.4s ease; position: relative; }
+.example-box h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--purple); margin-bottom: 12px; }
+.example-box p { font-size: 16px; line-height: 1.7; color: var(--text); margin-bottom: 24px; }
+.self-assess { border-top: 1px solid var(--border); padding-top: 24px; text-align: center; }
+.self-assess p { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 16px; }
+.sa-btns { display: flex; gap: 12px; justify-content: center; }
+.sa-btn { flex: 1; padding: 14px 20px; border-radius: 4px; font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.sa-btn.btn-correct { background: var(--green-lt); border: 1px solid var(--green); color: var(--green); }
+.sa-btn.btn-correct:hover { background: var(--green); color: white; }
+.sa-btn.btn-wrong { background: var(--crimson-lt); border: 1px solid var(--crimson); color: var(--crimson); }
+.sa-btn.btn-wrong:hover { background: var(--crimson); color: white; }
+
+/* Options general */
+.opts { display: flex; flex-direction: column; gap: 12px; }
+.opt-btn {
+  display: flex; align-items: flex-start; gap: 16px;
+  padding: 16px 20px; border: 2px solid var(--border); border-radius: 6px;
+  background: white; cursor: pointer; font-family: 'Source Serif 4', serif;
+  font-size: 15px; text-align: left; color: var(--text); line-height: 1.6;
+  transition: all 0.2s;
+}
+.opt-btn:hover:not(:disabled) { border-color: var(--ocean); background: rgba(15,32,39,0.02); }
+.opt-btn.correct { border-color: var(--green); background: var(--green-lt); }
+.opt-btn.wrong { border-color: var(--crimson); background: var(--crimson-lt); }
+.opt-btn:disabled { cursor: default; }
+
+/* Feedback */
+.feedback {
+  display: none; padding: 20px 24px; border-radius: 6px;
+  border-left: 4px solid; font-size: 16px; line-height: 1.7; margin: 24px 0;
+  animation: fadeIn 0.3s ease; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.feedback.correct { border-color: var(--green); background: var(--green-lt); color: var(--green); }
+.feedback.wrong { border-color: var(--crimson); background: var(--crimson-lt); color: var(--crimson); }
+.feedback strong { font-family: 'Playfair Display', serif; font-size: 20px; display: block; margin-bottom: 8px; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+/* Next button */
+.next-btn {
+  background: var(--brass); color: var(--ocean); border: none;
+  font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 700;
+  padding: 14px 32px; border-radius: 4px; cursor: pointer;
+  transition: all 0.2s; display: none; margin-top: 16px; width: 100%;
+}
+.next-btn:hover { background: #D4B055; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(200,155,60,0.3); }
+
+/* ── LEVEL COMPLETE ── */
+.level-complete { text-align: center; padding: 64px 40px; background: white; border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
+.lc-trophy { font-size: 72px; margin-bottom: 24px; }
+.level-complete h2 { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--ocean); margin-bottom: 12px; }
+.level-complete p { font-size: 18px; color: var(--muted); margin-bottom: 40px; }
+.lc-score-ring { width: 140px; height: 140px; border-radius: 50%; background: var(--ocean); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 32px; border: 4px solid var(--brass); box-shadow: 0 8px 24px rgba(15,32,39,0.2); }
+.lc-score-ring .score-n { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; color: white; line-height: 1; }
+.lc-score-ring .score-d { font-size: 14px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
+.lc-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.lc-repeat { background: transparent; border: 2px solid var(--ocean); color: var(--ocean); font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 700; padding: 12px 28px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+.lc-repeat:hover { background: rgba(15,32,39,0.05); }
+.lc-back { background: var(--ocean); color: white; border: none; font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 700; padding: 14px 28px; border-radius: 4px; cursor: pointer; transition: background 0.2s; }
+.lc-back:hover { background: var(--ocean-lt); }
+
+@media (max-width: 768px) {
+  .main { padding: 32px 20px; }
+  .level-cards { grid-template-columns: 1fr; }
+  .fc-card, .ex-card { padding: 32px 24px; }
+  .koppling-terms { flex-direction: column; gap: 12px; }
+  .koppling-plus { transform: rotate(90deg); }
+  .site-header { padding: 32px 24px; }
+  .sa-btns { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="label">SO-Portalen · Historia · Djupinlärning</div>
+  <h1>Upptäckter, Handel & <span>Kolonialism</span></h1>
+  <p>30 historiska nyckelbegrepp. Från ytinlärning till djup förståelse i fyra steg.</p>
+  <div class="total-progress">
+    <span class="total-progress-label">Din totala mästarstatus</span>
+    <div class="total-bar-wrap"><div class="total-bar" id="total-bar" style="width:0%"></div></div>
+    <span class="total-pct" id="total-pct">0%</span>
+  </div>
+</div>
+
+<div class="main" id="view-dashboard">
+  <p class="dashboard-intro">Ett begrepp är inte en glosa. Det är en pusselbit i historien. Välj nivå och börja bygga pusslet.</p>
+
+  <div class="level-cards">
+    <div class="level-card">
+      <div class="lc-icon">⚓</div>
+      <div class="lc-num">Nivå 1</div>
+      <h3>Nybörjarmatrosen</h3>
+      <p>Igenkänning. Se ett begrepp och identifiera rätt historisk förklaring bland alternativen.</p>
+      <div class="lc-progress-label"><span>Begrepp klarade</span><span id="l1-label">0 / 30</span></div>
+      <div class="lc-bar-wrap"><div class="lc-bar" id="l1-bar" style="width:0%"></div></div>
+      <button class="lc-btn" id="l1-btn" onclick="startLevel(1)">Hissa segel →</button>
+    </div>
+    <div class="level-card">
+      <div class="lc-icon">🧭</div>
+      <div class="lc-num">Nivå 2</div>
+      <h3>Navigatören</h3>
+      <p>Förståelse. Analysera påståenden, hitta historiska felaktigheter och avgör vem som beskriver förloppet rätt.</p>
+      <div class="lc-progress-label"><span>Övningar klarade</span><span id="l2-label">0 / 12</span></div>
+      <div class="lc-bar-wrap"><div class="lc-bar" id="l2-bar" style="width:0%"></div></div>
+      <button class="lc-btn" id="l2-btn" onclick="startLevel(2)">Sätt kurs →</button>
+    </div>
+    <div class="level-card">
+      <div class="lc-icon">👑</div>
+      <div class="lc-num">Kaptenen</div>
+      <h3>Kan använda</h3>
+      <p>Kombinera begrepp som hör ihop och tillämpa din kunskap på konkreta historiska scenarier.</p>
+      <div class="lc-progress-label"><span>Övningar klarade</span><span id="l3-label">0 / 12</span></div>
+      <div class="lc-bar-wrap"><div class="lc-bar" id="l3-bar" style="width:0%"></div></div>
+      <button class="lc-btn" id="l3-btn" onclick="startLevel(3)">Ta befälet →</button>
+    </div>
+    <div class="level-card" style="border-top: 4px solid var(--purple);">
+      <div class="lc-icon">📜</div>
+      <div class="lc-num" style="color:var(--purple);">Nivå 4</div>
+      <h3>Amiralen</h3>
+      <p>Djupanalys. Formulera egna svar på komplexa frågor och jämför dem med historiska exempelsvar.</p>
+      <div class="lc-progress-label"><span>Loggböcker skrivna</span><span id="l4-label">0 / 12</span></div>
+      <div class="lc-bar-wrap"><div class="lc-bar" id="l4-bar" style="width:0%; background:var(--purple);"></div></div>
+      <button class="lc-btn" id="l4-btn" style="background:var(--purple);" onclick="startLevel(4)">Öppna Loggboken →</button>
+    </div>
+  </div>
+
+  <div class="term-section-title">Loggbok: Dina 30 begrepp</div>
+  <div class="term-grid" id="term-grid"></div>
+  <div class="chip-legend">
+    <div class="chip-legend-item"><div class="chip-dot" style="background:#E0E0E0;"></div>Inte tränat</div>
+    <div class="chip-legend-item"><div class="chip-dot" style="background:#A0C4C4;"></div>Nivå 1 klar</div>
+    <div class="chip-legend-item"><div class="chip-dot" style="background:var(--brass);"></div>Nivå 2 klar</div>
+    <div class="chip-legend-item"><div class="chip-dot" style="background:var(--crimson);"></div>Nivå 3 klar</div>
+    <div class="chip-legend-item"><div class="chip-dot" style="background:var(--purple);"></div>Amiral ⭐</div>
+  </div>
+
+  <div class="reset-wrap">
+    <button class="reset-btn" onclick="confirmReset()">Rensa loggboken (Nollställ progress)</button>
+  </div>
+</div>
+
+<div class="main ex-view" id="view-exercise">
+  <button class="back-btn" onclick="goBack()">← Åter till Kaj (Översikt)</button>
+  <div class="ex-header">
+    <div>
+      <h2 id="ex-title"></h2>
+      <p id="ex-subtitle"></p>
+    </div>
+    <span class="ex-badge" id="ex-badge"></span>
+  </div>
+  <div class="ex-count" id="ex-count"></div>
+  <div class="ex-progress-bar-wrap"><div class="ex-progress-bar" id="ex-bar" style="width:0%"></div></div>
+  <div id="ex-content"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════
+//  DATA: BEGREPP (Nivå 1)
+// ══════════════════════════════════════════════
+const terms = [
+  { id:'kolonialism', term:'Kolonialism', cat:'Begrepp', def:'Ett system där stater erövrar, kontrollerar och utnyttjar andra områden och folk utanför sina egna gränser, ofta för ekonomisk vinning.' },
+  { id:'conquistador', term:'Conquistador', cat:'Människor', def:'Spanska erövrare som under 1500-talet reste till Amerika, störtade imperier (som Aztekerna och Inka) och lade enorma landområden under spansk kontroll.' },
+  { id:'voc', term:'VOC', cat:'Handel', def:'Holländska Ostindiska Kompaniet. Världens första multinationella företag och aktiebolag som fick monopol på kryddhandeln i Asien på 1600-talet.' },
+  { id:'fluyten', term:'Fluyten', cat:'Teknik', def:'Ett holländskt fartyg designat på 1500-talet specifikt för handel. Det var billigt att bygga, rymde mycket last och krävde liten besättning.' },
+  { id:'trans_slavhandel', term:'Transatlantisk slavhandel', cat:'Handel', def:'Det systematiska tillfångatagandet och transporterandet av miljontals afrikaner över Atlanten för att arbeta som slavar på plantager i Amerika.' },
+  { id:'triangelhandeln', term:'Triangelhandeln', cat:'Handel', def:'Det handelssystem över Atlanten där vapen/tyger gick till Afrika, slavar transporterades till Amerika, och socker/tobak skeppades tillbaka till Europa.' },
+  { id:'tenochtitlan', term:'Tenochtitlán', cat:'Geografi', def:'Aztekernas storslagna huvudstad byggd på en ö i en sjö. Var en av världens största städer innan den förstördes av spanjorerna (idag Mexico City).' },
+  { id:'godahoppsudden', term:'Godahoppsudden', cat:'Geografi', def:'En udde i södra Afrika. Att runda denna var avgörande för européerna för att hitta den åtråvärda sjövägen direkt till Indiens och Asiens rikedomar.' },
+  { id:'digerdoden', term:'Digerdöden', cat:'Händelse', def:'Pestepidemin på 1300-talet som dödade en tredjedel av Europas befolkning. Ledde indirekt till ekonomiska förändringar som gynnade senare upptäcktsresor.' },
+  { id:'tryckpressen', term:'Tryckpressen', cat:'Teknik', def:'Uppfinning av Gutenberg (ca 1450) som gjorde det möjligt att massproducera böcker och kartor. Avgörande för att sprida kunskap om nya upptäckter.' },
+  { id:'merkantilism', term:'Merkantilism', cat:'Ekonomi', def:'Ekonomisk idé på 1600/1700-talet om att världens rikedom (guld/silver) var begränsad. Stater strävade efter max export och minimal import, vilket drev på kolonialismen.' },
+  { id:'tordesillas', term:'Tordesillas-fördraget', cat:'Händelse', def:'Avtal från 1494 där Påven delade upp den "oupptäckta" världen utanför Europa mellan den tidens två supermakter: Spanien och Portugal.' },
+  { id:'nysverige', term:'Ny Sverige', cat:'Sverige', def:'Sveriges kortlivade koloni i Nordamerika (1638–1655) längs Delawarefloden, etablerad för att ta del av den lukrativa pälshandeln och tobaksodlingen.' },
+  { id:'cabocorso', term:'Cabo Corso', cat:'Sverige', def:'Ett svenskt handelsfort i nuvarande Ghana (Afrika) under 1650-talet. Användes som bas för svensk slavhandel och handel med guld och elfenben.' },
+  { id:'gustavia', term:'Gustavia', cat:'Sverige', def:'Huvudstaden på den karibiska ön Saint-Barthélemy, som var en svensk koloni från 1784 till 1878. Fick sitt namn efter kung Gustav III.' },
+  { id:'frihamn', term:'Frihamn', cat:'Handel', def:'En hamn där varor kunde föras in, lagras och säljas utan att man betalade vanliga tullar. Gjorde Gustavia extremt lönsamt för Sverige under amerikanska frihetskriget.' },
+  { id:'handelskompani', term:'Handelskompani', cat:'Handel', def:'Privata företag som ofta fick monopol av staten på att handla med specifika områden (t.ex. Ostindiska kompaniet). Fungerade nästan som stater i miniatyr med egna arméer.' },
+  { id:'plantage', term:'Plantage', cat:'Ekonomi', def:'Enorma jordbruksegendomar i kolonierna, framför allt i Amerika och Västindien, som odlade exportgrödor som socker och bomull, oftast med hjälp av slavarbetskraft.' },
+  { id:'inkariket', term:'Inkariket', cat:'Imperier', def:'Ett vidsträckt och avancerat imperium i Sydamerikas Anderna (med centrum i Peru). Förstördes av den spanske conquistadoren Pizarro under 1530-talet.' },
+  { id:'swahili', term:'Swahili', cat:'Kultur', def:'Ett språk och en kultur på Östafrikas kust som uppstod genom hundratals år av handel mellan lokala afrikaner och arabiska/indiska sjöfarare.' },
+  { id:'sjomakt', term:'Sjömakt', cat:'Begrepp', def:'En nations förmåga att projicera militär och ekonomisk makt över haven. Att vara en stor sjömakt var kravet för att bli en global kolonialmakt.' },
+  { id:'aztekerna', term:'Aztekerna', cat:'Imperier', def:'Ett krigiskt och mäktigt folk i nuvarande Mexiko som byggde ett enormt imperium innan de besegrades av Hernán Cortés och hans spanska trupper 1521.' },
+  { id:'mayafolken', term:'Mayafolken', cat:'Imperier', def:'Högkultur i Mellanamerika, kända för avancerad matematik, astronomi och kalendrar. Deras storhetstid var över före spanjorernas ankomst, men ättlingar lever kvar.' },
+  { id:'timbuktu', term:'Timbuktu', cat:'Geografi', def:'En historiskt mycket viktig stad i Västafrika (Mali) som blev extremt rik genom den transsahariska karavanhandeln med guld och salt, och var ett centrum för lärdom.' },
+  { id:'kalmarnyckel', term:'Kalmar Nyckel', cat:'Sverige', def:'Det kända skepp som, tillsammans med Fågel Grip, seglade över Atlanten år 1638 för att grunda den svenska kolonin Ny Sverige i Nordamerika.' },
+  { id:'gustav3', term:'Gustav III', cat:'Sverige', def:'Sveriges kung på sent 1700-tal. Det var han som förvärvade ön Saint-Barthélemy från Frankrike för att ge Sverige en andel i den lukrativa västindiska handeln.' },
+  { id:'monsunvindarna', term:'Monsunvindarna', cat:'Geografi', def:'Årstidsbundna vindar i Indiska oceanen. Kunskapen om dessa vindar var helt avgörande för arabiska och indiska sjöfarare för att bedriva handel över havet.' },
+  { id:'karavaner', term:'Karavaner', cat:'Handel', def:'Ett sällskap av resande (ofta köpmän med dromedarer) som reste tillsammans för skydd över öknar, som till exempel salt- och guldhandeln genom Sahara.' },
+  { id:'smittkoppor', term:'Smittkoppor', cat:'Händelse', def:'En mycket dödlig europeisk sjukdom som conquistadorerna förde med sig till Amerika. Orsakade den största befolkningskollapsen i Amerikas historia.' },
+  { id:'sjohandelsrutter', term:'Sjöhandelsrutter', cat:'Handel', def:'De stigar över haven som fartyg använde för att transportera varor globalt. Att kontrollera dessa innebar att kontrollera världsekonomin.' }
+];
+
+// ══════════════════════════════════════════════
+//  DATA: FÖRSTÅELSE (Nivå 2) 
+// ══════════════════════════════════════════════
+const l2 = [
+  {
+    type:'hittafelet', termLabel:'Merkantilism',
+    statement:'Merkantilism innebar att länder uppmuntrade frihandel mellan alla nationer, eftersom de trodde att om alla länder handlade öppet med varandra skulle den totala rikedomen i världen växa för alla.',
+    question:'Vad är det historiska felet i texten?',
+    opts:['A) Det var kyrkan, inte länderna, som styrde ekonomin.','B) Felet är "frihandel". Merkantilister trodde att rikedom (guld) var konstant. Man ville maximera export och blockera import, inte handla fritt.','C) Påståendet är helt rätt, det är grunden i modern kapitalism som föddes då.','D) Felet är att merkantilism handlade om jordbruk, inte internationell handel.'],
+    correct:1, exp:'Merkantilism byggde på ett "nollsummespel". Om England skulle bli rikare, måste Frankrike bli fattigare. Därför stängde länderna sina gränser för andras varor och skaffade kolonier för att slippa importera råvaror från konkurrenter.'
+  },
+  {
+    type:'vemharratt', topic:'Sverige i Västindien (Gustavia)',
+    students:[
+      { name:'Karl', text:'Gustavia var en stor och frodig svensk ö där man byggde enorma sockerplantager och använde miljontals svenskar som arbetskraft.' },
+      { name:'Sara', text:'Gustavia på Saint-Barthélemy var liten och stenig, så man kunde inte ha stora plantager. Istället tjänade Sverige enorma pengar på att göra den till en Frihamn där alla (även fiender) kunde handla.' },
+      { name:'Ali', text:'Sverige vägrade av moraliska skäl att handla med socker och slavar, så Gustavia användes enbart som en militär flottbas för att stoppa pirater.' }
+    ],
+    correct:1, exp:'Sara har rätt. Saint-Barthélemy var för liten och torr för plantageekonomi. Genom att Gustav III förklarade Gustavia som Frihamn blev det en neutral zon under krigen i Amerika, vilket gjorde staden ofantligt rik på handel (inklusive slavhandel).'
+  },
+  {
+    type:'hittafelet', termLabel:'Triangelhandeln',
+    statement:'Triangelhandeln var oerhört lönsam. Från Amerika skeppades slavar till Europa, där de arbetade i fabriker. Från Europa åkte skeppen sedan till Afrika med socker, och från Afrika åkte de till Amerika med vapen.',
+    question:'Vad är fel i beskrivningen av handelsrutterna?',
+    opts:['A) Rutterna är helt felvända. Europa skickade vapen/tyger till Afrika -> Slavar till Amerika -> Socker/Tobak tillbaka till Europa.','B) Socker odlades i Europa, inte i Amerika.','C) Det fanns inget socker, handlarna köpte enbart kryddor från Amerika.','D) Slavar användes inte i fabriker utan enbart som soldater i Europa.'],
+    correct:0, exp:'Riktningen är central. Europa exporterade industrivaror och vapen till Afrika. Där byttes de mot afrikanska fångar som fraktades över Atlanten till Amerikas plantager. Plantagernas råvaror (socker, tobak, bomull) skeppades sedan till Europa och såldes dyrt.'
+  },
+  {
+    type:'vemharratt', topic:'Europas seger över urfolksimperierna',
+    students:[
+      { name:'Lisa', text:'Conquistadorerna vann mot Aztekerna och Inka enbart för att de var hundratusentals fler soldater. Urfolken hade väldigt små arméer.' },
+      { name:'Omar', text:'Spanjorernas vapen och hästar gav dem en fördel, men den absolut största anledningen till imperiernas fall var de sjukdomar (som smittkoppor) européerna förde med sig, som dödade miljontals.' },
+      { name:'Elin', text:'Européerna vann för att de använde den nyuppfunna Fluyten för att segla in i städerna och bomba dem från havet.' }
+    ],
+    correct:1, exp:'Omar har helt rätt. Smittkoppor orsakade en apokalyptisk demografisk kollaps i Amerika eftersom urfolken saknade immunitet. Detta krossade urfolkens samhällsstrukturer och arméer inifrån, långt innan spanska svärd gjorde det.'
+  },
+  {
+    type:'hittafelet', termLabel:'Tordesillas-fördraget',
+    statement:'I Tordesillas-fördraget 1494 enades Europas alla kungar demokratiskt om att Afrika skulle tillhöra England och Nordamerika skulle tillhöra Frankrike, för att undvika framtida krig.',
+    question:'Vad är fel i texten?',
+    opts:['A) Avtalet gällde Asien, inte Afrika.','B) Demokratin fanns inte 1494, det var ett FN-beslut.','C) Avtalet slöts endast mellan Påven, Spanien och Portugal. De delade i praktiken den icke-kristna världen mellan sig med ett streck på kartan. England och Frankrike struntade blankt i det.','D) Avtalet handlade om rätten att använda tryckpressen, inte om landområden.'],
+    correct:2, exp:'Påven drog en linje över Atlanten. Spanien fick allt väster om linjen (större delen av Amerika) och Portugal fick allt österut (Brasilien, Afrika, Asien). Andra nationer som England och Frankrike accepterade givetvis inte detta monopol.'
+  },
+  {
+    type:'hittafelet', termLabel:'Digerdöden',
+    statement:'Digerdöden var en fruktansvärd sjukdom på 1600-talet som europeiska upptäcktsresande tog med sig till Amerika, vilket ledde till att nästan hela ursprungsbefolkningen dog.',
+    question:'Vilken historisk förväxling görs i påståendet?',
+    opts:['A) Digerdöden drabbade bara Asien.','B) Sjukdomen som drabbade Amerika på 1500/1600-talet var framförallt smittkoppor. Digerdöden var pesten som drabbade Europa och Asien på 1300-talet.','C) Ursprungsbefolkningen i Amerika dog inte av sjukdomar utan av krig.','D) Sjukdomarna kom från Afrika till Europa, inte tvärtom.'],
+    correct:1, exp:'Det är viktigt att hålla isär epidemierna. Digerdöden (pesten) härjade på 1300-talet och dödade en tredjedel av Europas befolkning. Det som drabbade den amerikanska ursprungsbefolkningen på 1500-talet var andra sjukdomar, främst smittkoppor.'
+  },
+  {
+    type:'vemharratt', topic:'Ny Sverige och Kalmar Nyckel',
+    students:[
+      { name:'Anna', text:'Ny Sverige var en svensk koloni i Sydafrika, och Kalmar Nyckel var fästningen de byggde där för att skydda sig mot pirater.' },
+      { name:'Lukas', text:'Ny Sverige låg i Nordamerika vid Delawarefloden. Kalmar Nyckel var namnet på ett av fartygen (tillsammans med Fågel Grip) som förde de första svenska bosättarna dit år 1638.' },
+      { name:'Sami', text:'Ny Sverige var en handelsstation i Asien som drevs av Svenska Ostindiska Companiet, och Kalmar Nyckel var kompaniets högste chef.' }
+    ],
+    correct:1, exp:'Lukas har rätt! Ny Sverige (1638–1655) var en svensk koloni i Nordamerika, etablerad för pälshandel. Kalmar Nyckel var skeppet som tog de första svenskarna över Atlanten.'
+  },
+  {
+    type:'hittafelet', termLabel:'Timbuktu',
+    statement:'Timbuktu var en fattig liten hamnby i södra Afrika som européerna byggde upp från grunden på 1600-talet för att ha som omlastningsplats för sina fartyg på väg till Indien.',
+    question:'Vad är fel i beskrivningen av Timbuktu?',
+    opts:['A) Timbuktu låg i Asien, inte Afrika.','B) Européerna byggde den på 1800-talet, inte 1600-talet.','C) Timbuktu låg mitt i inlandet (Västafrika/Mali). Det var en stenrik, urgammal afrikansk stad och ett intellektuellt centrum som blomstrade tack vare Saharas karavanhandel med guld och salt, långt innan kolonialismen.','D) Timbuktu var huvudstaden i det spanska imperiet.'],
+    correct:2, exp:'Timbuktu låg inte vid kusten och var absolut ingen "europeisk uppfinning". Det var en av den islamiska världens viktigaste handels- och kunskapscentrum under medeltiden tack vare guld- och salthandeln genom Saharaöknen.'
+  },
+  {
+    type:'vemharratt', topic:'Fluyten',
+    students:[
+      { name:'Emma', text:'Fluyten var ett massivt brittiskt krigsskepp fyllt med över 100 kanoner, byggt för att sänka den spanska armadan.' },
+      { name:'Nils', text:'Fluyten var en typ av holländskt handelsskepp på 1500-talet. Det geniala var att det var billigt att bygga, rymde väldigt mycket last, men krävde bara en liten besättning. Perfekt för billig frakt!' },
+      { name:'Aisha', text:'Fluyten var namnet på det navigationsinstrument som Christofer Columbus uppfann för att hitta vägen till Amerika.' }
+    ],
+    correct:1, exp:'Nils har rätt. Fluyten (flöjtskeppet) gav holländarna en enorm fördel i världshandeln eftersom de kunde frakta varor mycket billigare än andra nationer tack vare den lilla besättningen och stora lastkapaciteten.'
+  },
+  {
+    type:'hittafelet', termLabel:'Handelskompani',
+    statement:'Handelskompanier var små lokala europeiska familjeföretag som åkte runt och sålde bröd och tyger till bönder, och staten brydde sig inte alls om deras affärer.',
+    question:'Vad är fel i texten?',
+    opts:['A) De sålde bara vapen, aldrig tyger.','B) Handelskompanier fanns bara i Asien, inte i Europa.','C) De var enorma maktfaktorer. De fick ofta statliga monopol på handel med hela världsdelar (t.ex. Ostindiska kompaniet), och fungerade nästan som egna stater med egna arméer och flottor.','D) De var ägda av Påven i Rom.'],
+    correct:2, exp:'Handelskompanierna (som holländska VOC eller brittiska East India Company) var gigantiska kapitalistiska maskiner med statligt stöd. De bedrev krig, erövrade land och styrde miljoner människor för att maximera vinsten för sina aktieägare.'
+  },
+  {
+    type:'vemharratt', topic:'Cabo Corso',
+    students:[
+      { name:'Sofia', text:'Cabo Corso var ett svenskt handelsfort i nuvarande Ghana (Afrika). Sverige använde det under 1650-talet som en bas för slavhandel och handel med guld.' },
+      { name:'Emil', text:'Cabo Corso var den sydligaste udden i Sydamerika, som var livsfarlig för fartyg att segla runt.' },
+      { name:'Mona', text:'Cabo Corso var namnet på piraten som stal alla Sveriges rikedomar på väg hem från Nordamerika.' }
+    ],
+    correct:0, exp:'Sofia har rätt! Cabo Corso var navet i den svenska Afrikahandeln under en kort period på 1600-talet. Detta visar att även Sverige, när de kunde, försökte delta i den brutala triangelhandeln och exploateringen av Afrika.'
+  },
+  {
+    type:'hittafelet', termLabel:'Godahoppsudden',
+    statement:'Godahoppsudden ligger i norra Europa och var en avgörande passage för fartyg som skulle handla med sill i Östersjön under 1400-talet.',
+    question:'Vad är det geografiska felet?',
+    opts:['A) Godahoppsudden ligger i Asien.','B) Den ligger i södra Afrika. Att runda udden var det stora genombrottet för portugiserna (Vasco da Gama) för att hitta sjövägen till Indiens kryddor.','C) Den ligger i Karibien och var ett gömställe för pirater.','D) Påståendet är helt korrekt.'],
+    correct:1, exp:'Det var Bartholomeu Dias som först nådde sydspetsen av Afrika (Godahoppsudden) 1488. Det bevisade att Afrika gick att runda, vilket öppnade för direkt sjöhandel med Asien, utan att gå via de muslimska mellanhänderna i Mellanöstern.'
+  }
+];
+
+// ══════════════════════════════════════════════
+//  DATA: ANVÄNDNING (Nivå 3)
+// ══════════════════════════════════════════════
+const l3 = [
+  {
+    type:'koppling', terms:['Monsunvindarna', 'Swahili'],
+    question:'Hur hänger dessa två begrepp ihop historiskt?',
+    opts:[
+      'A) Swahilifolket uppfann monsunvindarna för att driva bort europeiska skepp.',
+      'B) Monsunvindarna bytte riktning varje halvår. Detta gjorde att arabiska handelsmän stannade månader på Östafrikas kust. Mötet mellan dem och lokala afrikaner skapade språket och kulturen Swahili.',
+      'C) Monsunvindar är stormar som förstörde swahilifolkets städer.',
+      'D) Swahili betyder "vind" och syftar på monsunen.'
+    ],
+    correct:1, exp:'Handel kräver tid. Eftersom vindarna blåste mot Afrika ena halvan av året och mot Asien den andra, uppstod långvariga kulturella möten i hamnstäderna. Resultatet blev Swahili – en distinkt blandkultur och ett språk med rötter i både bantuspråk och arabiska.'
+  },
+  {
+    type:'scenario',
+    scenario:'Året är 1602. Holländska köpmän är trötta på att konkurrera med varandra i Asien. Staten bestämmer sig för att slå ihop alla handlare till ett enda jätteföretag och ge det monopol. Privatpersoner får köpa andelar (aktier) i företaget för att finansiera dyra expeditioner.',
+    question:'Vilket historiskt begrepp beskriver denna enorma organisation bedst?',
+    opts:['A) Handelskompani (Specifikt VOC)','B) Transatlantisk slavhandel','C) Tordesillas-fördraget','D) Frihamn'],
+    correct:0, exp:'Detta är födelsen av VOC (Holländska Ostindiska Kompaniet). Det blev världens första multinationella aktiebolag, skapat för att sprida den enorma ekonomiska risken det innebar att bygga och skicka skepp till Asien.'
+  },
+  {
+    type:'koppling', terms:['Kolonialism', 'Plantage'],
+    question:'Varför var plantagesystemet en så central motor i kolonialismen i Amerika?',
+    opts:[
+      'A) För att man ville plantera träd för att förbättra klimatet.',
+      'B) Kolonialmakterna ville ha råvaror (socker, tobak) som inte kunde odlas i Europa. Plantagerna, drivna av slavarbetskraft, genererade massiva vinster för moderlandet – själva syftet med kolonialismen.',
+      'C) Plantagerna användes för att undervisa urfolken i europeiskt jordbruk.',
+      'D) Plantager var små jordbruk där europeiska bönder levde självförsörjande.'
+    ],
+    correct:1, exp:'Ett imperium existerar för att berika sitt centrum. Plantagerna var den industriella skalan av jordbruk, optimerad för rå vinst genom storskalig export till Europa och byggd helt på brutal exploatering (slavarbetskraft).'
+  },
+  {
+    type:'koppling', terms:['Transatlantisk slavhandel', 'Triangelhandeln'],
+    question:'Vad är sambandet mellan dessa två begrepp?',
+    opts:[
+      'A) Det är exakt samma sak, två ord för samma rutt.',
+      'B) Triangelhandeln är det övergripande ekonomiska nätverket (Europa->Afrika->Amerika->Europa). Den transatlantiska slavhandeln är specifikt "mellanpassagen" i den triangeln, där människor fraktades.',
+      'C) Slavhandeln bedrevs bara på Medelhavet, taglet bedrevs över Atlanten.',
+      'D) Triangelhandeln uppfanns för att stoppa slavhandeln.'
+    ],
+    correct:1, exp:'Slavhandeln var motorn i Triangelhandelns maskineri. Utan slavar fanns ingen gratis arbetskraft för Amerikas plantager. Utan plantagernas råvaror fanns ingen vinst för europeiska handelsmän att köpa nya slavar för i Afrika.'
+  },
+  {
+    type:'scenario',
+    scenario:'Ett europeiskt land på 1600-talet bygger upp en enorm flotta av tungt beväpnade örlogsskepp. Syftet är inte bara att försvara sin egen kust, utan att kontrollera smala sund runt om i världen. De tvingar andras handelsskepp att betala tull eller sjunker dem i havet.',
+    question:'Vad är det de utövar, och vad försöker de kontrollera?',
+    opts:['A) Frihamn och Karavaner','B) Sjömakt och Sjöhandelsrutter','C) Merkantilism och Tryckpressen','D) Kolonialism och Timbuktu'],
+    correct:1, exp:'De utövar Sjömakt för att kontrollera Sjöhandelsrutterna. Den som dominerade haven dominerade den globala handeln och därmed världsekonomin (Storbritannien blev mästare på detta).'
+  },
+  {
+    type:'koppling', terms:['Aztekerna', 'Tenochtitlán'],
+    question:'Vad är den historiska länken mellan Aztekerna och Tenochtitlán?',
+    opts:[
+      'A) Aztekerna var de som förstörde staden Tenochtitlán.',
+      'B) Tenochtitlán var Aztekernas storslagna huvudstad, en enorm ingenjörsmässig bedrift byggd på öar i en sjö.',
+      'C) Tenochtitlán var namnet på spanjorernas fästning som försvarade sig mot Aztekerna.',
+      'D) Båda är namn på sjukdomar som spanjorerna hade med sig.'
+    ],
+    correct:1, exp:'Tenochtitlán (dagens Mexico City) var hjärtat i det aztekiska imperiet. Med sina kanaler, tempel och över 200 000 invånare var den en av världens absolut största städer när Cortés och spanjorerna anlände 1519.'
+  },
+  {
+    type:'scenario',
+    scenario:'Sveriges kung köper en karibisk ö sent på 1700-talet. Han inser snabbt att ön är för torr för storskalig sockerodling. Istället deklarerar han att skepp från ALLA länder får lägga till där, lossa och sälja varor utan att betala vanliga dyra skatter och tullar. Det gör staden extremt rik under krigstider.',
+    question:'Vilken kung och vilket system beskrivs här?',
+    opts:['A) Gustav II Adolf och Ny Sverige','B) Karl XII och Handelskompani','C) Gustav III och Frihamn (Gustavia)','D) Johan III och Merkantilism'],
+    correct:2, exp:'Gustav III skapade Frihamnen Gustavia på ön Saint-Barthélemy. När Frankrike, England och USA krigade mot varandra blev den lilla svenska neutrala frihamnen ett av Karibiens absolut viktigaste (och lönsammaste) handelscentrum.'
+  },
+  {
+    type:'koppling', terms:['Karavaner', 'Timbuktu'],
+    question:'Hur hänger Timbuktu och karavanerna genom Sahara ihop?',
+    opts:[
+      'A) Timbuktu var staden där man tillverkade karavaner av trä.',
+      'B) Karavanerna med guld från söder och salt från norr möttes i Timbuktu. Den handeln gjorde staden till en av Afrikas och den muslimska världens rikaste och mest lärda städer.',
+      'C) Karavanerna anföll och förstörde Timbuktu.',
+      'D) Det finns ingen koppling, Timbuktu låg i Sydamerika.'
+    ],
+    correct:1, exp:'Kamelen (och dromedaren) kallas ofta "öknens skepp". Karavanerna som korsade Saharaöknen bar ofattbara rikedomar, och Timbuktu var "hamnen" (knutpunkten) i utkanten av öknen där handeln skedde.'
+  },
+  {
+    type:'scenario',
+    scenario:'När spanjorerna kom till Mellanamerika letade de efter ett mäktigt, centralstyrt imperium fullt med guld att erövra. Djupt inne i djungeln fann de istället övergivna, enorma tempelstäder i sten. Ättlingarna till denna civilisation levde kvar i mindre byar, men folkets storhetstid med extremt avancerad matematik och astronomi hade passerat långt tidigare.',
+    question:'Vilket urfolk och kultur talar vi om?',
+    opts:['A) Inkariket','B) Mayafolken','C) Aztekerna','D) Swahili'],
+    correct:1, exp:'Detta beskriver Mayakulturen (klassiska eran ca 250–900 e.Kr.). Till skillnad från Inka och Aztekerna var de inte ett enat imperium när spanjorerna kom, utan bestod av oberoende, ofta övergivna stadsstater i djungeln.'
+  },
+  {
+    type:'koppling', terms:['Conquistador', 'Smittkoppor'],
+    question:'Vilket är det viktigaste sambandet mellan dessa två begrepp under 1500-talet?',
+    opts:[
+      'A) Conquistadorerna åkte till Amerika för att hitta ett botemedel mot smittkoppor.',
+      'B) Conquistadorerna (spanjorerna) bar ovetandes med sig smittkoppor och andra sjukdomar. Eftersom urfolken saknade immunförsvar orsakade sjukdomen en massdöd som underlättade conquistadorernas erövring enormt.',
+      'C) Smittkoppor dödade bara spanjorerna, vilket skyddade urfolken under lång tid.',
+      'D) Conquistador är det medicinska namnet på viruset.'
+    ],
+    correct:1, exp:'Biologin var spanjorernas överlägset mest dödliga vapen. Det var smittkoppor som decimerade Aztekernas och Inkas befolkningar och bröt ner deras politiska och militära motståndskraft när conquistadorerna (Cortés och Pizarro) anlände.'
+  },
+  {
+    type:'scenario',
+    scenario:'En europeisk kung tvekar inför att finansiera en upptäcktsresa. "Visst, vi hittade en ny rutt, men hur ska folk få veta om det? Hur ska våra kaptener få kopior av de nya kartorna? Att skriva av dem för hand tar månader!" Plötsligt ler hans rådgivare och pekar på en ny, tysk uppfinning.',
+    question:'Vilken avgörande uppfinning ändrade förutsättningarna för kunskapsspridning?',
+    opts:['A) Fluyten','B) Tryckpressen','C) Kalmar Nyckel','D) Triangelhandeln'],
+    correct:1, exp:'Tryckpressen (ca 1450) var lika revolutionerande för 1500-talet som internet är idag. Utan den hade kartor och rapporter från Columbus, Da Gama och Magellan inte kunnat spridas och inspirera nya expeditioner över hela Europa.'
+  },
+  {
+    type:'koppling', terms:['Inkariket', 'Conquistador'],
+    question:'Vad skedde i mötet mellan dessa två?',
+    opts:[
+      'A) De slöt ett fredsavtal och byggde Tordesillas-fördraget.',
+      'B) Den spanske conquistadoren Pizarro erövrade och förstörde Inkariket (i Anderna, Peru) på 1530-talet, mördade deras ledare Atahualpa och tog deras ofantliga silver- och guldreserver.',
+      'C) Inkariket besegrade conquistadorerna och drev ut dem i över 300 år.',
+      'D) Conquistadorerna anställdes av Inkariket som legosoldater.'
+    ],
+    correct:1, exp:'Mötet mellan Pizarro och Atahualpa vid Cajamarca 1532 är en av historiens stora vändpunkter. Med ett par hundra män, hästar, eldvapen (och föregående sjukdomsepidemier) krossade Pizarro ett imperium med miljoner invånare.'
+  }
+];
+
+// ══════════════════════════════════════════════
+//  DATA: AMIRALEN (Nivå 4) - Frisvar
+// ══════════════════════════════════════════════
+const l4 = [
+  {
+    id: 'l4_01', termLabel: 'Triangelhandeln & Merkantilism',
+    question: 'Förklara hur de ekonomiska tankarna i merkantilismen var en direkt orsak till att Triangelhandeln och det grymma slavsystemet byggdes upp.',
+    example: 'Merkantilismen gick ut på att ett land skulle maximera sin egen rikedom (guld) genom att exportera mycket men importera så lite som möjligt från andra länder. För att slippa köpa dyra varor skaffade man kolonier i Amerika som kunde producera socker och tobak. För att få dessa plantager att gå med enorm vinst krävdes billig (gratis) arbetskraft, vilket blev drivkraften för att starta den transatlantiska slavhandeln från Afrika. Således blev merkantilismen själva motorn i Triangelhandeln.'
+  },
+  {
+    id: 'l4_02', termLabel: 'Digerdöden & Tryckpressen',
+    question: 'Hur kunde en fruktansvärd sjukdom på 1300-talet och en uppfinning på 1400-talet indirekt bidra till Europas globala upptäcktsresor?',
+    example: 'Digerdöden dödade en tredjedel av Europas befolkning, vilket ledde till att de som överlevde ofta fick ärva mer mark och resurser. Detta gynnade ekonomin på lång sikt och skapade det kapital som krävdes för dyra expeditioner. Tryckpressen (uppfunnen ca 1450) var sedan helt avgörande för att snabbt kunna masskopiera och sprida de nya kartorna och navigationskunskaperna från dessa resor till kaptener över hela Europa.'
+  },
+  {
+    id: 'l4_03', termLabel: 'Conquistador, Smittkoppor & Inkariket',
+    question: 'Hur kunde en handfull spanska conquistadorer erövra enorma och välorganiserade samhällen som Inkariket och Aztekernas rike?',
+    example: 'Spanjorerna (som Pizarro och Cortés) hade visserligen fördelar av stål, eldvapen och hästar, men den avgörande faktorn var biologi. Conquistadorerna förde ovetandes med sig europeiska sjukdomar, framför allt smittkoppor. Eftersom ursprungsbefolkningen i Amerika helt saknade immunitet orsakade detta en apokalyptisk massdöd. Sjukdomarna krossade imperiernas arméer och splittrade deras ledarskap inifrån innan de stora slagen ens började.'
+  },
+  {
+    id: 'l4_04', termLabel: 'VOC & Handelskompani',
+    question: 'Vad var det som gjorde VOC (Holländska Ostindiska Kompaniet) så unikt och historiskt kraftfullt jämfört med tidigare handel?',
+    example: 'VOC var världens första multinationella företag och det första företaget som gav ut aktier. Detta innebar att risken för dyra expeditioner delades upp på många investerare istället för att bäras av en enda kung eller köpman. Dessutom fick VOC ett statligt monopol och agerade nästan som en egen nation – de hade rätt att starta krig, erövra land, slå egna mynt och bygga fästningar i Asien för att säkra den enormt lukrativa kryddhandeln.'
+  },
+  {
+    id: 'l4_05', termLabel: 'Gustavia & Frihamn',
+    question: 'När Gustav III köpte ön Saint-Barthélemy insåg man snart att den inte passade för plantager. Vad gjorde Sverige istället för att tjäna pengar på ön?',
+    example: 'Eftersom ön var för liten och torr för storskaliga sockerplantager förklarade Gustav III huvudstaden Gustavia som en Frihamn. Detta innebar att fartyg från alla nationer fick lägga till och handla varor utan att betala dyra tullar. Under perioder när Frankrike, England och de nya amerikanska staterna låg i krig, blev den neutrala svenska frihamnen en av de säkraste och mest lönsamma handelsplatserna (inklusive för slavhandel) i hela Karibien.'
+  },
+  {
+    id: 'l4_06', termLabel: 'Fluyten & Godahoppsudden',
+    question: 'På vilket sätt gav upptäckten av Godahoppsudden och utvecklingen av fartygstypen Fluyten européerna kontroll över den asiatiska handeln?',
+    example: 'När Vasco da Gama rundade Godahoppsudden (södra Afrika) bevisade han att det fanns en direkt sjöväg till Asien. Det innebar att européerna kunde runda de muslimska rikena i Mellanöstern och slippa dyra mellanhänder för kryddor. Senare utvecklade holländarna Fluyten – ett fartyg som kunde bära väldigt mycket last men krävde en liten besättning. Detta gjorde frakten mycket billigare och säkrade den europeiska (särskilt holländska) dominansen över de globala sjöhandelsrutterna.'
+  },
+  {
+    id: 'l4_07', termLabel: 'Karavaner & Timbuktu',
+    question: 'Beskriv hur handel formade staden Timbuktu långt innan européerna kom till Västafrika.',
+    example: 'Timbuktu låg strategiskt där floden Niger mötte Saharaöknen. Genom öknen färdades enorma karavaner som bytte salt från norr mot guld från söder. Timbuktu blev knutpunkten och "hamnen" för denna extremt lukrativa transsahariska handel. Rikedomen från handeln lockade lärda från hela den muslimska världen, vilket gjorde staden till ett intellektuellt och religiöst centrum fyllt av bibliotek och universitet.'
+  },
+  {
+    id: 'l4_08', termLabel: 'Ny Sverige & Kalmar Nyckel',
+    question: 'Vad var syftet med den svenska kolonin Ny Sverige, och hur etablerades den?',
+    example: 'Sverige, som var en växande stormakt på 1600-talet, ville ha en del av den lukrativa globala handeln, särskilt med pälsverk och tobak. Därför skickade man år 1638 fartygen Kalmar Nyckel och Fågel Grip över Atlanten. De landsteg vid Delawarefloden i Nordamerika och grundade kolonin Ny Sverige. Kolonin förblev svensk i 17 år innan den togs över av holländarna.'
+  }
+];
+
+// ══════════════════════════════════════════════
+//  APP LOGIC
+// ══════════════════════════════════════════════
+let prog = { l1:[], l2:[], l3:[], l4:[] };
+try { 
+  const s = localStorage.getItem('kolonialismProgFullV4'); 
+  if(s) {
+    prog = JSON.parse(s);
+    if(!prog.l4) prog.l4 = []; // Handle old saves gracefully
+  } 
+} catch(e){}
+function saveProg() { try { localStorage.setItem('kolonialismProgFullV4', JSON.stringify(prog)); } catch(e){} }
+
+function confirmReset() {
+  if (confirm('Är du säker på att du vill kasta loggboken överbord? (All progress raderas).')) {
+    prog = { l1:[], l2:[], l3:[], l4:[] }; saveProg(); updateDashboard();
+  }
+}
+
+function updateDashboard() {
+  const l1c = prog.l1.length, l2c = prog.l2.length, l3c = prog.l3.length, l4c = prog.l4.length;
+  const t1 = terms.length, t2 = l2.length, t3 = l3.length, t4 = l4.length;
+  const total = l1c + l2c + l3c + l4c, max = t1 + t2 + t3 + t4;
+
+  document.getElementById('l1-label').textContent = `${l1c} / ${t1}`;
+  document.getElementById('l2-label').textContent = `${l2c} / ${t2}`;
+  document.getElementById('l3-label').textContent = `${l3c} / ${t3}`;
+  document.getElementById('l4-label').textContent = `${l4c} / ${t4}`;
+  
+  document.getElementById('l1-bar').style.width = (l1c/t1*100)+'%';
+  document.getElementById('l2-bar').style.width = (l2c/t2*100)+'%';
+  document.getElementById('l3-bar').style.width = (l3c/t3*100)+'%';
+  document.getElementById('l4-bar').style.width = (l4c/t4*100)+'%';
+  
+  const pct = Math.round(total/max*100);
+  document.getElementById('total-bar').style.width = pct+'%';
+  document.getElementById('total-pct').textContent = pct+'%';
+
+  document.getElementById('l1-btn').className = l1c===t1 ? 'lc-btn done' : 'lc-btn';
+  document.getElementById('l1-btn').textContent = l1c===t1 ? '✓ Klar! Repetera →' : 'Hissa segel →';
+  
+  document.getElementById('l2-btn').className = l2c===t2 ? 'lc-btn done' : 'lc-btn';
+  document.getElementById('l2-btn').textContent = l2c===t2 ? '✓ Klar! Repetera →' : 'Sätt kurs →';
+
+  document.getElementById('l3-btn').className = l3c===t3 ? 'lc-btn done' : 'lc-btn';
+  document.getElementById('l3-btn').textContent = l3c===t3 ? '✓ Klar! Repetera →' : 'Ta befälet →';
+  
+  const l4btn = document.getElementById('l4-btn');
+  if(l4c===t4) { l4btn.style.background='var(--green)'; l4btn.textContent='✓ Amiral! Repetera →'; }
+  else { l4btn.style.background='var(--purple)'; l4btn.textContent='Öppna Loggboken →'; }
+
+  const grid = document.getElementById('term-grid');
+  grid.innerHTML = '';
+  terms.forEach(t => {
+    const d1 = prog.l1.includes(t.id);
+    const allDoneL2L3 = d1 && l2c===t2 && l3c===t3; 
+    const isAdmiral = allDoneL2L3 && l4c===t4;
+    
+    let cls = 'term-chip';
+    if (isAdmiral) cls += ' cleared-4';
+    else if (allDoneL2L3) cls += ' cleared-3';
+    else if (d1 && (l2c>0 || l3c>0)) cls += ' cleared-2';
+    else if (d1) cls += ' cleared-1';
+    grid.innerHTML += `<div class="${cls}">${t.term}${isAdmiral?' <span class="star">⭐</span>':''}</div>`;
+  });
+}
+
+function showView(id) {
+  document.getElementById('view-dashboard').style.display = id==='dashboard' ? 'block' : 'none';
+  document.getElementById('view-exercise').style.display = id==='exercise' ? 'block' : 'none';
+}
+function goBack() { showView('dashboard'); updateDashboard(); }
+
+let curLevel=0, curQueue=[], curIdx=0, curScore=0;
+let curOpts=[], curCorrectIdx=0;
+
+function startLevel(n) {
+  curLevel = n; curIdx = 0; curScore = 0;
+  let t = '', sub = '', b = '', bc = '';
+  if (n===1) {
+    curQueue = [...Array(terms.length).keys()].sort(()=>Math.random()-0.5);
+    t = 'Nivå 1: Nybörjarmatrosen'; sub = 'Identifiera den korrekta historiska förklaringen.'; b = 'Nivå 1'; bc = 'badge-l1';
+  } else if (n===2) {
+    curQueue = [...Array(l2.length).keys()].sort(()=>Math.random()-0.5);
+    t = 'Nivå 2: Navigatören'; sub = 'Hitta felet & Vem har rätt?'; b = 'Nivå 2'; bc = 'badge-l2';
+  } else if (n===3) {
+    curQueue = [...Array(l3.length).keys()].sort(()=>Math.random()-0.5);
+    t = 'Nivå 3: Kaptenen'; sub = 'Koppla begrepp & Tolka scenarier'; b = 'Nivå 3'; bc = 'badge-l3';
+  } else {
+    curQueue = [...Array(l4.length).keys()].sort(()=>Math.random()-0.5);
+    t = 'Nivå 4: Amiralen'; sub = 'Formulera egna svar & Analysera ditt lärande'; b = 'Nivå 4'; bc = 'badge-l4';
+  }
+  document.getElementById('ex-title').textContent = t;
+  document.getElementById('ex-subtitle').textContent = sub;
+  const badge = document.getElementById('ex-badge');
+  badge.textContent = b; badge.className = 'ex-badge '+bc;
+  
+  showView('exercise');
+  renderExercise();
+}
+
+function renderExercise() {
+  const total = curQueue.length;
+  const pct = Math.round(curIdx/total*100);
+  document.getElementById('ex-count').textContent = `Övning ${curIdx+1} av ${total}`;
+  document.getElementById('ex-bar').style.width = pct+'%';
+  const el = document.getElementById('ex-content');
+
+  if (curLevel===1) renderL1(el);
+  else if (curLevel===2) renderL2(el);
+  else if (curLevel===3) renderL3(el);
+  else renderL4(el);
+}
+
+// ======================== L1 ========================
+function renderL1(el) {
+  const tIdx = curQueue[curIdx];
+  const t = terms[tIdx];
+  const others = terms.filter((_,i)=>i!==tIdx).sort(()=>Math.random()-0.5).slice(0,3);
+  const opts = [t.def, ...others.map(o=>o.def)];
+  const shuf = opts.map((o,i)=>({o,orig:i})).sort(()=>Math.random()-0.5);
+  curOpts = shuf.map(s=>s.o);
+  curCorrectIdx = shuf.findIndex(s=>s.orig===0);
+  const letters = ['A','B','C','D'];
+
+  el.innerHTML = `
+    <div class="fc-card">
+      <div class="fc-category">${t.cat}</div>
+      <div class="fc-term">${t.term}</div>
+    </div>
+    <div class="fc-opts">
+      ${curOpts.map((o,i)=>`
+        <button class="fc-opt" onclick="answerL1(${i})">
+          <span class="opt-letter">${letters[i]}</span>${o}
+        </button>`).join('')}
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <button class="next-btn" id="next-btn" onclick="nextEx()">Sätt segel (Nästa) →</button>`;
+}
+
+function answerL1(chosen) {
+  const btns = document.querySelectorAll('.fc-opt');
+  btns.forEach((b,i) => {
+    b.disabled = true;
+    if (i===curCorrectIdx) b.classList.add('correct');
+    else if (i===chosen && chosen!==curCorrectIdx) b.classList.add('wrong');
+  });
+  const fb = document.getElementById('feedback');
+  const t = terms[curQueue[curIdx]];
+  if (chosen===curCorrectIdx) {
+    curScore++;
+    if (!prog.l1.includes(t.id)) { prog.l1.push(t.id); saveProg(); }
+    fb.className='feedback correct'; fb.style.display='block';
+    fb.innerHTML='<strong>Rätt!</strong> Bra jobbat.';
+  } else {
+    fb.className='feedback wrong'; fb.style.display='block';
+    fb.innerHTML='<strong>Miss!</strong> Rätt svar är:<br><em>' + t.def + '</em>';
+  }
+  document.getElementById('next-btn').style.display='inline-block';
+}
+
+// ======================== L2 ========================
+function renderL2(el) {
+  const ex = l2[curQueue[curIdx]];
+  const letters = ['A','B','C','D'];
+  if (ex.type==='hittafelet') {
+    const shuf = ex.opts.map((o,i)=>({o,orig:i})).sort(()=>Math.random()-0.5);
+    const correctIdx = shuf.findIndex(s=>s.orig===ex.correct);
+    
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-hittafelet">Kikaren: Hitta felet</div>
+        <div class="ex-term-badge">${ex.termLabel}</div>
+        <div class="ex-statement">"${ex.statement}"</div>
+        <div class="ex-question">${ex.question}</div>
+        <div class="opts">
+          ${shuf.map((s,i)=>`
+            <button class="opt-btn" onclick="answerL23(${i},${correctIdx},'l2')">
+              <span class="opt-letter">${letters[i]}</span>${s.o.substring(3)}
+            </button>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextEx()">Sätt segel (Nästa) →</button>`;
+  } else {
+    const shuf = ex.students.map((s,i)=>({s,orig:i})).sort(()=>Math.random()-0.5);
+    const correctIdx = shuf.findIndex(s=>s.orig===ex.correct);
+    
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-vemharratt">Mässen: Vem har rätt?</div>
+        <div class="ex-question">Ämne: ${ex.topic}</div>
+        <div class="students">
+          ${shuf.map((item,i)=>`
+            <div class="student-card" onclick="answerVem(${i},${correctIdx},'l2')">
+              <div class="student-avatar">👤</div>
+              <div><div class="student-name">${item.s.name}</div><div class="student-text">${item.s.text}</div></div>
+            </div>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextEx()">Sätt segel (Nästa) →</button>`;
+  }
+}
+
+// ======================== L3 ========================
+function renderL3(el) {
+  const ex = l3[curQueue[curIdx]];
+  const letters = ['A','B','C','D'];
+  const shuf = ex.opts.map((o,i)=>({o,orig:i})).sort(()=>Math.random()-0.5);
+  const correctIdx = shuf.findIndex(s=>s.orig===ex.correct);
+  
+  if (ex.type==='koppling') {
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-koppling">Repslagaren: Koppla begrepp</div>
+        <div class="koppling-terms">
+          <div class="koppling-term">${ex.terms[0]}</div>
+          <div class="koppling-plus">+</div>
+          <div class="koppling-term">${ex.terms[1]}</div>
+        </div>
+        <div class="ex-question">${ex.question}</div>
+        <div class="opts">
+          ${shuf.map((s,i)=>`
+            <button class="opt-btn" onclick="answerL23(${i},${correctIdx},'l3')">
+              <span class="opt-letter">${letters[i]}</span>${s.o.substring(3)}
+            </button>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextEx()">Sätt segel (Nästa) →</button>`;
+  } else {
+    el.innerHTML = `
+      <div class="ex-card">
+        <div class="ex-type-label ex-type-scenario">Kajutan: Tolka Scenariot</div>
+        <div class="scenario-box"><p>${ex.scenario}</p></div>
+        <div class="ex-question">${ex.question}</div>
+        <div class="opts">
+          ${shuf.map((s,i)=>`
+            <button class="opt-btn" onclick="answerL23(${i},${correctIdx},'l3')">
+              <span class="opt-letter">${letters[i]}</span>${s.o.substring(3)}
+            </button>`).join('')}
+        </div>
+      </div>
+      <div class="feedback" id="feedback"></div>
+      <button class="next-btn" id="next-btn" onclick="nextEx()">Sätt segel (Nästa) →</button>`;
+  }
+}
+
+function answerL23(chosen, correct, levelStr) {
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach((b,i) => {
+    b.disabled=true;
+    if (i===correct) b.classList.add('correct');
+    else if (i===chosen && chosen!==correct) b.classList.add('wrong');
+  });
+  finishQ(chosen===correct, levelStr);
+}
+
+function answerVem(chosen, correct, levelStr) {
+  const cards = document.querySelectorAll('.student-card');
+  cards.forEach((c,i) => {
+    c.classList.add('locked');
+    if (i===correct) c.classList.add('correct');
+    else if (i===chosen && chosen!==correct) c.classList.add('wrong');
+  });
+  finishQ(chosen===correct, levelStr);
+}
+
+function finishQ(correct, levelStr) {
+  const ex = levelStr==='l2' ? l2[curQueue[curIdx]] : l3[curQueue[curIdx]];
+  const fb = document.getElementById('feedback');
+  if (correct) {
+    curScore++;
+    if (!prog[levelStr].includes(curQueue[curIdx])) { prog[levelStr].push(curQueue[curIdx]); saveProg(); }
+    fb.className='feedback correct'; fb.style.display='block';
+    fb.innerHTML='<strong>Rätt!</strong> ' + ex.exp;
+  } else {
+    fb.className='feedback wrong'; fb.style.display='block';
+    fb.innerHTML='<strong>Fel.</strong> ' + ex.exp;
+  }
+  document.getElementById('next-btn').style.display='inline-block';
+}
+
+// ======================== L4 (AMIRALEN) ========================
+function renderL4(el) {
+  const ex = l4[curQueue[curIdx]];
+  el.innerHTML = `
+    <div class="ex-card" style="border-top: 4px solid var(--purple);">
+      <div class="ex-type-label ex-type-freetext">Amiralens Loggbok: Skriftlig Analys</div>
+      <div class="ex-term-badge" style="background:var(--purple-lt); color:var(--purple); border-color:var(--purple);">${ex.termLabel}</div>
+      <div class="ex-question" style="font-size:24px;">${ex.question}</div>
+      <textarea id="l4-answer" class="logbook-input" rows="6" placeholder="Skriv ditt resonemang här. Tänk på att förklara VAD som hände och VARFÖR det spelade roll..."></textarea>
+      
+      <button class="reveal-btn" id="reveal-btn" onclick="revealL4()">Visa Amiralens loggbok (Exempelsvar)</button>
+      
+      <div id="l4-example" class="example-box">
+        <h4>Exempelsvar</h4>
+        <p>${ex.example}</p>
+        <div class="self-assess">
+          <p>Självskattning: Hur gick det?</p>
+          <div class="sa-btns">
+            <button class="sa-btn btn-correct" onclick="assessL4(true)">Jag hade med det viktigaste! (Rätt)</button>
+            <button class="sa-btn btn-wrong" onclick="assessL4(false)">Jag missade för mycket (Fel)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="next-btn" id="next-btn" style="background:var(--purple); color:white;" onclick="nextEx()">Fortsätt resan →</button>`;
+}
+
+function revealL4() {
+  const ta = document.getElementById('l4-answer');
+  if(ta.value.trim().length < 10) {
+    alert("Kapten, du måste skriva ett ordentligt försök till svar innan du tjuvkikar i Amiralens bok!");
+    return;
+  }
+  ta.disabled = true;
+  document.getElementById('reveal-btn').style.display = 'none';
+  document.getElementById('l4-example').style.display = 'block';
+}
+
+function assessL4(correct) {
+  // Disable assessment buttons
+  const btns = document.querySelectorAll('.sa-btn');
+  btns.forEach(b => b.style.opacity = '0.5');
+  btns.forEach(b => b.disabled = true);
+  
+  if (correct) {
+    curScore++;
+    const exId = l4[curQueue[curIdx]].id;
+    if (!prog.l4.includes(exId)) { prog.l4.push(exId); saveProg(); }
+  }
+  document.getElementById('next-btn').style.display='inline-block';
+}
+
+// ======================== COMMON NEXT/COMPLETE ========================
+function nextEx() {
+  curIdx++;
+  if (curIdx >= curQueue.length) showComplete();
+  else renderExercise();
+}
+
+function showComplete() {
+  const total = curQueue.length;
+  const pct = Math.round(curScore/total*100);
+  let emoji='⚓', title='', msg='';
+  
+  if(curLevel === 4) {
+    if (pct>=90){emoji='📜';title='Sann Amiral!';msg='Din analytiska förmåga är oöverträffad.';}
+    else if(pct>=60){emoji='✍️';title='Mycket bra resonerat!';msg='Du börjar verkligen se de stora historiska sambanden.';}
+    else {emoji='🖋️';title='Bra skrivträning!';msg='Det tar tid att formulera historien. Fortsätt öva så kommer det lossna!';}
+  } else {
+    if (pct>=90){emoji='👑';title='Briljant!';msg='Du styr skutan som en riktig amiral.';}
+    else if(pct>=70){emoji='🧭';title='Väl navigerat!';msg='Mycket bra jobbat. Se över missarna och pröva igen.';}
+    else {emoji='🌊';title='I stormens öga.';msg='Här krävs mer studier av sjökortet. Läs på begreppen och försök igen!';}
+  }
+  
+  document.getElementById('ex-content').innerHTML=`
+    <div class="level-complete">
+      <div class="lc-trophy">${emoji}</div>
+      <div class="lc-score-ring" ${curLevel===4 ? 'style="background:var(--purple); border-color:var(--purple-lt);"' : ''}>
+        <div class="score-n">${curScore}</div><div class="score-d">av ${total}</div>
+      </div>
+      <h2>${title}</h2>
+      <p>${msg}</p>
+      <div class="lc-btns">
+        <button class="lc-repeat" onclick="startLevel(${curLevel})">Kör igen ↺</button>
+        <button class="lc-back" onclick="goBack()">Åter till Kaj</button>
+      </div>
+    </div>`;
+  document.getElementById('ex-count').textContent = '';
+  document.getElementById('ex-bar').style.width = '100%';
+}
+
+updateDashboard();
+</script>
+</body>
+</html>
