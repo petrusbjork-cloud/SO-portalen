@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="En djupdykning i Skräckväldet under Franska revolutionen (1793-1794). Läs om Maximilien de Robespierre, giljotinen och revolutionens mörkaste år.">
+<title>Skräckväldet & Robespierre: Franska revolutionens blodigaste år | SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Skräckväldet-tema: Mörkare och blodigare */
+  --royal-blue: #0A1B3F;
+  --blood-red: #7A1111;
+  --blood-red-lt: #A81B1B;
+  --blood-red-dk: #4A0808;
+  --gold: #C89B3C;
+  --gold-lt: #FDF8ED;
+  --paper: #F5F0E6;
+  --paper-dk: #E8DFCE;
+  --text: #1A1A1A;
+  --muted: #5C5549;
+  --border: #D5CABD;
+  --green: #2E5A2E;
+  --green-lt: #EBF2EB;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { 
+  font-family: 'Source Serif 4', Georgia, serif; 
+  background: var(--paper); 
+  color: var(--text); 
+  line-height: 1.8; 
+  font-size: 18px;
+}
+
+/* ── TYPOGRAPHY & LAYOUT ── */
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--blood-red); line-height: 1.2; }
+h2 { font-size: 32px; font-weight: 900; margin: 48px 0 24px; position: relative; padding-bottom: 12px; color: var(--royal-blue); }
+h2::after { content: ''; position: absolute; left: 0; bottom: 0; width: 60px; height: 4px; background: var(--blood-red); }
+p { margin-bottom: 24px; }
+strong { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; color: var(--blood-red); }
+
+.container { max-width: 800px; margin: 0 auto; padding: 0 24px 60px; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--blood-red-dk); color: white;
+  padding: 80px 24px; text-align: center;
+  border-bottom: 6px solid var(--gold);
+  background-image: radial-gradient(circle at 50% 100%, rgba(122,17,17,0.8) 0%, rgba(10,27,63,0.95) 100%);
+}
+.hero-label { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+.hero h1 { color: white; font-size: clamp(36px, 6vw, 56px); font-weight: 900; margin-bottom: 24px; }
+.hero p { font-size: 20px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; line-height: 1.5; }
+
+/* ── INTRO BOX ── */
+.intro-box {
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  padding: 32px; margin: -40px auto 48px; position: relative; z-index: 10;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08); max-width: 800px; text-align: center;
+  border-top: 4px solid var(--blood-red);
+}
+.intro-box p { margin: 0; font-size: 20px; font-style: italic; color: var(--muted); }
+
+/* ── INTERACTIVE: GILJOTIN-SIMULATOR ── */
+.guillotine-wrapper { background: var(--blood-red-dk); padding: 40px; border-radius: 8px; margin: 40px 0; text-align: center; color: white; box-shadow: 0 8px 30px rgba(10,27,63,0.3); }
+.guillotine-wrapper h3 { color: var(--gold); margin-bottom: 12px; font-size: 26px; }
+.guillotine-stage { display: flex; flex-direction: column; align-items: center; margin: 24px 0; }
+.svg-guillotine { height: 280px; width: auto; overflow: visible; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
+.g-wood { fill: #3E2723; stroke: #261714; stroke-width: 2; }
+.g-blade-metal { fill: #CFD8DC; stroke: #90A4AE; stroke-width: 2; }
+#g-blade-group { transition: transform 0.18s cubic-bezier(0.5, 0, 1, 1); }
+#g-blade-group.dropped { transform: translateY(168px); }
+.g-btn { background: var(--blood-red); color: white; border: 2px solid var(--gold); padding: 12px 24px; font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 900; border-radius: 4px; cursor: pointer; transition: all 0.2s; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px; }
+.g-btn:hover { background: #901515; transform: scale(1.05); }
+.g-facts { background: rgba(255,255,255,0.05); border-left: 4px solid var(--gold); padding: 20px; text-align: left; font-size: 16px; max-width: 550px; margin: 0 auto; opacity: 0; transform: translateY(10px); transition: all 0.5s ease; line-height: 1.6; }
+.g-facts.show { opacity: 1; transform: translateY(0); }
+.g-facts strong { color: var(--gold); font-family: 'Inter', sans-serif; }
+
+/* ── INTERACTIVE 1: REVOLUTIONSTRIBUNALEN (Domstolen) ── */
+.tribunal-section { background: var(--royal-blue); color: white; padding: 40px; border-radius: 8px; margin: 48px 0; box-shadow: 0 8px 30px rgba(10,27,63,0.2); }
+.tribunal-section h3 { color: var(--gold); font-size: 28px; margin-bottom: 16px; }
+.tribunal-section p { color: rgba(255,255,255,0.8); }
+.suspect-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
+.suspect-card { background: white; color: var(--text); border-radius: 6px; padding: 24px; text-align: center; position: relative; overflow: hidden; }
+.suspect-card h4 { color: var(--royal-blue); margin-bottom: 8px; font-size: 20px; }
+.suspect-desc { font-size: 15px; color: var(--muted); margin-bottom: 20px; line-height: 1.4; }
+.judge-btn { background: var(--blood-red); color: white; border: none; font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; padding: 10px 16px; border-radius: 4px; cursor: pointer; width: 100%; transition: background 0.2s; }
+.judge-btn:hover { background: var(--blood-red-lt); }
+.guilty-stamp { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(122,17,17,0.9); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; padding: 20px; text-align: center; }
+.guilty-stamp span { font-family: 'Source Serif 4', serif; font-size: 14px; font-weight: 400; margin-top: 12px; line-height: 1.4; }
+.suspect-card.dömd .guilty-stamp { opacity: 1; pointer-events: auto; }
+
+/* ── INTERACTIVE 2: GILJOTINENS OFFER (Statistik) ── */
+.stats-box { background: var(--gold-lt); border: 2px dashed var(--gold); border-radius: 8px; padding: 40px; margin: 48px 0; }
+.stats-box h3 { color: var(--royal-blue); margin-bottom: 24px; text-align: center; }
+.stat-row { display: flex; align-items: center; margin-bottom: 16px; }
+.stat-label { width: 120px; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px; color: var(--muted); }
+.stat-bar-bg { flex: 1; height: 24px; background: rgba(0,0,0,0.05); border-radius: 12px; overflow: hidden; position: relative; }
+.stat-bar-fill { height: 100%; background: var(--blood-red); width: 0%; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); display: flex; align-items: center; justify-content: flex-end; padding-right: 12px; color: white; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; }
+.stat-btn { background: var(--royal-blue); color: white; border: none; font-family: 'Inter', sans-serif; font-weight: 700; padding: 12px 24px; border-radius: 4px; cursor: pointer; display: block; margin: 32px auto 0; transition: background 0.2s; }
+.stat-btn:hover { background: var(--royal-blue-lt); }
+
+/* ── QUOTE BOX ── */
+.quote-box { padding: 32px; margin: 40px 0; border-left: 6px solid var(--blood-red); background: rgba(122,17,17,0.05); font-size: 22px; font-family: 'Playfair Display', serif; font-style: italic; color: var(--royal-blue); line-height: 1.5; }
+.quote-author { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: var(--blood-red); text-transform: uppercase; letter-spacing: 1px; margin-top: 16px; display: block; font-style: normal; }
+
+/* ── INTERACTIVE 3: QUIZ ── */
+.quiz-section { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 40px; margin-top: 60px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
+.quiz-header { text-align: center; margin-bottom: 32px; }
+.quiz-header h3 { font-size: 28px; margin-bottom: 8px; color: var(--royal-blue); }
+.q-progress { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; display: block; }
+.q-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--royal-blue); margin-bottom: 24px; line-height: 1.4; }
+.q-opts { display: flex; flex-direction: column; gap: 12px; }
+.q-opt { background: white; border: 2px solid var(--border); border-radius: 6px; padding: 16px 20px; font-family: 'Source Serif 4', serif; font-size: 16px; color: var(--text); text-align: left; cursor: pointer; transition: all 0.2s; }
+.q-opt:hover:not(:disabled) { border-color: var(--royal-blue); background: rgba(10,27,63,0.03); }
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); font-weight: 600; }
+.q-opt.wrong { background: var(--blood-red-lt); border-color: var(--blood-red); color: white; }
+.q-opt:disabled { cursor: default; }
+.q-feedback { display: none; margin-top: 24px; padding: 16px 20px; border-radius: 6px; border-left: 4px solid; font-size: 16px; animation: fadeIn 0.3s ease; }
+.q-feedback.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.q-feedback.wrong { background: rgba(122,17,17,0.1); border-color: var(--blood-red); color: var(--blood-red); }
+.q-next-btn { background: var(--royal-blue); color: white; border: none; font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 700; padding: 14px 28px; border-radius: 4px; cursor: pointer; margin-top: 24px; display: none; width: 100%; transition: background 0.2s; }
+
+/* Quiz Score View */
+#quiz-score-view { text-align: center; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--blood-red); border: 4px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.7); }
+.retry-btn { background: transparent; border: 2px solid var(--royal-blue); color: var(--royal-blue); padding: 12px 24px; border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+
+/* ── INTERACTIVE 4: WRITING PROMPTS ── */
+.essay-section { margin-top: 60px; }
+.essay-card { background: white; border: 1px solid var(--border); border-left: 6px solid var(--blood-red); padding: 32px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+.essay-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
+.essay-q { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--royal-blue); margin-bottom: 20px; }
+.essay-textarea { width: 100%; padding: 16px; border: 2px solid var(--border); border-radius: 6px; font-family: 'Source Serif 4', serif; font-size: 16px; background: var(--paper); resize: vertical; margin-bottom: 16px; transition: border-color 0.2s; }
+.essay-textarea:focus { outline: none; border-color: var(--royal-blue); background: white; }
+.hint-btn { background: transparent; border: none; color: var(--blood-red); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; padding: 0; }
+.hint-box { display: none; background: var(--gold-lt); padding: 20px; border-radius: 6px; border: 1px dashed var(--gold); margin-top: 16px; font-size: 15px; color: var(--text); animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="hero-label">Djupdykning · Franska Revolutionen</span>
+  <h1>Skräckväldet (1793–1794)</h1>
+  <p>Hur kunde revolutionens vackra ord om "frihet, jämlikhet och broderskap" sluta med att över 30 000 människor fick sina huvuden avhuggna?</p>
+</header>
+
+<main class="container">
+  
+  <section class="intro-box">
+    <p>"Skräck är ingenting annat än snabb, sträng och obeveklig rättvisa."<br><span style="font-size: 14px; font-family: 'Inter', sans-serif; font-style: normal; color: var(--blood-red); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 12px;">– Maximilien de Robespierre</span></p>
+  </section>
+
+  <article>
+    <p>År 1789 hade det franska folket gjort uppror. Man hade kastat ut det orättvisa ståndssamhället och skrivit en deklaration om mänskliga rättigheter. Allt såg ut att gå mot ljusare tider. Men bara fyra år senare, hösten 1793, hade Frankrike förvandlats till en livsfarlig diktatur där minsta felsteg kunde leda till döden.</p>
+    <p>Denna mörka period kallas för <strong>Skräckväldet</strong> (eller <em>La Terreur</em> på franska). Men varför hände det?</p>
+
+    <h2>1. Varför startade Skräckväldet? (Panik och Paranoia)</h2>
+    <p>För att förstå Skräckväldet måste man förstå den extrema press Frankrike befann sig under år 1793. Revolutionen höll på att kollapsa från två håll samtidigt:</p>
+    <ul>
+      <li><strong>Yttre fiender (Krig):</strong> Europas andra kungariken (som Österrike, Preussen och Storbritannien) avskydde revolutionen. De hade förklarat krig och deras arméer var på väg mot Paris för att krossa revolutionärerna och återinföra kungamakten.</li>
+      <li><strong>Inre fiender (Uppror):</strong> Inne i Frankrike fanns det många som tyckte att revolutionen hade gått för långt (särskilt när kungen avrättades). Bönder och djupt troende katoliker ute i landet startade väpnade uppror mot de nya ledarna i Paris.</li>
+    </ul>
+    <p>I denna totala krissituation skapades <strong>Välfärdsutskottet</strong>. Det var en liten grupp män som fick diktatorisk makt för att "rädda revolutionen till varje pris". Deras ledare hette Maximilien de Robespierre.</p>
+
+    <!-- INTERACTIVE 1: TRIBUNALEN -->
+    <div class="tribunal-section">
+      <h3>Testa Lagen om misstänkta</h3>
+      <p>I september 1793 införde Robespierre "Lagen om misstänkta". Den gjorde det olagligt att ens <em>verka</em> misstänkt. Du är nu domare i Revolutionstribunalen. Vilka av dessa fyra personer ska du fria, och vilka ska skickas till giljotinen?</p>
+      
+      <div class="suspect-grid">
+        <div class="suspect-card" id="susp-1">
+          <h4>Bagaren Pierre</h4>
+          <div class="suspect-desc">"Jag klagade igår på att staten har satt priset på mjöl så lågt att jag går i konkurs. Jag kan inte baka bröd!"</div>
+          <button class="judge-btn" onclick="judgeSuspect(1, 'DÖMD!', 'Att klaga på revolutionens ekonomi anses vara ett försök att svälta folket. Till giljotinen!')">Döm Pierre</button>
+          <div class="guilty-stamp">DÖMD!<br><span></span></div>
+        </div>
+        
+        <div class="suspect-card" id="susp-2">
+          <h4>Greve d'Artois</h4>
+          <div class="suspect-desc">"Jag flydde landet 1789 för att rädda min familj, men jag återvände nyss för att sälja mitt slott."</div>
+          <button class="judge-btn" onclick="judgeSuspect(2, 'DÖMD!', 'Alla adelsmän som flytt (emigranter) ses som landsförrädare. Till giljotinen!')">Döm Greven</button>
+          <div class="guilty-stamp">DÖMD!<br><span></span></div>
+        </div>
+
+        <div class="suspect-card" id="susp-3">
+          <h4>Journalisten Camille</h4>
+          <div class="suspect-desc">"Jag har stöttat revolutionen sedan dag ett, men jag skrev nyligen att vi kanske dödar för många människor nu?"</div>
+          <button class="judge-btn" onclick="judgeSuspect(3, 'DÖMD!', 'Att ifrågasätta Skräckväldet gör dig till en fiende av friheten. Till giljotinen!')">Döm Camille</button>
+          <div class="guilty-stamp">DÖMD!<br><span></span></div>
+        </div>
+
+        <div class="suspect-card" id="susp-4">
+          <h4>Bonden Jean</h4>
+          <div class="suspect-desc">"Jag är bara en vanlig bonde, men min granne ljög och sa till vakterna att jag hyllade kungen i sömnen."</div>
+          <button class="judge-btn" onclick="judgeSuspect(4, 'DÖMD!', 'Lagen om misstänkta kräver inga bevis. Grannens ord räcker. Till giljotinen!')">Döm Jean</button>
+          <div class="guilty-stamp">DÖMD!<br><span></span></div>
+        </div>
+      </div>
+    </div>
+
+    <h2>2. Giljotinen – Den "humana" dödsmaskinen</h2>
+    <p>När man tänker på Franska revolutionen tänker man på Giljotinen. Den uppfanns faktiskt av en läkare (Dr. Guillotin) med en god tanke: Innan revolutionen torterades fattiga människor till döds, medan adeln fick det "fina" straffet att snabbt få huvudet avhugget med ett svärd.</p>
+    <p>Giljotinen skulle göra döden <strong>jämlik och smärtfri</strong> för alla. Maskinen blev snabbt en symbol för Skräckväldet. På torgen i Paris satt folk och stickade och jublade medan huvuden rullade, ibland över 50 stycken på en enda eftermiddag.</p>
+
+    <!-- INTERACTIVE: GILJOTIN SIMULATOR -->
+    <div class="guillotine-wrapper">
+      <h3>Testa mekanismen</h3>
+      <p style="color: rgba(255,255,255,0.8); font-size: 16px; margin-bottom: 0;">Varför blev just fallbilan revolutionens symbol? Testa effektiviteten.</p>
+      
+      <div class="guillotine-stage">
+        <svg class="svg-guillotine" viewBox="0 0 200 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- Bas och ram -->
+          <rect x="20" y="270" width="160" height="20" class="g-wood" /> <!-- Botten -->
+          <rect x="40" y="20" width="16" height="250" class="g-wood" />  <!-- Vänster stolpe -->
+          <rect x="144" y="20" width="16" height="250" class="g-wood" /> <!-- Höger stolpe -->
+          <rect x="20" y="10" width="160" height="25" class="g-wood" />  <!-- Toppbjälke -->
+          
+          <!-- Halsstock (Lunette) -->
+          <path d="M40 220 L160 220 L160 260 L40 260 Z" class="g-wood" />
+          <circle cx="100" cy="240" r="18" fill="var(--blood-red-dk)" /> <!-- Hålet -->
+          
+          <!-- Bladet (Rörlig del) -->
+          <g id="g-blade-group">
+            <rect x="56" y="40" width="88" height="20" class="g-wood" /> <!-- Trätyngden (Mouton) -->
+            <polygon points="56,60 144,60 144,105 56,70" class="g-blade-metal" /> <!-- Bladet vinklat -->
+          </g>
+        </svg>
+      </div>
+      
+      <button class="g-btn" id="g-drop-btn" onclick="triggerGuillotine()">Släpp bladet</button>
+      
+      <div class="g-facts" id="g-facts">
+        <strong>Fakta om Fallbilan:</strong><br>
+        Bladet vägde runt <strong>40 kilo</strong> och föll från cirka 2 meters höjd med enorm kraft. Den skarpa vinkeln på bladet gjorde att det inte krossade, utan skivade rent. Det tog mindre än <strong>en hundradels sekund</strong> för bladet att passera. Maskinen var så effektiv att man kunde avrätta en person i minuten, vilket "industrialiserade" dödsstraffet under Skräckväldet.
+      </div>
+    </div>
+
+    <!-- INTERACTIVE 2: STATISTIK -->
+    <div class="stats-box">
+      <h3>Mytkrossaren: Vilka var det egentligen som halshöggs?</h3>
+      <p>Många tror att det nästan uteslutande var kungen, drottningen och rika adelsmän i vita peruker som avrättades under Skräckväldet. Klicka på knappen för att se den chockerande sanningen från arkiven!</p>
+      
+      <div id="stat-container">
+        <div class="stat-row">
+          <div class="stat-label">Adeln (De rika)</div>
+          <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="8%">8%</div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label">Prästerna</div>
+          <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="6%">6%</div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label">Medelklassen</div>
+          <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="14%">14%</div></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-label">Bönder & Arbetare</div>
+          <div class="stat-bar-bg"><div class="stat-bar-fill" data-width="72%">72%</div></div>
+        </div>
+      </div>
+      <button class="stat-btn" onclick="revealStats(this)">Visa Giljotinens Statistik</button>
+    </div>
+    
+    <p>Som statistiken visar var det ironiskt nog det "vanliga folket" – samma människor som revolutionen var tänkt att hjälpa – som drabbades absolut hårdast av terrorn.</p>
+
+    <h2>3. Robespierre – Diktatorn som förlorade huvudet</h2>
+    <p><strong>Maximilien de Robespierre</strong> kallades för "Den omutlige". Han var en advokat som levde oerhört enkelt och som verkade genuint besatt av idén om dygd och rättvisa. Men han var också paranoid. Han var övertygad om att det enda sättet att rädda demokratin var att rensa ut alla som inte var "rena" revolutionärer.</p>
+    
+    <div class="quote-box">
+      "Utan dygd är terrorn ödesdiger; utan terror är dygden maktlös."
+      <span class="quote-author">Robespierres försvarstal för Skräckväldet, 1794</span>
+    </div>
+
+    <p>Under våren 1794 spårade det ur totalt. Robespierre började avrätta sina egna vänner och andra revolutionsledare (som Georges Danton) för att de tyckte att man borde sakta ner dödandet.</p>
+    <p><strong>Slutet:</strong> Till slut blev de andra politikerna i nationalförsamlingen livrädda. De insåg att vem som helst av dem kunde bli Robespierres nästa offer. I slutet av juli 1794 (en månad som i revolutionskalendern kallades <em>Thermidor</em>) gjorde de uppror, grep Robespierre och skickade honom – ironiskt nog – till samma giljotin där han mördat så många andra. Skräckväldet var över.</p>
+
+    <!-- ── INTERACTIVE 3: QUIZ SECTION ── -->
+    <h2>Testa dina kunskaper: Skräckväldet Quiz</h2>
+    <div class="quiz-section">
+      <div id="quiz-play-view">
+        <div class="quiz-header">
+          <span class="q-progress" id="q-progress">Fråga 1 av 5</span>
+          <div class="q-text" id="q-text">Laddar fråga...</div>
+        </div>
+        <div class="q-opts" id="q-opts"></div>
+        <div class="q-feedback" id="q-feedback"></div>
+        <button class="q-next-btn" id="q-next-btn" onclick="nextQuiz()">Nästa fråga →</button>
+      </div>
+
+      <div id="quiz-score-view">
+        <div class="score-circle">
+          <div class="score-num" id="score-num">0</div>
+          <div class="score-den">av 5</div>
+        </div>
+        <h3 id="score-title">Resultat</h3>
+        <button class="retry-btn" onclick="startQuiz()">Gör quizet igen ↺</button>
+      </div>
+    </div>
+
+    <!-- ── INTERACTIVE 4: WRITING PROMPTS ── -->
+    <h2 class="essay-section">Öva inför provet: Analys & Reflektion</h2>
+    <p>Dessa analysfrågor handlar om demokratins gränser, ett ämne som är precis lika aktuellt idag som det var 1793.</p>
+
+    <div class="essay-card">
+      <span class="essay-label">Reflektera</span>
+      <div class="essay-q">Robespierre menade att man var tvungen att använda diktatur och terror för att "rädda" demokratin och friheten. Kan man försvara demokratin med antidemokratiska metoder?</div>
+      <textarea class="essay-textarea" rows="4" placeholder="Vad tycker du? Om ett land hotas av undergång (som Frankrike i krig), får regeringen då låsa in och tysta folk utan rättegång?"></textarea>
+      <button class="hint-btn" onclick="toggleHint('hint1')">Visa SO-lärarens tankar ↓</button>
+      <div class="hint-box" id="hint1">
+        <strong>Tankar för ett nyanserat svar:</strong> 
+        Detta är en klassisk SO-fråga! Ett bra svar ser saken från två håll:<br><br>
+        <em>Å ena sidan:</em> I extrem krigstid kan en nation ibland behöva snabba, hårda beslut (undantagstillstånd) för att inte krossas av sina fiender. Om kungarna hade vunnit hade demokratin definitivt dött.<br>
+        <em>Å andra sidan:</em> När man börjar använda terror som verktyg tenderar det att bli permanent. Om man dödar sina motståndare för att skydda "yttrandefriheten", har man ju redan förstört yttrandefriheten. Resultatet av Skräckväldet blev ju inte mer frihet, utan bara rädsla.
+      </div>
+    </div>
+
+    <div class="essay-card">
+      <span class="essay-label">Analysera orsak/konsekvens</span>
+      <div class="essay-q">Varför var det oftast bönder och vanliga arbetare som avrättades under Skräckväldet, och inte adelsmän?</div>
+      <textarea class="essay-textarea" rows="4" placeholder="Titta tillbaka på statistiken i artikeln. Vad hade hänt med de flesta adelsmän? Och vilka var det som gjorde uppror ute i landet?"></textarea>
+      <button class="hint-btn" onclick="toggleHint('hint2')">Visa SO-lärarens tips ↓</button>
+      <div class="hint-box" id="hint2">
+        <strong>Tips för ett A-svar:</strong>
+        Här ska du koppla ihop historiska fakta.
+        1. Många ur adeln (de med pengar) hade redan <strong>flytt landet</strong> ("emigranterna") när revolutionen blev radikal, så de fanns helt enkelt inte kvar att avrätta.<br>
+        2. Ute i de franska provinserna (t.ex. i Vendée) var <strong>bönderna väldigt religiösa</strong>. När revolutionen i Paris attackerade den katolska kyrkan och tvingade in böndernas söner i armén, gjorde bönderna uppror. Robespierre skickade soldater som massakrerade dessa fattiga bönder för att de sågs som "fiender till revolutionen".
+      </div>
+    </div>
+
+  </article>
+</main>
+
+<script>
+// ── INTERACTIVE 1: THE TRIBUNAL ──
+function judgeSuspect(id, title, desc) {
+  const card = document.getElementById('susp-' + id);
+  const stamp = card.querySelector('.guilty-stamp');
+  stamp.innerHTML = `${title}<br><span>${desc}</span>`;
+  card.classList.add('dömd');
+}
+
+// ── INTERACTIVE: GUILLOTINE ──
+function triggerGuillotine() {
+  const blade = document.getElementById('g-blade-group');
+  const btn = document.getElementById('g-drop-btn');
+  const facts = document.getElementById('g-facts');
+  
+  if(blade.classList.contains('dropped')) {
+    // Återställ
+    blade.classList.remove('dropped');
+    facts.classList.remove('show');
+    btn.textContent = "Släpp bladet";
+  } else {
+    // Släpp
+    blade.classList.add('dropped');
+    btn.textContent = "Dra upp bladet ↺";
+    
+    // Visa fakta efter ett kort delay för dramatisk effekt
+    setTimeout(() => {
+      facts.classList.add('show');
+    }, 350);
+  }
+}
+
+// ── INTERACTIVE 2: STATS ──
+function revealStats(btn) {
+  const bars = document.querySelectorAll('.stat-bar-fill');
+  bars.forEach(bar => {
+    const width = bar.getAttribute('data-width');
+    bar.style.width = width;
+  });
+  btn.style.display = 'none'; // Göm knappen när statistiken visas
+}
+
+// ── INTERACTIVE 3: QUIZ ──
+const quizData = [
+  {
+    q: "Vilket namn fick den lilla grupp män (ledd av Robespierre) som fick diktatorisk makt under Skräckväldet?",
+    opts: ["Välfärdsutskottet", "Nationalförsamlingen", "Generalständerna", "Kungliga Rådet"],
+    correct: 0,
+    exp: "Rätt! Välfärdsutskottet sattes upp för att skydda revolutionen mot både inre och yttre fiender."
+  },
+  {
+    q: "Vilken varhuvudsakliga anledningen till att 'Lagen om misstänkta' var så farlig?",
+    opts: ["Den gällde bara kvinnor.", "Man behövde inga bevis, det räckte med att någon påstod att man var emot revolutionen.", "Den förbjöd all försäljning av bröd i Paris.", "Den gav kungen tillbaka makten."],
+    correct: 1,
+    exp: "Exakt! Den raderade all rättssäkerhet. Minsta rykte om att du inte var tillräckligt radikal räckte för att du skulle giljotineras."
+  },
+  {
+    q: "Enligt statistiken, vilken samhällsgrupp drabbades värst (i procent) av giljotinen?",
+    opts: ["Adeln", "Prästerna", "Bönder och arbetare", "Kungafamiljen"],
+    correct: 2,
+    exp: "Helt rätt. Otroliga 72% av de avrättade tillhörde det tredje ståndet (ofta på grund av lokala bonderevolter mot revolutionen)."
+  },
+  {
+    q: "Vad hette den berömda, stränga ledaren för Skräckväldet?",
+    opts: ["Georges Danton", "Ludvig XVI", "Napoleon Bonaparte", "Maximilien de Robespierre"],
+    correct: 3,
+    exp: "Bra! Robespierre ('Den omutlige') ledde terrorn, men blev slutligen ett offer för den själv."
+  },
+  {
+    q: "Varför uppfanns Giljotinen från början?",
+    opts: ["För att tortera fångar.", "För att den var dyr att bygga, vilket gynnade ekonomin.", "För att skapa en smärtfri, 'human' och jämlik avrättningsmetod för alla klasser.", "För att användas i kriget mot Österrike."],
+    correct: 2,
+    exp: "Korrekt! Innan revolutionen torterades ofta vanliga brottslingar till döds, giljotinen sågs paradoxalt nog som ett humanitärt framsteg."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function startQuiz() {
+  currentQ = 0;
+  score = 0;
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play-view').style.display = 'block';
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const q = quizData[currentQ];
+  document.getElementById('q-progress').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('q-text').textContent = q.q;
+  
+  const optsContainer = document.getElementById('q-opts');
+  optsContainer.innerHTML = '';
+  
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(idx);
+    optsContainer.appendChild(btn);
+  });
+  
+  document.getElementById('q-feedback').style.display = 'none';
+  document.getElementById('q-next-btn').style.display = 'none';
+}
+
+function answerQuiz(chosenIdx) {
+  const q = quizData[currentQ];
+  const btns = document.querySelectorAll('.q-opt');
+  const fb = document.getElementById('q-feedback');
+  
+  btns.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === q.correct) btn.classList.add('correct');
+    else if (idx === chosenIdx) btn.classList.add('wrong');
+  });
+
+  if (chosenIdx === q.correct) {
+    score++;
+    fb.className = 'q-feedback correct';
+    fb.innerHTML = `<strong>Rätt!</strong> ${q.exp}`;
+  } else {
+    fb.className = 'q-feedback wrong';
+    fb.innerHTML = `<strong>Fel.</strong> Det rätta svaret är: <em>${q.opts[q.correct]}</em>`;
+  }
+  
+  fb.style.display = 'block';
+  const nextBtn = document.getElementById('q-next-btn');
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se resultat →';
+  nextBtn.style.display = 'block';
+}
+
+function nextQuiz() {
+  currentQ++;
+  if (currentQ < quizData.length) {
+    renderQuiz();
+  } else {
+    showQuizScore();
+  }
+}
+
+function showQuizScore() {
+  document.getElementById('quiz-play-view').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  document.getElementById('score-num').textContent = score;
+  
+  const pct = score / quizData.length;
+  let title;
+  
+  if (pct === 1) { title = 'Fantastiskt! Du är en sann historiker.'; }
+  else if (pct >= 0.6) { title = 'Bra jobbat! Du har koll på terrorn.'; }
+  else { title = 'Läs på lite mer om Robespierre och försök igen.'; }
+  
+  document.getElementById('score-title').textContent = title;
+}
+
+// ── INTERACTIVE 4: WRITING PROMPTS ──
+function toggleHint(id) {
+  const hint = document.getElementById(id);
+  const btn = event.target;
+  
+  if (hint.style.display === 'block') {
+    hint.style.display = 'none';
+    btn.textContent = 'Visa SO-lärarens tips ↓';
+  } else {
+    hint.style.display = 'block';
+    btn.textContent = 'Dölj tips ↑';
+  }
+}
+
+// Start quiz on load
+startQuiz();
+</script>
+</body>
+</html>
