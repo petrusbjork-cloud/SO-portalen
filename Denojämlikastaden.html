@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Lär dig om urbanisering, push- och pullfaktorer, kåkstäder och den extrema segregationen i världens megastäder.">
+<title>Den ojämlika staden: Kåkstäder vs Skyskrapor | SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Geografi-tema: Skog, jord och sand */
+  --forest: #1A3C34;
+  --forest-lt: #2B5A4E;
+  --earth: #B85B3F;
+  --earth-lt: #FDF4F1;
+  --earth-dk: #8C3E28;
+  --gold: #D4A357;
+  --gold-lt: #FDF9F1;
+  --paper: #F7F5F0;
+  --text: #2C2A28;
+  --muted: #6B655F;
+  --border: #E0D9CC;
+  --green: #2E5A2E;
+  --green-lt: #EBF2EB;
+  --gray-city: #4A5568;
+  --gray-city-lt: #EDF2F7;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { 
+  font-family: 'Source Serif 4', Georgia, serif; 
+  background: var(--paper); 
+  color: var(--text); 
+  line-height: 1.8; 
+  font-size: 18px;
+}
+
+/* ── TYPOGRAPHY & LAYOUT ── */
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--forest); line-height: 1.2; }
+h2 { font-size: 32px; font-weight: 900; margin: 48px 0 24px; position: relative; padding-bottom: 12px; }
+h2::after { content: ''; position: absolute; left: 0; bottom: 0; width: 60px; height: 4px; background: var(--earth); }
+p { margin-bottom: 24px; }
+strong { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; color: var(--forest); }
+
+.container { max-width: 800px; margin: 0 auto; padding: 0 24px 60px; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--forest); color: white;
+  padding: 80px 24px; text-align: center;
+  border-bottom: 6px solid var(--earth);
+  background-image: radial-gradient(circle at 50% 0%, rgba(212,163,87,0.15) 0%, rgba(26,60,52,0.95) 100%);
+}
+.hero-label { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+.hero h1 { color: white; font-size: clamp(36px, 6vw, 56px); font-weight: 900; margin-bottom: 24px; }
+.hero p { font-size: 20px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; line-height: 1.5; }
+
+/* ── INTRO BOX ── */
+.intro-box {
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  padding: 32px; margin: -40px auto 48px; position: relative; z-index: 10;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08); max-width: 800px; text-align: center;
+  border-top: 4px solid var(--earth);
+}
+.intro-box p { margin: 0; font-size: 18px; color: var(--muted); }
+
+/* ── INTERACTIVE 1: PUSH & PULL ── */
+.push-pull-game { background: var(--forest); border-radius: 8px; padding: 40px; color: white; margin: 40px 0; box-shadow: 0 8px 30px rgba(26,60,52,0.2); }
+.pp-header { text-align: center; margin-bottom: 32px; }
+.pp-header h3 { color: var(--gold); font-size: 28px; margin-bottom: 12px; }
+.pp-header p { color: rgba(255,255,255,0.8); font-size: 16px; margin: 0 auto; max-width: 550px; }
+.pp-item { background: white; color: var(--text); border-radius: 6px; padding: 16px 24px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+@media(max-width: 600px) { .pp-item { flex-direction: column; gap: 16px; text-align: center; } }
+.pp-text { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--forest); }
+.pp-btns { display: flex; gap: 8px; }
+.pp-btn { background: var(--paper); border: 2px solid var(--border); color: var(--muted); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; padding: 8px 16px; border-radius: 4px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+.pp-btn:hover:not(:disabled) { border-color: var(--forest); color: var(--forest); }
+.pp-btn:disabled { cursor: default; opacity: 0.5; }
+.pp-item.solved-push { background: var(--earth-lt); border-left: 6px solid var(--earth); }
+.pp-item.solved-push .pp-btn.btn-push { background: var(--earth); color: white; border-color: var(--earth); opacity: 1; }
+.pp-item.solved-pull { background: var(--gold-lt); border-left: 6px solid var(--gold); }
+.pp-item.solved-pull .pp-btn.btn-pull { background: var(--gold); color: white; border-color: var(--gold); opacity: 1; }
+.pp-feedback { text-align: center; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 16px; color: var(--gold); margin-top: 24px; min-height: 24px; }
+
+/* ── INTERACTIVE 2: KLYFTAN (TOGGLE) ── */
+.klyftan-section { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 40px; margin: 48px 0; box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
+.klyftan-header { text-align: center; margin-bottom: 32px; }
+.klyftan-header h3 { font-size: 28px; color: var(--forest); margin-bottom: 12px; }
+.toggle-wrapper { display: flex; justify-content: center; margin-bottom: 32px; border-radius: 8px; overflow: hidden; border: 2px solid var(--gray-city); width: fit-content; margin-left: auto; margin-right: auto; }
+.toggle-btn { background: white; color: var(--gray-city); border: none; padding: 12px 32px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+.toggle-btn.active { background: var(--gray-city); color: white; }
+
+.k-content { display: none; animation: fadeIn 0.4s ease; }
+.k-content.active { display: block; }
+.k-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+@media(max-width: 600px) { .k-grid { grid-template-columns: 1fr; } }
+.k-card { padding: 24px; border-radius: 8px; border-left: 4px solid; }
+.k-icon { font-size: 32px; margin-bottom: 12px; line-height: 1; }
+.k-card h4 { font-size: 18px; margin-bottom: 8px; font-family: 'Inter', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+.k-card p { font-size: 15px; line-height: 1.6; margin: 0; color: var(--text); }
+
+/* Kåkstad Styles */
+#view-slum .k-card { background: var(--earth-lt); border-color: var(--earth); }
+#view-slum h4 { color: var(--earth); }
+/* Skyskrapa Styles */
+#view-gated .k-card { background: var(--gray-city-lt); border-color: var(--gray-city); }
+#view-gated h4 { color: var(--gray-city); }
+
+/* ── INTERACTIVE 3: ETT DYGN (DAY IN LIFE) ── */
+.dil-section { background: var(--paper); border: 2px solid var(--border); border-radius: 8px; padding: 40px; margin: 48px 0; }
+.dil-header { text-align: center; margin-bottom: 32px; }
+.dil-header h3 { font-size: 28px; color: var(--forest); margin-bottom: 8px; }
+.dil-header p { font-size: 16px; color: var(--muted); margin: 0; }
+.time-nav { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; flex-wrap: wrap; }
+.time-btn { background: white; border: 2px solid var(--border); color: var(--muted); font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; padding: 10px 24px; border-radius: 30px; cursor: pointer; transition: all 0.2s; }
+.time-btn:hover:not(.active) { border-color: var(--forest); color: var(--forest); }
+.time-btn.active { background: var(--forest); color: var(--gold); border-color: var(--forest); box-shadow: 0 4px 12px rgba(26,60,52,0.2); transform: scale(1.05); }
+
+.dil-split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; position: relative; }
+@media(max-width: 600px) { .dil-split { grid-template-columns: 1fr; } }
+.dil-card { background: white; border-radius: 8px; padding: 32px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 6px solid; animation: fadeIn 0.4s ease; display: flex; flex-direction: column; gap: 16px; }
+.dil-card.poor { border-color: var(--earth); }
+.dil-card.rich { border-color: var(--gray-city); }
+.dil-card-header { display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
+.dil-avatar { font-size: 40px; line-height: 1; }
+.dil-name { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 2px; line-height: 1; }
+.dil-place { font-family: 'Inter', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.dil-card.poor .dil-name { color: var(--earth); }
+.dil-card.rich .dil-name { color: var(--gray-city); }
+.dil-text { font-size: 16px; line-height: 1.6; color: var(--text); }
+.dil-time-display { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background: var(--gold); color: var(--forest); font-family: 'Inter', sans-serif; font-weight: 900; font-size: 14px; padding: 4px 16px; border-radius: 20px; letter-spacing: 2px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); z-index: 10; }
+
+/* ── SUMMARY BOX ── */
+.summary-box { background: var(--earth-lt); border: 2px dashed var(--earth); border-radius: 8px; padding: 32px; margin: 60px 0; text-align: center; }
+.summary-box h3 { font-size: 28px; margin-bottom: 16px; color: var(--forest); }
+.summary-box ul { list-style: none; text-align: left; max-width: 500px; margin: 0 auto; }
+.summary-box li { margin-bottom: 12px; position: relative; padding-left: 24px; font-size: 16px; }
+.summary-box li::before { content: '🏢'; position: absolute; left: 0; font-size: 16px; line-height: 1.5; }
+
+/* ── INTERACTIVE 4: QUIZ ── */
+.quiz-section { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 40px; margin-top: 60px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
+.quiz-header { text-align: center; margin-bottom: 32px; }
+.quiz-header h3 { font-size: 28px; margin-bottom: 8px; color: var(--forest); }
+.q-progress { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: var(--earth); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; display: block; }
+.q-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--forest); margin-bottom: 24px; line-height: 1.4; }
+.q-opts { display: flex; flex-direction: column; gap: 12px; }
+.q-opt { background: white; border: 2px solid var(--border); border-radius: 6px; padding: 16px 20px; font-family: 'Source Serif 4', serif; font-size: 16px; color: var(--text); text-align: left; cursor: pointer; transition: all 0.2s; }
+.q-opt:hover:not(:disabled) { border-color: var(--forest); background: rgba(26,60,52,0.03); }
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); font-weight: 600; }
+.q-opt.wrong { background: var(--earth-lt); border-color: var(--earth); color: var(--earth); }
+.q-opt:disabled { cursor: default; }
+.q-feedback { display: none; margin-top: 24px; padding: 16px 20px; border-radius: 6px; border-left: 4px solid; font-size: 16px; animation: fadeIn 0.3s ease; }
+.q-feedback.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.q-feedback.wrong { background: rgba(184,91,63,0.1); border-color: var(--earth); color: var(--earth); }
+.q-next-btn { background: var(--forest); color: white; border: none; font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 700; padding: 14px 28px; border-radius: 4px; cursor: pointer; margin-top: 24px; display: none; width: 100%; transition: background 0.2s; }
+
+/* Quiz Score View */
+#quiz-score-view { text-align: center; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--forest); border: 4px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.7); }
+.retry-btn { background: transparent; border: 2px solid var(--forest); color: var(--forest); padding: 12px 24px; border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+
+/* ── INTERACTIVE 5: WRITING PROMPTS ── */
+.essay-section { margin-top: 60px; }
+.essay-card { background: white; border: 1px solid var(--border); border-left: 6px solid var(--gold); padding: 32px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+.essay-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
+.essay-q { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--forest); margin-bottom: 20px; }
+.essay-textarea { width: 100%; padding: 16px; border: 2px solid var(--border); border-radius: 6px; font-family: 'Source Serif 4', serif; font-size: 16px; background: var(--paper); resize: vertical; margin-bottom: 16px; transition: border-color 0.2s; }
+.essay-textarea:focus { outline: none; border-color: var(--forest); background: white; }
+.hint-btn { background: transparent; border: none; color: var(--earth); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; padding: 0; }
+.hint-box { display: none; background: var(--gold-lt); padding: 20px; border-radius: 6px; border: 1px dashed var(--gold); margin-top: 16px; font-size: 15px; color: var(--text); animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="hero-label">Djupdykning · Geografi & Samhälle</span>
+  <h1>Den ojämlika staden</h1>
+  <p>Hur megastäder lockar miljontals människor, och skapar en värld där extrem rikedom och bottenlös fattigdom existerar vägg i vägg.</p>
+</header>
+
+<main class="container">
+  
+  <section class="intro-box">
+    <p>För första gången i mänsklighetens historia bor fler människor i städer än på landsbygden. Denna massiva flytt kallas för <strong>urbanisering</strong>. I många länder sker inflyttningen så snabbt att städerna inte hinner med. Resultatet blir att staden delas itu: En del för de rika, och en enorm slum för de fattiga.</p>
+  </section>
+
+  <article>
+    <h2>1. Varför flyttar alla till staden?</h2>
+    <p>Människor lämnar inte sina hemgårdar och byar utan anledning. I geografi pratar man om <strong>Push-faktorer</strong> (saker som är dåliga på landsbygden och "puttar bort" människor) och <strong>Pull-faktorer</strong> (saker som är lockande med staden och "drar till sig" människor).</p>
+
+    <!-- INTERACTIVE 1: PUSH ELLER PULL -->
+    <div class="push-pull-game">
+      <div class="pp-header">
+        <h3>Push eller Pull?</h3>
+        <p>Klassificera orsakerna! Är detta något som <em>driver bort</em> människor från landet (Push) eller något som <em>lockar</em> dem till staden (Pull)?</p>
+      </div>
+
+      <div id="pp-list">
+        <!-- Item 1 -->
+        <div class="pp-item" id="pp-item-1">
+          <div class="pp-text">Hopp om ett välbetalt jobb</div>
+          <div class="pp-btns">
+            <button class="pp-btn btn-push" onclick="checkPP(1, 'push')">Push</button>
+            <button class="pp-btn btn-pull" onclick="checkPP(1, 'pull')">Pull</button>
+          </div>
+        </div>
+        <!-- Item 2 -->
+        <div class="pp-item" id="pp-item-2">
+          <div class="pp-text">Missväxt och svält</div>
+          <div class="pp-btns">
+            <button class="pp-btn btn-push" onclick="checkPP(2, 'push')">Push</button>
+            <button class="pp-btn btn-pull" onclick="checkPP(2, 'pull')">Pull</button>
+          </div>
+        </div>
+        <!-- Item 3 -->
+        <div class="pp-item" id="pp-item-3">
+          <div class="pp-text">Tillgång till rent vatten & sjukhus</div>
+          <div class="pp-btns">
+            <button class="pp-btn btn-push" onclick="checkPP(3, 'push')">Push</button>
+            <button class="pp-btn btn-pull" onclick="checkPP(3, 'pull')">Pull</button>
+          </div>
+        </div>
+        <!-- Item 4 -->
+        <div class="pp-item" id="pp-item-4">
+          <div class="pp-text">Maskiner tar över jordbruket</div>
+          <div class="pp-btns">
+            <button class="pp-btn btn-push" onclick="checkPP(4, 'push')">Push</button>
+            <button class="pp-btn btn-pull" onclick="checkPP(4, 'pull')">Pull</button>
+          </div>
+        </div>
+      </div>
+      <div class="pp-feedback" id="pp-feedback"></div>
+    </div>
+
+    <h2>2. När drömmen kraschar: Kåkstäderna</h2>
+    <p>När miljoner fattiga bönder anländer till en stad som Mumbai (Indien) eller Rio de Janeiro (Brasilien) finns det inga färdiga lägenheter som väntar på dem. Staden har inte råd, eller vilja, att bygga bostäder i den takt som krävs.</p>
+    <p>Lösningen blir att de nyanlända bygger egna hus av det de kan hitta – plåt, brädor, kartong och plast. De bygger på mark som ingen annan vill ha, till exempel i branta sluttningar eller bredvid soptippar. Dessa områden kallas <strong>slum, favelor eller kåkstäder</strong>.</p>
+    <p>Eftersom husen är byggda olagligt, drar staden inte in något vatten, bygger inga vägar för sophämtning, och skickar ingen polis dit. Invånarna lämnas att klara sig själva.</p>
+
+    <h2>3. Den informella sektorn (Svarta marknaden)</h2>
+    <p>Utan utbildning är det svårt att få ett "vanligt" jobb (den formella sektorn) i staden. Istället tvingas de flesta i kåkstäderna arbeta i <strong>den informella sektorn</strong> för att överleva.</p>
+    <p>Detta innebär att man säljer frukt på gatan, putsar skor, samlar plast på soptippar eller syr kläder svart. Det finns inga anställningskontrakt. Blir du sjuk, får du ingen lön. Eftersom arbetarna inte betalar skatt på dessa inkomster, får staten inte in några pengar, vilket i sin tur gör att staten inte kan bygga sjukhus och skolor i kåkstaden. Det är ett moment 22.</p>
+
+    <!-- INTERACTIVE 2: KLYFTAN -->
+    <div class="klyftan-section">
+      <div class="klyftan-header">
+        <h3>En stad – Två helt olika världar</h3>
+        <p style="color:var(--muted); font-size:16px; margin:0;">I megastäder existerar extrem fattigdom och lyx ofta på samma gata. Klicka för att se skillnaden.</p>
+      </div>
+
+      <div class="toggle-wrapper">
+        <button class="toggle-btn active" id="btn-slum" onclick="toggleCity('slum')">I Kåkstaden</button>
+        <button class="toggle-btn" id="btn-gated" onclick="toggleCity('gated')">I "Gated Community"</button>
+      </div>
+
+      <!-- Kåkstaden (Slum) -->
+      <div id="view-slum" class="k-content active">
+        <div class="k-grid">
+          <div class="k-card">
+            <div class="k-icon">💧</div>
+            <h4>Vatten & Sanitet</h4>
+            <p>Inget rinnande vatten. Familjer måste köpa dyrt vatten från lastbilar eller bära dunkar. Avloppen rinner i öppna diken mellan plåtskjulen, vilket sprider dödliga sjukdomar som kolera vid regn.</p>
+          </div>
+          <div class="k-card">
+            <div class="k-icon">👮</div>
+            <h4>Säkerhet</h4>
+            <p>Polisen åker sällan in i området. Kriminella gäng eller drogkarteller tar ofta över kontrollen och fungerar som kåkstadens egna, hänsynslösa "lagstiftare".</p>
+          </div>
+          <div class="k-card">
+            <div class="k-icon">🏚️</div>
+            <h4>Bostaden</h4>
+            <p>Ett litet rum byggt av skrot, utan isolering. Vid kraftiga regn finns stor risk för jordskred som drar med sig hundratals hus och dödar invånarna, eftersom de byggts på branta kullar.</p>
+          </div>
+          <div class="k-card">
+            <div class="k-icon">💼</div>
+            <h4>Arbete</h4>
+            <p>Informella sektorn. Man överlever från dag till dag genom att sälja småsaker på gatan eller städa hos de rika. Inga försäkringar, ingen pension och extremt låga inkomster.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gated Community -->
+      <div id="view-gated" class="k-content">
+        <div class="k-grid">
+          <div class="k-card">
+            <div class="k-icon">🚿</div>
+            <h4>Vatten & Sanitet</h4>
+            <p>Obegränsat med rent, filtrerat vatten. Moderna avloppssystem som underhålls av staden, och stora privata swimmingpooler bakom höga murar.</p>
+          </div>
+          <div class="k-card">
+            <div class="k-icon">🛡️</div>
+            <h4>Säkerhet</h4>
+            <p>Området är helt omringat av höga murar med taggtråd eller elstängsel. Privat beväpnad säkerhetsvakt står vid grindarna och kontrollerar alla som åker in och ut dygnet runt.</p>
+          </div>
+          <div class="k-card">
+            <div class="k-icon">🏛️</div>
+            <h4>Bostaden</h4>
+            <p>Enorma lyxvillor byggda i betong och stål med air-condition och generatorer som tar vid om stadens elnät går ner. Området har ofta egna privata skolor och sjukhus.</p>
+          </div>
+          <div class="k-card">
+            <div class="k-icon">👔</div>
+            <h4>Arbete</h4>
+            <p>Högavlönade jobb i den formella sektorn. Chefer, läkare, bankirer och politiker. De har försäkringar, betalar skatt och flyger ofta internationellt för affärer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h2>4. Segregation: När staden spricker</h2>
+    <p>Fenomenet som syns ovan kallas <strong>segregation</strong> – ett tillstånd där olika samhällsgrupper (ofta uppdelade efter inkomst eller etnicitet) lever helt åtskilda från varandra.</p>
+    <p>I vissa städer i Sydafrika och Brasilien kan en mur vara det enda som skiljer ett område med lyxvillor och swimmingpooler från en utbredd kåkstad. När de rika och de fattiga aldrig möts, går i olika skolor och lever under totalt olika lagar, skapas en farlig misstro. De rika låser in sig bakom murar (Gated communities) av rädsla, och de fattiga känner en enorm frustration över orättvisan. En stad som är kraftigt segregerad har ofta mycket hög brottslighet och social oro.</p>
+
+    <!-- ── NEW INTERACTIVE: ETT DYGN, TVÅ VÄRLDAR ── -->
+    <div class="dil-section">
+      <div class="dil-header">
+        <h3>Ett dygn, två världar</h3>
+        <p>Hur påverkar segregationen en helt vanlig dag? Följ de två 15-åringarna Mateo och Sofia. Båda bor i samma stad, men under helt olika förutsättningar. Klicka på klockslagen nedan.</p>
+      </div>
+
+      <div class="time-nav">
+        <button class="time-btn active" onclick="setDayTime(0)">06:00 Morgon</button>
+        <button class="time-btn" onclick="setDayTime(1)">08:00 Resan</button>
+        <button class="time-btn" onclick="setDayTime(2)">14:00 Eftermiddag</button>
+        <button class="time-btn" onclick="setDayTime(3)">20:00 Kväll</button>
+      </div>
+
+      <div class="dil-split">
+        <!-- Poor Card -->
+        <div class="dil-card poor">
+          <div class="dil-card-header">
+            <div class="dil-avatar">👦🏽</div>
+            <div>
+              <div class="dil-name">Mateo</div>
+              <div class="dil-place">Bor i Kåkstaden (Slum)</div>
+            </div>
+          </div>
+          <div class="dil-text" id="dil-text-poor">
+            Mateo vaknar tidigt på en madrass på golvet. Han promenerar direkt 20 minuter till den gemensamma kranen för att ställa sig i kö för att fylla familjens plastdunkar med dagens ranson av vatten. Någon frukost hinner han inte äta.
+          </div>
+        </div>
+
+        <!-- Rich Card -->
+        <div class="dil-card rich">
+          <div class="dil-card-header">
+            <div class="dil-avatar">👧🏻</div>
+            <div>
+              <div class="dil-name">Sofia</div>
+              <div class="dil-place">Bor i Gated Community</div>
+            </div>
+          </div>
+          <div class="dil-text" id="dil-text-rich">
+            Sofia vaknar i sin stora säng. Rummet är svalt tack vare luftkonditioneringen. Hembiträdet, som bor i en kåkstad i utkanterna, har redan dukat fram färsk frukt, yoghurt och juice på terassen vid poolen.
+          </div>
+        </div>
+
+        <div class="dil-time-display" id="dil-clock">06:00</div>
+      </div>
+    </div>
+    <!-- ── END NEW INTERACTIVE ── -->
+
+    <div class="summary-box">
+      <h3>Snabbsammanfattning: Städernas utmaning</h3>
+      <ul>
+        <li><strong>Push & Pull:</strong> Människor flyr brist på land/mat (Push) och dras mot hoppet om jobb och vård i staden (Pull).</li>
+        <li><strong>Kåkstäderna:</strong> Städerna hinner inte bygga bostäder. Miljontals människor tvingas bygga olagliga hus (slum) utan vatten, avlopp eller polis.</li>
+        <li><strong>Segregationen:</strong> Megastäder skapar en absurd ojämlikhet där eliten stänger in sig bakom höga murar, medan de fattiga jobbar på svarta marknaden utanför.</li>
+      </ul>
+    </div>
+
+    <!-- ── INTERACTIVE 4: QUIZ SECTION ── -->
+    <h2>Testa dina kunskaper: Quiz</h2>
+    <div class="quiz-section">
+      <div id="quiz-play-view">
+        <div class="quiz-header">
+          <span class="q-progress" id="q-progress">Fråga 1 av 5</span>
+          <div class="q-text" id="q-text">Laddar fråga...</div>
+        </div>
+        <div class="q-opts" id="q-opts"></div>
+        <div class="q-feedback" id="q-feedback"></div>
+        <button class="q-next-btn" id="q-next-btn" onclick="nextQuiz()">Nästa fråga →</button>
+      </div>
+
+      <div id="quiz-score-view">
+        <div class="score-circle">
+          <div class="score-num" id="score-num">0</div>
+          <div class="score-den">av 5</div>
+        </div>
+        <h3 id="score-title">Resultat</h3>
+        <button class="retry-btn" onclick="startQuiz()">Gör quizet igen ↺</button>
+      </div>
+    </div>
+
+    <!-- ── INTERACTIVE 5: WRITING PROMPTS ── -->
+    <h2 class="essay-section">Öva inför provet: Analys & Reflektion</h2>
+    <p>Segregation och urbanisering är favoritområden för SO-lärare. Visa att du kan föra djupare resonemang!</p>
+
+    <div class="essay-card">
+      <span class="essay-label">Analys: Den informella sektorn</span>
+      <div class="essay-q">Varför är "den informella sektorn" (svarta marknaden) ett problem både för individen och för landet som helhet?</div>
+      <textarea class="essay-textarea" rows="4" placeholder="Tänk på trygghet för individen (sjukdom, pension) och vad staten går miste om..."></textarea>
+      <button class="hint-btn" onclick="toggleHint('hint1')">Visa SO-lärarens tankar ↓</button>
+      <div class="hint-box" id="hint1">
+        <strong>Tips för ett A-svar:</strong> 
+        Dela upp svaret i två delar.<br>
+        <strong>1. Individen:</strong> Den som säljer frukt på gatan har inget anställningsskydd. Blir man sjuk en dag, får familjen ingen mat den dagen. Det finns ingen försäkring eller pension.<br>
+        <strong>2. Samhället:</strong> Eftersom den informella sektorn sker "svart", betalas ingen skatt. Utan skattepengar kan inte landets ledare bygga vägar, dra in vatten i kåkstäderna eller anställa lärare till skolorna, vilket gör att landet fastnar i fattigdom.
+      </div>
+    </div>
+
+    <div class="essay-card">
+      <span class="essay-label">Orsak & Konsekvens: Segregation</span>
+      <div class="essay-q">Vad blir konsekvenserna av att rika människor flyttar in i "Gated communities" med privata poliser och skolor, istället för att bo i den vanliga staden?</div>
+      <textarea class="essay-textarea" rows="4" placeholder="Hur påverkar det förståelsen mellan olika samhällsklasser?"></textarea>
+      <button class="hint-btn" onclick="toggleHint('hint2')">Visa SO-lärarens tips ↓</button>
+      <div class="hint-box" id="hint2">
+        <strong>Tips för ett A-svar:</strong>
+        När de rika stänger in sig försvinner deras "incitament" (vilja) att betala skatt för att stadens vanliga infrastruktur (allmänna skolor och polis) ska fungera, eftersom de redan har köpt privata lösningar till sig själva. <br>Dessutom leder den extrema segregationen till ett totalt "Vi och Dom"-samhälle. Man tappar förståelsen för varandra, rädslan ökar, vilket i sin tur leder till mer hat, kriminalitet och våld.
+      </div>
+    </div>
+
+  </article>
+</main>
+
+<script>
+// ── INTERACTIVE 1: PUSH & PULL ──
+const ppData = {
+  1: 'pull', // Hopp om jobb
+  2: 'push', // Missväxt
+  3: 'pull', // Sjukhus
+  4: 'push'  // Maskiner tar över
+};
+
+let ppScore = 0;
+
+function checkPP(id, guess) {
+  const item = document.getElementById('pp-item-' + id);
+  const btns = item.querySelectorAll('.pp-btn');
+  const correctAns = ppData[id];
+  const fb = document.getElementById('pp-feedback');
+
+  // Disable buttons
+  btns.forEach(b => b.disabled = true);
+
+  if(guess === correctAns) {
+    item.classList.add('solved-' + guess);
+    ppScore++;
+    fb.style.color = "var(--green)";
+    fb.textContent = "Rätt! En perfekt analys.";
+  } else {
+    // Show correct answer visually
+    item.classList.add('solved-' + correctAns);
+    fb.style.color = "var(--earth)";
+    fb.textContent = "Fel! Tänk på att 'Push' puttar dig BORT från landet, och 'Pull' drar dig TILL staden.";
+  }
+  
+  if(ppScore === 4) {
+    fb.style.color = "var(--gold)";
+    fb.textContent = "Snyggt! Du har bemästrat orsakerna till urbanisering.";
+  }
+}
+
+// ── INTERACTIVE 2: TOGGLE VIEW (Klyftan) ──
+function toggleCity(view) {
+  const btnS = document.getElementById('btn-slum');
+  const btnG = document.getElementById('btn-gated');
+  const contentS = document.getElementById('view-slum');
+  const contentG = document.getElementById('view-gated');
+
+  if(view === 'slum') {
+    btnS.classList.add('active'); btnG.classList.remove('active');
+    contentS.classList.add('active'); contentG.classList.remove('active');
+  } else {
+    btnG.classList.add('active'); btnS.classList.remove('active');
+    contentG.classList.add('active'); contentS.classList.remove('active');
+  }
+}
+
+// ── NEW INTERACTIVE: ETT DYGN (Day in Life) ──
+const dayData = [
+  {
+    time: "06:00",
+    poor: "Mateo vaknar tidigt på en madrass på golvet. Han promenerar direkt 20 minuter till den gemensamma kranen för att ställa sig i kö för att fylla familjens plastdunkar med dagens ranson av vatten. Någon frukost hinner han inte äta.",
+    rich: "Sofia vaknar i sin stora säng. Rummet är svalt tack vare luftkonditioneringen. Hembiträdet, som bor i en kåkstad i utkanterna, har redan dukat fram färsk frukt, yoghurt och juice på terassen vid poolen."
+  },
+  {
+    time: "08:00",
+    poor: "Mateo ska till staden. Han tränger in sig i en överfull och livsfarlig minibuss. Trafiken står helt stilla, och resan in till de rikare kvarteren tar nästan två timmar. Det finns ingen ordentlig lokaltrafik från hans område.",
+    rich: "Sofias pappa kör henne till hennes privata internationella skola. De åker i en pansarglasad, modern SUV. Resan går via en nybyggd och säker privat motorväg och tar bara 15 minuter."
+  },
+  {
+    time: "14:00",
+    poor: "Mateo går inte i skolan idag heller. Han måste jobba i den informella sektorn. Han står vid rödljusen i avgaser och säljer godis till bilarna för att få ihop tillräckligt med pengar för kvällens mat.",
+    rich: "Sofia har slutat skolan för dagen. Hon har stannat kvar för att träna tennis på skolans egna banor med en privat tränare. Senare ska hon träffa sina vänner på ett luftkonditionerat köpcentrum som omges av vakter."
+  },
+  {
+    time: "20:00",
+    poor: "Mateo läser ur en lånad skolbok i skenet från ett stearinljus, eftersom kåkstadens illegala elnät har kraschat igen. Utanför fönstret skriker gängmedlemmar åt varandra. Mateo somnar med en klump i magen.",
+    rich: "Sofia sitter i soffan och streamar en film via stans snabbaste fiberuppkoppling, medan städerskan plockar undan middagen. Hon somnar tryggt, med vetskapen om att patrullerande, beväpnade vakter går ronder utanför murarna."
+  }
+];
+
+function setDayTime(idx) {
+  // Update Buttons
+  document.querySelectorAll('.time-btn').forEach((btn, i) => {
+    if (i === idx) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+
+  // Re-trigger animation by removing and adding class
+  const poorEl = document.getElementById('dil-text-poor');
+  const richEl = document.getElementById('dil-text-rich');
+  
+  poorEl.style.opacity = '0';
+  richEl.style.opacity = '0';
+  
+  setTimeout(() => {
+    poorEl.textContent = dayData[idx].poor;
+    richEl.textContent = dayData[idx].rich;
+    document.getElementById('dil-clock').textContent = dayData[idx].time;
+    
+    poorEl.style.opacity = '1';
+    richEl.style.opacity = '1';
+    poorEl.style.transition = 'opacity 0.4s ease';
+    richEl.style.transition = 'opacity 0.4s ease';
+  }, 150);
+}
+
+// ── INTERACTIVE 4: QUIZ ──
+const quizData = [
+  {
+    q: "Vad är den enklaste definitionen av 'Urbanisering'?",
+    opts: ["Att städer bygger skyskrapor.", "Att människor flyttar från landsbygd in till städer.", "När rika stänger in sig bakom murar.", "Ett modernt system för att rena avloppsvatten i kåkstäder."],
+    correct: 1,
+    exp: "Rätt! Urbanisering är den globala trenden där befolkningen koncentreras till städer."
+  },
+  {
+    q: "Vilket av följande är ett exempel på en PUSH-faktor?",
+    opts: ["Drömmen om ett välbetalt jobb på ett kontor i huvudstaden.", "Att det finns ett universitet i staden.", "Att en långvarig torka har gjort det omöjligt att odla mat i byn.", "Att staden har bra och billig lokaltrafik."],
+    correct: 2,
+    exp: "Exakt. Torkan 'puttar' bort människor från landsbygden eftersom de inte kan överleva där längre."
+  },
+  {
+    q: "Vad kallas områden som ofta byggs olagligt av skrot, saknar avlopp och uppstår när staden växer för snabbt?",
+    opts: ["Gated communities", "Industrizoner", "Favelor / Kåkstäder", "Förorter"],
+    correct: 2,
+    exp: "Rätt. De fattigaste tvingas bygga sina egna oplanerade och oskyddade hus i dessa slumområden."
+  },
+  {
+    q: "Vad kännetecknar ett jobb i 'den informella sektorn'?",
+    opts: ["Att man jobbar på ett statligt kontor.", "Man saknar anställningsavtal, betalar ingen skatt och har inga försäkringar om man blir sjuk.", "Man är anställd som polis i en kåkstad.", "Man har extremt hög lön och bor i en Gated community."],
+    correct: 1,
+    exp: "Helt rätt. Det är en ren överlevnadsekonomi (som gatusäljare) helt utanför samhällets skyddsnät."
+  },
+  {
+    q: "Vad menas med geografisk SEGREGATION?",
+    opts: ["Att människor från olika inkomstgrupper lever helt åtskilda, till exempel i kåkstäder respektive Gated communities.", "Att staden bygger jämnt fördelade parker för alla invånare.", "Att det är olagligt att flytta till staden.", "Att alla i staden har rinnande vatten."],
+    correct: 0,
+    exp: "Korrekt! Segregation betyder åtskillnad, vilket ofta leder till misstro och ökade spänningar i samhället."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function startQuiz() {
+  currentQ = 0;
+  score = 0;
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play-view').style.display = 'block';
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const q = quizData[currentQ];
+  document.getElementById('q-progress').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('q-text').textContent = q.q;
+  
+  const optsContainer = document.getElementById('q-opts');
+  optsContainer.innerHTML = '';
+  
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(idx);
+    optsContainer.appendChild(btn);
+  });
+  
+  document.getElementById('q-feedback').style.display = 'none';
+  document.getElementById('q-next-btn').style.display = 'none';
+}
+
+function answerQuiz(chosenIdx) {
+  const q = quizData[currentQ];
+  const btns = document.querySelectorAll('.q-opt');
+  const fb = document.getElementById('q-feedback');
+  
+  btns.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === q.correct) btn.classList.add('correct');
+    else if (idx === chosenIdx) btn.classList.add('wrong');
+  });
+
+  if (chosenIdx === q.correct) {
+    score++;
+    fb.className = 'q-feedback correct';
+    fb.innerHTML = `<strong>Rätt!</strong> ${q.exp}`;
+  } else {
+    fb.className = 'q-feedback wrong';
+    fb.innerHTML = `<strong>Fel.</strong> Det rätta svaret är: <em>${q.opts[q.correct]}</em>`;
+  }
+  
+  fb.style.display = 'block';
+  const nextBtn = document.getElementById('q-next-btn');
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se resultat →';
+  nextBtn.style.display = 'block';
+}
+
+function nextQuiz() {
+  currentQ++;
+  if (currentQ < quizData.length) {
+    renderQuiz();
+  } else {
+    showQuizScore();
+  }
+}
+
+function showQuizScore() {
+  document.getElementById('quiz-play-view').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-den').textContent = 'av ' + quizData.length;
+  
+  const pct = score / quizData.length;
+  let title;
+  if (pct === 1) { title = 'Perfekt! Du är en geografimästare.'; }
+  else if (pct >= 0.6) { title = 'Bra jobbat! Du har koll på begreppen.'; }
+  else { title = 'Läs på lite mer om begreppen och försök igen.'; }
+  
+  document.getElementById('score-title').textContent = title;
+}
+
+// ── INTERACTIVE 5: WRITING PROMPTS ──
+function toggleHint(id) {
+  const hint = document.getElementById(id);
+  const btn = event.target;
+  
+  if (hint.style.display === 'block') {
+    hint.style.display = 'none';
+    btn.textContent = 'Visa SO-lärarens tankar ↓';
+  } else {
+    hint.style.display = 'block';
+    btn.textContent = 'Dölj tips ↑';
+  }
+}
+
+// Start quiz on load
+startQuiz();
+</script>
+</body>
+</html>
