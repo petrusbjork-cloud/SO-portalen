@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Push & Pull – Varför lämnar vi allt vi känner?</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep:  #0a0f12;
+  --bg-panel: #111820;
+  --paper:    #E2E8F0;
+  --text:     #CBD5E1;
+  --text-dim: #94A3B8;
+  --push:     #E63946; /* Röd för Push */
+  --pull:     #10B981; /* Grön för Pull */
+  --stay:     #334155; /* Grå/Blå för Trygghet */
+  --accent:   #F59E0B; /* Bärnsten/Guld */
+  --border:   rgba(245, 158, 11, 0.2);
+  --mono:     'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 30%, #151c24 0%, #0a0f12 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 80px 40px; text-align: center;
+}
+.hero-grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(10,15,18,0.95) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 7vw, 80px); font-weight: 900; line-height: 1.05;
+  color: var(--paper); text-shadow: 0 0 40px rgba(245, 158, 11, 0.2);
+  margin-bottom: 24px; opacity: 0; animation: fadeUp 1s 0.5s forwards;
+}
+.hero h1 em { color: var(--accent); font-style: italic; font-weight: 400; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 650px; line-height: 1.5; font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.8s forwards; margin-bottom: 40px;
+}
+.scroll-hint {
+  position: absolute; bottom: 40px; font-family: var(--mono); font-size: 11px;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); }
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article { max-width: 800px; margin: 0 auto; padding: 80px 40px; }
+.intro-text { font-size: 24px; font-style: italic; color: var(--paper); line-height: 1.6; margin-bottom: 48px; text-align: center;}
+
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; color: var(--paper); margin-bottom: 28px; text-align: center; }
+h2 em { color: var(--accent); font-style: italic; }
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+.section-marker { display: flex; align-items: center; gap: 20px; margin: 80px 0 32px; }
+.section-marker::before, .section-marker::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+.section-marker span { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px; padding: 40px 60px; border-left: 4px solid var(--accent);
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), transparent); position: relative;
+}
+.pullquote::before {
+  content: '"'; font-family: 'Playfair Display', serif; font-size: 180px; line-height: 0.7;
+  color: var(--accent); opacity: 0.1; position: absolute; top: 20px; left: 20px; pointer-events: none;
+}
+.pullquote p { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); font-style: italic; font-weight: 400; color: var(--paper); line-height: 1.4; position: relative; }
+
+/* ── THE SCALE (INTERACTIVE) ── */
+.scale-section {
+  margin: 60px -60px; background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 12px; padding: 50px 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  display: flex; flex-direction: column; align-items: center;
+}
+.scale-header { text-align: center; margin-bottom: 40px; }
+.scale-header h3 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--paper); margin-bottom: 10px; }
+.scale-header p { font-size: 18px; color: var(--text-dim); font-family: var(--mono); text-transform: uppercase; letter-spacing: 1px; }
+
+/* Visual Balance Scale */
+.balance-wrap { width: 100%; max-width: 500px; height: 230px; position: relative; margin-bottom: 30px; }
+.balance-beam {
+  width: 80%; height: 8px; background: var(--paper); position: absolute; top: 50px; left: 10%;
+  transform-origin: center; transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 4px; z-index: 2; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  transform: rotate(-20deg); /* Startläge: Tyngst åt vänster */
+}
+.balance-pivot {
+  width: 0; height: 0; border-left: 20px solid transparent; border-right: 20px solid transparent;
+  border-bottom: 40px solid var(--text-dim); position: absolute; top: 54px; left: 50%;
+  transform: translateX(-50%); z-index: 1;
+}
+.balance-pan {
+  width: 110px; min-height: 120px; border: 2px solid var(--text-dim); border-top: none;
+  border-radius: 0 0 50px 50px; position: absolute; top: 8px; display: flex; flex-direction: column-reverse;
+  align-items: center; padding-bottom: 10px; gap: 4px; 
+}
+.pan-left { left: 0; transform: translateX(-50%); }
+.pan-right { right: 0; transform: translateX(50%); }
+.pan-string { width: 2px; height: 60px; background: var(--text-dim); position: absolute; bottom: 100%; }
+.pan-string.s1 { left: 0; transform-origin: top left; transform: rotate(25deg); }
+.pan-string.s2 { right: 0; transform-origin: top right; transform: rotate(-25deg); }
+
+/* Pan labels */
+.pan-label { position: absolute; bottom: -35px; width: 150px; text-align: center; font-family: var(--mono); font-size: 10px; color: var(--paper); text-transform: uppercase; letter-spacing: 1px; left: 50%; transform: translateX(-50%);}
+
+/* Weight blocks */
+.weight-block {
+  width: 85%; border-radius: 4px; font-family: var(--mono); font-size: 10px;
+  display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff;
+  animation: dropIn 0.3s ease forwards; text-align: center; padding: 4px; line-height: 1.1;
+}
+.weight-stay { background: var(--stay); height: 75px; } /* Fast vikt för vänster skål */
+.weight-push { background: var(--push); }
+.weight-pull { background: var(--pull); }
+@keyframes dropIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Status */
+.migration-status {
+  background: rgba(255,255,255,0.05); padding: 15px 30px; border-radius: 30px;
+  font-family: var(--mono); font-size: 14px; text-transform: uppercase; letter-spacing: 2px;
+  color: var(--text-dim); transition: all 0.3s; text-align: center; margin-bottom: 40px;
+  border: 1px solid rgba(255,255,255,0.1); width: 100%; max-width: 500px;
+}
+.migration-status.migrating {
+  background: rgba(245, 158, 11, 0.1); color: var(--accent); border-color: var(--accent);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+}
+.migration-status.migrating.push-heavy { background: rgba(230,57,70,0.15); color: #FFA3A3; border-color: var(--push); box-shadow: 0 0 20px rgba(230,57,70,0.3); }
+.migration-status.migrating.pull-heavy { background: rgba(16,185,129,0.15); color: #A7F3D0; border-color: var(--pull); box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+
+/* Buttons */
+.factor-buttons { display: flex; width: 100%; gap: 20px; }
+.btn-col { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.btn-col h4 { font-family: var(--mono); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 10px; }
+.btn-col.push h4 { color: var(--push); }
+.btn-col.pull h4 { color: var(--pull); }
+
+.f-btn {
+  background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 12px; border-radius: 6px;
+  cursor: pointer; color: var(--text); font-family: 'Crimson Pro', serif; font-size: 16px; transition: all 0.2s;
+}
+.f-btn:hover { background: rgba(255,255,255,0.08); }
+.f-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.f-btn.push:hover:not(:disabled) { border-color: var(--push); background: rgba(230,57,70,0.1); }
+.f-btn.pull:hover:not(:disabled) { border-color: var(--pull); background: rgba(16,185,129,0.1); }
+
+/* ── FLIP CARDS (DESTINIES) ── */
+.destiny-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 40px 0; }
+.d-card { perspective: 1000px; height: 380px; cursor: pointer; }
+.d-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; border-radius: 12px; }
+.d-card:hover .d-inner { transform: rotateY(180deg); }
+.d-front, .d-back {
+  position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+  border-radius: 12px; border: 1px solid var(--border); padding: 30px;
+}
+.d-front {
+  background: linear-gradient(145deg, var(--bg-panel), #0a0f12);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+}
+.d-front .icon { font-size: 40px; margin-bottom: 15px; }
+.d-front h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 5px; }
+.d-front .type { font-family: var(--mono); font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+.d-front .hint { font-family: var(--mono); font-size: 10px; color: var(--text-dim); margin-top: auto; }
+
+.d-back {
+  background: #0f151c; transform: rotateY(180deg); display: flex; flex-direction: column;
+}
+.d-back h4 { font-family: var(--mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;}
+.d-back p { font-size: 15px; line-height: 1.5; color: var(--text); flex-grow: 1; }
+.factor-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+.f-tag { font-family: var(--mono); font-size: 9px; padding: 4px 8px; border-radius: 4px; text-transform: uppercase; }
+.f-tag.push { background: rgba(230,57,70,0.15); color: var(--push); border: 1px solid var(--push); }
+.f-tag.pull { background: rgba(16,185,129,0.15); color: var(--pull); border: 1px solid var(--pull); }
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section { background: #06090B; border-top: 1px solid var(--border); padding: 80px 40px; margin-top: 80px; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--accent); color: var(--accent); background: rgba(245, 158, 11, 0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+/* QUIZ UI */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 36px; }
+.quiz-level-selector { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.ql-btn { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px; border-radius: 6px; cursor: pointer; text-align: center; color: var(--text-dim); transition: all 0.2s; }
+.ql-btn:hover { border-color: var(--accent); background: rgba(245, 158, 11, 0.05); }
+.ql-btn.active { border-color: var(--accent); background: rgba(245, 158, 11, 0.1); color: var(--paper); }
+.ql-btn strong { display: block; font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 4px; color: inherit; }
+.ql-btn span { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+#quiz-play { display: none; margin-top: 24px; }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(245, 158, 11, 0.2); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); margin-bottom: 20px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt { background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: 16px 20px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--accent); background: rgba(245, 158, 11, 0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #10B981; background: rgba(16,185,129,0.15); color: #EAF6EA; }
+.quiz-opt.wrong { border-color: #E63946; background: rgba(230,57,70,0.15); color: #FDECEA; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent); background: rgba(245, 158, 11, 0.15); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 20px; padding: 16px 20px; background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--accent); font-size: 16px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 20px; background: var(--accent); color: var(--bg-deep); border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+
+.quiz-score-view { text-align: center; padding: 20px 0; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), #D97706); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2); color: var(--bg-deep); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.restart-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 20px; font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 2px; }
+.restart-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* LISTS FOR DISCUSSION & TEXTAREAS */
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(245, 158, 11, 0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(245, 158, 11, 0.25); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+.discussion-input {
+  width: 100%; min-height: 100px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  border-radius: 6px; padding: 16px; color: var(--text); font-family: 'Crimson Pro', serif; font-size: 18px;
+  margin: 16px 0; resize: vertical; outline: none; transition: border-color 0.2s;
+}
+.discussion-input:focus { border-color: var(--accent); }
+.discussion-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+.reveal-btn {
+  background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); padding: 8px 16px;
+  border-radius: 4px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-size: 11px;
+  letter-spacing: 1px; transition: all 0.2s;
+}
+.reveal-btn:hover { color: var(--accent); border-color: var(--accent); }
+.teacher-comment {
+  margin-top: 16px; padding: 16px 20px; background: rgba(245, 158, 11, 0.05); border-left: 3px solid var(--accent);
+  font-size: 16px; color: var(--text); line-height: 1.6; animation: fadeUp 0.3s ease;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .scale-section { margin: 40px -24px; padding: 30px 20px; }
+  .factor-buttons { flex-direction: column; }
+  .destiny-grid { grid-template-columns: 1fr; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 100px; }
+  .balance-wrap { transform: scale(0.8); margin-bottom: 20px; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-label">SO-Portalen · Geografi · Migration</div>
+  <h1>Push & Pull<br><em>Varför lämnar vi allt?</em></h1>
+  <p class="hero-sub">Människan har alltid vandrat. Men vad är det som får oss att packa våra väskor och lämna våra hem, ibland för alltid?</p>
+  <div class="scroll-hint">
+    <span>Lär dig förstå migration</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p class="intro-text">
+    Att lämna sin trygghet är sällan ett enkelt beslut. Geografer använder begreppet <strong>migration</strong> (att byta bostadsort) och förklarar drivkrafterna med två starka krafter: det som stöter bort oss, och det som lockar oss.
+  </p>
+
+  <p>Människan har alltid varit en vandrande art. Från det att de första människorna lämnade den afrikanska kontinenten för tiotusentals år sedan, till dagens globaliserade värld där miljontals människor korsar gränser varje dag. Men varför flyttar vi?</p>
+
+  <p>Tänk dig ditt eget liv. Skulle du flytta till en annan kontinent om du fick dubbelt så mycket i lön och chansen till ditt drömjobb? Förmodligen. Skulle du flytta om en missil slog ner i grannens hus och din familjs liv var i fara? Definitivt. Det är detta vi kallar <strong>Push-faktorer</strong> (saker som stöter bort dig från platsen där du är) och <strong>Pull-faktorer</strong> (saker som drar dig till en ny, specifik plats).</p>
+
+  <div class="section-marker"><span>Interaktiv Simulator</span></div>
+  <h2>Den magiska <em>Vågskålen</em></h2>
+  <p style="text-align: center;">Ett beslut att flytta är sällan svartvitt. Ofta väger vi för- och nackdelar mot varandra i en osynlig vågskål i huvudet. Ibland är det en stor händelse som fäller avgörandet, ibland många små.</p>
+
+  <!-- ── THE SCALE (INTERACTIVE) ── -->
+  <div class="scale-section">
+    <div class="scale-header">
+      <p>Migrations-simulator</p>
+      <h3>Väg dina beslut</h3>
+      <p style="font-size: 16px; margin-top: 15px; color: var(--paper); text-transform: none; font-family: 'Crimson Pro', serif; line-height: 1.5; max-width: 600px; margin-left: auto; margin-right: auto;">
+        <strong>Hur fungerar det?</strong> I den vänstra vågskålen ligger din trygghet tungt. Klicka på knapparna nedan för att addera skäl till att flytta (Push och Pull) i den högra vågskålen. Om den högra skålen blir tillräckligt tung övervinner du motståndet och migrationen utlöses!
+      </p>
+    </div>
+    
+    <div class="migration-status" id="mig-status">Status: Tryggheten väger över – Stannar kvar</div>
+
+    <div class="balance-wrap">
+      <div class="balance-pivot"></div>
+      <div class="balance-beam" id="beam">
+        <div class="balance-pan pan-left">
+          <div class="pan-string s1"></div><div class="pan-string s2"></div>
+          <div id="stay-weights" style="width:100%; display:flex; flex-direction:column-reverse; align-items:center; gap:2px; z-index:10;">
+            <div class="weight-block weight-stay">FAMILJ, SPRÅK & TRYGGHET</div>
+          </div>
+          <div class="pan-label">Skäl att stanna</div>
+        </div>
+        <div class="balance-pan pan-right">
+          <div class="pan-string s1"></div><div class="pan-string s2"></div>
+          <div id="move-weights" style="width:100%; display:flex; flex-direction:column-reverse; align-items:center; gap:2px; z-index:10;"></div>
+          <div class="pan-label">Skäl att flytta</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="factor-buttons">
+      <div class="btn-col push">
+        <h4>🔥 Push (Driver bort dig)</h4>
+        <button class="f-btn push" onclick="addWeight('push', 1, this)">Arbetslöshet (Liten vikt)</button>
+        <button class="f-btn push" onclick="addWeight('push', 2, this)">Religiöst förtryck (Mellan vikt)</button>
+        <button class="f-btn push" onclick="addWeight('push', 3, this)">Väpnad konflikt (Stor vikt)</button>
+      </div>
+      <div class="btn-col pull">
+        <h4>🧲 Pull (Lockar dig)</h4>
+        <button class="f-btn pull" onclick="addWeight('pull', 1, this)">Bättre klimat (Liten vikt)</button>
+        <button class="f-btn pull" onclick="addWeight('pull', 2, this)">Högskoleutbildning (Mellan vikt)</button>
+        <button class="f-btn pull" onclick="addWeight('pull', 3, this)">Garanterat högavlönat jobb (Stor vikt)</button>
+      </div>
+    </div>
+    
+    <button style="margin-top: 30px; background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-size: 10px; letter-spacing: 1px;" onclick="resetScale()">Rensa den högra vågskålen ↺</button>
+  </div>
+
+  <div class="pullquote">
+    <p>Ingen lämnar hemmet om inte hemmet är käftarna på en haj.</p>
+    <cite>Warsan Shire, Somalisk-brittisk poet</cite>
+  </div>
+
+  <div class="section-marker"><span>Fiktion vs Verklighet</span></div>
+  <h2>Hinder på <em>vägen</em></h2>
+  <p>I simulatorn ovan ser det enkelt ut: om faktorerna för att flytta väger tyngre än tryggheten så flyttar man. Men i verkligheten finns det nästan alltid <strong>intervenerande hinder</strong> (hinder på vägen). Det spelar ingen roll hur mycket du vill flytta från ett krig eller till ett välbetalt jobb om det finns fysiska eller politiska murar i vägen.</p>
+  
+  <p>Exempel på sådana hinder är stängda nationsgränser, krav på dyra visum, höga resekostnader, vidsträckta hav eller till och med språkbarriärer. Många människor som har extremt starka push-faktorer (som till exempel extrem fattigdom) kan tyvärr inte migrera överhuvudtaget, just för att de saknar de ekonomiska resurserna för att ta sig förbi dessa hinder.</p>
+
+  <div class="section-marker"><span>Olika typer av Migration</span></div>
+  <h2>Tre <em>Livsöden</em></h2>
+  <p>Beroende på om push- eller pull-faktorerna väger tyngst, delar geografer ofta in migration i tre huvudgrupper. Klicka på korten nedan för att läsa om verkliga historiska mönster.</p>
+
+  <!-- ── FLIP CARDS ── -->
+  <div class="destiny-grid">
+    <!-- Card 1 -->
+    <div class="d-card">
+      <div class="d-inner">
+        <div class="d-front">
+          <div class="icon">🌾</div>
+          <h3>Svensken</h3>
+          <div class="type">År 1880 (Emigration)</div>
+          <div class="hint">Vänd kortet ↺</div>
+        </div>
+        <div class="d-back">
+          <h4>Frivillig Migration</h4>
+          <p>Mellan 1850 och 1930 lämnade 1,3 miljoner svenskar (en femtedel av befolkningen!) landet. Det var ofta fattiga bönder som såg en chans till ett bättre liv tvärs över Atlanten.</p>
+          <div class="factor-tags">
+            <span class="f-tag push">Svält/Missväxt</span>
+            <span class="f-tag push">Klassförtryck</span>
+            <span class="f-tag pull">Gratis jord i USA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Card 2 -->
+    <div class="d-card">
+      <div class="d-inner">
+        <div class="d-front">
+          <div class="icon">💻</div>
+          <h3>Ingenjören</h3>
+          <div class="type">År 2024 (Arbetskraft)</div>
+          <div class="hint">Vänd kortet ↺</div>
+        </div>
+        <div class="d-back">
+          <h4>Arbetskraftsinvandring</h4>
+          <p>En välutbildad mjukvaruutvecklare från Indien flyttar till Stockholm. Hen tvingades inte fly från sitt hem, utan "drogs" aktivt till Sverige på grund av enormt starka pull-faktorer inom IT-sektorn.</p>
+          <div class="factor-tags">
+            <span class="f-tag push">Luftföroreningar</span>
+            <span class="f-tag pull">Mycket hög lön</span>
+            <span class="f-tag pull">Bättre livskvalitet</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="d-card">
+      <div class="d-inner">
+        <div class="d-front">
+          <div class="icon">⛺</div>
+          <h3>Familjen</h3>
+          <div class="type">År 2015 (Flykt)</div>
+          <div class="hint">Vänd kortet ↺</div>
+        </div>
+        <div class="d-back">
+          <h4>Påtvingad Migration (Flykting)</h4>
+          <p>När inbördeskriget bröt ut i Syrien rasade bomberna över civila hem. Detta var inte ett val för en högre lön. Push-faktorerna (livsfara) var överväldigande och man tvingades lämna allt för att överleva.</p>
+          <div class="factor-tags">
+            <span class="f-tag push">Väpnad Konflikt</span>
+            <span class="f-tag push">Förföljelse</span>
+            <span class="f-tag pull">Säkerhet/Fred</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Det är viktigt att komma ihåg att det största flyttmönstret i världen just nu inte är mellan olika länder (internationell migration) – utan <em>inom</em> länder (intern migration). Det absolut vanligaste exemplet på detta är <strong>urbanisering</strong>, vilket innebär att människor flyttar från landsbygden in till storstäderna.</p>
+
+  <p>Varför urbaniserar vi i så snabb takt? Eftersom storstäder är proppfulla av starka Pull-faktorer som universitet, specialiserade sjukhus, ett brett kulturutbud och tusentals spännande jobb. Samtidigt knuffar Push-faktorer på landsbygden – som att maskiner ersätter mänsklig arbetskraft inom jordbruket – in de unga generationerna till staden. Idag bor mer än hälften av jordens befolkning i urbana miljöer.</p>
+
+</article>
+
+<!-- ══════════════════════════════
+     TEACHER SECTION & QUIZ
+══════════════════════════════ -->
+<section class="teacher-section">
+  <div class="teacher-inner">
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Ett interaktivt quiz i två nivåer för att befästa demografiska begrepp kring migration, samt diskussionsunderlag där eleverna kan skriva sina svar direkt i rutorna.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+        <button class="t-tab" onclick="showTeacherTab('diskussion', this)">💬 Arbetsbok (Diskussion)</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Lgr22 Syfte</button>
+      </div>
+    </div>
+
+    <!-- QUIZ TAB -->
+    <div class="t-panel active" id="t-quiz">
+      <div class="quiz-wrap">
+        <div class="quiz-level-selector" id="lvl-selector">
+          <button class="ql-btn active" onclick="selectQuizLevel(1, this)">
+            <strong>Nivå 1</strong><span>Begrepp (Push & Pull)</span>
+          </button>
+          <button class="ql-btn" onclick="selectQuizLevel(2, this)">
+            <strong>Nivå 2</strong><span>Typer av migration</span>
+          </button>
+        </div>
+
+        <div id="quiz-intro">
+          <h3 id="qi-title">Nivå 1: Begrepp</h3>
+          <p id="qi-desc">Testa om du har koll på vad som är en push-faktor och vad som är en pull-faktor.</p>
+          <button class="quiz-next-btn" onclick="startQuiz()">Starta Quiz →</button>
+        </div>
+
+        <div id="quiz-play">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 4</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          <div class="quiz-options" id="quiz-opts"></div>
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 4</div>
+          </div>
+          <h3 style="color:var(--paper); margin-bottom:10px;" id="score-title">Bra jobbat!</h3>
+          <p style="color:var(--text-dim);" id="score-msg">Du har slutfört nivån.</p>
+          <button class="restart-btn" onclick="resetQuizUI()">Välj en ny nivå ↺</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISKUSSION TAB -->
+    <div class="t-panel" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Den stora staden (Urbanisering)</h4>
+          <ul class="q-list">
+            <li>Över hälften av världens befolkning bor numera i städer. Vilka <em>Push-faktorer</em> tror du gör att unga människor ofta vill lämna en liten by på landsbygden?</li>
+          </ul>
+          <textarea class="discussion-input" placeholder="Skriv dina tankar och resonemang här..."></textarea>
+          <button class="reveal-btn" onclick="toggleComment('tc-1', this)">Visa lärarens kommentar</button>
+          <div id="tc-1" class="teacher-comment" style="display:none;">
+            <strong>Lärarens kommentar:</strong> Vanliga push-faktorer på landsbygden är arbetslöshet (maskiner gör att färre bönder behövs), brist på högre utbildning (inga universitet) och ibland en känsla av isolering eller brist på nöjen och kultur.
+          </div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Tvingad vs. Frivillig</h4>
+          <ul class="q-list">
+            <li>Läs citatet av poeten Warsan Shire i artikeln igen ("Ingen lämnar hemmet om inte..."). Vad är skillnaden i livssituation för en person som migrerar på grund av 100% Push-faktorer (flykting) jämfört med en person som flyttar på grund av 100% Pull-faktorer (arbetskraft)?</li>
+          </ul>
+          <textarea class="discussion-input" placeholder="Skriv dina tankar och resonemang här..."></textarea>
+          <button class="reveal-btn" onclick="toggleComment('tc-2', this)">Visa lärarens kommentar</button>
+          <div id="tc-2" class="teacher-comment" style="display:none;">
+            <strong>Lärarens kommentar:</strong> En flykting tvingas bryta upp mot sin vilja på grund av livsfara (Push), ofta utan att veta var de ska hamna, och förlorar all trygghet. En arbetskraftsinvandrare gör ett frivilligt, planerat val (Pull) för att de vill förbättra ett redan tryggt liv ytterligare. Att fly är sällan ett val, det är en sista utväg.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LGR22 TAB -->
+    <div class="t-panel" id="t-lgr">
+      <div class="q-block">
+        <div class="q-num">📋</div>
+        <div class="q-content">
+          <h4>Geografi (Åk 7-9)</h4>
+          <p style="color:var(--text-dim); line-height:1.6;"><strong>Centralt innehåll:</strong> Jordens befolkning. Befolkningsfördelning, befolkningsutveckling och migration. Orsaker till och konsekvenser av demografiska mönster.<br><br>Genom att använda Push- och Pull-modellen tränas eleverna i att <strong>använda geografiska begrepp</strong> för att analysera de mönster och flöden av människor som formar dagens globaliserade värld, samt förstå de bakomliggande orsakerna till flykt och urbanisering.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── MAGIC SCALE LOGIC ──
+let pushScore = 0;
+let pullScore = 0;
+const STAY_THRESHOLD = 5; // Det krävs en summa av > 5 för att vågskålen ska tippa.
+
+function addWeight(type, weight, btn) {
+  btn.disabled = true;
+  
+  const container = document.getElementById('move-weights');
+  
+  const block = document.createElement('div');
+  block.className = `weight-block weight-${type}`;
+  block.style.height = (weight * 15) + 'px';
+  block.textContent = weight === 1 ? 'LITEN' : (weight === 2 ? 'MELLAN' : 'STOR');
+  
+  container.appendChild(block);
+  
+  if(type === 'push') pushScore += weight;
+  if(type === 'pull') pullScore += weight;
+  
+  updateScale();
+}
+
+function resetScale() {
+  pushScore = 0;
+  pullScore = 0;
+  document.getElementById('move-weights').innerHTML = '';
+  document.querySelectorAll('.f-btn').forEach(btn => btn.disabled = false);
+  updateScale();
+}
+
+function updateScale() {
+  const beam = document.getElementById('beam');
+  const status = document.getElementById('mig-status');
+  
+  const moveScore = pushScore + pullScore;
+  
+  // Bas-rotationen är -20 (lutad fullt mot vänster/trygghet).
+  // Om moveScore når STAY_THRESHOLD (5), blir rotationen 0 (balanserat).
+  // Om moveScore överstiger STAY_THRESHOLD, blir rotationen positiv (tippar över till flytt).
+  let rotation = (moveScore - STAY_THRESHOLD) * 4; 
+  
+  if (rotation > 20) rotation = 20;
+  if (rotation < -20) rotation = -20;
+  
+  beam.style.transform = `rotate(${rotation}deg)`;
+  
+  // Uppdatera Status-rutan
+  if (moveScore > STAY_THRESHOLD) {
+    // Vågskålen har tippat över!
+    if (pushScore > pullScore) {
+      status.textContent = "Status: FLYKT / EMIGRATION (Du tvingas bort)";
+      status.className = "migration-status migrating push-heavy";
+    } else {
+      status.textContent = "Status: ARBETSKRAFTSINVANDRING (Du lockas bort)";
+      status.className = "migration-status migrating pull-heavy";
+    }
+  } else if (moveScore > 0) {
+    status.textContent = "Status: Tveksam... Tryggheten väger ännu tyngst.";
+    status.className = "migration-status";
+  } else {
+    status.textContent = "Status: Tryggheten väger över – Stannar kvar";
+    status.className = "migration-status";
+  }
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── DISCUSSION TOGGLE ──
+function toggleComment(id, btn) {
+  const commentBox = document.getElementById(id);
+  if (commentBox.style.display === 'none' || commentBox.style.display === '') {
+    commentBox.style.display = 'block';
+    btn.textContent = 'Dölj kommentar';
+    btn.style.color = 'var(--accent)';
+    btn.style.borderColor = 'var(--accent)';
+  } else {
+    commentBox.style.display = 'none';
+    btn.textContent = 'Visa lärarens kommentar';
+    btn.style.color = 'var(--text-dim)';
+    btn.style.borderColor = 'var(--text-dim)';
+  }
+}
+
+// ── QUIZ ENGINE ──
+const quizDB = {
+  1: [
+    { q: "Vad är en 'Push-faktor'?", opts: ["Något som lockar dig till ett nytt land.", "Ett transportmedel (t.ex. tåg).", "Något negativt som stöter bort dig från platsen du bor på.", "En lag som förbjuder dig att flytta."], correct: 2, fb: "Helt rätt! Push = putta/stöta bort." },
+    { q: "Vilket av följande är ett tydligt exempel på en Pull-faktor?", opts: ["En svår svält i hemlandet.", "Att det är gratis universitet och hög lön i landet bredvid.", "Ett vulkanutbrott.", "Religiöst förtryck."], correct: 1, fb: "Korrekt! Pull = Dra/Locka. Bättre utbildning drar människor till sig." },
+    { q: "Vilket av följande är en Push-faktor?", opts: ["Vackert väder.", "Krig och diktatur.", "Religionsfrihet.", "Hög levnadsstandard."], correct: 1, fb: "Rätt! Krig är en av de starkaste push-faktorerna som tvingar folk på flykt." },
+    { q: "Om jag flyttar för att jag blir jagad och hotad i mitt land, vad kallas jag då oftast?", opts: ["Arbetskraftsinvandrare", "Turist", "Flykting", "Urbaniserare"], correct: 2, fb: "Helt rätt. Flyktingar drivs främst av extremt starka push-faktorer (förföljelse/krig)." }
+  ],
+  2: [
+    { q: "Vad kallas det när mängder av människor flyttar från landsbygden in till storstäder inom ett och samma land?", opts: ["Emigration", "Urbanisering", "Klimatflykt", "Globalisering"], correct: 1, fb: "Korrekt. Urbanisering är den största migrationsrörelsen i världen idag." },
+    { q: "När svenskarna utvandrade till USA på 1800-talet drevs de av båda krafterna. Vilken kombination är rätt?", opts: ["Push: Missväxt. Pull: Gratis jord i USA.", "Push: Hög lön. Pull: Vulkanutbrott.", "Push: Kungen tvingade dem. Pull: Farliga djur.", "Push: Guld. Pull: Krig i Sverige."], correct: 0, fb: "Rätt! Missväxt (Push) knuffade ut dem, gratis jord i mellanvästern (Pull) lockade dem." },
+    { q: "Varför räknas det inte som 'migration' när man åker på en två veckors solsemester till Grekland?", opts: ["För att Grekland ligger i Europa.", "För att migration innebär att man byter bostadsort mer permanent.", "För att man måste åka båt för att det ska kallas migration.", "För att man inte behöver visum."], correct: 1, fb: "Exakt. Turism är inte migration." },
+    { q: "En välutbildad sjuksköterska från Tyskland flyttar till Norge för att lönen är bättre där. Vilken typ av migration är detta?", opts: ["Påtvingad (Flykt)", "Klimatmigration", "Frivillig (Arbetskraftsinvandring)", "Massutvandring"], correct: 2, fb: "Rätt! Hon drivs av Pull-faktorer (högre lön) snarare än Push-faktorer." }
+  ]
+};
+
+let currentLvl = 1;
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A','B','C','D'];
+
+function selectQuizLevel(lvl, btn) {
+  document.querySelectorAll('.ql-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLvl = lvl;
+  document.getElementById('qi-title').textContent = btn.querySelector('strong').textContent;
+  document.getElementById('qi-desc').textContent = btn.querySelector('span').textContent;
+}
+
+function resetQuizUI() {
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-intro').style.display = 'block';
+  document.getElementById('lvl-selector').style.display = 'flex';
+}
+
+function startQuiz() {
+  document.getElementById('lvl-selector').style.display = 'none';
+  document.getElementById('quiz-intro').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0; score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const data = quizDB[currentLvl];
+  const q = data[currentQ];
+  
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${data.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / data.length * 100) + '%';
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const data = quizDB[currentLvl];
+  const q = data[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.fb}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.fb}`;
+  }
+  
+  fb.style.display = 'block';
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < data.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizDB[currentLvl].length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const len = quizDB[currentLvl].length;
+  const pct = score / len;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Du är en expert på push- och pull-faktorer!"; }
+  else if(pct >= 0.5) { title = "Bra jobbat! ⭐"; msg = "Du har greppat huvuddragen. Riktigt bra!"; }
+  else { title = "Kämpa på 📖"; msg = "Det kan vara knepigt att skilja på begreppen. Läs texten igen och testa!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
