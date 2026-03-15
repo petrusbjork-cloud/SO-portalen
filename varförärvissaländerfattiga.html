@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Varför är vissa länder fattiga? En djupdykning i de historiska, geografiska och politiska orsakerna bakom global ojämlikhet. Interaktiva simulatorer och quiz.">
+<title>Varför är vissa länder fattiga? Orsaker till global fattigdom | SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Geografi-tema: Skog, jord och sand */
+  --forest: #1A3C34;
+  --forest-lt: #2B5A4E;
+  --earth: #B85B3F;
+  --earth-lt: #FDF4F1;
+  --earth-dk: #8C3E28;
+  --gold: #D4A357;
+  --gold-lt: #FDF9F1;
+  --paper: #F7F5F0;
+  --text: #2C2A28;
+  --muted: #6B655F;
+  --border: #E0D9CC;
+  --green: #2E5A2E;
+  --green-lt: #EBF2EB;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { 
+  font-family: 'Source Serif 4', Georgia, serif; 
+  background: var(--paper); 
+  color: var(--text); 
+  line-height: 1.8; 
+  font-size: 18px;
+}
+
+/* ── TYPOGRAPHY & LAYOUT ── */
+h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--forest); line-height: 1.2; }
+h2 { font-size: 32px; font-weight: 900; margin: 48px 0 24px; position: relative; padding-bottom: 12px; }
+h2::after { content: ''; position: absolute; left: 0; bottom: 0; width: 60px; height: 4px; background: var(--earth); }
+p { margin-bottom: 24px; }
+strong { font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; color: var(--forest); }
+
+.container { max-width: 800px; margin: 0 auto; padding: 0 24px 60px; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--forest); color: white;
+  padding: 80px 24px; text-align: center;
+  border-bottom: 6px solid var(--earth);
+  background-image: radial-gradient(circle at 50% 0%, rgba(212,163,87,0.15) 0%, rgba(26,60,52,0.95) 100%);
+}
+.hero-label { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: block; }
+.hero h1 { color: white; font-size: clamp(36px, 6vw, 56px); font-weight: 900; margin-bottom: 24px; }
+.hero p { font-size: 20px; color: rgba(255,255,255,0.8); max-width: 600px; margin: 0 auto; line-height: 1.5; }
+
+/* ── INTRO BOX ── */
+.intro-box {
+  background: white; border: 1px solid var(--border); border-radius: 8px;
+  padding: 32px; margin: -40px auto 48px; position: relative; z-index: 10;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.08); max-width: 800px; text-align: center;
+  border-top: 4px solid var(--earth);
+}
+.intro-box p { margin: 0; font-size: 18px; color: var(--muted); }
+.intro-box strong { color: var(--earth); font-size: 18px;}
+
+/* ── NEW INTERACTIVE: RÅVARANS KEDJA (Kaffet) ── */
+.coffee-interactive {
+  background: var(--earth-lt); border: 2px solid var(--earth); border-radius: 8px;
+  padding: 32px; margin: 32px 0 48px;
+}
+.coffee-title { text-align: center; font-size: 24px; color: var(--forest); margin-bottom: 8px; }
+.coffee-subtitle { text-align: center; font-size: 16px; color: var(--muted); margin-bottom: 24px; }
+.coffee-steps { display: flex; gap: 8px; margin-bottom: 24px; }
+@media(max-width: 600px) { .coffee-steps { flex-direction: column; } }
+.c-step-btn {
+  flex: 1; padding: 12px; background: white; border: 2px solid var(--border); border-radius: 6px;
+  font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; color: var(--muted);
+  cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px;
+}
+.c-step-btn:hover:not(.active) { border-color: var(--earth); color: var(--earth); }
+.c-step-btn.active { background: var(--earth); border-color: var(--earth); color: white; box-shadow: 0 4px 10px rgba(184,91,63,0.2); }
+.coffee-display { display: flex; align-items: flex-start; gap: 24px; background: white; padding: 24px; border-radius: 8px; border: 1px solid var(--border); }
+@media(max-width: 600px) { .coffee-display { flex-direction: column; text-align: center; align-items: center; } }
+.c-icon { font-size: 56px; line-height: 1; }
+.c-info { flex: 1; width: 100%; }
+.c-info h4 { font-size: 22px; margin-bottom: 8px; color: var(--forest); }
+.c-info p { font-size: 16px; margin-bottom: 20px; line-height: 1.6; }
+.c-value-wrap { display: flex; align-items: center; justify-content: space-between; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px; margin-bottom: 8px; color: var(--muted); }
+.c-value-large { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--earth); }
+.c-bar-bg { width: 100%; height: 16px; background: var(--paper); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.c-bar-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--earth)); width: 5%; transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+
+/* ── INTERACTIVE 1: FATTIGDOMSFÄLLAN (Simulator) ── */
+.simulator-wrapper {
+  background: var(--forest); border-radius: 8px; padding: 40px; color: white;
+  margin: 40px 0; box-shadow: 0 8px 30px rgba(26,60,52,0.2);
+}
+.sim-header { text-align: center; margin-bottom: 32px; }
+.sim-header h3 { color: var(--gold); font-size: 28px; margin-bottom: 12px; }
+.sim-header p { color: rgba(255,255,255,0.8); font-size: 16px; max-width: 500px; margin: 0 auto; }
+.sim-dashboard { display: flex; justify-content: space-between; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px; margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.1); }
+.sim-stat { text-align: center; }
+.sim-stat-label { font-family: 'Inter', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 4px; }
+.sim-stat-val { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; line-height: 1; }
+.sim-event-box { background: white; color: var(--text); padding: 32px; border-radius: 8px; text-align: center; min-height: 180px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+.sim-event-title { font-family: 'Inter', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--earth); margin-bottom: 12px; font-weight: 700; }
+.sim-event-text { font-size: 18px; line-height: 1.6; margin-bottom: 24px; }
+.sim-btn { background: var(--earth); color: white; border: none; font-family: 'Inter', sans-serif; font-size: 16px; font-weight: 700; padding: 14px 32px; border-radius: 4px; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+.sim-btn:hover { background: var(--earth-dk); transform: translateY(-2px); }
+.sim-btn:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
+.sim-money-change { position: absolute; top: 20px; right: 20px; font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; opacity: 0; }
+.sim-money-change.loss { color: var(--earth); animation: floatUp 1s ease forwards; }
+.sim-money-change.gain { color: var(--green); animation: floatUp 1s ease forwards; }
+@keyframes floatUp { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-30px); } }
+
+/* ── SUMMARY BOX ── */
+.summary-box { background: var(--earth-lt); border: 2px dashed var(--earth); border-radius: 8px; padding: 32px; margin: 60px 0; text-align: center; }
+.summary-box h3 { font-size: 28px; margin-bottom: 16px; color: var(--forest); }
+.summary-box ul { list-style: none; text-align: left; max-width: 500px; margin: 0 auto; }
+.summary-box li { margin-bottom: 12px; position: relative; padding-left: 24px; font-size: 16px; }
+.summary-box li::before { content: '🌍'; position: absolute; left: 0; color: var(--earth); font-size: 16px; line-height: 1.5; }
+
+/* ── INTERACTIVE 2: QUIZ ── */
+.quiz-section { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 40px; margin-top: 60px; box-shadow: 0 8px 30px rgba(0,0,0,0.05); }
+.quiz-header { text-align: center; margin-bottom: 32px; }
+.quiz-header h3 { font-size: 28px; margin-bottom: 8px; color: var(--forest); }
+.q-progress { font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; color: var(--earth); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; display: block; }
+.q-text { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--forest); margin-bottom: 24px; line-height: 1.4; }
+.q-opts { display: flex; flex-direction: column; gap: 12px; }
+.q-opt { background: white; border: 2px solid var(--border); border-radius: 6px; padding: 16px 20px; font-family: 'Source Serif 4', serif; font-size: 16px; color: var(--text); text-align: left; cursor: pointer; transition: all 0.2s; }
+.q-opt:hover:not(:disabled) { border-color: var(--forest); background: rgba(26,60,52,0.03); }
+.q-opt.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); font-weight: 600; }
+.q-opt.wrong { background: var(--earth-lt); border-color: var(--earth); color: var(--earth); }
+.q-opt:disabled { cursor: default; }
+.q-feedback { display: none; margin-top: 24px; padding: 16px 20px; border-radius: 6px; border-left: 4px solid; font-size: 16px; animation: fadeIn 0.3s ease; }
+.q-feedback.correct { background: var(--green-lt); border-color: var(--green); color: var(--green); }
+.q-feedback.wrong { background: rgba(184,91,63,0.1); border-color: var(--earth); color: var(--earth); }
+.q-next-btn { background: var(--forest); color: white; border: none; font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 700; padding: 14px 28px; border-radius: 4px; cursor: pointer; margin-top: 24px; display: none; width: 100%; transition: background 0.2s; }
+
+/* Quiz Score View */
+#quiz-score-view { text-align: center; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--forest); border: 4px solid var(--gold); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 24px; color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.7); }
+.retry-btn { background: transparent; border: 2px solid var(--forest); color: var(--forest); padding: 12px 24px; border-radius: 4px; font-weight: 700; cursor: pointer; margin-top: 16px; transition: all 0.2s; }
+
+/* ── INTERACTIVE 3: WRITING PROMPTS ── */
+.essay-section { margin-top: 60px; }
+.essay-card { background: white; border: 1px solid var(--border); border-left: 6px solid var(--gold); padding: 32px; border-radius: 8px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); }
+.essay-label { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block; }
+.essay-q { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--forest); margin-bottom: 20px; }
+.essay-textarea { width: 100%; padding: 16px; border: 2px solid var(--border); border-radius: 6px; font-family: 'Source Serif 4', serif; font-size: 16px; background: var(--paper); resize: vertical; margin-bottom: 16px; transition: border-color 0.2s; }
+.essay-textarea:focus { outline: none; border-color: var(--forest); background: white; }
+.hint-btn { background: transparent; border: none; color: var(--earth); font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; text-decoration: underline; padding: 0; }
+.hint-box { display: none; background: var(--gold-lt); padding: 20px; border-radius: 6px; border: 1px dashed var(--gold); margin-top: 16px; font-size: 15px; color: var(--text); animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="hero-label">Djupdykning · Geografi & Samhälle</span>
+  <h1>Varför är vissa länder fattiga?</h1>
+  <p>Det är sällan en slump att ett land är fattigt. Upptäck hur historiska orättvisor, geografi och korruption samverkar i en ond cirkel.</p>
+</header>
+
+<main class="container">
+  
+  <section class="intro-box">
+    <p>Ofta hör vi att världen är uppdelad i <strong>rika "I-länder"</strong> och <strong>fattiga "U-länder"</strong>. Men varför är det så? Svaret är komplicerat. Fattigdom handlar nästan aldrig om brist på vilja att arbeta, utan om djupa strukturella, geografiska och historiska problem som är otroligt svåra att bryta sig loss från.</p>
+  </section>
+
+  <article>
+    <h2>1. Historiska orsaker (Arvet från kolonialismen)</h2>
+    <p>Många av de länder som idag är allra fattigast, särskilt på den afrikanska kontinenten, var fram till mitten av 1900-talet kolonier som styrdes av rika europeiska länder (som Storbritannien och Frankrike). Kolonialismen handlade inte om att hjälpa, utan om att plocka ut resurser.</p>
+    <p><strong>Råvaruexport:</strong> Européerna byggde järnvägar i kolonierna, men de byggdes från gruvorna och plantagerna direkt till hamnarna för att skeppas till Europa. Man byggde sällan skolor eller sjukhus för den lokala befolkningen. När länderna väl blev självständiga stod de kvar med en ekonomi som bara gick ut på att sälja billiga råvaror (exempelvis koppar, kakao eller kaffebönor), istället för att ha egna fabriker som kunde tjäna stora pengar på att förädla varorna.</p>
+    
+    <!-- ── NEW INTERACTIVE: RÅVARANS FÖRBANNELSE ── -->
+    <div class="coffee-interactive">
+      <h3 class="coffee-title">Råvarans förbannelse: Kaffekoppen</h3>
+      <p class="coffee-subtitle">Klicka genom stegen för att se varför ett land som exporterar tusentals ton kaffe ändå förblir fattigt. Vem tar egentligen vinsten?</p>
+      
+      <div class="coffee-steps">
+        <button class="c-step-btn active" onclick="setCoffeeStep(0)">1. Bonden</button>
+        <button class="c-step-btn" onclick="setCoffeeStep(1)">2. Transport</button>
+        <button class="c-step-btn" onclick="setCoffeeStep(2)">3. Rosteriet</button>
+        <button class="c-step-btn" onclick="setCoffeeStep(3)">4. Kaféet</button>
+      </div>
+
+      <div class="coffee-display">
+        <div class="c-icon" id="c-icon">🌱</div>
+        <div class="c-info">
+          <h4 id="c-title">1. Kaffebonden i Uganda</h4>
+          <p id="c-text">Bonden sliter i månader med att odla, plocka och torka kaffebönorna för hand. Eftersom landet bara säljer <em>råvaran</em> (obearbetade bönor) på världsmarknaden får de sämst betalt i hela kedjan.</p>
+          <div class="c-value-wrap">
+            <span>Ackumulerat värde:</span>
+            <span class="c-value-large" id="c-value">2 kr</span>
+          </div>
+          <div class="c-bar-bg">
+            <div class="c-bar-fill" id="c-bar" style="width: 5%;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ── END NEW INTERACTIVE ── -->
+
+    <p><strong>Konstgjorda gränser:</strong> Under kolonialismen drog européerna gränser i Afrika med linjal på en karta, utan att bry sig om vilka folkgrupper som bodde var. Detta tvingade ofta fiender att dela land, eller splittrade familjer. Resultatet har i modern tid blivit otaliga inbördeskrig och enorm politisk instabilitet.</p>
+
+    <!-- INTERACTIVE 1: FATTIGDOMSFÄLLAN -->
+    <h2>2. Vad är Fattigdomsfällan? (Interaktiv Simulator)</h2>
+    <p>Att vara fattig är extremt dyrt. Om man saknar en "buffert" (sparade pengar) kan minsta lilla kris få katastrofala konsekvenser. Detta kallas för <em>fattigdomsfällan</em>. Testa själv hur svårt det är att ta sig ur den.</p>
+    
+    <div class="simulator-wrapper">
+      <div class="sim-header">
+        <h3>Fattigdomsfällan</h3>
+        <p>Du är en småbonde. Målet är att spara ihop <strong>1000 mynt</strong> för att kunna köpa en liten traktor, vilket skulle fördubbla din skörd och lyfta din familj ur fattigdom. Du börjar med 100 mynt.</p>
+      </div>
+
+      <div class="sim-dashboard">
+        <div class="sim-stat">
+          <div class="sim-stat-label">År</div>
+          <div class="sim-stat-val" id="sim-year">1</div>
+        </div>
+        <div class="sim-stat">
+          <div class="sim-stat-label">Dina Besparingar</div>
+          <div class="sim-stat-val" id="sim-money" style="color: var(--gold);">100</div>
+        </div>
+      </div>
+
+      <div class="sim-event-box">
+        <div id="sim-change-indicator" class="sim-money-change"></div>
+        <div class="sim-event-title" id="sim-event-title">ÅRET BÖRJAR</div>
+        <div class="sim-event-text" id="sim-event-text">Du har sått din majs och hoppas på en god skörd. Klicka nedan för att se hur året går.</div>
+        <button class="sim-btn" id="sim-action-btn" onclick="playSimTurn()">Spela År 1</button>
+      </div>
+    </div>
+
+    <h2>3. Geografiska orsaker (Klimat och grannar)</h2>
+    <p>Ibland drar ett land en geografisk "nitlott". Att vara fattig och samtidigt ha otur med sin geografi är en farlig kombination.</p>
+    <ul>
+      <li><strong>Klimat och katastrofer:</strong> Länder i tropiska zoner drabbas ofta hårdare av extremt väder, som långa torrperioder eller översvämningar, vilket förstör skördarna (som i simulatorn du just testade). Här trivs även myggor som sprider Malaria, en sjukdom som dödar hundratusentals barn och gör miljontals vuxna för sjuka för att arbeta.</li>
+      <li><strong>Kustlösa stater ("Landlocked"):</strong> Att inte ha en egen kustlinje är ett enormt ekonomiskt handikapp. Om du vill exportera varor måste du betala tull och transportkostnader för att frakta dina varor genom grannländernas hamnar. Om grannlandet dessutom befinner sig i krig, kan du inte exportera alls. Nästan hälften av de fattigaste länderna i världen saknar kust.</li>
+    </ul>
+
+    <h2>4. Politiska och Ekonomiska orsaker</h2>
+    <p>Sist men inte minst handlar fattigdom om hur ett samhälle är organiserat idag. Om ett land saknar demokrati och mänskliga rättigheter är risken stor för ekonomiskt kaos.</p>
+    <p><strong>Korruption:</strong> I många diktaturer lider landet av djup korruption. Det betyder att de pengar som staten får in (till exempel genom att sälja olja eller genom bistånd från andra länder) hamnar i presidentens och politikernas egna fickor istället för att gå till skolor, sjukhus och vägar.</p>
+    <p><strong>Bristande infrastruktur:</strong> Utan skattepengar byggs ingen infrastruktur. Infrastruktur är samhällets skelett: vägar, elnät, rent vatten och internet. Utan bra vägar kan inte bönderna sälja sina varor inne i städerna, och utan el kan man inte starta fabriker. Landet stannar helt enkelt av.</p>
+    <p><strong>Orättvisa handelsregler:</strong> Världshandeln är tyvärr ofta riggad till de rika ländernas fördel. Rika länder (som i EU eller USA) sätter ofta upp tullar för att stoppa fattiga länder från att sälja färdiga produkter till oss, vilket tvingar dem att fortsätta vara fattiga råvaruexportörer.</p>
+
+    <div class="summary-box">
+      <h3>Snabbsammanfattning: 3 anledningar till fattigdom</h3>
+      <ul>
+        <li><strong>Historien:</strong> Kolonialismen skapade ekonomier som enbart exporterade råvaror och lämnade efter sig konstgjorda gränser och konflikter.</li>
+        <li><strong>Geografin:</strong> Kustlösa länder, extremt klimat (torka) och tropiska sjukdomar (malaria) gör det mycket svårare att bygga starka samhällen.</li>
+        <li><strong>Politiken:</strong> Diktatur, krig och extrem korruption gör att landets pengar inte används till skolor och infrastruktur, utan försvinner till eliten.</li>
+      </ul>
+    </div>
+
+    <!-- ── INTERACTIVE 2: QUIZ SECTION ── -->
+    <h2>Testa dina kunskaper: Quiz</h2>
+    <div class="quiz-section">
+      <div id="quiz-play-view">
+        <div class="quiz-header">
+          <span class="q-progress" id="q-progress">Fråga 1 av 5</span>
+          <div class="q-text" id="q-text">Laddar fråga...</div>
+        </div>
+        <div class="q-opts" id="q-opts"></div>
+        <div class="q-feedback" id="q-feedback"></div>
+        <button class="q-next-btn" id="q-next-btn" onclick="nextQuiz()">Nästa fråga →</button>
+      </div>
+
+      <div id="quiz-score-view">
+        <div class="score-circle">
+          <div class="score-num" id="score-num">0</div>
+          <div class="score-den">av 5</div>
+        </div>
+        <h3 id="score-title">Resultat</h3>
+        <button class="retry-btn" onclick="startQuiz()">Gör quizet igen ↺</button>
+      </div>
+    </div>
+
+    <!-- ── INTERACTIVE 3: WRITING PROMPTS ── -->
+    <h2 class="essay-section">Öva inför provet: Analys & Samband</h2>
+    <p>För de högre betygen i geografi och samhällskunskap behöver du kunna visa hur olika orsaker hänger ihop.</p>
+
+    <div class="essay-card">
+      <span class="essay-label">Samband: Korruption & Infrastruktur</span>
+      <div class="essay-q">Hur leder hög korruption hos politikerna direkt till att en vanlig bonde förblir fattig?</div>
+      <textarea class="essay-textarea" rows="4" placeholder="Tänk på vad statens pengar egentligen borde användas till, och vad som händer när de försvinner..."></textarea>
+      <button class="hint-btn" onclick="toggleHint('hint1')">Visa SO-lärarens tankar ↓</button>
+      <div class="hint-box" id="hint1">
+        <strong>Tips för ett A-svar:</strong> 
+        Förklara kedjeeffekten. Om politikerna stjäl statskassan (korruption) finns det inga pengar kvar till <strong>infrastruktur</strong>. Utan infrastruktur byggs det inga asfalterade vägar. Om bonden inte har en fungerande väg kan han inte transportera sina grödor från byn till marknaden i den stora staden innan de ruttnar. Därför kan han inte tjäna pengar, och förblir fattig, trots att han arbetar hårt.
+      </div>
+    </div>
+
+    <div class="essay-card">
+      <span class="essay-label">Jämförelse</span>
+      <div class="essay-q">Ge ett exempel på en geografisk orsak och en historisk orsak till fattigdom. Vilken tror du är svårast för ett land att lösa?</div>
+      <textarea class="essay-textarea" rows="4" placeholder="Geografi kan vara klimat/brist på kust. Historia kan vara kolonialism..."></textarea>
+      <button class="hint-btn" onclick="toggleHint('hint2')">Visa SO-lärarens tips ↓</button>
+      <div class="hint-box" id="hint2">
+        <strong>Tips för ett A-svar:</strong>
+        Här måste du resonera. Geografiska orsaker (som att sakna kust eller drabbas av svår torka) är ofta extremt svåra att lösa, eftersom man inte bara kan "flytta" landet. Historiska orsaker (som en ekonomi beroende av billiga kaffebönor efter kolonialtiden) är också svåra att bryta, men genom utbildning och ny teknik går det över tid att bygga egna fabriker och ändra sin ekonomi (som Sydkorea eller Vietnam gjort).
+      </div>
+    </div>
+
+  </article>
+</main>
+
+<script>
+// ── NEW INTERACTIVE: COFFEE CHAIN ──
+const coffeeData = [
+  { 
+    title: "1. Kaffebonden i Uganda", 
+    icon: "🌱", 
+    text: "Bonden sliter i månader med att odla, plocka och torka kaffebönorna för hand. Eftersom landet bara säljer <em>råvaran</em> (obearbetade bönor) på världsmarknaden får de sämst betalt i hela kedjan.", 
+    val: "2 kr", 
+    pct: "5%" 
+  },
+  { 
+    title: "2. Mellanhänder & Tull", 
+    icon: "🚢", 
+    text: "Bönorna köps upp billigt och fraktas över havet. Rika länder som Sverige har ofta noll tull på obearbetade bönor (för vi vill ha dem), men hög tull på färdigt kaffe (för att skydda våra egna fabriker).", 
+    val: "6 kr", 
+    pct: "15%" 
+  },
+  { 
+    title: "3. Rosteriet i I-landet", 
+    icon: "🔥", 
+    text: "Här sker förädlingen! Bönorna rostas i Europa, paketeras i fina påsar och får ett känt varumärke. Eftersom företaget gör om råvaran till en <em>färdig produkt</em> tar de en enorm del av vinsten.", 
+    val: "20 kr", 
+    pct: "50%" 
+  },
+  { 
+    title: "4. Kaféet i Sverige", 
+    icon: "☕", 
+    text: "En barista brygger kaffet. Kaféet ska betala dyr hyra, svensk personal och hög skatt till den svenska staten. Lejonparten av pengarna du betalar stannar kvar och bygger välstånd i det rika landet.", 
+    val: "40 kr", 
+    pct: "100%" 
+  }
+];
+
+function setCoffeeStep(idx) {
+  // Update Buttons
+  document.querySelectorAll('.c-step-btn').forEach((btn, i) => {
+    if (i === idx) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+  
+  // Update Content
+  const d = coffeeData[idx];
+  document.getElementById('c-icon').textContent = d.icon;
+  document.getElementById('c-title').textContent = d.title;
+  document.getElementById('c-text').innerHTML = d.text;
+  document.getElementById('c-value').textContent = d.val;
+  document.getElementById('c-bar').style.width = d.pct;
+}
+
+// ── INTERACTIVE 1: SIMULATOR (Poverty Trap) ──
+let simYear = 1;
+let simMoney = 100;
+let simEnded = false;
+
+const simEvents = [
+  { 
+    title: "Ett normalt år", 
+    text: "Regnet kommer i tid. Du skördar din majs och säljer den på marknaden. Du lyckas spara en liten slant!", 
+    change: 150, 
+    type: "gain" 
+  },
+  { 
+    title: "Katastrof: Torka", 
+    text: "Regnet uteblir. Din skörd torkar bort. Du måste köpa dyr importerad mat för att din familj ska överleva.", 
+    change: -120, 
+    type: "loss" 
+  },
+  { 
+    title: "Klinikbesöket", 
+    text: "Ditt yngsta barn drabbas av Malaria. Eftersom det inte finns allmän sjukvård måste du betala dyrt för medicinen ur egen ficka.", 
+    change: -80, 
+    type: "loss" 
+  },
+  { 
+    title: "Ett riktigt bra år!", 
+    text: "Rekordskörd! Du säljer massor. Du tänker att du äntligen närmar dig traktorn...", 
+    change: 200, 
+    type: "gain" 
+  },
+  { 
+    title: "Världsmarknaden svänger", 
+    text: "Priset på majs kraschar globalt eftersom rika länder subventionerar sin produktion. Du får nästan ingenting betalt för din skörd i år.", 
+    change: -130, 
+    type: "loss" 
+  },
+];
+
+function playSimTurn() {
+  if (simEnded) {
+    // Reset sim
+    simYear = 1;
+    simMoney = 100;
+    simEnded = false;
+    document.getElementById('sim-year').textContent = simYear;
+    document.getElementById('sim-money').textContent = simMoney;
+    document.getElementById('sim-event-title').textContent = "ÅRET BÖRJAR";
+    document.getElementById('sim-event-text').textContent = "Du har sått din majs och hoppas på en god skörd. Klicka nedan för att se hur året går.";
+    document.getElementById('sim-action-btn').textContent = "Spela År 1";
+    document.getElementById('sim-change-indicator').style.animation = 'none';
+    return;
+  }
+
+  // Get current event
+  const eventIdx = (simYear - 1) % simEvents.length;
+  const evt = simEvents[eventIdx];
+
+  // Apply changes
+  simMoney += evt.change;
+  if (simMoney < 0) simMoney = 0;
+
+  // Update UI
+  document.getElementById('sim-year').textContent = simYear;
+  document.getElementById('sim-money').textContent = simMoney;
+  document.getElementById('sim-event-title').textContent = evt.title;
+  document.getElementById('sim-event-text').textContent = evt.text;
+  
+  // Floating indicator
+  const indicator = document.getElementById('sim-change-indicator');
+  indicator.textContent = (evt.type === 'gain' ? '+' : '') + evt.change;
+  indicator.className = 'sim-money-change ' + evt.type;
+  
+  indicator.style.animation = 'none';
+  void indicator.offsetWidth; 
+  indicator.style.animation = 'floatUp 1s ease forwards';
+
+  // Check if reached end of scripted story
+  if (simYear >= 5) {
+    simEnded = true;
+    document.getElementById('sim-event-title').textContent = "FÄLLAN SLÅR IGEN";
+    document.getElementById('sim-event-title').style.color = "var(--earth)";
+    document.getElementById('sim-event-text').innerHTML = `Efter fem års hårt slit har du <strong>${simMoney} mynt</strong>. Du är inte ens i närheten av traktorn för 1000 mynt. Utan skyddsnät raderar en enda kris (torka, sjukdom) ut flera års sparande. Detta är fattigdomsfällan.`;
+    document.getElementById('sim-action-btn').textContent = "Börja om";
+  } else {
+    simYear++;
+    document.getElementById('sim-action-btn').textContent = `Spela År ${simYear}`;
+  }
+}
+
+// ── INTERACTIVE 2: QUIZ ──
+const quizData = [
+  {
+    q: "Vad är en historisk orsak till fattigdom som diskuterades i texten?",
+    opts: ["Att folket valde att inte bygga fabriker på 1800-talet.", "Att landet har för många berg och floder.", "Kolonialismen, där rika länder utnyttjade landet som en råvarubank.", "Att de inte fick delta i Olympiska spelen."],
+    correct: 2,
+    exp: "Rätt! Under kolonialtiden plundrades kolonierna på råvaror istället för att bygga upp en egen, stark industri."
+  },
+  {
+    q: "Vad innebär det att en stat är 'kustlös' (landlocked)?",
+    opts: ["Att de saknar en egen gräns mot havet.", "Att de har blivit av med sitt försvar.", "Att det inte regnar i landet.", "Att landet styrs av en diktator."],
+    correct: 0,
+    exp: "Exakt. Utan kust måste man betala dyra tullar för att frakta sina varor genom grannländers hamnar, vilket försvårar export."
+  },
+  {
+    q: "Vilket av följande är ett exempel på INFASTRUKTUR?",
+    opts: ["Lagboken", "Presidentens palats", "Vägar, elnät och avlopp", "Skatteregler"],
+    correct: 2,
+    exp: "Rätt. Infrastruktur är det fysiska 'skelett' ett land behöver för att fungera. Utan vägar stannar handeln."
+  },
+  {
+    q: "Hur påverkar korruption ett lands ekonomi?",
+    opts: ["Det gör att skatterna försvinner till ledarna istället för att gå till skolor och sjukvård.", "Det gör att bönderna producerar mer mat.", "Det lockar till sig turister.", "Det minskar inflationen i landet."],
+    correct: 0,
+    exp: "Korrekt. Korruption är när makthavare missbrukar sin makt för egen vinning, vilket dränerar landet på resurser."
+  },
+  {
+    q: "Vad beskriver bäst begreppet 'Fattigdomsfälla'?",
+    opts: ["När rika länder vägrar sälja varor till fattiga.", "En situation där bristen på sparpengar gör att en plötslig kris (t.ex. sjukdom) raderar all ekonomisk utveckling.", "En fälla som byggdes under andra världskriget.", "När folk flyttar från staden till landsbygden."],
+    correct: 1,
+    exp: "Helt rätt. Som du såg i simulatorn är det extremt dyrt och svårt att ta sig ur fattigdom om man saknar marginaler (besparingar)."
+  }
+];
+
+let currentQ = 0;
+let score = 0;
+
+function startQuiz() {
+  currentQ = 0;
+  score = 0;
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play-view').style.display = 'block';
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const q = quizData[currentQ];
+  document.getElementById('q-progress').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('q-text').textContent = q.q;
+  
+  const optsContainer = document.getElementById('q-opts');
+  optsContainer.innerHTML = '';
+  
+  q.opts.forEach((opt, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'q-opt';
+    btn.textContent = opt;
+    btn.onclick = () => answerQuiz(idx);
+    optsContainer.appendChild(btn);
+  });
+  
+  document.getElementById('q-feedback').style.display = 'none';
+  document.getElementById('q-next-btn').style.display = 'none';
+}
+
+function answerQuiz(chosenIdx) {
+  const q = quizData[currentQ];
+  const btns = document.querySelectorAll('.q-opt');
+  const fb = document.getElementById('q-feedback');
+  
+  btns.forEach((btn, idx) => {
+    btn.disabled = true;
+    if (idx === q.correct) btn.classList.add('correct');
+    else if (idx === chosenIdx) btn.classList.add('wrong');
+  });
+
+  if (chosenIdx === q.correct) {
+    score++;
+    fb.className = 'q-feedback correct';
+    fb.innerHTML = `<strong>Rätt!</strong> ${q.exp}`;
+  } else {
+    fb.className = 'q-feedback wrong';
+    fb.innerHTML = `<strong>Fel.</strong> Det rätta svaret är: <em>${q.opts[q.correct]}</em>`;
+  }
+  
+  fb.style.display = 'block';
+  const nextBtn = document.getElementById('q-next-btn');
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se resultat →';
+  nextBtn.style.display = 'block';
+}
+
+function nextQuiz() {
+  currentQ++;
+  if (currentQ < quizData.length) {
+    renderQuiz();
+  } else {
+    showQuizScore();
+  }
+}
+
+function showQuizScore() {
+  document.getElementById('quiz-play-view').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-den').textContent = 'av ' + quizData.length;
+  
+  const pct = score / quizData.length;
+  let title;
+  if (pct === 1) { title = 'Fantastiskt! Full pott.'; }
+  else if (pct >= 0.6) { title = 'Bra jobbat! Du har koll på orsakerna.'; }
+  else { title = 'Läs på lite mer om begreppen och försök igen.'; }
+  
+  document.getElementById('score-title').textContent = title;
+}
+
+// ── INTERACTIVE 3: WRITING PROMPTS ──
+function toggleHint(id) {
+  const hint = document.getElementById(id);
+  const btn = event.target;
+  
+  if (hint.style.display === 'block') {
+    hint.style.display = 'none';
+    btn.textContent = 'Visa SO-lärarens tankar ↓';
+  } else {
+    hint.style.display = 'block';
+    btn.textContent = 'Dölj tips ↑';
+  }
+}
+
+// Start quiz on load
+startQuiz();
+</script>
+</body>
+</html>
