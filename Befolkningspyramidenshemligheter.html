@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pyramidens hemlighet – Från babyboom till äldrekris</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep:  #050B14;
+  --bg-panel: #0A1426;
+  --bg-card:  #111F38;
+  --paper:    #E2E8F0;
+  --text:     #CBD5E1;
+  --text-dim: #94A3B8;
+  --accent:   #38BDF8; /* Cyan */
+  --accent-dk:#0284C7;
+  --female:   #FB7185; /* Korall/Rosa */
+  --male:     #38BDF8; /* Cyan/Blå */
+  --border:   rgba(56,189,248,0.2);
+  --mono:     'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 21px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 30%, #0F1C33 0%, #050B14 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 80px 40px; text-align: center;
+}
+.hero-grain {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(5,11,20,0.95) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.2s forwards;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(36px, 7vw, 80px); font-weight: 900; line-height: 1.05;
+  color: var(--paper); text-shadow: 0 0 40px rgba(56,189,248,0.3);
+  margin-bottom: 24px; opacity: 0; animation: fadeUp 1s 0.5s forwards;
+}
+.hero h1 em { color: var(--accent); font-style: italic; font-weight: 400; }
+.hero-sub {
+  font-size: 24px; font-weight: 300; color: var(--text-dim);
+  max-width: 650px; line-height: 1.5; font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.8s forwards; margin-bottom: 40px;
+}
+.scroll-hint {
+  position: absolute; bottom: 40px; font-family: var(--mono); font-size: 11px;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--text-dim);
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  opacity: 0; animation: fadeUp 1s 1.5s forwards;
+}
+.scroll-arrow { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--accent), transparent); }
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article { max-width: 800px; margin: 0 auto; padding: 80px 40px; }
+.intro-text { font-size: 24px; font-style: italic; color: var(--paper); line-height: 1.6; margin-bottom: 48px; text-align: center;}
+
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; color: var(--paper); margin-bottom: 28px; text-align: center; }
+h2 em { color: var(--accent); font-style: italic; }
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+.section-marker { display: flex; align-items: center; gap: 20px; margin: 80px 0 32px; }
+.section-marker::before, .section-marker::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+.section-marker span { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); white-space: nowrap; }
+
+/* ── MAGIC PYRAMID (INTERACTIVE) ── */
+.demography-wrap {
+  margin: 60px -60px; background: var(--bg-panel); border: 1px solid var(--border);
+  border-radius: 12px; padding: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.d-header { text-align: center; margin-bottom: 40px; }
+.d-title { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--paper); margin-bottom: 10px; }
+.d-subtitle { font-family: var(--mono); font-size: 13px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; }
+
+/* Slider */
+.phase-slider-wrap { position: relative; width: 100%; max-width: 600px; margin: 0 auto 50px; }
+.phase-slider {
+  -webkit-appearance: none; width: 100%; height: 6px; background: rgba(255,255,255,0.1);
+  border-radius: 3px; outline: none; z-index: 2; position: relative;
+}
+.phase-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--bg-deep); border: 3px solid var(--accent); cursor: pointer; transition: transform 0.1s;
+}
+.phase-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.phase-marks { display: flex; justify-content: space-between; margin-top: 16px; position: relative; z-index: 1; padding: 0 10px; }
+.phase-mark { font-family: var(--mono); font-size: 12px; color: var(--text-dim); text-align: center; width: 40px; cursor: pointer; transition: color 0.3s; }
+.phase-mark.active { color: var(--accent); font-weight: 700; }
+
+/* Pyramid Display */
+.pyramid-container { display: flex; flex-direction: column; gap: 4px; max-width: 400px; margin: 0 auto; position: relative; }
+.pyramid-labels { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; padding: 0 20px; }
+.pl-male { color: var(--male); }
+.pl-female { color: var(--female); }
+.p-row { display: flex; align-items: center; justify-content: center; width: 100%; height: 20px; position: relative; }
+.p-age { width: 40px; text-align: center; font-family: var(--mono); font-size: 10px; color: var(--text-dim); flex-shrink: 0; z-index: 2; }
+.p-side { flex: 1; height: 100%; position: relative; }
+.p-side.left { border-right: 1px solid rgba(255,255,255,0.05); }
+.p-side.right { border-left: 1px solid rgba(255,255,255,0.05); }
+.p-bar { height: 12px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); border-radius: 2px; position: absolute; top: 50%; transform: translateY(-50%); }
+.p-side.left .p-bar { right: 8px; background: var(--male); }
+.p-side.right .p-bar { left: 8px; background: var(--female); }
+
+/* Explanation Box */
+.phase-info {
+  margin-top: 40px; background: rgba(56,189,248,0.05); border-left: 4px solid var(--accent);
+  padding: 24px 30px; border-radius: 0 8px 8px 0; animation: fadeUp 0.4s ease;
+}
+.pi-phase { font-family: var(--mono); font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px; }
+.pi-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; }
+.pi-desc { font-size: 18px; color: var(--text); line-height: 1.6; margin: 0; }
+.pi-stats { display: flex; gap: 20px; margin-top: 16px; font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+.pi-stats span { display: flex; align-items: center; gap: 6px; }
+
+/* ── WORLD EXAMPLES (FLIP CARDS) ── */
+.examples-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin: 40px 0; }
+.ex-card {
+  perspective: 1000px; height: 320px; cursor: pointer;
+}
+.ex-inner {
+  position: relative; width: 100%; height: 100%; transition: transform 0.6s;
+  transform-style: preserve-3d; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.ex-card:hover .ex-inner { transform: rotateY(180deg); }
+.ex-front, .ex-back {
+  position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+  border-radius: 12px; border: 1px solid var(--border); padding: 30px;
+  display: flex; flex-direction: column;
+}
+.ex-front { background: linear-gradient(145deg, var(--bg-card), var(--bg-panel)); align-items: center; justify-content: center; text-align: center; }
+.ex-front .flag { font-size: 48px; margin-bottom: 16px; }
+.ex-front h3 { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--paper); margin: 0 0 8px; }
+.ex-front .phase { font-family: var(--mono); font-size: 12px; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+.ex-front .hint { margin-top: auto; font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 1px; }
+
+.ex-back { background: var(--bg-deep); transform: rotateY(180deg); justify-content: center; }
+.ex-back h4 { font-family: var(--mono); font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+.ex-back p { font-size: 16px; color: var(--text); line-height: 1.5; margin-bottom: 16px; }
+.ex-shape { font-family: var(--mono); font-size: 12px; color: var(--text-dim); padding-top: 16px; border-top: 1px dashed rgba(255,255,255,0.1); }
+.ex-shape strong { color: var(--paper); }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px; padding: 40px 60px; border-left: 4px solid var(--accent);
+  background: linear-gradient(135deg, rgba(56,189,248,0.05), transparent); position: relative;
+}
+.pullquote::before {
+  content: '"'; font-family: 'Playfair Display', serif; font-size: 180px; line-height: 0.7;
+  color: var(--accent); opacity: 0.1; position: absolute; top: 20px; left: 20px; pointer-events: none;
+}
+.pullquote p { font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px); font-style: italic; font-weight: 400; color: var(--paper); line-height: 1.4; position: relative; }
+.pullquote cite { display: block; margin-top: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-dim); font-style: normal; }
+
+
+/* ── TEACHER SECTION & QUIZ ── */
+.teacher-section { background: #03060A; border-top: 1px solid var(--border); padding: 80px 40px; margin-top: 80px; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: 10px 20px; border-radius: 4px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--accent); color: var(--accent); background: rgba(56,189,248,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+
+/* QUIZ UI */
+.quiz-wrap { background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 36px; }
+.quiz-level-selector { display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
+.ql-btn { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 16px; border-radius: 6px; cursor: pointer; text-align: center; color: var(--text-dim); transition: all 0.2s; }
+.ql-btn:hover { border-color: var(--accent); background: rgba(56,189,248,0.05); }
+.ql-btn.active { border-color: var(--accent); background: rgba(56,189,248,0.1); color: var(--paper); }
+.ql-btn strong { display: block; font-family: 'Playfair Display', serif; font-size: 18px; margin-bottom: 4px; color: inherit; }
+.ql-btn span { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+#quiz-play { display: none; margin-top: 24px; }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--accent); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(56,189,248,0.2); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: var(--accent); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); margin-bottom: 20px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt { background: rgba(255,255,255,0.04); border: 1px solid var(--border); padding: 16px 20px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--accent); background: rgba(56,189,248,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2A7A2A; background: rgba(42,122,42,0.15); color: #EAF6EA; }
+.quiz-opt.wrong { border-color: #C0392B; background: rgba(192,57,43,0.15); color: #FDECEA; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--accent); background: rgba(56,189,248,0.15); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 20px; padding: 16px 20px; background: rgba(56,189,248,0.1); border-left: 3px solid var(--accent); font-size: 16px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 20px; background: var(--accent); color: var(--bg-deep); border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+
+.quiz-score-view { text-align: center; padding: 20px 0; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-dk)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(56,189,248,0.2); color: var(--paper); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.restart-btn { background: transparent; border: 1px solid var(--border); color: var(--text-dim); padding: 10px 20px; border-radius: 4px; cursor: pointer; margin-top: 20px; font-family: var(--mono); text-transform: uppercase; font-size: 11px; letter-spacing: 2px; }
+.restart-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* LISTS FOR DISCUSSION */
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(56,189,248,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(56,189,248,0.25); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+/* DISCUSSION INPUTS */
+.discussion-input {
+  width: 100%; min-height: 100px; background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+  border-radius: 6px; padding: 16px; color: var(--text); font-family: 'Crimson Pro', serif; font-size: 18px;
+  margin: 16px 0; resize: vertical; outline: none; transition: border-color 0.2s;
+}
+.discussion-input:focus { border-color: var(--accent); }
+.discussion-input::placeholder { color: var(--text-dim); opacity: 0.5; }
+.reveal-btn {
+  background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); padding: 8px 16px;
+  border-radius: 4px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-size: 11px;
+  letter-spacing: 1px; transition: all 0.2s;
+}
+.reveal-btn:hover { color: var(--accent); border-color: var(--accent); }
+.teacher-comment {
+  margin-top: 16px; padding: 16px 20px; background: rgba(56,189,248,0.05); border-left: 3px solid var(--accent);
+  font-size: 16px; color: var(--text); line-height: 1.6; animation: fadeUp 0.3s ease;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .article { padding: 60px 24px; }
+  .demography-wrap { margin: 40px -24px; padding: 30px 20px; }
+  .examples-grid { grid-template-columns: 1fr; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 100px; }
+}
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-label">SO-Portalen · Geografi · Befolkning</div>
+  <h1>Pyramidens<br><em>hemlighet</em></h1>
+  <p class="hero-sub">Är vi för många på jorden, eller riskerar vi snart att bli för få? Svaret finns dolt i den demografiska transitionen.</p>
+  <div class="scroll-hint">
+    <span>Förstå framtiden</span>
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+<article class="article">
+
+  <p class="intro-text">
+    Ett land är som en levande organism. Det föds, det växer, det mognar och det åldras. Genom att titta på en <strong>befolkningspyramid</strong> kan geografer inte bara se hur ett land ser ut idag – de kan spå landets framtid och dess mörka förflutna.
+  </p>
+
+  <p>Under större delen av mänsklighetens historia växte befolkningen extremt långsamt. Familjer fick många barn (hög <em>nativitet</em>), men svält, krig och obotliga sjukdomar gjorde att lika många dog i förtid (hög <em>mortalitet</em>). För en bonde på 1700-talet var barn en livsförsäkring – man behövde arbetskraft på gården, och man visste att hälften kanske inte skulle överleva sin femte födelsedag.</p>
+
+  <p>Det var först för ett par hundra år sedan som något magiskt – och livsfarligt – hände. Tack vare industriella revolutionen, rent vatten, vaccin och bättre jordbruk började dödstalen plötsligt rasa. Men människorna fortsatte att skaffa många barn. Välkommen till den historiska befolkningsexplosionen och <strong>Den demografiska transitionen</strong>.</p>
+
+  <div class="section-marker"><span>Interaktiv Modell</span></div>
+  <h2>Tidsmaskinen: <em>Resan i 5 steg</em></h2>
+  <p style="text-align: center;">Dra i reglaget nedan för att se hur ett typiskt lands befolkning förändras när landet utvecklas från ett jordbrukssamhälle till ett modernt industrisamhälle.</p>
+
+  <!-- ── MAGIC PYRAMID (INTERACTIVE) ── -->
+  <div class="demography-wrap">
+    <div class="d-header">
+      <div class="d-subtitle">Den demografiska transitionen</div>
+      <div class="d-title">Modellen</div>
+    </div>
+    
+    <div class="phase-slider-wrap">
+      <input type="range" min="1" max="5" value="1" class="phase-slider" id="phase-slider">
+      <div class="phase-marks">
+        <span class="phase-mark active" onclick="setSlider(1)">Fas 1</span>
+        <span class="phase-mark" onclick="setSlider(2)">Fas 2</span>
+        <span class="phase-mark" onclick="setSlider(3)">Fas 3</span>
+        <span class="phase-mark" onclick="setSlider(4)">Fas 4</span>
+        <span class="phase-mark" onclick="setSlider(5)">Fas 5</span>
+      </div>
+    </div>
+
+    <div class="pyramid-container">
+      <div class="pyramid-labels">
+        <span class="pl-male">Män</span>
+        <span class="pl-female">Kvinnor</span>
+      </div>
+      <!-- Rader injiceras med JS -->
+      <div id="pyramid-rows"></div>
+    </div>
+
+    <div class="phase-info" id="phase-info">
+      <div class="pi-phase">Fas 1</div>
+      <h3 class="pi-title">Det traditionella samhället</h3>
+      <p class="pi-desc">Både födelsetalen och dödstalen är mycket höga. Befolkningen växer knappt. Pyramiden har en väldigt bred bas (många barn föds) men smalnar av snabbt eftersom få överlever till vuxen ålder på grund av sjukdomar, svält och brist på medicin.</p>
+      <div class="pi-stats">
+        <span>👶 Nativitet: Hög</span>
+        <span>🪦 Mortalitet: Hög</span>
+        <span>📈 Tillväxt: Noll/Låg</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pullquote">
+    <p>Den största demografiska händelsen i modern tid är inte att vi blivit så många, utan att vi slutat skaffa lika många barn.</p>
+    <cite>Hans Rosling, Läkare och folkbildare</cite>
+  </div>
+
+  <div class="section-marker"><span>Världen idag</span></div>
+  <h2>Verklighetens <em>Pyramider</em></h2>
+  <p>Modellen ovan är teoretisk. I verkligheten befinner sig världens länder idag utspridda över Fas 2, 3, 4 och 5. Klicka på länderna nedan för att se deras utmaningar.</p>
+
+  <!-- ── WORLD EXAMPLES (FLIP CARDS) ── -->
+  <div class="examples-grid">
+    <div class="ex-card">
+      <div class="ex-inner">
+        <div class="ex-front">
+          <div class="flag">🇳🇪</div>
+          <h3>Niger</h3>
+          <div class="phase">Befinner sig i: Fas 2</div>
+          <div class="hint">Klicka för att vända ↺</div>
+        </div>
+        <div class="ex-back">
+          <h4>Den växande basen</h4>
+          <p>Niger har världens yngsta befolkning. Dödstalen har sjunkit tack vare bättre hälsovård, men kvinnor föder i snitt nästan 7 barn var.</p>
+          <div class="ex-shape">
+            Form: <strong>Klassisk Pyramid</strong><br>
+            Utmaning: Bygga tillräckligt många skolor och skapa jobb för en massiv ung generation.
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="ex-card">
+      <div class="ex-inner">
+        <div class="ex-front">
+          <div class="flag">🇮🇳</div>
+          <h3>Indien</h3>
+          <div class="phase">Befinner sig i: Fas 3</div>
+          <div class="hint">Klicka för att vända ↺</div>
+        </div>
+        <div class="ex-back">
+          <h4>Den gyllene mitten</h4>
+          <p>Indien (nu världens folkrikaste land) upplever en snabb minskning i födelsetal i takt med att fler flickor går i skolan och medelklassen växer.</p>
+          <div class="ex-shape">
+            Form: <strong>Bikupa (Bred i mitten)</strong><br>
+            Utmaning: Utnyttja sin enorma arbetsföra befolkning innan den börjar åldras.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-inner">
+        <div class="ex-front">
+          <div class="flag">🇸🇪</div>
+          <h3>Sverige</h3>
+          <div class="phase">Befinner sig i: Fas 4</div>
+          <div class="hint">Klicka för att vända ↺</div>
+        </div>
+        <div class="ex-back">
+          <h4>Ett jämnt torn</h4>
+          <p>Låga dödstal och låga födelsetal (ca 1.5 barn/kvinna). Befolkningen ökar numera främst genom invandring, inte genom att det föds fler än det dör.</p>
+          <div class="ex-shape">
+            Form: <strong>Rak kolumn (eller Klocka)</strong><br>
+            Utmaning: Sjukvården och pensionssystemet sätts under press när allt fler lever till de är över 85 år.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ex-card">
+      <div class="ex-inner">
+        <div class="ex-front">
+          <div class="flag">🇯🇵</div>
+          <h3>Japan</h3>
+          <div class="phase">Befinner sig i: Fas 5</div>
+          <div class="hint">Klicka för att vända ↺</div>
+        </div>
+        <div class="ex-back">
+          <h4>Den tysta krisen</h4>
+          <p>Nativiteten är extremt låg och befolkningen minskar med hundratusentals varje år. Samtidigt har Japan världens högsta andel äldre.</p>
+          <div class="ex-shape">
+            Form: <strong>Urna (Smal i botten)</strong><br>
+            Utmaning: Extrem brist på ung arbetskraft. Vem ska ta hand om de äldre och betala skatt när få barn föds?
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Att förstå befolkningspyramider är att förstå framtiden. Om ett land vet att de om 20 år kommer att ha en gigantisk befolkning över 80 år, måste de bygga sjukhus och äldreboenden redan idag. Vet de att antalet 10-åringar halveras, kan de behöva stänga skolor.</p>
+
+  <div class="section-marker"><span>Mänskliga ingrepp</span></div>
+  <h2>Den farliga <em>obalansen</em></h2>
+  
+  <p>Vad händer när en stat försöker tvinga fram en snabb förändring i befolkningspyramiden? Det mest kända (och tragiska) exemplet i modern tid är <strong>Kinas ettbarnspolitik</strong> (1979–2015).</p>
+  
+  <p>För att stoppa en hotande svältkatastrof förbjöd den kinesiska regeringen de flesta familjer att skaffa mer än ett barn. Resultatet blev en dramatisk inbromsning av befolkningstillväxten, men det skapade två enorma nya problem som syns tydligt i landets demografi idag:</p>
+
+  <div style="background: rgba(56,189,248,0.05); border: 1px solid var(--border); border-radius: 8px; padding: 30px; margin: 30px 0;">
+    <h4 style="color: var(--accent); margin-bottom: 15px; font-family: var(--mono); text-transform: uppercase; font-size: 12px; letter-spacing: 2px;">Konsekvenserna av statens ingrepp</h4>
+    <ul style="list-style: none; padding: 0;">
+      <li style="margin-bottom: 20px; padding-left: 24px; position: relative; line-height: 1.6;">
+        <span style="position: absolute; left: 0; color: var(--female);">1.</span> 
+        <strong style="color: var(--paper);">Pojkarna som blev över:</strong> I ett traditionellt samhälle förväntades sonen ta hand om föräldrarna på ålderns höst. När man bara fick skaffa ett barn valde miljontals familjer i lönndom bort flickor. Idag saknas det över 30 miljoner kvinnor i Kina, vilket har skapat en hel generation unga män som kommer ha enormt svårt att bilda familj.
+      </li>
+      <li style="padding-left: 24px; position: relative; line-height: 1.6;">
+        <span style="position: absolute; left: 0; color: var(--accent);">2.</span> 
+        <strong style="color: var(--paper);">4-2-1-problemet:</strong> Om ett barn är det enda barnet, och föräldrarna i sin tur var ensambarn, innebär det att <strong>ett</strong> enda arbetande vuxet barn i framtiden förväntas försörja och ta hand om <strong>två</strong> åldrande föräldrar och <strong>fyra</strong> åldrande mor- och farföräldrar.
+      </li>
+    </ul>
+  </div>
+
+  <p>Demografi är alltså inte bara linjer och diagram – det är rå makt och mänskliga öden. Att försöka styra över människors val av familjestorlek genom extrem lagstiftning har visat sig vara oerhört svårt, och skapar ofta mörka och oväntade konsekvenser för framtiden.</p>
+
+</article>
+
+<!-- ══════════════════════════════
+     TEACHER SECTION & QUIZ
+══════════════════════════════ -->
+<section class="teacher-section">
+  <div class="teacher-inner">
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Ett interaktivt quiz i två nivåer för att befästa demografiska begrepp, samt diskussionsunderlag utifrån Lgr22 i Geografi.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('quiz', this)">📝 Interaktivt Quiz</button>
+        <button class="t-tab" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Lgr22 Syfte</button>
+      </div>
+    </div>
+
+    <!-- QUIZ TAB -->
+    <div class="t-panel active" id="t-quiz">
+      <div class="quiz-wrap">
+        <div class="quiz-level-selector" id="lvl-selector">
+          <button class="ql-btn active" onclick="selectQuizLevel(1, this)">
+            <strong>Nivå 1</strong><span>Begrepp & Faser</span>
+          </button>
+          <button class="ql-btn" onclick="selectQuizLevel(2, this)">
+            <strong>Nivå 2</strong><span>Analysera Pyramider</span>
+          </button>
+        </div>
+
+        <div id="quiz-intro">
+          <h3 id="qi-title">Nivå 1: Begrepp & Faser</h3>
+          <p id="qi-desc">Testa om du har koll på orden mortalitet, nativitet och den demografiska transitionens steg.</p>
+          <button class="quiz-next-btn" onclick="startQuiz()">Starta Quiz →</button>
+        </div>
+
+        <div id="quiz-play">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 4</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          <div class="quiz-options" id="quiz-opts"></div>
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 4</div>
+          </div>
+          <h3 style="color:var(--paper); margin-bottom:10px;" id="score-title">Bra jobbat!</h3>
+          <p style="color:var(--text-dim);" id="score-msg">Du har slutfört nivån.</p>
+          <button class="restart-btn" onclick="resetQuizUI()">Välj en ny nivå ↺</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DISKUSSION TAB -->
+    <div class="t-panel" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Den magiska lösningen?</h4>
+          <ul class="q-list">
+            <li>Det absolut snabbaste sättet att sänka höga födelsetal (nativitet) i ett land har historiskt sett varit att se till att flickor får gå i skolan. Varför tror ni att utbildning för kvinnor har så extremt stor påverkan på befolkningstillväxten?</li>
+          </ul>
+          <textarea class="discussion-input" placeholder="Skriv dina tankar och resonemang här..."></textarea>
+          <button class="reveal-btn" onclick="toggleComment('tc-1', this)">Visa lärarens kommentar</button>
+          <div id="tc-1" class="teacher-comment" style="display:none;">
+            <strong>Lärarens kommentar:</strong> Utbildning ger kvinnor kunskap om reproduktiv hälsa och familjeplanering. När kvinnor går längre i skolan leder det ofta till att de gifter sig senare och börjar arbeta istället för att stanna hemma, vilket minskar antalet barn de föder. Det ger också kvinnor mer egenmakt över sina egna liv och de ekonomiska besluten i familjen.
+          </div>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Äldrekrisen</h4>
+          <ul class="q-list">
+            <li>Länder i Fas 5 (som Japan och Italien) står inför ett enormt problem: de äldre blir fler, och de unga som ska arbeta och betala skatt blir färre. Vilka lösningar kan ett sådant land ta till för att samhället inte ska kollapsa ekonomiskt?</li>
+          </ul>
+          <textarea class="discussion-input" placeholder="Skriv dina tankar och resonemang här..."></textarea>
+          <button class="reveal-btn" onclick="toggleComment('tc-2', this)">Visa lärarens kommentar</button>
+          <div id="tc-2" class="teacher-comment" style="display:none;">
+            <strong>Lärarens kommentar:</strong> Länder med en krympande och åldrande befolkning måste ofta hitta en mix av lösningar. Det kan handla om att:
+            <br>1. Höja pensionsåldern.
+            <br>2. Uppmuntra till ökad arbetskraftsinvandring från länder i Fas 2 och 3.
+            <br>3. Införa teknik, robotik och AI i vården.
+            <br>4. Ge ekonomiska incitament (högre barnbidrag, gratis förskola) för att underlätta och uppmuntra befolkningen att vilja skaffa fler barn igen.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LGR22 TAB -->
+    <div class="t-panel" id="t-lgr">
+      <div class="q-block">
+        <div class="q-num">📋</div>
+        <div class="q-content">
+          <h4>Geografi (Åk 7-9)</h4>
+          <p style="color:var(--text-dim); line-height:1.6;"><strong>Centralt innehåll:</strong> Jordens befolkning. Befolkningsfördelning, befolkningsutveckling och migration. Orsaker till och konsekvenser av demografiska mönster.<br><br>Eleverna tränas i att <strong>använda geografiska begrepp</strong> och att <strong>analysera modeller</strong> (som den demografiska transitionen och befolkningspyramider) för att förklara komplexa samhällsutmaningar globalt.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── MAGIC PYRAMID LOGIC ──
+const pyramidData = {
+  // Age groups: 80+, 70-79, 60-69, 50-59, 40-49, 30-39, 20-29, 10-19, 0-9
+  // Values are percentages (approximate shapes)
+  1: {
+    male:   [1, 2, 4, 6, 8, 10, 14, 20, 35],
+    female: [1, 2, 4, 6, 8, 10, 14, 20, 35],
+    desc: "Både födelsetalen och dödstalen är mycket höga. Befolkningen växer knappt. Pyramiden har en väldigt bred bas (många barn föds) men smalnar av snabbt eftersom få överlever till vuxen ålder.",
+    stats: ["👶 Nativitet: Hög", "🪦 Mortalitet: Hög", "📈 Tillväxt: Noll/Låg"],
+    title: "Det traditionella samhället"
+  },
+  2: {
+    male:   [2, 3, 5, 7, 9, 12, 16, 21, 25],
+    female: [2, 3, 5, 7, 9, 12, 16, 21, 25],
+    desc: "Mortaliteten (dödstalen) sjunker drastiskt tack vare rent vatten, bättre skördar och vaccin. Men man fortsätter skaffa många barn. Resultatet? En befolkningsexplosion.",
+    stats: ["👶 Nativitet: Hög", "🪦 Mortalitet: Sjunkande", "📈 Tillväxt: Väldigt snabb"],
+    title: "Befolkningsexplosionen"
+  },
+  3: {
+    male:   [4, 6, 8, 10, 12, 14, 16, 15, 15],
+    female: [5, 7, 8, 10, 12, 14, 16, 15, 15],
+    desc: "Nativiteten (födelsetalen) börjar äntligen sjunka. Människor flyttar till städer, tillgång till preventivmedel ökar och fler kvinnor utbildar sig. Befolkningen växer fortfarande, men långsammare.",
+    stats: ["👶 Nativitet: Sjunkande", "🪦 Mortalitet: Låg", "📈 Tillväxt: Avtagande"],
+    title: "Det mogna samhället"
+  },
+  4: {
+    male:   [8, 10, 11, 12, 12, 12, 12, 11, 12],
+    female: [10, 11, 11, 12, 12, 12, 12, 11, 12],
+    desc: "Både dödstal och födelsetal är låga. Familjer får i snitt 2 barn var. Pyramiden börjar likna ett rakt torn (eller en klocka). Landets befolkning är stabil och slutar växa naturligt.",
+    stats: ["👶 Nativitet: Låg", "🪦 Mortalitet: Låg", "📈 Tillväxt: Låg/Stabil"],
+    title: "Det post-industriella samhället"
+  },
+  5: {
+    male:   [14, 16, 14, 12, 10, 9, 8, 8, 7],
+    female: [18, 17, 14, 12, 10, 9, 8, 8, 7],
+    desc: "Nu föds det färre barn än vad det dör äldre (nativiteten är lägre än mortaliteten). Pyramiden blir en 'urna' – bred i toppen och extremt smal i basen. En äldrekris hotar landets ekonomi.",
+    stats: ["👶 Nativitet: Mycket låg", "🪦 Mortalitet: Låg (men ökande i snitt)", "📈 Tillväxt: Negativ (Minskande)"],
+    title: "Äldrekrisen"
+  }
+};
+
+const ages = ["80+", "70-79", "60-69", "50-59", "40-49", "30-39", "20-29", "10-19", "0-9"];
+
+function initPyramid() {
+  const container = document.getElementById('pyramid-rows');
+  let html = '';
+  for(let i=0; i<9; i++) {
+    html += `
+      <div class="p-row">
+        <div class="p-side left"><div class="p-bar male" id="m-${i}" style="width: 0%;"></div></div>
+        <div class="p-age">${ages[i]}</div>
+        <div class="p-side right"><div class="p-bar female" id="f-${i}" style="width: 0%;"></div></div>
+      </div>
+    `;
+  }
+  container.innerHTML = html;
+  setSlider(1); // Set initial state
+}
+
+function setSlider(phase) {
+  const slider = document.getElementById('phase-slider');
+  slider.value = phase;
+  
+  // Update styling of marks
+  document.querySelectorAll('.phase-mark').forEach((m, i) => {
+    if(i+1 === parseInt(phase)) m.classList.add('active');
+    else m.classList.remove('active');
+  });
+
+  // Animate Pyramid Bars
+  const data = pyramidData[phase];
+  for(let i=0; i<9; i++) {
+    document.getElementById(`m-${i}`).style.width = (data.male[i] * 2.5) + '%';
+    document.getElementById(`f-${i}`).style.width = (data.female[i] * 2.5) + '%';
+  }
+
+  // Update Text
+  document.querySelector('.pi-phase').textContent = `Fas ${phase}`;
+  document.querySelector('.pi-title').textContent = data.title;
+  document.querySelector('.pi-desc').textContent = data.desc;
+  
+  const statsHtml = data.stats.map(s => `<span>${s}</span>`).join('');
+  document.querySelector('.pi-stats').innerHTML = statsHtml;
+}
+
+// Listen to slider drag
+document.getElementById('phase-slider').addEventListener('input', (e) => {
+  setSlider(e.target.value);
+});
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── QUIZ ENGINE ──
+const quizDB = {
+  1: [
+    { q: "Vad betyder begreppet 'Nativitet'?", opts: ["Antalet döda i ett land", "Hur tätt människor bor", "Antalet födda i ett land", "Livslängden i ett land"], correct: 2, fb: "Helt rätt! Nativitet = Födelsetal." },
+    { q: "Vad händer under 'Fas 2' i den demografiska transitionen?", opts: ["Ingenting, befolkningen är stabil.", "Dödstalen sjunker snabbt (ex. tack vare rent vatten), men man föder fortfarande många barn. Befolkningen exploderar.", "Födelsetalen sjunker till 1 barn per kvinna.", "Människor flyttar från städerna till landsbygden."], correct: 1, fb: "Korrekt! Detta är anledningen till att jordens befolkning växt så enormt de senaste hundra åren." },
+    { q: "När ett land når Fas 4 (som Sverige), hur ser befolkningspyramiden ut?", opts: ["Som en perfekt triangel.", "Som ett jämnt torn/klocka.", "Som ett timglas (smal i mitten).", "Bred i toppen och smal i mitten."], correct: 1, fb: "Rätt! När födelsetalen och dödstalen är låga och jämna blir pyramiden mer som en rak kolumn." },
+    { q: "Vad är huvudorsaken till att födelsetalen (nativiteten) brukar sjunka när ett land går in i Fas 3?", opts: ["Ett nytt virus sprider sig.", "Utbildning för kvinnor, urbanisering och preventivmedel.", "Staten förbjuder folk att gifta sig.", "Dödstalen ökar kraftigt."], correct: 1, fb: "Helt rätt. Skola, jobb för kvinnor och tillgång till preventivmedel ändrar samhället i grunden." }
+  ],
+  2: [
+    { q: "Varför har en 'urna'-formad pyramid (smal bas, bred topp) blivit en ekonomisk mardröm för länder i Fas 5 (t.ex. Japan)?", opts: ["För att de inte har plats för fler hus.", "För att andelen unga som arbetar och betalar skatt är för liten för att försörja det växande antalet gamla pensionärer.", "För att militären blir för stark.", "För att skolorna är överfulla."], correct: 1, fb: "Korrekt. Det skapar en enorm obalans i välfärdssystemet när det finns för få arbetande skattebetalare." },
+    { q: "Ett u-land har en pyramid med en extremt bred bas. Vilken är den största samhällsutmaningen för landets regering de kommande 10 åren?", opts: ["Att bygga tillräckligt många skolor, utbilda lärare och sedan skapa jobb för alla dessa unga när de växer upp.", "Att bygga massor av äldreboenden.", "Att tvinga folk att flytta ut på landet.", "Att importera utländsk arbetskraft."], correct: 0, fb: "Rätt! Den 'växande basen' kallas ibland 'youth bulge'. Det är en möjlighet, men kräver enorma investeringar i skolor och jobb." },
+    { q: "Vilket av följande påståenden om historisk befolkningstillväxt stämmer BÄST?", opts: ["Befolkningen har vuxit lika snabbt sedan år noll.", "Befolkningsexplosionen beror på att vi plötsligt började skaffa fler barn på 1800-talet.", "Befolkningsexplosionen beror inte på att vi skaffade fler barn, utan på att vi plötsligt slutade dö som flugor av sjukdomar.", "Världens befolkning har minskat sedan år 1950."], correct: 2, fb: "Exakt så! Den demografiska transitionens magi ligger i att dödstalen (mortaliteten) störtdyker innan födelsetalen hinner anpassa sig nedåt." },
+    { q: "Vissa länder (som t.ex. Tyskland eller Sverige) har låga födelsetal men befolkningen minskar ändå inte. Varför?", opts: ["Folk lever till de blir 150 år.", "Statistiken är felaktig.", "På grund av netto-migration (det flyttar in fler människor än det flyttar ut).", "Staten betalar folk för att adoptera."], correct: 2, fb: "Helt rätt. Migration är ofta det som håller befolkningsmängden uppe i rika länder i Fas 4." }
+  ]
+};
+
+let currentLvl = 1;
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A','B','C','D'];
+
+function selectQuizLevel(lvl, btn) {
+  document.querySelectorAll('.ql-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentLvl = lvl;
+  document.getElementById('qi-title').textContent = btn.querySelector('strong').textContent;
+  document.getElementById('qi-desc').textContent = btn.querySelector('span').textContent;
+}
+
+function resetQuizUI() {
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-intro').style.display = 'block';
+  document.getElementById('lvl-selector').style.display = 'flex';
+}
+
+function startQuiz() {
+  document.getElementById('lvl-selector').style.display = 'none';
+  document.getElementById('quiz-intro').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0; score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const data = quizDB[currentLvl];
+  const q = data[currentQ];
+  
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${data.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / data.length * 100) + '%';
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const data = quizDB[currentLvl];
+  const q = data[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.fb}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.fb}`;
+  }
+  
+  fb.style.display = 'block';
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < data.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizDB[currentLvl].length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const len = quizDB[currentLvl].length;
+  const pct = score / len;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Du tänker precis som en riktig demograf!"; }
+  else if(pct >= 0.5) { title = "Bra jobbat! ⭐"; msg = "Du har greppat huvuddragen. Bra!"; }
+  else { title = "Läs igenom igen 📖"; msg = "Det är ett stort och abstrakt ämne. Läs om texten och dra lite mer i reglaget!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+
+// ── DISCUSSION TOGGLE ──
+function toggleComment(id, btn) {
+  const commentBox = document.getElementById(id);
+  if (commentBox.style.display === 'none' || commentBox.style.display === '') {
+    commentBox.style.display = 'block';
+    btn.textContent = 'Dölj kommentar';
+    btn.style.color = 'var(--accent)';
+    btn.style.borderColor = 'var(--accent)';
+  } else {
+    commentBox.style.display = 'none';
+    btn.textContent = 'Visa lärarens kommentar';
+    btn.style.color = 'var(--text-dim)';
+    btn.style.borderColor = 'var(--text-dim)';
+  }
+}
+
+// Init on load
+window.onload = initPyramid;
+</script>
+</body>
+</html>
