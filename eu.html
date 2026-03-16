@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EU – Så funkar det – SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Nunito+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--eu-blue:#003399;--eu-dark:#001a4d;--eu-deep:#0a1628;--eu-mid:#162040;--eu-surface:#1a2744;--eu-surface2:#1f2f52;--gold:#ffd700;--gold-dim:rgba(255,215,0,.1);--gold-glow:rgba(255,215,0,.25);--star:#ffd700;--text:#e4e8f0;--muted:#8a94a8;--border:rgba(255,255,255,.08);--green:#22c55e;--green-dim:rgba(34,197,94,.1);--red:#ef4444;--red-dim:rgba(239,68,68,.1);--radius:12px}
+*{margin:0;padding:0;box-sizing:border-box}body{background:var(--eu-deep);color:var(--text);font-family:'Nunito Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 600px 500px at 50% -10%,rgba(0,51,153,.2) 0%,transparent 70%),radial-gradient(ellipse 400px 400px at 80% 80%,rgba(255,215,0,.03) 0%,transparent 70%);pointer-events:none;z-index:0}
+/* Stars animation */
+@keyframes twinkle{0%,100%{opacity:.3}50%{opacity:.8}}
+body::after{content:'★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★';position:fixed;top:20px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:24px;color:var(--gold);opacity:.08;pointer-events:none;animation:twinkle 4s ease infinite}
+nav{position:sticky;top:0;z-index:100;background:rgba(10,22,40,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;scrollbar-width:none}nav::-webkit-scrollbar{display:none}
+.nav-tab{padding:15px 20px;font-size:.8rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all .25s;background:none;border-top:none;border-left:none;border-right:none;letter-spacing:.02em}
+.nav-tab:hover{color:var(--text)}.nav-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.hero{position:relative;padding:50px 40px 45px;background:linear-gradient(135deg,var(--eu-dark) 0%,var(--eu-blue) 50%,#004dc0 100%);overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle 300px at 70% 40%,rgba(255,215,0,.08) 0%,transparent 70%);pointer-events:none}
+.hero-stars{position:absolute;right:30px;top:50%;transform:translateY(-50%);width:120px;height:120px;opacity:.1;pointer-events:none}
+.hero-badge{display:inline-block;background:var(--gold-dim);border:1px solid var(--gold-glow);color:var(--gold);font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;padding:5px 14px;border-radius:40px;margin-bottom:14px;font-weight:600}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,5vw,3rem);font-weight:700;line-height:1.15;margin-bottom:10px;color:#fff}.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{color:rgba(255,255,255,.6);font-size:.92rem;max-width:620px;line-height:1.7;margin-bottom:20px;font-weight:300}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap}.hero-stat .num{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--gold)}.hero-stat .label{font-size:.68rem;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em;margin-top:2px}
+.page{display:none;max-width:1000px;margin:0 auto;padding:30px 24px 100px;position:relative;z-index:1}.page.active{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:700;margin-bottom:6px}.section-sub{color:var(--muted);font-size:.88rem;margin-bottom:24px;font-weight:300}
+.ep-card{background:var(--eu-surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;display:flex;align-items:center;gap:18px;transition:all .3s;position:relative;overflow:hidden;margin-bottom:12px}
+.ep-card:hover{border-color:var(--gold-glow);transform:translateY(-2px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.ep-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--gold);opacity:0;transition:opacity .3s}.ep-card:hover::before{opacity:1}
+.ep-num{width:44px;height:44px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--gold-glow);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);flex-shrink:0;font-weight:700}
+.ep-content{flex:1;min-width:0}.ep-content h3{font-size:.92rem;font-weight:600;margin-bottom:3px}.ep-content p{font-size:.78rem;color:var(--muted);line-height:1.4}
+.ep-actions{display:flex;gap:8px;flex-shrink:0;flex-wrap:wrap}
+.ep-btn-spotify{display:flex;align-items:center;gap:6px;background:#1DB954;color:#fff;border:none;border-radius:20px;padding:7px 14px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}.ep-btn-spotify:hover{background:#1ed760;transform:scale(1.05)}
+.ep-btn-spotify.coming{background:var(--muted);cursor:default;opacity:.7}.ep-btn-spotify.coming:hover{transform:none}
+.ep-btn-read{display:flex;align-items:center;gap:6px;background:var(--eu-surface2);color:var(--text);border:1px solid var(--border);border-radius:20px;padding:7px 14px;font-size:.75rem;font-weight:500;cursor:pointer;transition:all .2s}.ep-btn-read:hover{border-color:var(--gold);color:var(--gold)}
+.ep-quiz-score{font-size:.65rem;font-weight:700;margin-left:4px}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;justify-content:center;align-items:center;padding:20px}.modal-overlay.active{display:flex}
+.modal{background:var(--eu-surface);border:1px solid var(--border);border-radius:16px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:32px;position:relative}
+.modal-close{position:absolute;top:14px;right:14px;background:var(--eu-surface2);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:all .2s}.modal-close:hover{color:var(--gold);border-color:var(--gold)}
+.modal h2{font-family:'Cormorant Garamond',serif;font-size:1.3rem;margin-bottom:6px}.modal .ep-badge{display:inline-block;background:var(--gold-dim);color:var(--gold);font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:10px}
+/* INSTITUTIONS */
+.inst-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.inst-card{background:var(--eu-surface);border:2px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:all .3s;text-align:center}
+.inst-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+.inst-card .ic-icon{font-size:2rem;margin-bottom:8px}.inst-card h3{font-family:'Cormorant Garamond',serif;font-size:1rem;margin-bottom:4px}.inst-card p{font-size:.75rem;color:var(--muted);line-height:1.4}
+.inst-detail{background:var(--eu-surface2);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:16px;min-height:100px}
+.inst-detail h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:var(--gold);margin-bottom:8px}.inst-detail p{font-size:.85rem;color:var(--muted);line-height:1.7}
+/* TIMELINE */
+.timeline{position:relative;padding-left:40px;margin:20px 0}
+.timeline::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:linear-gradient(var(--gold),var(--eu-blue))}
+.tl-item{position:relative;margin-bottom:28px;animation:fadeUp .4s ease}
+.tl-dot{position:absolute;left:-32px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--eu-deep)}
+.tl-year{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--gold);margin-bottom:2px}
+.tl-text{font-size:.85rem;color:var(--muted);line-height:1.6}
+.tl-text strong{color:var(--text)}
+/* LAW PROCESS */
+.law-steps{display:flex;flex-direction:column;gap:12px}
+.law-step{background:var(--eu-surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;cursor:pointer;transition:all .3s;display:flex;align-items:flex-start;gap:14px}
+.law-step:hover{border-color:var(--gold)}
+.law-step.expanded{border-color:var(--gold);background:var(--eu-surface2)}
+.ls-num{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--gold-glow);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1rem;color:var(--gold);font-weight:700;flex-shrink:0}
+.ls-content h3{font-size:.92rem;font-weight:600;margin-bottom:2px}.ls-content p{font-size:.8rem;color:var(--muted);line-height:1.5}
+.ls-detail{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:.82rem;color:var(--muted);line-height:1.7;display:none}
+.law-step.expanded .ls-detail{display:block;animation:fadeUp .3s ease}
+/* FLASHCARDS */
+.flash-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.flash-card{perspective:800px;height:155px;cursor:pointer}.flash-inner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}.flash-card.flipped .flash-inner{transform:rotateY(180deg)}
+.flash-front,.flash-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center}
+.flash-front{background:var(--eu-surface);border:1px solid var(--border)}.flash-front h4{font-family:'Cormorant Garamond',serif;font-size:.95rem;margin-bottom:4px}.flash-front .flash-hint{font-size:.65rem;color:var(--muted);margin-top:6px}
+.flash-back{background:var(--gold-dim);border:1px solid var(--gold-glow);transform:rotateY(180deg)}.flash-back p{font-size:.78rem;color:var(--text);line-height:1.5}
+.flash-ep-tag{font-size:.6rem;color:var(--gold);text-transform:uppercase;letter-spacing:.1em;font-weight:600}
+/* QUIZ */
+.quiz-wrap{background:var(--eu-surface);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+.quiz-ep-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:16px}
+.quiz-ep-card{background:var(--eu-surface2);border:2px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all .25s;text-align:center}.quiz-ep-card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.quiz-ep-card .qe-num{font-family:'Cormorant Garamond',serif;font-size:1.5rem;color:var(--gold)}.quiz-ep-card h4{font-size:.78rem;font-weight:600;margin:4px 0 2px}.quiz-ep-card p{font-size:.65rem;color:var(--muted)}
+.quiz-ep-card .qe-badge{display:inline-block;margin-top:6px;padding:2px 8px;border-radius:10px;font-size:.62rem;font-weight:600}
+.btn-primary{background:var(--eu-blue);color:#fff;border:none;border-radius:8px;padding:11px 24px;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Nunito Sans',sans-serif}.btn-primary:hover{background:#0044cc;transform:translateY(-1px)}
+.btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border);border-radius:8px;padding:11px 24px;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s;font-family:'Nunito Sans',sans-serif}.btn-secondary:hover{border-color:var(--gold);color:var(--gold)}
+.quiz-progress{height:3px;background:var(--eu-mid);border-radius:2px;margin-bottom:20px}.quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--eu-blue),var(--gold));border-radius:2px;transition:width .4s}
+.quiz-q-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.quiz-q-text{font-family:'Cormorant Garamond',serif;font-size:1.1rem;line-height:1.4;margin-bottom:18px}
+.quiz-opts{display:flex;flex-direction:column;gap:8px}
+.quiz-opt{background:var(--eu-surface2);border:1.5px solid var(--border);border-radius:8px;padding:11px 14px;font-size:.85rem;cursor:pointer;transition:all .2s;text-align:left;color:var(--text);font-family:'Nunito Sans',sans-serif;display:flex;align-items:flex-start;gap:10px}
+.quiz-opt:hover:not(:disabled){border-color:var(--gold);background:var(--gold-dim)}
+.quiz-opt .opt-letter{font-weight:700;color:var(--muted);min-width:16px}
+.quiz-opt.correct{border-color:var(--green);background:var(--green-dim);color:#86efac}.quiz-opt.correct .opt-letter{color:var(--green)}
+.quiz-opt.wrong{border-color:var(--red);background:var(--red-dim);color:#fca5a5}.quiz-opt.wrong .opt-letter{color:var(--red)}
+.quiz-opt:disabled{cursor:default}
+.quiz-feedback{background:var(--eu-surface2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 16px;font-size:.82rem;color:var(--muted);line-height:1.6;margin:14px 0;animation:fadeUp .3s ease}
+.quiz-score{text-align:center;padding:24px 0}
+.score-ring{width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--gold) var(--pct),var(--eu-mid) var(--pct));display:flex;align-items:center;justify-content:center;margin:0 auto 16px;position:relative}.score-ring::after{content:'';position:absolute;inset:10px;border-radius:50%;background:var(--eu-surface)}.score-ring .score-text{position:relative;z-index:1;font-family:'Cormorant Garamond',serif;font-size:1.6rem}
+.score-title{font-family:'Cormorant Garamond',serif;font-size:1.2rem;margin-bottom:4px}.score-msg{color:var(--muted);font-size:.85rem;margin-bottom:20px}
+.tool-card{background:var(--eu-surface);border:1px solid var(--border);border-radius:var(--radius);padding:22px;cursor:pointer;transition:all .3s}.tool-card:hover{border-color:var(--gold);transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.3)}
+@media(max-width:768px){.hero{padding:36px 20px}.inst-grid{grid-template-columns:1fr}.flash-grid{grid-template-columns:1fr 1fr}.ep-card{flex-direction:column;align-items:flex-start;gap:10px}.ep-actions{width:100%}.quiz-ep-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.flash-grid{grid-template-columns:1fr}.quiz-ep-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+<button class="nav-tab active" onclick="showPage('overview')">🇪🇺 Översikt</button>
+<button class="nav-tab" onclick="showPage('episodes')">🎙 Avsnitt</button>
+<button class="nav-tab" onclick="showPage('institutions')">🏛 Institutionerna</button>
+<button class="nav-tab" onclick="showPage('timeline')">📅 Tidslinjen</button>
+<button class="nav-tab" onclick="showPage('lawprocess')">⚖ Lagprocessen</button>
+<button class="nav-tab" onclick="showPage('concepts')">🃏 Begreppsbanken</button>
+<button class="nav-tab" onclick="showPage('quiz')">📝 Kunskapsquiz</button>
+</nav>
+<div class="hero">
+<svg class="hero-stars" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,215,0,.15)" stroke-width="1"/><g fill="#ffd700" opacity=".15"><text font-size="14" x="55" y="18">★</text><text font-size="14" x="82" y="28">★</text><text font-size="14" x="97" y="55">★</text><text font-size="14" x="88" y="82">★</text><text font-size="14" x="65" y="102">★</text><text font-size="14" x="38" y="100">★</text><text font-size="14" x="18" y="82">★</text><text font-size="14" x="12" y="55">★</text><text font-size="14" x="22" y="28">★</text><text font-size="14" x="45" y="16">★</text><text font-size="14" x="72" y="16">★</text><text font-size="14" x="95" y="40">★</text></g></svg>
+<div class="hero-badge">SO med Petrus</div>
+<h1>EU – <em>Så funkar det</em></h1>
+<p>Från kol och stål till 450 miljoner medborgare. Utforska hur EU styrs, hur lagar skapas, vad lobbyister gör och varför EU påverkar din vardag mer än du tror.</p>
+<div class="hero-stats"><div class="hero-stat"><div class="num">8</div><div class="label">Poddavsnitt</div></div><div class="hero-stat"><div class="num">64</div><div class="label">Quizfrågor</div></div><div class="hero-stat"><div class="num">27</div><div class="label">Medlemsländer</div></div></div>
+</div>
+
+<div class="page active" id="page-overview"><h2 class="section-title">Resans alla stopp</h2><p class="section-sub">8 avsnitt som tar dig genom hela EU – från institutionerna till din vardag. Spotify-länkar kommer snart!</p><div id="overview-grid"></div><h2 class="section-title" style="margin-top:36px">Interaktiva verktyg</h2><p class="section-sub">Utforska EU genom att klicka, testa och utmana dig själv.</p><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px" id="tools-grid"></div></div>
+<div class="page" id="page-episodes"><h2 class="section-title">Alla poddavsnitt</h2><p class="section-sub">Klicka på sammanfattning för nyckelpunkterna. Spotify-länkar kommer snart!</p><div id="episodes-list"></div></div>
+<div class="page" id="page-institutions"><h2 class="section-title">EU:s institutioner</h2><p class="section-sub">Klicka på en institution för att lära dig mer om dess roll.</p><div class="inst-grid" id="inst-grid"></div><div class="inst-detail" id="inst-detail"><h3>👆 Välj en institution</h3><p>Klicka på en av rutorna ovan för att se hur den fungerar.</p></div></div>
+<div class="page" id="page-timeline"><h2 class="section-title">EU:s tidslinje</h2><p class="section-sub">Från ruiner till union – de viktigaste händelserna.</p><div class="timeline" id="timeline"></div></div>
+<div class="page" id="page-lawprocess"><h2 class="section-title">Hur en idé blir lag</h2><p class="section-sub">Klicka på varje steg för att se detaljer.</p><div class="law-steps" id="law-steps"></div></div>
+<div class="page" id="page-concepts"><h2 class="section-title">Begreppsbanken</h2><p class="section-sub">Klicka på ett kort för att vända det.</p><div class="flash-grid" id="flash-grid"></div></div>
+<div class="page" id="page-quiz"><h2 class="section-title">Kunskapsquiz</h2><p class="section-sub">Välj ett poddavsnitt – 8 frågor per quiz. Gör alla 8 för full poäng!</p><div class="quiz-wrap"><div id="quiz-picker"></div><div id="quiz-area" style="display:none"></div></div></div>
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal-content"></div></div>
+
+<script>
+const episodes=[
+{id:1,title:"Vem bestämmer i Bryssel?",desc:"EU:s fyra stora institutioner och 30 000 lobbyister.",summary:"EU är delvis överstatligt – beslut gäller alla. Europeiska rådet (stats/regeringschefer) bestämmer riktlinjer. EU-kommissionen (27 kommissionärer) föreslår lagar. Ministerrådet (ländernas ministrar) fattar beslut. Europaparlamentet (705 ledamöter) representerar medborgarna. Dessutom finns ~30 000 lobbyister i Bryssel."},
+{id:2,title:"Vem drar i trådarna?",desc:"Lobbyism – memes, plastsugrör och 37 möten.",summary:"Lobbyism = att påverka politiker. IFPI hade 37 möten om upphovsrättsdirektivet. Google lobbade emot. Greenpeace drev plastförbudet. Lobbyism kan ge viktig info men skapar obalans – de med mest pengar får mest inflytande. Öppenhetsregistret är frivilligt."},
+{id:3,title:"Från ruiner till union",desc:"Kol, stål, Romfördraget och de fyra friheterna.",summary:"Startade med kol- och stålsamarbete för att förhindra krig. Romfördraget 1957 (6 länder). De fyra friheterna 1986. Maastricht 1992: EG blev EU + euron. Sverige medlem 1995 (52% ja). Lissabonfördraget 2009. Idag 27 medlemmar + kandidatländer."},
+{id:4,title:"Vad kostar det att vara med?",desc:"Medlemsavgift, jordbruksstöd och de fyra friheterna.",summary:"Avgift baserad på BNI (~1%). Sverige betalar 24-44 miljarder/år, får tillbaka 10-12 miljarder. Största utgiften: jordbruksstöd. De fyra friheterna (varor, tjänster, personer, kapital) skapar en marknad med 450 miljoner."},
+{id:5,title:"Hur en idé blir lag",desc:"5 steg från idé till lag – subsidiaritet och kvalificerad majoritet.",summary:"5 steg: 1) Europeiska rådet ger riktlinjer. 2) Kommissionen skriver lagförslag. 3) Nationella parlament granskar (subsidiaritetsprincipen). 4) Europaparlamentet röstar. 5) Ministerrådet beslutar (kvalificerad majoritet). Kallas medbeslutsförfarandet."},
+{id:6,title:"EU i din ficka",desc:"Erasmus+, Schengen, sjukvård och USB-C.",summary:"Erasmus+ = studera utomlands. Schengen = resa utan pass. Jobba fritt i 3 månader. Sjukförsäkringskort = vård i hela EU. 112 fungerar överallt. Roaming avskaffat 2017. USB-C-krav på alla mobiler."},
+{id:7,title:"Sprickor i fasaden",desc:"Baksidan av fri rörlighet, Frontex, Nato och kritik.",summary:"Fri rörlighet → kompetensflöde + EU-migranter. Frontex bevakar yttre gränser. Dublinförordningen fungerar dåligt. Rörlig brottslighet. Sverige med i Nato 2024 + Pesco. Solidaritetsklausulen. EU kritiseras för byråkrati."},
+{id:8,title:"Vad händer nu?",desc:"Brexit, handelskrig, Ryssland och demokrati inifrån.",summary:"Brexit 2020 (51% lämna). USA:s strafftullar. Rysslands invasion → sanktioner + ökad EU-enighet. Ungern/Polen utmanar demokratin inifrån. Desinformation. Ukraina + Moldavien kandidatländer 2022."}
+];
+
+const institutions=[
+{id:'euradet',icon:'👥',name:'Europeiska rådet',sub:'Stats- och regeringschefer',detail:'Alla EU-länders stats- eller regeringschefer. Träffas 4 gånger/år i Bryssel (toppmöten). Bestämmer EU:s stora riktlinjer – t.ex. klimatsatsningar, försvar, migration. Fattar inga detaljerade lagbeslut utan pekar ut kursen. Leds av en ordförande vald på 2,5 år.'},
+{id:'kommissionen',icon:'📋',name:'EU-kommissionen',sub:'27 kommissionärer',detail:'Enda institutionen som får föreslå nya lagar. 27 kommissionärer (en per land) som ska jobba för HELA EU, inte sitt hemland. Ansvarar för specifika områden (jordbruk, miljö, handel). Övervakar att lagar följs. Leds av en ordförande – en av EU:s mäktigaste poster.'},
+{id:'ministerradet',icon:'🤝',name:'Ministerrådet',sub:'Ländernas ministrar',detail:'Varje land skickar den minister som passar ämnet (miljöminister för miljö osv.). Fattar beslut om lagar tillsammans med parlamentet. Förhandlar internationella avtal. Ordförandeskapet roterar – ett land i taget, 6 månader. Kräver kvalificerad majoritet för de flesta beslut.'},
+{id:'parlamentet',icon:'🗳',name:'Europaparlamentet',sub:'705 folkvalda ledamöter',detail:'705 ledamöter valda vart 5:e år av EU:s medborgare. Sverige har 21 platser. Sitter i partigrupper, inte landsgrupper. Stiftar lagar med ministerrådet, beslutar om budget, godkänner/avsätter kommissionen. 20 ständiga utskott. Träffas 12 ggr/år i Strasbourg.'}
+];
+
+const timelineData=[
+{year:'1945',text:'<strong>Andra världskriget slutar.</strong> Europa i ruiner. Tanken föds: samarbete ska förhindra nya krig.'},
+{year:'1951',text:'<strong>Kol- och stålgemenskapen</strong> bildas. Frankrike och Tyskland delar kontroll över krigets råvaror.'},
+{year:'1957',text:'<strong>Romfördraget.</strong> Sex länder bildar en tullunion och inleder ekonomiskt samarbete + Euratom.'},
+{year:'1967',text:'Fördragen slås ihop till <strong>Europeiska gemenskapen (EG)</strong>.'},
+{year:'1986',text:'<strong>De fyra friheterna</strong> införs – fri rörlighet för varor, tjänster, personer och kapital.'},
+{year:'1989',text:'<strong>Berlinmuren faller.</strong> Östeuropeiska länder vill gå med i samarbetet.'},
+{year:'1992',text:'<strong>Maastrichtfördraget.</strong> EG blir EU. Planer på gemensam valuta och utrikespolitik.'},
+{year:'1995',text:'<strong>Sverige blir EU-medlem</strong> efter folkomröstning (52% ja).'},
+{year:'2002',text:'<strong>Euron</strong> införs som betalningsmedel. Sverige röstar nej 2003.'},
+{year:'2004',text:'<strong>Stor utvidgning.</strong> Polen, Ungern, Tjeckien och fler östeuropeiska länder går med.'},
+{year:'2009',text:'<strong>Lissabonfördraget.</strong> Nya regler – bland annat för hur ett land kan lämna EU.'},
+{year:'2016',text:'<strong>Brexit-omröstning.</strong> 51% av britterna röstar för att lämna EU.'},
+{year:'2020',text:'<strong>Storbritannien lämnar EU</strong> den 31 januari. Corona slår till.'},
+{year:'2022',text:'<strong>Ryssland invaderar Ukraina.</strong> EU inför sanktioner. Ukraina och Moldavien blir kandidatländer.'},
+{year:'2024',text:'<strong>Sverige går med i Nato.</strong> EU:s försvarssamarbete fördjupas.'}
+];
+
+const lawSteps=[
+{num:1,title:'Europeiska rådet pekar ut riktningen',short:'Stats/regeringscheferna bestämmer vad EU ska prioritera.',detail:'Tänk: chefen säger "vi satsar på digital teknik". Inga detaljer – bara riktning. Andra får jobba ut detaljerna.'},
+{num:2,title:'EU-kommissionen skriver lagförslaget',short:'Bara kommissionen får föreslå nya lagar.',detail:'Kommissionen skriver ett konkret förslag. Majoritet av de 27 kommissionärerna måste rösta ja. Förslaget skickas till nationella parlament, ministerrådet och Europaparlamentet.'},
+{num:3,title:'Nationella parlament granskar',short:'Riksdagarna kollar subsidiaritetsprincipen.',detail:'Subsidiaritetsprincipen = beslut ska tas så nära medborgarna som möjligt. Om tillräckligt många länder säger stopp måste kommissionen ompröva. En nödbroms!'},
+{num:4,title:'Europaparlamentet röstar',short:'705 ledamöter tar ställning och kan föreslå ändringar.',detail:'Här har DU inflytande – du har röstat fram dessa ledamöter. Parlamentet kan godkänna, ändra eller förkasta förslaget.'},
+{num:5,title:'Ministerrådet beslutar',short:'Ländernas ministrar fattar det slutgiltiga beslutet.',detail:'Kräver kvalificerad majoritet – inte bara hälften, utan en viss andel av EU:s befolkning. Stora länder har fler röster. Om parlamentet och rådet inte enas bollas förslaget fram och tillbaka.'}
+];
+
+const concepts=[
+{term:"Överstatlig",def:"EU:s beslut gäller över nationella lagar på vissa områden.",ep:"Del 1"},
+{term:"Europeiska rådet",def:"EU:s toppmöte – stats- och regeringschefer som bestämmer riktlinjer.",ep:"Del 1"},
+{term:"EU-kommissionen",def:"Föreslår lagar och övervakar att de följs. 27 kommissionärer.",ep:"Del 1"},
+{term:"Ministerrådet",def:"Ländernas ministrar fattar beslut om lagar med parlamentet.",ep:"Del 1"},
+{term:"Europaparlamentet",def:"705 folkvalda ledamöter. Representerar EU:s medborgare.",ep:"Del 1"},
+{term:"Lobbyism",def:"Att påverka politiker för att gynna vissa intressen.",ep:"Del 2"},
+{term:"Öppenhetsregistret",def:"Frivilligt register där lobbyister kan anmäla sig.",ep:"Del 2"},
+{term:"Upphovsrättsdirektivet",def:"EU-lag om skydd av material på internet (meme-debatten).",ep:"Del 2"},
+{term:"Romfördraget",def:"1957 – sex länder bildar tullunion. EU:s startskott.",ep:"Del 3"},
+{term:"Tullunion",def:"Inga tullar mellan medlemmar, gemensam tull utåt.",ep:"Del 3"},
+{term:"De fyra friheterna",def:"Fri rörlighet för varor, tjänster, personer och kapital.",ep:"Del 3"},
+{term:"Maastrichtfördraget",def:"1992 – EG blev EU. Planer på euro och gemensam utrikespolitik.",ep:"Del 3"},
+{term:"Euron",def:"EU:s gemensamma valuta. Sverige röstade nej 2003.",ep:"Del 3"},
+{term:"Lissabonfördraget",def:"2009 – nya regler, bl.a. för hur ett land kan lämna EU.",ep:"Del 3"},
+{term:"BNI",def:"Bruttonationalinkomst – mått på vad ett land tjänar. Bas för EU-avgiften.",ep:"Del 4"},
+{term:"Återflöde",def:"Pengar EU skickar tillbaka till medlemsländerna.",ep:"Del 4"},
+{term:"Jordbruksstöd",def:"EU:s största utgiftspost – garanterar bönder minimipris.",ep:"Del 4"},
+{term:"Subsidiaritetsprincipen",def:"Beslut ska tas så nära medborgarna som möjligt.",ep:"Del 5"},
+{term:"Kvalificerad majoritet",def:"Mer än enkel majoritet krävs – hänsyn till befolkning.",ep:"Del 5"},
+{term:"Medbeslutsförfarandet",def:"Parlamentet och ministerrådet har lika mycket att säga till om.",ep:"Del 5"},
+{term:"Erasmus+",def:"EU:s program för utbildning, ungdomar och idrott utomlands.",ep:"Del 6"},
+{term:"Schengenområdet",def:"Zon utan pass- och gränskontroller mellan medlemsländer.",ep:"Del 6"},
+{term:"Frontex",def:"EU-myndighet som samordnar bevakning av yttre gränser.",ep:"Del 7"},
+{term:"Dublinförordningen",def:"Flyktingar ska söka asyl i första EU-land de når.",ep:"Del 7"},
+{term:"Pesco",def:"EU:s försvarssamarbete – gemensamma militära projekt.",ep:"Del 7"},
+{term:"Brexit",def:"Storbritanniens utträde ur EU 2020 efter folkomröstning.",ep:"Del 8"},
+{term:"Sanktioner",def:"Ekonomiska bestraffningar mot ett land (t.ex. Ryssland).",ep:"Del 8"},
+{term:"Desinformation",def:"Medveten spridning av falsk information för att påverka.",ep:"Del 8"}
+];
+
+const allQuizQs={1:[{q:"Vad betyder att EU är överstatligt?",opts:["EU:s beslut står över medlemsländerna på vissa områden","EU är större än alla länder","EU har mest pengar","EU har flest invånare"],c:0,fb:"Överstatlig = EU:s beslut gäller över nationella på vissa områden."},{q:"Hur många ledamöter har Europaparlamentet?",opts:["705","349","27","450"],c:0,fb:"705 ledamöter från alla 27 medlemsländer."},{q:"Vem får föreslå nya lagar i EU?",opts:["Europaparlamentet","Bara EU-kommissionen","Ministerrådet","Europeiska rådet"],c:1,fb:"Bara kommissionen får lägga fram lagförslag – unikt system."},{q:"Vad gör Europeiska rådet?",opts:["Skriver lagar","Bestämmer de stora riktlinjerna","Dömer i tvister","Väljer president"],c:1,fb:"Europeiska rådet pekar ut riktningen, bestämmer inte detaljer."},{q:"Hur många lobbyister finns i Bryssel?",opts:["500","5 000","Cirka 30 000","100 000"],c:2,fb:"Cirka 30 000 lobbyister i Bryssel – nästan som Falkenbergs befolkning."},{q:"Kommissionärerna ska jobba för...",opts:["Sitt eget land","Sitt parti","Hela unionens bästa","Kommissionens ordförande"],c:2,fb:"Kommissionärerna ska jobba för hela EU, inte sitt hemland."},{q:"Hur ofta hålls EU-val?",opts:["Varje år","Vart tredje år","Vart sjätte år","Vart femte år"],c:3,fb:"EU-val hålls vart femte år."},{q:"I Europaparlamentet sitter ledamöterna i...",opts:["Landsgrupper","Åldersgrupper","Kön","Partigrupper baserade på politisk tillhörighet"],c:3,fb:"Ledamöterna sitter i partigrupper, inte landsgrupper."}],
+2:[{q:"Vad är lobbyism?",opts:["Att försöka påverka politiker att fatta vissa beslut","Att rösta i val","Att skriva lagar","Att demonstrera"],c:0,fb:"Lobbyism = att påverka beslutsfattare."},{q:"Vad är Öppenhetsregistret?",opts:["Register där lobbyister frivilligt anmäler sig","En lista över alla EU-lagar","EU:s budget","En databas över medborgare"],c:0,fb:"Öppenhetsregistret är frivilligt – debatt om det ska bli obligatoriskt."},{q:"Vad handlade upphovsrättsdirektivet om?",opts:["Miljöregler","Skydd av material som delas på internet","Jordbruksstöd","Tullar"],c:1,fb:"Upphovsrättsdirektivet handlade om skydd av material på nätet."},{q:"Vilken organisation drev fram plastförbudet?",opts:["Google","Greenpeace","IFPI","McDonalds"],c:1,fb:"Greenpeace drev kampanjen som ledde till plastförbudet."},{q:"Hur många möten hade IFPI med nyckelpolitiker?",opts:["3","12","37","100"],c:2,fb:"IFPI hade 37 möten med nyckelpolitiker – enorm tillgång till makten."},{q:"Varför kritiseras lobbyism?",opts:["Den är förbjuden","De med mest pengar får mest inflytande","Den är för öppen","Bara små företag lobbar"],c:2,fb:"Stora företag har råd med fler lobbyister = obalans."},{q:"Vad lobbade Google emot?",opts:["Plastförbudet","Frihandel","Klimatmål","Upphovsrättsdirektivet"],c:3,fb:"Google lobbade mot direktivet för att skydda YouTube."},{q:"Är lobbyism alltid negativt?",opts:["Ja alltid","Bara för företag","Bara i EU","Nej, den kan ge politiker viktig information"],c:3,fb:"Lobbyism kan ge politiker viktig expertinformation."}],
+3:[{q:"Varför började EU-samarbetet med kol och stål?",opts:["För att förhindra krig genom gemensam kontroll","För att tjäna pengar","För att bygga fabriker","För att skapa jobb"],c:0,fb:"Gemensam kontroll över kol och stål = ingen kan rusta i hemlighet."},{q:"Vilka sex länder skrev på Romfördraget 1957?",opts:["Frankrike, Italien, Västtyskland, Belgien, Nederländerna, Luxemburg","Sverige, Norge, Danmark, Finland, Island, Estland","UK, Frankrike, Spanien, Portugal, Grekland, Italien","USA, Kanada, Mexiko, Brasilien, Argentina, Chile"],c:0,fb:"De ursprungliga sex länderna bildade kol- och stålgemenskapen."},{q:"Vad är en tullunion?",opts:["En militärallians","Länder tar bort tullar mellan sig men har gemensam tull utåt","En typ av parlament","En ekonomisk kris"],c:1,fb:"Tullunion = fri handel inuti, gemensam tull utåt."},{q:"När blev EG till EU?",opts:["1957","1992 genom Maastrichtfördraget","2009","1989"],c:1,fb:"Maastrichtfördraget 1992 skapade EU och planer på gemensam valuta."},{q:"Vilka är de fyra friheterna?",opts:["Fred, frihet, jämlikhet, broderskap","Tal, press, religion, församling","Fri rörlighet för varor, tjänster, personer, kapital","Import, export, tull, handel"],c:2,fb:"Varor, tjänster, personer, kapital – EU:s fyra friheter."},{q:"När blev Sverige EU-medlem?",opts:["1957","1986","1995","2004"],c:2,fb:"Sverige gick med 1995 efter en jämn omröstning (52% ja)."},{q:"Vad gav Lissabonfördraget 2009?",opts:["Euron","Fri rörlighet","De fyra friheterna","Regler för hur ett land kan lämna EU"],c:3,fb:"Lissabonfördraget skapade regler för utträde – användes vid brexit."},{q:"Röstade Sverige ja till euron?",opts:["Ja med stor majoritet","Ja med knapp majoritet","Aldrig haft omröstning","Nej, cirka 55 procent röstade nej"],c:3,fb:"55 procent röstade nej till euron 2003."}],
+4:[{q:"Hur får EU sina pengar?",opts:["Genom en avgift baserad på ländernas BNI","Genom skatt från medborgarna","Genom tullar enbart","Genom lån från banker"],c:0,fb:"Avgiften är baserad på BNI, cirka 1 procent."},{q:"Vad är EU:s största utgiftspost?",opts:["Jordbruksstöd","Försvar","IT-utveckling","Lobbyverksamhet"],c:0,fb:"Jordbruksstöd är EU:s historiskt största utgift."},{q:"Hur mycket betalar Sverige årligen till EU?",opts:["1 miljard","Cirka 24 till 44 miljarder kronor","100 miljarder","500 miljoner"],c:1,fb:"Sverige betalar tiotals miljarder per år till EU."},{q:"Vad menas med återflöde?",opts:["Att pengar från EU går tillbaka till medlemsländerna","Att vatten renar sig självt","Att lagar ändras","Att medborgare flyttar hem"],c:1,fb:"Återflöde = pengar som EU skickar tillbaka till medlemsländerna."},{q:"Vad är fri rörlighet för kapital?",opts:["Att alla får gratis pengar","Att staten styr bankkonton","Pengar kan flyttas fritt mellan EU-länder","Att bara euro gäller"],c:2,fb:"Fri rörlighet för kapital = pengar kan flyttas utan hinder."},{q:"Varför betalar rika länder mer till EU?",opts:["Det är orättvist","För att minska klyftor mellan medlemsländer","De tvingas","Det är slumpmässigt"],c:2,fb:"Rikare länder betalar mer för att jämna ut skillnader."},{q:"Vad är Sverige i EU-budgeten?",opts:["Största mottagaren","Genomsnittlig betalare","Inte med i budgeten","En av de största nettobidragsgivarna"],c:3,fb:"Sverige är nettobidragsgivare – betalar mer än vi får tillbaka."},{q:"Vad är en gemensam marknad?",opts:["Bara ett torg","En bank","En typ av skatt","En zon där varor, tjänster, kapital och personer rör sig fritt"],c:3,fb:"Gemensam marknad = 450 miljoner människor handlar fritt."}],
+5:[{q:"Vem får föreslå nya lagar i EU?",opts:["Bara EU-kommissionen","Europaparlamentet","Varje medborgare","Ministerrådet"],c:0,fb:"Bara kommissionen får föreslå lagar – unik roll."},{q:"Vad är subsidiaritetsprincipen?",opts:["Beslut ska tas så nära medborgarna som möjligt","Alla länder ska betala lika mycket","EU bestämmer allt","Störst land bestämmer"],c:0,fb:"Beslut ska tas så nära folket som möjligt."},{q:"Vad kräver ministerrådet för att anta en lag?",opts:["Enhällighet","Kvalificerad majoritet","Enkel majoritet","Kommissionens godkännande"],c:1,fb:"Kvalificerad majoritet krävs – inte bara enkel majoritet."},{q:"Vad kallas det när parlamentet och rådet delar beslutsmakt?",opts:["Vetoprocessen","Medbeslutsförfarandet","Direktdemokrati","Folkomröstning"],c:1,fb:"Medbeslutsförfarandet = parlament och råd har lika mycket att säga till om."},{q:"Vad gör de nationella parlamenten i EU-processen?",opts:["Inget alls","Skriver lagarna","Granskar att subsidiaritetsprincipen följs","Utser kommissionärer"],c:2,fb:"Nationella parlament granskar subsidiaritetsprincipen."},{q:"Hur många steg har EU:s beslutsprocess?",opts:["2","3","5","10"],c:2,fb:"Fem steg: riktlinjer, förslag, granskning, parlamentsomröstning, rådsbeslut."},{q:"Vad händer om parlamentet och rådet inte enas?",opts:["Lagen antas ändå","Kommissionen bestämmer","Förslaget skrotas direkt","Förslaget bollas fram och tillbaka"],c:3,fb:"Förslaget kan bollas fram och tillbaka flera gånger."},{q:"EU:s lagstiftning liknar Sveriges system genom att...",opts:["Bara en person bestämmer","Allt avgörs genom folkomröstning","Kungen har vetorätt","Någon föreslår, någon beslutar, någon genomför"],c:3,fb:"Samma princip på alla nivåer: någon föreslår, beslutar, genomför."}],
+6:[{q:"Vad är Erasmus+?",opts:["EU:s program för utbildning, ungdomar och idrott","En bank","En lag om tullar","En typ av visum"],c:0,fb:"Erasmus+ ger stöd för studier utomlands och internationella projekt."},{q:"Vad är Schengenområdet?",opts:["EU:s område utan pass- och gränskontroller","EU:s huvudkontor","En valuta","En stad i Belgien"],c:0,fb:"Schengen = inga passkontroller mellan medlemsländerna."},{q:"Hur länge får du jobba i ett annat EU-land utan tillstånd?",opts:["En vecka","Upp till tre månader","Ett år","Obegränsat"],c:1,fb:"Tre månader utan tillstånd, sedan registrering."},{q:"Vad ger det europeiska sjukförsäkringskortet?",opts:["Gratis semester","Rätt till nödvändig sjukvård i andra EU-länder","Svenskt medborgarskap","Rabatt på medicin"],c:1,fb:"Det blå kortet ger rätt till nödvändig vård i hela EU."},{q:"Vad bestämde EU om mobilsamtal 2017?",opts:["Förbud mot mobiler","Gratis wifi överallt","Samma kostnad för samtal oavsett EU-land","Högre priser"],c:2,fb:"Roaming avskaffades 2017 – samma pris i hela EU."},{q:"Vad har EU beslutat om laddare?",opts:["Alla ska ha två laddare","Förbud mot trådlöst","Alla mobiler ska ha USB-C","Bara Apple får sälja"],c:2,fb:"USB-C på alla mobiler – slut på sladdkaoset."},{q:"Vilket nummer kan du ringa för nöd i hela EU?",opts:["911","999","118","112"],c:3,fb:"112 fungerar i hela EU – ett gemensamt nödnummer."},{q:"En examen från ett EU-land...",opts:["Gäller bara i det landet","Måste omprövas överallt","Gäller bara i Norden","Ska gälla i alla EU-länder"],c:3,fb:"Examina ska kunna användas över gränsen inom EU."}],
+7:[{q:"Vad är Dublinförordningen?",opts:["Flyktingar ska söka asyl i första EU-land de kommer till","En lag om tullar","EU:s grundlag","En handelsöverenskommelse"],c:0,fb:"Första landet du kommer till = där ska du söka asyl."},{q:"Vad är Frontex?",opts:["EU-myndighet för gränsbevakning","En bank","Ett politiskt parti","En stad"],c:0,fb:"Frontex samordnar bevakningen av EU:s yttre gränser."},{q:"Vad är Pesco?",opts:["En miljömyndighet","Europeisk försvarsunion för gemensamma försvarsprojekt","En handelsorganisation","Ett utbytesprogram"],c:1,fb:"Pesco är EU:s försvarssamarbete med gemensamma projekt."},{q:"Vilket problem skapar fri rörlighet för fattigare länder?",opts:["Inget problem","Kompetensflöde – unga lämnar för rikare länder","För många turister","För höga skatter"],c:1,fb:"Unga lämnar fattigare länder för jobb i rikare = kompetensflöde."},{q:"När gick Sverige med i Nato?",opts:["1995","2009","2024","Sverige är inte med"],c:2,fb:"Sverige gick med i Nato 2024 – slut på alliansfriheten."},{q:"Vad är solidaritetsklausulen?",opts:["Rätt att lämna EU","En skatteregel","Att länder ska bistå varandra vid kriser","En handelsöverenskommelse"],c:2,fb:"Solidaritetsklausulen kräver att länder hjälper varandra vid kriser."},{q:"Vad kritiseras EU generellt för?",opts:["För lite byråkrati","För enkelt att förstå","För lite makt","För komplicerat, byråkratiskt och långt från medborgarna"],c:3,fb:"Många tycker att EU är för byråkratiskt och svårt att förstå."},{q:"Hur utnyttjar kriminella den fria rörligheten?",opts:["De gör inte det","De startar partier","De lobbar","De kan operera över gränser med minimal risk"],c:3,fb:"Kriminella nätverk utnyttjar öppna gränser för att operera fritt."}],
+8:[{q:"När lämnade Storbritannien EU?",opts:["31 januari 2020","1 januari 2016","2022","De har inte lämnat"],c:0,fb:"Brexit skedde 31 januari 2020 efter folkomröstning 2016."},{q:"Vad var ett huvudargument för brexit?",opts:["Bättre väder","Självbestämmanderätt, ekonomi och invandring","Mer lobbyism","Högre skatter"],c:0,fb:"Ekonomi, självbestämmanderätt och invandring var huvudargumenten."},{q:"Vad är sanktioner?",opts:["Belöning för gott beteende","Ekonomiska bestraffningar mot ett land","En typ av avtal","Militära övningar"],c:1,fb:"Sanktioner = ekonomiska straff, t.ex. mot Ryssland."},{q:"Vilket land har fått kritik för att undergräva demokratin inifrån EU?",opts:["Sverige","Norge","Ungern","Island"],c:1,fb:"Ungern har fått kritik för att inskränka demokrati och rättigheter."},{q:"Vad införde USA för tullar på EU-stål?",opts:["0 procent","10 procent","25 procent strafftull","50 procent"],c:2,fb:"25 procent strafftull på stål från EU."},{q:"Vad är desinformation?",opts:["Korrekt information","Nyheter på TV","Medveten spridning av falsk information","EU:s nyhetsbrev"],c:2,fb:"Ryssland sprider desinformation för att påverka val."},{q:"Vad hände med EU:s sammanhållning efter Ukraina-invasionen?",opts:["EU splittrades","Ingenting förändrades","Brexit 2","Ökad enighet och samhörighet"],c:3,fb:"Kriget i Ukraina skapade oväntad enighet inom EU."},{q:"Vilka länder fick kandidatstatus 2022?",opts:["Norge och Island","USA och Kanada","Kina och Japan","Ukraina och Moldavien"],c:3,fb:"Ukraina och Moldavien fick kandidatstatus mitt under kriget."}]};
+
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');const tabs=document.querySelectorAll('.nav-tab');const map={overview:0,episodes:1,institutions:2,timeline:3,lawprocess:4,concepts:5,quiz:6};if(map[id]!==undefined)tabs[map[id]].classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
+
+function renderEpisodes(){const g=document.getElementById('overview-grid'),l=document.getElementById('episodes-list');
+episodes.forEach(ep=>{const card=`<div class="ep-card"><div class="ep-num">${ep.id}</div><div class="ep-content"><h3>${ep.title}</h3><p>${ep.desc}</p></div><div class="ep-actions"><span class="ep-btn-spotify coming">🎙 Kommer snart</span><button class="ep-btn-read" onclick="openManus(${ep.id})">📄 Sammanfattning</button><button class="ep-btn-read" onclick="launchQuiz(${ep.id})" style="background:var(--gold-dim);border-color:var(--gold-glow);color:var(--gold)">📝 Quiz <span class="ep-quiz-score" id="eqs-o-${ep.id}"></span></button></div></div>`;g.innerHTML+=card;
+const card2=`<div class="ep-card"><div class="ep-num">${ep.id}</div><div class="ep-content"><h3>${ep.title}</h3><p>${ep.desc}</p></div><div class="ep-actions"><span class="ep-btn-spotify coming">🎙 Kommer snart</span><button class="ep-btn-read" onclick="openManus(${ep.id})">📄 Sammanfattning</button><button class="ep-btn-read" onclick="launchQuiz(${ep.id})" style="background:var(--gold-dim);border-color:var(--gold-glow);color:var(--gold)">📝 Quiz <span class="ep-quiz-score" id="eqs-e-${ep.id}"></span></button></div></div>`;l.innerHTML+=card2;});}
+function launchQuiz(id){showPage('quiz');document.getElementById('quiz-picker').style.display='none';document.getElementById('quiz-area').style.display='block';startEpQuiz(id);}
+function updateEpQuizBadges(){for(let i=1;i<=8;i++){const s=quizScores[i];['eqs-o-','eqs-e-'].forEach(pre=>{const el=document.getElementById(pre+i);if(el)el.textContent=s!==undefined?s+'/8':'';});}}
+
+function openManus(id){const ep=episodes.find(e=>e.id===id);document.getElementById('modal-content').innerHTML=`<button class="modal-close" onclick="closeModal()">✕</button><span class="ep-badge">Del ${ep.id}</span><h2>${ep.title}</h2><div style="margin-top:14px;font-size:.88rem;color:var(--muted);line-height:1.8">${ep.summary}</div>`;document.getElementById('modal-overlay').classList.add('active');}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('active');}
+
+function renderTools(){const tools=[{i:'🏛',t:'Institutionerna',d:'Interaktiv guide till EU:s fyra pelare.',p:'institutions'},{i:'📅',t:'Tidslinjen',d:'Från 1945 till idag – EU:s resa.',p:'timeline'},{i:'⚖',t:'Lagprocessen',d:'5 steg – hur en idé blir lag.',p:'lawprocess'},{i:'🃏',t:'Begreppsbanken',d:'28 flipkort med alla nyckelbegrepp.',p:'concepts'},{i:'📝',t:'Kunskapsquiz',d:'64 frågor – 8 per poddavsnitt!',p:'quiz'}];
+document.getElementById('tools-grid').innerHTML=tools.map(t=>`<div class="tool-card" onclick="showPage('${t.p}')"><div style="font-size:1.8rem;margin-bottom:8px">${t.i}</div><h3 style="font-size:.92rem;font-weight:600;margin-bottom:3px">${t.t}</h3><p style="font-size:.76rem;color:var(--muted)">${t.d}</p></div>`).join('');}
+
+function renderInstitutions(){const g=document.getElementById('inst-grid');
+institutions.forEach(i=>{g.innerHTML+=`<div class="inst-card" onclick="showInst('${i.id}')"><div class="ic-icon">${i.icon}</div><h3>${i.name}</h3><p>${i.sub}</p></div>`;});}
+function showInst(id){const i=institutions.find(x=>x.id===id);const el=document.getElementById('inst-detail');el.innerHTML=`<h3>${i.icon} ${i.name}</h3><p>${i.detail}</p>`;el.style.animation='none';el.offsetHeight;el.style.animation='fadeUp .3s ease';}
+
+function renderTimeline(){const el=document.getElementById('timeline');
+timelineData.forEach(t=>{el.innerHTML+=`<div class="tl-item"><div class="tl-dot"></div><div class="tl-year">${t.year}</div><div class="tl-text">${t.text}</div></div>`;});}
+
+function renderLawSteps(){const el=document.getElementById('law-steps');
+lawSteps.forEach(s=>{el.innerHTML+=`<div class="law-step" onclick="this.classList.toggle('expanded')"><div class="ls-num">${s.num}</div><div class="ls-content"><h3>${s.title}</h3><p>${s.short}</p><div class="ls-detail">${s.detail}</div></div></div>`;});}
+
+function renderFlashcards(){document.getElementById('flash-grid').innerHTML=concepts.map(c=>`<div class="flash-card" onclick="this.classList.toggle('flipped')"><div class="flash-inner"><div class="flash-front"><div class="flash-ep-tag">${c.ep}</div><h4>${c.term}</h4><div class="flash-hint">Klicka för att vända</div></div><div class="flash-back"><p>${c.def}</p></div></div></div>`).join('');}
+
+let currentQuiz=null,qIdx=0,qScore=0;const quizScores={};
+function renderQuizPicker(){const el=document.getElementById('quiz-picker');let h='<div class="quiz-ep-grid">';
+episodes.forEach(ep=>{const done=quizScores[ep.id]!==undefined;const badge=done?`<div class="qe-badge" style="background:var(--green-dim);color:var(--green)">✅ ${quizScores[ep.id]}/8</div>`:`<div class="qe-badge" style="background:var(--gold-dim);color:var(--gold)">8 frågor</div>`;
+h+=`<div class="quiz-ep-card" onclick="startEpQuiz(${ep.id})"><div class="qe-num">${ep.id}</div><h4>${ep.title}</h4>${badge}</div>`;});
+h+='</div>';const td=Object.keys(quizScores).length,ts=Object.values(quizScores).reduce((a,b)=>a+b,0);
+if(td>0)h+=`<div style="text-align:center;margin-top:16px;padding:14px;background:var(--eu-surface2);border-radius:var(--radius)"><span style="color:var(--muted);font-size:.82rem">Totalt: <strong style="color:var(--text)">${ts}/${td*8}</strong> rätt (${td}/8 quiz)</span>${td===8?'<div style="margin-top:6px;font-size:1.2rem">🏆</div>':''}</div>`;
+el.innerHTML=h;}
+
+function startEpQuiz(id){currentQuiz=allQuizQs[id].slice().sort(()=>Math.random()-.5);qIdx=0;qScore=0;document.getElementById('quiz-picker').style.display='none';document.getElementById('quiz-area').style.display='block';document.getElementById('quiz-area').dataset.epId=id;document.getElementById('quiz-area').dataset.epTitle=episodes.find(e=>e.id===id).title;showQQ();}
+
+function showQQ(){if(qIdx>=currentQuiz.length){finishQQ();return;}const q=currentQuiz[qIdx],pct=(qIdx/currentQuiz.length*100).toFixed(0),L='ABCD';
+document.getElementById('quiz-area').innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><button class="btn-secondary" onclick="backQP()" style="padding:7px 12px;font-size:.75rem">← Tillbaka</button><span style="font-size:.8rem;color:var(--muted)">${document.getElementById('quiz-area').dataset.epTitle}</span></div><div class="quiz-progress"><div class="quiz-progress-fill" style="width:${pct}%"></div></div><div class="quiz-q-label">Fråga ${qIdx+1} av ${currentQuiz.length}</div><div class="quiz-q-text">${q.q}</div><div class="quiz-opts" id="qopts">${q.opts.map((o,i)=>`<button class="quiz-opt" onclick="ansQ(${i})"><span class="opt-letter">${L[i]}</span>${o}</button>`).join('')}</div><div id="qfb"></div>`;}
+
+function ansQ(idx){const q=currentQuiz[qIdx];document.querySelectorAll('#qopts .quiz-opt').forEach((o,i)=>{o.disabled=true;if(i===q.c)o.classList.add('correct');if(i===idx&&i!==q.c)o.classList.add('wrong');});if(idx===q.c)qScore++;document.getElementById('qfb').innerHTML=`<div class="quiz-feedback">${idx===q.c?'✅ Rätt!':'❌ Fel!'} ${q.fb}</div><button class="btn-primary" onclick="qIdx++;showQQ()">Nästa →</button>`;}
+
+function finishQQ(){const id=parseInt(document.getElementById('quiz-area').dataset.epId);quizScores[id]=qScore;updateEpQuizBadges();const pct=Math.round(qScore/8*100);let em='📝',ti='Bra försök!',msg='Lyssna på avsnittet igen!';if(pct>=88){em='🏆';ti='Fantastiskt!';msg='Järnkoll!';}else if(pct>=63){em='🎯';ti='Riktigt bra!';msg='Nästan allt rätt!';}else if(pct>=38){em='💪';ti='Halvvägs!';msg='Lyssna igen!';}
+document.getElementById('quiz-area').innerHTML=`<div class="quiz-score"><div style="font-size:2.5rem;margin-bottom:6px">${em}</div><div class="score-ring" style="--pct:${pct}%"><span class="score-text">${qScore}/8</span></div><div class="score-title">${ti}</div><div class="score-msg">${msg}</div><button class="btn-primary" onclick="startEpQuiz(${id})">Gör om</button> <button class="btn-secondary" onclick="backQP()" style="margin-left:8px">Alla quiz</button></div>`;}
+function backQP(){document.getElementById('quiz-area').style.display='none';document.getElementById('quiz-picker').style.display='block';renderQuizPicker();}
+
+renderEpisodes();renderTools();renderInstitutions();renderTimeline();renderLawSteps();renderFlashcards();renderQuizPicker();
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
