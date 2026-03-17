@@ -1,236 +1,287 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Välkommen till SO-Portalen</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0a0e17;
-  --glass: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --text-main: #e2e8f0;
-  --text-dim: #94a3b8;
-  
-  /* Ämnesfärger */
-  --historia: #c8a96e;
-  --geografi: #4facfe;
-  --religion: #f093fb;
-  --samhall: #43e97b;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SO-portalen – Förstå världen på riktigt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0c;
+      --bg-surface: #121216;
+      --text: #E8E0D0;
+      --text-dim: rgba(232,224,208,0.65);
+      --border: rgba(232,224,208,0.15);
+      
+      /* Ämnesfärger */
+      --color-historia: #C8A96E; /* Sepia/Guld */
+      --color-geografi: #5F8D7A; /* Dämpad Grön */
+      --color-religion: #8B6B9E; /* Dämpad Lila */
+      --color-samhalle: #5A7E9C; /* Dämpad Blå */
+      
+      --mono: 'JetBrains Mono', monospace;
+      --serif: 'Source Serif 4', Georgia, serif;
+      --display: 'Playfair Display', serif;
+    }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--serif);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
 
-body {
-  background-color: var(--bg);
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(200, 169, 110, 0.05) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(79, 172, 254, 0.05) 0%, transparent 40%);
-  color: var(--text-main);
-  font-family: 'Inter', sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow-x: hidden;
-}
+    /* --- BAKGRUNDS-EFFEKTER --- */
+    .ambient-glow {
+      position: fixed; top: -20vh; left: -10vw; width: 60vw; height: 60vw;
+      background: radial-gradient(circle, rgba(200,169,110,0.05) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    .noise-overlay {
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 100;
+    }
 
-/* --- HEADER --- */
-header {
-  text-align: center;
-  margin-bottom: 60px;
-  padding: 0 20px;
-  animation: fadeInDown 1s ease-out;
-}
+    /* --- HEADER / HERO --- */
+    .container {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+      position: relative; z-index: 10;
+    }
+    
+    header {
+      padding: 40px 0;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: var(--display); font-size: 24px; font-weight: 900;
+      color: var(--text); text-decoration: none; letter-spacing: 1px;
+    }
+    .logo span { color: var(--color-historia); font-style: italic; }
 
-.logo-sub {
-  font-family: 'Inter', sans-serif;
-  font-size: 12px;
-  letter-spacing: 5px;
-  text-transform: uppercase;
-  color: var(--historia);
-  margin-bottom: 10px;
-  display: block;
-}
+    .hero {
+      padding: 100px 0 80px; text-align: center;
+      animation: fadeUp 1s ease-out forwards;
+    }
+    .hero-label {
+      font-family: var(--mono); font-size: 12px; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-family: var(--display); font-size: clamp(40px, 6vw, 80px);
+      font-weight: 900; line-height: 1.05; margin-bottom: 24px;
+    }
+    .hero h1 em { color: var(--color-historia); font-style: italic; }
+    .hero p {
+      font-size: clamp(18px, 2vw, 24px); color: var(--text-dim);
+      max-width: 700px; margin: 0 auto; font-weight: 300;
+    }
 
-header h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(40px, 8vw, 72px);
-  font-weight: 900;
-  line-height: 1.1;
-  background: linear-gradient(to bottom, #fff, #94a3b8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
+    /* --- ÄMNES-PORTALER (LÄNKARNA) --- */
+    .subject-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+      margin-bottom: 100px;
+      animation: fadeUp 1s 0.3s ease-out forwards; opacity: 0;
+    }
 
-header p {
-  color: var(--text-dim);
-  font-size: 18px;
-  max-width: 600px;
-  margin: 20px auto 0;
-  font-weight: 300;
-}
+    a.subject-card {
+      display: flex; flex-direction: column; justify-content: flex-end;
+      height: 380px; padding: 40px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
 
-/* --- GRID --- */
-.portal-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 25px;
-  width: 100%;
-  max-width: 1200px;
-  padding: 0 40px;
-  perspective: 1000px;
-}
+    /* Ämnes-specifika bakgrunder och färger */
+    a.subject-card.historia { --accent: var(--color-historia); }
+    a.subject-card.geografi { --accent: var(--color-geografi); }
+    a.subject-card.religion { --accent: var(--color-religion); }
+    a.subject-card.samhalle { --accent: var(--color-samhalle); }
 
-/* --- CARDS --- */
-.subject-card {
-  position: relative;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 40px 30px;
-  text-decoration: none;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  overflow: hidden;
-}
+    /* Gradient-overlay för att ge djup */
+    a.subject-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, var(--accent) 0%, transparent 60%);
+      opacity: 0.05; transition: opacity 0.4s ease;
+    }
+    
+    /* Hover-effekter för länkarna */
+    a.subject-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    a.subject-card:hover::before { opacity: 0.15; }
+    
+    /* Innehållet i korten */
+    .card-content { position: relative; z-index: 2; transition: transform 0.4s ease; }
+    a.subject-card:hover .card-content { transform: translateY(-5px); }
 
-.subject-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top right, var(--subject-color), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.4s;
-}
+    .card-icon { font-size: 48px; margin-bottom: 24px; display: block; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
+    .card-title {
+      font-family: var(--display); font-size: 36px; font-weight: 700;
+      margin-bottom: 12px; line-height: 1.1;
+    }
+    .card-desc { font-size: 16px; color: var(--text-dim); line-height: 1.5; }
+    .card-arrow {
+      font-family: var(--mono); font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-top: 24px;
+      display: flex; align-items: center; gap: 8px; opacity: 0.7;
+      transition: opacity 0.3s ease, gap 0.3s ease;
+    }
+    a.subject-card:hover .card-arrow { opacity: 1; gap: 12px; }
 
-.subject-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  border-color: var(--subject-color);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-}
+    /* --- FEATURED SECTION --- */
+    .featured-section {
+      border-top: 1px solid var(--border); padding: 80px 0;
+      animation: fadeUp 1s 0.6s ease-out forwards; opacity: 0;
+    }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 40px;
+    }
+    .section-header h2 { font-family: var(--display); font-size: 32px; font-weight: 700; }
+    .section-header p { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-historia); }
+    
+    .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .featured-card {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+      padding: 30px; border-radius: 8px; text-decoration: none; color: var(--text);
+      transition: all 0.2s ease; display: flex; flex-direction: column;
+    }
+    .featured-card:hover { background: rgba(255,255,255,0.05); border-color: var(--color-historia); }
+    .fc-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-historia); margin-bottom: 16px; }
+    .fc-title { font-family: var(--display); font-size: 22px; font-weight: 700; margin-bottom: 12px; line-height: 1.2; }
+    .fc-desc { font-size: 14px; color: var(--text-dim); flex-grow: 1; }
 
-.subject-card:hover::before {
-  opacity: 0.1;
-}
+    /* --- FOOTER --- */
+    footer {
+      text-align: center; padding: 60px 0; border-top: 1px solid var(--border);
+      font-family: var(--mono); font-size: 12px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase;
+    }
 
-.icon-box {
-  width: 80px;
-  height: 80px;
-  background: rgba(255,255,255,0.03);
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  margin-bottom: 25px;
-  border: 1px solid var(--glass-border);
-  transition: all 0.4s;
-}
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-.subject-card:hover .icon-box {
-  background: var(--subject-color);
-  color: var(--bg);
-  transform: rotate(-5deg);
-}
-
-.subject-card h2 {
-  font-family: 'Playfair Display', serif;
-  font-size: 28px;
-  color: #fff;
-  margin-bottom: 12px;
-}
-
-.subject-card p {
-  color: var(--text-dim);
-  font-size: 15px;
-  line-height: 1.6;
-}
-
-/* --- SPECIFIKA FÄRGER --- */
-.historia { --subject-color: var(--historia); }
-.geografi { --subject-color: var(--geografi); }
-.religion { --subject-color: var(--religion); }
-.samhall  { --subject-color: var(--samhall); }
-
-/* --- ANIMATIONS --- */
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.portal-grid > a {
-  opacity: 0;
-  animation: fadeInUp 0.8s forwards;
-}
-
-.portal-grid > a:nth-child(1) { animation-delay: 0.2s; }
-.portal-grid > a:nth-child(2) { animation-delay: 0.4s; }
-.portal-grid > a:nth-child(3) { animation-delay: 0.6s; }
-.portal-grid > a:nth-child(4) { animation-delay: 0.8s; }
-
-/* --- FOOTER --- */
-footer {
-  margin-top: 80px;
-  color: var(--text-dim);
-  font-size: 13px;
-  letter-spacing: 1px;
-}
-
-@media (max-width: 768px) {
-  .portal-grid { padding: 0 20px; }
-  header h1 { font-size: 48px; }
-}
-</style>
+    /* --- RESPONSIVITET --- */
+    @media (max-width: 900px) {
+      .subject-grid { grid-template-columns: 1fr; }
+      .featured-grid { grid-template-columns: 1fr; }
+      a.subject-card { height: auto; min-height: 280px; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 0 24px; }
+      .hero { padding: 60px 0 40px; }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <span class="logo-sub">Kunskap för framtiden</span>
-  <h1>SO-Portalen</h1>
-  <p>Utforska mänsklighetens berättelser, världens underverk, livets stora frågor och samhällets hjärta.</p>
-</header>
+  <div class="ambient-glow"></div>
+  <div class="noise-overlay"></div>
 
-<nav class="portal-grid">
-  <a href="https://so-portalen.se/startsida/historia" class="subject-card historia">
-    <div class="icon-box">⏳</div>
-    <h2>Historia</h2>
-    <p>Från forntidens imperier till kalla krigets slutspel. Lär av det förflutna.</p>
-  </a>
+  <div class="container">
+    <header>
+      <a href="#" class="logo">SO<span>-portalen</span></a>
+    </header>
 
-  <a href="https://so-portalen.se/startsida/geografi" class="subject-card geografi">
-    <div class="icon-box">🌍</div>
-    <h2>Geografi</h2>
-    <p>Upptäck planeten, klimatet och hur vi lever tillsammans på jorden.</p>
-  </a>
+    <section class="hero">
+      <div class="hero-label">Välkommen till kunskapen</div>
+      <h1>Förstå världen.<br><em>På riktigt.</em></h1>
+      <p>Interaktiva fördjupningar, quiz och berättelser som väcker historia, samhälle, geografi och religion till liv.</p>
+    </section>
 
-  <a href="https://so-portalen.se/startsida/religion" class="subject-card religion">
-    <div class="icon-box">🕯️</div>
-    <h2>Religion</h2>
-    <p>Existentiella frågor, heliga texter och världens olika trosinriktningar.</p>
-  </a>
+    <!-- 
+      HÄR LIGGER DE 4 LÄNKARNA.
+      När vi använder target="_blank" kringgår vi hemsidesverktygets säkerhetsblockering
+      genom att öppna ämnessidorna i helt nya flikar.
+    -->
+    <section class="subject-grid">
+      
+      <!-- Länk 1: Historia -->
+      <a href="https://www.so-portalen.se/startsida/historia" target="_blank" rel="noopener noreferrer" class="subject-card historia">
+        <div class="card-content">
+          <span class="card-icon">🏛️</span>
+          <h2 class="card-title">Historia</h2>
+          <p class="card-desc">Upplev epokerna. Från de första imperierna till kalla krigets dolda operationer och industriella revolutionens framväxt.</p>
+          <div class="card-arrow">Utforska ämnet <span>→</span></div>
+        </div>
+      </a>
 
-  <a href="https://so-portalen.se/startsida/samhällskunskap" class="subject-card samhall">
-    <div class="icon-box">⚖️</div>
-    <h2>Samhälle</h2>
-    <p>Demokrati, lagar och ekonomi. Hur vi formar vår gemensamma värld.</p>
-  </a>
-</nav>
+      <!-- Länk 2: Samhällskunskap -->
+      <a href="https://www.so-portalen.se/startsida/samh%C3%A4llskunskap" target="_blank" rel="noopener noreferrer" class="subject-card samhalle">
+        <div class="card-content">
+          <span class="card-icon">⚖️</span>
+          <h2 class="card-title">Samhälle</h2>
+          <p class="card-desc">Hur styrs Sverige och världen? Fördjupa dig i demokrati, ekonomi, lag och rätt samt de ideologier som formar vår samtid.</p>
+          <div class="card-arrow">Utforska ämnet <span>→</span></div>
+        </div>
+      </a>
 
-<footer>
-  &copy; 2026 SO-PORTALEN.SE
-</footer>
+      <!-- Länk 3: Religion -->
+      <a href="https://www.so-portalen.se/startsida/religion" target="_blank" rel="noopener noreferrer" class="subject-card religion">
+        <div class="card-content">
+          <span class="card-icon">🪷</span>
+          <h2 class="card-title">Religion</h2>
+          <p class="card-desc">Livsfrågor och tro. Dyk djupt in i världsreligionerna, från buddhismens begrepp till de abrahamitiska riktningarna.</p>
+          <div class="card-arrow">Utforska ämnet <span>→</span></div>
+        </div>
+      </a>
+
+      <!-- Länk 4: Geografi -->
+      <a href="https://www.so-portalen.se/startsida/geografi" target="_blank" rel="noopener noreferrer" class="subject-card geografi">
+        <div class="card-content">
+          <span class="card-icon">🌍</span>
+          <h2 class="card-title">Geografi</h2>
+          <p class="card-desc">Klimat, naturkrafter och befolkningsfrågor. Förstå hur människan och naturen påverkar varandra i en föränderlig värld.</p>
+          <div class="card-arrow">Utforska ämnet <span>→</span></div>
+        </div>
+      </a>
+
+    </section>
+
+    <!-- EXEMPEL PÅ INNEHÅLL -->
+    <section class="featured-section">
+      <div class="section-header">
+        <h2>Senaste fördjupningarna</h2>
+        <p>Interaktiva artiklar</p>
+      </div>
+      <div class="featured-grid">
+        
+        <a href="#" target="_blank" rel="noopener noreferrer" class="featured-card">
+          <div class="fc-label">Historia · Kalla Kriget</div>
+          <h3 class="fc-title">CIA-kuppen 1953</h3>
+          <p class="fc-desc">Dagen demokratin dog i Iran. Historien om olja, makt och ett beslut som formade Mellanöstern för alltid.</p>
+        </a>
+
+        <a href="#" target="_blank" rel="noopener noreferrer" class="featured-card">
+          <div class="fc-label">Historia · Industrialiseringen</div>
+          <h3 class="fc-title">Livet i fabrikens skugga</h3>
+          <p class="fc-desc">Nya maskiner gjorde att produktionen ökade, men vad hände med människorna som stämplade in?</p>
+        </a>
+
+        <a href="#" target="_blank" rel="noopener noreferrer" class="featured-card">
+          <div class="fc-label">Religion · Begreppsträning</div>
+          <h3 class="fc-title">Buddhismens grunder</h3>
+          <p class="fc-desc">Träna på begrepp som Karma, Dharma och Nirvana i tre interaktiva nivåer.</p>
+        </a>
+
+      </div>
+    </section>
+
+    <footer>
+      © 2024 SO-Portalen.se · Skapat för lärande.
+    </footer>
+
+  </div>
 
 </body>
 </html>
