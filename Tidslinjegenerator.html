@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skapa Tidslinje – SO-portalen</title>
+<!-- Importera typsnitt som matchar SO-portalens design -->
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- Importera html2canvas för att kunna ladda ner som bild -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+  :root {
+    --navy:     #1A2744;
+    --navy-dk:  #0F182B;
+    --gold:     #B8860B;
+    --gold-lt:  #FBF4E0;
+    --sand:     #F8F5EF;
+    --text:     #1E1A12;
+    --muted:    #6A5F4B;
+    --border:   #E4DCCF;
+    --red:      #8B1A1A;
+    --mono:     'JetBrains Mono', monospace;
+    --serif:    'Source Serif 4', Georgia, serif;
+    --display:  'Playfair Display', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { 
+    font-family: var(--serif); 
+    background: var(--sand); 
+    color: var(--text); 
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 30px;
+  }
+
+  @media (max-width: 900px) {
+    .container { grid-template-columns: 1fr; }
+  }
+
+  /* ── KONTROLLPANEL (VÄNSTER) ── */
+  .panel {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(26,39,68,0.05);
+    height: fit-content;
+  }
+
+  .panel-header { margin-bottom: 24px; }
+  .panel-label { font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+  .panel h1 { font-family: var(--display); font-size: 28px; font-weight: 900; color: var(--navy); line-height: 1.1; margin-top: 8px; }
+  .panel p { font-size: 14px; color: var(--muted); margin-top: 10px; }
+
+  .form-group { margin-bottom: 16px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+  .form-control {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--text);
+    transition: border-color 0.2s;
+  }
+  .form-control:focus { outline: none; border-color: var(--gold); }
+  
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--navy);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    margin-top: 8px;
+  }
+  .btn:hover { background: var(--navy-dk); transform: translateY(-1px); }
+  .btn-download { background: var(--gold); color: white; margin-top: 24px; }
+  .btn-download:hover { background: #996F08; }
+
+  /* Event List */
+  .event-list { margin-top: 30px; border-top: 1px solid var(--border); padding-top: 20px; }
+  .event-item {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 12px; background: var(--sand); border: 1px solid var(--border);
+    border-radius: 6px; margin-bottom: 8px;
+  }
+  .event-item-info strong { display: block; font-family: var(--mono); font-size: 13px; color: var(--gold); }
+  .event-item-info span { font-size: 14px; }
+  .btn-delete {
+    background: none; border: none; color: var(--red); font-size: 18px;
+    cursor: pointer; padding: 0 4px; opacity: 0.6; transition: opacity 0.2s;
+  }
+  .btn-delete:hover { opacity: 1; }
+
+  /* ── TIDSLINJE-PREVIEW (HÖGER) ── */
+  .preview-wrapper {
+    display: flex; flex-direction: column; gap: 20px;
+  }
+  
+  .export-area {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+    /* Aspect ratio för snygg export (t.ex. 16:9 liknande) */
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+  
+  /* Dekorativ bakgrund för exporten */
+  .export-area::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 10% 20%, rgba(184,134,11,0.1) 0%, transparent 40%),
+                      radial-gradient(circle at 90% 80%, rgba(255,255,255,0.05) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .timeline-header { text-align: center; margin-bottom: auto; position: relative; z-index: 2; }
+  .timeline-title-display { 
+    font-family: var(--display); font-size: 36px; font-weight: 900; 
+    color: white; margin-bottom: 8px; text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+  .timeline-subtitle { font-family: var(--mono); font-size: 12px; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; }
+
+  /* Själva tidslinjen */
+  .timeline-track-container {
+    position: relative;
+    height: 240px; /* Utrymme för text uppe och nere */
+    margin-top: 40px;
+    margin-bottom: 40px;
+    z-index: 2;
+  }
+  
+  .timeline-line {
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 3px;
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-50%);
+  }
+
+  .timeline-node {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .timeline-dot {
+    width: 14px; height: 14px;
+    background: var(--gold);
+    border: 3px solid var(--navy);
+    border-radius: 50%;
+    position: relative;
+    z-index: 5;
+    box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
+  }
+
+  .timeline-content {
+    position: absolute;
+    width: max-content;
+    max-width: 160px;
+    text-align: center;
+  }
+
+  /* Varannan uppe, varannan nere */
+  .timeline-node.pos-top .timeline-content {
+    bottom: 24px;
+    padding-bottom: 12px;
+  }
+  .timeline-node.pos-bottom .timeline-content {
+    top: 24px;
+    padding-top: 12px;
+  }
+
+  /* Streck mellan prick och text */
+  .timeline-node.pos-top .timeline-content::after {
+    content: ''; position: absolute; bottom: 0; left: 50%;
+    width: 1px; height: 12px; background: var(--gold);
+    transform: translateX(-50%);
+  }
+  .timeline-node.pos-bottom .timeline-content::after {
+    content: ''; position: absolute; top: 0; left: 50%;
+    width: 1px; height: 12px; background: var(--gold);
+    transform: translateX(-50%);
+  }
+
+  .node-year {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+  .node-text {
+    font-family: var(--serif);
+    font-size: 14px;
+    color: white;
+    line-height: 1.4;
+  }
+
+  .export-footer {
+    margin-top: auto;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Loader */
+  #loader {
+    display: none;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--navy);
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  
+  <!-- KONTROLLPANEL -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-label">Verktyg</div>
+      <h1>Skalenlig Tidslinje</h1>
+      <p>Lägg till händelser. Avståndet beräknas matematiskt för att ge en korrekt uppfattning om tid.</p>
+    </div>
+
+    <div class="form-group">
+      <label>Titel på tidslinjen</label>
+      <input type="text" id="titleInput" class="form-control" placeholder="T.ex. Antikens Grekland" value="Världshistoriska milstolpar" onkeyup="updateTitle()">
+    </div>
+
+    <div style="border-top: 1px solid var(--border); margin: 24px 0;"></div>
+
+    <form id="eventForm" onsubmit="addEvent(event)">
+      <div class="form-group">
+        <label>Årtal (Använd minus för f.Kr.)</label>
+        <input type="number" id="yearInput" class="form-control" placeholder="T.ex. -330 eller 1945" required>
+      </div>
+      <div class="form-group">
+        <label>Händelse</label>
+        <input type="text" id="textInput" class="form-control" placeholder="T.ex. Alexander erövrar Persien" required>
+      </div>
+      <button type="submit" class="btn">Lägg till händelse ＋</button>
+    </form>
+
+    <div class="event-list" id="eventList">
+      <!-- Händelser hamnar här -->
+    </div>
+
+    <button class="btn btn-download" onclick="downloadImage()">⬇ Ladda ner som bild</button>
+    <div id="loader">Genererar bild... vänta ett ögonblick.</div>
+  </div>
+
+  <!-- PREVIEW / EXPORT AREA -->
+  <div class="preview-wrapper">
+    <div class="export-area" id="exportArea">
+      
+      <div class="timeline-header">
+        <div class="timeline-title-display" id="displayTitle">Världshistoriska milstolpar</div>
+        <div class="timeline-subtitle">En skalenlig överblick</div>
+      </div>
+
+      <div class="timeline-track-container" id="timelineTrack">
+        <div class="timeline-line"></div>
+        <!-- Noder genereras med JS -->
+      </div>
+
+      <div class="export-footer">
+        Skapad med SO-Portalen.se
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Initial data för att visa hur det ser ut
+  let events = [
+    { year: -550, text: "Kyros den store grundar perserriket" },
+    { year: -330, text: "Alexander den store bränner Persepolis" },
+    { year: 636, text: "Araberna erövrar Persien" },
+    { year: 1953, text: "CIA-kuppen i Iran" },
+    { year: 1979, text: "Islamska revolutionen" }
+  ];
+
+  // Uppdatera titeln live
+  function updateTitle() {
+    const title = document.getElementById('titleInput').value || 'Namnlös tidslinje';
+    document.getElementById('displayTitle').textContent = title;
+  }
+
+  // Formatera årtal snyggt (-330 -> 330 f.Kr.)
+  function formatYear(year) {
+    if (year < 0) return Math.abs(year) + " f.Kr.";
+    if (year === 0) return "År 0";
+    return year + " e.Kr.";
+  }
+
+  // Lägg till händelse
+  function addEvent(e) {
+    e.preventDefault();
+    const year = parseInt(document.getElementById('yearInput').value);
+    const text = document.getElementById('textInput').value;
+
+    events.push({ year, text });
+    
+    // Rensa fälten
+    document.getElementById('yearInput').value = '';
+    document.getElementById('textInput').value = '';
+    document.getElementById('yearInput').focus();
+
+    renderAll();
+  }
+
+  // Ta bort händelse
+  function deleteEvent(index) {
+    events.splice(index, 1);
+    renderAll();
+  }
+
+  // Huvudfunktion för att rita ut allt
+  function renderAll() {
+    // 1. Sortera kronologiskt
+    events.sort((a, b) => a.year - b.year);
+
+    // 2. Uppdatera listan i kontrollpanelen
+    const listEl = document.getElementById('eventList');
+    listEl.innerHTML = '';
+    
+    if (events.length === 0) {
+      listEl.innerHTML = '<p style="font-size:13px; font-style:italic;">Inga händelser inlagda ännu.</p>';
+    }
+
+    events.forEach((ev, index) => {
+      listEl.innerHTML += `
+        <div class="event-item">
+          <div class="event-item-info">
+            <strong>${formatYear(ev.year)}</strong>
+            <span>${ev.text}</span>
+          </div>
+          <button class="btn-delete" onclick="deleteEvent(${index})" title="Ta bort">✕</button>
+        </div>
+      `;
+    });
+
+    // 3. Rita ut tidslinjen
+    renderTimeline();
+  }
+
+  // Rita ut den skalenliga tidslinjen
+  function renderTimeline() {
+    const track = document.getElementById('timelineTrack');
+    // Behåll linjen, ta bort gamla noder
+    track.innerHTML = '<div class="timeline-line"></div>';
+
+    if (events.length === 0) return;
+
+    // Om det bara finns en händelse, lägg den i mitten
+    if (events.length === 1) {
+      createNode(events[0], 50, 0);
+      return;
+    }
+
+    const minYear = events[0].year;
+    const maxYear = events[events.length - 1].year;
+    const timespan = maxYear - minYear;
+
+    // För att prickarna inte ska hamna exakt på kanten (0% och 100%), 
+    // lägger vi till en marginal (padding) på 10% på varje sida av tidsrymden.
+    const padding = timespan === 0 ? 10 : timespan * 0.15; 
+    const timelineStart = minYear - padding;
+    const timelineEnd = maxYear + padding;
+    const totalSpan = timelineEnd - timelineStart;
+
+    events.forEach((ev, index) => {
+      // Räkna ut position i procent
+      let percent = ((ev.year - timelineStart) / totalSpan) * 100;
+      createNode(ev, percent, index);
+    });
+  }
+
+  function createNode(ev, percent, index) {
+    const track = document.getElementById('timelineTrack');
+    const posClass = index % 2 === 0 ? 'pos-bottom' : 'pos-top'; // Varannan nere, varannan uppe
+
+    const node = document.createElement('div');
+    node.className = `timeline-node ${posClass}`;
+    node.style.left = `${percent}%`;
+
+    node.innerHTML = `
+      <div class="timeline-content">
+        <div class="node-year">${formatYear(ev.year)}</div>
+        <div class="node-text">${ev.text}</div>
+      </div>
+      <div class="timeline-dot"></div>
+    `;
+
+    track.appendChild(node);
+  }
+
+  // Ladda ner som bild med html2canvas
+  function downloadImage() {
+    const exportArea = document.getElementById('exportArea');
+    const loader = document.getElementById('loader');
+    
+    loader.style.display = 'block';
+
+    // Lite timeout för att låta renderingen uppdateras ifall font laddas
+    setTimeout(() => {
+      html2canvas(exportArea, {
+        scale: 2, // Högre upplösning
+        backgroundColor: "#1A2744",
+        useCORS: true
+      }).then(canvas => {
+        loader.style.display = 'none';
+        
+        // Skapa länk för nedladdning
+        const link = document.createElement('a');
+        let title = document.getElementById('titleInput').value || 'Tidslinje';
+        // Ta bort ogiltiga filnamn-tecken
+        title = title.replace(/[^a-z0-9åäö]/gi, '_').toLowerCase();
+        
+        link.download = `so_portalen_${title}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      }).catch(err => {
+        console.error("Kunde inte exportera bild:", err);
+        loader.style.display = 'none';
+        alert("Något gick fel vid exporten av bilden.");
+      });
+    }, 100);
+  }
+
+  // Kör vid start
+  updateTitle();
+  renderAll();
+
+</script>
+</body>
+</html>
