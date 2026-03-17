@@ -82,7 +82,6 @@
     }
 
     /* --- ÄMNES-PORTALER (LÄNKARNA) --- */
-    /* Lösningen ligger här: a.subject-card gör att hela rutan är klickbar på ett pålitligt sätt */
     .subject-grid {
       display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
       margin-bottom: 100px;
@@ -138,7 +137,7 @@
     }
     a.subject-card:hover .card-arrow { opacity: 1; gap: 12px; }
 
-    /* --- FEATURED SECTION (Visa upp dina skapelser) --- */
+    /* --- FEATURED SECTION --- */
     .featured-section {
       border-top: 1px solid var(--border); padding: 80px 0;
       animation: fadeUp 1s 0.6s ease-out forwards; opacity: 0;
@@ -202,12 +201,13 @@
 
     <!-- 
       HÄR LIGGER DE 4 LÄNKARNA.
-      Genom att använda <a href="..."> runt hela innehållet blir boxarna perfekta länkar.
+      Genom att ha lagt till target="_top" tvingas webbläsaren att öppna 
+      sidan i det riktiga fönstret istället för att försöka bädda in den.
     -->
     <section class="subject-grid">
       
       <!-- Länk 1: Historia -->
-      <a href="https://www.so-portalen.se/startsida/historia" class="subject-card historia">
+      <a href="https://www.so-portalen.se/startsida/historia" target="_top" class="subject-card historia">
         <div class="card-content">
           <span class="card-icon">🏛️</span>
           <h2 class="card-title">Historia</h2>
@@ -217,7 +217,7 @@
       </a>
 
       <!-- Länk 2: Samhällskunskap -->
-      <a href="https://www.so-portalen.se/startsida/samh%C3%A4llskunskap" class="subject-card samhalle">
+      <a href="https://www.so-portalen.se/startsida/samh%C3%A4llskunskap" target="_top" class="subject-card samhalle">
         <div class="card-content">
           <span class="card-icon">⚖️</span>
           <h2 class="card-title">Samhälle</h2>
@@ -227,7 +227,7 @@
       </a>
 
       <!-- Länk 3: Religion -->
-      <a href="https://www.so-portalen.se/startsida/religion" class="subject-card religion">
+      <a href="https://www.so-portalen.se/startsida/religion" target="_top" class="subject-card religion">
         <div class="card-content">
           <span class="card-icon">🪷</span>
           <h2 class="card-title">Religion</h2>
@@ -237,7 +237,7 @@
       </a>
 
       <!-- Länk 4: Geografi -->
-      <a href="https://www.so-portalen.se/startsida/geografi" class="subject-card geografi">
+      <a href="https://www.so-portalen.se/startsida/geografi" target="_top" class="subject-card geografi">
         <div class="card-content">
           <span class="card-icon">🌍</span>
           <h2 class="card-title">Geografi</h2>
@@ -248,7 +248,7 @@
 
     </section>
 
-    <!-- EXEMPEL PÅ INNEHÅLL (Valfritt, men visar upp det snygga du skapat) -->
+    <!-- EXEMPEL PÅ INNEHÅLL -->
     <section class="featured-section">
       <div class="section-header">
         <h2>Senaste fördjupningarna</h2>
@@ -256,19 +256,19 @@
       </div>
       <div class="featured-grid">
         
-        <a href="#" class="featured-card">
+        <a href="#" target="_top" class="featured-card">
           <div class="fc-label">Historia · Kalla Kriget</div>
           <h3 class="fc-title">CIA-kuppen 1953</h3>
           <p class="fc-desc">Dagen demokratin dog i Iran. Historien om olja, makt och ett beslut som formade Mellanöstern för alltid.</p>
         </a>
 
-        <a href="#" class="featured-card">
+        <a href="#" target="_top" class="featured-card">
           <div class="fc-label">Historia · Industrialiseringen</div>
           <h3 class="fc-title">Livet i fabrikens skugga</h3>
           <p class="fc-desc">Nya maskiner gjorde att produktionen ökade, men vad hände med människorna som stämplade in?</p>
         </a>
 
-        <a href="#" class="featured-card">
+        <a href="#" target="_top" class="featured-card">
           <div class="fc-label">Religion · Begreppsträning</div>
           <h3 class="fc-title">Buddhismens grunder</h3>
           <p class="fc-desc">Träna på begrepp som Karma, Dharma och Nirvana i tre interaktiva nivåer.</p>
