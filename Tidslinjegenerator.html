@@ -257,7 +257,7 @@
 
     <div class="form-group">
       <label>Titel på tidslinjen</label>
-      <input type="text" id="titleInput" class="form-control" placeholder="T.ex. Antikens Grekland" value="Världshistoriska milstolpar" onkeyup="updateTitle()">
+      <input type="text" id="titleInput" class="form-control" placeholder="T.ex. Vikingatiden" value="Vikingatiden" onkeyup="updateTitle()">
     </div>
 
     <div style="border-top: 1px solid var(--border); margin: 24px 0;"></div>
@@ -265,11 +265,11 @@
     <form id="eventForm" onsubmit="addEvent(event)">
       <div class="form-group">
         <label>Årtal (Använd minus för f.Kr.)</label>
-        <input type="number" id="yearInput" class="form-control" placeholder="T.ex. -330 eller 1945" required>
+        <input type="number" id="yearInput" class="form-control" placeholder="T.ex. 793" required>
       </div>
       <div class="form-group">
         <label>Händelse</label>
-        <input type="text" id="textInput" class="form-control" placeholder="T.ex. Alexander erövrar Persien" required>
+        <input type="text" id="textInput" class="form-control" placeholder="T.ex. Attacken mot Lindisfarne" required>
       </div>
       <button type="submit" class="btn">Lägg till händelse ＋</button>
     </form>
@@ -287,7 +287,7 @@
     <div class="export-area" id="exportArea">
       
       <div class="timeline-header">
-        <div class="timeline-title-display" id="displayTitle">Världshistoriska milstolpar</div>
+        <div class="timeline-title-display" id="displayTitle">Vikingatiden</div>
         <div class="timeline-subtitle">En skalenlig överblick</div>
       </div>
 
@@ -308,11 +308,10 @@
 <script>
   // Initial data för att visa hur det ser ut
   let events = [
-    { year: -550, text: "Kyros den store grundar perserriket" },
-    { year: -330, text: "Alexander den store bränner Persepolis" },
-    { year: 636, text: "Araberna erövrar Persien" },
-    { year: 1953, text: "CIA-kuppen i Iran" },
-    { year: 1979, text: "Islamska revolutionen" }
+    { year: 793, text: "Attacken mot klostret Lindisfarne" },
+    { year: 829, text: "Ansgar kommer till Birka" },
+    { year: 1000, text: "Olof Skötkonung döps / Slaget vid Svolder" },
+    { year: 1066, text: "Slaget vid Hastings (Vikingatidens slut)" }
   ];
 
   // Uppdatera titeln live
