@@ -3,376 +3,285 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SO-Portalen | Gör SO levande</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>SO-portalen – Förstå världen på riktigt</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      /* Färgpalett - Premium & Akademisk */
-      --navy: #0F172A;
-      --navy-light: #1E293B;
-      --gold: #D4A843;
-      --gold-hover: #E2BB5E;
-      --paper: #F8F5EF;
-      --paper-dark: #EAE3D5;
-      --text-main: #1E1A12;
-      --text-muted: #64748B;
+      --bg: #0a0a0c;
+      --bg-surface: #121216;
+      --text: #E8E0D0;
+      --text-dim: rgba(232,224,208,0.65);
+      --border: rgba(232,224,208,0.15);
       
       /* Ämnesfärger */
-      --c-historia: #8B3A1A; /* Rost */
-      --c-geografi: #2E5C3A; /* Skog */
-      --c-religion: #5A2D8A; /* Lila */
-      --c-samhalle: #1565C0; /* Blå */
-
-      --border: rgba(15, 23, 42, 0.1);
+      --color-historia: #C8A96E; /* Sepia/Guld */
+      --color-geografi: #5F8D7A; /* Dämpad Grön */
+      --color-religion: #8B6B9E; /* Dämpad Lila */
+      --color-samhalle: #5A7E9C; /* Dämpad Blå */
       
-      --font-serif: 'Playfair Display', Georgia, serif;
-      --font-body: 'Source Serif 4', Georgia, serif;
-      --font-sans: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+      --serif: 'Source Serif 4', Georgia, serif;
+      --display: 'Playfair Display', serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      background-color: var(--paper);
-      color: var(--text-main);
-      font-family: var(--font-body);
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--serif);
       line-height: 1.6;
       overflow-x: hidden;
     }
 
-    /* ── NOISE TEXTURE ── */
+    /* --- BAKGRUNDS-EFFEKTER --- */
+    .ambient-glow {
+      position: fixed; top: -20vh; left: -10vw; width: 60vw; height: 60vw;
+      background: radial-gradient(circle, rgba(200,169,110,0.05) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
     .noise-overlay {
-      position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 100;
     }
 
-    /* ── HEADER / NAV ── */
+    /* --- HEADER / HERO --- */
+    .container {
+      max-width: 1200px; margin: 0 auto; padding: 0 40px;
+      position: relative; z-index: 10;
+    }
+    
     header {
-      position: absolute; top: 0; left: 0; width: 100%;
-      padding: 30px 5vw; display: flex; justify-content: space-between; align-items: center;
-      z-index: 100;
+      padding: 40px 0;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border);
     }
     .logo {
-      font-family: var(--font-sans); font-weight: 900; font-size: 20px;
-      letter-spacing: -0.5px; color: var(--paper); text-decoration: none;
-      display: flex; align-items: center; gap: 8px;
+      font-family: var(--display); font-size: 24px; font-weight: 900;
+      color: var(--text); text-decoration: none; letter-spacing: 1px;
     }
-    .logo span { color: var(--gold); }
-    .nav-links { display: flex; gap: 30px; }
-    .nav-links a {
-      color: rgba(248, 245, 239, 0.8); text-decoration: none;
-      font-family: var(--font-sans); font-size: 14px; font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--gold); }
+    .logo span { color: var(--color-historia); font-style: italic; }
 
-    /* ── HERO ── */
     .hero {
-      position: relative; min-height: 85vh;
-      background: var(--navy);
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      text-align: center; padding: 120px 20px 80px;
-      overflow: hidden;
+      padding: 100px 0 80px; text-align: center;
+      animation: fadeUp 1s ease-out forwards;
     }
-    .hero-glow {
-      position: absolute; width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(212,168,67,0.15) 0%, transparent 70%);
-      top: 50%; left: 50%; transform: translate(-50%, -50%);
-      pointer-events: none;
-    }
-    .hero-badge {
-      font-family: var(--font-sans); font-size: 12px; font-weight: 600;
-      letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
-      margin-bottom: 24px; animation: fadeUp 0.8s ease forwards; opacity: 0;
-      border: 1px solid rgba(212,168,67,0.3); padding: 6px 16px; border-radius: 30px;
+    .hero-label {
+      font-family: var(--mono); font-size: 12px; letter-spacing: 4px;
+      text-transform: uppercase; color: var(--text-dim); margin-bottom: 24px;
     }
     .hero h1 {
-      font-family: var(--font-serif); font-size: clamp(40px, 8vw, 84px);
-      font-weight: 900; line-height: 1.05; color: var(--paper);
-      margin-bottom: 24px; max-width: 900px;
-      animation: fadeUp 0.8s 0.2s ease forwards; opacity: 0;
+      font-family: var(--display); font-size: clamp(40px, 6vw, 80px);
+      font-weight: 900; line-height: 1.05; margin-bottom: 24px;
     }
-    .hero h1 em { color: var(--gold); font-style: italic; }
+    .hero h1 em { color: var(--color-historia); font-style: italic; }
     .hero p {
-      font-size: clamp(18px, 2.5vw, 24px); color: rgba(248, 245, 239, 0.7);
-      max-width: 650px; line-height: 1.5; font-style: italic;
-      animation: fadeUp 0.8s 0.4s ease forwards; opacity: 0;
+      font-size: clamp(18px, 2vw, 24px); color: var(--text-dim);
+      max-width: 700px; margin: 0 auto; font-weight: 300;
     }
-    .hero-scroll {
-      position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
-      display: flex; flex-direction: column; align-items: center; gap: 10px;
-      color: rgba(248, 245, 239, 0.5); font-family: var(--font-sans);
-      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
-      animation: fadeUp 0.8s 0.8s ease forwards; opacity: 0;
+
+    /* --- ÄMNES-PORTALER (LÄNKARNA) --- */
+    /* Lösningen ligger här: a.subject-card gör att hela rutan är klickbar på ett pålitligt sätt */
+    .subject-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
+      margin-bottom: 100px;
+      animation: fadeUp 1s 0.3s ease-out forwards; opacity: 0;
     }
-    .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
+
+    a.subject-card {
+      display: flex; flex-direction: column; justify-content: flex-end;
+      height: 380px; padding: 40px; border-radius: 12px;
+      text-decoration: none; color: var(--text);
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border);
+      background-color: var(--bg-surface);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    }
+
+    /* Ämnes-specifika bakgrunder och färger */
+    a.subject-card.historia { --accent: var(--color-historia); }
+    a.subject-card.geografi { --accent: var(--color-geografi); }
+    a.subject-card.religion { --accent: var(--color-religion); }
+    a.subject-card.samhalle { --accent: var(--color-samhalle); }
+
+    /* Gradient-overlay för att ge djup */
+    a.subject-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, var(--accent) 0%, transparent 60%);
+      opacity: 0.05; transition: opacity 0.4s ease;
+    }
+    
+    /* Hover-effekter för länkarna */
+    a.subject-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(255,255,255,0.3);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    }
+    a.subject-card:hover::before { opacity: 0.15; }
+    
+    /* Innehållet i korten */
+    .card-content { position: relative; z-index: 2; transition: transform 0.4s ease; }
+    a.subject-card:hover .card-content { transform: translateY(-5px); }
+
+    .card-icon { font-size: 48px; margin-bottom: 24px; display: block; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.5)); }
+    .card-title {
+      font-family: var(--display); font-size: 36px; font-weight: 700;
+      margin-bottom: 12px; line-height: 1.1;
+    }
+    .card-desc { font-size: 16px; color: var(--text-dim); line-height: 1.5; }
+    .card-arrow {
+      font-family: var(--mono); font-size: 12px; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--accent); margin-top: 24px;
+      display: flex; align-items: center; gap: 8px; opacity: 0.7;
+      transition: opacity 0.3s ease, gap 0.3s ease;
+    }
+    a.subject-card:hover .card-arrow { opacity: 1; gap: 12px; }
+
+    /* --- FEATURED SECTION (Visa upp dina skapelser) --- */
+    .featured-section {
+      border-top: 1px solid var(--border); padding: 80px 0;
+      animation: fadeUp 1s 0.6s ease-out forwards; opacity: 0;
+    }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 40px;
+    }
+    .section-header h2 { font-family: var(--display); font-size: 32px; font-weight: 700; }
+    .section-header p { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-historia); }
+    
+    .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .featured-card {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+      padding: 30px; border-radius: 8px; text-decoration: none; color: var(--text);
+      transition: all 0.2s ease; display: flex; flex-direction: column;
+    }
+    .featured-card:hover { background: rgba(255,255,255,0.05); border-color: var(--color-historia); }
+    .fc-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--color-historia); margin-bottom: 16px; }
+    .fc-title { font-family: var(--display); font-size: 22px; font-weight: 700; margin-bottom: 12px; line-height: 1.2; }
+    .fc-desc { font-size: 14px; color: var(--text-dim); flex-grow: 1; }
+
+    /* --- FOOTER --- */
+    footer {
+      text-align: center; padding: 60px 0; border-top: 1px solid var(--border);
+      font-family: var(--mono); font-size: 12px; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase;
+    }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ── MAIN CATEGORIES GRID ── */
-    .portal-section { padding: 100px 5vw; max-width: 1400px; margin: 0 auto; }
-    .section-header { text-align: center; margin-bottom: 60px; }
-    .section-header h2 {
-      font-family: var(--font-serif); font-size: clamp(32px, 5vw, 48px);
-      color: var(--navy); margin-bottom: 12px;
-    }
-    .section-header p { font-size: 18px; color: var(--text-muted); }
-
-    .category-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;
-    }
-
-    /* CRITICAL FIX: 
-      Cards are native <a> tags. This guarantees routing works perfectly 
-      across all browsers and platforms. 
-    */
-    .cat-card {
-      position: relative; text-decoration: none; color: inherit;
-      background: white; border-radius: 16px; padding: 48px 40px;
-      border: 1px solid var(--border); overflow: hidden;
-      display: flex; flex-direction: column; justify-content: space-between;
-      min-height: 320px; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-    }
-    
-    .cat-card::before {
-      content: ''; position: absolute; inset: 0; opacity: 0;
-      transition: opacity 0.4s ease; z-index: 1;
-    }
-    .cat-card.historia::before { background: linear-gradient(135deg, rgba(139,58,26,0.08), transparent); }
-    .cat-card.geografi::before { background: linear-gradient(135deg, rgba(46,92,58,0.08), transparent); }
-    .cat-card.religion::before { background: linear-gradient(135deg, rgba(90,45,138,0.08), transparent); }
-    .cat-card.samhalle::before { background: linear-gradient(135deg, rgba(21,101,192,0.08), transparent); }
-
-    .cat-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
-      border-color: transparent;
-    }
-    .cat-card:hover::before { opacity: 1; }
-
-    .cat-icon {
-      font-size: 48px; margin-bottom: 24px; position: relative; z-index: 2;
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 80px; height: 80px; border-radius: 20px;
-      background: var(--paper); transition: transform 0.4s ease;
-    }
-    .cat-card:hover .cat-icon { transform: scale(1.1) rotate(-5deg); }
-    
-    .cat-content { position: relative; z-index: 2; }
-    .cat-title {
-      font-family: var(--font-serif); font-size: 32px; font-weight: 700;
-      color: var(--navy); margin-bottom: 12px; transition: color 0.3s;
-    }
-    .cat-desc {
-      font-family: var(--font-sans); font-size: 15px; color: var(--text-muted);
-      line-height: 1.6; max-width: 90%; margin-bottom: 32px;
-    }
-    
-    /* Specific hover colors for titles */
-    .cat-card.historia:hover .cat-title { color: var(--c-historia); }
-    .cat-card.geografi:hover .cat-title { color: var(--c-geografi); }
-    .cat-card.religion:hover .cat-title { color: var(--c-religion); }
-    .cat-card.samhalle:hover .cat-title { color: var(--c-samhalle); }
-
-    .cat-action {
-      display: flex; align-items: center; gap: 8px;
-      font-family: var(--font-sans); font-size: 13px; font-weight: 600;
-      letter-spacing: 1px; text-transform: uppercase; color: var(--navy);
-      position: relative; z-index: 2;
-    }
-    .cat-action svg { width: 16px; height: 16px; transition: transform 0.3s ease; }
-    .cat-card:hover .cat-action svg { transform: translateX(6px); }
-
-    /* ── HIGHLIGHT SECTION ── */
-    .highlights {
-      background: var(--navy); color: white; padding: 100px 5vw;
-      position: relative;
-    }
-    .hl-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; flex-wrap: wrap; gap: 20px; }
-    .hl-header h2 { font-family: var(--font-serif); font-size: 40px; color: var(--paper); }
-    .hl-header p { font-size: 18px; color: rgba(248, 245, 239, 0.6); max-width: 500px; }
-    
-    .hl-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .hl-card {
-      background: var(--navy-light); border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 12px; padding: 32px; text-decoration: none; color: inherit;
-      transition: all 0.3s; display: flex; flex-direction: column;
-    }
-    .hl-card:hover {
-      background: #283548; border-color: rgba(212,168,67,0.3);
-      transform: translateY(-4px);
-    }
-    .hl-badge {
-      align-self: flex-start; font-family: var(--font-sans); font-size: 10px;
-      font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
-      padding: 4px 10px; border-radius: 4px; margin-bottom: 16px;
-    }
-    .badge-hist { background: rgba(139,58,26,0.2); color: #E57373; }
-    .badge-rel { background: rgba(90,45,138,0.2); color: #BA68C8; }
-    .badge-podd { background: rgba(212,168,67,0.2); color: var(--gold); }
-    
-    .hl-title { font-family: var(--font-serif); font-size: 22px; font-weight: 700; margin-bottom: 12px; line-height: 1.3; color: var(--paper); }
-    .hl-desc { font-size: 14px; color: rgba(248, 245, 239, 0.6); margin-bottom: 24px; flex-grow: 1; }
-    .hl-link { font-family: var(--font-sans); font-size: 12px; font-weight: 600; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; display: flex; align-items: center; gap: 6px; }
-
-    /* ── FOOTER ── */
-    footer {
-      text-align: center; padding: 60px 20px;
-      background: var(--paper-dark); border-top: 1px solid var(--border);
-      font-family: var(--font-sans); font-size: 14px; color: var(--text-muted);
-    }
-
-    /* ── RESPONSIVE ── */
+    /* --- RESPONSIVITET --- */
     @media (max-width: 900px) {
-      .category-grid { grid-template-columns: 1fr; }
-      .cat-card { min-height: auto; padding: 32px 24px; }
-      .hl-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; } /* Enkel mobilhantering för landningssidan */
+      .subject-grid { grid-template-columns: 1fr; }
+      .featured-grid { grid-template-columns: 1fr; }
+      a.subject-card { height: auto; min-height: 280px; }
+    }
+    @media (max-width: 600px) {
+      .container { padding: 0 24px; }
+      .hero { padding: 60px 0 40px; }
     }
   </style>
 </head>
 <body>
 
-<div class="noise-overlay"></div>
+  <div class="ambient-glow"></div>
+  <div class="noise-overlay"></div>
 
-<!-- HEADER -->
-<header>
-  <a href="#" class="logo">SO<span>-PORTALEN</span></a>
-  <nav class="nav-links">
-    <a href="https://www.so-portalen.se/startsida/historia">Historia</a>
-    <a href="https://www.so-portalen.se/startsida/geografi">Geografi</a>
-    <a href="https://www.so-portalen.se/startsida/religion">Religion</a>
-    <a href="https://www.so-portalen.se/startsida/samh%C3%A4llskunskap">Samhällskunskap</a>
-  </nav>
-</header>
+  <div class="container">
+    <header>
+      <a href="#" class="logo">SO<span>-portalen</span></a>
+    </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-badge">Din digitala SO-bok</div>
-  <h1>Gör SO <em>levande</em></h1>
-  <p>Upptäck interaktiva artiklar, djupdykande poddar och smarta quiz. Byggd för att du ska förstå världen, historien och framtiden.</p>
-  
-  <div class="hero-scroll">
-    Välj ditt ämne
-    <div class="scroll-line"></div>
-  </div>
-</section>
+    <section class="hero">
+      <div class="hero-label">Välkommen till kunskapen</div>
+      <h1>Förstå världen.<br><em>På riktigt.</em></h1>
+      <p>Interaktiva fördjupningar, quiz och berättelser som väcker historia, samhälle, geografi och religion till liv.</p>
+    </section>
 
-<!-- CATEGORIES GRID -->
-<section class="portal-section">
-  <div class="section-header">
-    <h2>Utforska ämnena</h2>
-    <p>Välj det ämne du vill dyka ner i. Allt innehåll är kopplat till Lgr22.</p>
-  </div>
-
-  <div class="category-grid">
     <!-- 
-      LÄNK 1: HISTORIA 
-      Här ligger länkarna exakt som du bad om i en riktig a-tagg. 
+      HÄR LIGGER DE 4 LÄNKARNA.
+      Genom att använda <a href="..."> runt hela innehållet blir boxarna perfekta länkar.
     -->
-    <a href="https://www.so-portalen.se/startsida/historia" class="cat-card historia">
-      <div>
-        <div class="cat-icon">🏛️</div>
-        <div class="cat-content">
-          <h3 class="cat-title">Historia</h3>
-          <p class="cat-desc">Från antikens imperier och industriella revolutionen till kalla kriget och moderna konflikter. Förstå hur dåtiden har format vår nutid.</p>
+    <section class="subject-grid">
+      
+      <!-- Länk 1: Historia -->
+      <a href="https://www.so-portalen.se/startsida/historia" class="subject-card historia">
+        <div class="card-content">
+          <span class="card-icon">🏛️</span>
+          <h2 class="card-title">Historia</h2>
+          <p class="card-desc">Upplev epokerna. Från de första imperierna till kalla krigets dolda operationer och industriella revolutionens framväxt.</p>
+          <div class="card-arrow">Utforska ämnet <span>→</span></div>
         </div>
-      </div>
-      <div class="cat-action">
-        Utforska historia
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-    </a>
+      </a>
 
-    <!-- LÄNK 2: GEOGRAFI -->
-    <a href="https://www.so-portalen.se/startsida/geografi" class="cat-card geografi">
-      <div>
-        <div class="cat-icon">🌍</div>
-        <div class="cat-content">
-          <h3 class="cat-title">Geografi</h3>
-          <p class="cat-desc">Klimat, naturlandskap, befolkning och hållbar utveckling. Upptäck hur jorden fungerar och hur vi människor påverkar vår planet.</p>
+      <!-- Länk 2: Samhällskunskap -->
+      <a href="https://www.so-portalen.se/startsida/samh%C3%A4llskunskap" class="subject-card samhalle">
+        <div class="card-content">
+          <span class="card-icon">⚖️</span>
+          <h2 class="card-title">Samhälle</h2>
+          <p class="card-desc">Hur styrs Sverige och världen? Fördjupa dig i demokrati, ekonomi, lag och rätt samt de ideologier som formar vår samtid.</p>
+          <div class="card-arrow">Utforska ämnet <span>→</span></div>
         </div>
-      </div>
-      <div class="cat-action">
-        Utforska geografi
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-    </a>
+      </a>
 
-    <!-- LÄNK 3: RELIGION -->
-    <a href="https://www.so-portalen.se/startsida/religion" class="cat-card religion">
-      <div>
-        <div class="cat-icon">✨</div>
-        <div class="cat-content">
-          <h3 class="cat-title">Religionskunskap</h3>
-          <p class="cat-desc">Världsreligionerna, etik, moral och stora livsfrågor. Lär dig förstå människors tro, traditioner och hur det påverkar samhället.</p>
+      <!-- Länk 3: Religion -->
+      <a href="https://www.so-portalen.se/startsida/religion" class="subject-card religion">
+        <div class="card-content">
+          <span class="card-icon">🪷</span>
+          <h2 class="card-title">Religion</h2>
+          <p class="card-desc">Livsfrågor och tro. Dyk djupt in i världsreligionerna, från buddhismens begrepp till de abrahamitiska riktningarna.</p>
+          <div class="card-arrow">Utforska ämnet <span>→</span></div>
         </div>
-      </div>
-      <div class="cat-action">
-        Utforska religion
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-      </div>
-    </a>
+      </a>
 
-    <!-- LÄNK 4: SAMHÄLLSKUNSKAP -->
-    <a href="https://www.so-portalen.se/startsida/samh%C3%A4llskunskap" class="cat-card samhalle">
-      <div>
-        <div class="cat-icon">⚖️</div>
-        <div class="cat-content">
-          <h3 class="cat-title">Samhällskunskap</h3>
-          <p class="cat-desc">Demokrati, lag och rätt, ekonomi och hur Sverige styrs. Få verktygen för att förstå och kunna påverka det samhälle du lever i.</p>
+      <!-- Länk 4: Geografi -->
+      <a href="https://www.so-portalen.se/startsida/geografi" class="subject-card geografi">
+        <div class="card-content">
+          <span class="card-icon">🌍</span>
+          <h2 class="card-title">Geografi</h2>
+          <p class="card-desc">Klimat, naturkrafter och befolkningsfrågor. Förstå hur människan och naturen påverkar varandra i en föränderlig värld.</p>
+          <div class="card-arrow">Utforska ämnet <span>→</span></div>
         </div>
+      </a>
+
+    </section>
+
+    <!-- EXEMPEL PÅ INNEHÅLL (Valfritt, men visar upp det snygga du skapat) -->
+    <section class="featured-section">
+      <div class="section-header">
+        <h2>Senaste fördjupningarna</h2>
+        <p>Interaktiva artiklar</p>
       </div>
-      <div class="cat-action">
-        Utforska samhällskunskap
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      <div class="featured-grid">
+        
+        <a href="#" class="featured-card">
+          <div class="fc-label">Historia · Kalla Kriget</div>
+          <h3 class="fc-title">CIA-kuppen 1953</h3>
+          <p class="fc-desc">Dagen demokratin dog i Iran. Historien om olja, makt och ett beslut som formade Mellanöstern för alltid.</p>
+        </a>
+
+        <a href="#" class="featured-card">
+          <div class="fc-label">Historia · Industrialiseringen</div>
+          <h3 class="fc-title">Livet i fabrikens skugga</h3>
+          <p class="fc-desc">Nya maskiner gjorde att produktionen ökade, men vad hände med människorna som stämplade in?</p>
+        </a>
+
+        <a href="#" class="featured-card">
+          <div class="fc-label">Religion · Begreppsträning</div>
+          <h3 class="fc-title">Buddhismens grunder</h3>
+          <p class="fc-desc">Träna på begrepp som Karma, Dharma och Nirvana i tre interaktiva nivåer.</p>
+        </a>
+
       </div>
-    </a>
+    </section>
+
+    <footer>
+      © 2024 SO-Portalen.se · Skapat för lärande.
+    </footer>
+
   </div>
-</section>
-
-<!-- HIGHLIGHTS / INTERAKTIVA ARTIKLAR -->
-<section class="highlights">
-  <div class="hl-header">
-    <div>
-      <h2>Nytt på portalen</h2>
-      <p>Djupdyk i våra senaste interaktiva upplevelser. Testa dina kunskaper och upplev historien på nära håll.</p>
-    </div>
-  </div>
-
-  <div class="hl-grid">
-    <a href="#" class="hl-card">
-      <div class="hl-badge badge-hist">Interaktiv Artikel</div>
-      <h3 class="hl-title">CIA-kuppen 1953: Dagen demokratin dog i Iran</h3>
-      <p class="hl-desc">Historien om olja, makt och ett beslut som formade Mellanöstern för alltid. Avslöja CIA-dokument och möt aktörerna.</p>
-      <div class="hl-link">Läs och interagera →</div>
-    </a>
-
-    <a href="#" class="hl-card">
-      <div class="hl-badge badge-podd">Podd & Quiz</div>
-      <h3 class="hl-title">Irans historia: 4 500 år av berättelser</h3>
-      <p class="hl-desc">Lyssna på podden från Kyros den store till moderna revolutioner. Testa dina kunskaper i avsnitts-quizen.</p>
-      <div class="hl-link">Starta podden →</div>
-    </a>
-
-    <a href="#" class="hl-card">
-      <div class="hl-badge badge-rel">Begreppsträning</div>
-      <h3 class="hl-title">Lär dig begreppen på djupet: Buddhism</h3>
-      <p class="hl-desc">Från igenkänning till förståelse. Träna på nirvana, karma, dharma och de fyra ädla sanningarna i 3 nivåer.</p>
-      <div class="hl-link">Börja träna →</div>
-    </a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 SO-Portalen. Skapad för att göra SO-ämnena magiska.</p>
-</footer>
 
 </body>
 </html>
