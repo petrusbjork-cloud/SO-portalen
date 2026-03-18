@@ -69,7 +69,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .content{padding:0 48px 48px;max-width:900px}
 .content h3{font-family:'DM Serif Display',serif;font-size:1.5rem;margin:36px 0 16px;color:var(--text)}
 .content h4{font-size:1.1rem;font-weight:600;margin:24px 0 10px;color:var(--accent)}
-.content p{color:var(--text2);margin-bottom:14px;font-size:.95rem}
+.content p{color:var(--text2);margin-bottom:18px;font-size:1rem;line-height:1.8}
 .content ul{list-style:none;padding:0;margin-bottom:16px}
 .content ul li{position:relative;padding-left:20px;margin-bottom:8px;color:var(--text2);font-size:.95rem}
 .content ul li::before{content:'›';position:absolute;left:0;color:var(--accent);font-weight:700}
@@ -79,11 +79,11 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 .info-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;transition:all .3s}
 .info-card:hover{border-color:rgba(56,189,248,.3);transform:translateY(-2px)}
 .info-card h5{font-size:.9rem;font-weight:700;margin-bottom:8px;color:var(--text)}
-.info-card p{font-size:.82rem;color:var(--text2);line-height:1.6}
+.info-card p{font-size:.82rem;color:var(--text2);line-height:1.6;margin-bottom:0}
 .info-card .icon{font-size:1.6rem;margin-bottom:10px}
 
 /* === INTERACTIVE WIDGETS === */
-.widget{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:28px;margin:28px 0}
+.widget{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:28px;margin:36px 0}
 .widget-title{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:6px}
 .widget-sub{font-size:.82rem;color:var(--text3);margin-bottom:20px}
 .slider-group{margin:16px 0}
@@ -92,27 +92,20 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);lin
 input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:var(--bg4);outline:none}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));cursor:pointer;box-shadow:0 0 12px rgba(56,189,248,.4)}
 
-/* === CYCLE VISUALIZATION === */
-.cycle-container{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:20px 0}
-.cycle-step{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:14px 18px;font-size:.82rem;color:var(--text2);cursor:pointer;transition:all .3s;text-align:center;min-width:140px;position:relative}
-.cycle-step:hover,.cycle-step.active{border-color:var(--accent);background:rgba(56,189,248,.08);color:var(--text)}
-.cycle-step .step-num{font-size:.65rem;font-weight:700;color:var(--accent);letter-spacing:1px;margin-bottom:4px}
-.cycle-arrow{color:var(--text3);font-size:1.2rem;display:flex;align-items:center}
-
 /* === KRETSLOPP === */
 .kretslopp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
 .kretstab{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;cursor:pointer;transition:all .3s;text-align:center}
 .kretstab:hover,.kretstab.active{border-color:var(--accent2);background:rgba(129,140,248,.08)}
 .kretstab .k-icon{font-size:2rem;margin-bottom:8px}
 .kretstab h5{font-size:.9rem;margin-bottom:4px}
-.kretstab p{font-size:.78rem;color:var(--text3)}
+.kretstab p{font-size:.78rem;color:var(--text3);margin-bottom:0}
 .kretstab-detail{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:12px;font-size:.88rem;color:var(--text2);line-height:1.7;display:none}
 .kretstab-detail.show{display:block;animation:fadeIn .3s ease}
 
 /* === QUIZ === */
-.quiz-container{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:32px;margin:32px 0}
+.quiz-container{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius2);padding:32px;margin:48px 0 20px 0}
 .quiz-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-.quiz-header h3{font-family:'DM Serif Display',serif;font-size:1.3rem}
+.quiz-header h3{font-family:'DM Serif Display',serif;font-size:1.3rem;margin:0}
 .quiz-score{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--accent);background:rgba(56,189,248,.1);padding:6px 14px;border-radius:20px}
 .quiz-progress{height:4px;background:var(--bg4);border-radius:2px;margin-bottom:24px;overflow:hidden}
 .quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:2px;transition:width .4s ease}
@@ -136,37 +129,99 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .quiz-results .big-score{font-family:'DM Serif Display',serif;font-size:3rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .quiz-results p{color:var(--text2);margin-top:8px}
 
-/* === FLASHCARDS === */
-.flash-controls{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap}
+/* === MEGA QUIZ CHECKBOXES === */
+.mq-cb-label{display:flex;align-items:center;gap:12px;background:var(--glass);padding:14px 18px;border-radius:var(--radius);border:1px solid var(--border);cursor:pointer;transition:all .2s;color:var(--text2);font-size:.9rem}
+.mq-cb-label:hover{border-color:var(--accent);background:rgba(56,189,248,.06);color:var(--text)}
+.mq-cb-label input[type="checkbox"]{width:18px;height:18px;accent-color:var(--accent);cursor:pointer}
+
+/* === BEGREPPSTRÄNING === */
+.training-tabs { display:flex; gap:12px; margin-bottom:32px; flex-wrap:wrap; border-bottom:1px solid var(--border); padding-bottom:16px; }
+.train-tab { padding:10px 20px; border-radius:var(--radius); border:1px solid transparent; background:transparent; color:var(--text3); font-weight:600; cursor:pointer; transition:all 0.2s; font-size:0.9rem; }
+.train-tab:hover { color:var(--text); }
+.train-tab.active { background:var(--glass2); color:var(--accent); border:1px solid rgba(56,189,248,0.2); }
+
+.train-area { display:none; animation:fadeIn 0.4s ease; flex-direction:column; align-items:center; width:100%; }
+.train-area.active { display:flex; }
+
+/* Flashcards */
+.flash-controls{display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap;justify-content:center;width:100%;}
 .flash-filter{padding:8px 16px;border-radius:20px;border:1px solid var(--border);background:var(--glass);color:var(--text2);cursor:pointer;font-size:.8rem;font-weight:500;transition:all .2s}
 .flash-filter:hover,.flash-filter.active{border-color:var(--accent);color:var(--accent);background:rgba(56,189,248,.08)}
-.flashcard-area{display:flex;flex-direction:column;align-items:center;gap:20px;margin:20px 0}
-.flashcard{width:100%;max-width:500px;height:280px;perspective:1000px;cursor:pointer}
+.flashcard-container{display:flex;flex-direction:column;align-items:center;gap:20px;margin:10px 0;width:100%;}
+.flashcard{width:100%;max-width:600px;height:300px;perspective:1000px;cursor:pointer}
 .flashcard-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s ease}
 .flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
-.flashcard-front,.flashcard-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+.flashcard-front,.flashcard-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius2);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
 .flashcard-front{background:linear-gradient(135deg,var(--bg3),var(--bg2));border:1px solid var(--border)}
-.flashcard-front h3{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:8px}
-.flashcard-front p{font-size:.8rem;color:var(--text3)}
+.flashcard-front h3{font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:12px;color:var(--text)}
+.flashcard-front p{font-size:.85rem;color:var(--text3);margin-bottom:0;text-transform:uppercase;letter-spacing:1px;}
 .flashcard-back{background:linear-gradient(135deg,rgba(56,189,248,.1),rgba(129,140,248,.1));border:1px solid rgba(56,189,248,.2);transform:rotateY(180deg)}
-.flashcard-back p{font-size:.95rem;color:var(--text);line-height:1.7}
+.flashcard-back p{font-size:1.05rem;color:var(--text);line-height:1.7;margin-bottom:0}
 .flash-nav{display:flex;align-items:center;gap:20px}
 .flash-nav button{width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--glass);color:var(--text);cursor:pointer;font-size:1.1rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
 .flash-nav button:hover{border-color:var(--accent);background:rgba(56,189,248,.08)}
 .flash-counter{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--text3)}
-.flash-hint{font-size:.78rem;color:var(--text3);margin-top:4px}
+.flash-hint{font-size:.8rem;color:var(--text3);margin-top:4px}
+
+/* Match Game */
+.match-grid { display:flex; gap:20px; justify-content:center; width:100%; margin-bottom:24px; flex-wrap:wrap;}
+@media(max-width:768px) { .match-grid { flex-direction:column; } }
+.match-col { display:flex; flex-direction:column; gap:12px; flex:1; min-width:280px;}
+.match-btn { padding:16px 20px; background:var(--glass); border:1px solid var(--border); border-radius:var(--radius); color:var(--text2); cursor:pointer; text-align:left; transition:all 0.2s; font-size:0.95rem; line-height:1.5;}
+.match-btn:hover { border-color:var(--accent); color:var(--text); background:var(--glass2);}
+.match-btn.term { font-weight:700; font-size:1.05rem; color:var(--text); text-align:center;}
+.match-btn.selected { border-color:var(--accent); background:rgba(56,189,248,0.15); box-shadow:0 0 10px rgba(56,189,248,0.3); color:var(--text);}
+.match-btn.correct { background:rgba(52,211,153,0.15); border-color:var(--accent4); color:var(--accent4); pointer-events:none; opacity:0.6; }
+.match-btn.wrong { animation: shake 0.4s; background:rgba(244,114,182,0.15); border-color:var(--accent3); color:var(--accent3);}
+
+/* T/F Game */
+.tf-card { background:var(--glass); border:1px solid var(--border); padding:40px; border-radius:var(--radius2); max-width:650px; width:100%; text-align:center; position:relative; }
+.tf-term { font-family:'DM Serif Display',serif; font-size:2.2rem; color:var(--accent); margin-bottom:20px; }
+.tf-def { font-size:1.15rem; color:var(--text); margin-bottom:40px; line-height:1.6; font-style:italic; background:var(--bg2); padding:20px; border-radius:var(--radius); border:1px solid var(--border);}
+.tf-btns { display:flex; gap:20px; justify-content:center; }
+.tf-btn { padding:14px 40px; border-radius:var(--radius); font-weight:700; cursor:pointer; border:none; font-size:1.1rem; transition:0.2s; flex:1; max-width:200px;}
+.tf-btn.true { background:rgba(52,211,153,0.15); color:var(--accent4); border:1px solid var(--accent4); }
+.tf-btn.true:hover { background:var(--accent4); color:var(--bg); }
+.tf-btn.false { background:rgba(244,114,182,0.15); color:var(--accent3); border:1px solid var(--accent3); }
+.tf-btn.false:hover { background:var(--accent3); color:var(--bg); }
+.tf-feedback { margin-top:24px; font-size:1rem; font-weight:600; min-height:24px; padding:12px; border-radius:var(--radius); display:none;}
+.tf-feedback.show { display:block; animation:fadeIn 0.3s;}
+.tf-feedback.correct { background:rgba(52,211,153,0.1); color:var(--accent4); border:1px solid rgba(52,211,153,0.3);}
+.tf-feedback.wrong { background:rgba(244,114,182,0.1); color:var(--accent3); border:1px solid rgba(244,114,182,0.3);}
+.tf-next-btn { display:none; margin-top:24px; padding:12px 32px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; border-radius:var(--radius); color:var(--bg); font-weight:700; cursor:pointer; transition:0.2s;}
+.tf-next-btn:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(56,189,248,0.4);}
+
+@keyframes shake {
+  0%, 100% {transform: translateX(0);}
+  20%, 60% {transform: translateX(-5px);}
+  40%, 80% {transform: translateX(5px);}
+}
+
+/* Write Game */
+.write-card { background:var(--glass); border:1px solid var(--border); padding:40px; border-radius:var(--radius2); max-width:650px; width:100%; text-align:center; position:relative; }
+.write-def { font-size:1.15rem; color:var(--text); margin-bottom:30px; line-height:1.6; font-style:italic; background:var(--bg2); padding:20px; border-radius:var(--radius); border:1px solid var(--border); }
+.write-input-container { position:relative; max-width:400px; margin:0 auto 20px; }
+.write-input { width:100%; background:var(--bg2); border:2px solid var(--border); color:var(--text); font-size:1.2rem; padding:14px 20px; border-radius:var(--radius); outline:none; text-align:center; font-family:var(--serif); transition:border-color 0.2s;}
+.write-input:focus { border-color:var(--accent); }
+.write-btn { padding:14px 40px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border:none; border-radius:var(--radius); color:var(--bg); font-weight:700; cursor:pointer; font-size:1.1rem; transition:0.2s;}
+.write-btn:hover { transform:translateY(-2px); box-shadow:0 4px 15px rgba(56,189,248,0.4); }
+.write-feedback { margin-top:20px; font-size:1rem; font-weight:600; padding:12px; border-radius:var(--radius); display:none; }
+.write-feedback.show { display:block; animation:fadeIn 0.3s; }
+.write-feedback.correct { background:rgba(52,211,153,0.1); color:var(--accent4); border:1px solid rgba(52,211,153,0.3); }
+.write-feedback.wrong { background:rgba(244,114,182,0.1); color:var(--accent3); border:1px solid rgba(244,114,182,0.3); }
+.write-correct-ans { font-family:var(--mono); color:var(--text); margin-top:8px; display:block; font-size:1.1rem; }
 
 /* === TOOL BTNS === */
 .tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:20px 0}
 .tool-card{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius2);padding:20px;cursor:pointer;transition:all .3s}
 .tool-card:hover,.tool-card.active{transform:translateY(-2px);border-color:var(--accent)}
-.tool-card h5{font-size:.9rem;margin-bottom:6px}
-.tool-card p{font-size:.8rem;color:var(--text3)}
-.tool-result{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;font-size:.88rem;color:var(--text2);line-height:1.7;display:none}
+.tool-card h5{font-size:.9rem;margin-bottom:6px;color:var(--text)}
+.tool-card p{font-size:.8rem;color:var(--text3);margin-bottom:0}
+.tool-result{background:var(--glass);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:16px;font-size:.95rem;color:var(--text2);line-height:1.7;display:none}
 .tool-result.show{display:block;animation:fadeIn .3s}
 
 /* === CHART === */
-.mini-chart{display:flex;align-items:flex-end;gap:8px;height:120px;margin:20px 0;padding:12px}
+.mini-chart{display:flex;align-items:flex-end;gap:8px;height:120px;margin:20px 0;padding:12px;border-bottom:1px solid var(--border)}
 .chart-bar{flex:1;border-radius:6px 6px 0 0;transition:height .6s ease;position:relative;min-width:30px}
 .chart-bar .bar-label{position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:.65rem;color:var(--text3);white-space:nowrap}
 .chart-bar .bar-val{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:.7rem;color:var(--text2);font-family:'JetBrains Mono',monospace}
@@ -192,23 +247,24 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
 .nav-overlay.show{display:block}
 
 /* Comparison table */
-.compare-table{width:100%;border-collapse:collapse;margin:20px 0;font-size:.85rem}
-.compare-table th,.compare-table td{padding:12px 14px;border:1px solid var(--border);text-align:left}
-.compare-table th{background:var(--glass);color:var(--accent);font-weight:600;font-size:.78rem;letter-spacing:.5px;text-transform:uppercase}
+.compare-table{width:100%;border-collapse:collapse;margin:24px 0;font-size:.9rem}
+.compare-table th,.compare-table td{padding:14px 16px;border:1px solid var(--border);text-align:left}
+.compare-table th{background:var(--glass);color:var(--accent);font-weight:600;font-size:.8rem;letter-spacing:.5px;text-transform:uppercase}
 .compare-table td{color:var(--text2)}
-.compare-table tr:hover td{background:var(--glass)}
+.compare-table tr:hover td{background:var(--glass2)}
 
 /* Highlight box */
-.highlight-box{background:linear-gradient(135deg,rgba(56,189,248,.06),rgba(129,140,248,.06));border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:18px 20px;margin:20px 0;font-size:.9rem;color:var(--text2);line-height:1.7}
-.highlight-box strong{color:var(--text)}
+.highlight-box{background:linear-gradient(135deg,rgba(56,189,248,.06),rgba(129,140,248,.06));border-left:3px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:24px;margin:28px 0;font-size:.95rem;color:var(--text2);line-height:1.7}
+.highlight-box strong{color:var(--text);font-size:1.05rem;display:block;margin-bottom:8px}
 
 /* Onda cirkeln */
-.onda-circle{display:flex;flex-direction:column;gap:0;margin:20px 0}
-.onda-step{display:flex;align-items:flex-start;gap:14px;padding:14px;position:relative}
-.onda-step::before{content:'';position:absolute;left:19px;top:40px;bottom:-2px;width:2px;background:var(--border)}
+.onda-circle{display:flex;flex-direction:column;gap:0;margin:32px 0}
+.onda-step{display:flex;align-items:flex-start;gap:16px;padding:16px;position:relative}
+.onda-step::before{content:'';position:absolute;left:23px;top:44px;bottom:-4px;width:2px;background:var(--border)}
 .onda-step:last-child::before{display:none}
-.onda-num{width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,var(--accent3),#e11d48);color:white;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0;z-index:1}
-.onda-text{font-size:.88rem;color:var(--text2);line-height:1.5}
+.onda-num{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--accent3),#e11d48);color:white;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0;z-index:1;box-shadow:0 4px 10px rgba(225,29,72,0.3)}
+.onda-text{font-size:.95rem;color:var(--text2);line-height:1.6;padding-top:4px}
+.onda-text strong{color:var(--text);font-size:1.05rem;display:block;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -224,7 +280,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;heigh
   <div class="nav-links" id="navLinks"></div>
   <div class="nav-progress">
     <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
-    <div class="progress-text" id="progressText">0 av 9 quiz avklarade</div>
+    <div class="progress-text" id="progressText">0 av 8 quiz avklarade</div>
   </div>
 </nav>
 
@@ -243,94 +299,96 @@ const sections = [
   {id:'del6',num:'06',title:'Sveriges handelsbalans',color:'c6',tagColor:'rgba(249,115,22,.15)',tagText:'#f97316'},
   {id:'del7',num:'07',title:'Den globala ekonomin',color:'c7',tagColor:'rgba(167,139,250,.15)',tagText:'#a78bfa'},
   {id:'del8',num:'08',title:'Mäta välstånd',color:'c8',tagColor:'rgba(45,212,191,.15)',tagText:'#2dd4bf'},
-  {id:'begrepp',num:'💡',title:'Begrepp & Flashcards',color:'c9',tagColor:'rgba(244,114,182,.15)',tagText:'#f472b6'}
+  {id:'del9',num:'09',title:'Det stora slutprovet',color:'c5',tagColor:'rgba(251,191,36,.15)',tagText:'#fbbf24'},
+  {id:'begrepp',num:'💡',title:'Begreppsträning',color:'c9',tagColor:'rgba(244,114,182,.15)',tagText:'#f472b6'}
 ];
 
 // --- QUIZZES ---
 const quizData = {
+mega: [],
 del1:[
-  {q:"Vad betyder ordet 'ekonomi' ursprungligen?",opts:["Pengar och makt","Hushållning","Handel och byte","Rikedom"],ans:1,fb:"Ekonomi kommer från grekiskan och betyder 'hushållning' – att hushålla med resurser."},
+  {q:"Vad betyder ordet 'ekonomi' ursprungligen?",opts:["Hushållning","Pengar och makt","Handel och byte","Rikedom"],ans:0,fb:"Ekonomi kommer från grekiskan och betyder 'hushållning' – att hushålla med resurser."},
   {q:"Vilka tre grundfrågor måste ett ekonomiskt system svara på?",opts:["Vem, var, när?","Vad, hur, för vem?","Varför, hur mycket, till vem?","Vad, var, när?"],ans:1,fb:"De tre frågorna är: Vad ska produceras? Hur ska det produceras? För vem ska det produceras?"},
   {q:"I vilken typ av ekonomi bestämmer staten vad som ska produceras?",opts:["Marknadsekonomi","Blandekonomi","Planekonomi","Kretsloppsekonomi"],ans:2,fb:"I en planekonomi håller staten i taktpinnen och bestämmer produktion och priser."},
-  {q:"Vad är en blandekonomi?",opts:["Bara marknadsekonomi","En mix av flera ekonomiska system","Samma som planekonomi","Ett system utan pengar"],ans:1,fb:"En blandekonomi har inslag från flera system, men marknadsekonomin dominerar ofta."},
-  {q:"Vad händer med priset när utbudet är litet men efterfrågan stor?",opts:["Priset sjunker","Priset förblir detsamma","Priset stiger","Priset försvinner"],ans:2,fb:"Litet utbud + stor efterfrågan = högt pris. Det är grundprincipen för utbud och efterfrågan."},
-  {q:"Vad är jämviktspriset?",opts:["Det lägsta möjliga priset","Priset staten bestämmer","Där köparens och säljarens vilja möts","Det dyraste priset marknaden tål"],ans:2,fb:"Jämviktspriset är det magiska läget där köparens vilja att betala möter säljarens vilja att sälja."},
-  {q:"Varför blev O'boy extremt dyrt 2018?",opts:["Chokladpriset steg globalt","Tekniskt strul stoppade produktionen","Staten höjde skatten på kakao","Efterfrågan sjönk plötsligt"],ans:1,fb:"Tekniska problem hos tillverkaren gjorde att utbudet kraschade till noll, medan efterfrågan var kvar – priset exploderade."},
-  {q:"Vad visar utbudskurvan?",opts:["Att lägre pris ger mer köpare","Att högre pris gör säljare villiga att erbjuda mer","Att priset aldrig ändras","Att staten sätter alla priser"],ans:1,fb:"Utbudskurvan visar att ju högre pris kunderna betalar, desto fler varor vill säljarna erbjuda."}
+  {q:"Vad är en blandekonomi?",opts:["Bara marknadsekonomi","Samma som planekonomi","Ett system utan pengar","En mix av flera ekonomiska system"],ans:3,fb:"En blandekonomi har inslag från flera system, men marknadsekonomin dominerar ofta."},
+  {q:"Vad händer med priset när utbudet är litet men efterfrågan stor?",opts:["Priset stiger","Priset sjunker","Priset förblir detsamma","Priset försvinner"],ans:0,fb:"Litet utbud + stor efterfrågan = högt pris. Det är grundprincipen för utbud och efterfrågan."},
+  {q:"Vad är jämviktspriset?",opts:["Det lägsta möjliga priset","Där köparens och säljarens vilja möts","Priset staten bestämmer","Det dyraste priset marknaden tål"],ans:1,fb:"Jämviktspriset är det magiska läget där köparens vilja att betala möter säljarens vilja att sälja."},
+  {q:"Varför blev O'boy extremt dyrt 2018?",opts:["Chokladpriset steg globalt","Staten höjde skatten på kakao","Tekniskt strul stoppade produktionen","Efterfrågan sjönk plötsligt"],ans:2,fb:"Tekniska problem hos tillverkaren gjorde att utbudet kraschade till noll, medan efterfrågan var kvar – priset exploderade."},
+  {q:"Vad visar utbudskurvan?",opts:["Att lägre pris ger mer köpare","Att priset aldrig ändras","Att staten sätter alla priser","Att högre pris gör säljare villiga att erbjuda mer"],ans:3,fb:"Utbudskurvan visar att ju högre pris kunderna betalar, desto fler varor vill säljarna erbjuda."}
 ],
 del2:[
   {q:"Vilka är de fyra viktigaste aktörerna i det ekonomiska kretsloppet?",opts:["Hushåll, företag, banker, offentlig sektor","Företag, staten, skolan, sjukvården","Arbetare, chefer, kunder, leverantörer","Riksbanken, kommunen, regionen, staten"],ans:0,fb:"De fyra aktörerna är hushåll, företag, banker och den offentliga sektorn – alla beroende av varandra."},
   {q:"Vad förser hushållen företagen med?",opts:["Pengar","Arbetskraft","Maskiner","Råvaror"],ans:1,fb:"Hushållen förser företag och offentlig sektor med arbetskraft, och får lön i utbyte."},
-  {q:"Vad är den offentliga sektorns stora uppgift?",opts:["Att tjäna pengar","Att erbjuda välfärdstjänster","Att exportera varor","Att sätta alla priser"],ans:1,fb:"Den offentliga sektorn (stat, kommun, region) erbjuder välfärdstjänster som sjukvård och skola."},
-  {q:"Vad kallas den avgift man betalar till banken för ett lån?",opts:["Skatt","Moms","Ränta","Avgift"],ans:2,fb:"Ränta är den avgift (kostnad) som hushåll och företag betalar till banken för att få låna pengar."},
-  {q:"Varför behöver bankerna att vi sparar pengar hos dem?",opts:["De gillar att räkna pengar","De behöver kapital att låna ut","De vill kontrollera ekonomin","Det är lag på det"],ans:1,fb:"Bankerna lånar ut pengar till andra – men först behöver de sparpengar från hushåll och företag."},
+  {q:"Vad är den offentliga sektorns stora uppgift?",opts:["Att tjäna pengar","Att exportera varor","Att erbjuda välfärdstjänster","Att sätta alla priser"],ans:2,fb:"Den offentliga sektorn (stat, kommun, region) erbjuder välfärdstjänster som sjukvård och skola."},
+  {q:"Vad kallas den avgift man betalar till banken för ett lån?",opts:["Skatt","Moms","Avgift","Ränta"],ans:3,fb:"Ränta är den avgift (kostnad) som hushåll och företag betalar till banken för att få låna pengar."},
+  {q:"Varför behöver bankerna att vi sparar pengar hos dem?",opts:["De behöver kapital att låna ut","De gillar att räkna pengar","De vill kontrollera ekonomin","Det är lag på det"],ans:0,fb:"Bankerna lånar ut pengar till andra – men först behöver de sparpengar från hushåll och företag."},
   {q:"Vad är ett exempel på en investering som behöver banklån?",opts:["Att köpa en glass","Att köpa ett hus","Att gå till skolan","Att ta bussen"],ans:1,fb:"Att köpa bostad är en klassisk investering som de flesta behöver banklån för."},
   {q:"Varifrån får den offentliga sektorn sina pengar?",opts:["Från banker","Från utlandet","Från skatter","Från fabriker"],ans:2,fb:"Skatten som hushåll och företag betalar finansierar den offentliga sektorns välfärdstjänster."},
-  {q:"Vad händer om bankerna slutar låna ut pengar?",opts:["Allt fortsätter som vanligt","Kretsloppet saktar ner eller stannar","Priserna sjunker","Staten tar över"],ans:1,fb:"Utan bankernas utlåning saknas kapital i omlopp – det ekonomiska kretsloppet kan inte fungera."}
+  {q:"Vad händer om bankerna slutar låna ut pengar?",opts:["Allt fortsätter som vanligt","Priserna sjunker","Staten tar över","Kretsloppet saktar ner eller stannar"],ans:3,fb:"Utan bankernas utlåning saknas kapital i omlopp – det ekonomiska kretsloppet kan inte fungera."}
 ],
 del3:[
-  {q:"Vad kallas ekonomiska svängningar mellan goda och dåliga tider?",opts:["Inflation","Konjunkturer","Budgetunderskott","Valutakurser"],ans:1,fb:"Konjunkturer beskriver ekonomins vågrörelse mellan hög- och lågkonjunktur."},
-  {q:"Vad kännetecknar en högkonjunktur?",opts:["Hög arbetslöshet","Låg efterfrågan","Hög efterfrågan och snurr i ekonomin","Fallande priser"],ans:2,fb:"Under högkonjunktur finns enorm efterfrågan, företag anställer, och ekonomin snurrar på högvarv."},
-  {q:"Vad innebär inflation?",opts:["Att pengarna blir mer värda","Att den allmänna prisnivån höjs","Att skatten sänks","Att lönerna sjunker"],ans:1,fb:"Inflation innebär att prisnivån stiger – dina pengar blir helt enkelt mindre värda."},
-  {q:"Varför är hög inflation dåligt?",opts:["Folk handlar för mycket","Det skapar oro och osäkerhet på marknaden","Bankerna tjänar för lite","Maten tar slut"],ans:1,fb:"Hög inflation skapar oro – både hushåll och företag blir osäkra på framtiden."},
-  {q:"Vad händer med arbetslösheten i en lågkonjunktur?",opts:["Den minskar","Den förblir stabil","Den ökar","Den försvinner"],ans:2,fb:"I lågkonjunktur sjunker efterfrågan, företag säger upp personal, och arbetslösheten ökar."},
+  {q:"Vad kallas ekonomiska svängningar mellan goda och dåliga tider?",opts:["Konjunkturer","Inflation","Budgetunderskott","Valutakurser"],ans:0,fb:"Konjunkturer beskriver ekonomins vågrörelse mellan hög- och lågkonjunktur."},
+  {q:"Vad kännetecknar en högkonjunktur?",opts:["Hög arbetslöshet","Hög efterfrågan och snurr i ekonomin","Låg efterfrågan","Fallande priser"],ans:1,fb:"Under högkonjunktur finns enorm efterfrågan, företag anställer, och ekonomin snurrar på högvarv."},
+  {q:"Vad innebär inflation?",opts:["Att pengarna blir mer värda","Att skatten sänks","Att den allmänna prisnivån höjs","Att lönerna sjunker"],ans:2,fb:"Inflation innebär att prisnivån stiger – dina pengar blir helt enkelt mindre värda."},
+  {q:"Varför är hög inflation dåligt?",opts:["Folk handlar för mycket","Bankerna tjänar för lite","Maten tar slut","Det skapar oro och osäkerhet på marknaden"],ans:3,fb:"Hög inflation skapar oro – både hushåll och företag blir osäkra på framtiden."},
+  {q:"Vad händer med arbetslösheten i en lågkonjunktur?",opts:["Den ökar","Den minskar","Den förblir stabil","Den försvinner"],ans:0,fb:"I lågkonjunktur sjunker efterfrågan, företag säger upp personal, och arbetslösheten ökar."},
   {q:"Vad menas med 'den onda cirkeln' i ekonomin?",opts:["Att rika blir rikare","Att minskad efterfrågan leder till uppsägningar som minskar efterfrågan ännu mer","Att inflation aldrig tar slut","Att bankerna kraschar"],ans:1,fb:"Den onda cirkeln: minskad efterfrågan → färre sålda varor → uppsägningar → ännu mindre efterfrågan."},
   {q:"Hur drabbas den offentliga sektorn i en lågkonjunktur?",opts:["Skatteintäkterna ökar","Utgifterna minskar","Skatteintäkter minskar OCH utgifter ökar","Inget händer"],ans:2,fb:"Dubbelt slag: skatteintäkterna sjunker medan utgifterna (t.ex. bidrag till arbetslösa) ökar."},
-  {q:"Vad kan en löne-prisspiral leda till?",opts:["Lägre inflation","Att ekonomin stannar","Ännu högre inflation","Lägre priser"],ans:2,fb:"Löne-prisspiralen: högre löner → företag höjer priser → anställda kräver ännu högre löner → mer inflation."}
+  {q:"Vad kan en löne-prisspiral leda till?",opts:["Lägre inflation","Att ekonomin stannar","Lägre priser","Ännu högre inflation"],ans:3,fb:"Löne-prisspiralen: högre löner → företag höjer priser → anställda kräver ännu högre löner → mer inflation."}
 ],
 del4:[
-  {q:"Vilka tre övergripande mål har statens ekonomiska politik?",opts:["Låga löner, hög export, billiga bostäder","Tillväxt, sysselsättning, stabilt penningvärde","Höga skatter, låg ränta, stor budget","Frihandel, låg inflation, hög BNP"],ans:1,fb:"Målen är ekonomisk tillväxt, hög och jämn sysselsättning samt stabilt penningvärde."},
+  {q:"Vilka tre övergripande mål har statens ekonomiska politik?",opts:["Tillväxt, sysselsättning, stabilt penningvärde","Låga löner, hög export, billiga bostäder","Höga skatter, låg ränta, stor budget","Frihandel, låg inflation, hög BNP"],ans:0,fb:"Målen är ekonomisk tillväxt, hög och jämn sysselsättning samt stabilt penningvärde."},
   {q:"Vad är BNP?",opts:["Bankernas nationella program","Bruttonationalprodukten – landets totala produktion","Budgeten för nationella projekt","Basnivån för priser"],ans:1,fb:"BNP = Bruttonationalprodukten, det samlade värdet av alla varor och tjänster som produceras under ett år."},
   {q:"Vilken institution bedriver penningpolitiken i Sverige?",opts:["Finansdepartementet","Regeringen","Riksbanken","Kommunerna"],ans:2,fb:"Riksbanken är Sveriges centralbank och ansvarar ensam för penningpolitiken."},
-  {q:"Vad är Riksbankens viktigaste verktyg?",opts:["Skattenivån","Styrräntan (reporäntan)","Statens budget","Tullarna"],ans:1,fb:"Styrräntan (reporäntan) bestämmer till vilken ränta vanliga banker lånar pengar av Riksbanken."},
-  {q:"Vad händer om Riksbanken höjer räntan?",opts:["Det blir billigare att låna","Folk sparar mindre","Det blir dyrare att låna, konsumtionen minskar","Exporten ökar"],ans:2,fb:"Högre ränta = dyrare lån = folk och företag konsumerar/investerar mindre = inflationen bromsas."},
+  {q:"Vad är Riksbankens viktigaste verktyg?",opts:["Skattenivån","Statens budget","Tullarna","Styrräntan (reporäntan)"],ans:3,fb:"Styrräntan (reporäntan) bestämmer till vilken ränta vanliga banker lånar pengar av Riksbanken."},
+  {q:"Vad händer om Riksbanken höjer räntan?",opts:["Det blir dyrare att låna, konsumtionen minskar","Det blir billigare att låna","Folk sparar mindre","Exporten ökar"],ans:0,fb:"Högre ränta = dyrare lån = folk och företag konsumerar/investerar mindre = inflationen bromsas."},
   {q:"Vad innebär finanspolitik?",opts:["Att Riksbanken sätter räntan","Att staten använder budget och skatter för att styra ekonomin","Att banker lånar ut pengar","Att företag investerar"],ans:1,fb:"Finanspolitik bedrivs av Finansdepartementet och handlar om att använda statens budget och skatter."},
   {q:"Vilket inflationsmål har Sverige?",opts:["0 procent","1 procent","2 procent","5 procent"],ans:2,fb:"Sedan 1993 har Sverige ett inflationsmål på 2 procent per år."},
-  {q:"Hur kan staten stimulera ekonomin i en lågkonjunktur?",opts:["Höja skatterna","Sänka skatterna och öka offentliga utgifter","Stänga bankerna","Minska importen"],ans:1,fb:"Staten kan sänka skatter och öka utgifter så att mer pengar hamnar i kretsloppet."}
+  {q:"Hur kan staten stimulera ekonomin i en lågkonjunktur?",opts:["Höja skatterna","Stänga bankerna","Minska importen","Sänka skatterna och öka offentliga utgifter"],ans:3,fb:"Staten kan sänka skatter och öka utgifter så att mer pengar hamnar i kretsloppet."}
 ],
 del5:[
-  {q:"Varför handlar länder med varandra?",opts:["För att det är tradition","För att få varor de inte kan producera själva","För att bli av med pengar","Staten tvingar dem"],ans:1,fb:"Länder exporterar det de har och importerar det de saknar – internationell handel är en nödvändighet."},
-  {q:"Vad är WTO?",opts:["World Trade Organization – Världshandelsorganisationen","Western Trade Office","World Tax Organization","Water Treatment Office"],ans:0,fb:"WTO (Världshandelsorganisationen) bildades 1995 för att få världshandeln att fungera smidigt."},
-  {q:"Vad är ett handelshinder?",opts:["En mur mellan länder","Tullar, regler och lagar som försvårar handel","Ett fartyg som blockerar en hamn","En ekonomisk kris"],ans:1,fb:"Handelshinder är tullar, nationella lagar och regler som gör det svårare att handla fritt."},
-  {q:"Vad innebär frihandel?",opts:["Att allt är gratis","Handel utan tullar och handelshinder","Att staten bestämmer all handel","Handel bara inom ett land"],ans:1,fb:"Frihandel innebär att länder handlar utan tullar och andra hinder – varor flödar fritt."},
-  {q:"Vad påverkar en valutas värde?",opts:["Bara landets storlek","Ränteläget, inflationen och landets ekonomiska styrka","Enbart hur mycket guld landet har","Vädret"],ans:1,fb:"Räntor, inflation och ekonomins allmänna styrka påverkar alla en valutas värde."},
+  {q:"Varför handlar länder med varandra?",opts:["För att få varor de inte kan producera själva","För att det är tradition","För att bli av med pengar","Staten tvingar dem"],ans:0,fb:"Länder exporterar det de har och importerar det de saknar – internationell handel är en nödvändighet."},
+  {q:"Vad är WTO?",opts:["Western Trade Office","World Trade Organization – Världshandelsorganisationen","World Tax Organization","Water Treatment Office"],ans:1,fb:"WTO (Världshandelsorganisationen) bildades 1995 för att få världshandeln att fungera smidigt."},
+  {q:"Vad är ett handelshinder?",opts:["En mur mellan länder","Ett fartyg som blockerar en hamn","Tullar, regler och lagar som försvårar handel","En ekonomisk kris"],ans:2,fb:"Handelshinder är tullar, nationella lagar och regler som gör det svårare att handla fritt."},
+  {q:"Vad innebär frihandel?",opts:["Att allt är gratis","Att staten bestämmer all handel","Handel bara inom ett land","Handel utan tullar och handelshinder"],ans:3,fb:"Frihandel innebär att länder handlar utan tullar och andra hinder – varor flödar fritt."},
+  {q:"Vad påverkar en valutas värde?",opts:["Ränteläget, inflationen och landets ekonomiska styrka","Bara landets storlek","Enbart hur mycket guld landet har","Vädret"],ans:0,fb:"Räntor, inflation och ekonomins allmänna styrka påverkar alla en valutas värde."},
   {q:"Vad händer med svensk export om kronan försvagas?",opts:["Exporten blir dyrare","Exporten blir billigare och mer konkurrenskraftig","Ingenting ändras","Importen blir billigare"],ans:1,fb:"Svagare krona = svenska varor blir billigare för utlandet = mer konkurrenskraftiga."},
   {q:"Vilket land var 2020 världens näst största spannmålsexportör?",opts:["Brasilien","Ryssland","Ukraina","Kina"],ans:2,fb:"Ukraina var 2020 världens näst största spannmålsexportör – kriget skapade en global kris."},
-  {q:"Vad betyder export?",opts:["Att köpa varor från utlandet","Att sälja och skicka varor till andra länder","Att producera varor inhemskt","Att lagra varor"],ans:1,fb:"Export = att sälja och skicka varor eller tjänster till andra länder."}
+  {q:"Vad betyder export?",opts:["Att köpa varor från utlandet","Att producera varor inhemskt","Att lagra varor","Att sälja och skicka varor till andra länder"],ans:3,fb:"Export = att sälja och skicka varor eller tjänster till andra länder."}
 ],
 del6:[
-  {q:"Hur beskrivs Sveriges ekonomi?",opts:["Stor och sluten","Liten men öppen","Stor och öppen","Liten och sluten"],ans:1,fb:"Sverige har en liten men öppen ekonomi som är starkt beroende av handel med omvärlden."},
+  {q:"Hur beskrivs Sveriges ekonomi?",opts:["Liten men öppen","Stor och sluten","Stor och öppen","Liten och sluten"],ans:0,fb:"Sverige har en liten men öppen ekonomi som är starkt beroende av handel med omvärlden."},
   {q:"Vad dominerar Sveriges export?",opts:["Jordbruksprodukter","Tjänster, maskiner och fordon","Olja och gas","Textil"],ans:1,fb:"Sverige exporterar främst tjänster, maskiner, fordon och teknikprodukter."},
   {q:"Vilken andel av Sveriges handel sker med EU-länder?",opts:["Cirka 30%","Cirka 50%","Ungefär 70%","Cirka 90%"],ans:2,fb:"Den absoluta merparten av Sveriges handel sker med EU-länderna – ungefär 70%."},
-  {q:"Vad är en av Sveriges viktigaste importvaror?",opts:["Bananer","Guld","Olja","Diamanter"],ans:2,fb:"Olja är en av Sveriges absolut viktigaste importvaror, trots att oljeberoendet har minskat."},
-  {q:"Vad betyder det att Sverige har handelsöverskott?",opts:["Vi importerar mer än vi exporterar","Vi exporterar mer än vi importerar","Vi handlar lika mycket in som ut","Vi handlar inte alls"],ans:1,fb:"Handelsöverskott = vi exporterar för mer pengar än vi importerar."},
-  {q:"Vilka är några av Sveriges största handelspartners?",opts:["Kina och Japan","USA och Australien","Norge, Tyskland och Danmark","Brasilien och Indien"],ans:2,fb:"Norge, Tyskland, Danmark och andra EU-länder är Sveriges viktigaste handelspartners."},
-  {q:"Vad har hänt med den svenska exportens andel av BNP de senaste 30 åren?",opts:["Den har minskat","Den har ökat enormt","Den har varit oförändrad","Den har försvunnit"],ans:1,fb:"Under de senaste 30 åren har exportens andel av BNP ökat kraftigt."},
-  {q:"Varför importerar Sverige varor som vi även producerar själva?",opts:["Staten kräver det","För mer variation och konkurrens","Vi vet inte bättre","Det är billigare att importera allt"],ans:1,fb:"Sverige importerar t.ex. livsmedel vi också producerar – för variation, konkurrens och konsumentval."}
+  {q:"Vad är en av Sveriges viktigaste importvaror?",opts:["Bananer","Guld","Diamanter","Olja"],ans:3,fb:"Olja är en av Sveriges absolut viktigaste importvaror, trots att oljeberoendet har minskat."},
+  {q:"Vad betyder det att Sverige har handelsöverskott?",opts:["Vi exporterar mer än vi importerar","Vi importerar mer än vi exporterar","Vi handlar lika mycket in som ut","Vi handlar inte alls"],ans:0,fb:"Handelsöverskott = vi exporterar för mer pengar än vi importerar."},
+  {q:"Vilka är några av Sveriges största handelspartners?",opts:["Kina och Japan","Norge, Tyskland och Danmark","USA och Australien","Brasilien och Indien"],ans:1,fb:"Norge, Tyskland, Danmark och andra EU-länder är Sveriges viktigaste handelspartners."},
+  {q:"Vad har hänt med den svenska exportens andel av BNP de senaste 30 åren?",opts:["Den har minskat","Den har varit oförändrad","Den har ökat enormt","Den har försvunnit"],ans:2,fb:"Under de senaste 30 åren har exportens andel av BNP ökat kraftigt."},
+  {q:"Varför importerar Sverige varor som vi även producerar själva?",opts:["Staten kräver det","Vi vet inte bättre","Det är billigare att importera allt","För mer variation och konkurrens"],ans:3,fb:"Sverige importerar t.ex. livsmedel vi också producerar – för variation, konkurrens och konsumentval."}
 ],
 del7:[
-  {q:"Vad kännetecknar globalisering?",opts:["Att länder stänger sina gränser","Enorm rörelse av varor, tjänster, kapital och människor","Att alla har samma valuta","Att bara rika länder handlar"],ans:1,fb:"Globalisering = ökad rörelse av varor, tjänster, pengar och människor över gränserna."},
-  {q:"Vad har hänt med världens sammanlagda BNP sedan 1990?",opts:["Det har halverats","Det har stått still","Det har nästan tredubblats","Det har minskat med 10%"],ans:2,fb:"Sedan 1990 har världens totala BNP nästan tredubblats tack vare globaliseringen."},
-  {q:"Vilken är världens näst största ekonomi idag?",opts:["Japan","Tyskland","Indien","Kina"],ans:3,fb:"Kina har vuxit till världens näst största ekonomi och är den ledande handelsnationen."},
-  {q:"Vad är en baksida av globaliseringen?",opts:["Alla blir rikare","Ekonomiska klyftor växer","Världshandeln minskar","Tekniken stannar"],ans:1,fb:"En stor baksida är att klyftorna ökar – de rikaste tjänar mest medan fattiga halkar efter."},
-  {q:"Vad är ett problem med Kinas investeringar i Afrika?",opts:["De investerar för lite","Avsaknad av miljömässig hållbarhet","Afrika vill inte ha hjälp","Investeringarna är för små"],ans:1,fb:"Kinas investeringar i Afrika kritiseras för att sakna miljömässig hållbarhet."},
-  {q:"Hur sprids ekonomiska kriser i en globaliserad värld?",opts:["De sprids inte alls","Långsamt över årtionden","Blixtsnabbt över hela jordklotet","Bara till grannländer"],ans:2,fb:"I en sammanvävd global ekonomi sprids kriser blixtsnabbt från en plats till hela världen."},
-  {q:"Vilka länder dominerade världsekonomin under sent 1900-tal?",opts:["Kina och Indien","USA och EU","Ryssland och Japan","Brasilien och Sydafrika"],ans:1,fb:"Under slutet av 1900-talet var det USA och EU-länderna som var de stora ledande aktörerna."},
-  {q:"Vad för positivt med sig globaliseringen förutom handel?",opts:["Högre tullar","Innovation och ny teknik","Fler konflikter","Minskad digitalisering"],ans:1,fb:"Globaliseringen driver innovation – ny teknik, digitalisering och hållbara lösningar sprids globalt."}
+  {q:"Vad kännetecknar globalisering?",opts:["Enorm rörelse av varor, tjänster, kapital och människor","Att länder stänger sina gränser","Att alla har samma valuta","Att bara rika länder handlar"],ans:0,fb:"Globalisering = ökad rörelse av varor, tjänster, pengar och människor över gränserna."},
+  {q:"Vad har hänt med världens sammanlagda BNP sedan 1990?",opts:["Det har halverats","Det har nästan tredubblats","Det har stått still","Det har minskat med 10%"],ans:1,fb:"Sedan 1990 har världens totala BNP nästan tredubblats tack vare globaliseringen."},
+  {q:"Vilken är världens näst största ekonomi idag?",opts:["Japan","Tyskland","Kina","Indien"],ans:2,fb:"Kina har vuxit till världens näst största ekonomi och är den ledande handelsnationen."},
+  {q:"Vad är en baksida av globaliseringen?",opts:["Alla blir rikare","Världshandeln minskar","Tekniken stannar","Ekonomiska klyftor växer"],ans:3,fb:"En stor baksida är att klyftorna ökar – de rikaste tjänar mest medan fattiga halkar efter."},
+  {q:"Vad är ett problem med Kinas investeringar i Afrika?",opts:["Avsaknad av miljömässig hållbarhet","De investerar för lite","Afrika vill inte ha hjälp","Investeringarna är för små"],ans:0,fb:"Kinas investeringar i Afrika kritiseras för att sakna miljömässig hållbarhet."},
+  {q:"Hur sprids ekonomiska kriser i en globaliserad värld?",opts:["De sprids inte alls","Blixtsnabbt över hela jordklotet","Långsamt över årtionden","Bara till grannländer"],ans:1,fb:"I en sammanvävd global ekonomi sprids kriser blixtsnabbt från en plats till hela världen."},
+  {q:"Vilka länder dominerade världsekonomin under sent 1900-tal?",opts:["Kina och Indien","Ryssland och Japan","USA och EU","Brasilien och Sydafrika"],ans:2,fb:"Under slutet av 1900-talet var det USA och EU-länderna som var de stora ledande aktörerna."},
+  {q:"Vad för positivt med sig globaliseringen förutom handel?",opts:["Högre tullar","Fler konflikter","Minskad digitalisering","Innovation och ny teknik"],ans:3,fb:"Globaliseringen driver innovation – ny teknik, digitalisering och hållbara lösningar sprids globalt."}
 ],
 del8:[
-  {q:"Vad mäter BNP?",opts:["Hur lyckliga invånarna är","Det totala värdet av ett lands produktion","Hur bra sjukvården fungerar","Miljöns kvalitet"],ans:1,fb:"BNP mäter det totala värdet av alla varor och tjänster som produceras i ett land under ett år."},
+  {q:"Vad mäter BNP?",opts:["Det totala värdet av ett lands produktion","Hur lyckliga invånarna är","Hur bra sjukvården fungerar","Miljöns kvalitet"],ans:0,fb:"BNP mäter det totala värdet av alla varor och tjänster som produceras i ett land under ett år."},
   {q:"Vad är BNP per capita?",opts:["BNP gånger befolkningen","BNP delat på invånarantalet","BNP för huvudstaden","BNP minus skatt"],ans:1,fb:"BNP per capita = landets totala BNP delat på antalet invånare – ger ett genomsnittsmått."},
-  {q:"Vad är problemet med att bara mäta BNP?",opts:["Det ger för bra siffror","Det säger inget om fördelning, miljö eller levnadsstandard","Det är för svårt att räkna ut","Bara rika länder kan mäta det"],ans:1,fb:"BNP säger inget om hur pengarna fördelas, hur folk mår eller hur miljön påverkas."},
-  {q:"Vad står HDI för?",opts:["Human Development Index","High Demand Inflation","Household Data Information","Healthy Democracy Indicator"],ans:0,fb:"HDI = Human Development Index – mäter förväntad livslängd, utbildning och inkomst."},
-  {q:"Vilka tre faktorer ingår i HDI?",opts:["BNP, inflation, export","Livslängd, utbildning, inkomst","Miljö, hälsa, demokrati","Handel, skatt, ränta"],ans:1,fb:"HDI kombinerar förväntad livslängd, utbildningsnivå och inkomstnivå."},
-  {q:"Vilket land har tagit fram ett eget välmåendeindex med fyra kapitalformer?",opts:["Sverige","Japan","Nya Zeeland","Kanada"],ans:2,fb:"Nya Zeeland har tagit fram ett eget index som mäter socialt, mänskligt, naturligt och finansiellt kapital."},
-  {q:"Vad mäter 'naturligt kapital' i Nya Zeelands modell?",opts:["Pengar i naturen","Tillgång till skog, vatten och grön energi","Antal nationalparker","Hur mycket olja landet har"],ans:1,fb:"Naturligt kapital mäter tillgång till rena naturområden som skog, mark, friskt vatten och grön energi."},
-  {q:"Vilket land mätte 'Bruttonationallycka' redan på 1970-talet?",opts:["Norge","Nya Zeeland","Bhutan","Finland"],ans:2,fb:"Bhutan införde begreppet Bruttonationallycka (GNH) redan på 1970-talet – lycka före pengar!"}
+  {q:"Vad är problemet med att bara mäta BNP?",opts:["Det ger för bra siffror","Det är för svårt att räkna ut","Det säger inget om fördelning, miljö eller levnadsstandard","Bara rika länder kan mäta det"],ans:2,fb:"BNP säger inget om hur pengarna fördelas, hur folk mår eller hur miljön påverkas."},
+  {q:"Vad står HDI för?",opts:["High Demand Inflation","Household Data Information","Healthy Democracy Indicator","Human Development Index"],ans:3,fb:"HDI = Human Development Index – mäter förväntad livslängd, utbildning och inkomst."},
+  {q:"Vilka tre faktorer ingår i HDI?",opts:["Livslängd, utbildning, inkomst","BNP, inflation, export","Miljö, hälsa, demokrati","Handel, skatt, ränta"],ans:0,fb:"HDI kombinerar förväntad livslängd, utbildningsnivå och inkomstnivå."},
+  {q:"Vilket land har tagit fram ett eget välmåendeindex med fyra kapitalformer?",opts:["Sverige","Nya Zeeland","Japan","Kanada"],ans:1,fb:"Nya Zeeland har tagit fram ett eget index som mäter socialt, mänskligt, naturligt och finansiellt kapital."},
+  {q:"Vad mäter 'naturligt kapital' i Nya Zeelands modell?",opts:["Pengar i naturen","Antal nationalparker","Tillgång till skog, vatten och grön energi","Hur mycket olja landet har"],ans:2,fb:"Naturligt kapital mäter tillgång till rena naturområden som skog, mark, friskt vatten och grön energi."},
+  {q:"Vilket land mätte 'Bruttonationallycka' redan på 1970-talet?",opts:["Norge","Nya Zeeland","Finland","Bhutan"],ans:3,fb:"Bhutan införde begreppet Bruttonationallycka (GNH) redan på 1970-talet – lycka före pengar!"}
 ]
 };
 
-// --- FLASHCARDS ---
+// --- FLASHCARDS / BEGREPP ---
 const flashcards = [
   {term:"Ekonomi",def:"Kommer från grekiskan och betyder 'hushållning' – att hushålla med begränsade resurser.",cat:"Del 1"},
   {term:"Marknadsekonomi",def:"Ekonomiskt system där marknaden (köpare och säljare) styr produktion och priser genom fri konkurrens.",cat:"Del 1"},
@@ -383,8 +441,17 @@ const flashcards = [
 // ============================================================
 let currentSection = 'del1';
 let quizStates = {};
-let flashState = {idx:0,flipped:false,filter:'Alla'};
 let completedQuizzes = new Set();
+
+// Begrepp State
+let flashState = {idx:0, flipped:false, filter:'Alla', mode:'flash'};
+let filteredCards = [...flashcards];
+// Match State
+let matchTerms = [], matchDefs = [], selTerm = null, selDef = null;
+// TF State
+let tfCard = null, tfIsTrue = false;
+// Write State
+let writeCards = [], writeIdx = 0;
 
 // ============================================================
 // BUILD NAV
@@ -405,7 +472,7 @@ function buildNav(){
 function buildAllSections(){
   const m = document.getElementById('mainContent');
   m.innerHTML = '';
-  m.innerHTML += buildDel1()+buildDel2()+buildDel3()+buildDel4()+buildDel5()+buildDel6()+buildDel7()+buildDel8()+buildBegrepp();
+  m.innerHTML += buildDel1()+buildDel2()+buildDel3()+buildDel4()+buildDel5()+buildDel6()+buildDel7()+buildDel8()+buildDel9()+buildBegrepp();
 }
 
 function sHero(s,subtitle){
@@ -418,42 +485,46 @@ function buildDel1(){
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
   ${sHero(s,'Utbud, efterfrågan och varför jordgubbar kostar skjortan vid midsommar')}
   <div class="content">
-    <h3>Vad är ekonomi?</h3>
-    <p>Ordet <strong>ekonomi</strong> kommer från grekiskan och betyder "hushållning". Det handlar om hur vi människor hushållar med resurser som finns runt oss. Alla länder bygger upp <strong>ekonomiska system</strong> för att svara på tre grundfrågor: <em>Vad</em> ska produceras? <em>Hur</em> ska det produceras? <em>För vem</em> ska det produceras?</p>
+    <h3>Vad är egentligen ekonomi?</h3>
+    <p>När du hör ordet "ekonomi" tänker du säkert på pengar, bankkort och prislappar. Men ordet <strong>ekonomi</strong> kommer faktiskt från grekiskan och betyder "hushållning". Det handlar i grund och botten om att vi människor har <em>oändliga behov och önskningar</em>, men jordens resurser (skog, olja, arbetskraft, tid) är <em>begränsade</em>. Ekonomi är vetenskapen om hur vi på smartast möjliga sätt hushållar med dessa begränsade resurser.</p>
+    <p>För att lösa detta måste varje samhälle, från en liten by till hela världen, bygga upp ett <strong>ekonomiskt system</strong>. Detta system måste ständigt svara på tre grundläggande frågor: <em>Vad</em> ska vi producera? <em>Hur</em> ska vi producera det? Och <em>för vem</em> producerar vi?</p>
 
     <h3>De fyra ekonomiska systemen</h3>
+    <p>Genom historien har människan prövat olika sätt att styra ekonomin. Man brukar dela in dem i fyra huvudgrupper, även om verkligheten ofta är en mix av dessa.</p>
     <div class="info-grid">
-      <div class="info-card"><div class="icon">🏪</div><h5>Marknadsekonomi</h5><p>Köpare och säljare styr priser och produktion genom fri konkurrens.</p></div>
-      <div class="info-card"><div class="icon">🏛️</div><h5>Planekonomi</h5><p>Staten bestämmer vad som ska tillverkas och till vilka priser.</p></div>
-      <div class="info-card"><div class="icon">♻️</div><h5>Kretsloppsekonomi</h5><p>Miljön i fokus – resurser ska återanvändas och inte slösas bort.</p></div>
-      <div class="info-card"><div class="icon">🔀</div><h5>Blandekonomi</h5><p>En mix av systemen – vanligast idag. Marknad + statlig reglering.</p></div>
+      <div class="info-card"><div class="icon">🏪</div><h5>Marknadsekonomi</h5><p>Köpare och säljare styr vad som tillverkas och vad det kostar genom fri konkurrens. Staten lägger sig inte i.</p></div>
+      <div class="info-card"><div class="icon">🏛️</div><h5>Planekonomi</h5><p>Staten håller i taktpinnen. Myndigheter planerar i förväg exakt vad fabrikerna ska tillverka och sätter alla priser.</p></div>
+      <div class="info-card"><div class="icon">♻️</div><h5>Kretsloppsekonomi</h5><p>Ett system där miljöns gränser sätter spelreglerna. Saker ska designas för att återanvändas, inte slängas.</p></div>
+      <div class="info-card"><div class="icon">🔀</div><h5>Blandekonomi</h5><p>Sveriges system! En mix där marknaden (företagen) styr det mesta, men staten sätter regler, tar in skatt och sköter vård och skola.</p></div>
     </div>
 
-    <h3>Utbud & efterfrågan</h3>
-    <p>I en marknadsekonomi bestäms priserna av <strong>utbud</strong> (hur mycket som erbjuds) och <strong>efterfrågan</strong> (hur mycket folk vill köpa). Det <strong>jämviktspris</strong> uppstår där köparens och säljarens vilja möts.</p>
+    <h3>Utbud & efterfrågan – den osynliga handen</h3>
+    <p>I en marknadsekonomi är det ingen chef som bestämmer vad en liter mjölk ska kosta. Priset bestäms istället av ett ständigt dragkamp mellan <strong>utbud</strong> (hur mycket mjölk bonden kan och vill sälja) och <strong>efterfrågan</strong> (hur mycket mjölk vi kunder vill köpa). Ekonomen Adam Smith kallade detta för marknadens "osynliga hand".</p>
+    <p>När köparens vilja att betala exakt matchar säljarens vilja att sälja, uppstår det magiska <strong>jämviktspriset</strong>. Men om något händer i omvärlden rubbas balansen omedelbart. Prova själv i simulatorn här nedanför!</p>
 
     <div class="widget">
       <div class="widget-title">🎮 Prissimulator</div>
       <div class="widget-sub">Dra i reglagen och se hur priset förändras!</div>
       <div class="slider-group">
-        <label>Utbud (antal varor) <span id="supplyVal">50</span></label>
+        <label>Utbud (antal varor i butiken) <span id="supplyVal">50</span></label>
         <input type="range" min="1" max="100" value="50" oninput="updatePrice()" id="supplySlider">
       </div>
       <div class="slider-group">
-        <label>Efterfrågan (antal köpare) <span id="demandVal">50</span></label>
+        <label>Efterfrågan (antal sugna köpare) <span id="demandVal">50</span></label>
         <input type="range" min="1" max="100" value="50" oninput="updatePrice()" id="demandSlider">
       </div>
       <div style="text-align:center;margin-top:20px">
-        <div style="font-size:.8rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px">Jämviktspris</div>
+        <div style="font-size:.8rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px">Marknadspris just nu</div>
         <div id="priceDisplay" style="font-family:'DM Serif Display',serif;font-size:2.8rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent">50 kr</div>
         <div id="priceExplain" style="font-size:.82rem;color:var(--text3);margin-top:4px">Utbud och efterfrågan är i balans</div>
       </div>
     </div>
 
-    <h3>Jordgubbar & O'boy – verkliga exempel</h3>
+    <h3>När marknaden blir galen: Jordgubbar & O'boy</h3>
+    <p>Den här dragkampen sker varje dag, runt omkring oss, ibland med helt galna resultat. Här är två klassiska exempel som visar hur starka marknadens krafter är i verkligheten:</p>
     <div class="highlight-box">
-      <strong>🍓 Jordgubbar vid midsommar:</strong> I början av säsongen är efterfrågan enorm men utbudet lågt – priset sticker upp! Senare på sommaren ökar utbudet och priset sjunker. Strax före stängning vill säljarna bli av med allt – fyndläge!<br><br>
-      <strong>☕ O'boy-krisen 2018:</strong> Tekniska problem stoppade produktionen helt. Utbudet kraschade till noll medan efterfrågan var kvar. Resultat? Folk sålde O'boy-paket för hundratals kronor på nätet!
+      <strong>🍓 Jordgubbar vid midsommar:</strong> Veckan innan midsommar är efterfrågan på färska svenska jordgubbar enorm. Alla vill ha dem till tårtan! Men utbudet (skörden) är begränsat. Resultatet? Säljarna kan ta hutlöst betalt och folk köper ändå. Senare på sommaren är skördarna gigantiska (stort utbud) men folk har tröttnat lite (låg efterfrågan) – då rasar priset och du kan köpa tre liter för en tjuga!<br><br>
+      <strong>☕ O'boy-krisen 2018:</strong> Minns du när O'boy försvann från hyllorna? Tekniska problem i fabriken stoppade produktionen helt. Utbudet kraschade plötsligt till noll, medan den enorma efterfrågan fanns kvar. Eftersom varan blev extremt sällsynt, exploderade priset. Folk sålde till och med halvöppna O'boy-paket för flera hundra kronor på nätet!
     </div>
 
     ${buildQuizHTML('del1')}
@@ -464,27 +535,41 @@ function buildDel1(){
 function buildDel2(){
   const s=sections[1];
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
-  ${sHero(s,'Hur hushåll, företag, banker och staten alla hänger ihop')}
+  ${sHero(s,'Hur hushåll, företag, banker och staten alla hänger ihop i ett blodomlopp')}
   <div class="content">
-    <p>I ekonomin är alla delar beroende av varandra. Man brukar beskriva detta som ett <strong>ekonomiskt kretslopp</strong> med fyra huvudaktörer som ständigt skickar pengar, varor och tjänster mellan sig.</p>
+    <h3>Pengarnas eviga resa</h3>
+    <p>Tänk dig ekonomin som en människokropp. Om människorna är kroppens organ, så är pengarna det blod som ständigt måste pumpas runt för att hålla kroppen vid liv. Om blodet (pengarna) slutar snurra, dör kroppen (ekonomin stannar). Detta ständiga flöde kallas för det <strong>ekonomiska kretsloppet</strong>.</p>
+    <p>I detta kretslopp finns det fyra stora, tunga aktörer som hela tiden är beroende av varandra. Om en av dem får problem, drabbas de andra direkt. Om företagen slutar sälja varor, kan de inte betala ut lön till hushållen. Får hushållen ingen lön, kan de inte betala skatt till staten. Får staten ingen skatt, måste de stänga sjukhus och skolor.</p>
 
-    <h3>Klicka på en aktör för att lära dig mer</h3>
+    <h3>Klicka på en aktör för att lära dig dess roll i kretsloppet</h3>
     <div class="kretslopp-grid">
       <div class="kretstab" onclick="showKrets(0)"><div class="k-icon">🏠</div><h5>Hushållen</h5><p>Motorns hjärta</p></div>
       <div class="kretstab" onclick="showKrets(1)"><div class="k-icon">🏭</div><h5>Företagen</h5><p>Skaparna av varor & tjänster</p></div>
       <div class="kretstab" onclick="showKrets(2)"><div class="k-icon">🏛️</div><h5>Offentliga sektorn</h5><p>Välfärdens pelare</p></div>
-      <div class="kretstab" onclick="showKrets(3)"><div class="k-icon">🏦</div><h5>Bankerna</h5><p>Systemets smörjmedel</p></div>
+      <div class="kretstab" onclick="showKrets(3)"><div class="k-icon">🏦</div><h5>Bankerna</h5><p>Systemets hjärtstartare</p></div>
     </div>
     <div id="kretsDetail" class="kretstab-detail"></div>
 
-    <div class="widget" style="margin-top:28px">
-      <div class="widget-title">💸 Pengaflöden</div>
-      <div class="widget-sub">Så flödar pengarna i kretsloppet</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div class="highlight-box"><strong>Hushåll → Företag:</strong> Arbetskraft. <strong>Företag → Hushåll:</strong> Lön.</div>
-        <div class="highlight-box"><strong>Hushåll → Offentlig sektor:</strong> Skatt. <strong>Offentlig sektor → Hushåll:</strong> Välfärd (skola, sjukvård).</div>
-        <div class="highlight-box"><strong>Hushåll → Banker:</strong> Sparpengar. <strong>Banker → Hushåll/Företag:</strong> Lån (mot ränta).</div>
-        <div class="highlight-box"><strong>Företag → Offentlig sektor:</strong> Skatter & avgifter. <strong>Offentlig sektor → Företag:</strong> Infrastruktur & beställningar.</div>
+    <div class="widget" style="margin-top:36px">
+      <div class="widget-title">💸 En hundralapps resa</div>
+      <div class="widget-sub">Så flödar pengarna mellan de olika aktörerna varje dag</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="highlight-box" style="margin:0">
+          <strong>Hushåll ⇄ Företag</strong><br>
+          Familjen Andersson går till jobbet på Volvo (ger <em>arbetskraft</em>) och får <em>lön</em> i retur. Sedan åker familjen till ICA (ett företag) och använder lönen för att köpa mat (ger <em>pengar</em>, får <em>varor</em>).
+        </div>
+        <div class="highlight-box" style="margin:0">
+          <strong>Hushåll ⇄ Offentlig sektor</strong><br>
+          När pappa Andersson får sin lön dras 30% direkt i <em>skatt</em> till stat och kommun. I gengäld får familjens barn gå i en gratis skola och kan åka till sjukhuset om de bryter armen (<em>välfärdstjänster</em>).
+        </div>
+        <div class="highlight-box" style="margin:0">
+          <strong>Hushåll/Företag ⇄ Banker</strong><br>
+          Mamma Andersson sätter in 1000 kr på ett sparkonto hos banken (<em>sparande</em>). Samma dag kommer den lokala pizzerian och vill <em>låna</em> 1000 kr för att köpa en ny ugn. Banken förmedlar pengarna, men tar ut en <em>ränta</em> (avgift) för besväret.
+        </div>
+        <div class="highlight-box" style="margin:0">
+          <strong>Företag ⇄ Offentlig sektor</strong><br>
+          Volvo och ICA betalar in miljarder i <em>företagsskatter</em> och arbetsgivaravgifter till staten. Staten använder sedan en del av de pengarna för att <em>beställa</em> nya polisbilar från just Volvo.
+        </div>
       </div>
     </div>
 
@@ -496,34 +581,41 @@ function buildDel2(){
 function buildDel3(){
   const s=sections[2];
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
-  ${sHero(s,'Ekonomins vågrörelse – från boom till kris')}
+  ${sHero(s,'Ekonomins vågrörelse – från brinnande boom till iskall kris')}
   <div class="content">
-    <p>Ekonomin står aldrig stilla. Den svänger mellan goda och dåliga tider, som en våg. Dessa svängningar kallas <strong>konjunkturer</strong>.</p>
+    <h3>Ekonomi är egentligen psykologi</h3>
+    <p>Man skulle kunna tro att ekonomi bara handlar om matematik och kalkyler. Men sanningen är att ekonomi till stor del styrs av mänskliga känslor – närmare bestämt <strong>optimism</strong> och <strong>rädsla</strong>. När människor tror på framtiden vågar de spendera pengar, men när de blir rädda håller de hårt i plånboken. Detta flockbeteende skapar en evig vågrörelse i samhällsekonomin som kallas för <strong>konjunkturer</strong>.</p>
 
-    <h3>Högkonjunktur – när hjulen snurrar</h3>
+    <h3>Högkonjunktur – festen är igång</h3>
+    <p>I en högkonjunktur är framtidstron stark. Företagen går med vinst, de anställer fler människor, och arbetslösheten pressas ner. Eftersom många har jobb och känner sig trygga, köper de nya bilar, bygger altaner och går på restaurang. Efterfrågan är skyhög!</p>
     <div class="info-grid">
-      <div class="info-card"><div class="icon">📈</div><h5>Hög efterfrågan</h5><p>Alla vill köpa varor och tjänster. Företagen säljer på löpande band.</p></div>
-      <div class="info-card"><div class="icon">💼</div><h5>Låg arbetslöshet</h5><p>Företagen anställer – det är lätt att hitta jobb.</p></div>
-      <div class="info-card"><div class="icon">💰</div><h5>Stigande priser</h5><p>Hög efterfrågan gör att företag kan höja priserna.</p></div>
-      <div class="info-card"><div class="icon">⚠️</div><h5>Inflationsrisk</h5><p>Om priserna stiger för snabbt minskar pengarnas värde.</p></div>
+      <div class="info-card"><div class="icon">📈</div><h5>Hög efterfrågan</h5><p>Folk vill handla. Fabrikerna får massor av beställningar och snurrar dygnet runt.</p></div>
+      <div class="info-card"><div class="icon">💼</div><h5>Låg arbetslöshet</h5><p>Eftersom företagen måste tillverka så mycket, måste de anställa i stort sett alla som kan jobba.</p></div>
+      <div class="info-card"><div class="icon">💰</div><h5>Stigande priser</h5><p>När alla har pengar och vill köpa (hög efterfrågan), kan företagen passa på att höja sina priser.</p></div>
+      <div class="info-card"><div class="icon">⚠️</div><h5>Inflationsrisk</h5><p>Baksidan av festen! Om priserna sticker iväg för snabbt, tappar pengarna i värde. Detta kallas inflation.</p></div>
     </div>
 
-    <h3>Inflation – när pengarna tappar värde</h3>
-    <p><strong>Inflation</strong> innebär att prisnivån stiger och dina pengar blir mindre värda. En glasskula som kostade 5 kr förut kostar plötsligt 8 kr – men du har inte fått mer lön. Hög inflation skapar oro.</p>
-
-    <div class="highlight-box"><strong>Löne-prisspiralen:</strong> Anställda kräver högre löner → företag höjer priserna → anställda kräver ÄNNU högre löner → priserna stiger ÄNNU mer… En ond spiral!</div>
+    <h3>Inflation och löne-prisspiralen</h3>
+    <p><strong>Inflation</strong> betyder att den allmänna prisnivån i landet stiger. Dina pengar blir bokstavligen mindre värda. En biobiljett som kostade 25 kronor för trettio år sedan kostar idag 150 kronor – inte för att filmen blivit sex gånger bättre, utan för att kronan tappat i värde genom inflation.</p>
+    <p>Om inflationen drar iväg under en högkonjunktur riskerar vi att hamna i en farlig fälla som kallas <strong>löne-prisspiralen</strong>:</p>
+    <div class="highlight-box">
+      <strong>Så fungerar löne-prisspiralen:</strong><br>
+      När priset på mat och hyra plötsligt blir mycket dyrare, blir arbetarna arga och kräver högre löner av sina chefer för att klara sin vardag. Företagen går med på att höja lönerna, men för att ha råd med de nya, dyra lönerna måste de höja priset på sina varor ytterligare. Då blir det ännu dyrare i matbutiken, varpå arbetarna kräver <em>ännu</em> mer i lön. Spiralen snurrar obönhörligt uppåt och inflationen skenar!
+    </div>
 
     <h3>Lågkonjunktur & den onda cirkeln</h3>
-    <p>När vågrörelsen vänder nedåt hamnar vi i <strong>lågkonjunktur</strong>. Efterfrågan sjunker och ekonomin saktar ner.</p>
+    <p>Men ingen fest varar för evigt. Kanske skenar inflationen, kanske kraschar börsen i USA, eller kanske blir folk bara mätta och slutar konsumera. Rädsla sprider sig. Folk slutar köpa nya bilar och äter havregrynsgröt istället för restaurangmat. Vågrörelsen vänder nedåt – vi går in i en <strong>lågkonjunktur</strong>.</p>
+    <p>Här är det oerhört lätt att ekonomin fastnar i vad som kallas den "onda cirkeln".</p>
+
     <div class="onda-circle">
-      <div class="onda-step"><span class="onda-num">1</span><span class="onda-text"><strong>Minskad efterfrågan</strong> – folk köper mindre varor och tjänster</span></div>
-      <div class="onda-step"><span class="onda-num">2</span><span class="onda-text"><strong>Färre produkter säljs</strong> – företagen märker att försäljningen rasar</span></div>
-      <div class="onda-step"><span class="onda-num">3</span><span class="onda-text"><strong>Minskad produktion</strong> – företagen drar ner på tillverkningen</span></div>
-      <div class="onda-step"><span class="onda-num">4</span><span class="onda-text"><strong>Uppsägningar</strong> – företagen tvingas säga upp personal</span></div>
-      <div class="onda-step"><span class="onda-num">5</span><span class="onda-text"><strong>Ännu mindre pengar</strong> – arbetslösa konsumerar mindre → efterfrågan sjunker ytterligare</span></div>
+      <div class="onda-step"><span class="onda-num">1</span><span class="onda-text"><strong>Minskad efterfrågan</strong><br>Folk blir försiktiga. Istället för att köpa en ny soffa, lagar de den gamla. De slutar spendera.</span></div>
+      <div class="onda-step"><span class="onda-num">2</span><span class="onda-text"><strong>Färre varor säljs</strong><br>Soffbutiken och möbelfabriken märker direkt att ingen ringer och beställer längre. Lagren fylls av osålda soffor.</span></div>
+      <div class="onda-step"><span class="onda-num">3</span><span class="onda-text"><strong>Minskad produktion</strong><br>Fabriken stänger av maskinerna. Varför tillverka soffor som ingen vill ha?</span></div>
+      <div class="onda-step"><span class="onda-num">4</span><span class="onda-text"><strong>Uppsägningar och arbetslöshet</strong><br>Fabriken har inte råd att betala sina arbetare när de inte säljer något. Människor får sparken.</span></div>
+      <div class="onda-step"><span class="onda-num">5</span><span class="onda-text"><strong>Ännu mindre pengar i kretsloppet</strong><br>Nu när arbetarna blivit arbetslösa har de ännu mindre pengar att spendera. De slutar gå till frisören och köpa kläder, vilket drar med sig frisören och klädbutiken in i krisen. Cirkeln börjar om, ännu starkare.</span></div>
     </div>
 
-    <p>Den offentliga sektorn drabbas dubbelt: skatteintäkterna minskar samtidigt som utgifterna (bidrag till arbetslösa) ökar.</p>
+    <p>När lågkonjunkturen slår till hamnar den offentliga sektorn (staten) i en rävsax. Eftersom folk tjänar mindre och företag går i konkurs, får staten in mycket mindre pengar i <strong>skatt</strong>. Men samtidigt exploderar statens <strong>utgifter</strong>, eftersom alla tusentals nya arbetslösa måste få arbetslöshetsersättning (a-kassa) och bidrag. Det är här statens verktygslåda måste öppnas upp för att rädda landet.</p>
 
     ${buildQuizHTML('del3')}
   </div></div>`;
@@ -533,11 +625,14 @@ function buildDel3(){
 function buildDel4(){
   const s=sections[3];
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
-  ${sHero(s,'Så styr staten ekonomin med ränta och skatter')}
+  ${sHero(s,'Gasen och bromsen: Så räddar staten ekonomin')}
   <div class="content">
-    <p>Statens ekonomiska politik har tre stora mål: <strong>ekonomisk tillväxt</strong>, <strong>hög sysselsättning</strong> och <strong>stabilt penningvärde</strong> (inflation runt 2%).</p>
+    <h3>Vem styr skeppet?</h3>
+    <p>Tänk dig Sveriges ekonomi som en gigantisk lastbil som körs nerför en slingrig väg. Målet med resan är tredelat: lastbilen ska röra sig ständigt framåt (<strong>ekonomisk tillväxt</strong>), alla passagerare ska få vara med och hjälpa till (<strong>hög sysselsättning</strong>) och vi ska inte köra så fort att motorn överhettas (<strong>stabilt penningvärde/låg inflation</strong>).</p>
+    <p>Om vi hamnar i en djup lågkonjunktur stannar lastbilen nästan helt. Om vi är i en överhettad högkonjunktur riskerar vi att krascha i inflations-diket. Som tur är har samhället två enorma "spakar" för att gasa och bromsa. De kallas <strong>Penningpolitik</strong> och <strong>Finanspolitik</strong>.</p>
 
     <h3>Statens två verktyg</h3>
+    <p>Dessa två verktyg styrs av två helt olika maktcentrum i Sverige. Klicka på korten för att förstå skillnaden!</p>
     <div class="tool-grid">
       <div class="tool-card" onclick="showTool(0)">
         <div class="icon">🏦</div>
@@ -552,9 +647,13 @@ function buildDel4(){
     </div>
     <div id="toolDetail" class="tool-result"></div>
 
+    <div class="highlight-box">
+      <strong>Målet med Penningpolitiken:</strong> Sveriges Riksbank har enligt lag ett enda, oerhört tydligt uppdrag: De ska se till att inflationen i Sverige ligger på ganska exakt <strong>2 procent</strong> per år. Om inflationen drar iväg upp mot 8-10%, kommer Riksbanken att dra i handbromsen stenhårt genom att höja räntan.
+    </div>
+
     <div class="widget">
-      <div class="widget-title">🎚️ Räntesimulatorn</div>
-      <div class="widget-sub">Se vad som händer när Riksbanken ändrar styrräntan</div>
+      <div class="widget-title">🎚️ Räntesimulatorn (Penningpolitik i praktiken)</div>
+      <div class="widget-sub">Du är Riksbankens chef! Dra i styrräntan och se hur det påverkar samhället.</div>
       <div class="slider-group">
         <label>Styrränta <span id="rateVal">2.0%</span></label>
         <input type="range" min="0" max="80" value="20" oninput="updateRate()" id="rateSlider">
@@ -567,8 +666,10 @@ function buildDel4(){
       </div>
     </div>
 
-    <h3>BNP & Sysselsättning</h3>
-    <p><strong>BNP</strong> (Bruttonationalprodukten) mäter värdet av allt som produceras i Sverige under ett år. Staten vill att BNP ska växa – det betyder tillväxt! <strong>Sysselsättning</strong> handlar om att alla som vill jobba ska kunna få ett jobb. I Sverige ligger sysselsättningen normalt på över fem miljoner personer.</p>
+    <h3>Finanspolitiken – Regeringens budgetvapen</h3>
+    <p>Medan Riksbanken leker med räntan, sitter finansministern och regeringen och bestämmer över statens enorma budget. Detta kallas <strong>finanspolitik</strong>.</p>
+    <p>Tänk dig att Sverige hamnar i en iskall lågkonjunktur. Folk är arbetslösa och ingen vågar handla. Den onda cirkeln snurrar. Då kan regeringen trycka på "gasen" genom finanspolitiken! De kan till exempel <strong>sänka skatterna</strong> (så folk får mer pengar kvar i plånboken att handla för) eller <strong>investera statliga miljarder</strong> i att bygga en ny järnväg. Plötsligt måste byggföretagen anställa tusentals nya vägarbetare. Dessa vägarbetare får lön, som de genast går och köper kläder och mat för, vilket räddar klädbutiken och bonden. Staten har "kickstartat" ekonomin igen!</p>
+    <p>Men i en brinnande högkonjunktur måste regeringen göra precis tvärtom: Trycka på bromsen, höja skatter och spara i ladorna för att undvika överhettning.</p>
 
     ${buildQuizHTML('del4')}
   </div></div>`;
@@ -578,31 +679,32 @@ function buildDel4(){
 function buildDel5(){
   const s=sections[4];
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
-  ${sHero(s,'Frihandel, tullar och varför länder är beroende av varandra')}
+  ${sHero(s,'Varför vi inte bygger egna iPhones i Sverige')}
   <div class="content">
-    <p>Internationell handel är ingen ny företeelse – länder har alltid behövt varor de inte kan producera själva. Man <strong>exporterar</strong> det man har och <strong>importerar</strong> det man saknar.</p>
+    <h3>Varför handlar vi över gränserna?</h3>
+    <p>Tänk dig om Sverige skulle försöka vara helt självförsörjande. Vi skulle behöva odla vårt eget kaffe i uppvärmda växthus på vintern, och vi skulle behöva bygga våra egna mobiltelefoner och datorer från grunden i små svenska fabriker. En enda "Sverige-telefon" skulle förmodligen kosta 150 000 kronor och vara stor som en tegelsten, eftersom vi varken har rätt råvaror eller massproduktionens fördelar. Och kaffet skulle smaka fruktansvärt.</p>
+    <p>Det är här den internationella handeln kommer in. Kärnan i all världshandel handlar om <strong>specialisering</strong>. Länder är bra på olika saker tack vare klimat, naturtillgångar och utbildningsnivå. Genom att varje land fokuserar på att <strong>exportera</strong> det de är absolut bäst på (och sälja det utomlands), får de in pengar. Dessa pengar används sedan till att <strong>importera</strong> de varor som andra länder gör bättre eller billigare. Alla vinner på bytet!</p>
 
-    <h3>Frihandel & WTO</h3>
-    <p><strong>WTO</strong> (Världshandelsorganisationen) grundades 1995 för att världshandeln ska fungera så smidigt som möjligt. De arbetar för att ta bort <strong>handelshinder</strong> som tullar och krångliga regler.</p>
+    <h3>Frihandel vs Protektionism</h3>
+    <p>Historiskt sett försökte kungar bygga murar runt sina länder och sätta höga <strong>tullar</strong> (en extra avgift på utländska varor) för att skydda sina egna bönder och smeder från utländsk konkurrens. Detta kallas <em>protektionism</em>.</p>
+    <p>Idag bygger den moderna ekonomin på <strong>Frihandel</strong>. Frihandel innebär att man tar bort tullar och handelshinder helt och hållet, så att varor kan röra sig fritt över gränserna. För att se till att detta fungerar och att stora länder inte mobbar små, grundades <strong>WTO (Världshandelsorganisationen)</strong> 1995. De sätter upp spelreglerna för den globala handeln.</p>
 
-    <h3>Valutor & valutakurser</h3>
-    <p>Olika länder har olika <strong>valutor</strong>. En valutas värde påverkas av ränteläget, inflationen och landets ekonomi. <strong>Valutakursen</strong> – priset på en valuta i en annan – är avgörande för handeln.</p>
+    <h3>Valutan – nyckeln till priset</h3>
+    <p>Ett stort problem när vi handlar med världen är att vi inte har samma pengar. I Sverige har vi kronor (SEK), i Tyskland Euro (EUR) och i USA dollar (USD). En <strong>valutakurs</strong> är priset på hur många kronor det kostar att köpa en utländsk peng.</p>
+    <p>Om den svenska kronan tappar i värde (blir svag) mot utländska valutor, får det gigantiska konsekvenser för svensk industri och vår vardag. En svag krona gör det otroligt dyrt för dig att köpa en importerad iPhone eller åka på semester till Spanien. Men för Volvos fabrik i Göteborg är det julafton! Deras lastbilar blir plötsligt jättebilliga för amerikaner att köpa, vilket gör att Volvos <strong>export</strong> exploderar. Testa själv i simulatorn:</p>
 
     <div class="widget">
-      <div class="widget-title">💱 Valutaeffekten</div>
-      <div class="widget-sub">Se hur kronkursen påverkar en svensk export-vara som kostar 1000 kr</div>
+      <div class="widget-title">💱 Valutasimulatorn</div>
+      <div class="widget-sub">Lek med kronkursen. Vad händer med en svensk maskin som Volvo säljer för 1 000 svenska kronor till USA?</div>
       <div class="slider-group">
-        <label>Kronans värde mot dollarn <span id="fxVal">1 USD = 10 SEK</span></label>
+        <label>Kronans värde (Hur många kr kostar 1 Dollar?) <span id="fxVal">1 USD = 10 SEK</span></label>
         <input type="range" min="6" max="16" value="10" oninput="updateFx()" id="fxSlider">
       </div>
       <div style="display:flex;gap:16px;margin-top:16px;flex-wrap:wrap">
-        <div class="info-card" style="flex:1;min-width:200px"><h5>Pris i dollar</h5><p id="fxPrice" style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--accent)">$100</p><p id="fxExplain" style="font-size:.78rem;color:var(--text3)">Normalpris för utländska köpare</p></div>
-        <div class="info-card" style="flex:1;min-width:200px"><h5>Effekt på export</h5><p id="fxEffect" style="font-size:.85rem">Neutral – kronan är stabil.</p></div>
+        <div class="info-card" style="flex:1;min-width:200px"><h5>Priset för den amerikanska köparen</h5><p id="fxPrice" style="font-family:'JetBrains Mono',monospace;font-size:1.3rem;color:var(--accent)">$100</p><p id="fxExplain" style="font-size:.78rem;color:var(--text3)">Normalpris</p></div>
+        <div class="info-card" style="flex:1;min-width:200px"><h5>Effekt på svensk export</h5><p id="fxEffect" style="font-size:.85rem; line-height: 1.5;">Neutral – kronan är stabil. Handeln flyter på som vanligt.</p></div>
       </div>
     </div>
-
-    <h3>Handelshinder & kriser</h3>
-    <p>Trots fördelarna med frihandel finns många hinder: nationella lagar, importkvoter, tullmurar och politiska konflikter. Global handel är sårbar – Ukrainakriget 2022 visade hur en konflikt kan utlösa en global spannmålskris.</p>
 
     ${buildQuizHTML('del5')}
   </div></div>`;
@@ -612,23 +714,27 @@ function buildDel5(){
 function buildDel6(){
   const s=sections[5];
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
-  ${sHero(s,'Export, import och vad Sverige säljer till världen')}
+  ${sHero(s,'Skog, stål och snilleblixtar – så blev vi ett rikt land')}
   <div class="content">
-    <p>Sverige har en <strong>liten men öppen ekonomi</strong> som är starkt beroende av handel med omvärlden. Många svenska företag är helt globala.</p>
+    <h3>Lilla landet lagom i stora världen</h3>
+    <p>För 150 år sedan var Sverige ett av Europas fattigaste länder, ett iskallt bondesamhälle där missväxt och svält tvingade en miljon svenskar att fly till Amerika. Idag är vi ett av världens rikaste och mest utvecklade länder. Hur gick det till? Svaret stavas <strong>internationell handel</strong>.</p>
+    <p>Sverige har en <strong>liten men extremt öppen ekonomi</strong>. Eftersom vi bara är cirka tio miljoner invånare, är vår inhemska marknad alldeles för liten för att företag som Ericsson, Spotify, IKEA eller Volvo ska kunna växa sig stora här hemma. De måste ut i världen från dag ett.</p>
 
-    <h3>Sveriges handel</h3>
+    <h3>Vad vi säljer (Export) och vad vi köper (Import)</h3>
+    <p>Historiskt byggde vår rikedom på våra råvaror: Skog, Järnmalm och Vattenkraft. Storbritannien och Tyskland skrek efter svenskt virke och stål för att bygga upp sina egna industrier. Idag ser det lite annorlunda ut. Vi exporterar förvisso fortfarande massor av papper och stål, men den stora guldgruvan idag är <strong>högteknologiska maskiner, fordon (lastbilar), läkemedel och tjänster (som IT och musik)</strong>.</p>
+    <p>Samtidigt <strong>importerar</strong> vi enorma mängder varor. Eftersom vi har kalla vintrar och saknar vissa naturtillgångar, måste vi importera all vår olja (för transport och plast), stora mängder elektronik (datorer, telefoner) och mycket av maten i våra matbutiker (som kaffe och exotiska frukter).</p>
+
     <div class="info-grid">
-      <div class="info-card"><div class="icon">📤</div><h5>Export</h5><p>Tjänster, maskiner, fordon, läkemedel och teknikprodukter dominerar.</p></div>
-      <div class="info-card"><div class="icon">📥</div><h5>Import</h5><p>Olja, livsmedel, elektronik och andra varor vi inte producerar tillräckligt av.</p></div>
-      <div class="info-card"><div class="icon">🇪🇺</div><h5>EU-handel</h5><p>Ungefär 70% av vår handel sker med andra EU-länder.</p></div>
-      <div class="info-card"><div class="icon">📊</div><h5>Överskott</h5><p>Sverige exporterar mer än vi importerar – vi har handelsöverskott.</p></div>
+      <div class="info-card"><div class="icon">📤</div><h5>Exporten ökar</h5><p>Under de senaste 30 åren har den svenska exportens andel av BNP skjutit i höjden. Runt hälften av allt vi producerar säljs nu utomlands.</p></div>
+      <div class="info-card"><div class="icon">🇪🇺</div><h5>Europa är navet</h5><p>Vi säljer inte mest till Kina eller USA, utan till våra grannar! Ungefär 70% av hela vår handel sker inom Europa.</p></div>
+      <div class="info-card"><div class="icon">📊</div><h5>Handelsöverskott</h5><p>Sverige är en vinnare. Vi exporterar (säljer) vanligtvis för mycket mer pengar än vad vi importerar (köper) för.</p></div>
     </div>
 
-    <h3>Största handelspartnerna</h3>
+    <h3>Sveriges bästa vänner i handeln</h3>
+    <p>När man tittar på vart våra lastbilar och fartyg faktiskt åker, blir det tydligt hur viktiga våra grannländer är för vår överlevnad. Våra allra största handelspartners är länder vi delar gräns eller hav med.</p>
+    
     <div class="mini-chart" id="tradeChart"></div>
-    <p style="font-size:.8rem;color:var(--text3);text-align:center">Approximativ fördelning av Sveriges viktigaste handelspartners</p>
-
-    <p>Under de senaste 30 åren har den svenska exportens andel av BNP ökat enormt. Sverige importerar även varor vi producerar själva – som livsmedel – för att ge konsumenter mer variation.</p>
+    <p style="font-size:.8rem;color:var(--text3);text-align:center">Ett urval av Sveriges viktigaste handelspartners. Notera hur våra nordiska och europeiska grannar dominerar totalt.</p>
 
     ${buildQuizHTML('del6')}
   </div></div>`;
@@ -638,28 +744,23 @@ function buildDel6(){
 function buildDel7(){
   const s=sections[6];
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
-  ${sHero(s,'Globalisering, Kinas framväxt och en sammankopplad värld')}
+  ${sHero(s,'När världen krymper och tröjan reser 10 000 mil')}
   <div class="content">
-    <p><strong>Globalisering</strong> innebär att varor, tjänster, kapital och människor rör sig alltmer fritt över nationsgränserna. Sedan 1990 har världens totala BNP nästan tredubblats.</p>
+    <h3>Ett globalt spindelnät</h3>
+    <p>Nästa gång du tar på dig en t-shirt eller startar din telefon, tänk på dess resa. Bomullen i tröjan kanske odlades i Indien, spanns till tråd i Kina, vävdes och syddes ihop i Bangladesh, fick sitt tryck i Turkiet, innan den till slut skeppades till en butik i Sverige. Detta är <strong>Globalisering</strong> i praktiken – hur varor, tjänster, pengar, information och människor rör sig allt snabbare och friare över nationsgränserna.</p>
+    <p>Globaliseringen har exploderat sedan 1990-talet, driven av containervarv, internet och frihandelsavtal. Tack vare detta har <strong>världens samlade BNP nästan tredubblats</strong> på bara trettio år. Hundratals miljoner människor i Asien har lyfts ur extrem fattigdom eftersom de fått fabriksjobb när västerländska företag flyttat sin produktion dit.</p>
 
-    <h3>Möjligheter</h3>
+    <h3>Kina – Den nya supermakten</h3>
+    <p>I slutet av 1900-talet dominerades världsekonomin fullständigt av USA och Västeuropa. Idag har spelplanen ritats om. <strong>Kina</strong> har haft en obegriplig ekonomisk tillväxt och är idag världens näst största ekonomi och den obestridda "världens fabrik".</p>
+    <p>Kinas inflytande stannar inte i Asien. Kina investerar nu massivt i infrastrukturen i stora delar av <strong>Afrika</strong> (byggande av hamnar, vägar och järnvägar) i utbyte mot tillgång till afrikanska naturtillgångar (som kobolt och olja). För Afrika innebär det en chans till utveckling och integration i den globala ekonomin, men Kina får också ofta kritik. Deras jätteprojekt anklagas ofta för att blunda för miljöförstöring och för att sätta afrikanska länder i farliga skuldfällor.</p>
+
+    <h3>De mörka baksidorna</h3>
+    <p>Globaliseringen är inte bara en solskenshistoria. Den hyper-sammankopplade världen har skapat stora problem och sårbarheter som vi kämpar med idag.</p>
     <div class="info-grid">
-      <div class="info-card"><div class="icon">📈</div><h5>Tredubbelt BNP</h5><p>Världens samlade ekonomi har vuxit enormt sedan 1990.</p></div>
-      <div class="info-card"><div class="icon">🚀</div><h5>Explosiv export</h5><p>Den globala exporten har mångdubblats.</p></div>
-      <div class="info-card"><div class="icon">💡</div><h5>Innovation</h5><p>Ny teknik och digitalisering sprids globalt.</p></div>
+      <div class="info-card"><div class="icon">⚖️</div><h5>Klyftorna spricker upp</h5><p>Samtidigt som världen som helhet blivit rikare, har globaliseringen gjort de superrika astronomiskt mycket rikare, medan arbetarklassen i västvärlden ofta förlorat sina industrijobb till låglöneländer.</p></div>
+      <div class="info-card"><div class="icon">🌊</div><h5>Dominoteffekten</h5><p>När ett land nyser, blir hela världen förkyld. En bolånekris i USA (2008) eller ett krig i Ukraina (2022) sprider genast chockvågor och inflation genom hela det globala nätverket.</p></div>
+      <div class="info-card"><div class="icon">🌍</div><h5>Miljön betalar priset</h5><p>Att skeppa miljarder ton med billiga plastleksaker och fast-fashion-kläder över världshaven, ofta från fabriker med obefintliga miljökrav, skapar massiva utsläpp och klimathot.</p></div>
     </div>
-
-    <h3>Baksidor & sårbarhet</h3>
-    <div class="info-grid">
-      <div class="info-card"><div class="icon">⚖️</div><h5>Ökade klyftor</h5><p>De rikaste tjänar mest – fattiga halkar efter.</p></div>
-      <div class="info-card"><div class="icon">🌊</div><h5>Krissmittning</h5><p>En kris på en plats sprids blixtsnabbt globalt.</p></div>
-      <div class="info-card"><div class="icon">🌍</div><h5>Miljöproblem</h5><p>Ökad produktion och transport skadar miljön.</p></div>
-    </div>
-
-    <h3>En ny världsordning</h3>
-    <p>Under sent 1900-tal dominerade USA och EU. Nu har <strong>Kina</strong> vuxit till världens näst största ekonomi och ledande handelsnation. Kina investerar massivt i Afrika – det ses som en chans för en kontinent som länge stått utanför globaliseringens fördelar. Men investeringarna kritiseras för att sakna miljömässig hållbarhet.</p>
-
-    <div class="highlight-box"><strong>Innovation!</strong> Globaliseringen för med sig ny teknik. Digitalisering, drönare för leveranser till avlägsna platser, och hållbara energilösningar sprids allt snabbare.</div>
 
     ${buildQuizHTML('del7')}
   </div></div>`;
@@ -669,77 +770,170 @@ function buildDel7(){
 function buildDel8(){
   const s=sections[7];
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
-  ${sHero(s,'BNP, HDI och hur vi egentligen mäter om ett land mår bra')}
+  ${sHero(s,'Kan man mäta lycka med en miniräknare?')}
   <div class="content">
-    <p>Hur vet man om ett land är "rikt"? Det vanligaste måttet är <strong>BNP</strong> – det totala värdet av allt som produceras. Men räcker det verkligen?</p>
-
-    <h3>BNP & dess begränsningar</h3>
-    <p><strong>BNP per capita</strong> (BNP delat på invånarantalet) ger en bättre bild, men säger fortfarande inget om hur pengarna fördelas, hur miljön mår, eller hur folk egentligen har det.</p>
-
-    <h3>HDI – Human Development Index</h3>
-    <p>För en rättvisare bild används <strong>HDI</strong> som kombinerar tre faktorer:</p>
-    <div class="info-grid">
-      <div class="info-card"><div class="icon">❤️</div><h5>Förväntad livslängd</h5><p>Hur länge folk förväntas leva.</p></div>
-      <div class="info-card"><div class="icon">📚</div><h5>Utbildningsnivå</h5><p>Tillgång till och kvalitet på utbildning.</p></div>
-      <div class="info-card"><div class="icon">💵</div><h5>Inkomstnivå</h5><p>BNP per capita (köpkraft).</p></div>
+    <h3>BNP – En trubbig prislapp på ett land</h3>
+    <p>När politiker och tidningar pratar om hur bra det går för Sverige, pratar de nästan alltid om <strong>BNP (Bruttonationalprodukten)</strong>. BNP är helt enkelt det sammanlagda prislappen på absolut allt som tillverkas, säljs och klipps (tjänster) i ett land under ett år. Om BNP växer, säger vi att vi har ekonomisk tillväxt.</p>
+    <p>Om man vill jämföra länders rikedom med varandra är det bättre att använda <strong>BNP per capita</strong>. Då tar man hela den där stora prislappen och delar den med antalet invånare, så att ett stort land som Kina kan jämföras rättvist med ett litet land som Norge.</p>
+    
+    <div class="highlight-box">
+      <strong>Men BNP ljuger (lite grann)...</strong><br>
+      Problemet med BNP är att det är helt hjärtlöst. Det mäter bara pengar i rörelse. Om en oljetanker sjunker och förstör den svenska kusten, och staten måste anställa tusentals människor för att städa upp oljan och köpa in dyra saneringsmaskiner – då <em>ökar</em> Sveriges BNP! Det ser alltså ut som att landet blivit rikare, fastän vår kust är förstörd. BNP mäter inte heller om pengarna är rättvist fördelade, om vi arbetar ihjäl oss, eller om miljön mår bra.
     </div>
 
-    <h3>Nya Zeelands modell – fyra kapitalformer</h3>
-    <p>Nya Zeeland har gått ännu längre och mäter välmående med fyra "kapital":</p>
-    <table class="compare-table">
-      <tr><th>Kapitalform</th><th>Vad mäts?</th></tr>
-      <tr><td>🤝 Socialt kapital</td><td>Känsla av sammanhang och tillhörighet i samhället</td></tr>
-      <tr><td>🧠 Mänskligt kapital</td><td>Utbildning, fritidsaktiviteter och hälsa</td></tr>
-      <tr><td>🌿 Naturligt kapital</td><td>Skog, mark, vatten och grön energi</td></tr>
-      <tr><td>🏗️ Finansiellt kapital</td><td>Bostäder, infrastruktur, fabriker och banker</td></tr>
-    </table>
+    <h3>HDI – Ett mänskligare mått</h3>
+    <p>Eftersom BNP var så trubbigt, tog FN på 1990-talet fram ett nytt mått kallat <strong>HDI (Human Development Index)</strong>. Istället för att bara titta på plånboken, tittar HDI på tre saker för att bedöma välståndet:</p>
+    <ul style="margin-left: 16px; margin-bottom: 24px;">
+      <li><strong>Ett långt och hälsosamt liv</strong> (Förväntad livslängd)</li>
+      <li><strong>Tillgång till kunskap</strong> (Utbildningsnivå och hur många år man går i skolan)</li>
+      <li><strong>En anständig levnadsstandard</strong> (BNP per capita för att mäta köpkraft)</li>
+    </ul>
 
-    <div class="highlight-box"><strong>🇧🇹 Bhutan</strong> var pionjärer redan på 1970-talet med <strong>Bruttonationallycka</strong> (GNH) – att mäta folkets lycka istället för bara pengar!</div>
+    <h3>Nya Zeeland och Bhutan vågar tänka nytt</h3>
+    <p>Men räcker det med utbildning och pengar för att ett folk ska må bra? Vissa länder tycker inte det, och har börjat skapa helt nya och radikala sätt att mäta sina länders framgång.</p>
+    <p>Det lilla landet <strong>Bhutan</strong> uppe i Himalaya skrotade fokus på BNP redan på 1970-talet. Istället införde kungen måttet <strong>Bruttonationallycka (GNH)</strong>. Deras politik styrs inte i första hand av vad som ger ekonomisk vinst, utan vad som bevarar landets kultur, religion och natur, och vad som gör befolkningen lycklig.</p>
+    <p>Ett annat, mer modernt exempel är <strong>Nya Zeeland</strong>. De blev världskända när de övergav den traditionella statsbudgeten och införde en "Välmåendebudget". I denna budget måste varje investering och beslut som staten tar utvärderas mot fyra olika "kapital", inte bara pengar. De menar att om det sociala eller naturliga kapitalet sjunker, så är landet på väg mot en kris, oavsett vad bankkontot säger.</p>
+
+    <table class="compare-table">
+      <tr><th>Nya Zeelands 4 Kapital</th><th>Vad staten mäter och skyddar</th></tr>
+      <tr><td>🤝 Socialt kapital</td><td>Invånarnas känsla av trygghet, tillit till varandra och sammanhållning i samhället.</td></tr>
+      <tr><td>🧠 Mänskligt kapital</td><td>Befolkningens fysiska och mentala hälsa, samt deras utbildningsnivå och fritid.</td></tr>
+      <tr><td>🌿 Naturligt kapital</td><td>Kvaliteten på skogar, vattendrag, biologisk mångfald och grön energi.</td></tr>
+      <tr><td>🏗️ Finansiellt kapital</td><td>Landets plånbok: Vägar, bostäder, fabriker, inkomster och teknisk infrastruktur.</td></tr>
+    </table>
 
     ${buildQuizHTML('del8')}
   </div></div>`;
 }
 
-// ---------- BEGREPP ----------
-function buildBegrepp(){
+// ---------- DEL 9 (MEGA QUIZ) ----------
+function buildDel9(){
   const s=sections[8];
   return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
-  <div class="section-hero c9">
-    <span class="section-tag" style="background:${s.tagColor};color:${s.tagText}">Träna</span>
-    <h2>💡 Begrepp & Flashcards</h2>
-    <p class="subtitle">Klicka på kortet för att vända det. Lär dig alla begrepp!</p>
-  </div>
+  ${sHero(s,'Bygg ditt eget finalprov och testa dina kunskaper över hela ämnet!')}
   <div class="content">
-    <div class="flash-controls" id="flashFilters"></div>
-    <div class="flashcard-area">
-      <div class="flashcard" id="flashcard" onclick="flipCard()">
-        <div class="flashcard-inner">
-          <div class="flashcard-front">
-            <h3 id="fcTerm"></h3>
-            <p>Klicka för att vända</p>
-          </div>
-          <div class="flashcard-back">
-            <p id="fcDef"></p>
-          </div>
-        </div>
+    <h3>Skräddarsy ditt prov</h3>
+    <p>Här kan du bygga det ultimata provet inför ett riktigt prov. Kryssa i de arbetsområden du vill träna på, välj hur många frågor du orkar med, och kör igång! Systemet drar slumpmässiga frågor ur hela banken.</p>
+    
+    <div id="mega-quiz-setup" class="widget">
+      <div class="info-grid" style="grid-template-columns: 1fr 1fr;">
+        <label class="mq-cb-label"><input type="checkbox" class="mq-cb" value="del1" onchange="updateMqSliderMax()" checked> Del 1: Marknaden</label>
+        <label class="mq-cb-label"><input type="checkbox" class="mq-cb" value="del2" onchange="updateMqSliderMax()" checked> Del 2: Kretsloppet</label>
+        <label class="mq-cb-label"><input type="checkbox" class="mq-cb" value="del3" onchange="updateMqSliderMax()" checked> Del 3: Konjunkturer</label>
+        <label class="mq-cb-label"><input type="checkbox" class="mq-cb" value="del4" onchange="updateMqSliderMax()" checked> Del 4: Statens verktyg</label>
+        <label class="mq-cb-label"><input type="checkbox" class="mq-cb" value="del5" onchange="updateMqSliderMax()" checked> Del 5: Handel</label>
+        <label class="mq-cb-label"><input type="checkbox" class="mq-cb" value="del6" onchange="updateMqSliderMax()" checked> Del 6: Sveriges handel</label>
+        <label class="mq-cb-label"><input type="checkbox" class="mq-cb" value="del7" onchange="updateMqSliderMax()" checked> Del 7: Global ekonomi</label>
+        <label class="mq-cb-label"><input type="checkbox" class="mq-cb" value="del8" onchange="updateMqSliderMax()" checked> Del 8: Mäta välstånd</label>
       </div>
-      <div class="flash-hint" id="fcCat"></div>
-      <div class="flash-nav">
-        <button onclick="prevCard()">←</button>
-        <span class="flash-counter" id="fcCounter">1 / ${flashcards.length}</span>
-        <button onclick="nextCard()">→</button>
+      
+      <div class="slider-group" style="margin-top: 30px">
+        <label>Antal slumpade frågor <span id="mqNumVal" style="font-size:1.1rem; color:var(--text)">20</span></label>
+        <input type="range" id="mqNumSlider" min="5" max="64" value="20" oninput="document.getElementById('mqNumVal').textContent=this.value">
       </div>
-      <button class="quiz-btn" onclick="shuffleCards()" style="margin-top:8px">🔀 Blanda korten</button>
+      
+      <button class="quiz-btn primary" onclick="startMegaQuiz()" style="margin-top: 24px; width: 100%; padding: 14px; font-size: 1.05rem;">Starta Slutprovet 🚀</button>
+    </div>
+    
+    <div id="mega-quiz-container" style="display:none;">
+      ${buildQuizHTML('mega')}
     </div>
   </div></div>`;
 }
 
+// ---------- BEGREPP (UPPDATERAD TILL KOMPLETT TRÄNING) ----------
+function buildBegrepp(){
+  const s=sections[9];
+  return `<div class="section ${s.id===currentSection?'active':''}" id="sec-${s.id}">
+  <div class="section-hero c9">
+    <span class="section-tag" style="background:${s.tagColor};color:${s.tagText}">Träna</span>
+    <h2>💡 Begreppsträning</h2>
+    <p class="subtitle">Bemästra ekonomins språk! Välj metod för att lära dig, öva och testa dina kunskaper.</p>
+  </div>
+  <div class="content">
+    <div class="flash-controls" id="flashFilters"></div>
+    
+    <div class="training-tabs">
+        <button class="train-tab active" onclick="switchTrainMode('flash', this)">1. Studera (Flashcards)</button>
+        <button class="train-tab" onclick="switchTrainMode('match', this)">2. Para ihop (Matcha)</button>
+        <button class="train-tab" onclick="switchTrainMode('tf', this)">3. Testa (Sant/Falskt)</button>
+        <button class="train-tab" onclick="switchTrainMode('write', this)">4. Skriv (Stavning)</button>
+    </div>
+
+    <!-- LÄGE 1: FLASHCARDS -->
+    <div class="train-area active" id="train-flash">
+      <div class="flashcard-container">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">
+              <h3 id="fcTerm"></h3>
+              <p>Klicka för att vända</p>
+            </div>
+            <div class="flashcard-back">
+              <p id="fcDef"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flash-hint" id="fcCat"></div>
+      <div class="flash-nav" style="margin-top:16px;">
+        <button onclick="prevCard()">←</button>
+        <span class="flash-counter" id="fcCounter">1 / ${flashcards.length}</span>
+        <button onclick="nextCard()">→</button>
+      </div>
+      <button class="quiz-btn" onclick="shuffleCards()" style="margin-top:16px">🔀 Blanda korten</button>
+    </div>
+
+    <!-- LÄGE 2: MATCHA -->
+    <div class="train-area" id="train-match">
+      <p style="text-align:center; color:var(--text2); margin-bottom:24px;">Klicka på ett begrepp till vänster och sedan på rätt förklaring till höger.</p>
+      <div class="match-grid" id="matchGrid"></div>
+      <div style="text-align:center; margin-top:24px; min-height:50px;">
+          <button class="quiz-btn primary" onclick="initMatchGame()" id="matchNextBtn" style="display:none; padding:12px 24px;">Bra jobbat! Kör nya begrepp ↻</button>
+      </div>
+    </div>
+
+    <!-- LÄGE 3: SANT ELLER FALSKT -->
+    <div class="train-area" id="train-tf">
+      <div class="tf-card">
+          <div style="font-size:0.85rem; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:8px;">Betyder begreppet...</div>
+          <div class="tf-term" id="tfTerm"></div>
+          <div style="font-size:0.85rem; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">...följande sak?</div>
+          <div class="tf-def" id="tfDef"></div>
+          <div class="tf-btns" id="tfBtns">
+              <button class="tf-btn true" onclick="answerTF(true)">Ja, Sant</button>
+              <button class="tf-btn false" onclick="answerTF(false)">Nej, Falskt</button>
+          </div>
+          <div class="tf-feedback" id="tfFeedback"></div>
+      </div>
+      <button class="tf-next-btn" id="tfNextBtn" onclick="nextTFQuestion()">Nästa begrepp →</button>
+    </div>
+
+    <!-- LÄGE 4: SKRIV -->
+    <div class="train-area" id="train-write">
+      <p style="text-align:center; color:var(--text2); margin-bottom:24px;">Läs förklaringen och skriv in exakt vilket begrepp som avses.</p>
+      <div class="write-card">
+          <div style="font-size:0.85rem; color:var(--text3); text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Vilket begrepp söks?</div>
+          <div class="write-def" id="writeDef"></div>
+          <div class="write-input-container">
+              <input type="text" class="write-input" id="writeInput" placeholder="Skriv ditt svar här..." autocomplete="off" onkeyup="handleWriteKey(event)">
+          </div>
+          <button class="write-btn" id="writeSubmitBtn" onclick="checkWriteAnswer()">Svara</button>
+          <button class="write-btn" id="writeNextBtn" onclick="nextWriteQuestion()" style="display:none;">Nästa begrepp →</button>
+          <div class="write-feedback" id="writeFeedback"></div>
+      </div>
+    </div>
+
+  </div></div>`;
+}
+
 // ============================================================
-// QUIZ BUILDER
+// QUIZ SYSTEM (Vanliga & Mega)
 // ============================================================
 function buildQuizHTML(key){
+  const len = quizData[key] ? quizData[key].length : 0;
   return `<div class="quiz-container" id="quiz-${key}">
-    <div class="quiz-header"><h3>📝 Quiz – Testa dig!</h3><span class="quiz-score" id="qscore-${key}">0 / ${quizData[key].length}</span></div>
+    <div class="quiz-header"><h3>📝 Quiz – Testa dina kunskaper!</h3><span class="quiz-score" id="qscore-${key}">0 / ${len}</span></div>
     <div class="quiz-progress"><div class="quiz-progress-fill" id="qprog-${key}"></div></div>
     <div id="qbody-${key}"></div>
   </div>`;
@@ -754,14 +948,19 @@ function renderQuestion(key){
   const qs=quizStates[key];
   const data=quizData[key];
   const body=document.getElementById('qbody-'+key);
+  
   if(qs.current>=data.length){
     completedQuizzes.add(key);
     updateProgress();
     const pct=Math.round(qs.score/data.length*100);
     let msg=pct>=80?"🎉 Fantastiskt!":pct>=50?"👍 Bra jobbat!":"📖 Läs igenom texten en gång till!";
-    body.innerHTML=`<div class="quiz-results"><div class="big-score">${qs.score} / ${data.length}</div><p>${pct}% rätt – ${msg}</p><button class="quiz-btn primary" onclick="initQuiz('${key}')" style="margin-top:20px">Gör om quizet</button></div>`;
+    
+    let extraBtn = key === 'mega' ? `<button class="quiz-btn" onclick="resetMegaQuiz()" style="margin-top:20px; margin-left:10px;">Bygg nytt prov</button>` : '';
+    
+    body.innerHTML=`<div class="quiz-results"><div class="big-score">${qs.score} / ${data.length}</div><p>${pct}% rätt – ${msg}</p><button class="quiz-btn primary" onclick="initQuiz('${key}')" style="margin-top:20px">Gör om quizet</button>${extraBtn}</div>`;
     return;
   }
+  
   const q=data[qs.current];
   const prog=((qs.current)/data.length)*100;
   document.getElementById('qprog-'+key).style.width=prog+'%';
@@ -801,8 +1000,281 @@ function nextQuestion(key){
   renderQuestion(key);
 }
 
+function updateMqSliderMax() {
+  const cbs = document.querySelectorAll('.mq-cb:checked');
+  let t = 0;
+  cbs.forEach(cb => { if(quizData[cb.value]) t += quizData[cb.value].length; });
+  if(t === 0) t = 1; 
+  const s = document.getElementById('mqNumSlider');
+  s.max = t;
+  if(parseInt(s.value) > t) s.value = t;
+  document.getElementById('mqNumVal').textContent = s.value;
+}
+
+function startMegaQuiz() {
+  const cbs = document.querySelectorAll('.mq-cb:checked');
+  if(cbs.length === 0) { alert("Du måste välja minst ett arbetsområde!"); return; }
+  
+  let allQ = [];
+  cbs.forEach(cb => { if(quizData[cb.value]) allQ = allQ.concat(quizData[cb.value]); });
+  allQ.sort(() => Math.random() - 0.5);
+  
+  const num = parseInt(document.getElementById('mqNumSlider').value);
+  quizData['mega'] = allQ.slice(0, num);
+  
+  document.getElementById('mega-quiz-setup').style.display = 'none';
+  document.getElementById('mega-quiz-container').style.display = 'block';
+  
+  initQuiz('mega');
+  document.getElementById('qbody-mega').scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
+function resetMegaQuiz() {
+  document.getElementById('mega-quiz-setup').style.display = 'block';
+  document.getElementById('mega-quiz-container').style.display = 'none';
+  quizData['mega'] = [];
+}
+
 // ============================================================
-// INTERACTIVE WIDGETS
+// BEGREPPSTRÄNING (FYRA LÄGEN)
+// ============================================================
+function buildFlashFilters(){
+  const f=document.getElementById('flashFilters');
+  if(!f)return;
+  const cats=['Alla','Del 1','Del 2','Del 3','Del 4','Del 5','Del 6','Del 7','Del 8'];
+  f.innerHTML=cats.map(c=>`<button class="flash-filter ${flashState.filter===c?'active':''}" onclick="filterCards('${c}')">${c}</button>`).join('');
+}
+
+function filterCards(cat){
+  flashState.filter=cat;
+  filteredCards=cat==='Alla'?[...flashcards]:flashcards.filter(c=>c.cat===cat);
+  buildFlashFilters();
+  
+  // Re-initiate the current active mode
+  if(flashState.mode === 'flash') { flashState.idx=0; flashState.flipped=false; renderCard(); }
+  else if(flashState.mode === 'match') { initMatchGame(); }
+  else if(flashState.mode === 'tf') { nextTFQuestion(); }
+  else if(flashState.mode === 'write') { initWriteGame(); }
+}
+
+function switchTrainMode(mode, btnEl) {
+  flashState.mode = mode;
+  document.querySelectorAll('.train-tab').forEach(t=>t.classList.remove('active'));
+  btnEl.classList.add('active');
+  
+  document.querySelectorAll('.train-area').forEach(a=>a.classList.remove('active'));
+  document.getElementById('train-' + mode).classList.add('active');
+  
+  if(mode === 'flash') renderCard();
+  if(mode === 'match') initMatchGame();
+  if(mode === 'tf') nextTFQuestion();
+  if(mode === 'write') initWriteGame();
+}
+
+// --- Mode 1: Flashcards ---
+function renderCard(){
+  const card=document.getElementById('flashcard');
+  if(!card||filteredCards.length===0)return;
+  card.classList.remove('flipped');
+  flashState.flipped=false;
+  const fc=filteredCards[flashState.idx];
+  document.getElementById('fcTerm').textContent=fc.term;
+  document.getElementById('fcDef').textContent=fc.def;
+  document.getElementById('fcCat').textContent=fc.cat;
+  document.getElementById('fcCounter').textContent=(flashState.idx+1)+' / '+filteredCards.length;
+}
+
+function flipCard(){
+  flashState.flipped=!flashState.flipped;
+  document.getElementById('flashcard').classList.toggle('flipped',flashState.flipped);
+}
+function nextCard(){ flashState.idx=(flashState.idx+1)%filteredCards.length; renderCard(); }
+function prevCard(){ flashState.idx=(flashState.idx-1+filteredCards.length)%filteredCards.length; renderCard(); }
+function shuffleCards(){ filteredCards.sort(()=>Math.random()-0.5); flashState.idx=0; renderCard(); }
+
+// --- Mode 2: Match Game ---
+function initMatchGame() {
+  if(filteredCards.length < 2) return; // Behöver minst två kort
+  document.getElementById('matchNextBtn').style.display = 'none';
+  selTerm = null; selDef = null;
+  
+  // Plocka 4 slumpmässiga kort (eller färre om listan är liten)
+  let pool = [...filteredCards].sort(()=>Math.random()-0.5).slice(0, 4);
+  
+  matchTerms = [...pool].sort(()=>Math.random()-0.5);
+  matchDefs = [...pool].sort(()=>Math.random()-0.5);
+  
+  renderMatchGrid();
+}
+
+function renderMatchGrid() {
+  const grid = document.getElementById('matchGrid');
+  
+  let termsHTML = `<div class="match-col">` + matchTerms.map(t => 
+    `<button class="match-btn term" id="mTerm-${t.term.replace(/\\s/g,'')}" onclick="selectMatch('term', '${t.term}')">${t.term}</button>`
+  ).join('') + `</div>`;
+  
+  let defsHTML = `<div class="match-col">` + matchDefs.map(d => 
+    `<button class="match-btn def" id="mDef-${d.term.replace(/\\s/g,'')}" onclick="selectMatch('def', '${d.term}')">${d.def}</button>`
+  ).join('') + `</div>`;
+  
+  grid.innerHTML = termsHTML + defsHTML;
+}
+
+function selectMatch(type, id) {
+  const cleanId = id.replace(/\\s/g,'');
+  
+  if(type === 'term') {
+    if(selTerm) document.getElementById('mTerm-'+selTerm.replace(/\\s/g,'')).classList.remove('selected');
+    selTerm = id;
+    document.getElementById('mTerm-'+cleanId).classList.add('selected');
+  } else {
+    if(selDef) document.getElementById('mDef-'+selDef.replace(/\\s/g,'')).classList.remove('selected');
+    selDef = id;
+    document.getElementById('mDef-'+cleanId).classList.add('selected');
+  }
+  
+  // Check if both selected
+  if(selTerm && selDef) {
+    const tEl = document.getElementById('mTerm-'+selTerm.replace(/\\s/g,''));
+    const dEl = document.getElementById('mDef-'+selDef.replace(/\\s/g,''));
+    
+    if(selTerm === selDef) {
+      // Match!
+      tEl.classList.remove('selected'); tEl.classList.add('correct');
+      dEl.classList.remove('selected'); dEl.classList.add('correct');
+      matchTerms = matchTerms.filter(t => t.term !== selTerm);
+      selTerm = null; selDef = null;
+      
+      if(matchTerms.length === 0) {
+        document.getElementById('matchNextBtn').style.display = 'inline-block';
+      }
+    } else {
+      // Wrong!
+      tEl.classList.add('wrong');
+      dEl.classList.add('wrong');
+      setTimeout(() => {
+        tEl.classList.remove('selected', 'wrong');
+        dEl.classList.remove('selected', 'wrong');
+        selTerm = null; selDef = null;
+      }, 500);
+    }
+  }
+}
+
+// --- Mode 3: True / False ---
+function nextTFQuestion() {
+  if(filteredCards.length < 2) return;
+  document.getElementById('tfBtns').style.display = 'flex';
+  document.getElementById('tfNextBtn').style.display = 'none';
+  const fb = document.getElementById('tfFeedback');
+  fb.className = 'tf-feedback';
+  
+  // Dra ett slumpmässigt kort
+  tfCard = filteredCards[Math.floor(Math.random() * filteredCards.length)];
+  tfIsTrue = Math.random() > 0.5;
+  
+  let defToShow = tfCard.def;
+  if(!tfIsTrue) {
+    // Dra en falsk definition
+    let wrongCard = filteredCards[Math.floor(Math.random() * filteredCards.length)];
+    while(wrongCard.term === tfCard.term) {
+      wrongCard = filteredCards[Math.floor(Math.random() * filteredCards.length)];
+    }
+    defToShow = wrongCard.def;
+  }
+  
+  document.getElementById('tfTerm').textContent = tfCard.term;
+  document.getElementById('tfDef').textContent = defToShow;
+}
+
+function answerTF(userGuess) {
+  document.getElementById('tfBtns').style.display = 'none';
+  document.getElementById('tfNextBtn').style.display = 'inline-block';
+  
+  const fb = document.getElementById('tfFeedback');
+  if(userGuess === tfIsTrue) {
+    fb.className = 'tf-feedback show correct';
+    fb.innerHTML = `✅ <strong>Helt rätt!</strong><br>` + (tfIsTrue ? `Ja, det är exakt vad ${tfCard.term} betyder.` : `Nej, det där var fel förklaring. ${tfCard.term} betyder egentligen: <em>${tfCard.def}</em>`);
+  } else {
+    fb.className = 'tf-feedback show wrong';
+    fb.innerHTML = `❌ <strong>Tyvärr fel.</strong><br>` + (tfIsTrue ? `Jo, förklaringen stämmer faktiskt för ${tfCard.term}.` : `Den riktiga förklaringen för ${tfCard.term} är: <em>${tfCard.def}</em>`);
+  }
+}
+
+// --- Mode 4: Write ---
+function initWriteGame() {
+  if(filteredCards.length === 0) return;
+  writeCards = [...filteredCards].sort(() => Math.random() - 0.5);
+  writeIdx = 0;
+  loadWriteQuestion();
+}
+
+function loadWriteQuestion() {
+  if(writeIdx >= writeCards.length) {
+    initWriteGame();
+    return;
+  }
+  const card = writeCards[writeIdx];
+  document.getElementById('writeDef').textContent = card.def;
+  const input = document.getElementById('writeInput');
+  input.value = '';
+  input.disabled = false;
+
+  document.getElementById('writeSubmitBtn').style.display = 'inline-block';
+  document.getElementById('writeNextBtn').style.display = 'none';
+  document.getElementById('writeFeedback').className = 'write-feedback';
+
+  setTimeout(() => input.focus(), 50);
+}
+
+function handleWriteKey(e) {
+  if (e.key === 'Enter') {
+    if (document.getElementById('writeSubmitBtn').style.display !== 'none') checkWriteAnswer();
+    else if (document.getElementById('writeNextBtn').style.display !== 'none') nextWriteQuestion();
+  }
+}
+
+function checkWriteAnswer() {
+  const input = document.getElementById('writeInput');
+  const userAns = input.value.trim().toLowerCase();
+  const card = writeCards[writeIdx];
+  const correctAns = card.term.trim().toLowerCase();
+
+  if(userAns === '') return;
+
+  const possibleAnswers = [correctAns];
+  if (correctAns.includes('(') && correctAns.includes(')')) {
+      const mainTerm = correctAns.split('(')[0].trim();
+      const subTerm = correctAns.match(/\(([^)]+)\)/)[1].trim();
+      possibleAnswers.push(mainTerm, subTerm);
+  }
+
+  const isCorrect = possibleAnswers.includes(userAns);
+
+  input.disabled = true;
+  document.getElementById('writeSubmitBtn').style.display = 'none';
+  document.getElementById('writeNextBtn').style.display = 'inline-block';
+
+  const fb = document.getElementById('writeFeedback');
+  if(isCorrect) {
+      fb.className = 'write-feedback show correct';
+      fb.innerHTML = `✅ <strong>Snyggt!</strong> Helt rätt stavat.`;
+  } else {
+      fb.className = 'write-feedback show wrong';
+      fb.innerHTML = `❌ <strong>Inte riktigt.</strong><br><span style="font-size:0.9rem;color:var(--text2)">Rätt svar är:</span><br><span class="write-correct-ans">${card.term}</span>`;
+  }
+  document.getElementById('writeNextBtn').focus();
+}
+
+function nextWriteQuestion() {
+  writeIdx++;
+  loadWriteQuestion();
+}
+
+
+// ============================================================
+// OTHER WIDGETS
 // ============================================================
 function updatePrice(){
   const s=+document.getElementById('supplySlider').value;
@@ -898,58 +1370,7 @@ function buildTradeChart(){
 }
 
 // ============================================================
-// FLASHCARDS
-// ============================================================
-let filteredCards=[...flashcards];
-
-function buildFlashFilters(){
-  const f=document.getElementById('flashFilters');
-  if(!f)return;
-  const cats=['Alla','Del 1','Del 2','Del 3','Del 4','Del 5','Del 6','Del 7','Del 8'];
-  f.innerHTML=cats.map(c=>`<button class="flash-filter ${flashState.filter===c?'active':''}" onclick="filterCards('${c}')">${c}</button>`).join('');
-}
-
-function filterCards(cat){
-  flashState.filter=cat;
-  flashState.idx=0;
-  flashState.flipped=false;
-  filteredCards=cat==='Alla'?[...flashcards]:flashcards.filter(c=>c.cat===cat);
-  buildFlashFilters();
-  renderCard();
-}
-
-function renderCard(){
-  const card=document.getElementById('flashcard');
-  if(!card||filteredCards.length===0)return;
-  card.classList.remove('flipped');
-  flashState.flipped=false;
-  const fc=filteredCards[flashState.idx];
-  document.getElementById('fcTerm').textContent=fc.term;
-  document.getElementById('fcDef').textContent=fc.def;
-  document.getElementById('fcCat').textContent=fc.cat;
-  document.getElementById('fcCounter').textContent=(flashState.idx+1)+' / '+filteredCards.length;
-}
-
-function flipCard(){
-  flashState.flipped=!flashState.flipped;
-  document.getElementById('flashcard').classList.toggle('flipped',flashState.flipped);
-}
-function nextCard(){
-  flashState.idx=(flashState.idx+1)%filteredCards.length;
-  renderCard();
-}
-function prevCard(){
-  flashState.idx=(flashState.idx-1+filteredCards.length)%filteredCards.length;
-  renderCard();
-}
-function shuffleCards(){
-  filteredCards.sort(()=>Math.random()-0.5);
-  flashState.idx=0;
-  renderCard();
-}
-
-// ============================================================
-// NAVIGATION
+// NAVIGATION INIT
 // ============================================================
 function goTo(id){
   currentSection=id;
@@ -957,14 +1378,16 @@ function goTo(id){
   document.getElementById('sec-'+id).classList.add('active');
   buildNav();
   window.scrollTo(0,0);
-  // Init quiz if needed
   const qkey=id;
   if(quizData[qkey]&&!quizStates[qkey])initQuiz(qkey);
-  // Init flashcards
-  if(id==='begrepp'){buildFlashFilters();renderCard();}
-  // Trade chart
+  if(id==='begrepp'){
+    buildFlashFilters();
+    if(flashState.mode === 'flash') renderCard();
+    if(flashState.mode === 'match') initMatchGame();
+    if(flashState.mode === 'tf') nextTFQuestion();
+    if(flashState.mode === 'write') initWriteGame();
+  }
   if(id==='del6')setTimeout(buildTradeChart,100);
-  // Close mobile nav
   document.getElementById('nav').classList.remove('open');
   document.getElementById('navOverlay').classList.remove('show');
 }
@@ -975,18 +1398,18 @@ function toggleNav(){
 }
 
 function updateProgress(){
-  const total=Object.keys(quizData).length;
-  const done=completedQuizzes.size;
+  const baseKeys = ['del1','del2','del3','del4','del5','del6','del7','del8'];
+  const total = baseKeys.length;
+  let done = 0;
+  baseKeys.forEach(k => { if(completedQuizzes.has(k)) done++; });
   document.getElementById('progressFill').style.width=(done/total*100)+'%';
   document.getElementById('progressText').textContent=done+' av '+total+' quiz avklarade';
 }
 
-// ============================================================
-// INIT
-// ============================================================
 buildNav();
 buildAllSections();
 initQuiz('del1');
+updateMqSliderMax(); 
 </script>
 </body>
 </html>
