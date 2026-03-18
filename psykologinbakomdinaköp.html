@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beteendeekonomi – Psykologin bakom dina köp</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #0B0B0E;
+  --bg-soft:  #14141A;
+  --brain:    #B366FF; /* Psykologi-lila */
+  --brain-dk: #6B2B99;
+  --neon:     #FF44CC; /* Uppmärksamhet-rosa */
+  --neon-dk:  #A61B7F;
+  --paper:    #F5F0E8;
+  --text:     #E0E0E5;
+  --text-dim: rgba(224,224,229,0.65);
+  --border:   rgba(179,102,255,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 20px;
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--brain), var(--neon));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 40%, #1d122b 0%, #0b0b0e 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px;
+  text-align: center;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: 
+    linear-gradient(rgba(179,102,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(179,102,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  transform: perspective(500px) rotateX(60deg);
+  transform-origin: bottom;
+}
+.hero-vignette {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(11,11,14,1) 100%);
+  pointer-events: none;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--brain); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards;
+  position: relative; z-index: 2;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 8vw, 96px);
+  font-weight: 900; line-height: 1.0;
+  color: var(--paper);
+  text-shadow: 0 0 60px rgba(255,68,204,0.3);
+  margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards;
+  position: relative; z-index: 2;
+}
+.hero h1 em { color: var(--neon); font-style: italic; }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim);
+  max-width: 650px; line-height: 1.5; margin-bottom: 48px;
+  font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards;
+  position: relative; z-index: 2;
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: 80px 40px;
+}
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px;
+  padding: 40px 60px;
+  border-left: 4px solid var(--neon);
+  background: linear-gradient(135deg, rgba(255,68,204,0.08), transparent);
+  position: relative;
+}
+.pullquote::before {
+  content: '"';
+  font-family: 'Playfair Display', serif;
+  font-size: 180px; line-height: 0.7;
+  color: var(--neon); opacity: 0.15;
+  position: absolute; top: 20px; left: 20px;
+  pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400;
+  color: var(--paper); line-height: 1.4;
+  position: relative;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker {
+  display: flex; align-items: center; gap: 20px;
+  margin: 80px 0 32px;
+}
+.section-marker::before, .section-marker::after {
+  content: ''; height: 1px; flex: 1; background: var(--border);
+}
+.section-marker span {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--brain); white-space: nowrap;
+}
+
+h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 900; line-height: 1.15;
+  color: var(--paper); margin-bottom: 28px;
+}
+h2 em { color: var(--brain); font-style: italic; }
+h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px; font-weight: 700;
+  color: var(--neon); margin: 40px 0 16px;
+}
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── SHOP SIMULATOR ── */
+.shop-wrap {
+  margin: 60px -60px;
+  background: linear-gradient(135deg, var(--bg-soft), #0a0a0c);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 50px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  position: relative; overflow: hidden;
+}
+.shop-wrap::before {
+  content: '🛒'; font-size: 200px; position: absolute;
+  right: -20px; top: 50%; transform: translateY(-50%);
+  opacity: 0.03; pointer-events: none; filter: grayscale(1);
+}
+.shop-intro {
+  text-align: center; margin-bottom: 40px; position: relative; z-index: 2;
+}
+.shop-intro h3 { margin-top: 0; color: var(--paper); font-size: 28px; }
+.shop-intro p { font-size: 17px; color: var(--text-dim); }
+
+.shelf {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  position: relative; z-index: 2; margin-bottom: 30px;
+}
+.product {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 24px 16px; text-align: center; cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+}
+.product:hover {
+  background: rgba(179,102,255,0.08); border-color: var(--brain);
+  transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+.product.selected {
+  border-color: var(--neon); background: rgba(255,68,204,0.1);
+  box-shadow: 0 0 20px rgba(255,68,204,0.2);
+}
+.product.selected::after {
+  content: '✓'; position: absolute; top: 10px; right: 10px;
+  background: var(--neon); color: var(--ink); width: 24px; height: 24px;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: var(--mono); font-weight: bold; font-size: 14px;
+}
+.p-emoji { font-size: 48px; display: block; margin-bottom: 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+.p-name { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--paper); margin-bottom: 6px; }
+.p-desc { font-size: 12px; color: var(--text-dim); line-height: 1.4; margin-bottom: 16px; min-height: 34px; }
+.p-price-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.p-price { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--text); }
+.p-old-price { font-family: var(--mono); font-size: 12px; color: #e74c3c; text-decoration: line-through; }
+.p-tag { font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.tag-sale { background: #e74c3c; color: white; }
+.tag-normal { background: rgba(255,255,255,0.1); color: var(--text-dim); }
+
+.checkout-btn {
+  display: block; width: 100%; max-width: 300px; margin: 0 auto;
+  background: var(--brain); color: var(--ink); border: none;
+  padding: 16px 24px; border-radius: 8px; font-family: var(--mono);
+  font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+  cursor: pointer; transition: all 0.2s; position: relative; z-index: 2;
+}
+.checkout-btn:hover { background: var(--paper); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(255,255,255,0.1); }
+.checkout-btn:disabled { background: #333; color: #666; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Shop Receipt / Analysis */
+#receipt-view { display: none; position: relative; z-index: 2; animation: fadeUp 0.5s ease forwards; }
+.receipt-paper {
+  background: #f4f4f4; color: #222; padding: 40px;
+  border-radius: 4px; font-family: var(--mono); position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.receipt-paper::before {
+  content: ''; position: absolute; top: -10px; left: 0; right: 0; height: 10px;
+  background: radial-gradient(circle, transparent, transparent 50%, #f4f4f4 50%, #f4f4f4);
+  background-size: 20px 20px; background-position: -10px 10px;
+}
+.receipt-header { text-align: center; margin-bottom: 30px; border-bottom: 2px dashed #ccc; padding-bottom: 20px; }
+.receipt-header h4 { font-size: 24px; margin: 0 0 10px; letter-spacing: 2px; }
+.analysis-item { margin-bottom: 24px; }
+.a-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; display: flex; justify-content: space-between; }
+.a-trick { color: var(--neon-dk); font-size: 13px; font-style: italic; line-height: 1.5; font-family: 'Crimson Pro', serif; }
+.receipt-total { border-top: 2px dashed #ccc; padding-top: 20px; margin-top: 20px; font-size: 18px; font-weight: 700; display: flex; justify-content: space-between; }
+.restart-shop {
+  margin-top: 24px; background: transparent; border: 1px solid #999;
+  color: #555; padding: 8px 16px; cursor: pointer; font-family: var(--mono);
+  font-size: 12px; transition: all 0.2s;
+}
+.restart-shop:hover { background: #222; color: #fff; border-color: #222; }
+
+/* ── LOSS AVERSION GAME ── */
+.loss-wrap {
+  margin: 80px -60px;
+  background: linear-gradient(135deg, rgba(255,68,204,0.1), rgba(11,11,14,0.9));
+  border: 1px solid var(--border); border-radius: 12px;
+  padding: 50px; text-align: center;
+}
+.loss-wrap h3 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--paper); margin-bottom: 16px; }
+.loss-context { font-size: 18px; color: var(--text-dim); margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+
+.coin-area { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+.coin {
+  width: 120px; height: 120px; border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+  border: 4px solid #fff; box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900; color: #fff;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+.coin.flipping { animation: flip 1s ease-in-out; }
+@keyframes flip { 
+  0% { transform: rotateY(0) scale(1); } 
+  50% { transform: rotateY(900deg) scale(1.2); } 
+  100% { transform: rotateY(1800deg) scale(1); } 
+}
+
+.loss-btns { display: flex; gap: 16px; justify-content: center; }
+.loss-btn {
+  background: var(--bg-soft); border: 1px solid var(--border);
+  color: var(--text); padding: 14px 28px; border-radius: 8px;
+  font-family: var(--mono); font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px;
+}
+.loss-btn.play { background: var(--brain); color: var(--ink); border: none; }
+.loss-btn.play:hover { background: var(--neon); transform: translateY(-2px); }
+.loss-btn.decline:hover { background: rgba(255,255,255,0.05); }
+
+#loss-result { margin-top: 30px; font-size: 20px; min-height: 60px; font-weight: 600; }
+.win-text { color: #2ecc71; }
+.lose-text { color: #e74c3c; }
+
+/* ── FACT BOX ── */
+.fact-box {
+  background: rgba(179,102,255,0.05);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brain);
+  border-radius: 0 6px 6px 0;
+  padding: 24px; margin: 40px 0;
+}
+.fact-box-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--brain); margin-bottom: 12px; }
+.fact-box p { font-size: 17px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+
+/* ── TEACHER SECTION ── */
+.teacher-section {
+  background: #08080A; border-top: 1px solid var(--border);
+  padding: 80px 40px; margin-top: 80px;
+}
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--brain); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  padding: 10px 20px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--brain); color: var(--brain); background: rgba(179,102,255,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(179,102,255,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(179,102,255,0.25); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--brain); }
+
+/* ── INTERACTIVE WRITING TASKS ── */
+.write-task { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+.write-task h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 8px; }
+.write-task p { font-size: 15px; color: var(--text-dim); margin-bottom: 16px; }
+.write-task textarea { 
+  width: 100%; height: 100px; background: rgba(0,0,0,0.3); border: 1px solid rgba(179,102,255,0.3); 
+  border-radius: 6px; color: var(--text); padding: 12px; font-family: 'Crimson Pro', serif; font-size: 16px;
+  resize: vertical; margin-bottom: 12px; transition: border-color 0.2s;
+}
+.write-task textarea:focus { outline: none; border-color: var(--brain); box-shadow: 0 0 8px rgba(179,102,255,0.2); }
+.submit-btn {
+  background: var(--brain); color: var(--ink); border: none; padding: 10px 20px; border-radius: 6px;
+  font-family: var(--mono); font-size: 12px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.2s;
+}
+.submit-btn:hover { background: var(--neon); }
+.write-feedback {
+  display: none; background: rgba(179,102,255,0.1); border-left: 3px solid var(--brain);
+  padding: 16px; margin-top: 16px; font-size: 15px; color: var(--text); line-height: 1.6; border-radius: 0 6px 6px 0;
+  animation: fadeUp 0.3s ease;
+}
+
+/* ── QUIZ STYLES ── */
+.quiz-container { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 36px; }
+.quiz-container h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; margin-top:0; }
+.quiz-container p { font-size: 16px; color: var(--text-dim); margin-bottom: 24px; }
+.quiz-start-btn { background: rgba(179,102,255,0.15); border: 1px solid var(--brain); color: var(--brain); padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--brain); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--brain); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(179,102,255,0.2); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: var(--brain); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); margin-bottom: 20px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid rgba(179,102,255,0.3); padding: 14px 20px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; line-height: 1.4; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--brain); background: rgba(179,102,255,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2ecc71; background: rgba(46,204,113,0.15); color: #eafaf1; }
+.quiz-opt.wrong { border-color: #e74c3c; background: rgba(231,76,60,0.15); color: #fdedec; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--brain); background: rgba(179,102,255,0.15); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 20px; padding: 16px 20px; background: rgba(179,102,255,0.1); border-left: 3px solid var(--brain); font-size: 16px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 20px; background: var(--brain); color: var(--ink); border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 20px 0; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--brain-dk), var(--neon-dk)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(179,102,255,0.2); color: white; }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .article { padding: 60px 24px; }
+  .shop-wrap, .loss-wrap { margin: 60px 0; padding: 32px 24px; }
+  .shelf { grid-template-columns: 1fr; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 100px; }
+  .teacher-section { padding: 60px 24px; }
+  .q-block { gap: 14px; }
+  .quiz-container { padding: 24px 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-label">SO-Portalen · Samhällskunskap · Ekonomi</div>
+  <h1>Psykologin bakom<br><em>dina köp</em></h1>
+  <p class="hero-sub">Inom traditionell ekonomi antas vi vara logiska maskiner. Men beteendeekonomin visar sanningen: vi är känslostyrda varelser som ständigt luras av vår egen hjärna.</p>
+</section>
+
+<article class="article">
+
+  <p style="font-size:23px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Har du någonsin gått in i en mataffär för att köpa mjölk, men kommit ut med en påse chips, två par strumpor på rea och en energidryck? Du är inte ensam. Butiker är designade för att kapa ditt beslutsfattande.
+  </p>
+
+  <p>Länge byggde nationalekonomin på idén om <em>Homo Economicus</em> – den rationella människan som alltid väger kostnad mot nytta och fattar det mest logiska beslutet. Problemet? Den människan existerar inte.</p>
+  
+  <p>Välkommen till <strong>beteendeekonomi</strong>. Här kombineras ekonomi med psykologi för att förstå hur vi <em>faktiskt</em> beter oss. Låt oss testa hur lättlurad din hjärna är.</p>
+
+  <div class="section-marker"><span>Experiment 01</span></div>
+  <h2>Den <em>dolda</em> butiken</h2>
+
+  <p>Du står i mataffären. Du är sugen på något gott. Här är tre alternativ på hyllan. Klicka på den eller de varor du skulle vilja lägga i din varukorg och gå sedan till kassan.</p>
+
+  <div class="shop-wrap" id="shop-simulator">
+    <div id="shop-view">
+      <div class="shop-intro">
+        <h3>Välj dina varor</h3>
+        <p>Välj minst en vara för att gå vidare.</p>
+      </div>
+
+      <div class="shelf">
+        <!-- Produkt A: Ankareffekten (Decoy) -->
+        <div class="product" data-id="premium" data-price="49" data-trick="Ankareffekten" data-desc="Du drogs till den röda prislappen. Butiken sätter ett medvetet högt 'ordinarie pris' (99 kr) för att 49 kr ska kännas som ett kap. Detta kallas förväntningsvärde eller 'Ankareffekt'. Du utvärderar inte längre om flingorna är värda 49 kr, du gläds åt att du 'tjänat' 50 kr." onclick="toggleProduct(this)">
+          <span class="p-emoji">🥣</span>
+          <div class="p-name">Premium Flingor</div>
+          <div class="p-desc">Ekologiska lyxflingor.</div>
+          <div class="p-price-wrap">
+            <span class="p-old-price">99 kr</span>
+            <span class="p-price">49 kr</span>
+            <span class="p-tag tag-sale">Sänkt pris!</span>
+          </div>
+        </div>
+
+        <!-- Produkt B: Nudging (Ögonhöjd) -->
+        <div class="product" data-id="standard" data-price="45" data-trick="Nudging (Placering)" data-desc="Denna vara låg bekvämt placerad i mitten, precis i ögonhöjd. Butiker tar ofta extra betalt av leverantörer för dessa platser, eftersom vi människor är lata från naturen och väljer det som är lättast att nå." onclick="toggleProduct(this)">
+          <span class="p-emoji">🍪</span>
+          <div class="p-name">Standard Kex</div>
+          <div class="p-desc">Klassiska kex. I ögonhöjd.</div>
+          <div class="p-price-wrap">
+            <span class="p-old-price" style="opacity:0;">0</span>
+            <span class="p-price">45 kr</span>
+            <span class="p-tag tag-normal">Ordinarie</span>
+          </div>
+        </div>
+
+        <!-- Produkt C: Ego Depletion (Kassan) -->
+        <div class="product" data-id="impulse" data-price="15" data-trick="Impulsköp & Beslutströtthet" data-desc="Chokladkakan låg vid kassan. När du gått genom hela butiken och fattat mängder av små beslut (vilken ost? vilken mjölk?) lider hjärnan av 'beslutströtthet' (Ego Depletion). Då försvinner din impulskontroll och hjärnan skriker efter snabb energi (socker)." onclick="toggleProduct(this)">
+          <span class="p-emoji">🍫</span>
+          <div class="p-name">Chokladbit</div>
+          <div class="p-desc">Ligger vid kassabandet.</div>
+          <div class="p-price-wrap">
+            <span class="p-old-price" style="opacity:0;">0</span>
+            <span class="p-price">15 kr</span>
+            <span class="p-tag tag-normal">Litet pris</span>
+          </div>
+        </div>
+      </div>
+
+      <button class="checkout-btn" id="checkout-btn" disabled onclick="checkout()">Gå till kassan →</button>
+    </div>
+
+    <div id="receipt-view">
+      <div class="receipt-paper">
+        <div class="receipt-header">
+          <h4>DITT KVITTO</h4>
+          <p>Tid: <span id="receipt-time"></span></p>
+        </div>
+        <div id="receipt-items"></div>
+        <div class="receipt-total">
+          <span>Totalt att betala:</span>
+          <span id="receipt-total-sum">0 kr</span>
+        </div>
+        <div style="margin-top: 20px; font-size: 14px; font-weight: bold; text-align: center; border-top: 1px solid #ddd; padding-top: 20px;">
+          PSYKOLOGISK ANALYS AV DITT KÖP 🧠
+        </div>
+        <div id="receipt-analysis" style="margin-top: 10px;"></div>
+        <div style="text-align: center;">
+          <button class="restart-shop" onclick="resetShop()">Gå in i butiken igen ↺</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p>Det du precis upplevde kallas för <strong>Nudging</strong> (knuffning). Det handlar om att designa en miljö på ett sätt som "knuffar" människors beteende i en viss riktning, utan att förbjuda några alternativ.</p>
+
+  <div class="fact-box">
+    <div class="fact-box-label">Vem vann Nobelpriset?</div>
+    <p>Teorierna om Nudging och beteendeekonomi är så banbrytande att den amerikanske ekonomen <strong>Richard Thaler</strong> tilldelades Sveriges Riksbanks pris i ekonomisk vetenskap till Alfred Nobels minne år 2017 för sin forskning på området.</p>
+  </div>
+
+  <div class="section-marker"><span>Experiment 02</span></div>
+  <h2>Varför det gör ont att <em>förlora</em></h2>
+
+  <p>Låt oss göra ett annat tankeexperiment. Titta på spelet nedan. Oddsen är exakt 50/50. Men om du vinner får du <em>mer</em> pengar än vad du riskerar att förlora. Rent matematiskt är det ett fantastiskt vadslag. Spelar du?</p>
+
+  <div class="loss-wrap">
+    <h3>Slantsinglingen</h3>
+    <p class="loss-context">Vi singlar en slant. Blir det <strong>Krona</strong> vinner du 150 kr. Blir det <strong>Klave</strong> förlorar du 100 kr.</p>
+    
+    <div class="coin-area">
+      <div class="coin" id="coin-visual">?</div>
+      
+      <div class="loss-btns" id="loss-actions">
+        <button class="loss-btn play" onclick="flipCoin()">Ja, jag spelar! (Krona)</button>
+        <button class="loss-btn decline" onclick="declineGame()">Nej, jag avstår.</button>
+      </div>
+      
+      <div id="loss-result"></div>
+    </div>
+  </div>
+
+  <p>Om du valde att avstå (som de flesta människor gör när det handlar om riktiga pengar), har du just demonstrerat <strong>Förlustaversion</strong> (Loss Aversion). Forskning visar att den psykologiska smärtan av att förlora 100 kr är ungefär <em>dubbelt så stark</em> som glädjen av att vinna 100 kr.</p>
+
+  <div class="pullquote">
+    <p>Människor är inte riskaversiva, vi är förlustaversiva. Vi hatar att förlora mer än vi älskar att vinna.</p>
+  </div>
+
+  <p>Hur används detta mot oss? Jo, tänk på hur streamingtjänster ofta ger dig "Första månaden gratis". När månaden är slut har du redan vant dig vid tjänsten. Att säga upp den känns nu som en <em>förlust</em> av något du "äger", och plötsligt betalar du 149 kr i månaden utan att tänka på det. Det kallas också för *Endowment-effekten* (ägar-effekten).</p>
+
+  <div class="section-marker"><span>Slutsats</span></div>
+  <h2>Ta tillbaka <em>kontrollen</em></h2>
+
+  <p>Butiker, appar och företag spenderar miljarder på att förstå din hjärna bättre än vad du själv gör. Genom att förstå begrepp som Nudging, Ankareffekten och Förlustaversion blir du inte immun mot dem – men du får chansen att stanna upp vid kassabandet, titta på chokladbiten och fråga dig själv:</p>
+  <p><em>"Är jag hungrig, eller är min hjärna bara beslutstrött?"</em></p>
+
+</article>
+
+<!-- ══════════════════════════════
+     LÄRARSEKTION
+══════════════════════════════ -->
+<section class="teacher-section">
+  <div class="teacher-inner">
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns material för att koppla artikeln om beteendeekonomi till centralt innehåll i Lgr22 för Samhällskunskap. Här kan du öva på begreppen eller testa dina kunskaper.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('skriv', this)">✍️ Skriv & Återkoppling</button>
+        <button class="t-tab" onclick="showTeacherTab('quiz', this)">✅ Quiz</button>
+        <button class="t-tab" onclick="showTeacherTab('uppdrag', this)">🔍 Fältuppdrag</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Lgr22</button>
+      </div>
+    </div>
+
+    <!-- DISKUSSION -->
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Förstå begreppen</h4>
+          <ul class="q-list">
+            <li>Kan "Nudging" användas för goda syften (t.ex. minska matsvinn eller påverka miljön)? Ge exempel!</li>
+            <li>Vad menas med "Ankareffekten" och hur kan reaskyltar utnyttja detta?</li>
+            <li>Diskutera varför vi ofta drabbas av "beslutströtthet" (ego depletion) just i mataffären.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Reflektera över din egen vardag</h4>
+          <ul class="q-list">
+            <li>Kan du komma på ett tillfälle nyligen då du köpte något på grund av förlustaversion? (T.ex. ett tidsbegränsat erbjudande: "Bara 2 kvar i lager!").</li>
+            <li>Appar och sociala medier använder också beteendeekonomi. Hur designas appar (t.ex. TikTok eller mobilspel) för att fånga vår uppmärksamhet?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKRIV & ÅTERKOPPLING -->
+    <div class="t-panel" id="t-skriv">
+      <div class="write-task">
+        <h4>1. Förklara Nudging</h4>
+        <p>Förklara med egna ord vad "Nudging" (knuffning) innebär inom beteendeekonomi.</p>
+        <textarea id="write-input-1" placeholder="Skriv ditt svar här..."></textarea>
+        <button class="submit-btn" onclick="checkWritingTask(1)">Få återkoppling</button>
+        <div class="write-feedback" id="write-feedback-1"></div>
+      </div>
+
+      <div class="write-task">
+        <h4>2. Beslutströtthet</h4>
+        <p>När är vi människor som mest sårbara för "beslutströtthet" (ego depletion) och hur utnyttjar butiker detta?</p>
+        <textarea id="write-input-2" placeholder="Skriv ditt svar här..."></textarea>
+        <button class="submit-btn" onclick="checkWritingTask(2)">Få återkoppling</button>
+        <div class="write-feedback" id="write-feedback-2"></div>
+      </div>
+      
+      <div class="write-task">
+        <h4>3. Förlustaversion i vardagen</h4>
+        <p>Ge ett eget exempel på hur ett företag (t.ex. en streamingtjänst eller en webbshop) utnyttjar vår inbyggda förlustaversion.</p>
+        <textarea id="write-input-3" placeholder="Skriv ditt svar här..."></textarea>
+        <button class="submit-btn" onclick="checkWritingTask(3)">Få återkoppling</button>
+        <div class="write-feedback" id="write-feedback-3"></div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-container">
+        <h3>Testa dina kunskaper</h3>
+        <p>Gör detta quiz om 8 frågor för att se hur mycket du minns om beteendeekonomi från artikeln.</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          <div class="quiz-options" id="quiz-opts"></div>
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title" class="score-title">Bra jobbat!</h3>
+          <p id="score-msg" class="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FÄLTUPPDRAG -->
+    <div class="t-panel" id="t-uppdrag">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Detektiv i mataffären</h4>
+          <p style="color: var(--text-dim); line-height: 1.6;">Gå in i en valfri matbutik (eller rita upp en karta utifrån minnet). Ditt uppdrag är att hitta bevis på beteendeekonomi.</p>
+          <ul class="q-list" style="margin-top: 14px;">
+            <li>Vad är det absolut första du möts av när du går in i butiken? (Ofta frukt & grönt för att sätta en "fräsch och nyttig" stämning som gör att du med gott samvete kan köpa skräpmat senare).</li>
+            <li>Hitta en vara som säljs i "Flerpack" (t.ex. "3 för 2"). Räkna ut styckpriset. Tjänar du verkligen på det om du bara behövde en?</li>
+            <li>Titta vid kassan. Vilka varor finns där? Varför tror du att de placerats just där?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- LGR22 -->
+    <div class="t-panel" id="t-lgr">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Koppling till kursplanen (Samhällskunskap)</h4>
+          <ul class="q-list">
+            <li><strong>Privatekonomi:</strong> Sambandet mellan inkomster, utgifter och budget. Hur hushållens ekonomi påverkas av konsumtionsmönster och reklam.</li>
+            <li><strong>Information och kommunikation:</strong> Hur medier och information (inklusive butiksdesign och digitala gränssnitt) kan påverka och forma människors åsikter och handlande.</li>
+            <li><strong>Kritiskt tänkande:</strong> Att granska hur ekonomiska budskap framställs och vilka syften som döljer sig bakom ekonomiska erbjudanden.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── SHOP SIMULATOR LOGIC ──
+let cart = [];
+
+function toggleProduct(el) {
+  const id = el.getAttribute('data-id');
+  
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    cart = cart.filter(item => item.id !== id);
+  } else {
+    el.classList.add('selected');
+    cart.push({
+      id: id,
+      name: el.querySelector('.p-name').innerText,
+      price: parseInt(el.getAttribute('data-price')),
+      trick: el.getAttribute('data-trick'),
+      desc: el.getAttribute('data-desc')
+    });
+  }
+  
+  const btn = document.getElementById('checkout-btn');
+  if (cart.length > 0) {
+    btn.disabled = false;
+    btn.textContent = `Gå till kassan (${cart.length} varor) →`;
+  } else {
+    btn.disabled = true;
+    btn.textContent = `Gå till kassan →`;
+  }
+}
+
+function checkout() {
+  document.getElementById('shop-view').style.display = 'none';
+  const receiptView = document.getElementById('receipt-view');
+  receiptView.style.display = 'block';
+  
+  // Set time
+  const now = new Date();
+  document.getElementById('receipt-time').innerText = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+  
+  // Build items and analysis
+  const itemsContainer = document.getElementById('receipt-items');
+  const analysisContainer = document.getElementById('receipt-analysis');
+  itemsContainer.innerHTML = '';
+  analysisContainer.innerHTML = '';
+  
+  let totalSum = 0;
+  
+  cart.forEach(item => {
+    // Receipt line
+    totalSum += item.price;
+    itemsContainer.innerHTML += `
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span>1x ${item.name}</span>
+        <span>${item.price} kr</span>
+      </div>
+    `;
+    
+    // Analysis block
+    analysisContainer.innerHTML += `
+      <div class="analysis-item">
+        <div class="a-title"><span>${item.name}</span> <span class="a-trick">${item.trick}</span></div>
+        <p style="font-size:13px; color:#555; line-height:1.5;">${item.desc}</p>
+      </div>
+    `;
+  });
+  
+  document.getElementById('receipt-total-sum').innerText = `${totalSum} kr`;
+  
+  // Scroll to receipt
+  receiptView.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function resetShop() {
+  cart = [];
+  document.querySelectorAll('.product').forEach(el => el.classList.remove('selected'));
+  document.getElementById('checkout-btn').disabled = true;
+  document.getElementById('checkout-btn').textContent = `Gå till kassan →`;
+  document.getElementById('receipt-view').style.display = 'none';
+  document.getElementById('shop-view').style.display = 'block';
+}
+
+// ── LOSS AVERSION GAME ──
+function flipCoin() {
+  const coin = document.getElementById('coin-visual');
+  const btnArea = document.getElementById('loss-actions');
+  const resultDiv = document.getElementById('loss-result');
+  
+  // Disable buttons
+  btnArea.style.opacity = '0.5';
+  btnArea.style.pointerEvents = 'none';
+  resultDiv.innerHTML = '';
+  
+  // Animate coin
+  coin.classList.add('flipping');
+  
+  setTimeout(() => {
+    coin.classList.remove('flipping');
+    // Random 50/50
+    const win = Math.random() > 0.5;
+    
+    if (win) {
+      coin.innerText = 'K'; // Krona
+      coin.style.background = 'radial-gradient(circle at 30% 30%, #2ecc71, #27ae60)';
+      resultDiv.innerHTML = '<span class="win-text">Krona! Du vann 150 kr! 🎉</span><br><span style="font-size:14px; color:#aaa;">Du tog en matematisk klok risk och det lönade sig.</span>';
+    } else {
+      coin.innerText = 'Kl'; // Klave
+      coin.style.background = 'radial-gradient(circle at 30% 30%, #e74c3c, #c0392b)';
+      resultDiv.innerHTML = '<span class="lose-text">Klave. Du förlorade 100 kr. 📉</span><br><span style="font-size:14px; color:#aaa;">Aj! Känn efter hur det känns i magen. Matematiken var på din sida, men otur sker.</span>';
+    }
+    
+    // Reset buttons after a while so they can play again
+    setTimeout(() => {
+      btnArea.style.opacity = '1';
+      btnArea.style.pointerEvents = 'auto';
+      coin.style.background = 'radial-gradient(circle at 30% 30%, #ffd700, #b8860b)';
+      coin.innerText = '?';
+    }, 4000);
+    
+  }, 1000);
+}
+
+function declineGame() {
+  const resultDiv = document.getElementById('loss-result');
+  resultDiv.innerHTML = '<span style="color:var(--text-dim);">Du avstod. Din hjärna prioriterade trygghet framför en matematiskt fördelaktig risk. Det är ett klassiskt bevis på <strong>förlustaversion</strong>!</span>';
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── WRITING TASK LOGIC ──
+function checkWritingTask(id) {
+  const input = document.getElementById('write-input-' + id).value.trim().toLowerCase();
+  const feedbackEl = document.getElementById('write-feedback-' + id);
+  let feedbackHTML = '';
+
+  if(input.length < 20) {
+    feedbackHTML = '<strong style="color:var(--neon);">Skriv lite mer!</strong> Utveckla ditt resonemang innan du ber om återkoppling.';
+  } else {
+    let success = false;
+    let modelAnswer = '';
+
+    if (id === 1) { // Nudging
+      modelAnswer = 'Nudging (knuffning) handlar om att designa valsituationer eller miljöer så att det blir lättare för människor att göra bra val, utan att förbjuda andra alternativ eller ändra priser (t.ex. att ställa salladsbaren först i en buffé).';
+      if (input.includes('puffa') || input.includes('knuffa') || input.includes('påverka') || input.includes('miljö') || input.includes('val') || input.includes('design') || input.includes('förbjuda')) {
+        success = true;
+      }
+    } else if (id === 2) { // Beslutströtthet
+      modelAnswer = 'Vi är som mest sårbara när vi fattat många beslut under en kort tid och är trötta, till exempel i slutet av en köprunda. Butiker utnyttjar detta genom att placera snabb energi (som choklad) vid kassorna där vår impulskontroll är som lägst.';
+      if (input.includes('kassan') || input.includes('trötta') || input.includes('många beslut') || input.includes('slutet') || input.includes('godis') || input.includes('impulskontroll')) {
+        success = true;
+      }
+    } else if (id === 3) { // Förlustaversion
+      modelAnswer = 'Många företag erbjuder "prova gratis i en månad". När månaden är över har kunden börjat känna ägandeskap över tjänsten. Att säga upp den upplevs nu som en *förlust*, vilket är psykologiskt jobbigare än att bara betala abonnemanget.';
+      if (input.includes('gratis') || input.includes('prenumeration') || input.includes('rea') || input.includes('tid') || input.includes('kvar i lager') || input.includes('rabatt') || input.includes('äga') || input.includes('tjänst')) {
+        success = true;
+      }
+    }
+
+    if (success) {
+      feedbackHTML = '<strong style="color:#2ecc71;">Bra analys!</strong> Ditt svar innehåller flera centrala poänger.<br><br><strong style="color:var(--neon-dk);">Mönstersvar att jämföra med:</strong><br>' + modelAnswer;
+    } else {
+      feedbackHTML = '<strong style="color:var(--brain);">Bra försök!</strong> Ett tips är att tänka på hur miljöer och känslor spelar in.<br><br><strong style="color:var(--neon-dk);">Mönstersvar att jämföra med:</strong><br>' + modelAnswer;
+    }
+  }
+  
+  feedbackEl.innerHTML = feedbackHTML;
+  feedbackEl.style.display = 'block';
+}
+
+// ── QUIZ LOGIC (8 QUESTIONS) ──
+const quizData = [
+  { q: "Vad menas inom beteendeekonomin med begreppet 'Homo Economicus'?", opts: ["En modern människa som styrs av känslor och instinkter", "En teoretisk människa som alltid antas fatta 100% logiska och rationella beslut", "En uråldrig människoart som uppfann handel", "En person som vägrar spendera pengar"], correct: 1, feedback: "Inom traditionell ekonomi har man länge utgått från 'Homo Economicus', men beteendeekonomin visar att den rationella maskinen inte stämmer överens med verkligheten." },
+  { q: "Vilket av följande är ett exempel på 'Nudging' (knuffning)?", opts: ["Att lagstifta mot ohälsosam mat", "Att höja skatten på godis", "Att placera frukt tydligt i ögonhöjd och godis högst upp på hyllan", "Att ge böter till de som köper chips"], correct: 2, feedback: "Nudging handlar om att 'knuffa' beteenden i en viss riktning utan att förbjuda alternativ, t.ex. genom smart placering eller design av en miljö." },
+  { q: "Vad innebär den så kallade 'Ankareffekten' (Anchoring)?", opts: ["Att man håller fast vid sitt första beslut oavsett ny information", "Att hjärnan låser fast sig vid ett högt 'ordinarie pris', vilket får reapriset att kännas som ett fantastiskt kap", "Att tunga varor alltid placeras längst ner i butiken för att vagnen ska kännas stabil", "Att butikens entré är designad som ett ankare"], correct: 1, feedback: "Ett högt ursprungspris fungerar som ett 'ankare' för hjärnan. Du utvärderar inte om varan faktiskt är värd reapriset, du gläds åt mellanskillnaden." },
+  { q: "Varför placeras ofta godis och småsaker precis vid kassabandet?", opts: ["För att godiset smälter om det ligger i mitten av butiken", "För att hjärnan lider av beslutströtthet (ego depletion) i slutet av köprundan och lättare faller för impulser", "För att kassapersonalen ska kunna nå det snabbt", "För att det är det billigaste i butiken"], correct: 1, feedback: "När vi handlat och tagit många beslut är hjärnan trött. Impulskontrollen minskar, och vi faller lätt för snabbt socker precis när vi ska betala." },
+  { q: "Vad innebär 'Förlustaversion' (Loss aversion)?", opts: ["Att vi inte bryr oss om vi förlorar pengar så länge vi har roligt", "Att vi älskar att vinna mycket mer än vi hatar att förlora", "Att den psykologiska smärtan av att förlora något är ungefär dubbelt så stark som glädjen av att vinna motsvarande sak", "Att vi alltid väljer det billigaste alternativet för att inte förlora pengar"], correct: 2, feedback: "Forskning visar tydligt att förluster 'smärtar' oss mycket mer än vinster gläder oss, vilket får oss att undvika risker när riktiga pengar är inblandade." },
+  { q: "Vem av följande ekonomer vann Nobelpriset 2017 för sin banbrytande forskning om nudging?", opts: ["Adam Smith", "Karl Marx", "John Maynard Keynes", "Richard Thaler"], correct: 3, feedback: "Richard Thaler tilldelades Sveriges Riksbanks pris i ekonomisk vetenskap till Alfred Nobels minne 2017 för sina insatser som knyter ihop psykologi med ekonomi." },
+  { q: "Hur utnyttjar många prenumerationstjänster det psykologiska fenomenet 'Endowment-effekten' (ägareffekten)?", opts: ["Genom att erbjuda första månaden gratis, varpå vi känner att vi 'äger' tjänsten och ogillar förlusten av att säga upp den", "Genom att vara väldigt dyra från start för att verka lyxiga", "Genom att sälja aktier till sina kunder", "Genom att tvinga fram årskontrakt"], correct: 0, feedback: "När vi vant oss vid att 'ha' något (t.ex. en filmtjänst) skapas en ägandekänsla. Att avbryta prenumerationen känns då plötsligt som en tråkig förlust." },
+  { q: "Av vilken psykologisk anledning brukar matbutiker placera sina dyraste och mest lönsamma märken i ögonhöjd?", opts: ["För att ljuset i butiken träffar bäst där", "För att människor är naturligt bekväma och gärna väljer det som kräver minst fysisk ansträngning att nå", "För att de varorna ofta är för tunga för att ha högst upp", "För att barnen inte ska kunna nå dem"], correct: 1, feedback: "Det kräver mindre ansträngning att ta det som är rakt framför oss. Därför betalar stora märken ofta extra mycket för att få stå precis i ögonhöjd." }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0;
+  score = 0;
+  renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++;
+    fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) {
+    renderQ();
+  } else {
+    showScore();
+  }
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Perfekt! Du har stenkoll på hur butikerna och din hjärna fungerar."; }
+  else if(pct >= 0.7) { title = "Bra jobbat! ⭐"; msg = "Snyggt! Du har en stabil förståelse för grunderna i beteendeekonomi."; }
+  else { title = "Kämpa på! 📖"; msg = "Det här är knepiga grejer. Läs igenom artikeln en gång till och testa sedan igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
