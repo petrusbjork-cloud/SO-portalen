@@ -1,0 +1,1939 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Isen som smälter — Grönland | SO med Petrus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;600;700;900&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep: #04101e;
+  --bg-mid: #0a1c30;
+  --bg-card: rgba(10,28,48,0.92);
+  --accent-ice: #56d9d0;
+  --accent-aurora: #58f094;
+  --accent-gold: #f5c842;
+  --accent-red: #ff6b6b;
+  --text-primary: #e4f0ff;
+  --text-secondary: #7aa4c7;
+  --border-ice: rgba(86,217,208,0.22);
+  --border-glow: rgba(86,217,208,0.55);
+  --spotify: #1DB954;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Lora',Georgia,serif;
+  background:var(--bg-deep);
+  color:var(--text-primary);
+  overflow-x:clip;
+  scroll-behavior:smooth;
+  min-height:100vh;
+}
+
+/* ====== BACKGROUND ====== */
+.aurora-bg{
+  position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+}
+.aura{position:absolute;border-radius:50%;filter:blur(90px);}
+.aura-1{
+  width:80vw;height:55vh;
+  background:radial-gradient(ellipse,rgba(88,240,148,0.09) 0%,transparent 70%);
+  top:-15%;left:-5%;
+  animation:drift1 22s ease-in-out infinite;
+}
+.aura-2{
+  width:65vw;height:50vh;
+  background:radial-gradient(ellipse,rgba(86,217,208,0.10) 0%,transparent 70%);
+  top:5%;right:-10%;
+  animation:drift2 28s ease-in-out infinite;
+}
+.aura-3{
+  width:55vw;height:45vh;
+  background:radial-gradient(ellipse,rgba(110,80,220,0.07) 0%,transparent 70%);
+  bottom:15%;left:25%;
+  animation:drift3 20s ease-in-out infinite;
+}
+.aura-4{
+  width:40vw;height:35vh;
+  background:radial-gradient(ellipse,rgba(86,217,208,0.06) 0%,transparent 70%);
+  bottom:0;right:20%;
+  animation:drift1 35s ease-in-out infinite reverse;
+}
+@keyframes drift1{
+  0%,100%{transform:translate(0,0) scale(1);opacity:.8;}
+  33%{transform:translate(8%,6%) scale(1.08);opacity:1;}
+  66%{transform:translate(-4%,10%) scale(.94);opacity:.65;}
+}
+@keyframes drift2{
+  0%,100%{transform:translate(0,0) scale(1);opacity:.7;}
+  50%{transform:translate(-9%,-6%) scale(1.14);opacity:1;}
+}
+@keyframes drift3{
+  0%,100%{transform:translate(0,0);opacity:.55;}
+  45%{transform:translate(6%,-9%) scale(1.1);opacity:.9;}
+}
+#starCanvas{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+}
+
+/* ====== LAYOUT ====== */
+.content{position:relative;z-index:1;}
+
+/* ====== NAV ====== */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 2.5rem;
+  border-bottom:1px solid var(--border-ice);
+  background:rgba(4,16,30,0.7);
+  backdrop-filter:blur(12px);
+  position:sticky;top:0;z-index:500;
+}
+.nav-logo{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:1.15rem;font-weight:900;
+  text-transform:uppercase;letter-spacing:.08em;
+  color:var(--text-primary);
+  text-decoration:none;
+}
+.nav-logo span{color:var(--accent-ice);}
+.nav-back{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.8rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-secondary);
+  text-decoration:none;
+  border:1px solid var(--border-ice);
+  padding:.4rem 1rem;border-radius:2px;
+  transition:all .2s;
+}
+.nav-back:hover{color:var(--accent-ice);border-color:var(--accent-ice);}
+
+/* ====== HERO ====== */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;
+  padding:6rem 2rem 4rem;
+  position:relative;
+}
+.hero-badge{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.8rem;font-weight:700;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:var(--accent-ice);
+  border:1px solid var(--border-ice);
+  padding:.45rem 1.4rem;border-radius:100px;
+  margin-bottom:2rem;display:inline-block;
+  background:rgba(86,217,208,.06);
+  animation:fadeUp .8s ease both;
+}
+.hero-label{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:clamp(.85rem,1.8vw,1rem);
+  font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--text-secondary);
+  margin-bottom:1.2rem;
+  animation:fadeUp .9s .1s ease both;
+}
+.hero-title{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:clamp(3.2rem,10vw,9rem);
+  font-weight:900;line-height:.88;
+  text-transform:uppercase;
+  margin-bottom:1.8rem;
+  animation:fadeUp 1s .2s ease both;
+}
+.hero-title .t-ice{color:var(--accent-ice);display:block;}
+.hero-title .t-white{color:var(--text-primary);display:block;}
+.hero-subtitle{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(1rem,2.2vw,1.25rem);
+  color:var(--text-secondary);
+  max-width:580px;margin:0 auto 3.5rem;
+  line-height:1.7;
+  animation:fadeUp 1s .35s ease both;
+}
+.hero-pills{
+  display:flex;gap:1rem;flex-wrap:wrap;
+  justify-content:center;margin-bottom:3.5rem;
+  animation:fadeUp 1s .5s ease both;
+}
+.hero-pill{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.78rem;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text-secondary);
+  border:1px solid var(--border-ice);
+  padding:.4rem 1rem;border-radius:2px;
+  background:rgba(86,217,208,.04);
+}
+.hero-cta{
+  display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;
+  animation:fadeUp 1s .65s ease both;
+}
+.btn-cta{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.95rem;font-weight:900;
+  letter-spacing:.12em;text-transform:uppercase;
+  padding:.75rem 2rem;border-radius:2px;
+  cursor:pointer;text-decoration:none;
+  transition:all .2s;border:none;
+}
+.btn-cta-primary{
+  background:var(--accent-ice);color:var(--bg-deep);
+}
+.btn-cta-primary:hover{opacity:.85;transform:translateY(-2px);}
+.btn-cta-secondary{
+  background:transparent;
+  color:var(--accent-ice);
+  border:1px solid var(--border-ice);
+}
+.btn-cta-secondary:hover{
+  background:rgba(86,217,208,.09);
+  border-color:var(--accent-ice);
+  transform:translateY(-2px);
+}
+.scroll-hint{
+  position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:.5rem;
+  color:var(--text-secondary);
+  animation:pulse-fade 3s ease-in-out infinite;
+  pointer-events:none;
+}
+.scroll-hint span{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-family:'Big Shoulders Display',sans-serif;}
+.scroll-arrow{font-size:1.4rem;animation:bounce 2s ease-in-out infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
+@keyframes pulse-fade{0%,100%{opacity:.4;}50%{opacity:.9;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+
+/* ====== FACTS TICKER ====== */
+.facts-strip{
+  border-top:1px solid var(--border-ice);
+  border-bottom:1px solid var(--border-ice);
+  background:rgba(86,217,208,.04);
+  padding:1.4rem 2rem;
+  text-align:center;
+  overflow:hidden;
+  position:relative;
+}
+.fact-display{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:clamp(.9rem,2vw,1.05rem);
+  color:var(--accent-ice);
+  line-height:1.5;
+  transition:opacity .5s ease, transform .5s ease;
+}
+.fact-display.fade{opacity:0;transform:translateY(-8px);}
+.fact-label{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--text-secondary);display:block;margin-bottom:.5rem;
+}
+
+/* ====== SECTION HEADERS ====== */
+.section{padding:5rem 2rem 3rem;}
+.section-header{text-align:center;margin-bottom:3rem;}
+.section-label{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.78rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--accent-ice);display:block;margin-bottom:.8rem;
+}
+.section-title{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:clamp(2rem,5vw,3.2rem);font-weight:900;
+  text-transform:uppercase;color:var(--text-primary);
+}
+
+/* ====== EPISODE CARDS ====== */
+.episodes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(340px,1fr));
+  gap:1.5rem;max-width:1200px;margin:0 auto;
+  padding:0 0 2rem;
+}
+.ep-card{
+  background:var(--bg-card);
+  border:1px solid var(--border-ice);
+  border-radius:3px;
+  overflow:hidden;
+  position:relative;
+  transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;
+}
+.ep-card.active:hover{
+  transform:translateY(-5px);
+  box-shadow:0 20px 60px rgba(86,217,208,.1);
+  border-color:var(--border-glow);
+}
+.ep-card.coming{filter:saturate(.4);}
+.ep-top{
+  background:linear-gradient(135deg,rgba(86,217,208,.12),rgba(86,217,208,.03));
+  padding:.9rem 1.4rem;
+  border-bottom:1px solid var(--border-ice);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.ep-num{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:3.2rem;font-weight:900;
+  color:var(--accent-ice);opacity:.55;line-height:1;
+}
+.ep-badge{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+  padding:.3rem .75rem;border-radius:2px;
+}
+.ep-badge.live{
+  color:var(--accent-aurora);
+  border:1px solid rgba(88,240,148,.4);
+  background:rgba(88,240,148,.08);
+}
+.ep-badge.soon{
+  color:var(--text-secondary);
+  border:1px solid rgba(122,164,199,.25);
+  background:rgba(122,164,199,.05);
+}
+.ep-body{padding:1.4rem 1.5rem;}
+.ep-title{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:1.2rem;font-weight:700;
+  text-transform:uppercase;color:var(--text-primary);
+  line-height:1.2;margin-bottom:.4rem;
+}
+.ep-meta{
+  font-size:.72rem;color:var(--text-secondary);
+  letter-spacing:.1em;margin-bottom:1rem;
+}
+.ep-desc{font-size:.88rem;color:var(--text-secondary);line-height:1.65;margin-bottom:1.4rem;}
+.ep-btns{display:flex;gap:.7rem;flex-wrap:wrap;}
+.btn-spotify{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:var(--spotify);color:#000;
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.82rem;font-weight:700;letter-spacing:.04em;
+  text-decoration:none;padding:.55rem 1.1rem;border-radius:2px;
+  transition:opacity .2s,transform .2s;border:none;cursor:pointer;
+}
+.btn-spotify:hover{opacity:.88;transform:scale(1.03);}
+.btn-spotify svg{width:14px;height:14px;fill:currentColor;}
+.btn-quiz{
+  display:inline-flex;align-items:center;gap:.45rem;
+  background:transparent;
+  color:var(--accent-ice);
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.82rem;font-weight:700;letter-spacing:.04em;
+  padding:.55rem 1.1rem;border:1px solid var(--border-ice);
+  border-radius:2px;cursor:pointer;transition:all .2s;
+}
+.btn-quiz:hover{background:rgba(86,217,208,.1);border-color:var(--accent-ice);}
+.ep-coming-overlay{
+  position:absolute;inset:0;
+  background:rgba(4,16,30,.55);
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(3px);
+}
+.coming-label{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:1.1rem;font-weight:900;
+  letter-spacing:.25em;text-transform:uppercase;
+  color:var(--text-secondary);
+  border:1px solid rgba(122,164,199,.3);
+  padding:.7rem 1.4rem;
+  background:rgba(4,16,30,.85);
+}
+
+/* ====== STATS ====== */
+.stats-section{
+  border-top:1px solid var(--border-ice);
+  border-bottom:1px solid var(--border-ice);
+  background:rgba(86,217,208,.03);
+  padding:4.5rem 2rem;
+}
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:2.5rem;max-width:1000px;margin:0 auto;text-align:center;
+}
+.stat-box{}
+.stat-num{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:clamp(2.4rem,5vw,3.8rem);font-weight:900;
+  color:var(--accent-ice);line-height:1;display:block;
+}
+.stat-suffix{font-size:clamp(1.2rem,3vw,2rem);color:var(--accent-ice);opacity:.7;}
+.stat-label{
+  font-size:.72rem;color:var(--text-secondary);
+  text-transform:uppercase;letter-spacing:.15em;
+  margin-top:.5rem;display:block;line-height:1.5;
+}
+
+/* ====== TIMELINE ====== */
+.timeline-section{padding:5rem 0 5rem;}
+.timeline-section .section-header{padding:0 2rem 2rem;}
+.timeline-scroll{
+  overflow-x:auto;padding:1rem 2rem 3rem;
+  scrollbar-width:thin;scrollbar-color:var(--accent-ice) rgba(86,217,208,.1);
+}
+.timeline-scroll::-webkit-scrollbar{height:4px;}
+.timeline-scroll::-webkit-scrollbar-thumb{background:var(--accent-ice);border-radius:2px;}
+.timeline-scroll::-webkit-scrollbar-track{background:rgba(86,217,208,.1);}
+.timeline-track{
+  display:flex;position:relative;min-width:max-content;
+  padding:0 2rem;
+}
+.timeline-line{
+  position:absolute;top:1.1rem;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-ice) 5%,var(--accent-ice) 95%,transparent);
+  opacity:.25;
+}
+.tl-item{
+  display:flex;flex-direction:column;align-items:center;
+  padding:0 1.4rem;min-width:155px;max-width:175px;
+  cursor:default;
+}
+.tl-dot{
+  width:13px;height:13px;border-radius:50%;
+  background:var(--bg-deep);border:2px solid var(--accent-ice);
+  margin-bottom:.85rem;position:relative;z-index:1;
+  transition:all .25s;flex-shrink:0;
+}
+.tl-item:hover .tl-dot{
+  background:var(--accent-ice);
+  box-shadow:0 0 14px var(--accent-ice);
+}
+.tl-year{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.92rem;font-weight:900;color:var(--accent-ice);
+  text-align:center;margin-bottom:.35rem;
+}
+.tl-event{font-size:.76rem;color:var(--text-secondary);text-align:center;line-height:1.45;}
+.tl-item:hover .tl-event{color:var(--text-primary);}
+
+/* ====== FLASHCARDS ====== */
+.flashcards-section{padding:0 2rem 5rem;}
+.flashcards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(255px,1fr));
+  gap:1.2rem;max-width:1200px;margin:0 auto;
+}
+.fc-wrap{height:185px;perspective:1200px;cursor:pointer;-webkit-perspective:1200px;}
+.fc-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  -webkit-transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(.4,0,.2,1);
+  -webkit-transition:-webkit-transform .55s cubic-bezier(.4,0,.2,1);
+}
+.fc-wrap.flipped .fc-inner{
+  transform:rotateY(180deg);
+  -webkit-transform:rotateY(180deg);
+}
+.fc-face{
+  position:absolute;top:0;left:0;width:100%;height:100%;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border:1px solid var(--border-ice);border-radius:3px;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:1.4rem;text-align:center;
+  background:var(--bg-card);
+}
+.fc-front{background:linear-gradient(135deg,rgba(86,217,208,.09),var(--bg-card));}
+.fc-back{
+  transform:rotateY(180deg);
+  -webkit-transform:rotateY(180deg);
+  background:linear-gradient(135deg,rgba(88,240,148,.06),var(--bg-card));
+}
+.fc-term{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:1.25rem;font-weight:700;text-transform:uppercase;
+  color:var(--accent-ice);margin-bottom:.4rem;
+}
+.fc-hint{font-size:.65rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.15em;}
+.fc-def{font-size:.85rem;color:var(--text-primary);line-height:1.6;}
+
+/* ====== STORLEKSJÄMFÖRELSE ====== */
+.size-section{padding:5rem 2rem;}
+.size-arena{max-width:900px;margin:0 auto;}
+.size-bars{display:flex;flex-direction:column;gap:1rem;margin-top:2rem;}
+.size-row{display:flex;align-items:center;gap:1rem;}
+.size-label{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.88rem;font-weight:700;text-transform:uppercase;
+  color:var(--text-secondary);min-width:100px;text-align:right;
+}
+.size-bar-wrap{flex:1;height:42px;position:relative;}
+.size-bar{
+  height:100%;border-radius:2px;
+  display:flex;align-items:center;padding:0 .9rem;
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.82rem;font-weight:700;color:var(--bg-deep);
+  white-space:nowrap;overflow:hidden;
+  transition:width 1.2s cubic-bezier(.22,1,.36,1);
+  width:0;
+}
+.size-km{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.8rem;font-weight:700;
+  color:var(--text-secondary);min-width:90px;
+}
+.bar-gronland{background:var(--accent-ice);}
+.bar-sverige{background:rgba(86,217,208,.55);}
+.bar-frankrike{background:rgba(88,240,148,.6);}
+.bar-spanien{background:rgba(88,240,148,.4);}
+.bar-danmark{background:rgba(86,217,208,.25);}
+.size-note{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:.85rem;color:var(--text-secondary);
+  text-align:center;margin-top:1.8rem;line-height:1.6;
+}
+
+/* ====== STORMAKTS-QUIZ ====== */
+.stormakt-section{
+  padding:5rem 2rem;
+  border-top:1px solid var(--border-ice);
+}
+.stormakt-box{
+  max-width:700px;margin:0 auto;
+  background:var(--bg-card);border:1px solid var(--border-ice);
+  border-radius:3px;overflow:hidden;
+}
+.sm-head{
+  background:linear-gradient(135deg,rgba(245,200,66,.1),transparent);
+  border-bottom:1px solid var(--border-ice);
+  padding:1.3rem 1.8rem;
+}
+.sm-head-title{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:1.1rem;font-weight:900;text-transform:uppercase;
+  color:var(--accent-gold);
+}
+.sm-head-sub{font-size:.78rem;color:var(--text-secondary);margin-top:.2rem;}
+.sm-body{padding:2rem 1.8rem;}
+.sm-q{
+  font-family:'Lora',serif;font-size:1.05rem;
+  color:var(--text-primary);line-height:1.5;margin-bottom:1.4rem;
+}
+.sm-q-num{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.7rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--accent-gold);display:block;margin-bottom:.5rem;
+}
+.sm-opts{display:grid;gap:.6rem;}
+.sm-opt{
+  background:transparent;border:1px solid var(--border-ice);
+  color:var(--text-primary);
+  font-family:'Lora',serif;font-size:.9rem;
+  padding:.8rem 1.1rem;text-align:left;cursor:pointer;
+  border-radius:2px;transition:all .2s;
+}
+.sm-opt:hover{
+  background:rgba(245,200,66,.07);
+  border-color:rgba(245,200,66,.4);
+  color:var(--accent-gold);
+}
+.sm-result{padding:2rem 1.8rem;text-align:center;display:none;}
+.sm-result.show{display:block;}
+.sm-flag{font-size:3.5rem;display:block;margin-bottom:.8rem;}
+.sm-power{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:2.2rem;font-weight:900;text-transform:uppercase;
+  color:var(--accent-gold);margin-bottom:.4rem;
+}
+.sm-tagline{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:1rem;color:var(--accent-gold);opacity:.7;
+  margin-bottom:1.2rem;display:block;
+}
+.sm-desc{
+  font-family:'Lora',serif;font-size:.9rem;
+  color:var(--text-secondary);line-height:1.7;margin-bottom:1.8rem;
+}
+.sm-retry{
+  background:transparent;border:1px solid rgba(245,200,66,.4);
+  color:var(--accent-gold);cursor:pointer;
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.88rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  padding:.65rem 1.6rem;border-radius:2px;transition:all .2s;
+}
+.sm-retry:hover{background:rgba(245,200,66,.1);}
+.sm-progress{
+  display:flex;justify-content:center;gap:.4rem;margin-bottom:1.6rem;
+}
+.sm-dot{
+  width:8px;height:8px;border-radius:50%;
+  border:1px solid rgba(245,200,66,.4);
+  transition:background .3s;
+}
+.sm-dot.done{background:var(--accent-gold);}
+
+/* ====== RÖSTNING ====== */
+.vote-section{
+  padding:5rem 2rem;
+  border-top:1px solid var(--border-ice);
+  border-bottom:1px solid var(--border-ice);
+  background:rgba(86,217,208,.02);
+}
+.vote-box{max-width:640px;margin:0 auto;text-align:center;}
+.vote-question{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:clamp(1.4rem,3.5vw,2rem);font-weight:900;
+  text-transform:uppercase;color:var(--text-primary);
+  line-height:1.2;margin-bottom:.6rem;
+}
+.vote-sub{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:.9rem;color:var(--text-secondary);margin-bottom:2rem;
+}
+.vote-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2.2rem;}
+.vote-btn{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:1rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  padding:.8rem 2.2rem;border-radius:2px;cursor:pointer;
+  transition:all .25s;border:2px solid;
+}
+.vote-btn-yes{
+  background:rgba(88,240,148,.1);border-color:var(--accent-aurora);
+  color:var(--accent-aurora);
+}
+.vote-btn-yes:hover,.vote-btn-yes.voted{
+  background:var(--accent-aurora);color:var(--bg-deep);
+  transform:translateY(-2px);
+}
+.vote-btn-no{
+  background:rgba(255,107,107,.1);border-color:var(--accent-red);
+  color:var(--accent-red);
+}
+.vote-btn-no:hover,.vote-btn-no.voted{
+  background:var(--accent-red);color:#fff;
+  transform:translateY(-2px);
+}
+.vote-btn-kanske{
+  background:rgba(245,200,66,.08);border-color:var(--accent-gold);
+  color:var(--accent-gold);
+}
+.vote-btn-kanske:hover,.vote-btn-kanske.voted{
+  background:var(--accent-gold);color:var(--bg-deep);
+  transform:translateY(-2px);
+}
+.vote-results{margin-top:1rem;}
+.vote-bar-row{
+  display:flex;align-items:center;gap:.8rem;margin-bottom:.75rem;
+}
+.vote-bar-label{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.8rem;font-weight:700;text-transform:uppercase;
+  min-width:75px;text-align:right;
+}
+.vote-bar-track{flex:1;height:28px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;position:relative;}
+.vote-bar-fill{
+  height:100%;border-radius:2px;
+  display:flex;align-items:center;padding:0 .7rem;
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.8rem;font-weight:900;
+  transition:width .8s cubic-bezier(.22,1,.36,1);
+  white-space:nowrap;min-width:40px;
+}
+.vb-yes{background:rgba(88,240,148,.4);color:var(--accent-aurora);}
+.vb-no{background:rgba(255,107,107,.3);color:var(--accent-red);}
+.vb-kanske{background:rgba(245,200,66,.3);color:var(--accent-gold);}
+.vote-total{font-size:.75rem;color:var(--text-secondary);margin-top:.8rem;text-align:center;font-style:italic;}
+.vote-mymark{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.75rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--accent-ice);margin-top:1rem;display:block;
+}
+
+/* ====== VEM SA DET ====== */
+.vem-section{padding:5rem 2rem;}
+.vem-box{max-width:700px;margin:0 auto;}
+.vem-card{
+  background:var(--bg-card);border:1px solid var(--border-ice);
+  border-radius:3px;padding:2rem;margin-bottom:1rem;
+  display:none;
+}
+.vem-card.active{display:block;}
+.vem-quote{
+  font-family:'Lora',serif;font-style:italic;
+  font-size:1.1rem;color:var(--text-primary);
+  line-height:1.7;margin-bottom:1.6rem;
+  border-left:2px solid var(--accent-ice);
+  padding-left:1.2rem;
+}
+.vem-opts{display:grid;gap:.6rem;}
+.vem-opt{
+  background:transparent;border:1px solid var(--border-ice);
+  color:var(--text-primary);font-family:'Lora',serif;font-size:.9rem;
+  padding:.75rem 1.1rem;text-align:left;cursor:pointer;
+  border-radius:2px;transition:all .2s;
+  display:flex;align-items:center;gap:.7rem;
+}
+.vem-opt:hover:not([disabled]){background:rgba(86,217,208,.07);border-color:var(--accent-ice);}
+.vem-opt.correct{background:rgba(88,240,148,.1);border-color:var(--accent-aurora);color:var(--accent-aurora);}
+.vem-opt.wrong{background:rgba(255,107,107,.1);border-color:var(--accent-red);color:var(--accent-red);}
+.vem-opt.reveal{background:rgba(88,240,148,.06);border-color:rgba(88,240,148,.35);}
+.vem-score-bar{
+  display:flex;gap:.5rem;margin-bottom:1.5rem;align-items:center;
+}
+.vem-dot-wrap{display:flex;gap:.4rem;flex:1;justify-content:center;}
+.vem-sdot{
+  width:12px;height:12px;border-radius:50%;
+  border:1px solid var(--border-ice);
+  transition:all .3s;
+}
+.vem-sdot.hit{background:var(--accent-aurora);border-color:var(--accent-aurora);}
+.vem-sdot.miss{background:var(--accent-red);border-color:var(--accent-red);}
+.vem-next{
+  margin-top:1.2rem;padding:.65rem 1.6rem;
+  background:var(--accent-ice);color:var(--bg-deep);
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.9rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  border:none;border-radius:2px;cursor:pointer;
+  display:none;transition:opacity .2s;
+}
+.vem-next:hover{opacity:.85;}
+.vem-next.show{display:inline-block;}
+.vem-final{text-align:center;padding:1.5rem 0;display:none;}
+.vem-final.show{display:block;}
+.vem-final-score{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:3.5rem;font-weight:900;color:var(--accent-ice);
+}
+.vem-final-msg{
+  font-family:'Lora',serif;font-style:italic;
+  color:var(--text-secondary);margin:.5rem 0 1.5rem;line-height:1.6;
+}
+.vem-reset{
+  background:transparent;border:1px solid var(--border-ice);
+  color:var(--text-secondary);cursor:pointer;
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.85rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  padding:.6rem 1.4rem;border-radius:2px;transition:all .2s;
+}
+.vem-reset:hover{border-color:var(--accent-ice);color:var(--accent-ice);}
+
+/* ====== QUIZ MODAL ====== */
+.quiz-modal{
+  position:fixed;inset:0;z-index:1000;
+  display:none;align-items:center;justify-content:center;
+  padding:1rem;
+  background:rgba(4,12,22,.9);
+  backdrop-filter:blur(10px);
+}
+.quiz-modal.open{display:flex;}
+.quiz-box{
+  background:var(--bg-mid);
+  border:1px solid var(--border-ice);
+  border-radius:3px;
+  max-width:640px;width:100%;
+  max-height:90vh;overflow-y:auto;
+  box-shadow:0 30px 80px rgba(0,0,0,.5);
+}
+.quiz-head{
+  background:linear-gradient(135deg,rgba(86,217,208,.13),transparent);
+  border-bottom:1px solid var(--border-ice);
+  padding:1.3rem 1.8rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.quiz-head-title{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:1rem;font-weight:700;text-transform:uppercase;
+  color:var(--accent-ice);
+}
+.quiz-close{
+  background:none;border:1px solid rgba(122,164,199,.3);
+  color:var(--text-secondary);cursor:pointer;
+  width:2rem;height:2rem;border-radius:2px;
+  font-size:1rem;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.quiz-close:hover{border-color:var(--accent-red);color:var(--accent-red);background:rgba(255,107,107,.08);}
+.quiz-bar{height:3px;background:rgba(86,217,208,.15);}
+.quiz-fill{height:100%;background:linear-gradient(90deg,var(--accent-ice),var(--accent-aurora));transition:width .4s ease;}
+.quiz-body{padding:1.8rem;}
+.quiz-counter{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--text-secondary);margin-bottom:.8rem;
+}
+.quiz-question{
+  font-family:'Lora',serif;font-size:1.1rem;
+  color:var(--text-primary);line-height:1.55;margin-bottom:1.8rem;
+}
+.quiz-options{display:grid;gap:.65rem;}
+.quiz-opt{
+  background:transparent;border:1px solid var(--border-ice);
+  color:var(--text-primary);
+  font-family:'Lora',serif;font-size:.92rem;
+  padding:.9rem 1.1rem;text-align:left;cursor:pointer;
+  border-radius:2px;transition:all .2s;
+  display:flex;align-items:center;gap:.75rem;
+}
+.quiz-opt:hover:not([disabled]){background:rgba(86,217,208,.07);border-color:var(--accent-ice);}
+.quiz-opt .ol{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-weight:900;font-size:.95rem;color:var(--accent-ice);min-width:1.4rem;
+}
+.quiz-opt.correct{background:rgba(88,240,148,.1);border-color:var(--accent-aurora);color:var(--accent-aurora);}
+.quiz-opt.wrong{background:rgba(255,107,107,.1);border-color:var(--accent-red);color:var(--accent-red);}
+.quiz-opt.reveal{background:rgba(88,240,148,.07);border-color:rgba(88,240,148,.4);}
+.quiz-feedback{
+  margin-top:1.2rem;padding:.9rem 1.2rem;border-radius:2px;
+  font-family:'Lora',serif;font-size:.88rem;line-height:1.5;
+  display:none;
+}
+.quiz-feedback.show{display:block;}
+.fb-ok{background:rgba(88,240,148,.08);border:1px solid rgba(88,240,148,.3);color:var(--accent-aurora);}
+.fb-no{background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.3);color:var(--accent-red);}
+.quiz-next{
+  display:none;margin-top:1.3rem;
+  padding:.75rem 2rem;background:var(--accent-ice);
+  color:var(--bg-deep);font-family:'Big Shoulders Display',sans-serif;
+  font-size:.95rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  border:none;border-radius:2px;cursor:pointer;transition:opacity .2s;
+}
+.quiz-next:hover{opacity:.85;}
+.quiz-next.show{display:block;}
+.quiz-result{padding:2.5rem 1.8rem;text-align:center;display:none;}
+.quiz-result.show{display:block;}
+.qr-emoji{font-size:3.5rem;margin-bottom:1rem;display:block;}
+.qr-score{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:5rem;font-weight:900;color:var(--accent-ice);
+  line-height:1;display:block;
+}
+.qr-of{font-family:'Big Shoulders Display',sans-serif;font-size:1rem;text-transform:uppercase;letter-spacing:.2em;color:var(--text-secondary);display:block;margin-bottom:.8rem;}
+.qr-msg{font-family:'Lora',serif;font-style:italic;color:var(--text-secondary);line-height:1.6;margin-bottom:2rem;}
+.qr-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;}
+.qr-btn{
+  padding:.7rem 1.6rem;border-radius:2px;cursor:pointer;
+  font-family:'Big Shoulders Display',sans-serif;font-size:.88rem;
+  font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  transition:all .2s;
+}
+.qr-btn-primary{background:var(--accent-ice);color:var(--bg-deep);border:none;}
+.qr-btn-primary:hover{opacity:.85;}
+.qr-btn-secondary{background:transparent;color:var(--text-secondary);border:1px solid var(--border-ice);}
+.qr-btn-secondary:hover{color:var(--text-primary);border-color:var(--text-secondary);}
+
+/* ====== FOOTER ====== */
+.footer{
+  border-top:1px solid var(--border-ice);
+  background:rgba(10,28,48,.6);
+  padding:3rem 2rem;text-align:center;
+}
+.footer-logo{
+  font-family:'Big Shoulders Display',sans-serif;
+  font-size:1.4rem;font-weight:900;text-transform:uppercase;
+  color:var(--text-primary);margin-bottom:.5rem;
+}
+.footer-logo span{color:var(--accent-ice);}
+.footer-text{font-size:.82rem;color:var(--text-secondary);line-height:1.8;}
+.footer-sources{
+  margin-top:1.2rem;font-size:.72rem;color:rgba(122,164,199,.6);
+  max-width:700px;margin:1.2rem auto 0;line-height:1.7;
+}
+
+/* ====== UTILS ====== */
+.ice-line{
+  height:1px;max-width:500px;margin:0 auto;
+  background:linear-gradient(90deg,transparent,var(--accent-ice),transparent);
+  opacity:.3;
+}
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:none;}
+
+/* ====== RESPONSIVE ====== */
+@media(max-width:768px){
+  .nav{padding:1rem 1.2rem;}
+  .episodes-grid{grid-template-columns:1fr;padding:0;}
+  .flashcards-grid{grid-template-columns:1fr 1fr;}
+  .quiz-body{padding:1.3rem;}
+  .section{padding:4rem 1.2rem 2rem;}
+}
+@media(max-width:480px){
+  .flashcards-grid{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .hero-pills{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- AURORA BACKGROUND -->
+<div class="aurora-bg">
+  <div class="aura aura-1"></div>
+  <div class="aura aura-2"></div>
+  <div class="aura aura-3"></div>
+  <div class="aura aura-4"></div>
+</div>
+<canvas id="starCanvas"></canvas>
+
+<div class="content">
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="../index.html" class="nav-logo">SO med <span>Petrus</span></a>
+  <a href="../index.html" class="nav-back">← Tillbaka</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">🧊 Poddserie — 6 avsnitt</div>
+  <p class="hero-label">SO med Petrus presenterar</p>
+  <h1 class="hero-title">
+    <span class="t-ice">Isen som</span>
+    <span class="t-white">smälter</span>
+  </h1>
+  <p class="hero-subtitle">Grönland, makt och framtiden — från Erik Röde till Trump, från kolonialism till arktisk stormaktskonflikt.</p>
+  <div class="hero-pills">
+    <span class="hero-pill">🎙️ 6 avsnitt</span>
+    <span class="hero-pill">📚 Åk 7–9</span>
+    <span class="hero-pill">⏱ 15–18 min/avsnitt</span>
+    <span class="hero-pill">🌍 Geopolitik</span>
+    <span class="hero-pill">🏔️ Arktis</span>
+  </div>
+  <div class="hero-cta">
+    <button class="btn-cta btn-cta-primary" onclick="gotoSection('avsnitt')">Utforska serien</button>
+    <button class="btn-cta btn-cta-secondary" onclick="gotoSection('begrepp')">Begrepp</button>
+  </div>
+  <div class="scroll-hint">
+    <span>Scrolla ner</span>
+    <div class="scroll-arrow">↓</div>
+  </div>
+</section>
+
+<!-- FACTS TICKER -->
+<div class="facts-strip">
+  <span class="fact-label">❄️ Visste du att…</span>
+  <div class="fact-display" id="factDisplay">Grönland är världens STÖRSTA ö — nästan tio gånger större än Sverige.</div>
+</div>
+
+<!-- EPISODES -->
+<section class="section" id="avsnitt">
+  <div class="section-header reveal">
+    <span class="section-label">🎙️ Poddserie</span>
+    <h2 class="section-title">Alla avsnitt</h2>
+  </div>
+  <div class="episodes-grid">
+
+    <!-- EP 1 -->
+    <div class="ep-card active reveal">
+      <div class="ep-top">
+        <span class="ep-num">01</span>
+        <span class="ep-badge live">● Ute nu</span>
+      </div>
+      <div class="ep-body">
+        <h3 class="ep-title">Världens största ö som ingen brydde sig om</h3>
+        <p class="ep-meta">⏱ Ca 15–18 min &nbsp;|&nbsp; Avsnitt 1 av 6</p>
+        <p class="ep-desc">Från Erik Rödes ankomst 985 e.Kr. till kolonialismens pris — hur Europa erövrade världens största ö och vad det kostade inuiternas folk.</p>
+        <div class="ep-btns">
+          <!-- Byt ut href="#" mot Spotify-länk när avsnittet är publicerat -->
+          <a href="#" target="_blank" class="btn-spotify">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Lyssna på Spotify
+          </a>
+          <button class="btn-quiz" onclick="openQuiz(1)">🧠 Gör quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 2 -->
+    <div class="ep-card active reveal">
+      <div class="ep-top">
+        <span class="ep-num">02</span>
+        <span class="ep-badge live">● Ute nu</span>
+      </div>
+      <div class="ep-body">
+        <h3 class="ep-title">Kalla kriget på is</h3>
+        <p class="ep-meta">⏱ Ca 15–18 min &nbsp;|&nbsp; Avsnitt 2 av 6</p>
+        <p class="ep-desc">Fyra vätebomber kraschar på Grönland. Kärnvapenlögner. Tvångsförflyttningar. Kalla krigets spel ovanför grönländarnas huvuden — och ett folk som vaknar.</p>
+        <div class="ep-btns">
+          <a href="#" target="_blank" class="btn-spotify">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Lyssna på Spotify
+          </a>
+          <button class="btn-quiz" onclick="openQuiz(2)">🧠 Gör quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 3 -->
+    <div class="ep-card active reveal">
+      <div class="ep-top">
+        <span class="ep-num">03</span>
+        <span class="ep-badge live">● Ute nu</span>
+      </div>
+      <div class="ep-body">
+        <h3 class="ep-title">Äntligen ett eget folk</h3>
+        <p class="ep-meta">⏱ Ca 15–18 min &nbsp;|&nbsp; Avsnitt 3 av 6</p>
+        <p class="ep-desc">Grönland gör historiens mest unika exit — lämnar EEG som det allra första landet — och brottas sedan med frihetens omöjliga ekonomiska ekvation.</p>
+        <div class="ep-btns">
+          <a href="#" target="_blank" class="btn-spotify">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Lyssna på Spotify
+          </a>
+          <button class="btn-quiz" onclick="openQuiz(3)">🧠 Gör quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 4 -->
+    <div class="ep-card active reveal">
+      <div class="ep-top">
+        <span class="ep-num">04</span>
+        <span class="ep-badge live">● Ute nu</span>
+      </div>
+      <div class="ep-body">
+        <h3 class="ep-title">Varför vill Trump ha en ö?</h3>
+        <p class="ep-meta">⏱ Ca 15–18 min &nbsp;|&nbsp; Avsnitt 4 av 6</p>
+        <p class="ep-desc">Trump vill köpa Grönland. Inte för att han bryr sig om grönländarna — utan för vad som finns under isen och vad öns läge betyder i ett nytt kallt krig.</p>
+        <div class="ep-btns">
+          <a href="#" target="_blank" class="btn-spotify">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Lyssna på Spotify
+          </a>
+          <button class="btn-quiz" onclick="openQuiz(4)">🧠 Gör quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 5 -->
+    <div class="ep-card active reveal">
+      <div class="ep-top">
+        <span class="ep-num">05</span>
+        <span class="ep-badge live">● Ute nu</span>
+      </div>
+      <div class="ep-body">
+        <h3 class="ep-title">Vems är isen?</h3>
+        <p class="ep-meta">⏱ Ca 15–18 min &nbsp;|&nbsp; Avsnitt 5 av 6</p>
+        <p class="ep-desc">Isen smälter i Arktis fyra gånger snabbare än resten av världen. Nya sjövägar öppnas. Mineraljakten börjar. Ryssland rustar. Och Grönland sitter mitt i allt.</p>
+        <div class="ep-btns">
+          <a href="#" target="_blank" class="btn-spotify">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Lyssna på Spotify
+          </a>
+          <button class="btn-quiz" onclick="openQuiz(5)">🧠 Gör quiz</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EP 6 -->
+    <div class="ep-card active reveal">
+      <div class="ep-top">
+        <span class="ep-num">06</span>
+        <span class="ep-badge live">● Ute nu</span>
+      </div>
+      <div class="ep-body">
+        <h3 class="ep-title">Kalaallit Nunaat — Vårt land</h3>
+        <p class="ep-meta">⏱ Ca 15–18 min &nbsp;|&nbsp; Avsnitt 6 av 6 — Serieslutt</p>
+        <p class="ep-desc">Valet 2025. Tre möjliga framtider för Grönland. Och den sista, svåraste frågan: vad lär oss Grönlands historia egentligen om makt, identitet och rätten att bestämma?</p>
+        <div class="ep-btns">
+          <a href="#" target="_blank" class="btn-spotify">
+            <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+            Lyssna på Spotify
+          </a>
+          <button class="btn-quiz" onclick="openQuiz(6)">🧠 Gör quiz</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-box reveal">
+      <span class="stat-num" data-target="4500" data-suffix="">0</span>
+      <span class="stat-label">År av mänsklig<br>historia på Grönland</span>
+    </div>
+    <div class="stat-box reveal">
+      <span class="stat-num" data-target="57000" data-suffix="">0</span>
+      <span class="stat-label">Invånare — på en yta<br>5× så stor som Sverige</span>
+    </div>
+    <div class="stat-box reveal">
+      <span class="stat-num" data-target="85" data-suffix="%">0</span>
+      <span class="stat-label">Grönländare som<br>sa nej till Trump</span>
+    </div>
+    <div class="stat-box reveal">
+      <span class="stat-num" data-target="1" data-suffix="">0</span>
+      <span class="stat-label">Enda landet som<br>lämnat EU (1985)</span>
+    </div>
+    <div class="stat-box reveal">
+      <span class="stat-num" data-target="31" data-suffix=" mrd">0</span>
+      <span class="stat-label">Fat olja uppskattat<br>under Grönlands is</span>
+    </div>
+    <div class="stat-box reveal">
+      <span class="stat-num" data-target="4" data-suffix="–5×">0</span>
+      <span class="stat-label">Snabbare uppvärmning<br>i Arktis än globalt</span>
+    </div>
+  </div>
+</div>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="tidslinje">
+  <div class="section-header reveal">
+    <span class="section-label">📅 Historik</span>
+    <h2 class="section-title">4500 år på en rad</h2>
+    <p style="font-size:.88rem;color:var(--text-secondary);margin-top:.7rem;font-style:italic;">← Scrolla för att utforska tidslinjen →</p>
+  </div>
+  <div class="timeline-scroll">
+    <div class="timeline-track">
+      <div class="timeline-line"></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">~2500 f.Kr.</div><div class="tl-event">Första människorna anländer från Nordamerika</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">~1200 e.Kr.</div><div class="tl-event">Inuiterna anländer från Kanada</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">985 e.Kr.</div><div class="tl-event">Erik Röde grundar nordiska bosättningar</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">~1000 e.Kr.</div><div class="tl-event">Leif Eriksson når Nordamerika — 500 år före Columbus</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1400-tal</div><div class="tl-event">Nordborna försvinner spårlöst från Grönland</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1721</div><div class="tl-event">Hans Egede grundar Godthåb (Nuuk) — koloniseringen inleds</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1800-tal</div><div class="tl-event">Norge och Danmark tvistar om Grönlands östra delar</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1933</div><div class="tl-event">Haagdomstolen: hela Grönland tillhör Danmark</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1946</div><div class="tl-event">Truman försöker köpa Grönland för 100 miljoner dollar</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1951</div><div class="tl-event">USA–Danmark försvarsavtal: Thulebasen byggs</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1968</div><div class="tl-event">B-52 kraschar med fyra vätebomber på Grönlands is</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1973</div><div class="tl-event">Grönland tvingas med i EEG — trots 71% nej</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1979</div><div class="tl-event">Hjemmestyre — Grönlands nationaldag</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1982</div><div class="tl-event">Folkomröstning: 52% röstar för att lämna EEG</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">1985</div><div class="tl-event">Grönland lämnar EEG — historiens första EU-exit</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2009</div><div class="tl-event">Selvstyre — grönländskan officiellt språk, naturresurserna tillhör Grönland</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">2019</div><div class="tl-event">Trump vill köpa Grönland — världen reagerar med chock</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">Jan 2025</div><div class="tl-event">Trump tillbaka — antyder militär intervention, hotar med strafftullar</div></div>
+      <div class="tl-item"><div class="tl-dot"></div><div class="tl-year">Mar 2025</div><div class="tl-event">Val i Grönland: Demokraatit vinner — "Vi säljs inte"</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FLASHCARDS -->
+<section class="flashcards-section" id="begrepp">
+  <div class="section-header reveal">
+    <span class="section-label">📖 Begrepp</span>
+    <h2 class="section-title">Klicka för att vända</h2>
+    <p style="font-size:.88rem;color:var(--text-secondary);margin-top:.7rem;font-style:italic;">Lär dig begreppen — klicka på ett kort för att se förklaringen</p>
+  </div>
+  <div class="flashcards-grid">
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Inuiter</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Arktiskt ursprungsfolk vars namn betyder "Människor" på deras eget språk. Anlände till Grönland ca år 1200 från Kanada och lever där än idag.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Kolonialism</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">När ett land tar kontroll över ett annat folk och dess land, oftast med makt eller hot om makt. Danmark koloniserade Grönland från 1721.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Hjemmestyre</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Hemstyre — det delvis egna styre som Grönland fick 1 maj 1979. Grönland fick ett eget parlament (Inatsisartut) och regering. Grönlands nationaldag.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">GIUK-gapet</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Det strategiska farvattensgapet mellan Grönland, Island och Storbritannien. Avgörande under kalla kriget — Ryssland måste passera här med sina ubåtar för att nå Atlanten.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Sällsynta jordartsmetaller</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">17 grundämnen (neodym, dysprosium m.fl.) avgörande för elbilar, vindkraftverk och militär teknik. Kina kontrollerar ~60% av världens produktion. Grönland har enorma fyndigheter.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Blocktillskott</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Danmarks årliga bidrag till Grönland på ca 5,5 miljarder danska kronor — ungefär 40% av Grönlands hela statsbudget. Det ekonomiska beroendet som gör full självständighet så svår.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Selvstyre</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Självstyre — Grönlands utökade självbestämmande från 2009. Grönländskan blev officiellt språk, folket erkändes juridiskt och naturresurserna tillhör nu Grönland.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Realpolitik</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Politiskt tänkande baserat på makt och intressen snarare än regler och principer. Trumps inställning till Grönland brukar beskrivas som ett exempel på realpolitik.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Kontinentalsockel</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Undervattensterräng som är en naturlig förlängning av landmassan. Länder kan göra anspråk på sin kontinentalsockel via FN:s havsrättskonvention — Ryssland gör stora arktiska anspråk.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Kalaallit Nunaat</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Grönlands namn på grönländska: "Vårt land". Inte "det gröna landet" som Erik Röde kallade det — utan ett namn som rymmer stolthet, historia och rätten till självbestämmande.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Permafrost</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Den underliggande jord som åretrunt hållit sig frusen i Arktis. När permafrosten tinar på grund av klimatförändringar sjunker hus, vägar spricker och kuster erodera.</div></div>
+    </div></div>
+
+    <div class="fc-wrap reveal"><div class="fc-inner">
+      <div class="fc-face fc-front"><div class="fc-term">Dekolonisering</div><div class="fc-hint">Klicka för att vända →</div></div>
+      <div class="fc-face fc-back"><div class="fc-def">Processen när koloniserade folk återfår sin självständighet och rätten att bestämma över sin egen framtid. Grönlands resa mot selvstyre är ett exempel på pågående dekolonisering.</div></div>
+    </div></div>
+
+  </div>
+</section>
+
+<!-- STORLEKSJÄMFÖRELSE -->
+<section class="size-section reveal">
+  <div class="section-header">
+    <span class="section-label">🗺️ Perspektiv</span>
+    <h2 class="section-title">Hur stor är Grönland egentligen?</h2>
+    <p style="font-size:.88rem;color:var(--text-secondary);margin-top:.7rem;font-style:italic;">En jämförelse mot länder du känner igen</p>
+  </div>
+  <div class="size-arena">
+    <div class="size-bars" id="sizeBars">
+      <div class="size-row">
+        <div class="size-label">Grönland</div>
+        <div class="size-bar-wrap"><div class="size-bar bar-gronland" data-pct="100">🧊 Grönland</div></div>
+        <div class="size-km">2 166 086 km²</div>
+      </div>
+      <div class="size-row">
+        <div class="size-label">EU totalt</div>
+        <div class="size-bar-wrap"><div class="size-bar bar-frankrike" data-pct="210">🇪🇺 EU-27</div></div>
+        <div class="size-km">4 275 000 km²</div>
+      </div>
+      <div class="size-row">
+        <div class="size-label">Sverige</div>
+        <div class="size-bar-wrap"><div class="size-bar bar-sverige" data-pct="21">🇸🇪 Sverige</div></div>
+        <div class="size-km">450 295 km²</div>
+      </div>
+      <div class="size-row">
+        <div class="size-label">Frankrike</div>
+        <div class="size-bar-wrap"><div class="size-bar bar-spanien" data-pct="25">🇫🇷 Frankrike</div></div>
+        <div class="size-km">551 695 km²</div>
+      </div>
+      <div class="size-row">
+        <div class="size-label">Danmark</div>
+        <div class="size-bar-wrap"><div class="size-bar bar-danmark" data-pct="2">🇩🇰 Danmark</div></div>
+        <div class="size-km">43 094 km²</div>
+      </div>
+    </div>
+    <p class="size-note">Grönland är nästan <strong style="color:var(--accent-ice)">5× så stort som Sverige</strong> och <strong style="color:var(--accent-ice)">50× så stort som Danmark</strong> — men har bara 57 000 invånare.<br>Nästan hela ytan täcks av inlandsisen.</p>
+  </div>
+</section>
+
+<!-- STORMAKTS-QUIZ -->
+<section class="stormakt-section">
+  <div class="section-header reveal">
+    <span class="section-label">🎭 Personlighetstest</span>
+    <h2 class="section-title">Vilken stormakt är du?</h2>
+    <p style="font-size:.88rem;color:var(--text-secondary);margin-top:.7rem;font-style:italic;">5 frågor — ett oväntade svar</p>
+  </div>
+  <div class="stormakt-box reveal">
+    <div class="sm-head">
+      <div class="sm-head-title">🌍 Stormakts-test</div>
+      <div class="sm-head-sub">Svara ärligt — vi lovar att det inte spelas in av CIA</div>
+    </div>
+    <div class="sm-body">
+      <div class="sm-progress" id="smProgress">
+        <div class="sm-dot" id="smd0"></div>
+        <div class="sm-dot" id="smd1"></div>
+        <div class="sm-dot" id="smd2"></div>
+        <div class="sm-dot" id="smd3"></div>
+        <div class="sm-dot" id="smd4"></div>
+      </div>
+      <div id="smQuestionArea">
+        <div class="sm-q" id="smQ"><span class="sm-q-num" id="smQNum"></span><span id="smQText"></span></div>
+        <div class="sm-opts" id="smOpts"></div>
+      </div>
+      <div class="sm-result" id="smResult"></div>
+    </div>
+  </div>
+</section>
+
+<!-- RÖSTNING -->
+<section class="vote-section">
+  <div class="vote-box reveal">
+    <span class="section-label" style="display:block;margin-bottom:.8rem;">🗳️ Din åsikt</span>
+    <div class="vote-question">Ska Grönland bli självständigt?</div>
+    <p class="vote-sub">Rösta och se vad de andra på sidan tycker</p>
+    <div class="vote-btns" id="voteBtns">
+      <button class="vote-btn vote-btn-yes" onclick="castVote('yes')">✅ Ja!</button>
+      <button class="vote-btn vote-btn-kanske" onclick="castVote('kanske')">🤔 Kanske</button>
+      <button class="vote-btn vote-btn-no" onclick="castVote('no')">❌ Nej</button>
+    </div>
+    <div class="vote-results" id="voteResults" style="display:none;">
+      <div class="vote-bar-row">
+        <div class="vote-bar-label" style="color:var(--accent-aurora)">Ja</div>
+        <div class="vote-bar-track"><div class="vote-bar-fill vb-yes" id="vbYes" style="width:0%">0%</div></div>
+      </div>
+      <div class="vote-bar-row">
+        <div class="vote-bar-label" style="color:var(--accent-gold)">Kanske</div>
+        <div class="vote-bar-track"><div class="vote-bar-fill vb-kanske" id="vbKanske" style="width:0%">0%</div></div>
+      </div>
+      <div class="vote-bar-row">
+        <div class="vote-bar-label" style="color:var(--accent-red)">Nej</div>
+        <div class="vote-bar-track"><div class="vote-bar-fill vb-no" id="vbNo" style="width:0%">0%</div></div>
+      </div>
+      <div class="vote-total" id="voteTotal"></div>
+      <span class="vote-mymark" id="voteMyMark"></span>
+    </div>
+  </div>
+</section>
+
+<!-- VEM SA DET? -->
+<section class="vem-section">
+  <div class="section-header reveal">
+    <span class="section-label">💬 Citatkoll</span>
+    <h2 class="section-title">Vem sa det?</h2>
+    <p style="font-size:.88rem;color:var(--text-secondary);margin-top:.7rem;font-style:italic;">Matcha citaten med rätt person — 5 citat från serien</p>
+  </div>
+  <div class="vem-box reveal">
+    <div class="vem-score-bar">
+      <div class="vem-dot-wrap" id="vemDots">
+        <div class="vem-sdot" id="vsd0"></div>
+        <div class="vem-sdot" id="vsd1"></div>
+        <div class="vem-sdot" id="vsd2"></div>
+        <div class="vem-sdot" id="vsd3"></div>
+        <div class="vem-sdot" id="vsd4"></div>
+      </div>
+    </div>
+    <div id="vemCards"></div>
+    <div class="vem-final" id="vemFinal">
+      <div class="vem-final-score" id="vemFinalScore"></div>
+      <div class="vem-final-msg" id="vemFinalMsg"></div>
+      <button class="vem-reset" onclick="initVem()">Spela igen</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-logo">SO med <span>Petrus</span></div>
+  <p class="footer-text">
+    Isen som smälter — Grönland, makt och framtiden<br>
+    En poddserie för SO åk 7–9 av SO med Petrus
+  </p>
+  <p class="footer-sources">
+    Källor: Wikipedia (sv/en/da), Utrikespolitiska institutet, DR Nyheter, SVT Nyheter, BBC, Reuters, RAND Corporation, Populär Historia, SO-rummet, Nationalencyklopedin, Amnesty Press, Göteborgs-Posten, Axess Magazine.
+  </p>
+</footer>
+
+</div><!-- /content -->
+
+<!-- ============ QUIZ MODAL ============ -->
+<div class="quiz-modal" id="quizModal">
+  <div class="quiz-box">
+    <div class="quiz-head">
+      <div class="quiz-head-title" id="quizTitle">Quiz</div>
+      <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    </div>
+    <div class="quiz-bar"><div class="quiz-fill" id="quizFill" style="width:0%"></div></div>
+    <div class="quiz-body">
+      <div id="quizQuestionArea">
+        <div class="quiz-counter" id="quizCounter">Fråga 1 av 8</div>
+        <div class="quiz-question" id="quizQuestion"></div>
+        <div class="quiz-options" id="quizOptions"></div>
+        <div class="quiz-feedback" id="quizFeedback"></div>
+        <button class="quiz-next" id="quizNext" onclick="nextQuestion()">Nästa fråga →</button>
+      </div>
+      <div class="quiz-result" id="quizResult"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== SCROLL =====
+function gotoSection(id){
+  const el=document.getElementById(id);
+  if(!el)return;
+  const y=el.getBoundingClientRect().top+(document.documentElement.scrollTop||document.body.scrollTop)-80;
+  try{
+    window.scrollTo({top:y,behavior:'smooth'});
+    document.documentElement.scrollTop=y;
+    document.body.scrollTop=y;
+  }catch(e){
+    document.documentElement.scrollTop=y;
+    document.body.scrollTop=y;
+  }
+}
+
+// ===== STARS =====
+(function(){
+  const canvas = document.getElementById('starCanvas');
+  const ctx = canvas.getContext('2d');
+  function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+  resize();
+  window.addEventListener('resize',resize);
+  const stars=[];
+  for(let i=0;i<160;i++){
+    stars.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*1.3+.1,
+      a:Math.random()*.7+.15,
+      da:(Math.random()-.5)*.008
+    });
+  }
+  function drawStars(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    stars.forEach(s=>{
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(220,240,255,${Math.max(.05,Math.min(.9,s.a))})`;
+      ctx.fill();
+      s.a+=s.da;
+      if(s.a>.9||s.a<.05)s.da*=-1;
+    });
+    requestAnimationFrame(drawStars);
+  }
+  drawStars();
+})();
+
+// ===== SCROLL REVEAL =====
+const revealObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// ===== STAT COUNTERS =====
+function animCount(el,target,dur,suffix){
+  const start=performance.now();
+  (function tick(now){
+    const p=Math.min((now-start)/dur,1);
+    const ease=1-Math.pow(1-p,3);
+    const val=Math.round(target*ease);
+    el.textContent=(target>=1000?val.toLocaleString('sv-SE'):val)+suffix;
+    if(p<1)requestAnimationFrame(tick);
+  })(performance.now());
+}
+const statObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&!e.target.dataset.done){
+      e.target.dataset.done=1;
+      animCount(e.target,+e.target.dataset.target,2000,e.target.dataset.suffix||'');
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.stat-num').forEach(el=>statObs.observe(el));
+
+// ===== FLASHCARDS =====
+document.querySelectorAll('.fc-wrap').forEach(fc=>{
+  fc.addEventListener('click',()=>fc.classList.toggle('flipped'));
+});
+
+// ===== FACTS ROTATOR =====
+const FACTS=[
+  "Grönland är världens STÖRSTA ö — nästan tio gånger större än Sverige.",
+  "De första människorna anlände till Grönland för 4 500 år sedan — från Nordamerika.",
+  "Leif Eriksson nådde Nordamerika runt år 1000, femhundra år INNAN Columbus.",
+  "Grönland är det ENDA landet i historien som har lämnat EU (1985). Brexit använde deras mall.",
+  "57 000 människor bor på en yta fem gånger så stor som Sverige — och det finns inga vägar mellan städerna.",
+  "85% av Grönlands invånare vill INTE bli en del av USA.",
+  "Kina kontrollerar nästan 60% av världens produktion av sällsynta jordartsmetaller.",
+  "Arktis värms upp 4–5 gånger snabbare än resten av världen.",
+  "En vätebomb kraschade på Grönland 1968 — och en av dem hittades ALDRIG.",
+  "'Kalaallit Nunaat' — Grönlands eget namn på grönländska — betyder 'Vårt land'.",
+  "Danmark betalar 5,5 miljarder DKK om året till Grönland — nästan 40% av hela statsbudgeten.",
+  "Grönland under isen uppskattas innehålla 17 av de sällsynta jordartsmetaller som behövs för elbilar och vindkraft."
+];
+let fi=0;
+const factEl=document.getElementById('factDisplay');
+setInterval(()=>{
+  factEl.classList.add('fade');
+  setTimeout(()=>{
+    fi=(fi+1)%FACTS.length;
+    factEl.textContent=FACTS[fi];
+    factEl.classList.remove('fade');
+  },500);
+},5000);
+
+// ===== QUIZ ENGINE =====
+const QUIZ={
+  1:{
+    title:"Avsnitt 1: Världens största ö",
+    qs:[
+      {q:"Vilket år anlände Erik Röde till Grönland och grundade de första nordiska bosättningarna?",
+       o:["985 e.Kr.","1000 e.Kr.","1492 e.Kr.","1721 e.Kr."],a:0},
+      {q:"Vad betyder ordet 'inuiter' på deras eget språk?",
+       o:["Arktiska folk","Människor","Nordborna","De vita"],a:1},
+      {q:"Vilket land hävdade historiska rättigheter till östra Grönland och förlorade i Haag?",
+       o:["Sverige","Island","Norge","Kanada"],a:2},
+      {q:"Vad kallade Leif Eriksson det land han nådde i Nordamerika runt år 1000?",
+       o:["Greenland","Markland","Helluland","Vinland"],a:3},
+      {q:"Vad exporterade de nordiska bosättningarna från Grönland till Europa?",
+       o:["Valrossbetar, pälsar och levande isbjörnar","Fisk och torsk","Järnmalm och koppar","Ull och kött"],a:0},
+      {q:"Vem grundade en handelsstation på platsen för dagens Nuuk år 1721?",
+       o:["Erik Röde","Hans Egede","Leif Eriksson","Kung Christian IV"],a:1},
+      {q:"Hur många inuiter beräknas ha dött under smittkoppsepidemier under den tidiga kolonialtiden?",
+       o:["Runt 600","Runt 2 000","Runt 6 000","Runt 60 000"],a:2},
+      {q:"Vad fastslog Internationella domstolen i Haag år 1933 angående Grönland?",
+       o:["Grönland skulle delas mellan Norge och Danmark","Grönland fick rätt till självstyre","Norge fick behålla östra Grönland","Hela Grönland tillhör Danmark"],a:3}
+    ]
+  },
+  2:{
+    title:"Avsnitt 2: Kalla kriget på is",
+    qs:[
+      {q:"Vilket datum kraschade det amerikanska B-52-planet med fyra vätebomber på Grönland?",
+       o:["21 januari 1968","6 juni 1944","1 maj 1979","12 oktober 1972"],a:0},
+      {q:"Vad var Danmarks officiella policy om kärnvapen på danskt territorium?",
+       o:["Kärnvapen tilläts i Arktis men ej i Danmark","Inga kärnvapen tillåtna på danskt territorium","Kärnvapen fick lagras i Grönland mot ersättning","Kärnvapen tilläts under kalla kriget"],a:1},
+      {q:"Vad heter den amerikanska militärbasen på norra Grönland idag?",
+       o:["Greenland Air Base","Arctic Command Center","Pituffik rymdbas","Thule Outpost"],a:2},
+      {q:"Vad avslöjade BBC 2008 om olyckan 1968?",
+       o:["Att Danmark faktiskt godkänt kärnvapnen officiellt","Att en av de fyra bomberna aldrig hittades","Att Sovjet planerade att anfalla Thulebasen","Att hela besättningen överlevde"],a:3},
+      {q:"Hur mycket erbjöd Harry Truman Danmark för Grönland år 1946?",
+       o:["100 miljoner dollar","500 miljoner dollar","En miljard dollar","50 miljoner dollar"],a:0},
+      {q:"Vad hände med grönländska muvingstaden Qullissat?",
+       o:["Den expanderades och är idag Grönlands näst största stad","Den tvångsevakuerades och är idag en spökstad","Den förstördes av en orkan 1970","Den såldes till ett danskt gruvbolag"],a:1},
+      {q:"Vilket grönländskt rockband sjöng på grönländska om frihet och spelade en avgörande roll för självständighetsrörelsen?",
+       o:["Nuuk Posse","Arctic Voices","Sumé","Kalaallit Band"],a:2},
+      {q:"Vilket år trädde Grönlands hemstyre (hjemmestyre) i kraft — nu Grönlands nationaldag?",
+       o:["1973","1976","1977","1979"],a:3}
+    ]
+  },
+  3:{
+    title:"Avsnitt 3: Äntligen ett eget folk",
+    qs:[
+      {q:"Vilket år lämnade Grönland den Europeiska ekonomiska gemenskapen (EEG) — som första land i historien?",
+       o:["1985","1982","1990","1993"],a:0},
+      {q:"Vad var det centrala argumentet för att lämna EEG i 1982 folkomröstningen?",
+       o:["Att EEG-reglerna hindrade grönländsk kultur","Att europeiska fiskeflottor tog grönländarnas fisk","Att EEG krävde att Grönland adopterade dansk lagstiftning","Att EEG-avgifterna var för höga"],a:1},
+      {q:"Hur stor andel röstade för att lämna EEG i Grönlands folkomröstning 1982?",
+       o:["38 procent","45 procent","52 procent","71 procent"],a:2},
+      {q:"Vilket annat land använde Grönlands juridiska mall för att lämna EU drygt 25 år senare?",
+       o:["Norge","Schweiz","Island","Storbritannien"],a:3},
+      {q:"Hur mycket betalar Danmark varje år till Grönland som blocktillskott?",
+       o:["Ca 5,5 miljarder danska kronor","Ca 1 miljard danska kronor","Ca 12 miljarder danska kronor","Ca 500 miljoner danska kronor"],a:0},
+      {q:"Vad heter Grönlands folkvalda parlament?",
+       o:["Folketing","Inatsisartut (Landstinget)","Riksrådet","Grönlandsrådet"],a:1},
+      {q:"Hur stor del av Grönlands exportinkomster utgörs av fisket?",
+       o:["Runt 40 procent","Runt 65 procent","Runt 90 procent","100 procent"],a:2},
+      {q:"Vilket år trädde Grönlands selvstyre (självstyre) i kraft, med grönländskan som officiellt språk?",
+       o:["2004","2006","2007","2009"],a:3}
+    ]
+  },
+  4:{
+    title:"Avsnitt 4: Varför vill Trump ha en ö?",
+    qs:[
+      {q:"Vilket år publicerade Wall Street Journal artikeln om att Trump ville köpa Grönland?",
+       o:["2019","2017","2021","2023"],a:0},
+      {q:"Vad kallade Trump Danmarks statsminister Mette Frederiksen när hon avvisade idén om att sälja Grönland?",
+       o:["Foolish","Nasty","Rude","Weak"],a:1},
+      {q:"Vad är GIUK-gapet som militärstrategerna refererar till?",
+       o:["En grupp av ovanliga grundämnen viktiga för teknik","Den historiska handelsvägen mellan Grönland och Island","Det strategiska farvattensgapet mellan Grönland, Island och UK","En juridisk ram för territoriella tvister i Arktis"],a:2},
+      {q:"Hur stor andel av Grönlands invånare ville INTE bli en del av USA (januari 2025)?",
+       o:["55 procent","68 procent","79 procent","85 procent"],a:3},
+      {q:"Vad erbjöd Harry Truman för Grönland år 1946?",
+       o:["100 miljoner dollar","250 miljoner dollar","500 miljoner dollar","En miljard dollar"],a:0},
+      {q:"Vad heter den viktigaste amerikanska militärbasen på norra Grönland?",
+       o:["Greenland Space Command","Pituffik rymdbas","Arctic Base Alpha","Baffinbasen"],a:1},
+      {q:"Hur stor andel av världens produktion av sällsynta jordartsmetaller kontrollerar Kina?",
+       o:["Runt 30 procent","Runt 45 procent","Nästan 60 procent","Över 80 procent"],a:2},
+      {q:"Vad stod det på de kepsar och t-shirts som sålde slut i Nuuks butiker under Trumpkrisen?",
+       o:["Kalaallit Nunaat","No Trump Zone","Arctic Pride","Greenland is not for sale"],a:3}
+    ]
+  },
+  5:{
+    title:"Avsnitt 5: Vems är isen?",
+    qs:[
+      {q:"Vad planterade den ryska ubåten på Nordpolens botten i augusti 2007?",
+       o:["En rysk flagga i en titankapsyl","En tidningskapsel med fredsbudskap","Mätinstrument för havstemperatur","En gränsmärkning av rysk territorialhav"],a:0},
+      {q:"Hur mycket snabbare har Arktis värmts upp jämfört med resten av jordklotet?",
+       o:["Ungefär lika snabbt","Fyra till fem gånger snabbare","Dubbelt så snabbt","Tio gånger snabbare"],a:1},
+      {q:"Vad kallas den nya sjörutten längs Rysslands nordkust som isen nu öppnar upp?",
+       o:["Suezpassagen","Arktisleden","Nordostpassagen","Polarrutten"],a:2},
+      {q:"Vilket grönländskt berg innehåller en av världens mest kända fyndigheter av sällsynta jordartsmetaller?",
+       o:["Gunnbjörns fjäll","Nunatakken","Ilulissat-ryggen","Kvanefjeld"],a:3},
+      {q:"Hur många miljarder fat olja uppskattas Grönland potentiellt rymma?",
+       o:["Över 31 miljarder fat","Runt 5 miljarder fat","Runt 15 miljarder fat","Över 50 miljarder fat"],a:0},
+      {q:"Vad heter Rysslands program för att dominera Arktis ekonomiskt och militärt?",
+       o:["Operation Nordpolen","Arktis 2035","Polarstjärnan","Arktis Dominans"],a:1},
+      {q:"Vad kallas den undervattensterräng som är en naturlig förlängning av ett lands landmassa?",
+       o:["Havssockeln","Djuphavet","Kontinentalsockeln","Lomonosovryggen"],a:2},
+      {q:"Vilket år röstade Grönlands självstyre för att stoppa alla nya olje- och gasprospekteringar?",
+       o:["2016","2018","2019","2021"],a:3}
+    ]
+  },
+  6:{
+    title:"Avsnitt 6: Kalaallit Nunaat",
+    qs:[
+      {q:"Vilket parti vann Grönlands uppmärksammade val den 11 mars 2025?",
+       o:["Demokraatit","Naleraq","Siumut","Inuit Ataqatigiit"],a:0},
+      {q:"Vad betyder 'Kalaallit Nunaat' på svenska?",
+       o:["Det gröna landet","Vårt land","Arktis hjärta","Frihetens land"],a:1},
+      {q:"Hur stor del av Grönlands exportinkomster utgörs av fiskenäringen?",
+       o:["Runt 50 procent","Runt 70 procent","Runt 90 procent","Runt 100 procent"],a:2},
+      {q:"Vilka öar är exempel på 'fri association' med USA — en modell Grönland diskuterar?",
+       o:["Hawaii, Guam och Puerto Rico","Bermuda, Cayman och Jamaica","Färöarna, Island och Grönland","Palau, Mikronesianöarna och Marshallöarna"],a:3},
+      {q:"Hur många platser har Grönlands parlament Inatsisartut?",
+       o:["31 platser","21 platser","41 platser","51 platser"],a:0},
+      {q:"Vad heter den kände grönländska konstnären och influencern som kandiderade för Naleraq i valet 2025?",
+       o:["Kuupik Kleist","Qupanuk Olsen","Jens-Frederik Nielsen","Hans Poulsen"],a:1},
+      {q:"En ny internationell flygplats i Nuuk öppnade 2024 — vilket år invigdes den?",
+       o:["2022","2023","2024","2025"],a:2},
+      {q:"Hur stor del av Grönlands statsbudget täcks av det danska blocktillskottet?",
+       o:["Runt 10 procent","Runt 20 procent","Runt 30 procent","Runt 40 procent"],a:3}
+    ]
+  }
+};
+
+let curEp=null,curQ=0,score=0,answered=false;
+
+function openQuiz(ep){
+  curEp=ep;curQ=0;score=0;answered=false;
+  document.getElementById('quizModal').classList.add('open');
+  document.getElementById('quizResult').classList.remove('show');
+  document.getElementById('quizResult').innerHTML='';
+  document.getElementById('quizQuestionArea').style.display='block';
+  renderQ();
+  document.body.style.overflow='hidden';
+}
+function closeQuiz(){
+  document.getElementById('quizModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('quizModal').addEventListener('click',function(e){
+  if(e.target===this)closeQuiz();
+});
+
+function renderQ(){
+  const d=QUIZ[curEp];
+  const q=d.qs[curQ];
+  const tot=d.qs.length;
+  document.getElementById('quizTitle').textContent=d.title;
+  document.getElementById('quizCounter').textContent=`Fråga ${curQ+1} av ${tot}`;
+  document.getElementById('quizFill').style.width=`${(curQ/tot)*100}%`;
+  document.getElementById('quizQuestion').textContent=q.q;
+  const letters=['A','B','C','D'];
+  document.getElementById('quizOptions').innerHTML=q.o.map((o,i)=>
+    `<button class="quiz-opt" onclick="pickOpt(${i})"><span class="ol">${letters[i]}</span><span>${o}</span></button>`
+  ).join('');
+  const fb=document.getElementById('quizFeedback');
+  fb.className='quiz-feedback';fb.textContent='';
+  const nxt=document.getElementById('quizNext');
+  nxt.className='quiz-next';
+  nxt.textContent=curQ<d.qs.length-1?'Nästa fråga →':'Visa resultat 🎯';
+  answered=false;
+}
+
+function pickOpt(idx){
+  if(answered)return;
+  answered=true;
+  const q=QUIZ[curEp].qs[curQ];
+  document.querySelectorAll('.quiz-opt').forEach(o=>o.disabled=true);
+  const opts=document.querySelectorAll('.quiz-opt');
+  if(idx===q.a){
+    opts[idx].classList.add('correct');score++;
+    showFb(true);
+  }else{
+    opts[idx].classList.add('wrong');
+    opts[q.a].classList.add('reveal');
+    showFb(false);
+  }
+  document.getElementById('quizNext').classList.add('show');
+}
+
+function showFb(ok){
+  const fb=document.getElementById('quizFeedback');
+  fb.classList.add('show');
+  if(ok){
+    const msgs=['Rätt! ❄️ Bra jobbat!','Perfekt! 🐻‍❄️','Korrekt! 🧊','Utmärkt! 🌊'];
+    fb.className='quiz-feedback show fb-ok';
+    fb.textContent=msgs[Math.floor(Math.random()*msgs.length)];
+  }else{
+    fb.className='quiz-feedback show fb-no';
+    fb.textContent='Tyvärr fel — det rätta svaret är markerat ovan.';
+  }
+}
+
+function nextQuestion(){
+  curQ++;
+  const tot=QUIZ[curEp].qs.length;
+  if(curQ>=tot){showResult();}else{renderQ();}
+}
+
+function showResult(){
+  document.getElementById('quizQuestionArea').style.display='none';
+  document.getElementById('quizFill').style.width='100%';
+  const tot=QUIZ[curEp].qs.length;
+  const pct=Math.round((score/tot)*100);
+  let emoji,msg;
+  if(pct>=88){emoji='🏆';msg='Fantastiskt! Du kan Grönlands historia som en riktig arktisforskare!';}
+  else if(pct>=62){emoji='⭐';msg='Bra jobbat! Du vet verkligen en hel del om Grönland och Arktis.';}
+  else if(pct>=37){emoji='🧊';msg='Okej! Lyssna gärna på avsnittet igen för att befästa kunskaperna.';}
+  else{emoji='🌊';msg='Ge det en ny chans! Lyssna på avsnittet och försök igen.';}
+  const r=document.getElementById('quizResult');
+  r.innerHTML=`
+    <span class="qr-emoji">${emoji}</span>
+    <span class="qr-score">${score}/${tot}</span>
+    <span class="qr-of">rätta svar</span>
+    <p class="qr-msg">${msg}</p>
+    <div class="qr-btns">
+      <button class="qr-btn qr-btn-primary" onclick="openQuiz(${curEp})">Försök igen</button>
+      <button class="qr-btn qr-btn-secondary" onclick="closeQuiz()">Stäng</button>
+    </div>`;
+  r.classList.add('show');
+}
+
+
+// ===== STORLEKSJÄMFÖRELSE =====
+const sizeObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting&&!e.target.dataset.animated){
+      e.target.dataset.animated=1;
+      document.querySelectorAll('.size-bar').forEach(bar=>{
+        const pct=parseFloat(bar.dataset.pct);
+        // max is 210 (EU), scale everything relative to that
+        const maxPct=210;
+        const width=Math.max(3,(pct/maxPct)*100);
+        setTimeout(()=>{ bar.style.width=width+'%'; },100);
+      });
+    }
+  });
+},{threshold:.3});
+const sizeSect=document.querySelector('.size-section');
+if(sizeSect)sizeObs.observe(sizeSect);
+
+// ===== STORMAKT-QUIZ =====
+const SM_QS=[
+  {q:"Hur löser du en konflikt med grannen?",opts:[
+    {t:"Jag erbjuder köpa grannen.",p:"usa"},
+    {t:"Jag planterar en flagga på hans tomt och säger att det alltid var mitt.",p:"rus"},
+    {t:"Jag finansierar hans renovering — och tar hyra i form av inflytande.",p:"kina"},
+    {t:"Vi pratar, sätter upp regler, och försöker leva i harmoni.",p:"dan"},
+    {t:"Jag bestämmer själv, tack. Det är ju min tomt.",p:"gron"}
+  ]},
+  {q:"Vad gör du om du hittar guld i din trädgård?",opts:[
+    {t:"Anlitar ett team av experter och annonserar det för hela världen.",p:"usa"},
+    {t:"Gräver i hemlighet, nattetid, och berättar för ingen.",p:"rus"},
+    {t:"Säljer det till mig själv via ett eget bolag. Smart.",p:"kina"},
+    {t:"Rapporterar det till kommunen och delar med alla.",p:"dan"},
+    {t:"Det är mitt guld — ingen annan rör det utan min tillåtelse.",p:"gron"}
+  ]},
+  {q:"Du är bjuden på fest och tycker inte om maten. Du:",opts:[
+    {t:"Beställer pizza till alla utan att fråga. Du är välkommen.",p:"usa"},
+    {t:"Äter ingenting men ler och tar anteckningar om alla på festen.",p:"rus"},
+    {t:"Äger redan restaurangen de beställde från. Smidig.",p:"kina"},
+    {t:"Äter artigt upp och frågar snällt om receptet.",p:"dan"},
+    {t:"Lagar min egna traditionella mat och bjuder de andra.",p:"gron"}
+  ]},
+  {q:"Hur reagerar du på att Donald Trump vill köpa ditt hus?",opts:[
+    {t:"Erbjuder att sälja hela kvarteret om priset stämmer.",p:"usa"},
+    {t:"Skrattar. Ingen köper Ryssland. INGEN.",p:"rus"},
+    {t:"Motfrågar om han vill ha lån till handpenningen.",p:"kina"},
+    {t:"Ringer EU och håller ett presstal.",p:"dan"},
+    {t:"Greenland is not for sale. Vi ses i rätten.",p:"gron"}
+  ]},
+  {q:"Din strategi inför framtiden?",opts:[
+    {t:"Dominera genom militär och ekonomisk styrka. Alltid.",p:"usa"},
+    {t:"Vänta ut alla. Permafrost är tålmodig.",p:"rus"},
+    {t:"Lång sikt, strategiska investeringar, inga känslor.",p:"kina"},
+    {t:"Samarbete, konsensus och lite hygge.",p:"dan"},
+    {t:"Klara oss själva. Det tar tid men det är värt det.",p:"gron"}
+  ]}
+];
+const SM_RESULTS={
+  usa:{flag:"🇺🇸",name:"USA",tagline:'"En otrolig deal — det lovar jag er."',desc:"Du är en pragmatisk och ibland impulsiv stormakt. Du ser möjligheter överallt och är inte rädd för att lägga ett bud — oavsett om det handlar om fastigheter, öar eller allianser. Ditt hjärta är på rätt ställe, men din stil är ibland lite... mycket."},
+  rus:{flag:"🇷🇺",name:"Ryssland",tagline:'"Arktis är vårt. Det har alltid varit vårt."',desc:"Du spelar ett långt spel. Du är tålmodig, strategisk och har ett svårtolkat leende. Du planterar flaggor — ibland bokstavligen. Dina metoder ifrågasätts, men din förmåga att hålla ihop ett stort projekt är obestridlig."},
+  kina:{flag:"🇨🇳",name:"Kina",tagline:'"Vi är en nära arktisk stat."',desc:"Du är den strategiske tänkaren. Tålmodig, ekonomiskt fokuserad och alltid tre drag framåt. Du investerar i infrastruktur, bygger relationer — och förväntar dig givetvis något tillbaka. Du kallar det handel. Andra kallar det inflytande."},
+  dan:{flag:"🇩🇰",name:"Danmark",tagline:'"Grönland tillhör det grönländska folket... men vi håller ekonomin."',desc:"Du är den välmenande men lite paternalistiske storebror. Du menar väl, du har bra regler, och du försöker lyssna. Men ibland fattar du beslut om andras liv utan att riktigt fråga. Hygge är viktigt, men du håller ändå i plånboken."},
+  gron:{flag:"🧊",name:"Grönland",tagline:'"Kalaallit Nunaat — Vårt land."',desc:"Du är den stolta, tålmodige och djupt förankrade i sin identitet. Du bär 4 500 år av historia och vet exakt vad du är värdt. Världens mäktigaste länder vill ha dig — men du bestämmer själv. Det tar tid. Men det är ditt beslut."}
+};
+let smQ=0,smScores={usa:0,rus:0,kina:0,dan:0,gron:0};
+function initSM(){
+  smQ=0;smScores={usa:0,rus:0,kina:0,dan:0,gron:0};
+  document.getElementById('smResult').classList.remove('show');
+  document.getElementById('smResult').style.display='none';
+  document.getElementById('smQuestionArea').style.display='block';
+  updateSmProgress();
+  renderSmQ();
+}
+function updateSmProgress(){
+  for(let i=0;i<5;i++){
+    const d=document.getElementById('smd'+i);
+    if(d)d.className='sm-dot'+(i<smQ?' done':'');
+  }
+}
+function renderSmQ(){
+  const q=SM_QS[smQ];
+  document.getElementById('smQNum').textContent=`Fråga ${smQ+1} av 5`;
+  document.getElementById('smQText').textContent=q.q;
+  const shuffled=[...q.opts].sort(()=>Math.random()-.5);
+  document.getElementById('smOpts').innerHTML=shuffled.map((o,i)=>
+    `<button class="sm-opt" onclick="pickSM('${o.p}')">${o.t}</button>`
+  ).join('');
+}
+function pickSM(power){
+  smScores[power]=(smScores[power]||0)+1;
+  smQ++;
+  updateSmProgress();
+  if(smQ>=5){showSmResult();}else{renderSmQ();}
+}
+function showSmResult(){
+  document.getElementById('smQuestionArea').style.display='none';
+  const winner=Object.entries(smScores).sort((a,b)=>b[1]-a[1])[0][0];
+  const r=SM_RESULTS[winner];
+  const res=document.getElementById('smResult');
+  res.style.display='block';
+  res.classList.add('show');
+  res.innerHTML=`
+    <span class="sm-flag">${r.flag}</span>
+    <div class="sm-power">${r.name}</div>
+    <span class="sm-tagline">${r.tagline}</span>
+    <p class="sm-desc">${r.desc}</p>
+    <button class="sm-retry" onclick="initSM()">Prova igen</button>
+  `;
+}
+initSM();
+
+// ===== RÖSTNING =====
+const VOTE_SEED={yes:142,kanske:67,no:38};
+function getVotes(){
+  const s=localStorage.getItem('gronland_votes');
+  if(s){try{return JSON.parse(s);}catch(e){}}
+  return {...VOTE_SEED};
+}
+function saveVotes(v){localStorage.setItem('gronland_votes',JSON.stringify(v));}
+function getMyVote(){return localStorage.getItem('gronland_myvote')||null;}
+function castVote(choice){
+  const prev=getMyVote();
+  const v=getVotes();
+  if(prev){
+    v[prev]=Math.max(0,v[prev]-1);
+  }
+  v[choice]=(v[choice]||0)+1;
+  saveVotes(v);
+  localStorage.setItem('gronland_myvote',choice);
+  renderVote();
+}
+function renderVote(){
+  const v=getVotes();
+  const my=getMyVote();
+  const tot=v.yes+v.kanske+v.no;
+  const pct=k=>tot?Math.round((v[k]/tot)*100):0;
+  if(my){
+    document.getElementById('voteBtns').style.display='none';
+    document.getElementById('voteResults').style.display='block';
+    setTimeout(()=>{
+      document.getElementById('vbYes').style.width=pct('yes')+'%';
+      document.getElementById('vbYes').textContent=pct('yes')+'%';
+      document.getElementById('vbKanske').style.width=pct('kanske')+'%';
+      document.getElementById('vbKanske').textContent=pct('kanske')+'%';
+      document.getElementById('vbNo').style.width=pct('no')+'%';
+      document.getElementById('vbNo').textContent=pct('no')+'%';
+    },50);
+    document.getElementById('voteTotal').textContent=`Baserat på ${tot} röster på den här sidan`;
+    const labels={yes:'Du röstade: Ja ✅',kanske:'Du röstade: Kanske 🤔',no:'Du röstade: Nej ❌'};
+    document.getElementById('voteMyMark').textContent=labels[my]||'';
+  }
+}
+renderVote();
+
+// ===== VEM SA DET? =====
+const VEM_DATA=[
+  {
+    quote:"Grönland är inte till salu och kan inte köpas.",
+    opts:["Jens-Frederik Nielsen","Mette Frederiksen","Donald Trump","Kuupik Kleist"],
+    a:0,context:"Grönlands regeringschef Jens-Frederik Nielsen svarade på Trumps krav, januari 2025."
+  },
+  {
+    quote:"Det är fullständigt meningslöst att tala om att USA skulle behöva ta över Grönland.",
+    opts:["Ursula von der Leyen","Emmanuel Macron","Mette Frederiksen","JD Vance"],
+    a:2,context:"Danmarks statsminister Mette Frederiksen, januari 2025."
+  },
+  {
+    quote:"Vår union med Danmark är som ett tvångsäktenskap. Men vi har inte råd att skilja oss.",
+    opts:["Hans Egede","En grönländsk politiker","Kuupik Kleist","Erik Röde"],
+    a:1,context:"En grönländsk politiker om beroendet av det danska blocktillskottet."
+  },
+  {
+    quote:"Grönland är omgivet av ryska och kinesiska fartyg. Danmark klarar inte av det.",
+    opts:["Joe Biden","Vladimir Putin","Xi Jinping","Donald Trump"],
+    a:3,context:"Donald Trump motiverade sin vilja att ta kontroll över Grönland, januari 2025."
+  },
+  {
+    quote:"Självständighet har ett pris, och det priset måste vi kunna betala.",
+    opts:["Jens-Frederik Nielsen","Kuupik Kleist","Qupanuk Olsen","Mette Frederiksen"],
+    a:0,context:"Grönlands regeringschef Jens-Frederik Nielsen i sitt nyårstal 2026."
+  }
+];
+let vemQ=0,vemScore=0,vemAnswered=false;
+function initVem(){
+  vemQ=0;vemScore=0;vemAnswered=false;
+  document.getElementById('vemFinal').classList.remove('show');
+  for(let i=0;i<5;i++){
+    const d=document.getElementById('vsd'+i);
+    if(d)d.className='vem-sdot';
+  }
+  renderVemQ();
+}
+function renderVemQ(){
+  const d=VEM_DATA[vemQ];
+  const container=document.getElementById('vemCards');
+  container.innerHTML=`
+    <div class="vem-card active">
+      <blockquote class="vem-quote">"${d.quote}"</blockquote>
+      <div class="vem-opts">${d.opts.map((o,i)=>`<button class="vem-opt" onclick="pickVem(${i})">${o}</button>`).join('')}</div>
+      <div id="vemFb" style="margin-top:1rem;font-size:.83rem;display:none;padding:.8rem 1rem;border-radius:2px;font-family:'Lora',serif;line-height:1.5;"></div>
+      <button class="vem-next" id="vemNextBtn" onclick="nextVem()">${vemQ<4?'Nästa citat →':'Visa resultat 🎯'}</button>
+    </div>
+  `;
+  vemAnswered=false;
+}
+function pickVem(idx){
+  if(vemAnswered)return;
+  vemAnswered=true;
+  const d=VEM_DATA[vemQ];
+  const opts=document.querySelectorAll('.vem-opt');
+  opts.forEach(o=>o.disabled=true);
+  const fb=document.getElementById('vemFb');
+  const dot=document.getElementById('vsd'+vemQ);
+  if(idx===d.a){
+    opts[idx].classList.add('correct');
+    vemScore++;
+    if(dot)dot.className='vem-sdot hit';
+    fb.style.display='block';
+    fb.style.background='rgba(88,240,148,.08)';
+    fb.style.border='1px solid rgba(88,240,148,.3)';
+    fb.style.color='var(--accent-aurora)';
+    fb.innerHTML='✅ Rätt! '+d.context;
+  }else{
+    opts[idx].classList.add('wrong');
+    opts[d.a].classList.add('reveal');
+    if(dot)dot.className='vem-sdot miss';
+    fb.style.display='block';
+    fb.style.background='rgba(255,107,107,.08)';
+    fb.style.border='1px solid rgba(255,107,107,.3)';
+    fb.style.color='var(--accent-red)';
+    fb.innerHTML='❌ Tyvärr! '+d.context;
+  }
+  document.getElementById('vemNextBtn').classList.add('show');
+}
+function nextVem(){
+  vemQ++;
+  if(vemQ>=VEM_DATA.length){
+    showVemFinal();
+  }else{
+    renderVemQ();
+  }
+}
+function showVemFinal(){
+  document.getElementById('vemCards').innerHTML='';
+  const fin=document.getElementById('vemFinal');
+  fin.classList.add('show');
+  document.getElementById('vemFinalScore').textContent=`${vemScore}/5`;
+  const msgs=[
+    "Försök igen — lyssna på avsnitten och kom tillbaka!",
+    "Okej! Du känner till några citat — men det finns mer att lära.",
+    "Bra! Du har koll på vem som sa vad i Grönlandsdramat.",
+    "Imponerande! Du har verkligen lyssnat på avsnitten.",
+    "Fullt resultat! Du är en riktig Grönlandsexpert! 🧊"
+  ];
+  document.getElementById('vemFinalMsg').textContent=msgs[vemScore]||msgs[2];
+}
+initVem();
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeQuiz();
+  if(e.key>='1'&&e.key<='4'&&document.getElementById('quizModal').classList.contains('open')&&!answered){
+    pickOpt(parseInt(e.key)-1);
+  }
+});
+</script>
+</body>
+</html>
