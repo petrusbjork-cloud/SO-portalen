@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Irans historia – SO med Petrus</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --lapis: #1B3A5C;
+  --lapis-deep: #0F2440;
+  --gold: #C6973F;
+  --gold-lt: #FBF3E0;
+  --gold-glow: #E8C468;
+  --turq: #2A8C8C;
+  --turq-lt: #E8F5F5;
+  --rust: #9E4B2C;
+  --rust-lt: #FDF0EB;
+  --sand: #FAF7F0;
+  --cream: #F5F0E6;
+  --text: #1C1814;
+  --muted: #6B5F4F;
+  --border: #E0D8CC;
+  --spotify: #1DB954;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Crimson Pro',Georgia,serif;background:var(--sand);color:var(--text);line-height:1.7;}
+::selection{background:var(--gold);color:white;}
+
+/* ═══ HERO ═══ */
+.hero{
+  background: var(--lapis-deep);
+  background-image:
+    radial-gradient(ellipse at 15% 80%, rgba(198,151,63,0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 85% 10%, rgba(42,140,140,0.2) 0%, transparent 45%),
+    radial-gradient(ellipse at 50% 120%, rgba(158,75,44,0.15) 0%, transparent 50%);
+  color:white; position:relative; overflow:hidden;
+  padding:60px 40px 50px;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 5 L35 25 L55 30 L35 35 L30 55 L25 35 L5 30 L25 25 Z' fill='none' stroke='rgba(198,151,63,0.06)' stroke-width='0.5'/%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.hero-inner{position:relative;max-width:900px;margin:0 auto;}
+.hero-label{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold-glow);margin-bottom:14px;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(30px,5.5vw,56px);font-weight:900;line-height:1.08;margin-bottom:16px;}
+.hero h1 em{font-style:normal;color:var(--gold-glow);}
+.hero-sub{font-size:17px;color:rgba(255,255,255,0.65);max-width:620px;margin-bottom:28px;}
+.hero-stats{display:flex;gap:24px;flex-wrap:wrap;}
+.hero-stat{display:flex;align-items:center;gap:8px;font-size:13px;color:rgba(255,255,255,0.5);}
+.hero-stat b{font-size:22px;font-weight:900;font-family:'Playfair Display',serif;color:var(--gold-glow);}
+
+/* ═══ STICKY NAV ═══ */
+.nav{background:white;border-bottom:2px solid var(--border);display:flex;overflow-x:auto;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.nav-btn{
+  padding:15px 22px;font-family:'Crimson Pro',serif;font-size:14px;font-weight:600;
+  color:var(--muted);cursor:pointer;border:none;background:none;
+  border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s;
+}
+.nav-btn:hover{color:var(--lapis);background:#EEF1FA;}
+.nav-btn.active{color:var(--lapis);border-bottom-color:var(--gold);}
+
+/* ═══ TAB SECTIONS ═══ */
+.tab-section{display:none;padding:40px 24px;max-width:1000px;margin:0 auto;}
+.tab-section.active{display:block;animation:fadeUp .35s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ EPISODE PICKER ═══ */
+.ep-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:28px;background:white;}
+.ep-pick{
+  padding:12px 6px;text-align:center;cursor:pointer;background:white;border:none;
+  font-family:'Crimson Pro',serif;font-size:11px;font-weight:600;color:var(--muted);
+  transition:all .2s;border-right:1px solid var(--border);line-height:1.3;
+}
+.ep-pick:last-child{border-right:none;}
+.ep-pick:hover{background:var(--gold-lt);}
+.ep-pick.active{background:var(--lapis);color:white;}
+.ep-pick .ep-ico{font-size:18px;display:block;margin-bottom:4px;}
+.ep-pick .ep-sub{font-size:9px;opacity:.55;display:block;margin-top:2px;font-weight:400;}
+
+/* ═══ EP PANEL ═══ */
+.ep-panel{display:none;}
+.ep-panel.active{display:block;animation:fadeUp .3s ease;}
+
+/* ═══ PODCAST CARD (Spotify style) ═══ */
+.pod-card{
+  background:linear-gradient(135deg,var(--lapis-deep) 0%,var(--lapis) 100%);
+  color:white;border-radius:14px;padding:28px 32px;margin-bottom:28px;
+  display:flex;align-items:center;gap:24px;position:relative;overflow:hidden;
+}
+.pod-card::after{
+  content:'🎧';position:absolute;right:24px;bottom:-8px;font-size:80px;opacity:.06;pointer-events:none;
+}
+.pod-play{
+  width:52px;height:52px;border-radius:50%;background:var(--spotify);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  text-decoration:none;transition:transform .15s,box-shadow .15s;
+}
+.pod-play:hover{transform:scale(1.1);box-shadow:0 4px 20px rgba(29,185,84,.4);}
+.pod-play svg{width:20px;height:20px;fill:white;margin-left:2px;}
+.pod-meta .pod-badge{
+  display:inline-block;background:rgba(198,151,63,.2);border:1px solid rgba(198,151,63,.4);
+  color:var(--gold-glow);font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  padding:3px 10px;border-radius:4px;margin-bottom:8px;
+}
+.pod-meta h3{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;margin-bottom:3px;}
+.pod-meta p{font-size:13px;color:rgba(255,255,255,.5);}
+
+/* ═══ ACCORDION ═══ */
+.accordion{margin-bottom:28px;}
+.acc-item{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:white;overflow:hidden;transition:box-shadow .2s;}
+.acc-item:hover{box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.acc-head{
+  padding:16px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--lapis);
+}
+.acc-head::after{content:'▸';transition:transform .25s;font-size:14px;color:var(--gold);}
+.acc-item.open .acc-head::after{transform:rotate(90deg);}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.acc-body-inner{padding:0 20px 18px;font-size:14px;color:var(--muted);line-height:1.75;}
+.acc-body-inner strong{color:var(--lapis);}
+
+/* ═══ QUIZ ═══ */
+.quiz-box{background:white;border:1px solid var(--border);border-radius:14px;padding:32px;}
+.quiz-box h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--lapis);margin-bottom:6px;}
+.quiz-box>p{font-size:14px;color:var(--muted);margin-bottom:24px;}
+.qz-start{
+  background:var(--lapis);color:white;font-family:'Crimson Pro',serif;font-size:15px;
+  font-weight:600;padding:13px 32px;border-radius:8px;border:none;cursor:pointer;
+  transition:background .15s,transform .15s;
+}
+.qz-start:hover{background:#243a60;transform:translateY(-1px);}
+.qz-prog-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.qz-prog-wrap{height:4px;background:var(--border);border-radius:2px;margin-bottom:24px;}
+.qz-prog{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-glow));border-radius:2px;transition:width .4s ease;}
+.qz-q{font-family:'Playfair Display',serif;font-size:19px;font-weight:700;color:var(--lapis);line-height:1.4;margin-bottom:20px;}
+.qz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:18px;}
+.qz-opt{
+  display:flex;align-items:flex-start;gap:12px;padding:13px 16px;
+  border:1.5px solid var(--border);border-radius:8px;background:white;cursor:pointer;
+  font-family:'Crimson Pro',serif;font-size:14px;text-align:left;color:var(--text);line-height:1.5;
+  transition:border-color .15s,background .15s;
+}
+.qz-opt:hover:not(:disabled){border-color:var(--lapis);background:#F0F2F8;}
+.qz-opt .qz-letter{font-weight:700;color:var(--muted);min-width:16px;}
+.qz-opt.correct{border-color:#2A7A2A;background:#EAF6EA;color:#1A4A1A;}
+.qz-opt.correct .qz-letter{color:#2A7A2A;}
+.qz-opt.wrong{border-color:#C0392B;background:#FDECEA;color:#7A1A1A;}
+.qz-opt.wrong .qz-letter{color:#C0392B;}
+.qz-opt:disabled{cursor:default;}
+.qz-fb{
+  background:var(--gold-lt);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;
+  padding:14px 18px;font-size:14px;color:var(--text);line-height:1.65;margin-bottom:14px;
+  animation:fadeUp .25s ease;
+}
+.qz-next{
+  background:var(--lapis);color:white;font-family:'Crimson Pro',serif;font-size:14px;
+  font-weight:600;padding:11px 26px;border-radius:8px;border:none;cursor:pointer;
+  transition:background .15s,transform .15s;
+}
+.qz-next:hover{background:#243a60;transform:translateY(-1px);}
+.qz-score{text-align:center;padding:20px 0;}
+.qz-score-circle{
+  width:100px;height:100px;border-radius:50%;
+  background:linear-gradient(135deg,var(--lapis),var(--lapis-deep));
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  margin:0 auto 18px;box-shadow:0 8px 28px rgba(27,58,92,.3);
+}
+.qz-score-num{font-family:'Playfair Display',serif;font-size:30px;font-weight:900;color:white;line-height:1;}
+.qz-score-den{font-size:12px;color:rgba(255,255,255,.55);}
+.qz-score-emoji{font-size:34px;margin-bottom:8px;}
+.qz-score-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--lapis);margin-bottom:6px;}
+.qz-score-msg{font-size:14px;color:var(--muted);margin-bottom:20px;}
+.qz-retry{
+  background:transparent;border:1.5px solid var(--lapis);color:var(--lapis);
+  font-family:'Crimson Pro',serif;font-size:14px;font-weight:600;
+  padding:10px 26px;border-radius:8px;cursor:pointer;transition:all .15s;
+}
+.qz-retry:hover{background:var(--lapis);color:white;}
+
+/* ═══ FLASHCARDS ═══ */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:32px;}
+.fc-card{
+  perspective:600px;height:170px;cursor:pointer;
+}
+.fc-inner{
+  position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d;
+}
+.fc-card.flipped .fc-inner{transform:rotateY(180deg);}
+.fc-front,.fc-back{
+  position:absolute;inset:0;backface-visibility:hidden;border-radius:10px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:18px;text-align:center;
+}
+.fc-front{
+  background:white;border:1.5px solid var(--border);
+  font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--lapis);
+}
+.fc-front small{font-family:'Crimson Pro',serif;font-size:11px;font-weight:400;color:var(--muted);margin-top:6px;}
+.fc-back{
+  background:var(--lapis);color:white;transform:rotateY(180deg);
+  font-size:13px;line-height:1.6;
+}
+
+/* ═══ TIMELINE ═══ */
+.tl-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.tl-filter{
+  padding:7px 16px;border-radius:20px;font-size:12px;font-weight:600;
+  border:1.5px solid var(--border);background:white;color:var(--muted);
+  cursor:pointer;transition:all .2s;font-family:'Crimson Pro',serif;
+}
+.tl-filter:hover{border-color:var(--gold);}
+.tl-filter.active{background:var(--lapis);color:white;border-color:var(--lapis);}
+.tl-wrap{position:relative;padding-left:42px;}
+.tl-wrap::before{content:'';position:absolute;left:16px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--gold),var(--turq),var(--rust),var(--lapis));}
+.tl-item{display:flex;gap:16px;margin-bottom:18px;position:relative;opacity:1;transition:opacity .3s,max-height .3s;overflow:hidden;}
+.tl-item.hidden{opacity:0;max-height:0;margin:0;padding:0;}
+.tl-dot{
+  position:absolute;left:-34px;top:4px;width:12px;height:12px;border-radius:50%;
+  background:var(--gold);border:2px solid var(--sand);box-shadow:0 0 0 1px var(--gold);flex-shrink:0;
+}
+.tl-year{font-size:12px;font-weight:700;color:var(--gold);min-width:80px;padding-top:1px;flex-shrink:0;}
+.tl-body h4{font-size:15px;font-weight:700;color:var(--lapis);margin-bottom:2px;}
+.tl-body p{font-size:13px;color:var(--muted);line-height:1.6;}
+.tl-body .tl-era-tag{
+  display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+  padding:2px 8px;border-radius:3px;margin-bottom:4px;
+}
+
+/* ═══ BEGREPP ═══ */
+.beg-search{
+  width:100%;padding:12px 18px;border:1.5px solid var(--border);border-radius:8px;
+  font-family:'Crimson Pro',serif;font-size:15px;margin-bottom:20px;background:white;
+  transition:border-color .2s;
+}
+.beg-search:focus{outline:none;border-color:var(--gold);}
+.beg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.beg-card{
+  background:white;border:1px solid var(--border);border-radius:8px;padding:16px 18px;
+  transition:box-shadow .2s,border-color .2s;
+}
+.beg-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06);border-color:var(--gold);}
+.beg-card h4{font-size:14px;font-weight:700;color:var(--lapis);margin-bottom:4px;}
+.beg-card p{font-size:13px;color:var(--muted);line-height:1.55;}
+.beg-card .beg-ep{font-size:10px;font-weight:700;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;}
+.beg-card.beg-hidden{display:none;}
+
+/* ═══ MATCHING GAME ═══ */
+.match-wrap{background:white;border:1px solid var(--border);border-radius:14px;padding:28px;margin-bottom:28px;}
+.match-wrap h3{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--lapis);margin-bottom:4px;}
+.match-wrap>p{font-size:13px;color:var(--muted);margin-bottom:20px;}
+.match-board{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.match-item{
+  padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;
+  font-size:13px;cursor:pointer;transition:all .2s;text-align:center;
+  font-family:'Crimson Pro',serif;
+}
+.match-item.left{background:var(--gold-lt);color:var(--lapis);font-weight:600;}
+.match-item.right{background:white;color:var(--muted);}
+.match-item.selected{border-color:var(--gold);box-shadow:0 0 0 2px rgba(198,151,63,.3);}
+.match-item.matched{border-color:#2A7A2A;background:#EAF6EA;color:#1A4A1A;cursor:default;opacity:.7;}
+.match-item.wrong-flash{border-color:#C0392B;background:#FDECEA;animation:shake .3s ease;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.match-score{text-align:center;margin-top:16px;font-size:14px;font-weight:600;color:var(--lapis);}
+
+/* ═══ PROGRESS TRACKER ═══ */
+.progress-bar-wrap{
+  background:white;border:1px solid var(--border);border-radius:10px;
+  padding:16px 20px;margin-bottom:28px;
+}
+.progress-bar-wrap h4{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;color:var(--lapis);margin-bottom:10px;}
+.prog-episodes{display:flex;gap:6px;align-items:center;}
+.prog-ep{
+  flex:1;height:8px;border-radius:4px;background:var(--border);transition:background .3s;
+}
+.prog-ep.done{background:linear-gradient(90deg,var(--gold),var(--gold-glow));}
+.prog-label{font-size:11px;color:var(--muted);margin-top:8px;}
+
+/* ═══ SECTION HEADINGS ═══ */
+.sec-h{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--lapis);margin-bottom:6px;}
+.sec-sub{font-size:14px;color:var(--muted);margin-bottom:28px;}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:760px){
+  .hero{padding:36px 20px 30px;}
+  .tab-section{padding:24px 14px;}
+  .ep-grid{grid-template-columns:repeat(4,1fr);}
+  .ep-pick{border-bottom:1px solid var(--border);}
+  .beg-grid{grid-template-columns:1fr;}
+  .pod-card{flex-direction:column;gap:16px;text-align:center;}
+  .quiz-box{padding:22px 14px;}
+  .fc-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));}
+  .match-board{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .ep-grid{grid-template-columns:repeat(2,1fr);}
+  .hero-stats{flex-direction:column;gap:12px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">SO-Portalen · Historia</div>
+    <h1>Irans historia<br><em>4 500 år av ett folks berättelse</em></h1>
+    <p class="hero-sub">Från Kyros den store till Mahsa Amini. Lyssna, lär dig och testa dig själv med quiz, flashcards och interaktiva utmaningar.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><b>8</b> avsnitt</div>
+      <div class="hero-stat"><b>64</b> quizfrågor</div>
+      <div class="hero-stat"><b>48</b> flashcards</div>
+      <div class="hero-stat"><b>30+</b> tidslinjepunkter</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ STICKY NAV ═══ -->
+<div class="nav">
+  <button class="nav-btn active" onclick="showTab('avsnitt',this)">🎙️ Avsnitt & Quiz</button>
+  <button class="nav-btn" onclick="showTab('flashcards',this)">🃏 Flashcards</button>
+  <button class="nav-btn" onclick="showTab('tidslinje',this)">📜 Tidslinje</button>
+  <button class="nav-btn" onclick="showTab('begrepp',this)">📖 Begrepp</button>
+  <button class="nav-btn" onclick="showTab('utmaning',this)">🎯 Koppla ihop</button>
+</div>
+
+<!-- ═════════════════════════════════════════════════ -->
+<!-- TAB: AVSNITT & QUIZ                              -->
+<!-- ═════════════════════════════════════════════════ -->
+<div class="tab-section active" id="tab-avsnitt">
+
+  <!-- Progress tracker -->
+  <div class="progress-bar-wrap">
+    <h4>Din framsteg genom Irans historia</h4>
+    <div class="prog-episodes" id="prog-bar">
+      <div class="prog-ep" id="prog-1"></div>
+      <div class="prog-ep" id="prog-2"></div>
+      <div class="prog-ep" id="prog-3"></div>
+      <div class="prog-ep" id="prog-4"></div>
+      <div class="prog-ep" id="prog-5"></div>
+      <div class="prog-ep" id="prog-6"></div>
+      <div class="prog-ep" id="prog-7"></div>
+      <div class="prog-ep" id="prog-8"></div>
+    </div>
+    <div class="prog-label" id="prog-label">Klara quiz: 0 av 8</div>
+  </div>
+
+  <!-- Episode picker -->
+  <div class="ep-grid">
+    <button class="ep-pick active" onclick="showEp(1,this)"><span class="ep-ico">🏛️</span>Del 1<span class="ep-sub">550–330 f.Kr.</span></button>
+    <button class="ep-pick" onclick="showEp(2,this)"><span class="ep-ico">🦁</span>Del 2<span class="ep-sub">247 f.Kr.–651</span></button>
+    <button class="ep-pick" onclick="showEp(3,this)"><span class="ep-ico">☪️</span>Del 3<span class="ep-sub">636–850</span></button>
+    <button class="ep-pick" onclick="showEp(4,this)"><span class="ep-ico">📚</span>Del 4<span class="ep-sub">800–1258</span></button>
+    <button class="ep-pick" onclick="showEp(5,this)"><span class="ep-ico">🔴</span>Del 5<span class="ep-sub">1200–1722</span></button>
+    <button class="ep-pick" onclick="showEp(6,this)"><span class="ep-ico">🛢️</span>Del 6<span class="ep-sub">1800-talet</span></button>
+    <button class="ep-pick" onclick="showEp(7,this)"><span class="ep-ico">🕵️</span>Del 7<span class="ep-sub">1900-talet</span></button>
+    <button class="ep-pick" onclick="showEp(8,this)"><span class="ep-ico">🔥</span>Del 8<span class="ep-sub">1979–idag</span></button>
+  </div>
+
+  <!-- ═══ EP 1 ═══ -->
+  <div class="ep-panel active" id="ep-1">
+    <div class="pod-card">
+      <a href="https://open.spotify.com/episode/2LT5pjPHSQCCMRYxsgg8uH" target="_blank" class="pod-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="pod-meta">
+        <div class="pod-badge">Del 1</div>
+        <h3>Det första imperiet – Persien föds</h3>
+        <p>550–330 f.Kr. · Kyros den store, Persepolis och Alexanders erövring</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Kyros den store – en ovanlig erövrare</div><div class="acc-body"><div class="acc-body-inner">År <strong>559 f.Kr.</strong> klev Kyros fram som kung bland perserna. Han tillhörde <strong>akemeniderna</strong> – den dynasti som skulle styra Persien i över tvåhundra år. Kyros reste sig mot sin morfar, den mediske kungen Astyages, och tog makten. Han erövrade sedan Lydien, de grekiska kolonierna och Babylonien. Men det unika var <strong>hur</strong> han erövrade: han lät folk behålla sina religioner och traditioner, befriade slavar och lät judarna återvända till Jerusalem. Hans <strong>Kyroscylinder</strong> ses ibland som historiens första mänskliga rättighetsdeklaration.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Dareios och världens mest organiserade rike</div><div class="acc-body"><div class="acc-body-inner">Under <strong>Dareios I</strong> (522–486 f.Kr.) nådde imperiet sin höjdpunkt: från Indus till Libyen. Han delade upp riket i <strong>satrapier</strong>, byggde den <strong>Kungliga vägen</strong> (2 700 km, ridbar på en vecka) och uppförde <strong>Persepolis</strong> – det ceremoniella palatset vars reliefer hyllade rikets mångfald. Det var dåtidens FN, hugget i sten.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Perserkrigen och Alexanders erövring</div><div class="acc-body"><div class="acc-body-inner">Perserna försökte erövra Grekland – vid <strong>Marathon</strong> (490 f.Kr.) och <strong>Thermopyle/Salamis</strong> (480 f.Kr.) – men misslyckades. 150 år senare kom hämden: <strong>Alexander den store</strong> krossade det persiska riket på åtta år (334–323 f.Kr.) och brände Persepolis. Det akemenidiska imperiet var slut – men Persiens berättelse hade bara börjat.</div></div></div>
+    </div>
+    <div class="quiz-box">
+      <h3>Quiz – Del 1</h3>
+      <p>8 frågor om det akemenidiska riket, Kyros den store och Alexander.</p>
+      <div id="qs-1"><button class="qz-start" onclick="startQuiz(1)">Starta quiz →</button></div>
+      <div id="qp-1" style="display:none"></div>
+      <div id="qr-1" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══ EP 2 ═══ -->
+  <div class="ep-panel" id="ep-2">
+    <div class="pod-card">
+      <a href="https://open.spotify.com/episode/7bzhYWQYEsHFtdmtKSZBmU" target="_blank" class="pod-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="pod-meta">
+        <div class="pod-badge">Del 2</div>
+        <h3>Persien efter Alexander den store</h3>
+        <p>247 f.Kr.–651 e.Kr. · Parther, sasanider och zoroastrismen</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Partherna – de oövervinnliga ryttarna</div><div class="acc-body"><div class="acc-body-inner">Efter Alexanders död tog seleukiderna makten, men de styrde med grekiska metoder som väckte motstånd. <strong>Partherna</strong>, ett ryttarfolk från nordöst, tog gradvis över. De intog Babylon 141 f.Kr. och blev kända för det <strong>parthiska skottet</strong> – att skjuta pilar bakåt i full galopp. Vid <strong>Carrhae</strong> (53 f.Kr.) krossade de romaren Crassus armé: 35 000 av 40 000 dödades eller fångades.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Zoroastrismen – världens äldsta monoteism?</div><div class="acc-body"><div class="acc-body-inner"><strong>Zarathustra</strong> grundade zoroastrismen för ca 3 500 år sedan. Kärnan: en kamp mellan <strong>Ahura Mazda</strong> (ljus/sanning) och <strong>Angra Mainyu</strong> (mörker/lögn). Etiken: <strong>tänk rätt, tala rätt, handla rätt</strong>. Heliga eldar brann i templen – i Yazd brinner en eld sedan 470 e.Kr. Idéer om himmel/helvete och en sista dom spred sig till judendom, kristendom och islam.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Sasaniderna – det andra persiska imperiet</div><div class="acc-body"><div class="acc-body-inner"><strong>Ardashir I</strong> (224 e.Kr.) störtade partherna och grundade sasanidernas rike. Zoroastrismen blev statsreligion. År 260 e.Kr. tog <strong>Shapur I</strong> den romerske kejsaren Valerianus till fånga – en händelse som chockade hela antiken. Konflikten med Rom/Bysans varade fyrahundra år, tills båda rikena var utmattade. Då kom araberna.</div></div></div>
+    </div>
+    <div class="quiz-box">
+      <h3>Quiz – Del 2</h3>
+      <p>8 frågor om partherna, sasaniderna och zoroastrismen.</p>
+      <div id="qs-2"><button class="qz-start" onclick="startQuiz(2)">Starta quiz →</button></div>
+      <div id="qp-2" style="display:none"></div>
+      <div id="qr-2" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══ EP 3 ═══ -->
+  <div class="ep-panel" id="ep-3">
+    <div class="pod-card">
+      <a href="https://open.spotify.com/episode/4jfiUtX6lmShkqg5uSRiMs" target="_blank" class="pod-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="pod-meta">
+        <div class="pod-badge">Del 3</div>
+        <h3>Persien och islam, en ny era</h3>
+        <p>636–850 e.Kr. · Arabernas erövring, sunni vs shia och Karbala</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Araberna erövrar Persien</div><div class="acc-body"><div class="acc-body-inner">Det utmattade sasanidiska riket föll snabbt. Vid <strong>Qadisiyya</strong> (636) och <strong>Nahavand</strong> (642) krossades perserna. År 651 mördades den siste kungen <strong>Yazdegerd III</strong> under flykten. Men islamiseringen var <strong>långsam</strong> – det tog 200+ år för majoriteten att konvertera. Icke-muslimer betalade <strong>jizya</strong>-skatt.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Sunni och shia – splittringen</div><div class="acc-body"><div class="acc-body-inner">Muhammed dog 632 utan tydlig efterträdare. <strong>Sunni</strong> valde Abu Bakr – den kompetentaste. <strong>Shia</strong> menade att <strong>Ali ibn Abi Talib</strong>, Muhammeds kusin och svärson, var den rättmätige ledaren. År 680 massakrerades Alis son <strong>Husayn</strong> vid <strong>Karbala</strong> – shiamuslimernas mest smärtsamma händelse, som sörjs varje år under <strong>Ashura</strong>.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Persiskan överlever – och Nowruz lever kvar</div><div class="acc-body"><div class="acc-body-inner">Till skillnad från arameiskan och koptiskan dog <strong>persiskan aldrig ut</strong>. Perserna adopterade det arabiska alfabetet och lånade in tusentals ord, men språket levde vidare. Det persiska nyåret <strong>Nowruz</strong> (21 mars) firas fortfarande – 1 300 år efter arabernas erövring. Det är Irans viktigaste högtid, helt utan koppling till islam.</div></div></div>
+    </div>
+    <div class="quiz-box">
+      <h3>Quiz – Del 3</h3>
+      <p>8 frågor om islams ankomst, sunni/shia-splittringen och Karbala.</p>
+      <div id="qs-3"><button class="qz-start" onclick="startQuiz(3)">Starta quiz →</button></div>
+      <div id="qp-3" style="display:none"></div>
+      <div id="qr-3" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══ EP 4 ═══ -->
+  <div class="ep-panel" id="ep-4">
+    <div class="pod-card">
+      <a href="https://open.spotify.com/episode/2sU4E5x5sN8h7e95Hh591z" target="_blank" class="pod-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="pod-meta">
+        <div class="pod-badge">Del 4</div>
+        <h3>När Persien blev hjärnan i den islamiska världen</h3>
+        <p>800–1258 e.Kr. · Visdomens hus, algebra och mongolstormen</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Visdomens hus och den islamiska guldåldern</div><div class="acc-body"><div class="acc-body-inner"><strong>Abbasiderna</strong> tog makten 750 med persiskt stöd och byggde Bagdad. Där skapades <strong>Visdomens hus</strong> (Bayt al-Hikma) – ett forskningscentrum där lärde översatte och byggde vidare på grekisk, persisk och indisk kunskap i <strong>fyrahundra år</strong>. Perserna stod i centrum.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Al-Khwarizmi, Ibn Sina och Ferdowsi</div><div class="acc-body"><div class="acc-body-inner"><strong>Al-Khwarizmi</strong> uppfann algebran och gav oss ordet algoritm. <strong>Ibn Sina</strong> (Avicenna) skrev en medicinsk bok som användes i Europa i 600 år. <strong>Ferdowsi</strong> ägnade 33 år åt <strong>Shahnameh</strong> – 50 000 verspar om Persiens historia, medvetet skrivet med nästan inga arabiska lånord. Det räddade det persiska språket.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Mongolerna förstör Bagdad</div><div class="acc-body"><div class="acc-body-inner">År <strong>1258</strong> belägrade mongolerna under Hülegü Bagdad. Staden föll efter 13 dagar. Upp till en miljon dödades. Visdomens hus brändes – böckerna kastades i Tigris. Vattnet sägs ha färgats svart av bläcket. <strong>Den islamiska guldåldern var slut</strong>. Men persisk kultur överlevde – igen.</div></div></div>
+    </div>
+    <div class="quiz-box">
+      <h3>Quiz – Del 4</h3>
+      <p>8 frågor om guldåldern, persiska vetenskapsmän och mongolernas intåg.</p>
+      <div id="qs-4"><button class="qz-start" onclick="startQuiz(4)">Starta quiz →</button></div>
+      <div id="qp-4" style="display:none"></div>
+      <div id="qr-4" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══ EP 5 ═══ -->
+  <div class="ep-panel" id="ep-5">
+    <div class="pod-card">
+      <a href="https://open.spotify.com/episode/6hGON8oZOE0iR6LMoNLE3o" target="_blank" class="pod-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="pod-meta">
+        <div class="pod-badge">Del 5</div>
+        <h3>Från kaos till imperium – Safavidernas Persien</h3>
+        <p>1200–1722 · Timur Lenk, Ismail I och shiaislam som statsreligion</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Timur Lenk – den andre stormen</div><div class="acc-body"><div class="acc-body-inner">Kring 1380 svepte <strong>Timur Lenk</strong> in från Centralasien. Han lät uppföra pyramider av avhuggna huvuden och förstörde städer som Isfahan och Shiraz. Ändå blev hans ättlingar, <strong>timuriderna</strong>, stora mecenater för persisk konst. Persien absorberade sina erövrare – ännu en gång.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Safaviderna och den stora religionsomvändningen</div><div class="acc-body"><div class="acc-body-inner">År 1501 red femtonårige <strong>Ismail I</strong> in i Tabriz med sina <strong>qizilbash</strong> (rödhuvuden) och deklarerade <strong>shiaislam</strong> som statsreligion – trots att de flesta perser var sunni. Det var en omvälvning utan motstycke. Strategiskt skilde det Persien från det sunnitiska ottomanska riket. Shia blev Persiens sköld och identitet.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Shah Abbas och Isfahans guldålder</div><div class="acc-body"><div class="acc-body-inner"><strong>Shah Abbas I</strong> (1588–1629) förde riket till sin höjdpunkt. Han byggde Isfahan med det magnifika torget <strong>Naqsh-e Jahan</strong> – ett av världens största – och moskéer i blått, turkos och guld. En europeisk diplomat sade: <em>"Isfahan är halva världen."</em> Riket föll 1722 när afghaner plundrade Isfahan.</div></div></div>
+    </div>
+    <div class="quiz-box">
+      <h3>Quiz – Del 5</h3>
+      <p>8 frågor om mongoler, safavider och shiaislam.</p>
+      <div id="qs-5"><button class="qz-start" onclick="startQuiz(5)">Starta quiz →</button></div>
+      <div id="qp-5" style="display:none"></div>
+      <div id="qr-5" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══ EP 6 ═══ -->
+  <div class="ep-panel" id="ep-6">
+    <div class="pod-card">
+      <a href="https://open.spotify.com/episode/3KOvgRvtU9LSuKvthCUP9Z" target="_blank" class="pod-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="pod-meta">
+        <div class="pod-badge">Del 6</div>
+        <h3>Oljan som förändrade Iran</h3>
+        <p>1800-talet · Qajarerna, tobaksrevolten och Persiens första parlament</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Qajarerna och kolonialismens skugga</div><div class="acc-body"><div class="acc-body-inner"><strong>Qajar-dynastin</strong> (1796–1925) var svag och sålde ut Persiens resurser till utländska intressen. Ryssland tryckte från norr, Storbritannien från söder. 1907 delade de upp Persien i <strong>inflytelsesfärer</strong> – utan att fråga en enda iranier. <strong>Tobaksrevolten</strong> 1891 var första gången folket gemensamt reste sig.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Oljan och Anglo-Persian Oil Company</div><div class="acc-body"><div class="acc-body-inner">1908 hittades olja i sydvästra Persien. <strong>Anglo-Persian Oil Company</strong> (senare BP) bildades. Winston Churchill köpte aktiemajoriteten – brittisk flotta skulle drivas på persisk olja. Persiens mark, persiska arbetare, men vinsten gick till London. Orättvisan brände sig fast i folkets minne.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Konstitutionella revolutionen 1906</div><div class="acc-body"><div class="acc-body-inner">1905 exploderade missnöjet. Köpmän, präster och intellektuella krävde en <strong>konstitution</strong>. 7 oktober 1906 öppnades <strong>Majlis</strong> – Mellanösterns första moderna parlament. Men glädjen varade kort: shahens son bombade parlamentet 1908 med rysk hjälp. Demokratin krossades av utländska makter.</div></div></div>
+    </div>
+    <div class="quiz-box">
+      <h3>Quiz – Del 6</h3>
+      <p>8 frågor om kolonialism, oljan och kampen för demokrati.</p>
+      <div id="qs-6"><button class="qz-start" onclick="startQuiz(6)">Starta quiz →</button></div>
+      <div id="qp-6" style="display:none"></div>
+      <div id="qr-6" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══ EP 7 ═══ -->
+  <div class="ep-panel" id="ep-7">
+    <div class="pod-card">
+      <a href="https://open.spotify.com/episode/3NUUEmUp3w2bWhwxaxA6dr" target="_blank" class="pod-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="pod-meta">
+        <div class="pod-badge">Del 7</div>
+        <h3>När USA störtade Irans demokrati</h3>
+        <p>1921–1979 · Mossadegh, CIA-kuppen och den vita revolutionen</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Reza Shah moderniserar med järnhand</div><div class="acc-body"><div class="acc-body-inner"><strong>Reza Khan</strong> genomförde en statskupp 1921 och blev shah 1925. Han moderniserade Iran efter Atatürks modell: järnvägar, skolor, universitet. 1935 bytte han landets namn från Persien till <strong>Iran</strong>. Men det var auktoritärt – uppifrån och ned, utan att fråga folket. 1941 tvingade britterna och Sovjet honom att abdikera.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Mossadegh och Operation Ajax</div><div class="acc-body"><div class="acc-body-inner"><strong>Mossadegh</strong> – Irans folklige premiärminister – <strong>nationaliserade oljan</strong> 1951. Britterna organiserade en global bojkott. CIA genomförde <strong>Operation Ajax</strong> 1953: de betalade journalister, gangsters och militärer för att störta honom. Kermit Roosevelt (CIA) styrde operationen från baksätet av en bil. Demokratin krossades på fyra dagar.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Shahens vita revolution och sprickorna</div><div class="acc-body"><div class="acc-body-inner">Mohammad Reza Shah lanserade <strong>den vita revolutionen</strong> 1963: jordreform, rösträtt för kvinnor, alfabetisering. Men <strong>SAVAK</strong> (hemliga polisen) torterade motståndare. Ayatolla <strong>Khomeini</strong> tvingades i exil men fortsatte sprida sin röst på <strong>kassettband</strong>. Minnet av 1953 eldade vreden.</div></div></div>
+    </div>
+    <div class="quiz-box">
+      <h3>Quiz – Del 7</h3>
+      <p>8 frågor om Reza Shah, Mossadegh, CIA-kuppen och SAVAK.</p>
+      <div id="qs-7"><button class="qz-start" onclick="startQuiz(7)">Starta quiz →</button></div>
+      <div id="qp-7" style="display:none"></div>
+      <div id="qr-7" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- ═══ EP 8 ═══ -->
+  <div class="ep-panel" id="ep-8">
+    <div class="pod-card">
+      <a href="https://open.spotify.com/episode/6fMcu7cKOsYJBj0VyCsGY8" target="_blank" class="pod-play">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </a>
+      <div class="pod-meta">
+        <div class="pod-badge">Del 8</div>
+        <h3>Khomeini och den islamiska revolutionen</h3>
+        <p>1979–idag · Revolutionen, gisslankrisen och Kvinna Liv Frihet</p>
+      </div>
+    </div>
+    <div class="accordion">
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Revolutionen 1979</div><div class="acc-body"><div class="acc-body-inner">Shahen flydde 16 januari 1979. <strong>Khomeini</strong> landade 1 februari – fem miljoner mötte honom. Iran blev en <strong>islamisk republik</strong> genom folkomröstning. Konstitutionen bygger på <strong>velayat-e faqih</strong> – de religiösa juristernas styre. Alla andra grupper – liberaler, vänster, feminister – marginaliserades. Slöjtvång och censur infördes.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Gisslankrisen och kriget med Irak</div><div class="acc-body"><div class="acc-body-inner">4 november 1979 stormade studenter USA:s ambassad. <strong>52 amerikaner hölls gisslan i 444 dagar</strong>. 1980 anföll <strong>Saddam Hussein</strong> – kriget varade i åtta år och kostade hundratusentals liv. Kriget stärkte den islamiska republiken internt. Khomeini dog 1989, efterträdd av <strong>Ali Khamenei</strong> som Högste Ledare.</div></div></div>
+      <div class="acc-item"><div class="acc-head" onclick="toggleAcc(this)">Protesterna och Zan Zendegi Azadi</div><div class="acc-body"><div class="acc-body-inner">2009: <strong>Gröna rörelsen</strong> mot valfusk – krossad. 2019: protester mot ekonomisk misär – nedslagna. 2022: <strong>Mahsa Amini</strong>, 22 år, dör i moralpolicens förvar. <strong>"Zan, Zendegi, Azadi"</strong> – Kvinna, Liv, Frihet – blir slagordet. Unga kvinnor bränner sina slöjor. Den djupaste utmaningen mot regimen sedan 1979.</div></div></div>
+    </div>
+    <div class="quiz-box">
+      <h3>Quiz – Del 8</h3>
+      <p>8 frågor om revolutionen, den islamiska republiken och Iran idag.</p>
+      <div id="qs-8"><button class="qz-start" onclick="startQuiz(8)">Starta quiz →</button></div>
+      <div id="qp-8" style="display:none"></div>
+      <div id="qr-8" style="display:none"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═════════════════════════════════════════════════ -->
+<!-- TAB: FLASHCARDS                                   -->
+<!-- ═════════════════════════════════════════════════ -->
+<div class="tab-section" id="tab-flashcards">
+  <h2 class="sec-h">Flashcards</h2>
+  <p class="sec-sub">Klicka på ett kort för att vända det. Perfekt för repetition inför prov!</p>
+  <div class="tl-filters" id="fc-filters">
+    <button class="tl-filter active" onclick="filterFC('all',this)">Alla</button>
+    <button class="tl-filter" onclick="filterFC('1',this)">Del 1</button>
+    <button class="tl-filter" onclick="filterFC('2',this)">Del 2</button>
+    <button class="tl-filter" onclick="filterFC('3',this)">Del 3</button>
+    <button class="tl-filter" onclick="filterFC('4',this)">Del 4</button>
+    <button class="tl-filter" onclick="filterFC('5',this)">Del 5</button>
+    <button class="tl-filter" onclick="filterFC('6',this)">Del 6</button>
+    <button class="tl-filter" onclick="filterFC('7',this)">Del 7</button>
+    <button class="tl-filter" onclick="filterFC('8',this)">Del 8</button>
+  </div>
+  <div class="fc-grid" id="fc-grid"></div>
+</div>
+
+<!-- ═════════════════════════════════════════════════ -->
+<!-- TAB: TIDSLINJE                                    -->
+<!-- ═════════════════════════════════════════════════ -->
+<div class="tab-section" id="tab-tidslinje">
+  <h2 class="sec-h">Tidslinje</h2>
+  <p class="sec-sub">Filtrera efter era – eller se hela Irans historia i ett svep.</p>
+  <div class="tl-filters" id="tl-filters">
+    <button class="tl-filter active" onclick="filterTL('all',this)">Alla</button>
+    <button class="tl-filter" onclick="filterTL('akemenid',this)">Akemeniderna</button>
+    <button class="tl-filter" onclick="filterTL('parth-sas',this)">Parther & Sasanider</button>
+    <button class="tl-filter" onclick="filterTL('islam-guld',this)">Islam & Guldåldern</button>
+    <button class="tl-filter" onclick="filterTL('safavid',this)">Safaviderna</button>
+    <button class="tl-filter" onclick="filterTL('koloni',this)">Kolonialism & Olja</button>
+    <button class="tl-filter" onclick="filterTL('modern',this)">Modern tid</button>
+  </div>
+  <div class="tl-wrap" id="tl-wrap"></div>
+</div>
+
+<!-- ═════════════════════════════════════════════════ -->
+<!-- TAB: BEGREPP                                      -->
+<!-- ═════════════════════════════════════════════════ -->
+<div class="tab-section" id="tab-begrepp">
+  <h2 class="sec-h">Begreppsordlista</h2>
+  <p class="sec-sub">Sök bland alla begrepp från alla åtta avsnitt.</p>
+  <input type="text" class="beg-search" id="beg-search" placeholder="Sök begrepp..." oninput="filterBegrepp()">
+  <div class="beg-grid" id="beg-grid"></div>
+</div>
+
+<!-- ═════════════════════════════════════════════════ -->
+<!-- TAB: KOPPLA IHOP                                  -->
+<!-- ═════════════════════════════════════════════════ -->
+<div class="tab-section" id="tab-utmaning">
+  <h2 class="sec-h">Koppla ihop</h2>
+  <p class="sec-sub">Matcha begreppen med rätt förklaring. Välj ett begrepp till vänster, sedan rätt förklaring till höger!</p>
+
+  <div class="tl-filters" id="match-filters">
+    <button class="tl-filter active" onclick="loadMatch('mix',this)">Blandade</button>
+    <button class="tl-filter" onclick="loadMatch('antik',this)">Forntid & Antik</button>
+    <button class="tl-filter" onclick="loadMatch('medel',this)">Medeltid & Safavider</button>
+    <button class="tl-filter" onclick="loadMatch('modern',this)">Modern tid</button>
+  </div>
+
+  <div class="match-wrap">
+    <h3 id="match-title">Blandade begrepp</h3>
+    <p id="match-desc">Matcha 6 begrepp med rätt förklaring</p>
+    <div class="match-board" id="match-board"></div>
+    <div class="match-score" id="match-score"></div>
+    <div style="text-align:center;margin-top:16px;">
+      <button class="qz-retry" id="match-retry" style="display:none" onclick="loadMatch(currentMatchSet)">Spela igen ↺</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ═══ TAB / EP NAVIGATION ═══ */
+function showTab(id,btn){
+  document.querySelectorAll('.tab-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function showEp(n,btn){
+  document.querySelectorAll('.ep-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ep-pick').forEach(b=>b.classList.remove('active'));
+  document.getElementById('ep-'+n).classList.add('active');
+  btn.classList.add('active');
+}
+function toggleAcc(el){
+  const item=el.parentElement;
+  const body=item.querySelector('.acc-body');
+  if(item.classList.contains('open')){item.classList.remove('open');body.style.maxHeight='0';}
+  else{item.classList.add('open');body.style.maxHeight=body.scrollHeight+'px';}
+}
+
+/* ═══ QUIZ DATA – 8 frågor per avsnitt, balanserade svar ═══ */
+const Q={
+  1:[
+    {q:"Vilket år grundade Kyros det persiska imperiet?",o:["550 f.Kr.","612 f.Kr.","490 f.Kr., efter perserkrigen mot Grekland","330 f.Kr., efter Alexanders erövring"],c:0,f:"År 550 f.Kr. besegrade Kyros medierna och skapade historiens dittills största rike."},
+    {q:"Vad är Kyros cylinder?",o:["Ett vapen som användes av persiska elitsoldater","En lertavla från 539 f.Kr. om religionsfrihet","En staty av Kyros som idag finns i Teheran","En persisk kalender med astronomiska beräkningar"],c:1,f:"Kyros cylinder är ett av historiens märkligaste dokument – en proklamation om erövrade folks rätt till värdighet."},
+    {q:"Vad kallade perserna sina regionala provinser?",o:["Nomoi, efter grekisk modell","Vilayet, ett turkiskt begrepp","Satrapier","Prefekturer, inspirerade av romarna"],c:2,f:"Satrapier styrdes av en satrap som skötte ordning och samlade in skatter, under trohet till kungen."},
+    {q:"Vad var Persepolis huvudsakliga funktion?",o:["En viktig handelsstad vid Persiska viken","En hamnstad för export av kryddor","En militärbas med stora förråd av vapen","En ceremoniell plats dit rikets folk kom med gåvor"],c:3,f:"Persepolis byggdes av Dareios I. Reliefer visar delegationer från alla rikets folk i sina egna kläder."},
+    {q:"Vad hände vid Marathon 490 f.Kr.?",o:["Athenarna besegrade persernas invasionsarmé","Alexander krossade den persiska huvudstyrkan","Perserna intog Aten och brände Akropolis","Spartanerna slöt en hemlig allians med Persien"],c:0,f:"Vid Marathon besegrade atenska soldater en persisk invasionskår trots att perserna var fler."},
+    {q:"Hur lång var den Kungliga vägen?",o:["450 km, från Susa till Persepolis","Ungefär 2 700 km, från Sardis till Susa","800 km, längs Persiska vikens kust","5 000 km, från Egypten till Indien"],c:1,f:"Kungliga vägen sträckte sig 2 700 km. Kungliga kurirer klarade den på en vecka."},
+    {q:"Alexander den store erövrade Persien under vilka år?",o:["500–480 f.Kr., under perserkrigen","280–260 f.Kr., under hellenistisk tid","334–323 f.Kr.","400–380 f.Kr., mitt i seleukidernas styre"],c:2,f:"Alexander krossade det persiska riket på bara elva år och brände Persepolis."},
+    {q:"Varför hyllas Kyros i Gamla testamentet?",o:["Han omvände sig till den judiska tron","Han gifte sig med en judisk prinsessa","Han besegrade Egypten som hade förslavat judarna","Han lät judarna återvända till Jerusalem"],c:3,f:"Kyros befriade judarna från den babyloniska fångenskapen och kallas 'den smorde' i Bibeln."}
+  ],
+  2:[
+    {q:"Vad är det berömda 'parthiska skottet'?",o:["En typ av pansarbrytande armborstpil","En giftig pil som doppades i ormgift","Att skjuta pilar bakåt i full galopp","Partherkungens officiella sigill på dokument"],c:2,f:"Ryttarna låtsades fly, fienden förföljde – och fick en störtskur av pilar bakåt."},
+    {q:"Vilken religion blev statsreligion under sasaniderna?",o:["Kristendom, efter kontakt med Romarriket","Manikeism, en blandning av flera religioner","Zoroastrism","Mitraskult, en soldatreligion från väst"],c:2,f:"Zoroastrismen blev officiell statsreligion. Heliga eldar tändes och prästerna fick stor makt."},
+    {q:"Vem grundade zoroastrismen?",o:["Ahura Mazda, den kosmiska skaparen","Zarathustra","Ardashir I, den sasanidiske grundaren","Angra Mainyu, mörkrets herre"],c:1,f:"Zarathustra levde förmodligen 1500–1000 f.Kr. Hans budskap: tänk rätt, tala rätt, handla rätt."},
+    {q:"Vilket år grundade Ardashir I det sasanidiska riket?",o:["63 f.Kr., under den romerska expansionen","66 e.Kr., efter Jerusalems förstörelse","350 e.Kr., under kristendomens framväxt","224 e.Kr."],c:3,f:"Ardashir I kom från provinsen Pars – samma område där akemeniderna hade sina rötter."},
+    {q:"Vad symboliserar elden i zoroastrismen?",o:["Ahura Mazdas renhet och närvaro","Krigsguden som kräver blodsoffer","De döda förfädernas andliga kraft","Angra Mainyus destruktiva energi"],c:0,f:"I Yazd brinner en eld sedan 470 e.Kr. – ett av världens äldsta fortfarande brinnande religiösa ljus."},
+    {q:"Vilken romersk kejsare tillfångatogs av Shapur I?",o:["Valerianus, vid Edessa 260 e.Kr.","Nero, efter den stora branden i Rom","Trajanus, under hans fälttåg i Mesopotamien","Konstantin, innan han antog kristendomen"],c:0,f:"Valerianus tillfångatogs – en av Roms mest förödmjukande militära händelser."},
+    {q:"Vad menas med Zarathustras 'tre rätta'?",o:["Tre gudar man ska tillbe dagligen","Tre heliga eldar i varje zoroastriskt tempel","Tre dagliga böner som alla måste utföra","Tänk rätt, tala rätt, handla rätt"],c:3,f:"Denna enkla moraliska princip genomsyrade persisk kultur i mer än tusen år."},
+    {q:"Vem var den siste sasanidiske kungen?",o:["Ardashir II, som abdikerade frivilligt","Yazdegerd III, mördad under flykten 651","Shapur III, som omvände sig till islam","Khosrow II, avrättad av sina egna generaler"],c:1,f:"Yazdegerd III mördades av en lokal hövding. Tusen år av zoroastriska persiska riken tog slut."}
+  ],
+  3:[
+    {q:"Vid vilket slag 636 krossade araberna sasanidernas armé?",o:["Karbala, det shiitiska helgedomslaget","Nahavand, det sista stora persiska nederlaget","Qadisiyya","Yarmouk, mot det bysantinska riket"],c:2,f:"Slaget vid Qadisiyya öppnade vägen in i Persien. Det sasanidiska riket föll definitivt 651."},
+    {q:"Vad heter den skatt icke-muslimer betalade?",o:["Zakat, den islamiska allmosetaxan","Sadaqa, en frivillig välgörenhetsgåva","Kharaj, markskatt på jordbruk","Jizya"],c:3,f:"Jizya var en extra skatt som kristna, judar och zoroastrister betalade för skydd."},
+    {q:"Hur lång tid tog islamiseringen av Persien?",o:["Flera hundra år – en gradvis process","Ca 50 år","Hela befolkningen behöll zoroastrismen","Hela befolkningen konverterade direkt"],c:0,f:"I mitten av 900-talet var kanske bara 40–50% muslimer. Islamiseringen av Persien tog flera hundra år – en mycket gradvis process."},
+    {q:"Vad hände vid Karbala år 680?",o:["Muhammed höll sin avskedspredikan","Husayn ibn Ali massakrerades","Islams huvudstad grundades vid floden","De första muslimerna sökte skydd där"],c:1,f:"Husayn vägrade erkänna Yazids legitimitet och slaktades med sina följeslagare."},
+    {q:"Vad betyder 'sunni' och 'shia'?",o:["Sunni = 'traditionens folk', shia = 'Alis parti'","Sunni = 'troende', shia = 'de som tvivlar'","Sunni = 'araberna', shia = 'perserna'","Sunni = 'de många', shia = 'de utvalda'"],c:0,f:"Splittringen handlade från början om ledarskap efter Muhammed – inte om teologi."},
+    {q:"Vad är Nowruz?",o:["En muslimsk fastemånad liknande ramadan","En zoroastrisk begravningsritual för präster","Det persiska nyåret vid vårjämningen","En shiamuslimsk minnesceremoni"],c:2,f:"Nowruz firas 21 mars och har ingenting med islam att göra."},
+    {q:"Varför tilltalades perserna av shiaislam?",o:["Sunni var strikt förbjudet i alla persiska städer","Berättelsen om förtryckt rättvisa passade ett erövrat folk","Shia var mycket enklare att förstå och praktisera","Persien hade haft shia-traditioner sedan forntiden"],c:1,f:"Husayns kamp mot övermakten resonerade med ett folk som själva kände sig erövrade."},
+    {q:"Vad hände med det persiska språket efter erövringen?",o:["Det dog ut precis som koptiskan i Egypten","Det ersattes helt av turkiska dialekter","Det förbjöds officiellt av de arabiska erövrarna","Det överlevde – unikt bland erövrade folks språk"],c:3,f:"Persiskan överlevde tack vare en djup litterär tradition som arabiskan inte kunde trycka undan."}
+  ],
+  4:[
+    {q:"Vad var Visdomens hus i Bagdad?",o:["Ett praktfullt tempel för islamisk bön","Ett forskningscentrum och akademi","En stor marknad för orientaliska kryddor","Ett fängelse för politiska motståndare"],c:1,f:"Bayt al-Hikma samlade in och översatte all tillgänglig kunskap i världen i fyrahundra år."},
+    {q:"Varifrån kommer ordet 'algoritm'?",o:["Från det grekiska ordet 'arithmos' för tal","Från ett gammalt indiskt matematiskt begrepp","Det uppfanns av europeiska munkar på medeltiden","Från al-Khwarizmis latiniserade namn"],c:3,f:"Al-Khwarizmis namn blev 'Algoritmi' i Europa. Han uppfann också algebran."},
+    {q:"Hur länge användes Ibn Sinas medicinska verk i Europa?",o:["Ungefär 50 år, sedan ersattes det","Ca 200 år under den tidiga medeltiden","I hela 600 år","I nästan 1000 år, fram till 1800-talet"],c:2,f:"Läkarvetenskapens kanon var standardlärobok vid europeiska universitet i sexhundra år."},
+    {q:"Vad är Shahnameh?",o:["Ferdowsis epos med 50 000 verspar om Persien","En religiös text om zoroastriska gudar","En samling lagtexter från sasanidernas tid","En astronomisk handbok för stjärntydare"],c:0,f:"Shahnameh berättar hela Persiens historia, skrivet med minimalt arabiska lånord."},
+    {q:"Vad hände i Bagdad 1258?",o:["Bagdad blev centrum för den nya islamiska renässansen","Mongolerna förstörde staden fullständigt","Abbasiderna grundade ett nytt Visdomens hus","Perserna återtog Bagdad med militär styrka"],c:1,f:"Hülegü Khans mongoler plundrade Bagdad. Böckerna kastades i Tigris."},
+    {q:"Vad bidrog al-Khwarizmi med?",o:["Det arabiska talsystemet och algebran","Gunpulver och kanonteknik från Kina","Kompassen och navigationsmetoder","Boktryckarkonsten långt före Gutenberg"],c:0,f:"Tack vare al-Khwarizmi slipper vi räkna med romerska siffror."},
+    {q:"Varför kallas 800–1258 den islamiska guldåldern?",o:["Alla blev oerhört rika av guldhandeln","Europa upplevde sin egen renässans samtidigt","Muslimska lärda ledde världen inom vetenskap","Det var en fredlig tid helt utan konflikter"],c:2,f:"Under fyrahundra år ledde Bagdad världen inom matematik, astronomi, medicin och litteratur."},
+    {q:"Vad hände med mongolernas ättlingar i Persien?",o:["De utrotade systematiskt all persisk kultur","De flydde tillbaka till Mongoliet efter tio år","De grundade ett eget rike i norra Indien","De absorberades av den persiska kulturen"],c:3,f:"Samma mönster som alltid: mongolerna konverterade till islam och blev mecenater för persisk konst."}
+  ],
+  5:[
+    {q:"Vad var safavidernas viktigaste politiska beslut?",o:["Att flytta huvudstaden bort från Tabriz","Att alliera sig med mongolerna mot ottomanerna","Att göra shiaislam till statsreligion","Att införa tryckpressen i hela Persien"],c:2,f:"Ismails deklaration 1501 skapade den religiösa identitet Iran bär än idag."},
+    {q:"Vem var Timur Lenk?",o:["En centralasiatisk erövrare som härjade Persien","En safavidisk kung och stor reformator","En sufimystiker som grundade safavidernas orden","En mongolisk religiös ledare som predikade fred"],c:0,f:"Timur lät uppföra pyramider av avhuggna huvuden. Men hans ättlingar blev stora konstmecenater."},
+    {q:"Hur gammal var Ismail I när han grundade safavidriket?",o:["Tjugofem år, efter lång militär karriär","Trettio år, som erfaren härskare","Fyrtio år, efter decennier i exil","Bara femton år"],c:3,f:"Ismail red in i Tabriz 1501 som femtonåring med sina qizilbash-krigare."},
+    {q:"Vad var qizilbash?",o:["Ett persiskt guldmynt från safavidtiden","Ismails rödhuvade, fanatiskt lojala krigare","En religiös bok om shiamuslimska ritualer","En typ av krökt svärd som användes i strid"],c:1,f:"Qizilbash betyder 'rödhuvuden' på turkiska – efter den röda huvudbonad som var deras märke."},
+    {q:"Vad byggde Shah Abbas I i Isfahan?",o:["Persiens första moderna sjukhus och skola","En massiv fästning mot ottomanska anfall","Naqsh-e Jahan, ett av världens största torg","En kanal som förbinder Isfahan med havet"],c:2,f:"Torget omges av moskéer i blått, turkos och guld. 'Isfahan är halva världen.'"},
+    {q:"Varför förlorade Ismail I vid Chaldiran 1514?",o:["Ottomanernas kanoner krossade kavalleriet","Ismail hade överhuvudtaget ingen ordentlig armé","En allians med Ryssland svek honom i sista stund","Alla qizilbash deserterade innan striden började"],c:0,f:"Ottomanernas moderna artilleri var för övermäktigt. Ismail sägs aldrig ha återhämtat sig."},
+    {q:"Vad är sufism?",o:["En politisk rörelse för persiskt oberoende","En juridisk skola inom sunnitisk rättslära","Islams officiella teologi om Guds enhet","En andlig inriktning som söker direkt gudsupplevelse"],c:3,f:"Sufier sökte Guds närvaro genom meditation, bön och musik."},
+    {q:"Varför föll safavidriket 1722?",o:["Ryska trupper intog Isfahan efter lång belägring","Afghanerna invaderade och plundrade Isfahan","En förödande pest dödade hela kungafamiljen","Ottomanerna erövrade hela riket på en månad"],c:1,f:"Shah Abbas svagare efterträdare förlorade kontrollen. Afghaner besegrade den siste safavidkungen."}
+  ],
+  6:[
+    {q:"Vad var tobaksrevolten 1891?",o:["Folkligt uppror mot brittiskt tobaksmonopol","Ett krig mellan Iran och Turkiet om tobaksodling","En militärkupp ledd av tobaksköpmännen i Teheran","En religiös protest mot rökning och njutningsmedel"],c:0,f:"Shahen hade i smyg gett en britt kontroll över all tobak. Hela folket protesterade – även shahens fruar."},
+    {q:"Vad är en 'inflytelsesfär'?",o:["En formell militärbas på utländsk mark","Ett jämlikt handelsavtal mellan två länder","Ett område en stormakt kontrollerar utan formell erövring","En diplomatisk allians med ömsesidiga förpliktelser"],c:2,f:"1907 delade Ryssland och Storbritannien upp Persien i inflytelsesfärer – utan att fråga perserna."},
+    {q:"Vilket bolag kontrollerade Irans olja från 1908?",o:["Standard Oil, det amerikanska oljebolaget","Royal Dutch Shell från Nederländerna","ExxonMobil, som hade kontor i hela Mellanöstern","Anglo-Persian Oil Company"],c:3,f:"Anglo-Persian (senare BP) fick kontroll över oljan. Winston Churchill köpte aktiemajoriteten."},
+    {q:"Vad var Majlis?",o:["En stor moské i centrala Teheran","Persiens första parlament, öppnat 1906","Shahens personliga rådgivargrupp","En hemlig militärorganisation mot britterna"],c:1,f:"Majlis var Mellanösterns första moderna parlament – en milstolpe för demokrati."},
+    {q:"Vad är en konstitution?",o:["En fredsförklaring mellan två krigförande nationer","Ett lands grundlag som bestämmer hur det styrs","En handelsöverenskommelse med utländska makter","En religiös lagtext baserad på islamisk rätt"],c:1,f:"En konstitution begränsar kungens makt och ger folket rättigheter genom parlament."},
+    {q:"Vad hände med Persiens parlament 1908?",o:["Det fick utökade befogenheter av den nye shahen","Det flyttades från Teheran till den säkrare Isfahan","Det avskaffades efter en demokratisk folkomröstning","Ryska soldater bombade det på shahens order"],c:3,f:"Mohammad Ali Shah bad Ryssland om hjälp. Demokratin krossades med utländska vapen."},
+    {q:"Hur fick D'Arcy sin oljekoncesssion?",o:["Genom ett krig som tvingade Persien att ge upp oljan","Genom en omröstning i det persiska parlamentet","Han förhandlade direkt med shahen – en extremt ensidig affär","Genom att köpa hela den sydvästra provinsen"],c:2,f:"D'Arcy fick ensamrätt i 60 år för en struntsumma. En av historiens mest ensidiga affärer."},
+    {q:"Vad hände med det neutrala Persien under första världskriget?",o:["Det förvandlades till slagfält – svält och hundratusentals döda","Persien vann stora landområden som belöning för sin neutralitet","Kriget berörde inte Persien överhuvudtaget","Persien allierade sig med Tyskland och vann territorium"],c:0,f:"Trots neutralitet stred utländska arméer på persisk mark. Upp till två miljoner dog av svält."}
+  ],
+  7:[
+    {q:"Vad gjorde Reza Shah efter sin kupp 1921?",o:["Han införde fullständig demokrati med fria val","Han moderniserade Iran – skolor, järnvägar, universitet","Han allierade sig med Sovjetunionen mot väst","Han lät det religiösa prästerskapet styra landet"],c:1,f:"Reza Shah tog Atatürk som förebild. Men det var auktoritärt – uppifrån och ned."},
+    {q:"Vad innebär 'nationalisering'?",o:["Att staten tar över en industri som var utlandsägd","Att folket röstar om en viktig samhällsfråga","Att privatisera alla statliga bolag och företag","Att helt förbjuda utländska investeringar i landet"],c:0,f:"Mossadegh nationaliserade oljan 1951 – en folklig triumf som utlöste CIA:s motreaktion."},
+    {q:"Vad var Operation Ajax?",o:["En brittisk militärövning i Persiska viken","En ekonomisk hjälpplan för att stödja Iran","Shahens ambitiösa moderniseringsreformprogram","CIA:s hemliga plan att störta Mossadegh"],c:3,f:"CIA betalade journalister, gangsters och officerare. Demokratin krossades på dagar."},
+    {q:"Vad var SAVAK?",o:["Ett politiskt parti som stödde demokrati","Irans hemliga polis, byggd med CIA och Mossad","Ett internationellt oljebolag baserat i Teheran","En religiös orden som stödde shahens reformer"],c:1,f:"SAVAK blev ökänd för tortyr och förföljelse av alla som opponerade sig."},
+    {q:"Vad var den vita revolutionen 1963?",o:["En blodig militärkupp mot den sittande regeringen","Khomeinis maktövertagande via fredliga protester","Shahens reformprogram: jordreform och rösträtt","En ekonomisk kris orsakad av oljeprisernas fall"],c:0,f:"Reformerna var ambitiösa men genomförda uppifrån och ned, utan folkligt inflytande."},
+    {q:"Hur spred Khomeini sin röst från exilen?",o:["Via radiosändningar som nådde hela Iran","Via illegala tryckta tidningar och flygblad","Via kassettband som smugglades in och kopierades","Via satellitsändningar från Frankrike"],c:2,f:"Kassettband var ett kraftfullt medium i en tid utan internet."},
+    {q:"Varför tvingades Reza Shah abdikera 1941?",o:["Folket genomförde en massiv demokratisk revolt","Han drabbades av en allvarlig sjukdom och kunde inte regera","Han förlorade ett avgörande demokratiskt val","Britterna och Sovjet invaderade och tvingade bort honom"],c:2,f:"De allierade ville kontrollera Irans oljefält. Reza Shah ersattes av sin unge son."},
+    {q:"Vad var minnet av 1953 för iranerna?",o:["En stolthet över det goda samarbetet med USA","Anledningen till goda och starka relationer med USA","En positiv ekonomisk upplevelse tack vare oljepengarna","Ett bevis på att väst aldrig respekterat deras självstyre"],c:3,f:"CIA-kuppen blev ett öppet sår – beviset på att demokrati krossas om den hotar västliga intressen."}
+  ],
+  8:[
+    {q:"När landade Khomeini i Teheran efter sin exil?",o:["16 januari 1979, samma dag som shahen flydde","1 februari 1979","11 februari 1979, på revolutionsdagen","4 november 1979, under gisslankrisen"],c:1,f:"Den 1 februari 1979 landade Khomeini. Uppskattningsvis fem miljoner mötte honom."},
+    {q:"Vad är 'velayat-e faqih'?",o:["Att den religiöse ledaren har yttersta makten","Irans parlamentariska valsystem för presidenten","En form av islamisk demokrati med fria val","Att presidenten och Majlis delar makten jämnt"],c:0,f:"Velayat-e faqih är Khomeinis unika skapelse – en teokrati utan motstycke."},
+    {q:"Hur länge varade gisslankrisen?",o:["30 dagar, sedan förhandlades en lösning","100 dagar, innan FN ingrep och medlade","444 dagar","Exakt ett år, dag för dag"],c:2,f:"52 amerikanska diplomater hölls gisslan i 444 dagar."},
+    {q:"Varför anföll Irak Iran 1980?",o:["Irak ville erövra Jerusalem och heliga platser","Iran hade anfallit Irak ett år tidigare med full kraft","En gränstvist om Persiska vikens kontroll eskalerade","Saddam såg Irans revolutionskaos som en möjlighet"],c:3,f:"Saddam ville ta oljerika gränsprovinser medan Iran var instabilt."},
+    {q:"Vad är Väktarrådet?",o:["En militär organisation som kontrollerar gränserna","Religiösa jurister som bestämmer vem som får ställa upp i val","En domstol för internationella tvister","Shahens gamla rådgivande organ, avskaffat 1979"],c:1,f:"Väktarrådet kan stänga ute vem som helst. Den verkliga makten ligger hos Högste Ledaren."},
+    {q:"Vad hände under Gröna rörelsen 2009?",o:["En framgångsrik militärkupp mot regimen","Iran förhandlade ett historiskt avtal med USA","Reformkandidater vann valet och förändrade Iran","Massprotester mot valfusk – krossade av regimen"],c:3,f:"Miljoner ifrågasatte valresultatet under slagordet 'Var är min röst?'"},
+    {q:"Vad utlöste de stora protesterna 2022?",o:["Mahsa Amini dog i moralpolicens förvar","En plötslig ekonomisk kris och hyperinflation","Ett nytt krig med grannlandet Irak","En ny konstitution som begränsade yttrandefriheten"],c:0,f:"Mahsa Amini, 22 år, greps för att hennes slöja satt fel. Hennes död utlöste Zan Zendegi Azadi."},
+    {q:"Vem har varit Irans Högste Ledare sedan 1989?",o:["Mohammad Khatami, den reformvänlige politikern","Hassan Rouhani, den moderate diplomaten","Ali Khamenei","Mahmoud Ahmadinejad, den konservativa presidenten"],c:2,f:"Ali Khamenei efterträdde Khomeini och har styrt Iran i över 35 år."}
+  ]
+};
+
+/* ═══ QUIZ ENGINE ═══ */
+const qState={};
+const completedQuizzes=new Set();
+
+function startQuiz(ep){
+  document.getElementById('qs-'+ep).style.display='none';
+  qState[ep]={cur:0,score:0,done:false};
+  renderQ(ep);
+}
+function renderQ(ep){
+  const s=qState[ep],qs=Q[ep],q=qs[s.cur],tot=qs.length;
+  const pct=Math.round((s.cur/tot)*100);
+  const L=['A','B','C','D'];
+  const html=q.o.map((o,i)=>`<button class="qz-opt" id="o${ep}-${i}" onclick="pickA(${ep},${i})"><span class="qz-letter">${L[i]}</span>${o}</button>`).join('');
+  const el=document.getElementById('qp-'+ep);
+  el.style.display='block';
+  el.innerHTML=`
+    <div class="qz-prog-label">Fråga ${s.cur+1} av ${tot}</div>
+    <div class="qz-prog-wrap"><div class="qz-prog" style="width:${pct}%"></div></div>
+    <div class="qz-q">${q.q}</div>
+    <div class="qz-opts" id="os${ep}">${html}</div>
+    <div id="fb${ep}" style="display:none"></div>
+    <div id="nx${ep}" style="display:none;margin-top:6px"><button class="qz-next" onclick="nextQ(${ep})">${s.cur+1<tot?'Nästa fråga →':'Se resultat →'}</button></div>`;
+  s.done=false;
+}
+function pickA(ep,ch){
+  const s=qState[ep];if(s.done)return;s.done=true;
+  const q=Q[ep][s.cur];
+  document.querySelectorAll('#os'+ep+' .qz-opt').forEach((b,i)=>{
+    b.disabled=true;
+    if(i===q.c)b.classList.add('correct');
+    else if(i===ch&&ch!==q.c)b.classList.add('wrong');
+  });
+  if(ch===q.c)s.score++;
+  const ok=ch===q.c;
+  const fb=document.getElementById('fb'+ep);
+  fb.style.display='block';fb.className='qz-fb';
+  fb.innerHTML=`<strong>${ok?'✅ Rätt!':'❌ Fel.'}</strong> ${q.f}`;
+  document.getElementById('nx'+ep).style.display='block';
+}
+function nextQ(ep){
+  const s=qState[ep];s.cur++;
+  if(s.cur<Q[ep].length)renderQ(ep);else showRes(ep);
+}
+function showRes(ep){
+  document.getElementById('qp-'+ep).style.display='none';
+  const{score}=qState[ep],tot=Q[ep].length,pct=Math.round((score/tot)*100);
+  let emoji,title,msg;
+  if(pct>=88){emoji='🏆';title='Utmärkt!';msg='Du har verkligen koll!';}
+  else if(pct>=63){emoji='🌟';title='Bra jobbat!';msg='Lyssna igen för att fånga det du missade.';}
+  else if(pct>=38){emoji='📚';title='Hyggligt!';msg='Lyssna på avsnittet igen och testa sedan på nytt.';}
+  else{emoji='🎧';title='Lyssna igen!';msg='Det är svårt stoff – lyssna och försök igen!';}
+  completedQuizzes.add(ep);updateProgress();
+  const el=document.getElementById('qr-'+ep);el.style.display='block';
+  el.innerHTML=`<div class="qz-score"><div class="qz-score-emoji">${emoji}</div><div class="qz-score-circle"><div class="qz-score-num">${score}</div><div class="qz-score-den">av ${tot}</div></div><div class="qz-score-title">${title}</div><div class="qz-score-msg">${msg}</div><button class="qz-retry" onclick="retryQ(${ep})">Försök igen ↺</button></div>`;
+}
+function retryQ(ep){
+  document.getElementById('qr-'+ep).style.display='none';
+  document.getElementById('qp-'+ep).style.display='none';
+  document.getElementById('qs-'+ep).style.display='block';
+}
+function updateProgress(){
+  for(let i=1;i<=8;i++){
+    const el=document.getElementById('prog-'+i);
+    if(completedQuizzes.has(i))el.classList.add('done');
+  }
+  document.getElementById('prog-label').textContent='Klara quiz: '+completedQuizzes.size+' av 8';
+}
+
+/* ═══ FLASHCARDS DATA ═══ */
+const FC=[
+  {t:"Kyros den store",b:"Grundade det persiska imperiet 550 f.Kr. Känd för religionsfrihet och tolerans.",ep:"1"},
+  {t:"Kyros cylinder",b:"Lertavla med proklamation om religionsfrihet – världens äldsta mänskliga rättighetsdeklaration.",ep:"1"},
+  {t:"Persepolis",b:"Ceremoniell huvudstad. Reliefer som hyllade rikets mångfald. Bränd av Alexander 330 f.Kr.",ep:"1"},
+  {t:"Satrapi",b:"Persisk provins styrd av en satrap. Lokal frihet under central kontroll.",ep:"1"},
+  {t:"Kungliga vägen",b:"2 700 km väg från Sardis till Susa. Postryttare klarade den på en vecka.",ep:"1"},
+  {t:"Dareios I",b:"Organisatören. Skapade satrapier, Kungliga vägen och byggde Persepolis.",ep:"1"},
+  {t:"Parthiska skottet",b:"Att skjuta pilar bakåt från hästen – låtsas fly, sedan vända och skjuta.",ep:"2"},
+  {t:"Zoroastrism",b:"Forntida religion: Ahura Mazda (gott) vs Angra Mainyu (ont). Tänk rätt, tala rätt, handla rätt.",ep:"2"},
+  {t:"Ahura Mazda",b:"Visdomens herre – den gode guden. Symboliseras av eld som aldrig får slockna.",ep:"2"},
+  {t:"Sasaniderna",b:"Det andra persiska riket (224–651). Zoroastrism som statsreligion. Kämpade mot Rom.",ep:"2"},
+  {t:"Shapur I",b:"Tillfångatog den romerske kejsaren Valerianus 260 e.Kr. En av antikens mest chockerande händelser.",ep:"2"},
+  {t:"Zarathustra",b:"Grundare av zoroastrismen. 'Tänk rätt, tala rätt, handla rätt.'",ep:"2"},
+  {t:"Jizya",b:"Extra skatt för icke-muslimer (dhimmis). Drev många att konvertera till islam.",ep:"3"},
+  {t:"Karbala",b:"Husayn ibn Ali massakrerades 680. Shiamuslimernas mest smärtsamma händelse.",ep:"3"},
+  {t:"Sunni vs Shia",b:"Sunni: valde kompetent ledare. Shia: ledarskapet tillhörde Muhammeds familj via Ali.",ep:"3"},
+  {t:"Nowruz",b:"Persiskt nyår 21 mars. Förislamisk zoroastrisk tradition som fortfarande firas.",ep:"3"},
+  {t:"Ashura",b:"Shiamuslimernas sorgceremoni till minne av Husayns martyrdöd vid Karbala.",ep:"3"},
+  {t:"Dhimmi",b:"'Skyddat folk' – icke-muslimer under islamiskt styre. Skyddade men underordnade.",ep:"3"},
+  {t:"Visdomens hus",b:"Bayt al-Hikma i Bagdad. Forskningscentrum i 400 år. Förstört av mongoler 1258.",ep:"4"},
+  {t:"Al-Khwarizmi",b:"Persisk matematiker: uppfann algebran, gav oss 'algoritm' och det arabiska talsystemet.",ep:"4"},
+  {t:"Ibn Sina (Avicenna)",b:"Persisk läkare. Hans Medicinens kanon var standardverk i Europa i 600 år.",ep:"4"},
+  {t:"Ferdowsi",b:"Skrev Shahnameh – 50 000 verspar om Persiens historia. Räddade persiska språket.",ep:"4"},
+  {t:"Shahnameh",b:"Konungarnas bok. Längsta dikt av en enda poet. Skrivet med minimalt arabiska lånord.",ep:"4"},
+  {t:"Mongolerna",b:"Djingis Khan och Hülegü. Förstörde Bagdad 1258. Absorberades sedan av persisk kultur.",ep:"4"},
+  {t:"Safaviderna",b:"Ismail I (15 år) grundade riket 1501. Gjorde shiaislam till statsreligion.",ep:"5"},
+  {t:"Qizilbash",b:"'Rödhuvuden' – Ismails fanatiskt lojala krigare i röda huvudbonader.",ep:"5"},
+  {t:"Timur Lenk",b:"Centralasiatisk erövrare ~1380. Pyramider av avhuggna huvuden. Ättlingarna blev konstmecenater.",ep:"5"},
+  {t:"Shah Abbas I",b:"Safavidernas störste (1588–1629). Byggde Isfahan. 'Isfahan är halva världen.'",ep:"5"},
+  {t:"Naqsh-e Jahan",b:"'Världens bild' – enormt torg i Isfahan. Moskéer i blått, turkos och guld.",ep:"5"},
+  {t:"Sufism",b:"Andlig mystisk inriktning i islam. Söker direkt gudsnärvaro genom bön och musik.",ep:"5"},
+  {t:"Tobaksrevolten",b:"1891: folket reste sig mot brittiskt tobaksmonopol. Första moderna folkliga segern.",ep:"6"},
+  {t:"Anglo-Persian Oil Co.",b:"Brittiskt oljebolag (sedan BP). Kontrollerade Irans olja. Persiens mark, Londons vinst.",ep:"6"},
+  {t:"Majlis",b:"Irans parlament, grundat 1906. Mellanösterns första. Bombades 1908 av ryska soldater.",ep:"6"},
+  {t:"Inflytelsesfär",b:"Stormakt kontrollerar utan formell erövring. 1907 delades Persien upp av Ryssland och Storbritannien.",ep:"6"},
+  {t:"Kolonialism",b:"Starka länder kontrollerar svagare via avtal, ekonomiskt tryck, manipulation. Inte alltid kanoner.",ep:"6"},
+  {t:"Konstitution",b:"Grundlag som begränsar kungens makt och ger folket rättigheter genom parlament.",ep:"6"},
+  {t:"Mossadegh",b:"Premiärminister 1951–53. Nationaliserade oljan. Störtad av CIA:s Operation Ajax.",ep:"7"},
+  {t:"Operation Ajax",b:"CIA:s kupp 1953. Betalade gangsters, journalister, militärer. Krossade Irans demokrati.",ep:"7"},
+  {t:"SAVAK",b:"Shahens hemliga polis, byggd med CIA och Mossad. Tortyr och förföljelse.",ep:"7"},
+  {t:"Nationalisering",b:"Staten tar över utlandsägd industri. Mossadegh nationaliserade oljan 1951.",ep:"7"},
+  {t:"Den vita revolutionen",b:"Shahens reformprogram 1963: jordreform, rösträtt för kvinnor, skolor. Men auktoritärt.",ep:"7"},
+  {t:"Reza Shah Pahlavi",b:"Tog makten 1921. Moderniserade Iran. Bytte namn från Persien till Iran 1935.",ep:"7"},
+  {t:"Velayat-e faqih",b:"'De religiöse juristernas styre'. Högste Ledaren har yttersta makten. Khomeinis skapelse.",ep:"8"},
+  {t:"Gisslankrisen",b:"1979–81: 52 amerikaner hölls gisslan i 444 dagar på USA:s ambassad i Teheran.",ep:"8"},
+  {t:"Islamisk republik",b:"Irans styre sedan 1979. Blandning av val och religiöst styre. Högste Ledaren bestämmer.",ep:"8"},
+  {t:"Zan Zendegi Azadi",b:"'Kvinna, Liv, Frihet' – slagordet för protesterna 2022 efter Mahsa Aminis död.",ep:"8"},
+  {t:"Väktarrådet",b:"Religiösa jurister som godkänner vilka som får ställa upp i val. Kontrollerar demokratin.",ep:"8"},
+  {t:"Khomeini",b:"Ledare för revolutionen 1979. Irans förste Högste Ledare. Spred sin röst via kassettband.",ep:"8"}
+];
+
+function buildFC(){
+  const g=document.getElementById('fc-grid');
+  g.innerHTML=FC.map((c,i)=>`<div class="fc-card" data-ep="${c.ep}" onclick="this.classList.toggle('flipped')"><div class="fc-inner"><div class="fc-front">${c.t}<small>Del ${c.ep}</small></div><div class="fc-back">${c.b}</div></div></div>`).join('');
+}
+function filterFC(ep,btn){
+  document.querySelectorAll('#fc-filters .tl-filter').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.fc-card').forEach(c=>{
+    c.style.display=(ep==='all'||c.dataset.ep===ep)?'block':'none';
+    c.classList.remove('flipped');
+  });
+}
+
+/* ═══ TIMELINE DATA ═══ */
+const TL=[
+  {y:"550 f.Kr.",h:"Kyros grundar det persiska imperiet",p:"Besegrade medierna. Skapade historiens dittills största rike.",era:"akemenid"},
+  {y:"539 f.Kr.",h:"Kyros erövrar Babylon",p:"Lät judarna återvända hem. Skapade Kyros cylinder.",era:"akemenid"},
+  {y:"522 f.Kr.",h:"Dareios I tar makten",p:"Organiserade riket i satrapier. Byggde Persepolis och Kungliga vägen.",era:"akemenid"},
+  {y:"490 f.Kr.",h:"Slaget vid Marathon",p:"Athenarna besegrar perserna. Perserkrigen börjar.",era:"akemenid"},
+  {y:"480 f.Kr.",h:"Thermopyle och Salamis",p:"Xerxes bryter igenom vid Thermopyle men förlorar vid Salamis.",era:"akemenid"},
+  {y:"330 f.Kr.",h:"Alexander bränner Persepolis",p:"Det akemenidiska riket faller efter åtta års krig.",era:"akemenid"},
+  {y:"247 f.Kr.",h:"Parthernas rike uppstår",p:"Ryttarfolket tar makten i nordöstra Iran. Parthiska skottet.",era:"parth-sas"},
+  {y:"53 f.Kr.",h:"Romarna krossas vid Carrhae",p:"Crassus lider ett av Roms värsta nederlag mot partherna.",era:"parth-sas"},
+  {y:"224 e.Kr.",h:"Sasaniderna tar makten",p:"Ardashir I grundar det andra persiska riket. Zoroastrism = statsreligion.",era:"parth-sas"},
+  {y:"260 e.Kr.",h:"Shapur I fångar kejsaren",p:"Valerianus tillfångatas – en av antikens mest chockerande händelser.",era:"parth-sas"},
+  {y:"636",h:"Araberna besegrar sasaniderna",p:"Slaget vid Qadisiyya. Det sasanidiska riket faller 651.",era:"islam-guld"},
+  {y:"680",h:"Massakern vid Karbala",p:"Husayn ibn Ali mördas. Shiaislamens grundläggande tragedi.",era:"islam-guld"},
+  {y:"750",h:"Abbasiderna tar makten",p:"Bagdad byggs. Persisk kultur blomstrar. Visdomens hus skapas.",era:"islam-guld"},
+  {y:"~800",h:"Al-Khwarizmi – algebran föds",p:"Uppfinner algebran och ger oss algoritmen.",era:"islam-guld"},
+  {y:"~1000",h:"Ferdowsi skriver Shahnameh",p:"50 000 verspar. Räddar det persiska språket.",era:"islam-guld"},
+  {y:"~1020",h:"Ibn Sina skriver Medicinens kanon",p:"Standardverk vid europeiska universitet i 600 år.",era:"islam-guld"},
+  {y:"1258",h:"Mongolerna förstör Bagdad",p:"Hülegü Khan plundrar. Guldåldern slutar. Böcker i Tigris.",era:"islam-guld"},
+  {y:"~1380",h:"Timur Lenk härjar Persien",p:"Nya förstörelser. Isfahan och Shiraz ödeläggs.",era:"safavid"},
+  {y:"1501",h:"Ismail I grundar safavidriket",p:"15-åringen gör shiaislam till statsreligion.",era:"safavid"},
+  {y:"1514",h:"Slaget vid Chaldiran",p:"Perserna förlorar mot ottomanernas kanoner.",era:"safavid"},
+  {y:"1588–1629",h:"Shah Abbas I:s guldålder",p:"Isfahan byggs. 'Isfahan är halva världen.'",era:"safavid"},
+  {y:"1722",h:"Safavidriket faller",p:"Afghaner invaderar och plundrar Isfahan.",era:"safavid"},
+  {y:"1796",h:"Qajar-dynastin tar makten",p:"Svag dynasti. Säljer ut resurser till utlänningar.",era:"koloni"},
+  {y:"1891",h:"Tobaksrevolten",p:"Folkligt uppror mot brittiskt monopol. Shahen tvingas backa.",era:"koloni"},
+  {y:"1906",h:"Majlis – Persiens första parlament",p:"Mellanösterns första moderna parlament. Konstitution antas.",era:"koloni"},
+  {y:"1907",h:"Stormakterna delar upp Persien",p:"Ryssland och Storbritannien ritar upp inflytelsesfärer.",era:"koloni"},
+  {y:"1908",h:"Olja hittas – Anglo-Persian bildas",p:"Brittiska intressen tar kontroll över Irans oljeresurser.",era:"koloni"},
+  {y:"1921",h:"Reza Khan tar makten",p:"Moderniserar Iran. Byter namn till Iran 1935.",era:"modern"},
+  {y:"1951",h:"Mossadegh nationaliserar oljan",p:"Folklig triumf. Iranierna tar tillbaka sin olja.",era:"modern"},
+  {y:"1953",h:"CIA:s Operation Ajax",p:"Mossadegh störtas. Shahen återinsätts. Demokratin krossas.",era:"modern"},
+  {y:"1963",h:"Den vita revolutionen",p:"Shahens reformprogram: jordreform och rösträtt för kvinnor.",era:"modern"},
+  {y:"1979",h:"Den islamiska revolutionen",p:"Shahen flyr. Khomeini tar makten. Iran = islamisk republik.",era:"modern"},
+  {y:"1979–81",h:"Gisslankrisen",p:"52 amerikaner hålls gisslan i 444 dagar.",era:"modern"},
+  {y:"1980–88",h:"Kriget mot Irak",p:"Åtta års blodigt krig. Hundratusentals döda.",era:"modern"},
+  {y:"2022",h:"Zan Zendegi Azadi",p:"Mahsa Aminis död utlöser protesterna Kvinna, Liv, Frihet.",era:"modern"}
+];
+
+function buildTL(){
+  const w=document.getElementById('tl-wrap');
+  w.innerHTML=TL.map(t=>`<div class="tl-item" data-era="${t.era}"><div class="tl-dot"></div><div class="tl-year">${t.y}</div><div class="tl-body"><h4>${t.h}</h4><p>${t.p}</p></div></div>`).join('');
+}
+function filterTL(era,btn){
+  document.querySelectorAll('#tl-filters .tl-filter').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tl-item').forEach(el=>{
+    if(era==='all'||el.dataset.era===era){el.classList.remove('hidden');}
+    else{el.classList.add('hidden');}
+  });
+}
+
+/* ═══ BEGREPP DATA ═══ */
+const BEG=[
+  {t:"Akemenidasläktet",d:"Persisk kungadynasti 550–330 f.Kr. Grundad av Kyros den store.",ep:"1"},
+  {t:"Kyros cylinder",d:"Lertavla med proklamation om religionsfrihet. Kallas historiens första MR-deklaration.",ep:"1"},
+  {t:"Persepolis",d:"Ceremoniell huvudstad byggd av Dareios I. Bränd av Alexander 330 f.Kr.",ep:"1"},
+  {t:"Satrapi",d:"Persisk provins ledd av en satrap (ståthållare). Lokal frihet, central kontroll.",ep:"1"},
+  {t:"Hellenism",d:"Blandning av grekisk och orientalisk kultur efter Alexanders erövringar.",ep:"1"},
+  {t:"Seleukiderna",d:"Dynasti grundad av Alexanders general Seleukos. Försökte styra Persien med grekisk kultur.",ep:"1"},
+  {t:"Zoroastrism",d:"Forntida iransk religion: Ahura Mazda (gott) vs Angra Mainyu (ont). Påverkade judendom, kristendom, islam.",ep:"2"},
+  {t:"Ahura Mazda",d:"Visdomens herre – den gode guden i zoroastrismen. Symboliseras av helig eld.",ep:"2"},
+  {t:"Parthiska skottet",d:"Skjuta pilar bakåt från hästryggen i galopp. Drev romarna till vansinne.",ep:"2"},
+  {t:"Sasaniderna",d:"Persisk dynasti 224–651 e.Kr. Zoroastrism = statsreligion. Kämpade mot Rom/Bysans.",ep:"2"},
+  {t:"Mager",d:"Zoroastriska präster med stor makt i det sasanidiska riket.",ep:"2"},
+  {t:"Angra Mainyu",d:"Mörkrets och lögnens kraft i zoroastrismen. I ständig kamp mot Ahura Mazda.",ep:"2"},
+  {t:"Kalif",d:"Muhammeds efterträdare som ledare för muslimerna. Konflikten om rätt kalif → sunni/shia.",ep:"3"},
+  {t:"Jizya",d:"Extra skatt för icke-muslimer (dhimmis). Ekonomisk drivkraft för konvertering.",ep:"3"},
+  {t:"Sunni / Shia",d:"Sunni: valde kompetent ledare. Shia: ledarskapet tillhörde Ali, Muhammeds familj.",ep:"3"},
+  {t:"Karbala",d:"Stad i Irak. Husayn massakrerades 680. Shiaislamens mest smärtsamma händelse.",ep:"3"},
+  {t:"Dhimmi",d:"'Skyddat folk' – icke-muslimer under islamiskt styre. Skyddade men underordnade.",ep:"3"},
+  {t:"Nowruz",d:"Persiskt nyår 21 mars. Zoroastrisk tradition som firas än idag – utan koppling till islam.",ep:"3"},
+  {t:"Islamisk guldålder",d:"Ca 750–1258. Muslimska lärda (ofta persiska) ledde världen inom vetenskap och kultur.",ep:"4"},
+  {t:"Visdomens hus",d:"Bayt al-Hikma i Bagdad. Forsknings- och översättningscentrum i 400 år.",ep:"4"},
+  {t:"Al-Khwarizmi",d:"Persisk matematiker. Uppfann algebran. Gav oss ordet 'algoritm'.",ep:"4"},
+  {t:"Ibn Sina (Avicenna)",d:"Persisk läkare. Medicinens kanon = standardverk vid europeiska universitet i 600 år.",ep:"4"},
+  {t:"Ferdowsi",d:"Poet. Shahnameh = 50 000 verspar om Persiens historia. Räddade persiska språket.",ep:"4"},
+  {t:"Shahnameh",d:"Konungarnas bok av Ferdowsi. Längsta dikt av en enda poet i världslitteraturen.",ep:"4"},
+  {t:"Safaviderna",d:"Persisk dynasti 1501–1722. Ismail I: shiaislam = statsreligion. Skapade Irans religiösa identitet.",ep:"5"},
+  {t:"Sufism",d:"Andlig mystik inom islam: direkt gudsupplevelse genom meditation, bön, musik.",ep:"5"},
+  {t:"Qizilbash",d:"'Rödhuvuden' – Ismail I:s fanatiskt lojala turkiska krigare.",ep:"5"},
+  {t:"Timur Lenk",d:"Centralasiatisk erövrare ca 1380. Härjade värre än mongolerna. Pyramider av huvuden.",ep:"5"},
+  {t:"Shah Abbas I",d:"Safavidernas störste regent 1588–1629. Byggde Isfahan. 'Isfahan är halva världen.'",ep:"5"},
+  {t:"Naqsh-e Jahan",d:"'Världens bild' – enormt torg i Isfahan. Moskéer i blått, turkos och guld.",ep:"5"},
+  {t:"Kolonialism",d:"Starka länder kontrollerar svagare via avtal, tryck och manipulation. Inte alltid kanoner.",ep:"6"},
+  {t:"Qajar-dynastin",d:"Turkmenisk dynasti 1796–1925. Sålde resurser till utlänningar. Svag och impopulär.",ep:"6"},
+  {t:"Anglo-Persian Oil Co.",d:"Brittiskt oljebolag (sedan BP). Kontrollerade Irans olja. Persiens mark, Londons vinst.",ep:"6"},
+  {t:"Majlis",d:"Irans parlament, grundat 1906. Mellanösterns första moderna parlament.",ep:"6"},
+  {t:"Konstitution",d:"Grundlag: begränsar kungens makt, ger folket rättigheter genom valt parlament.",ep:"6"},
+  {t:"Inflytelsesfär",d:"Stormakts kontroll utan formell erövring. 1907: Persien delades upp av Ryssland/Storbritannien.",ep:"6"},
+  {t:"Nationalisering",d:"Staten tar över utlandsägd industri. Mossadegh nationaliserade oljan 1951.",ep:"7"},
+  {t:"Mossadegh",d:"Premiärminister 1951–53. Nationaliserade oljan. Störtad av CIA:s Operation Ajax.",ep:"7"},
+  {t:"Operation Ajax",d:"CIA:s kupp 1953. Betalade folk för att störta Mossadegh. Krossade Irans demokrati.",ep:"7"},
+  {t:"SAVAK",d:"Shahens hemliga polis, byggd med CIA och Mossad. Ökänd för tortyr.",ep:"7"},
+  {t:"Den vita revolutionen",d:"Shahens reformprogram 1963: jordreform, rösträtt för kvinnor. Auktoritärt genomfört.",ep:"7"},
+  {t:"Ayatolla",d:"Högt rankad shia-lärd. 'Guds tecken' på arabiska. Khomeini var ayatolla.",ep:"7"},
+  {t:"Islamisk republik",d:"Irans styre sedan 1979. Blandning av val och religiöst styre. Högste Ledaren bestämmer.",ep:"8"},
+  {t:"Velayat-e faqih",d:"'De religiösa juristernas styre'. Högste Ledaren har yttersta makten.",ep:"8"},
+  {t:"Khomeini",d:"Revolutionens ledare 1979. Irans förste Högste Ledare. Spred rösten via kassettband.",ep:"8"},
+  {t:"Gisslankrisen",d:"1979–81: 52 amerikaner hölls gisslan i 444 dagar. Bröt relationen Iran–USA.",ep:"8"},
+  {t:"Ashura",d:"Sorgceremoni för Husayns martyrdöd vid Karbala 680. Shiamuslimernas viktigaste högtid.",ep:"8"},
+  {t:"Zan Zendegi Azadi",d:"'Kvinna, Liv, Frihet' – slagordet för protesterna 2022 efter Mahsa Aminis död.",ep:"8"}
+];
+
+function buildBeg(){
+  const g=document.getElementById('beg-grid');
+  g.innerHTML=BEG.map(b=>`<div class="beg-card" data-search="${(b.t+' '+b.d).toLowerCase()}"><div class="beg-ep">Del ${b.ep}</div><h4>${b.t}</h4><p>${b.d}</p></div>`).join('');
+}
+function filterBegrepp(){
+  const q=document.getElementById('beg-search').value.toLowerCase();
+  document.querySelectorAll('.beg-card').forEach(c=>{
+    c.classList.toggle('beg-hidden',q&&!c.dataset.search.includes(q));
+  });
+}
+
+/* ═══ MATCHING GAME ═══ */
+const MATCH={
+  mix:[
+    {l:"Kyros cylinder",r:"Mänskliga rättigheter 539 f.Kr."},
+    {l:"Parthiska skottet",r:"Pilar bakåt i galopp"},
+    {l:"Karbala",r:"Husayns martyrdöd 680"},
+    {l:"Al-Khwarizmi",r:"Algebra och algoritmen"},
+    {l:"Operation Ajax",r:"CIA störtar Mossadegh 1953"},
+    {l:"Zan Zendegi Azadi",r:"Kvinna, Liv, Frihet 2022"}
+  ],
+  antik:[
+    {l:"Kyros den store",r:"Grundade imperiet 550 f.Kr."},
+    {l:"Persepolis",r:"Ceremoniell huvudstad"},
+    {l:"Satrapi",r:"Persisk provins"},
+    {l:"Zarathustra",r:"Tänk rätt, tala rätt, handla rätt"},
+    {l:"Shapur I",r:"Fångade kejsar Valerianus"},
+    {l:"Kungliga vägen",r:"2 700 km Sardis–Susa"}
+  ],
+  medel:[
+    {l:"Visdomens hus",r:"Forskningscentrum i Bagdad"},
+    {l:"Ferdowsi",r:"Shahnameh – 50 000 verspar"},
+    {l:"Ismail I",r:"Shiaislam = statsreligion 1501"},
+    {l:"Shah Abbas I",r:"Isfahan är halva världen"},
+    {l:"Timur Lenk",r:"Pyramider av avhuggna huvuden"},
+    {l:"Qizilbash",r:"Rödhuvuden – lojala krigare"}
+  ],
+  modern:[
+    {l:"Tobaksrevolten",r:"Folkligt uppror 1891"},
+    {l:"Majlis",r:"Mellanösterns första parlament"},
+    {l:"Mossadegh",r:"Nationaliserade oljan 1951"},
+    {l:"SAVAK",r:"Shahens hemliga polis"},
+    {l:"Khomeini",r:"Kassettband från exil"},
+    {l:"Gisslankrisen",r:"444 dagars fångenskap"}
+  ]
+};
+
+let currentMatchSet='mix',matchState={};
+
+function loadMatch(set,btn){
+  if(btn){document.querySelectorAll('#match-filters .tl-filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+  currentMatchSet=set;
+  const data=MATCH[set];
+  const titles={mix:'Blandade begrepp',antik:'Forntid & Antik',medel:'Medeltid & Safavider',modern:'Modern tid'};
+  document.getElementById('match-title').textContent=titles[set];
+  matchState={pairs:data,matched:0,selected:null,total:data.length};
+  const lefts=[...data].sort(()=>Math.random()-.5);
+  const rights=[...data].sort(()=>Math.random()-.5);
+  const board=document.getElementById('match-board');
+  board.innerHTML='';
+  lefts.forEach((p,i)=>{
+    board.innerHTML+=`<div class="match-item left" data-val="${p.l}" data-side="left" onclick="pickMatch(this)">${p.l}</div>`;
+    board.innerHTML+=`<div class="match-item right" data-val="${rights[i].r}" data-side="right" onclick="pickMatch(this)">${rights[i].r}</div>`;
+  });
+  document.getElementById('match-score').textContent='';
+  document.getElementById('match-retry').style.display='none';
+}
+function pickMatch(el){
+  if(el.classList.contains('matched'))return;
+  const side=el.dataset.side;
+  if(matchState.selected&&matchState.selected.dataset.side===side){
+    matchState.selected.classList.remove('selected');
+    matchState.selected=el;el.classList.add('selected');return;
+  }
+  if(!matchState.selected){matchState.selected=el;el.classList.add('selected');return;}
+  const first=matchState.selected,second=el;
+  first.classList.remove('selected');
+  const leftEl=first.dataset.side==='left'?first:second;
+  const rightEl=first.dataset.side==='right'?first:second;
+  const pair=matchState.pairs.find(p=>p.l===leftEl.dataset.val);
+  if(pair&&pair.r===rightEl.dataset.val){
+    leftEl.classList.add('matched');rightEl.classList.add('matched');
+    matchState.matched++;matchState.selected=null;
+    if(matchState.matched===matchState.total){
+      document.getElementById('match-score').textContent='🎉 Alla rätt! Fantastiskt jobbat!';
+      document.getElementById('match-retry').style.display='inline-block';
+    }
+  }else{
+    leftEl.classList.add('wrong-flash');rightEl.classList.add('wrong-flash');
+    setTimeout(()=>{leftEl.classList.remove('wrong-flash');rightEl.classList.remove('wrong-flash');},400);
+    matchState.selected=null;
+  }
+}
+
+/* ═══ INIT ═══ */
+buildFC();buildTL();buildBeg();loadMatch('mix');
+</script>
+</body>
+</html>
