@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marknadsformer – Interaktiv Lärosite</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:#0a0e1a; --surface:#111827; --surface2:#1a2235; --border:rgba(255,255,255,0.07);
+    --green:#00e896; --red:#ff4d6d; --purple:#a855f7; --gold:#f5a623;
+    --text:#e8edf5; --muted:#6b7a99;
+    --font-d:'Syne',sans-serif; --font-b:'DM Sans',sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,14,26,0.95);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:1.2rem;padding:0.7rem 2rem}
+  .logo{font-family:var(--font-d);font-weight:800;font-size:0.95rem;color:var(--gold);white-space:nowrap;letter-spacing:.04em}
+  .nav-links{display:flex;gap:0.4rem;flex-wrap:wrap}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:0.76rem;font-weight:500;padding:0.28rem 0.6rem;border-radius:6px;transition:all .2s;cursor:pointer}
+  .nav-links a:hover{color:var(--text);background:var(--surface2)}
+  .pbwrap{margin-left:auto;display:flex;align-items:center;gap:.6rem;white-space:nowrap}
+  .pbtrack{width:110px;height:5px;background:var(--surface2);border-radius:99px}
+  .pbfill{height:100%;background:linear-gradient(90deg,var(--green),var(--gold));border-radius:99px;transition:width .6s}
+  .sbadge{font-family:var(--font-d);font-size:0.78rem;font-weight:700;color:var(--gold)}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6rem 2rem 4rem;position:relative;overflow:hidden;text-align:center}
+  .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,232,150,.07),transparent 70%),radial-gradient(ellipse 60% 50% at 15% 80%,rgba(168,85,247,.06),transparent 60%),radial-gradient(ellipse 50% 40% at 85% 75%,rgba(255,77,109,.06),transparent 60%)}
+  .heye{font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1.5rem;position:relative;animation:fadeUp .6s ease both}
+  .hero h1{font-family:var(--font-d);font-size:clamp(2.6rem,8vw,5.5rem);font-weight:800;line-height:1;letter-spacing:-.02em;position:relative;animation:fadeUp .7s ease .1s both}
+  .hi{color:var(--green)} .mi{color:var(--red)} .oi{color:var(--purple)}
+  .hsub{font-size:1rem;color:var(--muted);max-width:500px;margin:1.5rem auto 0;position:relative;animation:fadeUp .7s ease .2s both}
+  .hpills{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap;margin:2.2rem 0;position:relative;animation:fadeUp .7s ease .3s both}
+  .pill{padding:.45rem 1.1rem;border-radius:99px;font-size:.82rem;font-weight:600;border:1.5px solid;cursor:pointer;transition:all .2s;text-decoration:none;display:inline-block}  .pg{border-color:var(--green);color:var(--green)} .pg:hover{background:var(--green);color:#000}
+  .pr{border-color:var(--red);color:var(--red)} .pr:hover{background:var(--red);color:#fff}
+  .pp{border-color:var(--purple);color:var(--purple)} .pp:hover{background:var(--purple);color:#fff}
+  .po{border-color:var(--gold);color:var(--gold)} .po:hover{background:var(--gold);color:#000}
+  .hcards{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:780px;width:100%;position:relative;animation:fadeUp .7s ease .4s both}
+  .hstat{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.2rem;transition:transform .2s}
+  .hstat:hover{transform:translateY(-4px)}
+  .hstat.g{border-color:rgba(0,232,150,.25)} .hstat.r{border-color:rgba(255,77,109,.25)} .hstat.p{border-color:rgba(168,85,247,.25)}
+  .hnum{font-family:var(--font-d);font-size:1.9rem;font-weight:800}
+  .hstat.g .hnum{color:var(--green)} .hstat.r .hnum{color:var(--red)} .hstat.p .hnum{color:var(--purple)}
+  .hlbl{font-size:.78rem;color:var(--muted);margin-top:.15rem}
+
+  /* SECTIONS */
+  section{padding:5rem 2rem;max-width:1100px;margin:0 auto;scroll-margin-top:60px}
+  .slbl{font-size:.7rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem}
+  .stitle{font-family:var(--font-d);font-size:clamp(1.7rem,4vw,2.5rem);font-weight:800;line-height:1.1;margin-bottom:.6rem;color:var(--text)}
+  .sintro{color:var(--muted);max-width:580px;margin-bottom:2.5rem;font-size:.92rem}
+  hr.div{border:none;border-top:1px solid var(--border);margin:0}
+
+  /* FLIP CARDS */
+  .cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.4rem}
+  .cflip{perspective:1000px;cursor:pointer}
+  .cinner{position:relative;width:100%;height:330px;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,0,.2,1)}
+  .cflip.flipped .cinner{transform:rotateY(180deg)}
+  .cface,.cback{position:absolute;inset:0;backface-visibility:hidden;border-radius:18px;padding:1.8rem;display:flex;flex-direction:column;justify-content:space-between}
+  .cface{background:var(--surface);border:1px solid var(--border)}
+  .cface.g{border-color:rgba(0,232,150,.25)} .cface.r{border-color:rgba(255,77,109,.25)} .cface.p{border-color:rgba(168,85,247,.25)}
+  .cback{transform:rotateY(180deg)}
+  .cback.g{background:linear-gradient(135deg,#001f14,#003d27);border:1px solid rgba(0,232,150,.3)}
+  .cback.r{background:linear-gradient(135deg,#1f0008,#3d0015);border:1px solid rgba(255,77,109,.3)}
+  .cback.p{background:linear-gradient(135deg,#1a0030,#330060);border:1px solid rgba(168,85,247,.3)}
+  .cicon{font-size:2.2rem;margin-bottom:.4rem}
+  .ctype{font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.4rem}
+  .ctype.g{color:var(--green)} .ctype.r{color:var(--red)} .ctype.p{color:var(--purple)}
+  .cface h3{font-family:var(--font-d);font-size:1.5rem;font-weight:800;color:var(--text)}
+  .cface p{color:var(--muted);font-size:.88rem;margin-top:.4rem}
+  .chint{font-size:.72rem;color:var(--muted);opacity:.5}
+  .cback ul{list-style:none;display:flex;flex-direction:column;gap:.55rem;flex:1;padding:.4rem 0}
+  .cback ul li{font-size:.86rem;color:var(--text)} .cback ul li::before{content:'→ ';opacity:.5}
+  .cback h4{font-family:var(--font-d);font-size:1.1rem;font-weight:700;margin-bottom:.65rem;color:var(--text)}
+  .chips{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.65rem}
+  .chip{font-size:.7rem;padding:.22rem .6rem;border-radius:99px;background:rgba(255,255,255,.08);color:var(--text)}
+
+  /* SIMULATOR */
+  .simbox{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:2.2rem}
+  .simhd{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:1.8rem}
+  .simbtns{display:flex;gap:.6rem;flex-wrap:wrap}
+  .sbtn{padding:.45rem 1rem;border-radius:99px;border:1.5px solid var(--border);font-family:var(--font-d);font-size:.76rem;font-weight:700;cursor:pointer;background:transparent;transition:all .2s;color:var(--muted)}
+  .sbtn:hover{border-color:rgba(255,255,255,.2);color:var(--text)}
+  .sbtn.ag{background:var(--green);border-color:var(--green);color:#000}
+  .sbtn.ar{background:var(--red);border-color:var(--red);color:#fff}
+  .sbtn.ap{background:var(--purple);border-color:var(--purple);color:#fff}
+  .simsc{display:grid;grid-template-columns:1fr 1fr;gap:1.8rem;align-items:start}
+  .simmarket{display:flex;flex-direction:column;gap:.65rem}
+  .sbrow{display:flex;align-items:center;gap:.65rem}
+  .sbnm{font-size:.78rem;color:var(--muted);width:90px;flex-shrink:0}
+  .sbtrack{flex:1;height:26px;background:var(--surface2);border-radius:7px;overflow:hidden}
+  .sbfill{height:100%;border-radius:7px;display:flex;align-items:center;padding-left:9px;font-size:.73rem;font-weight:600;transition:width 1s cubic-bezier(.4,0,.2,1);white-space:nowrap;color:#000}
+  .sbprlbl{font-size:.78rem;font-weight:600;width:52px;text-align:right;flex-shrink:0}
+  .simins{background:var(--surface2);border-radius:14px;padding:1.4rem}
+  .simins h4{font-family:var(--font-d);font-weight:700;margin-bottom:.45rem;color:var(--text)}
+  .simins p{font-size:.86rem;color:var(--muted);line-height:1.65}
+  .sverd{margin-top:.9rem;padding:.65rem .9rem;border-radius:9px;font-size:.82rem;font-weight:500;color:var(--text)}
+
+  /* SORT */
+  .spool{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.8rem;padding:1.4rem;background:var(--surface);border-radius:14px;border:1px solid var(--border)}
+  .sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:1.1rem;margin-bottom:1.5rem}
+  .szone{min-height:150px;border-radius:14px;border:2px dashed;padding:.9rem;transition:all .2s}
+  .szone.g{border-color:rgba(0,232,150,.35);background:rgba(0,232,150,.04)}
+  .szone.r{border-color:rgba(255,77,109,.35);background:rgba(255,77,109,.04)}
+  .szone.p{border-color:rgba(168,85,247,.35);background:rgba(168,85,247,.04)}
+  .szone.over{border-style:solid;transform:scale(1.02)}
+  .szone.g.over{border-color:var(--green);background:rgba(0,232,150,.1)}
+  .szone.r.over{border-color:var(--red);background:rgba(255,77,109,.1)}
+  .szone.p.over{border-color:var(--purple);background:rgba(168,85,247,.1)}
+  .sztitle{font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.65rem}
+  .szone.g .sztitle{color:var(--green)} .szone.r .sztitle{color:var(--red)} .szone.p .sztitle{color:var(--purple)}
+  .sdrop{display:flex;flex-wrap:wrap;gap:.35rem;min-height:36px}
+  .sc{padding:.42rem .85rem;border-radius:9px;background:var(--surface2);border:1px solid var(--border);font-size:.8rem;cursor:grab;user-select:none;transition:all .2s;color:var(--text)}
+  .sc:hover{transform:translateY(-2px);border-color:rgba(255,255,255,.2)}
+  .sc:active{cursor:grabbing}
+  .sc.correct{border-color:var(--green);color:var(--green);background:rgba(0,232,150,.08)}
+  .sc.wrong{border-color:var(--red);color:var(--red);background:rgba(255,77,109,.08);animation:shake .4s}
+
+  /* VOCAB MATCH */
+  .vmgrid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:820px}
+  .vmcol{display:flex;flex-direction:column;gap:.5rem}
+  .vmterm,.vmdef{padding:.72rem 1rem;border-radius:11px;background:var(--surface);border:1.5px solid var(--border);font-size:.87rem;cursor:pointer;transition:all .2s;text-align:left;font-family:var(--font-b);width:100%}
+  .vmterm{font-weight:600;color:var(--text)}
+  .vmdef{color:var(--muted)}
+  .vmterm:hover,.vmdef:hover{border-color:rgba(255,255,255,.2)}
+  .vmterm.sel,.vmdef.sel{border-color:var(--gold);background:rgba(245,166,35,.1);color:var(--gold)}
+  .vmterm.hit,.vmdef.hit{border-color:var(--green);background:rgba(0,232,150,.1);color:var(--green);cursor:default}
+  .vmterm.bad,.vmdef.bad{border-color:var(--red);background:rgba(255,77,109,.1);animation:shake .4s}
+  .vmhdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.1rem;flex-wrap:wrap;gap:.5rem}
+  .vmscore{font-family:var(--font-d);font-size:.88rem;font-weight:700;color:var(--gold)}
+  .vmstatus{margin-top:.9rem;font-size:.87rem;min-height:1.4rem}
+
+  /* SCENARIOS */
+  .scencard{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2rem;max-width:720px}
+  .scenbar{display:flex;gap:.35rem;margin-bottom:1.2rem}
+  .scenp{width:9px;height:9px;border-radius:50%;background:var(--surface2)}
+  .scenp.done{background:var(--green)} .scenp.bad{background:var(--red)} .scenp.cur{background:var(--gold)}
+  .scenprog{font-size:.75rem;color:var(--muted);margin-bottom:.5rem}
+  .scenstory{font-size:.95rem;line-height:1.75;margin-bottom:1.4rem;color:var(--text)}
+  .scenq{font-family:var(--font-d);font-size:.98rem;font-weight:700;color:var(--gold);margin-bottom:.9rem}
+  .scenopts{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+  .scenopt{padding:.8rem 1rem;border-radius:11px;border:1.5px solid var(--border);background:var(--surface2);cursor:pointer;font-size:.86rem;transition:all .2s;text-align:left;color:var(--text);font-family:var(--font-b)}
+  .scenopt:hover:not([disabled]){border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.05)}
+  .scenopt.correct{border-color:var(--green)!important;background:rgba(0,232,150,.12)!important;color:var(--green)!important}
+  .scenopt.wrong{border-color:var(--red)!important;background:rgba(255,77,109,.12)!important;color:var(--red)!important}
+  .scenopt[disabled]{cursor:not-allowed}
+  .scenfb{margin-top:.9rem;padding:.85rem 1rem;border-radius:10px;font-size:.85rem;display:none;line-height:1.6}
+  .scenfb.show{display:block}
+  .scenfb.ok{background:rgba(0,232,150,.1);border:1px solid rgba(0,232,150,.25);color:var(--green)}
+  .scenfb.bad{background:rgba(255,77,109,.1);border:1px solid rgba(255,77,109,.25);color:var(--red)}
+
+  /* QUIZ */
+  .qwrap{max-width:700px}
+  .qprog{display:flex;gap:.3rem;margin-bottom:1.8rem}
+  .qdot{width:8px;height:8px;border-radius:50%;background:var(--surface2);transition:background .3s}
+  .qdot.done{background:var(--green)} .qdot.wrong{background:var(--red)} .qdot.active{background:var(--gold)}
+  .qq{font-family:var(--font-d);font-size:1.1rem;font-weight:700;margin-bottom:1.3rem;line-height:1.35;color:var(--text)}
+  .qopts{display:flex;flex-direction:column;gap:.6rem}
+  .qopt{padding:.85rem 1.2rem;border-radius:13px;border:1.5px solid var(--border);background:var(--surface);cursor:pointer;font-size:.9rem;transition:all .15s;text-align:left;color:var(--text);font-family:var(--font-b)}
+  .qopt:hover:not([disabled]){border-color:rgba(255,255,255,.2);background:var(--surface2);transform:translateX(4px)}
+  .qopt.correct{border-color:var(--green)!important;background:rgba(0,232,150,.12)!important;color:var(--green)!important}
+  .qopt.wrong{border-color:var(--red)!important;background:rgba(255,77,109,.12)!important;color:var(--red)!important}
+  .qopt[disabled]{cursor:not-allowed}
+  .qfb{margin-top:.9rem;padding:.8rem 1rem;border-radius:11px;font-size:.86rem;display:none;line-height:1.6}
+  .qfb.show{display:block}
+  .qfb.ok{background:rgba(0,232,150,.1);color:var(--green);border:1px solid rgba(0,232,150,.25)}
+  .qfb.bad{background:rgba(255,77,109,.1);color:var(--red);border:1px solid rgba(255,77,109,.25)}
+  .qnav{display:flex;justify-content:space-between;align-items:center;margin-top:1.4rem}
+  .qresult{text-align:center;padding:2.5rem 1.5rem}
+  .qbig{font-family:var(--font-d);font-size:4.5rem;font-weight:800}
+  .qresult p{color:var(--muted);margin-top:.4rem}
+
+  /* TRUE FALSE */
+  .tfcard{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:2.2rem;text-align:center;max-width:620px}
+  .tfstmt{font-family:var(--font-d);font-size:1.2rem;font-weight:700;margin-bottom:1.8rem;line-height:1.35;color:var(--text)}
+  .tfbtns{display:flex;gap:.9rem;justify-content:center}
+  .tfbtn{padding:.8rem 1.8rem;border-radius:13px;border:2px solid;font-family:var(--font-d);font-size:.95rem;font-weight:700;cursor:pointer;transition:all .2s;background:transparent}
+  .tfbtn.sant{border-color:var(--green);color:var(--green)} .tfbtn.sant:hover{background:var(--green);color:#000}
+  .tfbtn.falskt{border-color:var(--red);color:var(--red)} .tfbtn.falskt:hover{background:var(--red);color:#fff}
+  .tfbtn[disabled]{opacity:.4;cursor:not-allowed}
+  .tfres{margin-top:1.1rem;min-height:1.8rem;font-size:.88rem;font-weight:500}
+  .tftrkr{display:flex;gap:.45rem;margin-bottom:1.4rem;flex-wrap:wrap}
+  .tfpip{width:10px;height:10px;border-radius:50%;background:var(--surface2);transition:background .3s}
+  .tfpip.correct{background:var(--green)} .tfpip.wrong{background:var(--red)}
+
+  /* GLOSSARY */
+  .ggloss{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.9rem}
+  .gi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.1rem}
+  .gt{font-family:var(--font-d);font-size:.95rem;font-weight:700;color:var(--gold)}
+  .gd{font-size:.83rem;color:var(--muted);margin-top:.35rem;line-height:1.5}
+
+  /* BTNS */
+  .btn{padding:.6rem 1.4rem;border-radius:9px;border:1.5px solid;font-family:var(--font-d);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .2s;background:transparent}
+  .btnp{background:var(--gold);border-color:var(--gold);color:#000} .btnp:hover{opacity:.85}
+  .btno{border-color:var(--border);color:var(--muted)} .btno:hover{border-color:rgba(255,255,255,.25);color:var(--text)}
+
+  /* FINISH */
+  #finish{display:none;background:linear-gradient(135deg,#001f14,#1a0030);border:1px solid rgba(0,232,150,.2);border-radius:22px;padding:2.8rem;text-align:center;margin:2.5rem 0}
+  #finish h2{font-family:var(--font-d);font-size:2.2rem;font-weight:800;color:var(--text)}
+  .fscore{font-family:var(--font-d);font-size:3.8rem;font-weight:800;color:var(--green);margin:.8rem 0}
+
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  ::-webkit-scrollbar{width:5px} ::-webkit-scrollbar-track{background:var(--bg)} ::-webkit-scrollbar-thumb{background:var(--surface2);border-radius:99px}
+  @media(max-width:640px){.hcards,.vmgrid,.scenopts{grid-template-columns:1fr}.simsc,.sgrid{grid-template-columns:1fr}.nav-links{display:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">⚡ MARKNADSFORMER</div>
+  <div class="nav-links">
+    <a onclick="goTo('begrepp')">Begrepp</a>
+    <a onclick="goTo('simulator')">Prissimulator</a>
+    <a onclick="goTo('sortera')">Sortera</a>
+    <a onclick="goTo('vocab')">Begreppsträning</a>
+    <a onclick="goTo('scenario')">Scenarion</a>
+    <a onclick="goTo('quiz')">Quiz</a>
+    <a onclick="goTo('tf')">Sant/Falskt</a>
+    <a onclick="goTo('ordlista')">Ordlista</a>
+  </div>
+  <div class="pbwrap">
+    <div class="pbtrack"><div class="pbfill" id="pf" style="width:0%"></div></div>
+    <div class="sbadge" id="sd">0 p</div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="heye">Samhällskunskap · Ekonomi · Högstadiet</div>
+  <h1><span class="hi">Fri</span><span class="mi">marknad</span><br><span style="color:var(--muted);font-size:.45em;letter-spacing:.06em">vs</span><br><span class="mi">Monopol</span> <span style="color:var(--muted);font-size:.55em">&</span> <span class="oi">Oligopol</span></h1>
+  <p class="hsub">Utforska hur marknader fungerar – med 7 interaktiva övningar, quiz och scenarion.</p>
+  <div class="hpills">
+    <a onclick="goTo('begrepp')"  class="pill pg">📚 Begrepp</a>
+    <a onclick="goTo('sortera')"  class="pill pr">🎮 Sortera</a>
+    <a onclick="goTo('vocab')"    class="pill po">🔗 Begreppsträning</a>
+    <a onclick="goTo('scenario')" class="pill pp">🎭 Scenarion</a>
+    <a onclick="goTo('quiz')"     class="pill pp">🧠 Quiz</a>
+  </div>
+  <div class="hcards">
+    <div class="hstat g"><div class="hnum">∞</div><div class="hlbl">Säljare på en frimarknad</div></div>
+    <div class="hstat r"><div class="hnum">1</div><div class="hlbl">Säljare i ett monopol</div></div>
+    <div class="hstat p"><div class="hnum">2–5</div><div class="hlbl">Säljare i ett oligopol</div></div>
+  </div>
+</div>
+<hr class="div">
+
+<!-- 1. BEGREPP -->
+<section id="begrepp">
+  <div class="slbl">Steg 1 – Förstå begreppen</div>
+  <h2 class="stitle">Klicka på korten för att vända dem</h2>
+  <p class="sintro">Varje kort visar ett begrepp på framsidan. Vänd det för att se förklaringen och verkliga exempel.</p>
+  <div class="cgrid">
+    <div class="cflip" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <div class="cinner">
+        <div class="cface g"><div><div class="cicon">🏪</div><div class="ctype g">Marknadsform 1</div><h3>Frimarknad</h3><p>Många säljare, fri konkurrens och priset styrs av utbud och efterfrågan.</p></div><div class="chint">↩ Klicka för att vända</div></div>
+        <div class="cback g"><h4>🏪 Frimarknad</h4><ul><li>Många säljare tävlar om dina pengar</li><li>Priset sätts av utbud &amp; efterfrågan</li><li>Vem som helst kan starta företag</li><li>Konkurrens driver ner priserna</li><li>Staten blandar sig minimalt in</li></ul><div class="chips"><span class="chip">🍕 Restauranger</span><span class="chip">👗 Kläder</span><span class="chip">🔧 Hantverkare</span><span class="chip">🥦 Torghandel</span></div></div>
+      </div>
+    </div>
+    <div class="cflip" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <div class="cinner">
+        <div class="cface r"><div><div class="cicon">🏢</div><div class="ctype r">Marknadsform 2</div><h3>Monopol</h3><p>Ett enda företag dominerar hela marknaden – ingen konkurrens, inget val.</p></div><div class="chint">↩ Klicka för att vända</div></div>
+        <div class="cback r"><h4>🏢 Monopol</h4><ul><li>Bara ett (1) företag säljer varan</li><li>Konsumenten kan inte byta leverantör</li><li>Företaget sätter priset självt</li><li>Kan vara naturligt (elnät) eller lagstiftat</li><li>Staten reglerar ofta för att skydda oss</li></ul><div class="chips"><span class="chip">🍷 Systembolaget</span><span class="chip">⚡ Elnätet</span><span class="chip">🚂 Järnväg</span><span class="chip">💧 Vatten</span></div></div>
+      </div>
+    </div>
+    <div class="cflip" onclick="this.classList.toggle('flipped')" tabindex="0">
+      <div class="cinner">
+        <div class="cface p"><div><div class="cicon">👥</div><div class="ctype p">Marknadsform 3</div><h3>Oligopol</h3><p>Några få stora aktörer delar marknaden och håller ett öga på varandra.</p></div><div class="chint">↩ Klicka för att vända</div></div>
+        <div class="cback p"><h4>👥 Oligopol</h4><ul><li>2–5 dominerande företag</li><li>Begränsad konkurrens – priser liknar varandra</li><li>Anpassar sig strategiskt till varandra</li><li>Svårt för nya aktörer att ta sig in</li><li>Risk för kartellbildning (olagligt!)</li></ul><div class="chips"><span class="chip">📱 Tele2/Telia/Tre</span><span class="chip">⛽ Bensinbolag</span><span class="chip">🛒 ICA/Coop</span><span class="chip">✈️ SAS/Norwegian</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+<hr class="div">
+
+<!-- 2. SIMULATOR -->
+<section id="simulator">
+  <div class="slbl">Steg 2 – Se skillnaden</div>
+  <h2 class="stitle">Prissimulator</h2>
+  <p class="sintro">Välj en marknadsform och se hur priserna typiskt ser ut – och varför.</p>
+  <div class="simbox">
+    <div class="simhd">
+      <div><div style="font-family:var(--font-d);font-weight:700;font-size:1.05rem;color:var(--text)" id="simTitle">Välj en marknadsform</div><div style="font-size:.8rem;color:var(--muted);margin-top:.2rem">Hypotetiskt produktpris (kr)</div></div>
+      <div class="simbtns">
+        <button class="sbtn" onclick="runSim('fri')">🏪 Frimarknad</button>
+        <button class="sbtn" onclick="runSim('mono')">🏢 Monopol</button>
+        <button class="sbtn" onclick="runSim('oli')">👥 Oligopol</button>
+      </div>
+    </div>
+    <div class="simsc">
+      <div class="simmarket" id="simBars"><div style="color:var(--muted);font-size:.88rem;padding:2rem 0;text-align:center">← Välj ovan</div></div>
+      <div class="simins" id="simIns"><h4 style="color:var(--muted)">Välj en marknadsform</h4><p>Klicka på en av knapparna för att starta simulatorn.</p></div>
+    </div>
+  </div>
+</section>
+<hr class="div">
+
+<!-- 3. SORTERA -->
+<section id="sortera">
+  <div class="slbl">Steg 3 – Sorteringsspel</div>
+  <h2 class="stitle">Dra exemplen till rätt kategori <span id="sortSc" style="color:var(--gold);font-size:.55em"></span></h2>
+  <p class="sintro">Dra varje kort till rätt marknadsform. Poäng för varje rätt!</p>
+  <div class="spool" id="spool"></div>
+  <div class="sgrid">
+    <div class="szone g" id="zone-fri" ondragover="dov(event,'zone-fri')" ondragleave="dlv(event,'zone-fri')" ondrop="dp(event,'zone-fri','fri')"><div class="sztitle">🏪 Frimarknad</div><div class="sdrop" id="drop-fri"></div></div>
+    <div class="szone r" id="zone-mono" ondragover="dov(event,'zone-mono')" ondragleave="dlv(event,'zone-mono')" ondrop="dp(event,'zone-mono','mono')"><div class="sztitle">🏢 Monopol</div><div class="sdrop" id="drop-mono"></div></div>
+    <div class="szone p" id="zone-oli" ondragover="dov(event,'zone-oli')" ondragleave="dlv(event,'zone-oli')" ondrop="dp(event,'zone-oli','oli')"><div class="sztitle">👥 Oligopol</div><div class="sdrop" id="drop-oli"></div></div>
+  </div>
+  <div style="display:flex;gap:.6rem"><button class="btn btno" onclick="resetSort()">↩ Börja om</button><button class="btn btnp" onclick="checkSort()">✓ Kontrollera</button></div>
+  <div id="sortFb" style="margin-top:.9rem;font-size:.88rem;min-height:1.4rem"></div>
+</section>
+<hr class="div">
+
+<!-- 4. VOCAB MATCH -->
+<section id="vocab">
+  <div class="slbl">Steg 4 – Begreppsträning</div>
+  <h2 class="stitle">Koppla ihop begrepp och definitioner</h2>
+  <p class="sintro">Klicka på ett begrepp till vänster, sedan rätt definition till höger. Matcha alla 8 par!</p>
+  <div class="vmhdr"><span class="vmscore" id="vmScore">0 / 8 matchade</span><button class="btn btno" onclick="resetVocab()">↩ Blanda om</button></div>
+  <div class="vmgrid" id="vmGrid"></div>
+  <div class="vmstatus" id="vmStatus"></div>
+</section>
+<hr class="div">
+
+<!-- 5. SCENARIOS -->
+<section id="scenario">
+  <div class="slbl">Steg 5 – Scenario-utmaningen</div>
+  <h2 class="stitle">Vad händer härnäst? 🎭</h2>
+  <p class="sintro">Läs scenariot och välj rätt svar. Tränar ditt ekonomiska tänkande!</p>
+  <div class="scenbar" id="scenBar"></div>
+  <div class="scencard" id="scenCard"></div>
+</section>
+<hr class="div">
+
+<!-- 6. QUIZ -->
+<section id="quiz">
+  <div class="slbl">Steg 6 – Kunskapstest</div>
+  <h2 class="stitle">Quiz – 10 frågor</h2>
+  <p class="sintro">Svara på frågorna. Jämn fördelning på svarsalternativen A–D!</p>
+  <div class="qwrap"><div class="qprog" id="qprog"></div><div id="qcon"></div></div>
+</section>
+<hr class="div">
+
+<!-- 7. TRUE/FALSE -->
+<section id="tf">
+  <div class="slbl">Steg 7 – Snabbtest</div>
+  <h2 class="stitle">Sant eller Falskt? ⚡</h2>
+  <p class="sintro">10 påståenden – sant eller falskt?</p>
+  <div class="tftrkr" id="tftrkr"></div>
+  <div class="tfcard" id="tfcard">
+    <div class="tfstmt" id="tfstmt">Laddar...</div>
+    <div class="tfbtns"><button class="tfbtn sant" onclick="answerTF(true)">✓ SANT</button><button class="tfbtn falskt" onclick="answerTF(false)">✗ FALSKT</button></div>
+    <div class="tfres" id="tfres"></div>
+    <div style="margin-top:1rem"><button class="btn btno" id="tfnxt" onclick="nextTF()" style="display:none">Nästa →</button></div>
+  </div>
+  <div id="tffin" style="display:none;margin-top:1.4rem;text-align:center">
+    <div style="font-family:var(--font-d);font-size:1.9rem;font-weight:800;color:var(--text)" id="tffinsc"></div>
+    <p style="color:var(--muted);margin-top:.4rem" id="tffinmsg"></p>
+    <button class="btn btnp" onclick="resetTF()" style="margin-top:1rem">Spela igen</button>
+  </div>
+</section>
+<hr class="div">
+
+<!-- ORDLISTA -->
+<section id="ordlista">
+  <div class="slbl">Steg 8 – Läs på</div>
+  <h2 class="stitle">Ordlista</h2>
+  <p class="sintro">Viktiga begrepp du bör kunna.</p>
+  <div class="ggloss">
+    <div class="gi"><div class="gt">Frimarknad</div><div class="gd">En marknad med många säljare och köpare där priset styrs av utbud och efterfrågan utan statlig inblandning.</div></div>
+    <div class="gi"><div class="gt">Monopol</div><div class="gd">En marknadssituation där ett enda företag är ensam säljare av en vara eller tjänst.</div></div>
+    <div class="gi"><div class="gt">Oligopol</div><div class="gd">En marknad dominerad av ett fåtal (2–5) stora företag som bevakar varandra och agerar strategiskt.</div></div>
+    <div class="gi"><div class="gt">Utbud</div><div class="gd">Den mängd av en vara eller tjänst som producenter är villiga att erbjuda till ett visst pris.</div></div>
+    <div class="gi"><div class="gt">Efterfrågan</div><div class="gd">Den mängd av en vara eller tjänst som konsumenter är villiga att köpa till ett visst pris.</div></div>
+    <div class="gi"><div class="gt">Naturligt monopol</div><div class="gd">Uppstår när det är mest effektivt att ha en enda leverantör, t.ex. elnät eller vattendistribution.</div></div>
+    <div class="gi"><div class="gt">Kartell</div><div class="gd">Olaglig samverkan mellan företag i ett oligopol för att gemensamt höja priser eller dela marknaden.</div></div>
+    <div class="gi"><div class="gt">Konkurrens</div><div class="gd">Kamp mellan företag om samma kunder – pressar priser nedåt och driver kvaliteten uppåt.</div></div>
+    <div class="gi"><div class="gt">Etableringströskel</div><div class="gd">Hinder som gör det svårt för nya företag att ta sig in på en marknad, t.ex. höga startkostnader.</div></div>
+    <div class="gi"><div class="gt">Konsument</div><div class="gd">Den som köper och använder varor eller tjänster – alltså du när du handlar!</div></div>
+    <div class="gi"><div class="gt">Reglering</div><div class="gd">Lagar och regler som staten sätter upp för att styra hur marknader och företag får bete sig.</div></div>
+    <div class="gi"><div class="gt">Prissättning</div><div class="gd">Hur ett företag bestämmer vilket pris de tar för sina varor eller tjänster.</div></div>
+  </div>
+</section>
+
+<div style="max-width:1100px;margin:0 auto;padding:0 2rem">
+  <div id="finish">
+    <div style="font-size:2.8rem">🎉</div>
+    <h2>Grym jobbat!</h2>
+    <div class="fscore" id="fscore">0 poäng</div>
+    <p id="fmsg" style="color:var(--muted);margin-top:.5rem"></p>
+    <button class="btn btnp" onclick="location.reload()" style="margin-top:1.4rem">↩ Börja om</button>
+  </div>
+</div>
+<div style="height:4rem"></div>
+
+<script>
+// ── NAV SCROLL ───────────────────────────────────────────────────────────
+function goTo(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// ── SCORE ────────────────────────────────────────────────────────────────
+let totalScore=0,totalMax=0;
+let simDone=false,sortDone=false,vmDone=false,scenDone=false,quizDone=false,tfDone=false;
+function addScore(pts,max){
+  totalScore+=pts;totalMax+=max;
+  document.getElementById('sd').textContent=totalScore+' p';
+  const pct=totalMax>0?Math.min(100,Math.round(totalScore/totalMax*100)):0;
+  document.getElementById('pf').style.width=pct+'%';
+  if(simDone&&sortDone&&vmDone&&scenDone&&quizDone&&tfDone) showFinish();
+}
+function showFinish(){
+  const el=document.getElementById('finish');
+  if(el.style.display==='block') return;
+  el.style.display='block';
+  document.getElementById('fscore').textContent=totalScore+' poäng';
+  const pct=totalMax>0?Math.round(totalScore/totalMax*100):0;
+  document.getElementById('fmsg').textContent=pct>=80?'🌟 Utmärkt! Du kan dina marknadsformer!':pct>=60?'👍 Bra jobbat! Lite mer övning och du sitter på det.':'📖 Fortsätt öva – gå tillbaka och läs på!';
+  el.scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// ── SIMULATOR ─────────────────────────────────────────────────────────────
+const SD={
+  fri:{title:'🏪 Frimarknad – Stark konkurrens',sellers:[{n:'Företag A',p:129,c:'#00e896'},{n:'Företag B',p:134,c:'#00c97a'},{n:'Företag C',p:119,c:'#00b36e'},{n:'Företag D',p:142,c:'#009960'},{n:'Företag E',p:125,c:'#007a4d'},{n:'Företag F',p:131,c:'#005c3a'}],max:200,h:'Vad händer på en frimarknad?',t:'Priserna varierar lite men håller sig relativt låga. Konkurrensen tvingar företagen att vara effektiva – tar ett företag för mycket betalt tappar de kunder omedelbart.',v:'✅ Konsumenten vinner: låga priser och många val.',vc:'rgba(0,232,150,.15)',vb:'rgba(0,232,150,.3)'},
+  mono:{title:'🏢 Monopol – Ingen konkurrens',sellers:[{n:'Enda företaget',p:389,c:'#ff4d6d'}],max:450,h:'Vad händer i ett monopol?',t:'Det finns bara en säljare – och de vet det. De kan ta ut ett mycket högre pris eftersom du inte kan byta leverantör. Staten måste ofta reglera priset för att skydda konsumenterna.',v:'⚠️ Risk för konsumenten: höga priser och inget val.',vc:'rgba(255,77,109,.15)',vb:'rgba(255,77,109,.3)'},
+  oli:{title:'👥 Oligopol – Strategisk prissättning',sellers:[{n:'Tele2',p:229,c:'#a855f7'},{n:'Telia',p:239,c:'#9333ea'},{n:'Tre',p:225,c:'#7c3aed'}],max:350,h:'Vad händer i ett oligopol?',t:'Priset är högre än på en frimarknad men lägre än i ett monopol. Företagen håller koll på varandra – om en sänker priset sänker de andra också.',v:'🔶 Begränsad valfrihet – priserna tenderar att ligga nära varandra.',vc:'rgba(168,85,247,.15)',vb:'rgba(168,85,247,.3)'}
+};
+function runSim(type){
+  const d=SD[type];
+  document.getElementById('simTitle').textContent=d.title;
+  document.querySelectorAll('.sbtn').forEach(b=>{b.className='sbtn';});
+  const map={fri:'ag',mono:'ar',oli:'ap'};
+  document.querySelectorAll('.sbtn')[{fri:0,mono:1,oli:2}[type]].classList.add(map[type]);
+  const bars=document.getElementById('simBars'); bars.innerHTML='';
+  d.sellers.forEach(s=>{
+    const pct=Math.round((s.p/d.max)*100);
+    const row=document.createElement('div'); row.className='sbrow';
+    row.innerHTML=`<div class="sbnm">${s.n}</div><div class="sbtrack"><div class="sbfill" style="width:0%;background:${s.c}" data-t="${pct}">${s.p} kr</div></div><div class="sbprlbl" style="color:${s.c}">${s.p} kr</div>`;
+    bars.appendChild(row);
+  });
+  setTimeout(()=>document.querySelectorAll('.sbfill').forEach(e=>e.style.width=e.dataset.t+'%'),50);
+  document.getElementById('simIns').innerHTML=`<h4>${d.h}</h4><p style="font-size:.85rem;color:var(--muted);line-height:1.65;margin-top:.4rem">${d.t}</p><div class="sverd" style="background:${d.vc};border:1px solid ${d.vb}">${d.v}</div>`;
+  if(!simDone){simDone=true;addScore(5,5);}
+}
+
+// ── SORT ──────────────────────────────────────────────────────────────────
+const SI=[
+  {id:'si1',l:'🍕 Restauranger',c:'fri'},{id:'si2',l:'⚡ Elnätet',c:'mono'},{id:'si3',l:'📱 Tele2 & Telia',c:'oli'},
+  {id:'si4',l:'👗 H&M & Zara',c:'fri'},{id:'si5',l:'🍷 Systembolaget',c:'mono'},{id:'si6',l:'🛒 ICA & Coop',c:'oli'},
+  {id:'si7',l:'💅 Frisörer',c:'fri'},{id:'si8',l:'💧 Vattenbolaget',c:'mono'},{id:'si9',l:'✈️ SAS & Norwegian',c:'oli'},
+  {id:'si10',l:'🔨 Hantverkare',c:'fri'},{id:'si11',l:'🚂 Spårinfrastruktur',c:'mono'},{id:'si12',l:'⛽ Preem & Shell',c:'oli'},
+];
+let dragId=null,sortChecked=false;
+function buildSort(){
+  const pool=document.getElementById('spool'); pool.innerHTML='';
+  [...SI].sort(()=>Math.random()-.5).forEach(item=>{
+    const el=document.createElement('div'); el.className='sc'; el.id='sc-'+item.id;
+    el.draggable=true; el.dataset.cat=item.c; el.textContent=item.l;
+    el.addEventListener('dragstart',()=>{dragId=item.id;el.style.opacity='.4';});
+    el.addEventListener('dragend',()=>{el.style.opacity='1';});
+    pool.appendChild(el);
+  });
+  ['fri','mono','oli'].forEach(z=>document.getElementById('drop-'+z).innerHTML='');
+  sortChecked=false; document.getElementById('sortFb').textContent='';
+}
+buildSort();
+function dov(e,z){e.preventDefault();document.getElementById(z).classList.add('over');}
+function dlv(e,z){document.getElementById(z).classList.remove('over');}
+function dp(e,z,cat){
+  e.preventDefault(); document.getElementById(z).classList.remove('over');
+  if(!dragId) return;
+  const card=document.getElementById('sc-'+dragId);
+  if(card){card.style.opacity='1';document.getElementById('drop-'+cat).appendChild(card);}
+  dragId=null;
+}
+function resetSort(){buildSort();sortDone=false;}
+function checkSort(){
+  if(sortChecked) return; sortChecked=true;
+  let correct=0;
+  SI.forEach(item=>{
+    const card=document.getElementById('sc-'+item.id);
+    if(card?.parentElement?.id==='drop-'+item.c){card.classList.add('correct');correct++;}
+    else card?.classList.add('wrong');
+  });
+  const pts=correct*3; addScore(pts,SI.length*3); sortDone=true;
+  document.getElementById('sortFb').innerHTML=correct===SI.length?`<span style="color:var(--green)">🎉 Perfekt! Alla ${correct} rätt! +${pts}p</span>`:`<span style="color:var(--gold)">${correct} av ${SI.length} rätt. +${pts}p. Röda kort är felplacerade.</span>`;
+  document.getElementById('sortSc').textContent='+'+pts+'p';
+}
+
+// ── VOCAB MATCH ───────────────────────────────────────────────────────────
+const VMP=[
+  {term:'Frimarknad',def:'Marknad med många säljare och fri konkurrens'},
+  {term:'Monopol',def:'Ett enda företag dominerar hela marknaden'},
+  {term:'Oligopol',def:'Några få stora företag delar på marknaden'},
+  {term:'Kartell',def:'Olaglig prissamverkan mellan konkurrenter'},
+  {term:'Etableringströskel',def:'Hinder som gör det svårt att ta sig in på en marknad'},
+  {term:'Naturligt monopol',def:'Monopol som uppstår av tekniska eller ekonomiska skäl'},
+  {term:'Utbud',def:'Mängden varor som producenter är villiga att sälja'},
+  {term:'Efterfrågan',def:'Mängden varor som konsumenter vill köpa'},
+];
+let vmSel=null,vmSelType=null,vmMatched=0;
+function buildVocab(){
+  vmSel=null;vmSelType=null;vmMatched=0;
+  document.getElementById('vmScore').textContent='0 / '+VMP.length+' matchade';
+  document.getElementById('vmStatus').textContent='';
+  const terms=[...VMP].sort(()=>Math.random()-.5);
+  const defs=[...VMP].sort(()=>Math.random()-.5);
+  const grid=document.getElementById('vmGrid'); grid.innerHTML='';
+  const L=document.createElement('div'); L.className='vmcol';
+  const R=document.createElement('div'); R.className='vmcol';
+  terms.forEach(p=>{
+    const b=document.createElement('button'); b.className='vmterm'; b.dataset.key=p.term; b.textContent=p.term;
+    b.onclick=()=>selectVM('term',p.term,b); L.appendChild(b);
+  });
+  defs.forEach(p=>{
+    const b=document.createElement('button'); b.className='vmdef'; b.dataset.key=p.term; b.textContent=p.def;
+    b.onclick=()=>selectVM('def',p.term,b); R.appendChild(b);
+  });
+  grid.appendChild(L); grid.appendChild(R);
+}
+function selectVM(type,key,btn){
+  if(btn.classList.contains('hit')) return;
+  if(vmSelType===type){
+    document.querySelectorAll('.vmterm.sel,.vmdef.sel').forEach(e=>e.classList.remove('sel'));
+    vmSel=null; vmSelType=null; btn.classList.add('sel'); vmSel=key; vmSelType=type; return;
+  }
+  if(!vmSel){btn.classList.add('sel');vmSel=key;vmSelType=type;return;}
+  if(vmSel===key){
+    document.querySelectorAll(`[data-key="${key}"]`).forEach(e=>{e.classList.remove('sel');e.classList.add('hit');e.disabled=true;});
+    vmMatched++;vmSel=null;vmSelType=null;
+    document.getElementById('vmScore').textContent=vmMatched+' / '+VMP.length+' matchade';
+    if(vmMatched===VMP.length){
+      document.getElementById('vmStatus').innerHTML='<span style="color:var(--green)">🎉 Alla rätt! Bra jobbat!</span>';
+      if(!vmDone){vmDone=true;addScore(VMP.length*3,VMP.length*3);}
+    }
+  } else {
+    btn.classList.add('bad');
+    const prev=document.querySelector('.vm'+vmSelType+'.sel');
+    if(prev) prev.classList.add('bad');
+    setTimeout(()=>{btn.classList.remove('bad');if(prev) prev.classList.remove('bad');},500);
+    document.querySelectorAll('.vmterm.sel,.vmdef.sel').forEach(e=>e.classList.remove('sel'));
+    vmSel=null;vmSelType=null;
+    document.getElementById('vmStatus').innerHTML='<span style="color:var(--red)">❌ Fel par – försök igen!</span>';
+    setTimeout(()=>document.getElementById('vmStatus').textContent='',1400);
+  }
+}
+function resetVocab(){buildVocab();vmDone=false;}
+buildVocab();
+
+// ── SCENARIOS ─────────────────────────────────────────────────────────────
+const SCEN=[
+  {story:'Stadens enda vattenbolag höjer plötsligt priset på dricksvatten med 40%. Vad kan de göra detta utan att förlora alla sina kunder?',q:'Varför kan vattenbolaget höja priset utan att tappa kunder?',opts:['Vattnet smakar bättre nu','Invånarna måste ha vatten och kan inte byta leverantör','Konkurrenterna höjer också sina priser','Staten subventionerar den nya prissättningen'],a:1,fb:'Rätt! Vattenbolaget är ett naturligt monopol – invånarna kan inte byta leverantör. Monopolister kan höja priserna utan att förlora kunder, vilket är varför staten brukar reglera sådana bolag.'},
+  {story:'Emma äger en pizzeria i stan. Hon märker att hennes konkurrent på andra sidan gatan sänker sitt pizzapris med 10 kr. Dagen efter har hon förlorat hälften av sina kunder.',q:'Vilken marknadsform beskriver restaurangbranschen bäst?',opts:['Monopol – ett enda företag styr marknaden','Oligopol – bara ett fåtal pizzerior finns','Frimarknad – många aktörer, priset avgör allt','Kartell – pizzeriorna samarbetar om priserna'],a:2,fb:'Rätt! Det här är frimarknad. Många pizzerior konkurrerar om samma kunder. När en sänker priset måste de andra hänga med – annars tappar de kunder direkt.'},
+  {story:'De tre mobiloperatörerna Tele2, Telia och Tre höjer alla sina priser med 50 kr/mån under samma vecka. Ingen verkar ha kommunicerat med varandra.',q:'Vad är den troligaste förklaringen?',opts:['Det är en slump att alla höjde samtidigt','Klassiskt oligopolbeteende – de håller koll på varandra och imiterar','De tre bildade en kartell och planerade det','Priserna bestäms av staten'],a:1,fb:'Rätt! I ett oligopol håller företagen konstant koll på varandra. Utan att kommunicera direkt kan de imitera varandras prisbeslut. Det kallas "tyst samordning" och är ett kännetecken för oligopol.'},
+  {story:'Den svenska staten har bestämt att Systembolaget ska ha exklusiv rätt att sälja sprit, vin och stark öl.',q:'Varför har Sverige valt denna marknadsform för alkohol?',opts:['Staten vill tjäna mer pengar','Begränsa alkoholkonsumtionen och skydda folkhälsan','Privata butiker kan inte förvara alkohol säkert','EU kräver alkoholmonopol i alla länder'],a:1,fb:'Rätt! Systembolaget är ett lagstiftat monopol av folkhälsoskäl. Forskning visar att lättillgänglighet ökar konsumtionen. Staten offrar fri marknad för att minska alkoholskadorna i samhället.'},
+  {story:'Preem och Circle K sänker bensinpriset med 30 öre per liter på måndag morgon. Inom tre timmar har Shell och St1 gjort exakt samma sak.',q:'Vad kallas det när oligopolföretag OLOVLIGEN avtalar om att sätta samma pris?',opts:['Fusion','Konkurrens','Kartell','Reglering'],a:2,fb:'Rätt! En kartell är när konkurrenter olovligen avtalar om priser. Det är strikt förbjudet i EU och Sverige. OBS: I scenariot var det lagligt oligopolbeteende – de avtalade inte, de observerade bara varandra.'},
+  {story:'En ny restaurang öppnar i stan och tar hälften av priset jämfört med sina konkurrenter. Inom månader stänger tre andra restauranger.',q:'Vad visar detta om frimarknaden?',opts:['Staten tvingade restaurangerna att stänga','Konsumenterna väljer det billigaste – ineffektiva aktörer slås ut naturligt','Restaurangbranschen är ett oligopol och de stora tryckte bort småföretagen','Den nya restaurangen bildade en kartell med kommunen'],a:1,fb:'Rätt! På en frimarknad slår konkurrens ut ineffektiva aktörer. Det kallas "kreativ förstörelse" – ny och bättre konkurrens driver bort de som inte håller måttet.'},
+  {story:'Du bor i en stad med bara tre matvarubutiker: ICA, Coop och Willys. Alla tre säljer mjölk för nästan exakt 17 kr/liter.',q:'Varför är priset nästan identiskt hos alla tre?',opts:['Staten reglerar mjölkpriset','Det är en slump','I ett oligopol bevakar företagen varandra – ingen tjänar på att prisa sig ur marknaden','De köper mjölken av exakt samma leverantör'],a:2,fb:'Rätt! I ett oligopol bevakar företagen varandras prissättning. Sänker ICA priset tappar Coop kunder. Resultatet blir att alla landar på ungefär samma pris utan att kommunicera.'},
+  {story:'Kalle vill starta ett eget mobiloperatörsföretag och konkurrera med Tele2, Telia och Tre. Han har 200 000 kr i startkapital.',q:'Varför är detta nästan omöjligt för Kalle?',opts:['Lagen förbjuder nya mobiloperatörer','Etableringströskeln är enorm – mobilnät kostar miljarder att bygga','Konsumenter vill inte ha fler val','Staten äger alla mobilnät'],a:1,fb:'Rätt! Oligopol kännetecknas av höga etableringströsklar. Att bygga ett mobilnät med täckning i hela Sverige kostar miljarder. Det är därför bara tre stora aktörer dominerar – och varför det är svårt för Kalle att ta sig in.'},
+];
+let scenIdx=0,scenCorr=0,scenAns=[];
+function buildScen(){
+  scenIdx=0;scenCorr=0;scenAns=[];
+  const bar=document.getElementById('scenBar'); bar.innerHTML='';
+  SCEN.forEach((_,i)=>{const p=document.createElement('div');p.className='scenp';p.id='sp'+i;bar.appendChild(p);});
+  renderScen();
+}
+function renderScen(){
+  if(scenIdx>=SCEN.length){showScenResult();return;}
+  SCEN.forEach((_,i)=>{document.getElementById('sp'+i).className='scenp'+(scenAns[i]===true?' done':scenAns[i]===false?' bad':i===scenIdx?' cur':'');});
+  const s=SCEN[scenIdx];
+  document.getElementById('scenCard').innerHTML=`
+    <div class="scenbar" id="scenBar2"></div>
+    <div class="scenprog">Scenario ${scenIdx+1} av ${SCEN.length}</div>
+    <div class="scenstory">${s.story}</div>
+    <div class="scenq">❓ ${s.q}</div>
+    <div class="scenopts">${s.opts.map((o,i)=>`<button class="scenopt" onclick="answerScen(${i})">${o}</button>`).join('')}</div>
+    <div class="scenfb" id="scenfb"></div>
+    <div style="margin-top:1rem"><button class="btn btno" id="scennxt" onclick="nextScen()" style="display:none">Nästa scenario →</button></div>
+  `;
+}
+function answerScen(i){
+  const s=SCEN[scenIdx];
+  document.querySelectorAll('.scenopt').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('scenfb');
+  if(i===s.a){document.querySelectorAll('.scenopt')[i].classList.add('correct');scenCorr++;scenAns[scenIdx]=true;fb.textContent='✅ '+s.fb;fb.className='scenfb show ok';}
+  else{document.querySelectorAll('.scenopt')[i].classList.add('wrong');document.querySelectorAll('.scenopt')[s.a].classList.add('correct');scenAns[scenIdx]=false;fb.textContent='❌ '+s.fb;fb.className='scenfb show bad';}
+  document.getElementById('scennxt').style.display='inline-block';
+  SCEN.forEach((_,i)=>{document.getElementById('sp'+i).className='scenp'+(scenAns[i]===true?' done':scenAns[i]===false?' bad':i===scenIdx?' cur':'');});
+}
+function nextScen(){scenIdx++;renderScen();}
+function showScenResult(){
+  scenDone=true;
+  const pts=scenCorr*5;addScore(pts,SCEN.length*5);
+  const pct=Math.round(scenCorr/SCEN.length*100);
+  document.getElementById('scenCard').innerHTML=`<div style="text-align:center;padding:2rem 1rem"><div style="font-family:var(--font-d);font-size:3.5rem;font-weight:800;color:${pct>=75?'var(--green)':pct>=50?'var(--gold)':'var(--red)'}">${scenCorr}/${SCEN.length}</div><p style="color:var(--muted);margin-top:.5rem">${pct>=75?'🌟 Utmärkt ekonomiskt tänkande!':pct>=50?'👍 Bra! Läs igenom scenarierna igen.':'📖 Fortsätt öva!'}</p><p style="color:var(--gold);margin-top:.3rem">+${pts} poäng</p><button class="btn btno" onclick="buildScen();scenDone=false;" style="margin-top:1.2rem">↩ Försök igen</button></div>`;
+}
+buildScen();
+
+// ── QUIZ ──────────────────────────────────────────────────────────────────
+// Answer distribution: A(0)=Q1,Q5 · B(1)=Q2,Q7,Q10 · C(2)=Q3,Q6,Q9 · D(3)=Q4,Q8
+const QQ=[
+  {q:'Vilket av dessa bäst beskriver en frimarknad?',opts:['En marknad reglerad av staten','En marknad där ett enda företag bestämmer priset','En marknad med många säljare och fri konkurrens','En marknad med bara några få dominerande aktörer'],a:2,exp:'Frimarknad = många säljare, fri konkurrens och priset styrs av utbud och efterfrågan.'},
+  {q:'Systembolaget är ett exempel på vilken marknadsform?',opts:['Frimarknad','Statligt monopol','Oligopol','Kartell'],a:1,exp:'Systembolaget är ett lagstiftat statligt monopol – de har exklusiv rätt att sälja alkohol starkare än 3,5% i Sverige.'},
+  {q:'Vad kallas det när ett fåtal stora företag dominerar en hel marknad?',opts:['Frimarknad','Monopol','Oligopol','Duopol'],a:2,exp:'Oligopol = ett fåtal (2–5) stora aktörer delar på marknaden och bevakar varandra.'},
+  {q:'Vad innebär begreppet "kartell"?',opts:['Stark konkurrens mellan företag','Statligt ägande av ett bolag','Fri prissättning på öppen marknad','Olaglig prissamverkan mellan konkurrenter'],a:3,exp:'En kartell = olaglig prissamverkan. Förbjudet i Sverige och EU. Konkurrensverket kan ge enorma böter.'},
+  {q:'Vad händer typiskt med prisnivån på en frimarknad jämfört med ett monopol?',opts:['Frimarknaden har lägre priser tack vare konkurrens','Monopol har alltid lägre priser','Priserna är identiska i båda fallen','Det beror enbart på statens reglering'],a:0,exp:'Konkurrens på en frimarknad pressar ner priserna. Monopolister saknar konkurrens och kan ta ut mer betalt.'},
+  {q:'Elnätet kallas ett "naturligt monopol" därför att...',opts:['Staten vill tjäna pengar på el','Det är billigast och mest effektivt att ha ett enda elnät','El är för farlig för privata bolag','EU kräver att elnät är statliga'],a:1,exp:'Naturligt monopol = det är mest effektivt att ha en enda leverantör. Dubbla elnät i samma stad vore ekonomiskt orimligt.'},
+  {q:'Vilket begrepp beskriver hinder som gör det svårt för nya företag att ta sig in på en marknad?',opts:['Konkurrensfördel','Prisreglering','Etableringströskel','Marknadsandel'],a:2,exp:'Etableringströskel = de hinder (kapital, varumärke, stordrift) som gör det svårt att etablera sig. Vanligt i oligopol.'},
+  {q:'Vem bestämmer priset i ett monopol?',opts:['Konsumenterna via sina köpval','Det enda dominerande företaget självt','Marknaden via utbud och efterfrågan','Konkurrensverket sätter taket'],a:1,exp:'I ett monopol sätter det enda företaget priset utan press från konkurrenter – vilket kan leda till höga priser.'},
+  {q:'Tele2, Telia och Tre dominerar den svenska mobilmarknaden. Vilken marknadsform är detta?',opts:['Frimarknad','Naturligt monopol','Oligopol','Statligt monopol'],a:2,exp:'Tre dominerande aktörer med liknande priser = oligopol. De bevakar ständigt varandras erbjudanden.'},
+  {q:'Adam Smiths "osynliga hand" syftar på att...',opts:['Centralbanken styr ekonomin i hemlighet','Staten måste planera all ekonomisk aktivitet','Monopol alltid leder till det bästa resultatet','Individers egoistiska agerande på en fri marknad gynnar samhället som helhet'],a:3,exp:'Smith menade att fria marknader reglerar sig själva – när folk söker sin vinst leder det ändå till att samhället gynnas, som om en osynlig hand styr.'},
+];
+let qIdx=0,qScore=0,qAns=[];
+function buildQuiz(){qIdx=0;qScore=0;qAns=[];renderQ();renderQProg();}
+function renderQProg(){
+  const p=document.getElementById('qprog'); p.innerHTML='';
+  QQ.forEach((_,i)=>{const d=document.createElement('div');d.className='qdot'+(i===qIdx?' active':qAns[i]===true?' done':qAns[i]===false?' wrong':'');p.appendChild(d);});
+}
+function renderQ(){
+  if(qIdx>=QQ.length){showQResult();return;}
+  const q=QQ[qIdx];
+  document.getElementById('qcon').innerHTML=`
+    <div class="qq">${qIdx+1}. ${q.q}</div>
+    <div class="qopts">${q.opts.map((o,i)=>`<button class="qopt" onclick="answerQ(${i})">${['A','B','C','D'][i]}. ${o}</button>`).join('')}</div>
+    <div class="qfb" id="qfb"></div>
+    <div class="qnav"><span style="color:var(--muted);font-size:.78rem">Fråga ${qIdx+1} av ${QQ.length}</span><button class="btn btno" id="qnxt" onclick="nextQ()" style="display:none">Nästa →</button></div>
+  `;
+}
+function answerQ(i){
+  const q=QQ[qIdx];
+  document.querySelectorAll('.qopt').forEach(b=>b.disabled=true);
+  const fb=document.getElementById('qfb');
+  if(i===q.a){document.querySelectorAll('.qopt')[i].classList.add('correct');qScore++;qAns[qIdx]=true;fb.textContent='✅ Rätt! '+q.exp;fb.className='qfb show ok';}
+  else{document.querySelectorAll('.qopt')[i].classList.add('wrong');document.querySelectorAll('.qopt')[q.a].classList.add('correct');qAns[qIdx]=false;fb.textContent='❌ Fel. '+q.exp;fb.className='qfb show bad';}
+  document.getElementById('qnxt').style.display='inline-block'; renderQProg();
+}
+function nextQ(){qIdx++;renderQ();renderQProg();}
+function showQResult(){
+  quizDone=true;
+  const pts=qScore*5;addScore(pts,QQ.length*5);
+  const pct=Math.round(qScore/QQ.length*100);
+  document.getElementById('qcon').innerHTML=`<div class="qresult"><div class="qbig" style="color:${pct>=80?'var(--green)':pct>=60?'var(--gold)':'var(--red)'}">${qScore}/${QQ.length}</div><p>${pct>=80?'🌟 Utmärkt!':pct>=60?'👍 Bra jobbat!':'📖 Fortsätt öva!'}</p><p style="color:var(--gold);margin-top:.3rem">+${pts} poäng</p><button class="btn btno" onclick="buildQuiz()" style="margin-top:1.4rem">↩ Försök igen</button></div>`;
+}
+buildQuiz();
+
+// ── TRUE FALSE ─────────────────────────────────────────────────────────────
+const TFQ=[
+  {s:'I ett monopol sätts priset av utbud och efterfrågan.',a:false,exp:'Nej – i ett monopol sätter det enda företaget priset självt, utan konkurrens.'},
+  {s:'Systembolaget är ett exempel på ett statligt monopol i Sverige.',a:true,exp:'Ja! Systembolaget har laglig ensamrätt att sälja alkohol starkare än 3,5%.'},
+  {s:'På en frimarknad kan vem som helst starta ett nytt företag.',a:true,exp:'Ja! Fri in- och utträde är ett grundkännetecken för frimarknaden.'},
+  {s:'I ett oligopol finns det bara ett enda dominerande företag.',a:false,exp:'Nej – i ett oligopol finns det 2–5 dominerande företag, inte ett.'},
+  {s:'Kartellbildning är tillåtet inom EU om alla berörda företag godkänner det.',a:false,exp:'Nej! Karteller är olagliga i Sverige och inom EU oavsett om alla parter godkänner.'},
+  {s:'Elnätet är ett klassiskt exempel på ett naturligt monopol.',a:true,exp:'Ja! Det är effektivast att ha ett elnät – dubbla nät vore ekonomiskt slöseri.'},
+  {s:'Konkurrens på en frimarknad leder typiskt till att priserna pressas nedåt.',a:true,exp:'Ja! Konkurrens tvingar företag att hålla priserna nere för att inte förlora kunder.'},
+  {s:'Preem och Shell är exempel på oligopol inom bensinbranschen.',a:true,exp:'Ja! Ett fåtal stora aktörer delar bensinmarknaden – ett typiskt oligopol.'},
+  {s:'I ett monopol har konsumenten många alternativ att välja bland.',a:false,exp:'Nej – i ett monopol finns bara en säljare, alltså inget val för konsumenten.'},
+  {s:'Adam Smith myntade begreppet "den osynliga handen" för att beskriva hur fria marknader reglerar sig själva.',a:true,exp:'Ja! Adam Smith beskrev hur individers egoistiska agerande på en fri marknad gynnar samhället som helhet.'},
+];
+let tfIdx=0,tfCorr=0;
+function buildTF(){
+  tfIdx=0;tfCorr=0;
+  const t=document.getElementById('tftrkr'); t.innerHTML='';
+  TFQ.forEach((_,i)=>{const p=document.createElement('div');p.className='tfpip';p.id='tp'+i;t.appendChild(p);});
+  renderTF();
+}
+function renderTF(){
+  if(tfIdx>=TFQ.length){showTFResult();return;}
+  document.getElementById('tfstmt').textContent=TFQ[tfIdx].s;
+  document.getElementById('tfres').textContent='';document.getElementById('tfres').style.color='';
+  document.getElementById('tfnxt').style.display='none';
+  document.querySelectorAll('.tfbtn').forEach(b=>b.disabled=false);
+}
+function answerTF(ans){
+  const q=TFQ[tfIdx];
+  document.querySelectorAll('.tfbtn').forEach(b=>b.disabled=true);
+  const res=document.getElementById('tfres'),pip=document.getElementById('tp'+tfIdx);
+  if(ans===q.a){tfCorr++;res.textContent='✅ Rätt! '+q.exp;res.style.color='var(--green)';pip.classList.add('correct');}
+  else{res.textContent='❌ Fel. '+q.exp;res.style.color='var(--red)';pip.classList.add('wrong');}
+  document.getElementById('tfnxt').style.display='inline-block';
+  tfIdx++;
+}
+function nextTF(){renderTF();}
+function showTFResult(){
+  tfDone=true;
+  const pts=tfCorr*4;addScore(pts,TFQ.length*4);
+  document.getElementById('tfcard').style.display='none';
+  document.getElementById('tffin').style.display='block';
+  document.getElementById('tffinsc').textContent=tfCorr+'/'+TFQ.length+' rätt – +'+pts+' poäng';
+  document.getElementById('tffinmsg').textContent=tfCorr>=8?'🌟 Imponerande!':tfCorr>=6?'👍 Bra! Lite mer träning.':'📖 Läs ordlistan och försök igen!';
+}
+function resetTF(){tfIdx=0;tfCorr=0;tfDone=false;document.getElementById('tfcard').style.display='block';document.getElementById('tffin').style.display='none';buildTF();}
+buildTF();
+</script>
+</body>
+</html>
