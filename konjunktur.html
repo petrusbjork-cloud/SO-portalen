@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Konjunktur | SO med Petrus</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&family=IBM+Plex+Mono:wght@400;600&family=Source+Sans+3:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#040c18;--surface:#091525;--surface2:#0d1e35;--border:#1a3554;
+  --green:#00ff88;--greendim:#00cc6a;--amber:#ffb800;--blue:#4fc3f7;
+  --red:#ff4055;--white:#e8f4ff;--text:#b8d0e8;--dim:#5a7899;
+  --fd:'Orbitron',monospace;--fh:'Rajdhani',sans-serif;--fm:'IBM Plex Mono',monospace;--fb:'Source Sans 3',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);background-image:radial-gradient(rgba(0,255,136,.06) 1px,transparent 1px);background-size:28px 28px;color:var(--text);font-family:var(--fb);font-size:16px;line-height:1.7;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,.08) 3px,rgba(0,0,0,.08) 4px);pointer-events:none;z-index:9999}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:500;background:rgba(4,12,24,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-brand{font-family:var(--fd);font-size:.65rem;color:var(--green);letter-spacing:.1em;text-decoration:none;opacity:.7;transition:opacity .2s}
+.nav-brand:hover{opacity:1}
+.nav-title{font-family:var(--fd);font-size:.7rem;color:var(--white);letter-spacing:.15em}
+.nav-links{display:flex;gap:1.2rem;list-style:none}
+.nav-links a{font-family:var(--fm);font-size:.65rem;color:var(--dim);text-decoration:none;letter-spacing:.05em;transition:color .2s}
+.nav-links a:hover{color:var(--green)}
+@media(max-width:600px){.nav-links{display:none}}
+
+/* HERO */
+#hero{position:relative;min-height:480px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:4rem 1.5rem 3rem}
+#waveCanvas{position:absolute;inset:0;width:100%;height:100%;opacity:.7}
+.hero-content{position:relative;z-index:2}
+.hero-tag{font-family:var(--fm);font-size:.7rem;color:var(--green);letter-spacing:.3em;text-transform:uppercase;margin-bottom:1rem;opacity:.8}
+.hero-title{font-family:var(--fd);font-size:clamp(2.8rem,8vw,6rem);font-weight:900;color:var(--white);line-height:1;letter-spacing:.05em;text-shadow:0 0 30px rgba(0,255,136,.5),0 0 80px rgba(0,255,136,.2);margin-bottom:.8rem}
+.hero-title span{color:var(--green)}
+.hero-sub{font-family:var(--fh);font-size:1.15rem;color:var(--text);max-width:600px;font-weight:500;letter-spacing:.03em}
+.hero-badges{display:flex;gap:.8rem;justify-content:center;margin-top:1.8rem;flex-wrap:wrap}
+.badge{font-family:var(--fm);font-size:.65rem;letter-spacing:.12em;padding:.35rem .9rem;border-radius:2px;border:1px solid;text-transform:uppercase}
+.badge-g{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.08)}
+.badge-a{border-color:var(--amber);color:var(--amber);background:rgba(255,184,0,.08)}
+.badge-b{border-color:var(--blue);color:var(--blue);background:rgba(79,195,247,.08)}
+
+/* SECTIONS */
+.section{padding:4rem 1.5rem;max-width:1100px;margin:0 auto}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 1.5rem}
+.sec-tag{font-family:var(--fm);font-size:.65rem;color:var(--green);letter-spacing:.25em;text-transform:uppercase;display:block;margin-bottom:.5rem}
+.sec-title{font-family:var(--fd);font-size:clamp(1.4rem,4vw,2.2rem);font-weight:700;color:var(--white);letter-spacing:.05em;line-height:1.2;margin-bottom:2.5rem}
+
+/* CONCEPT CARDS */
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem}
+.cc{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;cursor:pointer;transition:border-color .3s,transform .2s}
+.cc:hover{border-color:var(--greendim);transform:translateY(-3px)}
+.cc-head{display:flex;align-items:center;justify-content:space-between;padding:1.2rem 1.5rem;gap:1rem}
+.cc-icon{font-size:1.8rem;line-height:1}
+.cc-name{font-family:var(--fh);font-size:1.2rem;font-weight:700;color:var(--white);flex:1}
+.cc-tog{font-family:var(--fm);font-size:1.2rem;color:var(--dim);transition:transform .3s,color .3s}
+.cc.open .cc-tog{transform:rotate(45deg);color:var(--green)}
+.cc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 1.5rem}
+.cc.open .cc-body{max-height:400px;padding-bottom:1.5rem}
+.cc-body p{color:var(--text);font-size:.95rem;line-height:1.7}
+
+/* BAROMETER */
+.baro-wrap{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2rem}
+.baro-row{display:flex;align-items:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.baro-lbl{font-family:var(--fm);font-size:.7rem;font-weight:600;letter-spacing:.1em;min-width:120px;text-align:center}
+#econSlider{-webkit-appearance:none;appearance:none;flex:1;height:6px;background:linear-gradient(90deg,var(--red),var(--amber) 50%,var(--green));border-radius:3px;outline:none;cursor:pointer;min-width:200px}
+#econSlider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--white);border:3px solid var(--amber);box-shadow:0 0 12px rgba(255,184,0,.6);cursor:grab;transition:box-shadow .2s}
+.baro-state{font-family:var(--fd);font-size:.9rem;font-weight:700;text-align:center;margin-bottom:1.5rem;letter-spacing:.1em;transition:color .4s}
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+.ind-card{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:1rem 1.2rem}
+.ind-lbl{font-family:var(--fm);font-size:.62rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
+.ind-val{font-family:var(--fd);font-size:1.5rem;font-weight:700;margin-bottom:.5rem;transition:color .4s}
+.ind-track{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.ind-fill{height:100%;border-radius:2px;transition:width .5s ease,background-color .5s}
+.ind-dir{font-family:var(--fm);font-size:.65rem;margin-top:.4rem;transition:color .4s}
+
+/* DOMINO */
+.dom-wrap{background:#020810;border:1px solid var(--border);border-radius:6px;overflow:hidden;position:relative}
+.dom-bar{display:flex;align-items:center;gap:.8rem;padding:.9rem 1.5rem;border-bottom:1px solid rgba(255,64,85,.15);background:rgba(255,64,85,.04);flex-wrap:wrap}
+.dom-btn{font-family:var(--fd);font-size:.65rem;font-weight:700;letter-spacing:.12em;padding:.5rem 1.3rem;border-radius:2px;cursor:pointer;border:1px solid;background:transparent;transition:all .2s}
+.dom-btn-go{border-color:var(--red);color:var(--red)}
+.dom-btn-go:hover:not(:disabled){background:rgba(255,64,85,.15);box-shadow:0 0 16px rgba(255,64,85,.4)}
+.dom-btn-go:disabled{opacity:.3;cursor:default}
+.dom-btn-rst{border-color:var(--dim);color:var(--dim)}
+.dom-btn-rst:hover{border-color:var(--blue);color:var(--blue)}
+.dom-speed{display:flex;align-items:center;gap:.5rem;font-family:var(--fm);font-size:.62rem;color:var(--dim)}
+.dom-speed input{width:80px;-webkit-appearance:none;height:4px;background:var(--surface2);border-radius:2px;outline:none;cursor:pointer}
+.dom-speed input::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:var(--amber)}
+.dom-cycle{font-family:var(--fd);font-size:.75rem;color:var(--amber);letter-spacing:.1em;margin-left:auto}
+.dom-info{padding:.8rem 1.5rem;border-top:1px solid rgba(255,64,85,.15);min-height:56px;display:flex;align-items:center;gap:1rem;background:rgba(0,0,0,.3)}
+.dom-info-num{font-family:var(--fd);font-size:1.8rem;font-weight:900;color:var(--red);opacity:.5;line-height:1;min-width:32px}
+.dom-info-text{font-family:var(--fh);font-size:1rem;font-weight:600;color:var(--white)}
+.dom-info-desc{font-family:var(--fb);font-size:.85rem;color:var(--text);font-style:italic;opacity:.7}
+
+/* INFLATION CALC */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+@media(max-width:640px){.calc-grid{grid-template-columns:1fr}}
+.calc-in{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.8rem;display:flex;flex-direction:column;gap:1.5rem}
+.calc-in label{display:block;font-family:var(--fm);font-size:.65rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem}
+.calc-in input[type="number"]{width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--white);font-family:var(--fd);font-size:1.2rem;font-weight:700;padding:.6rem .9rem;border-radius:3px;outline:none;transition:border-color .2s}
+.calc-in input[type="number"]:focus{border-color:var(--green)}
+.calc-slval{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--amber)}
+.rng{-webkit-appearance:none;appearance:none;width:100%;height:5px;border-radius:3px;background:var(--surface2);outline:none;cursor:pointer}
+.rng::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px rgba(255,184,0,.5);cursor:grab}
+.calc-out{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1.8rem;display:flex;flex-direction:column;justify-content:center;gap:1.5rem}
+.calc-row{border-bottom:1px solid var(--border);padding-bottom:1rem}
+.calc-row:last-child{border:none;padding:0}
+.calc-row-lbl{font-family:var(--fm);font-size:.62rem;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.3rem}
+.calc-row-val{font-family:var(--fd);font-size:2rem;font-weight:700;color:var(--amber);text-shadow:0 0 20px rgba(255,184,0,.5)}
+.calc-verdict{font-family:var(--fh);font-size:.95rem;color:var(--text);line-height:1.5;font-style:italic}
+
+/* QUIZ */
+.quiz-prog{display:flex;gap:4px;margin-bottom:2rem}
+.qdot{height:4px;flex:1;background:var(--surface2);border-radius:2px;transition:background .3s}
+.qdot.done{background:var(--green)}
+.qdot.cur{background:var(--amber)}
+.qcard{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:2rem;animation:fadeq .3s ease}
+@keyframes fadeq{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.qctr{font-family:var(--fm);font-size:.65rem;color:var(--dim);letter-spacing:.15em;margin-bottom:1rem}
+.qtext{font-family:var(--fh);font-size:1.2rem;font-weight:600;color:var(--white);margin-bottom:1.5rem;line-height:1.5}
+.qopts{display:flex;flex-direction:column;gap:.7rem}
+.qopt{display:flex;align-items:center;gap:1rem;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:.85rem 1.2rem;cursor:pointer;transition:all .2s;text-align:left;width:100%}
+.qopt:hover:not(.disabled){border-color:var(--blue);background:rgba(79,195,247,.06)}
+.qopt.correct{border-color:var(--green);background:rgba(0,255,136,.1)}
+.qopt.wrong{border-color:var(--red);background:rgba(255,64,85,.1)}
+.qopt.disabled{cursor:default}
+.qltr{font-family:var(--fd);font-size:.75rem;font-weight:700;width:28px;height:28px;border-radius:2px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05);color:var(--dim);flex-shrink:0;transition:all .2s}
+.qopt.correct .qltr{background:var(--green);color:var(--bg)}
+.qopt.wrong .qltr{background:var(--red);color:var(--white)}
+.qopttext{font-family:var(--fb);font-size:.95rem;color:var(--text)}
+.qfb{margin-top:1rem;padding:.8rem 1.2rem;border-radius:3px;font-family:var(--fh);font-size:.95rem;font-weight:600;display:none}
+.qfb.show{display:block}
+.qfb.ok{background:rgba(0,255,136,.1);color:var(--green);border:1px solid var(--green)}
+.qfb.bad{background:rgba(255,64,85,.1);color:var(--red);border:1px solid var(--red)}
+.qnext{margin-top:1.2rem;display:none;background:var(--green);color:var(--bg);border:none;padding:.7rem 2rem;font-family:var(--fd);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:box-shadow .2s}
+.qnext:hover{box-shadow:0 0 20px rgba(0,255,136,.5)}
+.qnext.show{display:inline-block}
+.qresult{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:3rem 2rem;text-align:center;display:none}
+.qresult.show{display:block;animation:fadeq .4s ease}
+.qscore-big{font-family:var(--fd);font-size:4rem;font-weight:900;color:var(--green);text-shadow:0 0 30px rgba(0,255,136,.7);margin:.5rem 0}
+.qscore-lbl{font-family:var(--fm);font-size:.7rem;color:var(--dim);letter-spacing:.2em}
+.qscore-msg{font-family:var(--fh);font-size:1.1rem;color:var(--text);margin:1rem 0 2rem}
+.btn-retry{background:transparent;color:var(--green);border:1px solid var(--green);padding:.7rem 2rem;font-family:var(--fd);font-size:.7rem;font-weight:700;letter-spacing:.12em;cursor:pointer;border-radius:2px;transition:all .2s}
+.btn-retry:hover{background:rgba(0,255,136,.1);box-shadow:0 0 16px rgba(0,255,136,.3)}
+
+/* SANT ELLER FALSKT */
+.tf-list{display:flex;flex-direction:column;gap:.8rem}
+.tf-item{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:.7rem}
+.tf-q{font-family:var(--fh);font-size:1rem;font-weight:600;color:var(--text)}
+.tf-btns{display:flex;gap:.6rem}
+.tf-btn{font-family:var(--fd);font-size:.62rem;font-weight:700;letter-spacing:.1em;padding:.45rem 1.2rem;border-radius:2px;cursor:pointer;border:1px solid;transition:all .2s;background:transparent}
+.tf-btn.sant{border-color:var(--green);color:var(--green)}
+.tf-btn.falskt{border-color:var(--red);color:var(--red)}
+.tf-btn.sant:hover:not(:disabled){background:rgba(0,255,136,.1)}
+.tf-btn.falskt:hover:not(:disabled){background:rgba(255,64,85,.1)}
+.tf-btn.correct{background:var(--green)!important;color:var(--bg)!important}
+.tf-btn.wrong-ans{background:var(--red)!important;color:var(--white)!important}
+.tf-btn:disabled{cursor:default;opacity:.7}
+.tf-exp{font-family:var(--fb);font-size:.88rem;color:var(--dim);font-style:italic;display:none;border-top:1px solid var(--border);padding-top:.6rem}
+.tf-exp.show{display:block}
+.tf-score-row{margin-top:1.5rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.tf-score{font-family:var(--fd);font-size:1rem;color:var(--green);letter-spacing:.1em}
+.btn-sm{font-family:var(--fd);font-size:.62rem;letter-spacing:.1em;padding:.45rem 1.2rem;border-radius:2px;cursor:pointer;border:1px solid var(--dim);color:var(--dim);background:transparent;transition:all .2s}
+.btn-sm:hover{border-color:var(--amber);color:var(--amber)}
+
+/* MATCHING */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:600px){.match-grid{grid-template-columns:1fr}}
+.match-col-ttl{font-family:var(--fm);font-size:.62rem;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.8rem}
+.match-items{display:flex;flex-direction:column;gap:.6rem}
+.mchip{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:.75rem 1rem;cursor:pointer;transition:all .25s;font-family:var(--fh);font-size:.95rem;font-weight:600;color:var(--text);user-select:none}
+.mchip:hover:not(.matched):not(.disabled){border-color:var(--blue);color:var(--white)}
+.mchip.selected{border-color:var(--amber);color:var(--amber);background:rgba(255,184,0,.08);box-shadow:0 0 12px rgba(255,184,0,.2)}
+.mchip.matched{border-color:var(--green);color:var(--green);background:rgba(0,255,136,.08);cursor:default}
+.mchip.wrong-flash{border-color:var(--red);color:var(--red);background:rgba(255,64,85,.1)}
+
+/* SORTING */
+.sort-list{display:flex;flex-direction:column;gap:.6rem;max-width:600px}
+.sort-item{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:1rem 1.2rem;display:flex;align-items:center;gap:1rem;cursor:grab;user-select:none;transition:all .2s}
+.sort-item:active{cursor:grabbing}
+.sort-item.dragging{opacity:.4;border-style:dashed}
+.sort-item.drag-over{border-color:var(--amber);background:rgba(255,184,0,.06);transform:translateY(-2px)}
+.sort-item.correct-pos{border-color:var(--green);background:rgba(0,255,136,.06);cursor:default}
+.sort-item.wrong-pos{border-color:var(--red);background:rgba(255,64,85,.06)}
+.sort-handle{color:var(--dim);font-size:1rem;flex-shrink:0}
+.sort-text{font-family:var(--fh);font-size:.95rem;font-weight:600;color:var(--text);flex:1}
+.sort-badge{font-family:var(--fd);font-size:.65rem;width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.06);color:var(--dim);flex-shrink:0;transition:all .3s}
+.sort-item.correct-pos .sort-badge{background:var(--green);color:var(--bg)}
+.sort-item.wrong-pos .sort-badge{background:var(--red);color:var(--white)}
+.sort-actions{display:flex;gap:.8rem;margin-top:1.2rem;flex-wrap:wrap}
+.btn-primary{background:var(--green);color:var(--bg);border:none;padding:.7rem 2rem;font-family:var(--fd);font-size:.7rem;font-weight:700;letter-spacing:.12em;cursor:pointer;border-radius:2px;transition:box-shadow .2s}
+.btn-primary:hover{box-shadow:0 0 20px rgba(0,255,136,.5)}
+.btn-secondary{background:transparent;color:var(--dim);border:1px solid var(--border);padding:.7rem 2rem;font-family:var(--fd);font-size:.7rem;letter-spacing:.12em;cursor:pointer;border-radius:2px;transition:all .2s}
+.btn-secondary:hover{border-color:var(--amber);color:var(--amber)}
+.sort-fb{margin-top:.8rem;font-family:var(--fh);font-size:.95rem;font-weight:600;display:none}
+.sort-fb.show{display:block}
+.sort-fb.all-ok{color:var(--green)}
+.sort-fb.partial{color:var(--amber)}
+
+/* FLASHCARDS */
+.fc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.2rem}
+.fc-wrap{perspective:800px;height:160px;cursor:pointer}
+.fc{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1)}
+.fc-wrap.flipped .fc{transform:rotateY(180deg)}
+.fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:4px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem;text-align:center;border:1px solid var(--border)}
+.fc-front{background:var(--surface);border-color:var(--greendim)}
+.fc-back{background:var(--surface2);transform:rotateY(180deg);border-color:var(--amber)}
+.fc-hint{font-family:var(--fm);font-size:.55rem;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.5rem}
+.fc-term{font-family:var(--fh);font-size:1.2rem;font-weight:700;color:var(--green)}
+.fc-def{font-family:var(--fb);font-size:.85rem;color:var(--text);line-height:1.5}
+
+footer{border-top:1px solid var(--border);padding:2rem 1.5rem;text-align:center;font-family:var(--fm);font-size:.65rem;color:var(--dim);letter-spacing:.1em}
+footer span{color:var(--green)}
+
+.inst{font-family:var(--fm);font-size:.72rem;color:var(--dim);margin-bottom:1.5rem;letter-spacing:.05em}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">← SO MED PETRUS</a>
+  <span class="nav-title">KONJUNKTUR</span>
+  <ul class="nav-links">
+    <li><a href="#begrepp">Begrepp</a></li>
+    <li><a href="#barometern">Barometer</a></li>
+    <li><a href="#onda">Onda cirkeln</a></li>
+    <li><a href="#kalkylator">Kalkylator</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <canvas id="waveCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-tag">// Samhällsekonomi · Kapitel 7</div>
+    <h1 class="hero-title"><span>KONJUNK</span>TUR</h1>
+    <p class="hero-sub">Ekonomin rör sig i vågor — lär dig förstå vad som händer när det svänger</p>
+    <div class="hero-badges">
+      <span class="badge badge-g">Högkonjunktur</span>
+      <span class="badge badge-a">Inflation</span>
+      <span class="badge badge-b">Lågkonjunktur</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BEGREPP -->
+<section class="section" id="begrepp">
+  <span class="sec-tag">// 01 — Nyckelbegrepp</span>
+  <h2 class="sec-title">Klicka för att utforska</h2>
+  <div class="concept-grid">
+    <div class="cc" onclick="toggleCC(this)">
+      <div class="cc-head"><span class="cc-icon">📈</span><span class="cc-name" style="color:var(--blue)">Konjunktur</span><span class="cc-tog">+</span></div>
+      <div class="cc-body"><p>Samhällsekonomin förändras ständigt – ibland goda tider, ibland sämre. Dessa svängningar kallas <strong>konjunkturer</strong> och beskrivs som en vågrörelse. Ekonomin är global och alla länder påverkar varandra.</p></div>
+    </div>
+    <div class="cc" onclick="toggleCC(this)">
+      <div class="cc-head"><span class="cc-icon">🚀</span><span class="cc-name" style="color:var(--green)">Högkonjunktur</span><span class="cc-tog">+</span></div>
+      <div class="cc-body"><p>Under högkonjunkturer är efterfrågan stor. Företag säljer allt och produktionen går på högvarv. BNP ökar, arbetslösheten är låg och staten får in mycket skatt. Hushållen konsumerar mer — köper saker, åker på semester, flyttar till större bostäder.</p></div>
+    </div>
+    <div class="cc" onclick="toggleCC(this)">
+      <div class="cc-head"><span class="cc-icon">💸</span><span class="cc-name" style="color:var(--amber)">Inflation</span><span class="cc-tog">+</span></div>
+      <div class="cc-body"><p><strong>Inflation</strong> = att den allmänna prisnivån höjs — pengar blir mindre värda. Under högkonjunktur leder ökad efterfrågan till att producenter höjer priserna. Hög inflation skapar oro och gör svenska varor svårare att sälja globalt.</p></div>
+    </div>
+    <div class="cc" onclick="toggleCC(this)">
+      <div class="cc-head"><span class="cc-icon">📉</span><span class="cc-name" style="color:var(--red)">Lågkonjunktur</span><span class="cc-tog">+</span></div>
+      <div class="cc-body"><p>Under lågkonjunkturer sjunker efterfrågan. Företag drar ned produktionen, säger upp personal → en <em>ond cirkel</em> skapas. BNP sjunker. Staten drabbas: lägre skatteintäkter men högre bidragskostnader.</p></div>
+    </div>
+    <div class="cc" onclick="toggleCC(this)">
+      <div class="cc-head"><span class="cc-icon">📊</span><span class="cc-name" style="color:var(--amber)">BNP</span><span class="cc-tog">+</span></div>
+      <div class="cc-body"><p><strong>BNP</strong> (Bruttonationalprodukt) är det samlade värdet av alla varor och tjänster ett land producerar under ett år. Det stiger i högkonjunktur och sjunker i lågkonjunktur.</p></div>
+    </div>
+    <div class="cc" onclick="toggleCC(this)">
+      <div class="cc-head"><span class="cc-icon">⚖️</span><span class="cc-name">Utbud & Efterfrågan</span><span class="cc-tog">+</span></div>
+      <div class="cc-body"><p>Priset på varor bestäms av <strong>utbud och efterfrågan</strong>. Ju fler som vill köpa en vara, desto mer kan producenten ta betalt. Under högkonjunktur driver hög efterfrågan upp priserna — vilket kan ge inflation.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BAROMETER -->
+<section class="section" id="barometern">
+  <span class="sec-tag">// 02 — Interaktiv</span>
+  <h2 class="sec-title">Ekonomibarometern</h2>
+  <p class="inst">Dra reglaget och se hur ekonomin förändras →</p>
+  <div class="baro-wrap">
+    <div class="baro-row">
+      <span class="baro-lbl" style="color:var(--red)">DJUP<br>LÅGKONJUNKTUR</span>
+      <input type="range" id="econSlider" min="-100" max="100" value="0">
+      <span class="baro-lbl" style="color:var(--green)">STARK<br>HÖGKONJUNKTUR</span>
+    </div>
+    <div class="baro-state" id="baroState">NORMALT LÄGE</div>
+    <div class="ind-grid">
+      <div class="ind-card"><div class="ind-lbl">BNP-tillväxt</div><div class="ind-val" id="indBnp">0,0%</div><div class="ind-track"><div class="ind-fill" id="barBnp" style="width:50%"></div></div><div class="ind-dir" id="dirBnp">→ Stabil</div></div>
+      <div class="ind-card"><div class="ind-lbl">Sysselsättning</div><div class="ind-val" id="indSys">75%</div><div class="ind-track"><div class="ind-fill" id="barSys" style="width:75%"></div></div><div class="ind-dir" id="dirSys">→ Normal nivå</div></div>
+      <div class="ind-card"><div class="ind-lbl">Inflation</div><div class="ind-val" id="indInf">2,0%</div><div class="ind-track"><div class="ind-fill" id="barInf" style="width:20%"></div></div><div class="ind-dir" id="dirInf">→ Kontrollerad</div></div>
+      <div class="ind-card"><div class="ind-lbl">Konsumtion</div><div class="ind-val" id="indKon">Medel</div><div class="ind-track"><div class="ind-fill" id="barKon" style="width:50%"></div></div><div class="ind-dir" id="dirKon">→ Balanserad</div></div>
+      <div class="ind-card"><div class="ind-lbl">Statens skatteintäkter</div><div class="ind-val" id="indSkat">Normalt</div><div class="ind-track"><div class="ind-fill" id="barSkat" style="width:50%"></div></div><div class="ind-dir" id="dirSkat">→ Balanserat</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- DOMINO CASCADE -->
+<section class="section" id="onda">
+  <span class="sec-tag">// 03 — Domino-animation</span>
+  <h2 class="sec-title">Lågkonjunkturens Onda Cirkel</h2>
+  <div class="dom-wrap">
+    <div class="dom-bar">
+      <button class="dom-btn dom-btn-go" id="domBtnGo" onclick="domStart()">▶ UTLÖS KRISEN</button>
+      <button class="dom-btn dom-btn-rst" onclick="domReset()">↺ ÅTERSTÄLL</button>
+      <div class="dom-speed">
+        HASTIGHET
+        <input type="range" id="domSpeed" min="1" max="5" value="1">
+        <span id="domSpeedVal" style="font-family:'Orbitron',monospace;color:#ffb800;font-size:.65rem">×1</span>
+      </div>
+    </div>
+    <canvas id="domCanvas" style="display:block;width:100%"></canvas>
+    <div class="dom-info">
+      <span class="dom-info-num" id="domNum">—</span>
+      <div>
+        <div class="dom-info-text" id="domText">Tryck UTLÖS KRISEN för att starta kedjereaktionen</div>
+        <div class="dom-info-desc" id="domDesc"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INFLATION KALKYLATOR -->
+<section class="section" id="kalkylator">
+  <span class="sec-tag">// 04 — Kalkylator</span>
+  <h2 class="sec-title">Inflationskalkylator</h2>
+  <div class="calc-grid">
+    <div class="calc-in">
+      <div><label>Ursprungspris (kr)</label><input type="number" id="calcPrice" value="100" min="0" oninput="calcInflation()"></div>
+      <div><label>Inflationstakt per år</label><div class="calc-slval" id="calcRateVal">5%</div><input type="range" class="rng" id="calcRate" min="0" max="30" value="5" step="0.5" oninput="calcInflation()"></div>
+      <div><label>Antal år</label><div class="calc-slval" id="calcYearsVal">10 år</div><input type="range" class="rng" id="calcYears" min="1" max="50" value="10" oninput="calcInflation()"></div>
+    </div>
+    <div class="calc-out">
+      <div class="calc-row"><div class="calc-row-lbl">Pris om <span id="calcYearsLbl">10</span> år</div><div class="calc-row-val" id="calcRes">163 kr</div></div>
+      <div class="calc-row"><div class="calc-row-lbl">Prisskillnad</div><div class="calc-row-val" style="color:var(--red);font-size:1.5rem" id="calcDiff">+63 kr</div></div>
+      <div class="calc-row"><div class="calc-row-lbl">Din köpkraft har minskat med</div><div class="calc-row-val" style="font-size:1.5rem" id="calcPow">38,6%</div></div>
+      <div class="calc-verdict" id="calcVerdict"></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUIZ -->
+<section class="section" id="quiz">
+  <span class="sec-tag">// 05 — Flervalsfrågor</span>
+  <h2 class="sec-title">Quiz: Vad kan du?</h2>
+  <div class="quiz-prog" id="quizProg"></div>
+  <div id="quizCard" class="qcard"></div>
+  <div id="quizResult" class="qresult"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SANT ELLER FALSKT -->
+<section class="section" id="santellerfalskt">
+  <span class="sec-tag">// 06 — Sant eller Falskt</span>
+  <h2 class="sec-title">Sant eller Falskt?</h2>
+  <div class="tf-list" id="tfList"></div>
+  <div class="tf-score-row">
+    <span class="tf-score" id="tfScore">Svar: 0 / 0</span>
+    <button class="btn-sm" onclick="initTF()">↺ Börja om</button>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MATCHING -->
+<section class="section" id="matching">
+  <span class="sec-tag">// 07 — Matchningsspel</span>
+  <h2 class="sec-title">Koppla ihop begrepp och förklaringar</h2>
+  <p class="inst">► Klicka ett begrepp (vänster), sedan rätt förklaring (höger)</p>
+  <div class="match-grid">
+    <div><div class="match-col-ttl">BEGREPP</div><div class="match-items" id="matchTerms"></div></div>
+    <div><div class="match-col-ttl">FÖRKLARINGAR</div><div class="match-items" id="matchDefs"></div></div>
+  </div>
+  <div id="matchScore" style="font-family:'Orbitron',monospace;font-size:.9rem;color:var(--green);margin-top:1.5rem;display:none"></div>
+  <button class="btn-sm" id="matchReset" style="margin-top:.5rem;display:none" onclick="initMatch()">↺ Spela igen</button>
+</section>
+
+<div class="divider"></div>
+
+<!-- SORTERING -->
+<section class="section" id="sortering">
+  <span class="sec-tag">// 08 — Sortering</span>
+  <h2 class="sec-title">Ordna den onda cirkeln</h2>
+  <p class="inst">► Dra och släpp stegen i rätt ordning</p>
+  <div class="sort-list" id="sortList"></div>
+  <div class="sort-actions">
+    <button class="btn-primary" onclick="checkSort()">Kontrollera</button>
+    <button class="btn-secondary" onclick="shuffleSort()">↺ Blanda om</button>
+  </div>
+  <div class="sort-fb" id="sortFb"></div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FLASHCARDS -->
+<section class="section" id="flashcards">
+  <span class="sec-tag">// 09 — Flashcards</span>
+  <h2 class="sec-title">Flip-kort — klicka för att vända</h2>
+  <div class="fc-grid" id="fcGrid"></div>
+</section>
+
+<footer><p>SO med Petrus · <span>Konjunktur</span> · Ekonomi och samhälle</p></footer>
+
+<script>
+/* WAVE CANVAS */
+(function(){
+  const cv=document.getElementById('waveCanvas'),ctx=cv.getContext('2d');
+  let t=0;
+  function resize(){cv.width=cv.offsetWidth;cv.height=cv.offsetHeight;}
+  window.addEventListener('resize',resize);resize();
+  function draw(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    const W=cv.width,H=cv.height;
+    [{a:H*.28,f:.012,sp:.018,c:'rgba(0,255,136,',o:0},{a:H*.18,f:.018,sp:.025,c:'rgba(79,195,247,',o:Math.PI}].forEach(w=>{
+      const g=ctx.createLinearGradient(0,0,0,H);
+      g.addColorStop(0,w.c+'0.25)');g.addColorStop(.6,w.c+'0.04)');g.addColorStop(1,w.c+'0)');
+      ctx.beginPath();ctx.moveTo(0,H);
+      for(let x=0;x<=W;x++){const y=H/2-Math.sin(x*w.f+t*w.sp+w.o)*w.a-Math.sin(x*w.f*1.7+t*w.sp*.8)*w.a*.3;ctx.lineTo(x,y);}
+      ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.closePath();ctx.fillStyle=g;ctx.fill();
+      ctx.beginPath();ctx.shadowBlur=16;ctx.shadowColor=w.c+'0.8)';ctx.lineWidth=2;ctx.strokeStyle=w.c+'0.9)';
+      for(let x=0;x<=W;x++){const y=H/2-Math.sin(x*w.f+t*w.sp+w.o)*w.a-Math.sin(x*w.f*1.7+t*w.sp*.8)*w.a*.3;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+      ctx.stroke();ctx.shadowBlur=0;
+    });
+    t++;requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* CONCEPT CARDS */
+function toggleCC(el){const was=el.classList.contains('open');document.querySelectorAll('.cc').forEach(c=>c.classList.remove('open'));if(!was)el.classList.add('open');}
+
+/* BAROMETER */
+const econSlider=document.getElementById('econSlider');
+function updateBaro(){
+  const v=parseInt(econSlider.value),n=(v+100)/200;
+  let state,col;
+  if(v<-60){state='DJUP LÅGKONJUNKTUR';col='var(--red)';}
+  else if(v<-20){state='LÅGKONJUNKTUR';col='#ff7055';}
+  else if(v<20){state='NORMALT LÄGE';col='var(--amber)';}
+  else if(v<60){state='HÖGKONJUNKTUR';col='var(--greendim)';}
+  else{state='STARK HÖGKONJUNKTUR';col='var(--green)';}
+  const bs=document.getElementById('baroState');bs.textContent=state;bs.style.color=col;
+  const bnp=-3+n*8;
+  document.getElementById('indBnp').textContent=bnp.toFixed(1)+'%';
+  document.getElementById('indBnp').style.color=bnp>=0?'var(--green)':'var(--red)';
+  setBar('barBnp',n*100,bnp>=0);
+  document.getElementById('dirBnp').textContent=bnp>2?'↑ Växer starkt':bnp<0?'↓ Krymper':'→ Stabil';
+  document.getElementById('dirBnp').style.color=bnp>0?'var(--green)':'var(--red)';
+  const sys=60+n*35;
+  document.getElementById('indSys').textContent=sys.toFixed(0)+'%';
+  document.getElementById('indSys').style.color=sys>80?'var(--green)':'var(--amber)';
+  setBar('barSys',sys,sys>75);
+  document.getElementById('dirSys').textContent=sys>85?'↑ Hög sysselsättning':sys<70?'↓ Hög arbetslöshet':'→ Balanserat';
+  document.getElementById('dirSys').style.color=sys>80?'var(--green)':'var(--red)';
+  const inf=n*12;
+  document.getElementById('indInf').textContent=inf.toFixed(1)+'%';
+  document.getElementById('indInf').style.color=inf>5?'var(--red)':inf>2?'var(--amber)':'var(--green)';
+  setBar('barInf',inf/12*100,inf<4);
+  document.getElementById('dirInf').textContent=inf>7?'⚠ Hög inflation!':inf>3?'↑ Stigande priser':'→ Kontrollerad';
+  document.getElementById('dirInf').style.color=inf>5?'var(--red)':inf>2?'var(--amber)':'var(--green)';
+  const konI=Math.min(Math.floor(n*5),4);
+  const konL=['Mycket låg','Låg','Medel','Hög','Mycket hög'][konI];
+  document.getElementById('indKon').textContent=konL;
+  document.getElementById('indKon').style.color=konI>2?'var(--green)':konI<2?'var(--red)':'var(--amber)';
+  setBar('barKon',n*100,konI>=2);
+  document.getElementById('dirKon').textContent=konI>=3?'↑ Hög konsumtion':konI<=1?'↓ Låg konsumtion':'→ Balanserad';
+  document.getElementById('dirKon').style.color=konI>2?'var(--green)':'var(--red)';
+  const sI=Math.min(Math.floor(n*5),4);
+  const sL=['Mycket låga','Låga','Normalt','Höga','Mycket höga'][sI];
+  document.getElementById('indSkat').textContent=sL;
+  document.getElementById('indSkat').style.color=sI>2?'var(--green)':sI<2?'var(--red)':'var(--amber)';
+  setBar('barSkat',n*100,sI>=2);
+  document.getElementById('dirSkat').textContent=sI>=3?'↑ Överskott':sI<=1?'↓ Underskott':'→ Balanserat';
+  document.getElementById('dirSkat').style.color=sI>2?'var(--green)':'var(--red)';
+}
+function setBar(id,pct,pos){const e=document.getElementById(id);e.style.width=pct.toFixed(0)+'%';e.style.backgroundColor=pos?'var(--green)':'var(--red)';}
+econSlider.addEventListener('input',updateBaro);
+updateBaro();
+
+/* ═══════════════════════════
+   DOMINO CASCADE ENGINE
+═══════════════════════════ */
+(function(){
+  const cv=document.getElementById('domCanvas');
+  const ctx=cv.getContext('2d');
+  const W=700,H=320,GND=268,TW=62,TH=140;
+  cv.width=W;cv.height=H;
+
+  const steps=[
+    {txt:'Minskad\nefterfragan',full:'Minskad efterfrågan på varor & tjänster',desc:'Hushåll och företag köper allt mindre — ekonomins motor stannar.',col:'#ff4055'},
+    {txt:'Farre\nprodukter saljs',full:'Färre produkter säljs',desc:'Butiker gapar tomma, lager fylls av osålda varor.',col:'#ff5e40'},
+    {txt:'Minskad\nproduktion',full:'Minskad produktion',desc:'Fabriker drar ned eller stänger — produktionen stannar upp.',col:'#ff7833'},
+    {txt:'Upp-\nsagningar',full:'Uppsägningar av personal',desc:'Utan order måste företagen säga upp — arbetslösheten stiger.',col:'#ffaa00'},
+    {txt:'Mindre\npengar',full:'Folk har mindre pengar',desc:'Utan lön slutar folk konsumera — cirkeln börjar om, djupare.',col:'#ffcc00'},
+  ];
+  const GAP=(W-5*TW)/6;
+  const tx=i=>GAP+TW/2+i*(TW+GAP);
+
+  let tiles=[],particles=[],shockwaves=[],running=false,speed=1,darkness=0,raf=null,lastTriggered=-1;
+
+  function initTiles(){
+    tiles=steps.map((_,i)=>({i,angle:0,falling:false,fallen:false,flash:0}));
+  }
+
+  window.domStart=function(){
+    if(running)return;
+    running=true;
+    document.getElementById('domBtnGo').disabled=true;
+    startFall(0);
+    if(!raf)raf=requestAnimationFrame(loop);
+  };
+  window.domReset=function(){
+    running=false;darkness=0;lastTriggered=-1;
+    particles=[];shockwaves=[];
+    initTiles();
+    document.getElementById('domBtnGo').disabled=false;
+    document.getElementById('domNum').textContent='—';
+    document.getElementById('domText').textContent='Tryck UTLÖS KRISEN för att starta kedjereaktionen';
+    document.getElementById('domDesc').textContent='';
+    if(!raf)raf=requestAnimationFrame(loop);
+  };
+  document.getElementById('domSpeed').addEventListener('input',function(){
+    speed=parseInt(this.value);
+    document.getElementById('domSpeedVal').textContent='×'+speed;
+  });
+
+  function startFall(i){
+    if(i>=5||tiles[i].falling||tiles[i].fallen)return;
+    tiles[i].falling=true;
+    document.getElementById('domNum').textContent=i+1;
+    document.getElementById('domText').textContent=steps[i].full;
+    document.getElementById('domDesc').textContent=steps[i].desc;
+  }
+
+  function spawnShock(x){shockwaves.push({x,y:GND,r:8,a:1});}
+  function spawnDebris(x,col,n){
+    for(let d=0;d<n;d++){
+      const ang=-Math.PI+Math.random()*Math.PI,sp=2+Math.random()*5;
+      particles.push({x,y:GND,vx:Math.cos(ang)*sp,vy:-Math.random()*7-2,life:1,col,sz:2+Math.random()*3});
+    }
+  }
+
+  // Pre-generate window states once (so they don't flicker)
+  const bldDefs=[
+    {x:70,w:85,h:120},{x:190,w:70,h:100},{x:300,w:90,h:150},
+    {x:415,w:70,h:95},{x:510,w:55,h:80}
+  ];
+  const windowMaps=bldDefs.map(b=>{
+    const wins=[];
+    for(let wy=10;wy<b.h-10;wy+=18)
+      for(let wx=8;wx<b.w-8;wx+=14)
+        wins.push({wx,wy,lit:Math.random()<0.75});
+    return wins;
+  });
+
+  function lerp(h1,h2,t){
+    const p=x=>parseInt(x,16);
+    const r1=p(h1.slice(1,3)),g1=p(h1.slice(3,5)),b1=p(h1.slice(5,7));
+    const r2=p(h2.slice(1,3)),g2=p(h2.slice(3,5)),b2=p(h2.slice(5,7));
+    return`rgb(${Math.round(r1+(r2-r1)*t)},${Math.round(g1+(g2-g1)*t)},${Math.round(b1+(b2-b1)*t)})`;
+  }
+
+  function drawBg(){
+    // Sky
+    const g=ctx.createLinearGradient(0,0,0,GND);
+    g.addColorStop(0,lerp('#020810','#2a0404',darkness));
+    g.addColorStop(1,lerp('#040c18','#120202',darkness));
+    ctx.fillStyle=g;ctx.fillRect(0,0,W,GND);
+
+    // Stars
+    if(darkness<0.9){
+      ctx.fillStyle=`rgba(255,255,255,${0.5*(1-darkness)})`;
+      [[40,15],[110,8],[200,22],[320,10],[440,18],[560,6],[650,25],[80,40],[380,38],[590,35]].forEach(([sx,sy])=>{
+        ctx.beginPath();ctx.arc(sx,sy,0.8,0,Math.PI*2);ctx.fill();
+      });
+    }
+    // Crisis glow
+    if(darkness>0.1){
+      const rg=ctx.createLinearGradient(0,GND-50,0,GND);
+      rg.addColorStop(0,'rgba(180,15,0,0)');
+      rg.addColorStop(1,`rgba(180,15,0,${darkness*0.4})`);
+      ctx.fillStyle=rg;ctx.fillRect(0,GND-50,W,50);
+    }
+    // Buildings
+    bldDefs.forEach((b,bi)=>{
+      const by=GND-b.h;
+      ctx.fillStyle=lerp('#0d2040','#190606',Math.min(darkness*(1+bi*0.1),1));
+      ctx.fillRect(b.x,by,b.w,b.h);
+      // Windows — use pre-generated map, fade out with darkness
+      const winAlpha=Math.max(0, 0.75 - darkness*(0.65+bi*0.08));
+      windowMaps[bi].forEach(({wx,wy,lit})=>{
+        ctx.fillStyle=lit
+          ? `rgba(255,220,100,${winAlpha})`
+          : `rgba(0,0,0,0.45)`;
+        ctx.fillRect(b.x+wx,by+wy,8,8);
+      });
+      if(darkness>0.45&&bi<Math.floor(darkness*5)){
+        ctx.fillStyle=`rgba(180,15,15,${Math.min((darkness-0.45)*2,1)*0.9})`;
+        ctx.fillRect(b.x+b.w/2-18,by+b.h-24,36,14);
+        ctx.fillStyle=`rgba(255,180,180,${Math.min((darkness-0.45)*2,1)})`;
+        ctx.font='bold 7px monospace';ctx.textAlign='center';
+        ctx.fillText('STÄNGT',b.x+b.w/2,by+b.h-13);
+      }
+    });
+    // Ground
+    ctx.fillStyle='#030a14';ctx.fillRect(0,GND,W,H-GND);
+    ctx.fillStyle=`rgba(255,64,85,${0.1+darkness*0.2})`;ctx.fillRect(0,GND,W,2);
+  }
+
+  let spiralAngle=0;
+  function drawDomino(tile,i){
+    const {angle,fallen,flash}=tile;
+    ctx.save();
+    ctx.translate(tx(i),GND);
+    ctx.rotate(angle);
+    const s=steps[i];
+    const glow=fallen?0:(1-angle/(Math.PI/2));
+    // Body
+    const bg=ctx.createLinearGradient(0,-TH,0,0);
+    bg.addColorStop(0,fallen?'#180606':lerp('#180a0a',s.col,0.3));
+    bg.addColorStop(1,fallen?'#100404':lerp('#0a0404',s.col,0.12));
+    ctx.fillStyle=bg;
+    if(!fallen&&glow>0.3){ctx.shadowBlur=18;ctx.shadowColor=`rgba(255,64,85,${glow*0.5})`;}
+    rr(ctx,-TW/2,-TH,TW,TH,4);ctx.fill();ctx.shadowBlur=0;
+    // Border
+    ctx.strokeStyle=fallen?`rgba(255,64,85,0.2)`:s.col;
+    ctx.lineWidth=fallen?0.5:1.5*glow+0.5;
+    ctx.globalAlpha=fallen?0.4:1;
+    rr(ctx,-TW/2,-TH,TW,TH,4);ctx.stroke();ctx.globalAlpha=1;
+    // Number
+    ctx.font=`bold 18px 'Orbitron',monospace`;
+    ctx.fillStyle=fallen?'rgba(255,64,85,0.3)':s.col;
+    ctx.textAlign='center';ctx.fillText(i+1,0,-TH+20);
+    // Divider
+    ctx.beginPath();ctx.moveTo(-TW/2+6,-TH+30);ctx.lineTo(TW/2-6,-TH+30);
+    ctx.strokeStyle=fallen?'rgba(255,64,85,0.1)':`rgba(255,64,85,${0.35*glow+0.1})`;
+    ctx.lineWidth=0.5;ctx.stroke();
+    // Text
+    ctx.font=`600 10px 'Rajdhani',sans-serif`;
+    ctx.fillStyle=fallen?'rgba(184,208,232,0.2)':`rgba(184,208,232,${0.6+0.4*glow})`;
+    s.txt.split('\n').forEach((ln,li)=>ctx.fillText(ln,0,-TH+44+li*13));
+    // Land flash
+    if(flash>0){ctx.fillStyle=`rgba(255,255,255,${flash/20*0.12})`;rr(ctx,-TW/2,-TH,TW,TH,4);ctx.fill();}
+    ctx.restore();
+  }
+
+  function rr(ctx,x,y,w,h,r){
+    ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+    ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);
+    ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    drawBg();
+    shockwaves.forEach(sw=>{
+      ctx.beginPath();ctx.arc(sw.x,sw.y,sw.r,0,Math.PI*2);
+      ctx.strokeStyle=`rgba(255,64,85,${sw.a*0.6})`;ctx.lineWidth=2;ctx.stroke();
+    });
+    particles.forEach(p=>{
+      ctx.beginPath();ctx.arc(p.x,p.y,p.sz,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,64,85,${p.life})`;ctx.fill();
+    });
+    spiralAngle+=running?0.04:0.008;
+    tiles.forEach((t,i)=>drawDomino(t,i));
+  }
+
+  const FS=0.007;
+  function loop(){
+    raf=requestAnimationFrame(loop);
+    const fs=FS*speed;
+    tiles.forEach((t,i)=>{
+      if(!t.falling||t.fallen)return;
+      t.angle=Math.min(t.angle+fs,Math.PI/2);
+      if(t.flash>0)t.flash--;
+      // Trigger next tile when this one is ~65% fallen (must be < PI/2 = 1.57)
+      if(t.angle>=Math.PI*0.32&&lastTriggered<i){lastTriggered=i;if(i+1<5)startFall(i+1);}
+      if(t.angle>=Math.PI/2-0.01){
+        t.angle=Math.PI/2;t.fallen=true;t.falling=false;t.flash=20;
+        const impX=Math.min(tx(i)+TH*0.9,W-20);
+        spawnShock(impX);spawnDebris(impX,steps[i].col,8+i*2);
+        darkness=Math.min((i+1)/5,1);
+        if(i===4){
+          running=false;
+          document.getElementById('domBtnGo').disabled=false;
+          document.getElementById('domNum').textContent='✓';
+          document.getElementById('domText').textContent='Cirkeln är fullbordad — ekonomin har hamnat i kris!';
+          document.getElementById('domDesc').textContent='Tryck ÅTERSTÄLL för att se det igen.';
+        }
+      }
+    });
+    for(let i=shockwaves.length-1;i>=0;i--){const sw=shockwaves[i];sw.r+=3;sw.a-=0.05;if(sw.a<=0)shockwaves.splice(i,1);}
+    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vy+=0.25;p.life-=0.025;if(p.life<=0)particles.splice(i,1);}
+    draw();
+  }
+
+  initTiles();
+  raf=requestAnimationFrame(loop);
+})();
+
+/* INFLATION CALCULATOR */
+function calcInflation(){
+  const p=parseFloat(document.getElementById('calcPrice').value)||0;
+  const r=parseFloat(document.getElementById('calcRate').value)/100;
+  const y=parseInt(document.getElementById('calcYears').value);
+  document.getElementById('calcRateVal').textContent=(r*100).toFixed(1)+'%';
+  document.getElementById('calcYearsVal').textContent=y+' år';
+  document.getElementById('calcYearsLbl').textContent=y;
+  const future=p*Math.pow(1+r,y);
+  const diff=future-p;
+  const pow=(1-p/future)*100;
+  document.getElementById('calcRes').textContent=future.toFixed(0)+' kr';
+  document.getElementById('calcDiff').textContent='+'+diff.toFixed(0)+' kr';
+  document.getElementById('calcPow').textContent=pow.toFixed(1)+'%';
+  document.getElementById('calcVerdict').textContent=`En vara som kostar ${p} kr idag kostar ${future.toFixed(0)} kr om ${y} år med ${(r*100).toFixed(1)}% inflation per år. Dina pengar köper ${pow.toFixed(0)}% mindre!`;
+}
+calcInflation();
+
+/* QUIZ */
+const quizData=[
+  {q:"Vad kallas svängningarna i samhällsekonomin?",opts:["Konjunkturer","Deflation","BNP","Inflation"],ans:0,exp:"Konjunkturer beskriver de ekonomiska svängningarna — som en vågrörelse."},
+  {q:"Vad händer med BNP under en högkonjunktur?",opts:["Den sjunker kraftigt","Den ökar","Den är oförändrad","Den halveras"],ans:1,exp:"Under högkonjunktur ökar produktionen och BNP stiger."},
+  {q:"Vad innebär inflation?",opts:["Att priser sjunker","Ökad produktion","Att den allmänna prisnivån höjs","Minskad efterfrågan"],ans:2,exp:"Inflation = att den allmänna prisnivån stiger, pengar tappar i värde."},
+  {q:"Vad händer med statens skatteintäkter under lågkonjunktur?",opts:["De ökar kraftigt","De fördubblas","De är oförändrade","De minskar"],ans:3,exp:"Fler arbetslösa betalar mindre skatt → statens inkomster minskar."},
+  {q:"Vad bestämmer priset på varor och tjänster?",opts:["Principen om utbud och efterfrågan","Riksbanken","Regeringen","Konsumentverket"],ans:0,exp:"Priset bestäms av utbud och efterfrågan."},
+  {q:"Vad kan hög inflation leda till på sikt?",opts:["Lägre priser","Att högkonjunktur övergår till lågkonjunktur","Mer investeringar","Fler arbeten"],ans:1,exp:"Hög inflation skapar oro och kan sakta bromsa och vända konjunkturen."},
+  {q:"Vad är ett typiskt drag för lågkonjunktur?",opts:["Hög efterfrågan","Stor produktion","Ökad arbetslöshet","Stigande BNP"],ans:2,exp:"Under lågkonjunktur minskar efterfrågan → företag säger upp personal."},
+  {q:"Vad händer med företagens investeringar under lågkonjunktur?",opts:["De ökar kraftigt","De diversifieras","De fördubblas","De skjuts på framtiden"],ans:3,exp:"Osäkerhet om framtiden gör att företag väljer att avvakta med investeringar."},
+];
+let qCur=0,qScore=0;
+function initQuiz(){qCur=0;qScore=0;document.getElementById('quizResult').classList.remove('show');document.getElementById('quizCard').style.display='block';renderQ();}
+function renderProg(){const p=document.getElementById('quizProg');p.innerHTML=quizData.map((_,i)=>`<div class="qdot ${i<qCur?'done':i===qCur?'cur':''}"></div>`).join('');}
+function renderQ(){
+  if(qCur>=quizData.length){showQResult();return;}
+  const d=quizData[qCur];const L=['A','B','C','D'];
+  document.getElementById('quizCard').innerHTML=`
+    <div class="qctr">FRÅGA ${qCur+1} AV ${quizData.length}</div>
+    <div class="qtext">${d.q}</div>
+    <div class="qopts">${d.opts.map((o,i)=>`<button class="qopt" onclick="answerQuiz(${i})"><span class="qltr">${L[i]}</span><span class="qopttext">${o}</span></button>`).join('')}</div>
+    <div class="qfb" id="qFb"></div>
+    <button class="qnext" id="qNext" onclick="nextQ()">${qCur<quizData.length-1?'NÄSTA FRÅGA →':'SE RESULTAT →'}</button>`;
+  renderProg();
+}
+function answerQuiz(idx){
+  const d=quizData[qCur];const opts=document.querySelectorAll('.qopt');
+  opts.forEach(o=>{o.classList.add('disabled');o.onclick=null;});
+  const fb=document.getElementById('qFb');
+  if(idx===d.ans){opts[idx].classList.add('correct');fb.textContent='✓ Rätt! '+d.exp;fb.className='qfb show ok';qScore++;}
+  else{opts[idx].classList.add('wrong');opts[d.ans].classList.add('correct');fb.textContent='✗ Fel. '+d.exp;fb.className='qfb show bad';}
+  document.getElementById('qNext').classList.add('show');
+}
+function nextQ(){qCur++;renderQ();}
+function showQResult(){
+  document.getElementById('quizCard').style.display='none';
+  const res=document.getElementById('quizResult');const pct=Math.round(qScore/quizData.length*100);
+  const msg=pct>=90?'Suverän! Du kan konjunktur som ett proffs! 🏆':pct>=70?'Bra jobbat! Lite mer läsning och du har det!':pct>=50?'Halvvägs! Gå igenom begreppen igen.':'Läs texten noga och försök igen!';
+  res.innerHTML=`<div class="qscore-lbl">DITT RESULTAT</div><div class="qscore-big">${qScore}/${quizData.length}</div><div class="qscore-lbl">${pct}% rätt</div><div class="qscore-msg">${msg}</div><button class="btn-retry" onclick="initQuiz()">↺ Försök igen</button>`;
+  res.classList.add('show');
+}
+initQuiz();
+
+/* SANT ELLER FALSKT */
+const tfData=[
+  {q:"Högkonjunktur innebär att BNP ökar.",ans:true,exp:"Under högkonjunktur ökar produktionen och BNP stiger."},
+  {q:"Under lågkonjunktur ökar statens skatteintäkter.",ans:false,exp:"Skatteintäkterna minskar — färre är sysselsatta och betalar skatt."},
+  {q:"Inflation betyder att pengar blir mer värda.",ans:false,exp:"Tvärtom — inflation innebär att pengar tappar i värde."},
+  {q:"Konjunkturer kan beskrivas som en vågrörelse.",ans:true,exp:"Exakt — ekonomin svänger upp och ner som en våg."},
+  {q:"Hög inflation gör det lättare för svenska företag att konkurrera globalt.",ans:false,exp:"Fel — hög inflation gör svenska varor dyrare och svårare att sälja utomlands."},
+  {q:"Under lågkonjunktur anställer företag mer personal.",ans:false,exp:"Under lågkonjunktur tvingas företag säga upp personal."},
+  {q:"Samhällsekonomin är global — länder påverkar varandra.",ans:true,exp:"Rätt! Ekonomin är global och händelser i ett land påverkar andra."},
+  {q:"Under en högkonjunktur kan hushållen konsumera mer.",ans:true,exp:"Med låg arbetslöshet och höga inkomster har hushållen mer att spendera."},
+];
+let tfOk=0,tfTotal=0;
+function initTF(){
+  tfOk=0;tfTotal=0;
+  document.getElementById('tfList').innerHTML=tfData.map((d,i)=>`
+    <div class="tf-item"><div class="tf-q">${d.q}</div>
+    <div class="tf-btns">
+      <button class="tf-btn sant" onclick="answerTF(${i},true)">SANT</button>
+      <button class="tf-btn falskt" onclick="answerTF(${i},false)">FALSKT</button>
+    </div>
+    <div class="tf-exp" id="tfExp${i}">${d.exp}</div></div>`).join('');
+  document.getElementById('tfScore').textContent='Svar: 0 / 0';
+}
+function answerTF(idx,ans){
+  const d=tfData[idx];const item=document.getElementById('tfList').children[idx];
+  const btns=item.querySelectorAll('.tf-btn');btns.forEach(b=>b.disabled=true);
+  if(d.ans===true)btns[0].classList.add('correct');else btns[1].classList.add('correct');
+  if(ans!==d.ans)(ans?btns[0]:btns[1]).classList.add('wrong-ans');
+  document.getElementById('tfExp'+idx).classList.add('show');
+  if(ans===d.ans)tfOk++;tfTotal++;
+  document.getElementById('tfScore').textContent=`Svar: ${tfOk} / ${tfTotal} rätt`;
+}
+initTF();
+
+/* MATCHING */
+const matchData=[
+  {term:"Konjunktur",def:"Svängningar i samhällsekonomin — som en vågrörelse"},
+  {term:"Högkonjunktur",def:"Goda tider med hög efterfrågan och låg arbetslöshet"},
+  {term:"Lågkonjunktur",def:"Sämre tider med ökad arbetslöshet och sjunkande BNP"},
+  {term:"Inflation",def:"Att den allmänna prisnivån höjs — pengar tappar i värde"},
+  {term:"BNP",def:"Samlade värdet av alla varor och tjänster ett land producerar"},
+];
+let mSelected=null,mSolved=0;
+function initMatch(){
+  mSelected=null;mSolved=0;
+  document.getElementById('matchScore').style.display='none';
+  document.getElementById('matchReset').style.display='none';
+  const shuffled=[...matchData].sort(()=>Math.random()-.5);
+  document.getElementById('matchTerms').innerHTML=matchData.map((d,i)=>`<div class="mchip" data-id="${i}" data-type="term" onclick="matchClick(this)">${d.term}</div>`).join('');
+  document.getElementById('matchDefs').innerHTML=shuffled.map(d=>{const i=matchData.indexOf(d);return`<div class="mchip" data-id="${i}" data-type="def" onclick="matchClick(this)">${d.def}</div>`;}).join('');
+}
+function matchClick(el){
+  if(el.classList.contains('matched'))return;
+  if(!mSelected){document.querySelectorAll('.mchip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');mSelected=el;return;}
+  if(el===mSelected){el.classList.remove('selected');mSelected=null;return;}
+  const a=mSelected,b=el;
+  if(a.dataset.type===b.dataset.type){document.querySelectorAll('.mchip').forEach(c=>c.classList.remove('selected'));el.classList.add('selected');mSelected=el;return;}
+  const tEl=a.dataset.type==='term'?a:b,dEl=a.dataset.type==='def'?a:b;
+  if(tEl.dataset.id===dEl.dataset.id){
+    [tEl,dEl].forEach(c=>{c.classList.remove('selected');c.classList.add('matched');c.onclick=null;});
+    mSolved++;if(mSolved===matchData.length){document.getElementById('matchScore').textContent='✓ Alla rätt! 🎉';document.getElementById('matchScore').style.display='block';document.getElementById('matchReset').style.display='inline-block';}
+  } else {
+    [tEl,dEl].forEach(c=>c.classList.add('wrong-flash'));
+    setTimeout(()=>[tEl,dEl].forEach(c=>c.classList.remove('wrong-flash','selected')),600);
+  }
+  mSelected=null;
+}
+initMatch();
+
+/* SORTING */
+const sortCorrect=["Minskad efterfrågan på varor och tjänster","Färre produkter säljs","Minskad produktion","Uppsägningar av personal","Folk har mindre pengar att röra sig med"];
+let sortOrder=[];
+function shuffleSort(){sortOrder=[...Array(5).keys()].sort(()=>Math.random()-.5);document.getElementById('sortFb').classList.remove('show');renderSort();}
+function renderSort(){
+  document.getElementById('sortList').innerHTML=sortOrder.map((orig,pos)=>`
+    <div class="sort-item" draggable="true" data-pos="${pos}" data-orig="${orig}"
+      ondragstart="sortDS(event)" ondragover="sortDO(event)" ondrop="sortDR(event)" ondragleave="sortDL(event)">
+      <span class="sort-handle">⠿</span><span class="sort-text">${sortCorrect[orig]}</span><span class="sort-badge">${pos+1}</span>
+    </div>`).join('');
+}
+let dragPos=null;
+function sortDS(e){dragPos=parseInt(e.currentTarget.dataset.pos);e.currentTarget.classList.add('dragging');e.dataTransfer.effectAllowed='move';}
+function sortDO(e){e.preventDefault();document.querySelectorAll('.sort-item').forEach(s=>s.classList.remove('drag-over'));e.currentTarget.classList.add('drag-over');}
+function sortDL(e){e.currentTarget.classList.remove('drag-over');}
+function sortDR(e){
+  e.preventDefault();const tp=parseInt(e.currentTarget.dataset.pos);
+  if(dragPos!==null&&dragPos!==tp){[sortOrder[dragPos],sortOrder[tp]]=[sortOrder[tp],sortOrder[dragPos]];renderSort();}
+  dragPos=null;document.getElementById('sortFb').classList.remove('show');
+}
+function checkSort(){
+  let ok=0;document.querySelectorAll('.sort-item').forEach((item,pos)=>{
+    item.classList.remove('correct-pos','wrong-pos');
+    if(parseInt(item.dataset.orig)===pos){item.classList.add('correct-pos');ok++;}
+    else item.classList.add('wrong-pos');
+  });
+  const fb=document.getElementById('sortFb');fb.classList.add('show');
+  if(ok===5){fb.textContent='✓ Perfekt! Du klarade den onda cirkeln! 🎉';fb.className='sort-fb show all-ok';}
+  else{fb.textContent=`${ok} av 5 rätt. Grönt = rätt plats, rött = fel. Försök igen!`;fb.className='sort-fb show partial';}
+}
+shuffleSort();
+
+/* FLASHCARDS */
+document.getElementById('fcGrid').innerHTML=[
+  {term:"Konjunktur",def:"Svängningar i samhällsekonomin — periodvis goda och sämre tider"},
+  {term:"BNP",def:"Bruttonationalprodukt — det samlade värdet av ett lands produktion"},
+  {term:"Inflation",def:"Allmän prisnivåhöjning — pengar tappar i värde"},
+  {term:"Högkonjunktur",def:"Goda tider: hög efterfrågan, låg arbetslöshet, växande BNP"},
+  {term:"Lågkonjunktur",def:"Sämre tider: hög arbetslöshet, sjunkande BNP, minskad konsumtion"},
+  {term:"Utbud & Efterfrågan",def:"Prisbildningsprincipen: hög efterfrågan + begränsat utbud → högre priser"},
+].map(d=>`<div class="fc-wrap" onclick="this.classList.toggle('flipped')"><div class="fc"><div class="fc-front"><div class="fc-hint">BEGREPP</div><div class="fc-term">${d.term}</div></div><div class="fc-back"><div class="fc-hint">DEFINITION</div><div class="fc-def">${d.def}</div></div></div></div>`).join('');
+</script>
+</body>
+</html>
