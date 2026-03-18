@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karteller – Företagens hemliga konspiration</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:      #05080f; /* Styrelserums-mörkblå */
+  --bg-soft:  #0a101d;
+  --corp:     #3498DB; /* Företags-blå */
+  --corp-dk:  #2980B9;
+  --alert:    #E67E22; /* Kartell-orange/varning */
+  --alert-dk: #D35400;
+  --police:   #E74C3C; /* Konkurrensverket-röd */
+  --paper:    #F0F4F8;
+  --text:     #C5D0E6;
+  --text-dim: rgba(197,208,230,0.65);
+  --border:   rgba(52,152,219,0.25);
+  --mono:     'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink); color: var(--text);
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-size: 20px; line-height: 1.75; overflow-x: hidden;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--corp), var(--alert), var(--police));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  background: radial-gradient(ellipse at 50% 30%, #0f1a30 0%, #05080f 80%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 60px 40px; text-align: center;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(52,152,219,0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(52,152,219,0.05) 1px, transparent 1px);
+  background-size: 40px 40px; pointer-events: none;
+  transform: perspective(500px) rotateX(60deg); transform-origin: bottom;
+}
+.hero-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--corp); margin-bottom: 24px;
+  opacity: 0; animation: fadeUp 1s 0.3s forwards; position: relative; z-index: 2;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif; font-size: clamp(40px, 8vw, 90px);
+  font-weight: 900; line-height: 1.0; color: var(--paper);
+  text-shadow: 0 0 60px rgba(52,152,219,0.2); margin-bottom: 20px;
+  opacity: 0; animation: fadeUp 1s 0.6s forwards; position: relative; z-index: 2;
+}
+.hero h1 em { color: var(--alert); font-style: italic; text-shadow: 0 0 30px rgba(230,126,34,0.4); }
+.hero-sub {
+  font-size: 22px; font-weight: 300; color: var(--text-dim); max-width: 650px;
+  line-height: 1.5; margin-bottom: 48px; font-style: italic;
+  opacity: 0; animation: fadeUp 1s 0.9s forwards; position: relative; z-index: 2;
+}
+
+@keyframes fadeUp { from { opacity:0; transform: translateY(24px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── ARTICLE BODY ── */
+.article { max-width: 760px; margin: 0 auto; padding: 80px 40px; }
+
+/* ── PULLQUOTE ── */
+.pullquote {
+  margin: 60px -80px; padding: 40px 60px; border-left: 4px solid var(--alert);
+  background: linear-gradient(135deg, rgba(230,126,34,0.08), transparent); position: relative;
+}
+.pullquote::before {
+  content: '"'; font-family: 'Playfair Display', serif; font-size: 180px; line-height: 0.7;
+  color: var(--alert); opacity: 0.15; position: absolute; top: 20px; left: 20px; pointer-events: none;
+}
+.pullquote p {
+  font-family: 'Playfair Display', serif; font-size: clamp(22px, 3vw, 32px);
+  font-style: italic; font-weight: 400; color: var(--paper); line-height: 1.4; position: relative;
+}
+
+/* ── SECTION HEADS ── */
+.section-marker { display: flex; align-items: center; gap: 20px; margin: 80px 0 32px; }
+.section-marker::before, .section-marker::after { content: ''; height: 1px; flex: 1; background: var(--border); }
+.section-marker span { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--corp); white-space: nowrap; }
+h2 { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 44px); font-weight: 900; line-height: 1.15; color: var(--paper); margin-bottom: 28px; }
+h2 em { color: var(--alert); font-style: italic; }
+p { margin-bottom: 24px; color: var(--text); }
+strong { color: var(--paper); font-weight: 600; }
+
+/* ── BUTTON STYLES ── */
+.interactive-btn {
+  background: var(--alert); color: var(--ink); border: none; padding: 12px 24px; border-radius: 6px;
+  font-family: var(--mono); font-size: 13px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.2s; letter-spacing: 1px;
+}
+.interactive-btn:hover:not(:disabled) { background: var(--paper); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(230,126,34,0.3); }
+.interactive-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ── CARTEL SIMULATOR (1) ── */
+.market-wrap {
+  margin: 60px -60px; background: linear-gradient(to bottom, #0a101d, #05080f);
+  border: 1px solid var(--border); border-radius: 12px; padding: 50px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6); text-align: center; position: relative; transition: all 0.5s;
+}
+.market-wrap.busted { border-color: var(--police); box-shadow: 0 0 50px rgba(231,76,60,0.3); animation: policeFlash 2s infinite alternate; }
+@keyframes policeFlash { 
+  0% { box-shadow: 0 0 30px rgba(231,76,60,0.2); }
+  100% { box-shadow: 0 0 60px rgba(52,152,219,0.2); }
+}
+.m-status { font-family: var(--mono); font-size: 18px; text-transform: uppercase; letter-spacing: 2px; color: #2ecc71; margin-bottom: 10px; font-weight: bold; transition: color 0.3s; }
+.m-desc { font-size: 15px; color: var(--text-dim); margin-bottom: 30px; min-height: 60px; line-height: 1.5; }
+.m-arena {
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(0,0,0,0.4); border-radius: 8px; padding: 30px; margin-bottom: 30px;
+}
+.m-sellers { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; width: 45%; min-height: 80px; align-items: center; }
+.m-seller {
+  font-size: 40px; background: rgba(52,152,219,0.1); border: 2px solid var(--corp);
+  border-radius: 8px; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center;
+  position: relative; transition: all 0.4s;
+}
+.m-seller.cartel { border-color: var(--alert); background: rgba(230,126,34,0.1); transform: scale(1.1); box-shadow: 0 0 15px rgba(230,126,34,0.5); }
+.m-seller.snitch { border-color: #2ecc71; background: rgba(46,204,113,0.1); transform: scale(1); }
+.m-seller.busted-corp { border-color: var(--police); background: rgba(231,76,60,0.1); filter: grayscale(1); }
+.busted-stamp {
+  position: absolute; font-family: var(--mono); font-size: 10px; font-weight: 900;
+  color: var(--police); border: 2px solid var(--police); padding: 2px 4px; border-radius: 4px;
+  transform: rotate(-15deg); display: none; background: rgba(0,0,0,0.8);
+}
+.m-seller.busted-corp .busted-stamp { display: block; }
+.snitch-stamp {
+  position: absolute; font-family: var(--mono); font-size: 8px; font-weight: 900;
+  color: #2ecc71; border: 1px solid #2ecc71; padding: 2px 4px; border-radius: 4px;
+  transform: rotate(10deg); top: -10px; display: none; background: rgba(0,0,0,0.8);
+}
+.m-seller.snitch .snitch-stamp { display: block; }
+
+.m-price-tag {
+  font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 900;
+  color: var(--paper); background: rgba(255,255,255,0.05); padding: 10px 20px; border-radius: 8px;
+  border-bottom: 4px solid #2ecc71; transition: all 0.3s; width: 140px;
+}
+.m-buyers { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; width: 35%; align-items: center; }
+.m-buyer { font-size: 30px; transition: filter 0.3s, transform 0.3s; }
+.m-controls { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.m-btn-police { background: transparent; border: 2px solid var(--police); color: var(--police); }
+.m-btn-police:hover:not(:disabled) { background: var(--police); color: #fff; box-shadow: 0 0 20px rgba(231,76,60,0.4); }
+
+/* ── SPLIT MAP SIMULATOR (2) ── */
+.split-wrap {
+  margin: 40px -40px; background: rgba(0,0,0,0.3); border: 1px solid var(--border);
+  border-radius: 12px; padding: 30px; text-align: center;
+}
+.split-header { margin-bottom: 20px; font-family: var(--mono); font-size: 14px; color: var(--corp); text-transform: uppercase; letter-spacing: 2px; }
+.split-map {
+  display: flex; flex-direction: column; gap: 4px; height: 200px; border-radius: 8px; overflow: hidden;
+  border: 2px solid #333; margin-bottom: 24px; position: relative;
+}
+.split-region {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: repeating-linear-gradient(45deg, rgba(52,152,219,0.2), rgba(52,152,219,0.2) 10px, rgba(230,126,34,0.2) 10px, rgba(230,126,34,0.2) 20px);
+  transition: all 0.5s ease-in-out; position: relative;
+}
+.split-region-title { font-weight: bold; color: var(--paper); font-family: 'Playfair Display', serif; font-size: 24px; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+.split-region-price { font-family: var(--mono); font-size: 18px; color: #2ecc71; font-weight: bold; z-index: 2; text-shadow: 0 2px 4px rgba(0,0,0,0.8); transition: color 0.3s; }
+.split-region.divided-north { background: rgba(52,152,219,0.4); border-bottom: 2px dashed #fff; }
+.split-region.divided-north .split-region-price { color: var(--alert); }
+.split-region.divided-south { background: rgba(230,126,34,0.4); border-top: 2px dashed #fff; }
+.split-region.divided-south .split-region-price { color: var(--alert); }
+.split-overlay-text {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-family: var(--mono); font-weight: bold; font-size: 12px; padding: 4px 8px;
+  background: rgba(0,0,0,0.8); border-radius: 4px; color: #fff; opacity: 0; transition: opacity 0.5s;
+}
+.split-region.divided-north .split-overlay-text { opacity: 1; color: var(--corp); }
+.split-region.divided-south .split-overlay-text { opacity: 1; color: var(--alert); }
+
+
+/* ── PHOEBUS SIMULATOR (3) ── */
+.phoebus-wrap {
+  margin: 60px -60px; background: #020305; border: 1px solid rgba(241,196,15,0.3); border-radius: 12px;
+  padding: 50px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.8); position: relative;
+}
+.p-bulb {
+  font-size: 100px; margin-bottom: 20px; transition: all 0.3s;
+  filter: drop-shadow(0 0 60px rgba(241,196,15,0.8)); transform-origin: top center;
+}
+.p-stats {
+  display: flex; justify-content: space-around; background: rgba(255,255,255,0.05);
+  padding: 20px; border-radius: 8px; margin-bottom: 30px; font-family: var(--mono);
+}
+.p-stat-box { display: flex; flex-direction: column; align-items: center; }
+.p-stat-label { font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 8px; }
+.p-stat-val { font-size: 28px; font-weight: bold; color: var(--paper); transition: color 0.3s; }
+.p-slider-wrap { max-width: 500px; margin: 0 auto; text-align: left; }
+.p-slider-label { font-family: var(--mono); font-size: 12px; color: #f1c40f; margin-bottom: 10px; display: flex; justify-content: space-between; }
+input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none; height: 24px; width: 24px; border-radius: 50%; background: #f1c40f;
+  cursor: pointer; margin-top: -10px; box-shadow: 0 0 15px rgba(241,196,15,0.6); transition: background 0.2s;
+}
+input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: rgba(255,255,255,0.2); border-radius: 2px; }
+input[type=range]:focus { outline: none; }
+
+
+/* ── FACT BOX ── */
+.fact-box {
+  background: rgba(52,152,219,0.05); border: 1px solid var(--border); border-left: 3px solid var(--corp);
+  border-radius: 0 6px 6px 0; padding: 24px; margin: 40px 0;
+}
+.fact-box-label { font-family: var(--mono); font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--corp); margin-bottom: 12px; }
+.fact-box p { font-size: 17px; color: var(--text-dim); line-height: 1.65; margin: 0; }
+.fact-box.warning { border-left-color: var(--police); background: rgba(231,76,60,0.05); }
+.fact-box.warning .fact-box-label { color: var(--police); }
+
+/* ── TEACHER SECTION ── */
+.teacher-section { background: #030408; border-top: 1px solid var(--border); padding: 80px 40px; margin-top: 80px; }
+.teacher-inner { max-width: 860px; margin: 0 auto; }
+.teacher-header { margin-bottom: 48px; }
+.teacher-label { font-family: var(--mono); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--alert); margin-bottom: 14px; }
+.teacher-title { font-family: 'Playfair Display', serif; font-size: clamp(28px, 4vw, 48px); font-weight: 900; color: var(--paper); line-height: 1.1; margin-bottom: 16px; }
+.teacher-intro { font-size: 17px; color: var(--text-dim); max-width: 620px; line-height: 1.65; margin-bottom: 32px; }
+.teacher-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.t-tab {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(230,126,34,0.2); padding: 10px 20px; border-radius: 4px; font-family: var(--mono); font-size: 11px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim); cursor: pointer; transition: all 0.2s;
+}
+.t-tab:hover, .t-tab.active { border-color: var(--alert); color: var(--alert); background: rgba(230,126,34,0.1); }
+.t-panel { display: none; animation: fadeUp 0.3s ease; }
+.t-panel.active { display: block; }
+.q-block { display: flex; gap: 24px; margin-bottom: 36px; padding-bottom: 36px; border-bottom: 1px solid rgba(230,126,34,0.1); }
+.q-block:last-child { border-bottom: none; }
+.q-num { font-family: var(--mono); font-size: 28px; font-weight: 700; color: rgba(230,126,34,0.25); flex-shrink: 0; line-height: 1; padding-top: 4px; min-width: 36px; }
+.q-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--paper); margin-bottom: 14px; font-weight: 700; }
+.q-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.q-list li { font-size: 16px; color: var(--text-dim); padding-left: 20px; position: relative; line-height: 1.6; }
+.q-list li::before { content: '→'; position: absolute; left: 0; color: var(--alert); }
+
+/* ── INTERACTIVE WRITING TASKS ── */
+.write-task { background: rgba(255,255,255,0.03); border: 1px solid rgba(230,126,34,0.2); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
+.write-task h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--paper); margin-bottom: 8px; }
+.write-task p { font-size: 15px; color: var(--text-dim); margin-bottom: 16px; }
+.write-task textarea { 
+  width: 100%; height: 100px; background: rgba(0,0,0,0.3); border: 1px solid rgba(230,126,34,0.3); 
+  border-radius: 6px; color: var(--text); padding: 12px; font-family: 'Crimson Pro', serif; font-size: 16px;
+  resize: vertical; margin-bottom: 12px; transition: border-color 0.2s;
+}
+.write-task textarea:focus { outline: none; border-color: var(--alert); box-shadow: 0 0 8px rgba(230,126,34,0.2); }
+.write-feedback {
+  display: none; background: rgba(230,126,34,0.1); border-left: 3px solid var(--alert);
+  padding: 16px; margin-top: 16px; font-size: 15px; color: var(--text); line-height: 1.6; border-radius: 0 6px 6px 0;
+  animation: fadeUp 0.3s ease;
+}
+
+/* ── QUIZ STYLES ── */
+.quiz-container { background: rgba(255,255,255,0.03); border: 1px solid rgba(230,126,34,0.2); border-radius: 12px; padding: 36px; }
+.quiz-container h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--paper); margin-bottom: 12px; margin-top:0; }
+.quiz-container p { font-size: 16px; color: var(--text-dim); margin-bottom: 24px; }
+.quiz-start-btn { background: rgba(230,126,34,0.15); border: 1px solid var(--alert); color: var(--alert); padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; letter-spacing: 2px; transition: all 0.2s; font-size: 14px;}
+.quiz-start-btn:hover { background: var(--alert); color: var(--ink); }
+.quiz-progress-label { font-family: var(--mono); font-size: 12px; color: var(--alert); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 2px; }
+.quiz-progress-bar-wrap { height: 4px; background: rgba(230,126,34,0.2); border-radius: 2px; margin-bottom: 24px; }
+.quiz-progress-bar { height: 100%; background: var(--alert); border-radius: 2px; transition: width 0.3s; }
+.quiz-q-text { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--paper); margin-bottom: 20px; line-height: 1.4; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt { background: rgba(255,255,255,0.03); border: 1px solid rgba(230,126,34,0.3); padding: 14px 20px; border-radius: 6px; cursor: pointer; color: var(--text); text-align: left; font-family: 'Crimson Pro', serif; font-size: 18px; display: flex; gap: 16px; transition: all 0.2s; align-items: flex-start; line-height: 1.4; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--alert); background: rgba(230,126,34,0.1); color: var(--paper); }
+.quiz-opt.correct { border-color: #2ecc71; background: rgba(46,204,113,0.15); color: #eafaf1; }
+.quiz-opt.wrong { border-color: #E74C3C; background: rgba(231,76,60,0.15); color: #fdf2e9; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-letter { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--alert); background: rgba(230,126,34,0.15); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.quiz-feedback { margin-top: 20px; padding: 16px 20px; background: rgba(230,126,34,0.1); border-left: 3px solid var(--alert); font-size: 16px; color: var(--text); line-height: 1.6; display: none; }
+.quiz-next-btn { margin-top: 20px; background: var(--alert); color: var(--ink); border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-family: var(--mono); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; transition: all 0.2s; }
+.quiz-next-btn:hover { background: var(--paper); }
+.quiz-score-view { text-align: center; padding: 20px 0; display: none; }
+.score-circle { width: 120px; height: 120px; border-radius: 50%; background: linear-gradient(135deg, var(--alert-dk), var(--alert)); display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(230,126,34,0.2); color: var(--ink); }
+.score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 900; line-height: 1; }
+.score-den { font-family: var(--mono); font-size: 12px; opacity: 0.8; margin-top: 4px; }
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+  .article { padding: 60px 24px; }
+  .market-wrap, .split-wrap, .phoebus-wrap { margin: 60px 0; padding: 32px 20px; }
+  .m-arena { flex-direction: column; gap: 30px; }
+  .m-sellers, .m-buyers { width: 100%; }
+  .pullquote { margin: 40px 0; padding: 28px 24px; }
+  .pullquote::before { font-size: 100px; }
+  .teacher-section { padding: 60px 24px; }
+  .p-stats { flex-direction: column; gap: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-label">SO-Portalen · Samhällskunskap · Ekonomi</div>
+  <h1>Den hemliga<br><em>konspirationen</em></h1>
+  <p class="hero-sub">Fri konkurrens är marknadens grundregel. Men vad händer när företagen bestämmer sig för att sluta tävla och istället lura dig i smyg? Välkommen till kartellernas värld.</p>
+</section>
+
+<article class="article">
+
+  <p style="font-size:23px; font-style:italic; color:var(--paper); line-height:1.6; margin-bottom:40px;">
+    Det ser ut som om du har ett val. Det finns tre bensinmackar i staden, fyra matbutiker och flera mobiloperatörer. De gör reklam och låtsas slåss om dig som kund. Men bakom stängda dörrar har de redan skakat hand.
+  </p>
+
+  <p>Marknadsekonomin bygger på att företag tävlar, vilket pressar priserna nedåt. Men för ett företag är konkurrens väldigt jobbigt. Man måste ständigt sänka sina priser, komma på nya uppfinningar och oroa sig för att gå i konkurs.</p>
+  
+  <p>Lösningen för oärliga företag? <strong>En kartell</strong>. En kartell är ett olagligt samarbete där konkurrerande företag i hemlighet kommer överens om att sluta tävla.</p>
+
+  <div class="section-marker"><span>Simulator 1</span></div>
+  <h2>Bilda (och krossa) Priskartellen</h2>
+
+  <p>I simulatorn nedan finns fyra företag som säljer mobiltelefoner. Just nu råder fri konkurrens, priset är lågt och kunderna är nöjda. Klicka på "Bilda hemlig kartell" för att se vad som händer när de konspirerar. Vågar du sedan spela visselblåsare?</p>
+
+  <div class="market-wrap" id="market-wrap">
+    <div class="m-status" id="m-status">FRI KONKURRENS</div>
+    <div class="m-desc" id="m-desc">Fyra företag slåss om kunderna. De måste hålla priset lågt för att överleva. Marknaden fungerar perfekt och kunderna är glada!</div>
+    
+    <div class="m-arena">
+      <div class="m-sellers" id="m-sellers">
+        <div class="m-seller">🏢<div class="snitch-stamp">GOLARE</div><div class="busted-stamp">BÖTER</div></div>
+        <div class="m-seller">🏢<div class="snitch-stamp">GOLARE</div><div class="busted-stamp">BÖTER</div></div>
+        <div class="m-seller">🏢<div class="snitch-stamp">GOLARE</div><div class="busted-stamp">BÖTER</div></div>
+        <div class="m-seller">🏢<div class="snitch-stamp">GOLARE</div><div class="busted-stamp">BÖTER</div></div>
+      </div>
+      
+      <div class="m-price-tag" id="m-price-tag">
+        <span id="m-price">899</span>:-
+      </div>
+      
+      <div class="m-buyers" id="m-buyers">
+        <div class="m-buyer" style="filter: hue-rotate(180deg);">😊</div>
+        <div class="m-buyer" style="filter: hue-rotate(180deg);">😊</div>
+        <div class="m-buyer" style="filter: hue-rotate(180deg);">😊</div>
+        <div class="m-buyer" style="filter: hue-rotate(180deg);">😊</div>
+        <div class="m-buyer" style="filter: hue-rotate(180deg);">😊</div>
+      </div>
+    </div>
+    
+    <div class="m-controls">
+      <button class="interactive-btn" id="btn-cartel" onclick="formCartel()">🤝 Bilda hemlig kartell</button>
+      <button class="interactive-btn m-btn-police" id="btn-police" onclick="bustCartel()" style="display:none;">🚨 Tipsa Konkurrensverket!</button>
+      <button class="interactive-btn" id="btn-reset" onclick="resetMarket()" style="display:none; background:transparent; border:1px solid #666; color:#aaa;">↺ Börja om</button>
+    </div>
+  </div>
+
+  <p>Det finns två vanliga sätt som karteller fungerar på:</p>
+  <ul>
+    <li><strong>Priskarteller:</strong> Som i simulatorn ovan. Företagen kommer överens om att aldrig sänka priset under en viss (hög) nivå. Du tvingas betala överpris oavsett vem du handlar av.</li>
+    <li><strong>Marknadsdelning:</strong> Företagen delar upp landet geografiskt för att slippa tävla.</li>
+  </ul>
+
+  <div class="split-wrap">
+    <div class="split-header">Experiment: Dela upp kakan</div>
+    <p style="font-size: 15px; color: var(--text-dim); margin-bottom: 20px;">Två företag (Blå och Orange) säljer bredband i hela Sverige. Tävlingen håller priserna nere. Klicka för att se vad som händer om de delar upp landet!</p>
+    
+    <div class="split-map" id="split-map">
+      <div class="split-region" id="region-north">
+        <div class="split-overlay-text" id="over-north">ENDAST BLÅTT FÖRETAG</div>
+        <div class="split-region-title">Norra Sverige</div>
+        <div class="split-region-price" id="price-north">Pris: 299 kr/mån</div>
+      </div>
+      <div class="split-region" id="region-south">
+        <div class="split-overlay-text" id="over-south">ENDAST ORANGE FÖRETAG</div>
+        <div class="split-region-title">Södra Sverige</div>
+        <div class="split-region-price" id="price-south">Pris: 299 kr/mån</div>
+      </div>
+    </div>
+    <button class="interactive-btn" id="btn-split" onclick="divideMarket()">✂️ Dela upp marknaden i smyg</button>
+    <button class="interactive-btn" id="btn-split-reset" onclick="resetSplitMarket()" style="display:none; background:transparent; border:1px solid #666; color:#aaa;">↺ Återställ fri konkurrens</button>
+  </div>
+
+  <div class="pullquote">
+    <p>Karteller är som stöld i dagsljus, där offret inte ens inser att de blir rånade vid kassabandet.</p>
+  </div>
+
+  <div class="section-marker"><span>Verkliga exempel</span></div>
+  <h2>Phoebuskartellen – När ljuset slocknade</h2>
+
+  <p>Ett av historiens mest ökända exempel ägde rum på 1920-talet. De största tillverkarna av glödlampor (inklusive Osram, Philips och General Electric) bildade en global kartell kallad <em>Phoebus</em>.</p>
+  
+  <p>De nöjde sig inte med att bara bestämma priset. De kom i hemlighet överens om att <strong>sänka kvaliteten på sina egna produkter</strong>. Innan kartellen bildades höll en glödlampa i snitt 2 500 timmar. Kartellen beslutade att ingen glödlampa fick brinna längre än 1 000 timmar. Syftet? Att tvinga folk att köpa glödlampor mycket oftare.</p>
+
+  <div class="phoebus-wrap">
+    <div class="p-bulb" id="p-bulb">💡</div>
+    <p style="font-family: var(--mono); color: #f1c40f; margin-bottom: 20px; font-size: 14px; text-transform: uppercase;">Phoebus-Simulatorn</p>
+    <p style="font-size: 15px; color: var(--text-dim); max-width: 400px; margin: 0 auto 30px;">Du är chef i kartellen. Sänk glödlampans livslängd för att tvinga kunderna att köpa fler. Se hur din vinst skjuter i höjden!</p>
+    
+    <div class="p-stats">
+      <div class="p-stat-box">
+        <span class="p-stat-label">Lampans livslängd</span>
+        <span class="p-stat-val" id="stat-life">2500 h</span>
+      </div>
+      <div class="p-stat-box">
+        <span class="p-stat-label">Kartellens vinst</span>
+        <span class="p-stat-val" id="stat-profit" style="color:#2ecc71;">100 %</span>
+      </div>
+      <div class="p-stat-box">
+        <span class="p-stat-label">Kundens ilska</span>
+        <span class="p-stat-val" id="stat-anger">Låg</span>
+      </div>
+    </div>
+
+    <div class="p-slider-wrap">
+      <div class="p-slider-label"><span>Maximal Livslängd (Mindre lönsamt)</span> <span>Planerat åldrande (Extremt lönsamt)</span></div>
+      <input type="range" id="phoebus-slider" min="500" max="2500" value="2500" step="100" oninput="updatePhoebus()">
+    </div>
+  </div>
+
+  <div class="fact-box warning">
+    <div class="fact-box-label">Golar-rabatten (Eftergift)</div>
+    <p>I Sverige är det <strong>Konkurrensverket</strong> som jagar karteller. Straffet för att delta i en kartell kallas <em>konkurrensskadeavgift</em> och kan kosta företaget hundratals miljoner kronor i böter. Men Konkurrensverket har ett smart vapen: Eftergiftsprogrammet. Det innebär att det företag som är först med att erkänna ("gola") och lämna över bevis på kartellen <strong>slipper böter helt och hållet</strong>. Detta skapar enorm paranoia i kartellerna, eftersom ingen vet vem som kommer tipsa polisen först!</p>
+  </div>
+
+  <div class="section-marker"><span>Slutsats</span></div>
+  <h2>Varför vi behöver en domare</h2>
+
+  <p>Vän av ordning kanske frågar sig: Om företag i en fri marknad får bestämma själva, varför får de inte samarbeta? Svaret är att marknadsekonomin bara gynnar samhället så länge det finns en tävling. När tävlingen försvinner skapas överpriser, sämre kvalitet och ingen teknisk utveckling.</p>
+  
+  <p>Därför sätter staten upp spelregler, konkurrenslagar, för att skydda den fria konkurrensen. En marknad kan bara vara "fri" om det är strängt förbjudet att sätta den ur spel.</p>
+
+</article>
+
+<!-- ══════════════════════════════
+     LÄRARSEKTION
+══════════════════════════════ -->
+<section class="teacher-section">
+  <div class="teacher-inner">
+    <div class="teacher-header">
+      <h2 class="teacher-title">Lärarmaterial &<br><em>uppgifter</em></h2>
+      <p class="teacher-intro">Nedan finns material för att koppla artikeln om karteller till centralt innehåll i Lgr22. Öva på begreppen och testa dina kunskaper.</p>
+      <div class="teacher-tabs">
+        <button class="t-tab active" onclick="showTeacherTab('diskussion', this)">💬 Diskussion</button>
+        <button class="t-tab" onclick="showTeacherTab('skriv', this)">✍️ Skriv & Återkoppling</button>
+        <button class="t-tab" onclick="showTeacherTab('quiz', this)">✅ Quiz</button>
+        <button class="t-tab" onclick="showTeacherTab('lgr', this)">📋 Lgr22</button>
+      </div>
+    </div>
+
+    <!-- DISKUSSION -->
+    <div class="t-panel active" id="t-diskussion">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Vem är offret?</h4>
+          <ul class="q-list">
+            <li>När företag skapar en priskartell är det uppenbart att de tjänar pengar. Men vem är det som förlorar? Kan du ge konkreta exempel från din vardag?</li>
+            <li>Diskutera Phoebuskartellen och simulatorn. Vad tycker ni om metoden "planerat åldrande" (att medvetet bygga saker som går sönder för att sälja mer)? Hur påverkar detta miljön?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="q-block">
+        <div class="q-num">02</div>
+        <div class="q-content">
+          <h4>Det perfekta brottet?</h4>
+          <ul class="q-list">
+            <li>Varför är det så otroligt svårt för polis och myndigheter att upptäcka en kartell, jämfört med till exempel ett bankrån?</li>
+            <li>Hur fungerar "eftergiftsprogrammet" (Leniency)? Tror du att det är en bra metod av staten att låta en brottsling gå helt fri, bara för att sätta dit de andra?</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKRIV & ÅTERKOPPLING -->
+    <div class="t-panel" id="t-skriv">
+      <div class="write-task">
+        <h4>1. Definiera begreppet</h4>
+        <p>Vad är en kartell och varför är det olagligt i nästan alla länder i världen?</p>
+        <textarea id="write-input-1" placeholder="Skriv ditt svar här..."></textarea>
+        <button class="interactive-btn" onclick="checkWritingTask(1)">Få återkoppling</button>
+        <div class="write-feedback" id="write-feedback-1"></div>
+      </div>
+
+      <div class="write-task">
+        <h4>2. Pris och Marknadsdelning</h4>
+        <p>Förklara kort skillnaden mellan en "priskartell" och "marknadsdelning" utifrån simulatorerna i texten.</p>
+        <textarea id="write-input-2" placeholder="Skriv ditt svar här..."></textarea>
+        <button class="interactive-btn" onclick="checkWritingTask(2)">Få återkoppling</button>
+        <div class="write-feedback" id="write-feedback-2"></div>
+      </div>
+      
+      <div class="write-task">
+        <h4>3. Myndighetens vapen</h4>
+        <p>Vilken myndighet granskar företag i Sverige, och varför låter de ibland det första företaget som "golar" slippa böter helt?</p>
+        <textarea id="write-input-3" placeholder="Skriv ditt svar här..."></textarea>
+        <button class="interactive-btn" onclick="checkWritingTask(3)">Få återkoppling</button>
+        <div class="write-feedback" id="write-feedback-3"></div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="t-panel" id="t-quiz">
+      <div class="quiz-container">
+        <h3>Testa dina kunskaper</h3>
+        <p>Har du förstått hur konspirationerna fungerar? Gör kartell-quizet!</p>
+        
+        <div id="quiz-start">
+          <button class="quiz-start-btn" onclick="startQuiz()">Starta Quizet →</button>
+        </div>
+        
+        <div id="quiz-play" style="display:none;">
+          <div class="quiz-progress-label" id="quiz-status">Fråga 1 av 8</div>
+          <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" id="quiz-progress"></div></div>
+          <div class="quiz-q-text" id="quiz-q">Frågan laddas...</div>
+          <div class="quiz-options" id="quiz-opts"></div>
+          <div class="quiz-feedback" id="quiz-fb"></div>
+          <button class="quiz-next-btn" id="quiz-next" style="display:none;" onclick="nextQuestion()">Nästa fråga →</button>
+        </div>
+
+        <div class="quiz-score-view" id="quiz-score-view">
+          <div class="score-circle">
+            <div class="score-num" id="score-num">0</div>
+            <div class="score-den">av 8</div>
+          </div>
+          <h3 id="score-title" class="score-title">Bra jobbat!</h3>
+          <p id="score-msg" class="score-msg">Du har slutfört quizet.</p>
+          <button class="quiz-start-btn" onclick="startQuiz()">Gör om quizet ↺</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- LGR22 -->
+    <div class="t-panel" id="t-lgr">
+      <div class="q-block">
+        <div class="q-num">01</div>
+        <div class="q-content">
+          <h4>Koppling till kursplanen (Samhällskunskap)</h4>
+          <ul class="q-list">
+            <li><strong>Samhällsekonomi:</strong> Ekonomiska strukturer och hur marknaden fungerar. Utbud, efterfrågan och prisbildning under olika marknadsformer.</li>
+            <li><strong>Rättssystemet och lagar:</strong> Hur staten reglerar ekonomin genom konkurrenslagar för att skydda konsumenterna.</li>
+            <li><strong>Hållbarhet:</strong> Hur brist på konkurrens kan leda till sämre kvalitet (t.ex. inbyggt åldrande) och ökad resursförbrukning (som i fallet med Phoebuskartellen).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// ── SCROLL PROGRESS ──
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// ── SIMULATOR 1: PRICING CARTEL ──
+function formCartel() {
+  const status = document.getElementById('m-status');
+  const desc = document.getElementById('m-desc');
+  const priceTag = document.getElementById('m-price-tag');
+  const priceSpan = document.getElementById('m-price');
+  
+  status.innerText = "HEMLIG KARTELL BILDAD!";
+  status.style.color = "var(--alert)";
+  priceTag.style.borderBottomColor = "var(--alert)";
+  priceSpan.innerText = "8999"; 
+  desc.innerText = "Företagen har skakat hand i smyg. De tävlar inte längre mot varandra. Priset skjuter i höjden och kunderna måste betala extremt dyrt.";
+  
+  const buyersDiv = document.getElementById('m-buyers');
+  buyersDiv.innerHTML = '';
+  for(let i=0; i<5; i++) {
+    buyersDiv.innerHTML += `<div class="m-buyer" style="filter: grayscale(100%);">🤬</div>`;
+  }
+
+  const sellers = document.querySelectorAll('.m-seller');
+  sellers.forEach(s => { s.classList.add('cartel'); s.classList.remove('snitch', 'busted-corp'); });
+
+  document.getElementById('btn-cartel').style.display = 'none';
+  document.getElementById('btn-police').style.display = 'inline-block';
+}
+
+function bustCartel() {
+  const status = document.getElementById('m-status');
+  const desc = document.getElementById('m-desc');
+  const priceTag = document.getElementById('m-price-tag');
+  const priceSpan = document.getElementById('m-price');
+  const wrap = document.getElementById('market-wrap');
+  
+  wrap.classList.add('busted');
+  status.innerText = "KARTELLEN SPRÄNGD!";
+  status.style.color = "var(--police)";
+  priceTag.style.borderBottomColor = "#2ecc71";
+  priceSpan.innerText = "899"; 
+  desc.innerText = "Ett företag fick panik och golade till Konkurrensverket för att slippa straff (Eftergift). De andra tre döms till miljardböter! Fri konkurrens är tillbaka.";
+  
+  const buyersDiv = document.getElementById('m-buyers');
+  buyersDiv.innerHTML = '';
+  for(let i=0; i<5; i++) {
+    buyersDiv.innerHTML += `<div class="m-buyer" style="filter: hue-rotate(180deg);">😊</div>`;
+  }
+
+  const sellers = document.querySelectorAll('.m-seller');
+  const snitchIndex = Math.floor(Math.random() * 4);
+  sellers.forEach((s, i) => {
+    s.classList.remove('cartel');
+    if (i === snitchIndex) s.classList.add('snitch');
+    else s.classList.add('busted-corp');
+  });
+
+  document.getElementById('btn-police').style.display = 'none';
+  document.getElementById('btn-reset').style.display = 'inline-block';
+}
+
+function resetMarket() {
+  const wrap = document.getElementById('market-wrap');
+  wrap.classList.remove('busted');
+  
+  const status = document.getElementById('m-status');
+  const desc = document.getElementById('m-desc');
+  const priceTag = document.getElementById('m-price-tag');
+  const priceSpan = document.getElementById('m-price');
+
+  status.innerText = "FRI KONKURRENS";
+  status.style.color = "#2ecc71";
+  priceTag.style.borderBottomColor = "#2ecc71";
+  priceSpan.innerText = "899"; 
+  desc.innerText = "Fyra företag slåss om kunderna. De måste hålla priset lågt för att överleva. Marknaden fungerar perfekt och kunderna är glada!";
+
+  const buyersDiv = document.getElementById('m-buyers');
+  buyersDiv.innerHTML = '';
+  for(let i=0; i<5; i++) {
+    buyersDiv.innerHTML += `<div class="m-buyer" style="filter: hue-rotate(180deg);">😊</div>`;
+  }
+
+  const sellers = document.querySelectorAll('.m-seller');
+  sellers.forEach(s => { s.classList.remove('cartel', 'snitch', 'busted-corp'); });
+
+  document.getElementById('btn-reset').style.display = 'none';
+  document.getElementById('btn-cartel').style.display = 'inline-block';
+}
+
+// ── SIMULATOR 2: SPLIT MARKET ──
+function divideMarket() {
+  document.getElementById('region-north').classList.add('divided-north');
+  document.getElementById('region-south').classList.add('divided-south');
+  
+  document.getElementById('price-north').innerText = "Pris: 699 kr/mån";
+  document.getElementById('price-south').innerText = "Pris: 699 kr/mån";
+  
+  document.getElementById('btn-split').style.display = 'none';
+  document.getElementById('btn-split-reset').style.display = 'inline-block';
+}
+
+function resetSplitMarket() {
+  document.getElementById('region-north').classList.remove('divided-north');
+  document.getElementById('region-south').classList.remove('divided-south');
+  
+  document.getElementById('price-north').innerText = "Pris: 299 kr/mån";
+  document.getElementById('price-south').innerText = "Pris: 299 kr/mån";
+  
+  document.getElementById('btn-split-reset').style.display = 'none';
+  document.getElementById('btn-split').style.display = 'inline-block';
+}
+
+// ── SIMULATOR 3: PHOEBUS LIGHTBULB ──
+function updatePhoebus() {
+  const val = parseInt(document.getElementById('phoebus-slider').value);
+  const bulb = document.getElementById('p-bulb');
+  const lifeText = document.getElementById('stat-life');
+  const profitText = document.getElementById('stat-profit');
+  const angerText = document.getElementById('stat-anger');
+  
+  lifeText.innerText = val + " h";
+  
+  // Calculate profit multiplier (base 100% at 2500h)
+  const multiplier = 2500 / val;
+  const profit = Math.round(multiplier * 100);
+  profitText.innerText = profit + " %";
+  
+  // Visual effects
+  const brightness = val / 2500;
+  bulb.style.filter = `drop-shadow(0 0 ${brightness * 60}px rgba(241,196,15,${brightness}))`;
+  bulb.style.opacity = brightness > 0.3 ? brightness : 0.3;
+  
+  if (val < 1000) {
+    profitText.style.color = "var(--alert)";
+    angerText.innerText = "Extrem!";
+    angerText.style.color = "var(--police)";
+  } else if (val < 2000) {
+    profitText.style.color = "#f1c40f";
+    angerText.innerText = "Växande";
+    angerText.style.color = "#f1c40f";
+  } else {
+    profitText.style.color = "#2ecc71";
+    angerText.innerText = "Låg";
+    angerText.style.color = "var(--text-dim)";
+  }
+}
+
+// ── TEACHER TABS ──
+function showTeacherTab(id, btn) {
+  document.querySelectorAll('.t-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.t-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('t-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── WRITING TASK LOGIC ──
+function checkWritingTask(id) {
+  const input = document.getElementById('write-input-' + id).value.trim().toLowerCase();
+  const feedbackEl = document.getElementById('write-feedback-' + id);
+  let feedbackHTML = '';
+
+  if(input.length < 20) {
+    feedbackHTML = '<strong style="color:var(--alert);">Skriv lite mer!</strong> Utveckla ditt resonemang innan du ber om återkoppling.';
+  } else {
+    let success = false;
+    let modelAnswer = '';
+
+    if (id === 1) { // Kartell definition
+      modelAnswer = 'En kartell är ett hemligt, olagligt samarbete mellan konkurrerande företag. Istället för att tävla kommer de överens om priser eller delar upp kunder mellan sig. Det är olagligt eftersom det skadar konsumenterna som tvingas betala överpriser.';
+      if (input.includes('samarbete') || input.includes('överens') || input.includes('priser') || input.includes('hemlig') || input.includes('konsument') || input.includes('olaglig')) {
+        success = true;
+      }
+    } else if (id === 2) { // Pris vs Marknadsdelning
+      modelAnswer = 'I en priskartell kommer företagen överens om en hög miniminivå för priser som de aldrig går under. Marknadsdelning är när de istället delar upp geografiska områden (t.ex. halva Sverige var) så att de slipper konkurrera och skapar lokala monopol.';
+      if (input.includes('pris') || input.includes('geografisk') || input.includes('område') || input.includes('delar upp') || input.includes('monopol') || input.includes('tävla')) {
+        success = true;
+      }
+    } else if (id === 3) { // Konkurrensverket / Eftergift
+      modelAnswer = 'I Sverige är det Konkurrensverket som jagar karteller. De använder ett "eftergiftsprogram" (Leniency), vilket innebär att det företag som först erkänner och avslöjar kartellen slipper böter helt. Detta skapar misstro i kartellen och gör det lättare att spränga den.';
+      if (input.includes('konkurrensverket') || input.includes('eftergift') || input.includes('slipper') || input.includes('böter') || input.includes('erkänner') || input.includes('golar') || input.includes('avslöjar')) {
+        success = true;
+      }
+    }
+
+    if (success) {
+      feedbackHTML = '<strong style="color:#2ecc71;">Bra analys!</strong> Ditt svar innehåller rätt nyckelbegrepp.<br><br><strong style="color:var(--alert-dk);">Mönstersvar att jämföra med:</strong><br>' + modelAnswer;
+    } else {
+      feedbackHTML = '<strong style="color:var(--alert);">Bra försök!</strong> Ett tips är att använda begrepp som "samarbete", "böter" eller "Konkurrensverket".<br><br><strong style="color:var(--alert-dk);">Mönstersvar att jämföra med:</strong><br>' + modelAnswer;
+    }
+  }
+  
+  feedbackEl.innerHTML = feedbackHTML;
+  feedbackEl.style.display = 'block';
+}
+
+// ── QUIZ LOGIC (8 QUESTIONS) ──
+const quizData = [
+  { q: "Vad är en kartell?", opts: ["En myndighet som granskar företag", "Ett lagligt avtal om miljökrav", "Ett olagligt, hemligt samarbete där företag kommer överens för att slippa tävla", "Ett pappersarkiv för ekonomer"], correct: 2, feedback: "Korrekt! Karteller är hemliga konspirationer mellan företag." },
+  { q: "Vad händer vanligtvis med priserna när en priskartell bildas?", opts: ["De sjunker drastiskt", "De stiger eftersom företagen inte längre behöver tävla om att vara billigast", "De förblir oförändrade", "Priserna bestäms av staten"], correct: 1, feedback: "Helt rätt. Syftet med en kartell är att hålla priserna på en hög, konstgjord nivå för att maximera vinsten." },
+  { q: "Vad menas med marknadsdelning?", opts: ["Att sälja aktier på börsen", "Att marknadsföra produkten till halva priset", "Att företag i en kartell kommer överens om att dela upp kunder eller geografiska områden mellan sig", "Att man köper upp ett annat företag"], correct: 2, feedback: "Exakt. Genom att dela upp kartan skapar företagen i princip lokala monopol." },
+  { q: "Vem är det som i slutändan betalar priset (förlorar) när en kartell är aktiv?", opts: ["Företagen i kartellen", "Bara de som investerar i aktier", "Staten", "Vi konsumenter (kunderna)"], correct: 3, feedback: "Rätt! Vi betalar överpriser utan att veta om att alternativen är riggade." },
+  { q: "Vad var syftet med den globala Phoebuskartellen på 1920-talet?", opts: ["Att göra glödlampor gratis", "Att bygga större kraftverk", "Att i hemlighet sänka glödlampornas livslängd så att folk tvingades köpa nya mycket oftare", "Att uppfinna LED-lampan"], correct: 2, feedback: "Helt rätt! Detta är ett ökänt bevis på att karteller kan samarbeta kring att sänka kvaliteten (planerat åldrande)." },
+  { q: "Vilken svensk statlig myndighet har till uppgift att jaga och stoppa karteller?", opts: ["Skatteverket", "Konkurrensverket", "Finansinspektionen", "Polisen"], correct: 1, feedback: "Rätt! Det är Konkurrensverket som är statens 'domare' på marknaden." },
+  { q: "Vilket straff riskerar ett företag som döms för kartellbildning i Sverige?", opts: ["De måste byta namn", "De tvingas sälja företaget till staten", "Miljardböter (kallat konkurrensskadeavgift)", "Fängelse för alla anställda"], correct: 2, feedback: "Korrekt. Avgiften kan bli extremt hög för att avskräcka från brott." },
+  { q: "Vad innebär 'Eftergiftsprogrammet' (Leniency)?", opts: ["Att staten ger bidrag till nystartade företag", "Att det företag i kartellen som golar/tipsar myndigheten först slipper böter helt", "Att företag kan få betala böterna på avbetalning", "Att karteller blir lagliga om de betalar skatt"], correct: 1, feedback: "Spot on! Denna regel skapar paranoia och spränger ofta karteller inifrån." }
+];
+
+let currentQ = 0;
+let score = 0;
+let answered = false;
+const letters = ['A', 'B', 'C', 'D'];
+
+function startQuiz() {
+  document.getElementById('quiz-start').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'none';
+  document.getElementById('quiz-play').style.display = 'block';
+  currentQ = 0; score = 0; renderQ();
+}
+
+function renderQ() {
+  answered = false;
+  const q = quizData[currentQ];
+  document.getElementById('quiz-status').textContent = `Fråga ${currentQ + 1} av ${quizData.length}`;
+  document.getElementById('quiz-progress').style.width = ((currentQ) / quizData.length * 100) + '%';
+  document.getElementById('quiz-q').textContent = q.q;
+  
+  const optsHtml = q.opts.map((opt, idx) => `
+    <button class="quiz-opt" onclick="selectAns(${idx})">
+      <span class="quiz-letter">${letters[idx]}</span>
+      <span>${opt}</span>
+    </button>
+  `).join('');
+  
+  document.getElementById('quiz-opts').innerHTML = optsHtml;
+  document.getElementById('quiz-fb').style.display = 'none';
+  document.getElementById('quiz-next').style.display = 'none';
+}
+
+function selectAns(idx) {
+  if(answered) return;
+  answered = true;
+  const q = quizData[currentQ];
+  const buttons = document.querySelectorAll('.quiz-opt');
+  const fb = document.getElementById('quiz-fb');
+  
+  buttons.forEach((btn, i) => {
+    btn.disabled = true;
+    if(i === q.correct) btn.classList.add('correct');
+    else if(i === idx) btn.classList.add('wrong');
+  });
+
+  if(idx === q.correct) {
+    score++; fb.innerHTML = `<strong>✅ Rätt!</strong><br>${q.feedback}`;
+  } else {
+    fb.innerHTML = `<strong>❌ Fel.</strong><br>${q.feedback}`;
+  }
+  
+  fb.style.display = 'block';
+  const nextBtn = document.getElementById('quiz-next');
+  nextBtn.style.display = 'inline-block';
+  nextBtn.textContent = (currentQ + 1 < quizData.length) ? 'Nästa fråga →' : 'Se Resultat →';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if(currentQ < quizData.length) renderQ();
+  else showScore();
+}
+
+function showScore() {
+  document.getElementById('quiz-play').style.display = 'none';
+  document.getElementById('quiz-score-view').style.display = 'block';
+  
+  const pct = score / quizData.length;
+  let title, msg;
+  if(pct === 1) { title = "Full pott! 🏆"; msg = "Perfekt! Du är ett proffs på att avslöja marknadens hemligheter."; }
+  else if(pct >= 0.7) { title = "Bra jobbat! ⭐"; msg = "Snyggt! Du har en stabil förståelse för karteller och hur de stoppas."; }
+  else { title = "Kämpa på! 📖"; msg = "Det här med lagar och prissamarbete kan vara snurrigt. Läs igenom artikeln en gång till och försök igen!"; }
+
+  document.getElementById('score-num').textContent = score;
+  document.getElementById('score-title').textContent = title;
+  document.getElementById('score-msg').textContent = msg;
+}
+</script>
+</body>
+</html>
