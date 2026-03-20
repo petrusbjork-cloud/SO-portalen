@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Den Etiska Simulatorn – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-deep:   #090A0F;
+  --bg-card:   #13151C;
+  --gold:      #D4AF37;
+  --gold-dim:  rgba(212, 175, 55, 0.2);
+  --danger:    #E53935;
+  --danger-dim:rgba(229, 57, 53, 0.15);
+  --safe:      #43A047;
+  --safe-dim:  rgba(67, 160, 71, 0.15);
+  --love:      #E91E63;
+  --text-main: #E2E8F0;
+  --text-dim:  #94A3B8;
+  --border:    rgba(255, 255, 255, 0.1);
+  
+  --font-head: 'Playfair Display', serif;
+  --font-body: 'Source Serif 4', serif;
+  --font-ui:   'Inter', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-deep);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── TOOLTIP (GLOSSARY) ── */
+.glossary-term {
+  border-bottom: 1px dashed var(--gold); color: var(--text-main);
+  cursor: help; position: relative; transition: color 0.2s;
+}
+.glossary-term:hover { color: var(--gold); }
+#tooltip {
+  position: fixed; background: #000; border: 1px solid var(--gold);
+  color: var(--text-main); padding: 12px 16px; border-radius: 6px;
+  z-index: 2000; display: none; max-width: 280px; font-family: var(--font-ui);
+  font-size: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+  pointer-events: none; line-height: 1.5;
+}
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: linear-gradient(90deg, var(--danger), var(--gold));
+  z-index: 1000; transition: width 0.1s;
+}
+
+/* ── HERO & TRACK SELECTION ── */
+.hero {
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden; padding: 80px 20px 40px; text-align: center;
+  background: radial-gradient(circle at 50% 100%, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+}
+.hero-badge {
+  font-family: var(--font-ui); font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px; border: 1px solid var(--gold-dim);
+  padding: 6px 14px; border-radius: 30px; background: rgba(212,175,55,0.05);
+}
+.hero h1 {
+  font-family: var(--font-head); font-size: clamp(40px, 8vw, 80px); font-weight: 900;
+  line-height: 1.1; margin-bottom: 20px; text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero p {
+  font-size: 22px; color: var(--text-dim); max-width: 700px;
+  line-height: 1.5; margin-bottom: 60px;
+}
+
+.track-selector {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  max-width: 1000px; width: 100%; margin: 0 auto;
+}
+.track-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  padding: 40px 24px; border-radius: 16px; text-align: center;
+  cursor: pointer; transition: all 0.3s; position: relative; overflow: hidden;
+}
+.track-card:hover { transform: translateY(-8px); border-color: var(--gold); box-shadow: 0 20px 40px rgba(0,0,0,0.5); }
+.tc-icon { font-size: 56px; margin-bottom: 20px; }
+.tc-title { font-family: var(--font-head); font-size: 24px; color: var(--text-main); margin-bottom: 12px; }
+.tc-desc { font-size: 15px; color: var(--text-dim); line-height: 1.5; }
+
+/* ── EXPERIMENT WRAPPER (DYNAMIC) ── */
+#experiment-wrapper { display: none; padding: 40px 20px 80px; }
+.experiment-container { max-width: 900px; margin: 0 auto; position: relative; z-index: 10; }
+
+.exp-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+  animation: slideUp 0.5s ease;
+}
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Header & Progress */
+.exp-header {
+  padding: 24px 40px; border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02);
+}
+.exp-step { font-family: var(--font-ui); font-size: 13px; color: var(--gold); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.exp-dots { display: flex; gap: 8px; }
+.exp-dot { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--border); transition: 0.3s; }
+.exp-dot.active { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 10px var(--gold-dim); }
+.exp-dot.done { background: rgba(255,255,255,0.2); border-color: transparent; }
+
+/* Body & Scenario */
+.exp-body { padding: 40px; }
+.exp-title { font-family: var(--font-head); font-size: 32px; margin-bottom: 16px; color: var(--text-main); }
+.exp-desc { font-size: 18px; color: var(--text-dim); margin-bottom: 30px; line-height: 1.6; }
+
+/* ── VISUALS ── */
+.visual-stage { background: #050608; border-radius: 12px; padding: 40px; position: relative; margin-bottom: 30px; border: 1px solid var(--border); display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
+/* Trolley specifics */
+.track-row { display: flex; align-items: center; position: relative; height: 60px; }
+.track-line { position: absolute; left: 0; right: 0; top: 50%; height: 8px; background: repeating-linear-gradient(90deg, #333, #333 10px, #111 10px, #111 20px); z-index: 1; transform: translateY(-50%); border-top: 2px solid #555; border-bottom: 2px solid #555; }
+.track-line.diverted { border-color: var(--danger); background: repeating-linear-gradient(90deg, var(--danger), var(--danger) 10px, #111 10px, #111 20px); opacity: 0.5; }
+.trolley { font-size: 48px; position: absolute; left: 10px; z-index: 3; transition: all 1.5s cubic-bezier(0.4, 0, 0.2, 1); }
+.victims { position: absolute; right: 20px; z-index: 2; display: flex; gap: 4px; font-size: 32px; }
+.victims.alone { right: 20px; }
+.actor { position: absolute; left: 50%; top: -30px; font-size: 40px; z-index: 4; transition: all 0.5s; }
+
+/* ── INTERACTIVE CONTROLS ── */
+.controls { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+.choice-btn { background: var(--bg-deep); border: 2px solid var(--border); padding: 24px 20px; border-radius: 12px; cursor: pointer; text-align: center; transition: all 0.2s; position: relative; overflow: hidden; }
+.choice-btn:hover:not(:disabled) { border-color: var(--text-dim); background: rgba(255,255,255,0.03); }
+.choice-btn.selected-a { border-color: var(--danger); background: var(--danger-dim); }
+.choice-btn.selected-b { border-color: var(--safe); background: var(--safe-dim); }
+.choice-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+.btn-title { font-family: var(--font-ui); font-size: 15px; font-weight: 700; color: var(--text-main); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px; }
+.btn-sub { font-family: var(--font-body); font-size: 14px; color: var(--text-dim); }
+
+/* ── JUSTIFICATION BOX ── */
+.justification-box { display: none; background: rgba(212,175,55,0.05); border: 1px solid var(--gold-dim); border-radius: 12px; padding: 24px; margin-top: 20px; animation: slideUp 0.5s ease; }
+.just-title { font-family: var(--font-head); font-size: 20px; color: var(--gold); margin-bottom: 12px; }
+.just-prompt { font-size: 16px; color: var(--text-main); margin-bottom: 16px; line-height: 1.5; }
+.just-textarea { width: 100%; min-height: 100px; background: var(--bg-deep); border: 1px solid var(--border); border-radius: 8px; padding: 16px; color: var(--text-main); font-family: var(--font-body); font-size: 16px; resize: vertical; margin-bottom: 16px; outline: none; transition: border-color 0.2s; }
+.just-textarea:focus { border-color: var(--gold); }
+.just-error { color: #ff8a80; font-size: 14px; font-family: var(--font-ui); margin-bottom: 12px; display: none; }
+.just-submit { background: var(--gold); color: var(--bg-deep); font-family: var(--font-ui); font-weight: 700; padding: 12px 24px; border: none; border-radius: 6px; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+.just-submit:hover { background: #FCE68D; }
+
+/* ── STATS & REVEAL ── */
+.stats-panel { display: none; margin-top: 30px; padding-top: 30px; border-top: 1px dashed var(--border); animation: slideUp 0.6s ease; }
+.stats-header { font-family: var(--font-ui); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; text-align: center; }
+.stat-bars { margin-bottom: 32px; }
+.stat-row { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.stat-label { width: 140px; font-family: var(--font-ui); font-size: 13px; color: var(--text-dim); text-align: right; line-height: 1.2; }
+.stat-bar-bg { flex: 1; height: 12px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; position: relative; }
+.stat-bar-fill { height: 100%; border-radius: 6px; width: 0%; transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.fill-a { background: var(--danger); }
+.fill-b { background: var(--safe); }
+.stat-pct { width: 50px; font-family: var(--font-mono); font-weight: 700; font-size: 16px; }
+.phil-box { background: rgba(255,255,255,0.02); border-left: 4px solid var(--gold); padding: 24px; border-radius: 0 8px 8px 0; margin-bottom: 32px; }
+.phil-title { font-family: var(--font-head); font-size: 20px; color: var(--text-main); margin-bottom: 8px; }
+.phil-text { font-size: 16px; color: var(--text-dim); line-height: 1.6; }
+
+.next-btn { display: block; width: 100%; background: var(--text-main); color: var(--bg-deep); font-family: var(--font-ui); font-size: 15px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 18px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.2s; }
+.next-btn:hover { background: var(--gold); }
+
+/* ── FINAL RESULTS / MANIFESTO ── */
+#scene-final { display: none; }
+.final-view { padding: 60px 40px; }
+.final-header { text-align: center; margin-bottom: 40px; }
+.final-icon { font-size: 72px; margin-bottom: 24px; }
+.final-title { font-family: var(--font-head); font-size: 42px; color: var(--gold); margin-bottom: 20px; }
+.final-desc { font-size: 18px; color: var(--text-dim); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+.score-box { background: rgba(212, 175, 55, 0.08); border: 1px solid var(--gold-dim); border-radius: 12px; padding: 32px; text-align: center; margin-bottom: 40px; }
+.sb-title { font-family: var(--font-ui); font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); margin-bottom: 16px; }
+
+/* The Ethical Scale (Thermometer) */
+.ethical-scale-wrap { margin: 24px 0 32px; }
+.es-labels { display: flex; justify-content: space-between; font-family: var(--font-ui); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); margin-bottom: 8px; }
+.es-track { height: 12px; background: linear-gradient(90deg, #00897B, #9575CD); border-radius: 6px; position: relative; }
+.es-marker {
+  position: absolute; top: 50%; width: 20px; height: 20px; background: var(--text-main); border: 3px solid var(--bg-card);
+  border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(0,0,0,0.5); transition: left 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); left: 0%;
+}
+.sb-desc { font-size: 16px; color: var(--text-dim); max-width: 550px; margin: 0 auto; line-height: 1.6; }
+
+.manifesto-wrap { text-align: left; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 32px; margin-bottom: 40px; }
+.manifesto-item { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid var(--border); }
+.manifesto-item:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+.mi-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 12px; }
+.mi-title { font-family: var(--font-head); font-size: 22px; color: var(--text-main); }
+.rc-choice { font-family: var(--font-ui); font-size: 12px; padding: 4px 10px; border-radius: 4px; display: inline-block; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+.rc-choice.a { background: var(--danger-dim); color: #ff8a80; }
+.rc-choice.b { background: var(--safe-dim); color: #81c784; }
+.mi-text { font-size: 16px; color: var(--text-dim); line-height: 1.6; font-style: italic; border-left: 2px solid var(--gold); padding-left: 16px; }
+
+.action-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.print-btn { background: var(--gold); color: var(--bg-deep); font-family: var(--font-ui); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 16px 32px; border-radius: 4px; border: none; cursor: pointer; transition: 0.2s; }
+.print-btn:hover { background: #FCE68D; }
+.restart-btn { background: transparent; border: 1px solid var(--border); color: var(--text-main); font-family: var(--font-ui); font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 16px 32px; border-radius: 4px; cursor: pointer; transition: 0.2s; }
+.restart-btn:hover { background: rgba(255,255,255,0.05); }
+
+/* ── TEACHER SECTION ── */
+.teacher-section { background: #000; border-top: 1px solid var(--border); padding: 80px 40px; }
+.teacher-inner { max-width: 900px; margin: 0 auto; }
+.t-head h2 { font-family: var(--font-head); font-size: 36px; margin-bottom: 16px; }
+.t-head p { color: var(--text-dim); margin-bottom: 40px; }
+.q-box { background: var(--bg-card); border: 1px solid var(--border); padding: 24px 32px; border-radius: 8px; margin-bottom: 16px; }
+.q-box h4 { font-family: var(--font-head); font-size: 20px; margin-bottom: 12px; color: var(--gold); }
+.q-box p { color: var(--text-dim); font-size: 16px; margin-bottom: 16px; line-height: 1.6; }
+.q-box ul { list-style: none; padding-left: 0; }
+.q-box li { position: relative; padding-left: 20px; color: var(--text-main); font-size: 16px; margin-bottom: 8px; }
+.q-box li::before { content: '▸'; position: absolute; left: 0; color: var(--gold); }
+
+/* ── PRINT STYLES ── */
+@media print {
+  body { background: #fff !important; color: #000 !important; font-size: 12pt; }
+  .hero, .teacher-section, #progress, .action-btns, .controls, .stats-panel, .visual-stage, .justification-box, .exp-header { display: none !important; }
+  #experiment-wrapper { display: block !important; padding: 0 !important; }
+  #current-scene-card { display: none !important; }
+  #scene-final { display: block !important; box-shadow: none; border: none; background: #fff; }
+  .final-view { padding: 0; }
+  .score-box { border: 1px solid #000; background: transparent; }
+  .sb-title, .sb-desc { color: #000; }
+  .es-track { background: #eee !important; border: 1px solid #ccc; }
+  .es-marker { background: #000; border: none; }
+  .manifesto-wrap { background: #fff; border: none; padding: 0; }
+  .manifesto-item { border-bottom: 1px solid #ccc; padding-bottom: 20px; margin-bottom: 20px; page-break-inside: avoid; }
+  .mi-title { color: #000; }
+  .mi-text { color: #333; border-left: 2px solid #000; }
+  .rc-choice { border: 1px solid #000; color: #000; background: #fff !important; }
+  h1, h2, h3, p { color: #000 !important; }
+}
+
+@media (max-width: 800px) {
+  .hero h1 { font-size: 40px; }
+  .track-selector { grid-template-columns: 1fr; }
+  .controls { grid-template-columns: 1fr; }
+  .exp-body { padding: 24px; }
+  .visual-stage { padding: 20px; }
+  .stat-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .stat-label { width: 100%; text-align: left; }
+  .stat-bar-bg { width: 100%; }
+  .mi-header { flex-direction: column; gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<div id="tooltip"></div>
+<div id="progress"></div>
+
+<!-- START SCREEN -->
+<section class="hero" id="hero-section">
+  <div class="hero-badge">SO-Portalen · Filosofi & Etik</div>
+  <h1>Den Etiska<br><em>Simulatorn</em></h1>
+  <p>Verkligheten ger dig sällan tid att tänka. Utforska de klassiska tankeexperimenten eller dyk ner i vardagens moraliska dilemman. Välj ett spår för att upptäcka din sanna etiska profil.</p>
+  
+  <div class="track-selector">
+    <div class="track-card" onclick="startTrack('trolley')">
+       <div class="tc-icon">🚋</div>
+       <h3 class="tc-title">Spårvagnsproblemet</h3>
+       <p class="tc-desc">Klassiska tankeexperiment om liv och död under tidspress. 5 nivåer.</p>
+    </div>
+    <div class="track-card" onclick="startTrack('everyday')">
+       <div class="tc-icon">📱</div>
+       <h3 class="tc-title">Vardagsetik</h3>
+       <p class="tc-desc">Skola, lögner, pengar och vänskap. Det som händer i verkligheten. 3 nivåer.</p>
+    </div>
+    <div class="track-card" onclick="startTrack('society')">
+       <div class="tc-icon">⚖️</div>
+       <h3 class="tc-title">Samhällsetik</h3>
+       <p class="tc-desc">Rättvisa, osynliga brott och massövervakning för det större goda. 3 nivåer.</p>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIMENT WRAPPER -->
+<div id="experiment-wrapper">
+  <div class="experiment-container">
+    
+    <!-- Dynamic Scenario Card -->
+    <div id="scenario-container"></div>
+
+    <!-- Final Results Card -->
+    <div class="exp-card" id="scene-final">
+      <div class="final-view">
+        <div class="final-header">
+          <div class="final-icon">⚖️</div>
+          <h2 class="final-title">Ditt Etiska Manifest</h2>
+          <p class="final-desc">Här är din sammanställning. Baserat på dina val har systemet placerat dig på den etiska skalan.</p>
+        </div>
+        
+        <div class="score-box">
+          <div class="sb-title">Din Etiska Profil</div>
+          
+          <div class="ethical-scale-wrap">
+            <div class="es-labels">
+              <span>Pliktetiker</span>
+              <span>Konsekvensetiker</span>
+            </div>
+            <div class="es-track">
+              <div class="es-marker" id="ethical-marker"></div>
+            </div>
+          </div>
+
+          <div class="sb-desc" id="final-profile-text">Laddar profil...</div>
+        </div>
+
+        <div class="manifesto-wrap" id="manifesto-list">
+          <!-- Populated by JS -->
+        </div>
+
+        <div class="action-btns">
+          <button class="print-btn" onclick="window.print()">🖨️ Skriv ut / Spara som PDF</button>
+          <button class="restart-btn" onclick="location.reload()">↺ Välj nytt spår</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section class="teacher-section">
+  <div class="teacher-inner">
+    <div class="t-head">
+      <h2>Lärarmaterial</h2>
+      <p>Eleverna kan nu använda utskriftsknappen för att generera en PDF med sina val och motiveringar. Detta blir ett utmärkt underlag för formativ bedömning.</p>
+    </div>
+
+    <div class="q-box">
+      <h4>1. Spårens olika pedagogiska syften</h4>
+      <p>Nu när simulatorn innehåller tre olika spår kan du med fördel dela in klassen i grupper som får testa olika teman, och sedan låta dem redovisa sina insikter för varandra:</p>
+      <ul>
+        <li><strong>Spårvagnsproblemet:</strong> Lär ut extrem logik och matematisk etik.</li>
+        <li><strong>Vardagsetik:</strong> Belyser svårigheterna med civilkurage och lojalitet (omsorgsetik & dygdetik).</li>
+        <li><strong>Samhällsetik:</strong> Kopplar etik till lagstiftning, AI och framtidens demokrati.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<script>
+// --- SCENARIO DATA ENGINE ---
+const tracks = {
+  trolley: {
+    title: "Spårvagnsproblemet",
+    scenarios: [
+      {
+        title: "Den klassiska spaken",
+        desc: "En skenande spårvagn närmar sig fem personer som är fastbundna på spåret. Du står bredvid en spak. Om du drar i spaken kommer vagnen att byta spår, där bara <strong>en</strong> person är fastbunden. Den personen kommer att dö, men de fem överlever.",
+        timer: 10, justification: false,
+        visualHTML: `
+          <div class="track-row">
+            <div class="track-line"></div>
+            <div class="trolley" id="tr-main">🚋</div>
+            <div class="victims">🧍‍♂️🧍‍♂️🧍‍♂️🧍‍♂️🧍‍♂️</div>
+          </div>
+          <div class="track-row">
+            <div class="track-line" style="opacity:0.3;" id="tl-side"></div>
+            <div class="trolley" id="tr-side" style="opacity:0; left:100px;">🚋</div>
+            <div class="victims alone">🧍‍♂️</div>
+          </div>
+        `,
+        onAction: (choice) => {
+          if (choice === 'A') { document.getElementById('tr-main').style.transform = 'translateX(600px)'; } 
+          else {
+            document.getElementById('tr-main').style.opacity = '0';
+            document.getElementById('tr-side').style.opacity = '1';
+            setTimeout(() => { if(document.getElementById('tr-side')) document.getElementById('tr-side').style.transform = 'translateX(500px)'; }, 100);
+            document.getElementById('tl-side').classList.add('diverted');
+          }
+        },
+        options: [
+          { id: 'A', icon: '🛑', title: 'Gör ingenting', sub: 'Låt vagnen fortsätta. 5 dör.', statsPct: 10, statsLabel: 'Gör ingenting (Låter 5 dö)', align: 'plikt' },
+          { id: 'B', icon: '🕹️', title: 'Dra i spaken', sub: 'Byt spår. 1 dör, 5 överlever.', statsPct: 90, statsLabel: 'Drar i spaken (Dödar 1)', align: 'kons' }
+        ],
+        analysisTitle: "Varför svarar vi så?",
+        analysisText: "Här dominerar <span class='glossary-term' data-def='En handling är god om den leder till de bästa konsekvenserna (största möjliga lycka för flest antal).'>Konsekvensetiken</span>. De flesta gör en ren matematisk kalkyl: det är bättre att en dör än fem."
+      },
+      {
+        title: "Mannen på bron",
+        desc: "Samma skenande spårvagn närmar sig fem personer. Denna gång står du på en gångbro ovanför spåret. Bredvid dig står en stor man. Det enda sättet att stoppa vagnen är att knuffa ner honom. Hans kropp stoppar vagnen. Han dör, de fem överlever.",
+        timer: 10, justification: true,
+        justPrompt: "Matematiken är densamma som i förra nivån (1 dör för att 5 ska överleva). Ändrade du ditt val här? Motivera med egna ord.",
+        visualHTML: `
+          <div class="actor" id="actor-visual">🧍‍♂️<span style="font-size:50px;">🧍‍♂️</span></div>
+          <div class="track-row" style="margin-top:20px;">
+            <div class="track-line"></div>
+            <div class="trolley" id="tr-main">🚋</div>
+            <div class="victims">🧍‍♂️🧍‍♂️🧍‍♂️🧍‍♂️🧍‍♂️</div>
+          </div>
+        `,
+        onAction: (choice) => {
+          if (choice === 'A') { document.getElementById('tr-main').style.transform = 'translateX(600px)'; } 
+          else {
+            document.getElementById('actor-visual').innerHTML = '👇<br>🪦'; 
+            document.getElementById('tr-main').style.transform = 'translateX(300px)';
+          }
+        },
+        options: [
+          { id: 'A', icon: '🛑', title: 'Gör ingenting', sub: 'Låt vagnen fortsätta. 5 dör.', statsPct: 90, statsLabel: 'Gör ingenting (Låter 5 dö)', align: 'plikt' },
+          { id: 'B', icon: '✋', title: 'Knuffa mannen', sub: 'Använd hans kropp. 1 dör, 5 överlever.', statsPct: 10, statsLabel: 'Knuffar mannen (Dödar 1)', align: 'kons' }
+        ],
+        analysisTitle: "Det moraliska skiftet",
+        analysisText: "Trots matematiken vägrar de flesta att knuffa. Här tar <span class='glossary-term' data-def='En handling är god om den följer moraliska lagar och plikter (t.ex. du ska inte döda), oavsett vad konsekvensen blir.'>Pliktetiken</span> över. Vår hjärna gör skillnad på indirekt skada (spak) och aktivt fysiskt våld. Vi upplever <span class='glossary-term' data-def='En obehaglig konflikt som uppstår när logiska principer krockar med våra inre känslor.'>kognitiv dissonans</span>."
+      },
+      {
+        title: "Kirurgen",
+        desc: "Du är en briljant kirurg. Fem patienter kommer att dö idag om de inte får organtransplantationer. En frisk person somnar i väntrummet. Du inser att hans organ matchar perfekt. Du kan smärtfritt offra honom för att rädda de fem.",
+        timer: 10, justification: true,
+        justPrompt: "Är det någonsin rätt att använda en människa enbart som ett verktyg? Försvara ditt val utifrån pliktetik eller konsekvensetik.",
+        visualStyle: "align-items:center; flex-direction:row; justify-content:space-around; font-size:64px;",
+        visualHTML: `<div>🩺</div><div>🛌</div><div style="font-size:30px; color:var(--danger);">➡️</div><div style="font-size:40px;">🛏️🛏️🛏️🛏️🛏️</div>`,
+        onAction: () => {},
+        options: [
+          { id: 'A', icon: '🛑', title: 'Avstå operation', sub: 'Låt 5 sjuka dö.', statsPct: 99, statsLabel: 'Gör ingenting (Låter 5 dö)', align: 'plikt' },
+          { id: 'B', icon: '💉', title: 'Offra patienten', sub: 'Ta organen. 1 dör, 5 överlever.', statsPct: 1, statsLabel: 'Offrar patienten (Dödar 1)', align: 'kons' }
+        ],
+        analysisTitle: "Den okränkbara rätten",
+        analysisText: "Här bryter konsekvensetiken samman totalt. <span class='glossary-term' data-def='Betonar att individer har absoluta rättigheter som aldrig får kränkas, t.ex. rätten till sin egen kropp.'>Rättighetsetiken</span> segrar. En person har en absolut rätt till sin kropp, och en läkare har en absolut plikt att inte skada."
+      },
+      {
+        title: "Den anhörige",
+        desc: "Tillbaka till original-spaken. Vagnen rusar mot fem helt okända människor. Du kan dra i spaken för att byta spår. Men – på sidospåret står din absolut bästa vän. Vem offrar du?",
+        timer: 10, justification: true,
+        justPrompt: "Konsekvensetiken säger att alla liv är lika mycket värda. Har vi en starkare moralisk plikt mot de vi älskar än mot främlingar? Motivera!",
+        visualHTML: `
+          <div class="track-row">
+            <div class="track-line"></div>
+            <div class="trolley" id="tr-main">🚋</div>
+            <div class="victims">🧍‍♂️🧍‍♂️🧍‍♂️🧍‍♂️🧍‍♂️</div>
+          </div>
+          <div class="track-row">
+            <div class="track-line" style="opacity:0.3;" id="tl-side"></div>
+            <div class="trolley" id="tr-side" style="opacity:0; left:100px;">🚋</div>
+            <div class="victims alone">🧑‍🤝‍🧑<span style="color:var(--love); font-size:24px; position:absolute; top:-15px; right:-10px;">❤️</span></div>
+          </div>
+        `,
+        onAction: (choice) => {
+          if (choice === 'A') { document.getElementById('tr-main').style.transform = 'translateX(600px)'; } 
+          else {
+            document.getElementById('tr-main').style.opacity = '0';
+            document.getElementById('tr-side').style.opacity = '1';
+            setTimeout(() => { if(document.getElementById('tr-side')) document.getElementById('tr-side').style.transform = 'translateX(500px)'; }, 100);
+            document.getElementById('tl-side').classList.add('diverted');
+          }
+        },
+        options: [
+          { id: 'A', icon: '🛑', title: 'Gör ingenting', sub: '5 främlingar dör. Vännen lever.', statsPct: 85, statsLabel: 'Räddar vännen (Låter 5 dö)', align: 'plikt' },
+          { id: 'B', icon: '🕹️', title: 'Dra i spaken', sub: 'Vännen dör. 5 främlingar överlever.', statsPct: 15, statsLabel: 'Offrar vännen (Dödar 1)', align: 'kons' }
+        ],
+        analysisTitle: "Känslornas makt över matten",
+        analysisText: "Här kraschar matematiken. Dilemmat belyser frågan om partiskhet. Är det moraliskt fel att värdera sin familj högre, eller är <span class='glossary-term' data-def='Tron på att vår primära etiska plikt är att ta hand om de vi har en personlig relation till.'>Omsorgsetik</span> en central del av att vara människa?"
+      },
+      {
+        title: "Den självkörande bilen",
+        desc: "Som AI-programmerare har du ingen timer. En självkörande bil tappar bromsarna. Rakt fram på övergångsstället går fem personer. Enda sättet att rädda dem är att bilen svänger in i en massiv mur – men då dör passageraren (bilens ägare). Hur programmerar du AI:n?",
+        timer: null, justification: true,
+        justPrompt: "Vi överlåter nu problemet till maskiner. Formulera din 'etiska lag': varför måste bilen agera som du bestämde?",
+        visualHTML: `
+          <div class="track-row" style="height:40px;">
+            <div class="track-line" style="background:#555; border:none;"></div>
+            <div class="trolley" id="tr-main" style="font-size:36px;">🚗</div>
+            <div class="victims">🚶‍♂️🚶‍♂️🚶‍♂️🚶‍♂️🚶‍♂️</div>
+          </div>
+          <div class="track-row" style="height:40px;">
+            <div class="track-line" style="opacity:0; background:#555; border:none;" id="tl-side"></div>
+            <div class="trolley" id="tr-side" style="opacity:0; left:100px; font-size:36px;">🚗</div>
+            <div class="victims alone">🧱</div>
+          </div>
+        `,
+        onAction: (choice) => {
+          if (choice === 'A') { document.getElementById('tr-main').style.transform = 'translateX(600px)'; } 
+          else {
+            document.getElementById('tr-main').style.opacity = '0';
+            document.getElementById('tr-side').style.opacity = '1';
+            setTimeout(() => { if(document.getElementById('tr-side')) document.getElementById('tr-side').style.transform = 'translateX(500px)'; }, 100);
+            document.getElementById('tl-side').style.opacity = '0.5';
+          }
+        },
+        options: [
+          { id: 'A', icon: '🛣️', title: 'Kör rakt fram', sub: 'Skydda ägaren. 5 dör.', statsPct: 15, statsLabel: 'Kör rakt fram (Dödar 5)', align: 'plikt' },
+          { id: 'B', icon: '↪️', title: 'Sväng in i muren', sub: 'Offra ägaren. 5 lever.', statsPct: 85, statsLabel: 'Svänger in i muren (Dödar 1)', align: 'kons' }
+        ],
+        analysisTitle: "Framtidens dilemma",
+        analysisText: "När MIT frågade miljontals människor sa de flesta att bilen bör offra passageraren. Men när samma personer fick frågan 'Skulle du köpa en bil som är programmerad att offra dig?' svarade nästan alla nej."
+      }
+    ]
+  },
+  everyday: {
+    title: "Vardagsetik",
+    scenarios: [
+      {
+        title: "Det lojala fusket",
+        desc: "Din bästa vän behöver ett C på nationella provet för att komma in på sitt drömgymnasium. Du ser vännen ta upp en fusklapp. Efter provet frågar läraren dig i enrum: 'Jag misstänker fusk. Såg du något?'.",
+        timer: 10, justification: false,
+        visualStyle: "align-items:center; flex-direction:row; justify-content:space-around; font-size:64px;",
+        visualHTML: `<div>📝</div><div style="animation: pulse 2s infinite alternate;">👀</div><div>👩‍🏫</div>`,
+        onAction: () => {},
+        options: [
+          { id: 'A', icon: '🤫', title: 'Ljug', sub: 'Skydda din vän från att bli underkänd.', statsPct: 65, statsLabel: 'Ljuger (Skyddar vännen)', align: 'kons' },
+          { id: 'B', icon: '🗣️', title: 'Tala sanning', sub: 'Avslöja fusket för läraren.', statsPct: 35, statsLabel: 'Talar sanning (Avslöjar vännen)', align: 'plikt' }
+        ],
+        analysisTitle: "Lojalitet vs Ärlighet",
+        analysisText: "Krocken mellan <span class='glossary-term' data-def='Regler måste följas oavsett. Man får inte ljuga.'>Pliktetik</span> och <span class='glossary-term' data-def='Plikten att ta hand om de man har en personlig relation till.'>Omsorgsetik</span> gör detta svårt. Många bryter mot reglerna för att rädda vännens framtid (konsekvensen)."
+      },
+      {
+        title: "Miljardärens plånbok",
+        desc: "Du hittar en plånbok med 10 000 kr i kontanter. I den finns ID-kortet till en känd svensk miljardär. Bredvid dig sitter en fattig och hemlös person som uppenbart fryser.",
+        timer: 10, justification: true,
+        justPrompt: "Stöld är normalt sett fel, men om offret inte lider av det och mottagaren överlever tack vare det – ändrar det saken? Motivera!",
+        visualStyle: "align-items:center; flex-direction:row; justify-content:space-around; font-size:64px;",
+        visualHTML: `<div>🥶</div><div style="color:var(--safe);">💸</div><div>🤵‍♂️</div>`,
+        onAction: () => {},
+        options: [
+          { id: 'A', icon: '👮', title: 'Lämna till polisen', sub: 'Miljardären får tillbaka pengarna.', statsPct: 50, statsLabel: 'Följer lagen (Polisen)', align: 'plikt' },
+          { id: 'B', icon: '🤲', title: 'Ge till den hemlösa', sub: 'Du gör dig skyldig till stöld.', statsPct: 50, statsLabel: 'Stjäl för välgörenhet', align: 'kons' }
+        ],
+        analysisTitle: "Den flexibla lagen",
+        analysisText: "Ren <span class='glossary-term' data-def='En handling är god om den leder till de bästa konsekvenserna för flest.'>Konsekvensetik</span> (vem behöver pengarna mest?) ställs här mot klassisk Pliktetik (stöld är alltid fel, oavsett vem offret är). Det splittrar folk nästan exakt på mitten."
+      },
+      {
+        title: "Nätmobbningen",
+        desc: "I en stor klasschatt börjar 'populära' elever skriva elaka rykten om en tystlåten klasskamrat. Alla ser det. Du vet att om du säger ifrån offentligt kommer de förmodligen kasta ut dig och börja mobba dig istället.",
+        timer: null, justification: true,
+        justPrompt: "Är det rimligt att begära civilkurage av dig om det innebär att du själv blir ett offer? Vilket ansvar har åskådaren?",
+        visualStyle: "align-items:center; flex-direction:row; justify-content:space-around; font-size:64px;",
+        visualHTML: `<div>📱</div><div>💬</div><div style="color:var(--danger);">😢</div>`,
+        onAction: () => {},
+        options: [
+          { id: 'A', icon: '🙈', title: 'Håll tyst', sub: 'Skydda dig själv från mobbarna.', statsPct: 80, statsLabel: 'Förblir passiv', align: 'kons' },
+          { id: 'B', icon: '🛡️', title: 'Säg ifrån', sub: 'Försvara klasskamraten.', statsPct: 20, statsLabel: 'Agerar (Civilkurage)', align: 'plikt' }
+        ],
+        analysisTitle: "Det svåra modet",
+        analysisText: "Här prövas <span class='glossary-term' data-def='Fokus på vilka karaktärsdrag man bör ha, t.ex. mod, ärlighet och civilkurage.'>Dygdetiken</span>. Att agera modigt och rättvist kostar, och av ren självbevarelsedrift väljer de flesta att vara passiva åskådare, även om de anser att mobbning är fel."
+      }
+    ]
+  },
+  society: {
+    title: "Samhällsetik",
+    scenarios: [
+      {
+        title: "Robin Hood-bankiren",
+        desc: "Du är systemutvecklare på en internationell bank som gör extrema miljardvinster. Genom en bakdörr i koden kan du obemärkt radera låneskulderna för 100 fattiga barnfamiljer. Banken kommer inte ens märka förlusten, men familjerna slipper vräkning.",
+        timer: 10, justification: false,
+        visualStyle: "align-items:center; flex-direction:row; justify-content:space-around; font-size:64px;",
+        visualHTML: `<div>🏦</div><div style="color:var(--safe);">💻</div><div>👨‍👩‍👧‍👦</div>`,
+        onAction: () => {},
+        options: [
+          { id: 'A', icon: '🔒', title: 'Gör ingenting', sub: 'Följ reglerna och lagen.', statsPct: 40, statsLabel: 'Följer lagen', align: 'plikt' },
+          { id: 'B', icon: '🏹', title: 'Radera skulderna', sub: 'Begå ett osynligt databrott.', statsPct: 60, statsLabel: 'Raderar skulderna', align: 'kons' }
+        ],
+        analysisTitle: "Helgar ändamålet medlen?",
+        analysisText: "Många fler är beredda att utföra 'goda brott' (stöld) när offret är en ansiktslös institution jämfört med en privatperson, vilket är ren <span class='glossary-term' data-def='Maximerad nytta, oavsett regler.'>Konsekvensetik</span>."
+      },
+      {
+        title: "Visselblåsaren",
+        desc: "Du upptäcker att fabriken du jobbar på i hemlighet dumpar giftigt avfall i den lokala sjön. Om du läcker bevisen till media stängs fabriken. Miljön räddas, men 500 personer på din lilla hemort förlorar jobbet, inklusive du själv. Orten riskerar att dö ut.",
+        timer: 10, justification: true,
+        justPrompt: "Vilket väger tyngst: din lojalitet till din hemorts överlevnad eller din plikt mot naturen och sanningen?",
+        visualStyle: "align-items:center; flex-direction:row; justify-content:space-around; font-size:64px;",
+        visualHTML: `<div>🏭</div><div style="color:var(--danger);">☠️</div><div>🌲</div>`,
+        onAction: () => {},
+        options: [
+          { id: 'A', icon: '🤐', title: 'Håll tyst', sub: 'Skydda ortens ekonomi och jobb.', statsPct: 30, statsLabel: 'Skyddar jobben (Tyst)', align: 'kons' },
+          { id: 'B', icon: '📣', title: 'Läck bevisen', sub: 'Rädda miljön men krossa orten.', statsPct: 70, statsLabel: 'Räddar miljön (Läcker)', align: 'plikt' }
+        ],
+        analysisTitle: "Det smärtsamma valet",
+        analysisText: "Ett extremt svårt val mellan lokal lojalitet och ekonomi (<span class='glossary-term' data-def='Man bryr sig mest om de nära.'>Omsorgsetik</span>) och globala plikter. De flesta värderar till slut miljön högre, men priset är enormt."
+      },
+      {
+        title: "Den ofelbara övervakningen",
+        desc: "Regeringen lanserar en AI som kan läsa alla digitala meddelanden och lyssna på alla mikrofoner. Den förutser och stoppar 100% av alla mord och rån innan de sker. Brottsligheten blir exakt noll. Priset är att ingen har något privatliv kvar.",
+        timer: null, justification: true,
+        justPrompt: "Skulle du offra all personlig frihet för absolut trygghet? Vilket samhälle vill du leva i?",
+        visualStyle: "align-items:center; flex-direction:row; justify-content:space-around; font-size:64px;",
+        visualHTML: `<div>👁️</div><div style="font-size:32px;">🤖</div><div>🛡️</div>`,
+        onAction: () => {},
+        options: [
+          { id: 'A', icon: '🔥', title: 'Förstör AI:n', sub: 'Behåll friheten. Brott fortsätter.', statsPct: 85, statsLabel: 'Skyddar integriteten', align: 'plikt' },
+          { id: 'B', icon: '✅', title: 'Aktivera AI:n', sub: 'Noll brott. Ingen integritet.', statsPct: 15, statsLabel: 'Maximerar tryggheten', align: 'kons' }
+        ],
+        analysisTitle: "Frihet vs Trygghet",
+        analysisText: "Ett modernt dystopiskt dilemma. Hur mycket personlig frihet (<span class='glossary-term' data-def='Absoluta gränser för staten.'>Rättighetsetik</span>) är vi beredda att offra för maximal trygghet (<span class='glossary-term' data-def='Bästa resultatet.'>Konsekvensetik</span>)? För de allra flesta går gränsen här."
+      }
+    ]
+  }
+};
+
+// --- SIMULATOR STATE ---
+let currentTrack = null;
+let currentStep = 0;
+let userChoices = [];
+let userMotivations = [];
+
+// Hover logic for glossary dynamically created
+function bindGlossary() {
+  const tooltip = document.getElementById('tooltip');
+  document.querySelectorAll('.glossary-term').forEach(term => {
+    term.addEventListener('mouseenter', () => {
+      tooltip.textContent = term.dataset.def;
+      tooltip.style.display = 'block';
+    });
+    term.addEventListener('mousemove', e => {
+      tooltip.style.left = `${e.clientX + 16}px`;
+      tooltip.style.top = `${e.clientY + 16}px`;
+    });
+    term.addEventListener('mouseleave', () => { tooltip.style.display = 'none'; });
+  });
+}
+
+// Scroll progress
+window.addEventListener('scroll', () => {
+  const el = document.documentElement;
+  const pct = (el.scrollTop / (el.scrollHeight - el.clientHeight)) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// Start track
+function startTrack(trackId) {
+  currentTrack = trackId;
+  currentStep = 0;
+  userChoices = []; userMotivations = [];
+  
+  document.getElementById('scene-final').style.display = 'none';
+  document.getElementById('experiment-wrapper').style.display = 'block';
+  renderScenario();
+  
+  // Smooth scroll past hero
+  document.getElementById('experiment-wrapper').scrollIntoView({ behavior: 'smooth' });
+}
+
+// Render dynamic DOM
+function renderScenario() {
+  const track = tracks[currentTrack];
+  const scene = track.scenarios[currentStep];
+
+  let html = `
+    <div class="exp-card active" id="current-scene-card">
+      <div class="exp-header">
+         <div class="exp-step">${track.title} – Nivå ${currentStep + 1} av ${track.scenarios.length}</div>
+         <div class="exp-dots">
+            ${track.scenarios.map((_, i) => `<div class="exp-dot ${i<currentStep?'done':''} ${i===currentStep?'active':''}"></div>`).join('')}
+         </div>
+      </div>
+      <div class="exp-body">
+         <h2 class="exp-title">${scene.title}</h2>
+         <p class="exp-desc">${scene.desc}</p>
+
+         <div class="visual-stage" style="${scene.visualStyle || ''}">
+           ${scene.visualHTML}
+         </div>
+
+         <div class="controls" id="controls" style="display:grid;">
+           <button class="choice-btn" id="btn-A" onclick="makeChoice('A')">
+             <span class="btn-icon">${scene.options[0].icon}</span>
+             <div class="btn-title">${scene.options[0].title}</div>
+             <div class="btn-sub">${scene.options[0].sub}</div>
+           </button>
+           <button class="choice-btn" id="btn-B" onclick="makeChoice('B')">
+             <span class="btn-icon">${scene.options[1].icon}</span>
+             <div class="btn-title">${scene.options[1].title}</div>
+             <div class="btn-sub">${scene.options[1].sub}</div>
+           </button>
+         </div>
+
+         <div class="justification-box" id="just-box">
+            <div class="just-title">Tänk efter...</div>
+            <p class="just-prompt" id="just-prompt">${scene.justPrompt || ''}</p>
+            <textarea class="just-textarea" id="just-text" placeholder="Försvara ditt val här..."></textarea>
+            <div class="just-error" id="just-error">Skriv minst 15 tecken för att fortsätta.</div>
+            <button class="just-submit" onclick="submitJustification()">Spara & Se Analys</button>
+         </div>
+
+         <div class="stats-panel" id="stats-panel">
+            <div class="stats-header">Resultat & Analys</div>
+            <div class="stat-bars">
+              <div class="stat-row">
+                <div class="stat-label">${scene.options[0].statsLabel}</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill fill-a" id="bar-a"></div></div>
+                <div class="stat-pct">${scene.options[0].statsPct}%</div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-label">${scene.options[1].statsLabel}</div>
+                <div class="stat-bar-bg"><div class="stat-bar-fill fill-b" id="bar-b"></div></div>
+                <div class="stat-pct">${scene.options[1].statsPct}%</div>
+              </div>
+            </div>
+            <div class="phil-box">
+              <div class="phil-title">${scene.analysisTitle}</div>
+              <div class="phil-text">${scene.analysisText}</div>
+            </div>
+            <button class="next-btn" onclick="nextScene()">${currentStep + 1 === track.scenarios.length ? 'Skapa mitt Etiska Manifest →' : 'Gå till nästa nivå →'}</button>
+         </div>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('scenario-container').innerHTML = html;
+  bindGlossary();
+}
+
+// Choice logic
+function makeChoice(choice) {
+  const scene = tracks[currentTrack].scenarios[currentStep];
+
+  userChoices[currentStep] = choice;
+
+  const btnA = document.getElementById('btn-A');
+  const btnB = document.getElementById('btn-B');
+  btnA.disabled = true; btnB.disabled = true;
+  
+  if(choice === 'A') {
+    btnA.classList.add('selected-a');
+  } else {
+    btnB.classList.add('selected-b');
+  }
+
+  // Trigger custom animation if exists
+  if(scene.onAction) scene.onAction(choice);
+
+  if (scene.justification) {
+    setTimeout(() => {
+      const justBox = document.getElementById('just-box');
+      justBox.style.display = 'block';
+      justBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 800);
+  } else {
+    showStatsPanel();
+  }
+}
+
+// Submit text
+function submitJustification() {
+  const text = document.getElementById('just-text').value.trim();
+  if (text.length < 15) {
+    document.getElementById('just-error').style.display = 'block'; return;
+  }
+  document.getElementById('just-error').style.display = 'none';
+  userMotivations[currentStep] = text;
+  document.getElementById('just-box').style.display = 'none';
+  showStatsPanel();
+}
+
+// Show Stats
+function showStatsPanel() {
+  const scene = tracks[currentTrack].scenarios[currentStep];
+  document.getElementById('stats-panel').style.display = 'block';
+  document.getElementById('stats-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  
+  setTimeout(() => {
+    document.getElementById('bar-a').style.width = scene.options[0].statsPct + '%';
+    document.getElementById('bar-b').style.width = scene.options[1].statsPct + '%';
+  }, 100);
+}
+
+// Next / Final
+function nextScene() {
+  const track = tracks[currentTrack];
+  if(currentStep + 1 < track.scenarios.length) {
+    currentStep++;
+    renderScenario();
+    document.getElementById('experiment-wrapper').scrollIntoView({ behavior: 'smooth' });
+  } else {
+    showFinal();
+  }
+}
+
+function showFinal() {
+  document.getElementById('current-scene-card').style.display = 'none';
+  document.getElementById('scene-final').style.display = 'block';
+  document.getElementById('experiment-wrapper').scrollIntoView({ behavior: 'smooth' });
+
+  const track = tracks[currentTrack];
+  let konsCount = 0;
+  const total = track.scenarios.length;
+
+  // Calculate score and build list
+  let listHTML = '';
+  for(let i=0; i<total; i++) {
+    const choiceId = userChoices[i];
+    const scene = track.scenarios[i];
+    const opt = scene.options.find(o => o.id === choiceId);
+    
+    if(opt && opt.align === 'kons') konsCount++;
+
+    let btnClass = choiceId === 'A' ? 'a' : 'b';
+    let choiceText = opt ? opt.statsLabel : '-';
+
+    let motText = scene.justification ? `"${userMotivations[i] || ''}"` : "Ingen motivering krävdes för denna nivå.";
+
+    listHTML += `
+      <div class="manifesto-item">
+        <div class="mi-header">
+          <span class="mi-title">${i+1}. ${scene.title}</span>
+          <span class="rc-choice ${btnClass}">${choiceText}</span>
+        </div>
+        <div class="mi-text">${motText}</div>
+      </div>
+    `;
+  }
+
+  document.getElementById('manifesto-list').innerHTML = listHTML;
+
+  // Set Thermometer
+  const markerPos = (konsCount / total) * 100;
+  setTimeout(() => { document.getElementById('ethical-marker').style.left = markerPos + '%'; }, 500);
+  
+  // Set Profile Text
+  let profileText = "";
+  if (markerPos === 100) {
+    profileText = "Enligt detta spår är du en extrem konsekvensetiker. Regler, lagar och personliga relationer får stå tillbaka – det enda som betyder något för dig är att maximera nyttan och säkerheten för flest antal människor.";
+  } else if (markerPos === 0) {
+    profileText = "Enligt detta spår är du en strikt pliktetiker. Du anser att vissa lagar, rättigheter och principer är okränkbara. Man får inte göra fel för att göra rätt, oavsett konsekvenserna.";
+  } else {
+    profileText = "Din etik i detta spår är blandad. Du vill gärna se goda konsekvenser för helheten, men du har tydliga inre 'röda linjer' där du vägrar kompromissa med dina principer eller din lojalitet.";
+  }
+  document.getElementById('final-profile-text').textContent = profileText;
+}
+</script>
+</body>
+</html>
