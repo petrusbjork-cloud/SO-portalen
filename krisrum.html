@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRISRUMMET — Ockelbolivia Finansministeriet</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #040912;
+  --surf:    #080f1e;
+  --card:    #0c1628;
+  --card2:   #101d35;
+  --border:  #1a2d4a;
+  --gold:    #f5c518;
+  --mint:    #10b981;
+  --rose:    #f43f5e;
+  --blue:    #3b82f6;
+  --purple:  #7c3aed;
+  --amber:   #f59e0b;
+  --text:    #e2e8f0;
+  --muted:   #64748b;
+  --dim:     #1e3050;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+/* scanlines */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px);
+  pointer-events:none;z-index:9999;
+}
+/* grid */
+body::after{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(245,197,24,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(245,197,24,.018) 1px,transparent 1px);
+  background-size:64px 64px;
+  pointer-events:none;z-index:0;
+}
+#shell{
+  position:relative;z-index:1;
+  max-width:980px;margin:0 auto;
+  padding:20px 24px 60px;
+  min-height:100vh;
+}
+
+/* ─ HEADER ─ */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:16px;border-bottom:1px solid var(--border);
+  margin-bottom:28px;
+}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:4px;color:var(--gold)}
+.logo em{font-style:normal;display:block;font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:2px;color:var(--muted);margin-top:3px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;
+  background:var(--rose);animation:blink 1.3s infinite;margin-right:6px;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+#step-lbl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted)}
+
+/* ─ PROGRESS ─ */
+.prog{display:flex;gap:5px;margin-bottom:36px}
+.prog-dot{flex:1;height:3px;border-radius:2px;background:var(--border);transition:background .4s}
+.prog-dot.done{background:var(--gold)}
+.prog-dot.live{background:var(--gold);opacity:.45;animation:pb 1.6s infinite}
+@keyframes pb{0%,100%{opacity:.45}50%{opacity:1}}
+
+/* ─ STEP WRAPPER ─ */
+.step{animation:up .45s ease both}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--gold);margin-bottom:12px}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,9vw,80px);line-height:1;letter-spacing:2px;margin-bottom:18px}
+h2{font-family:'Rajdhani',sans-serif;font-size:clamp(22px,4vw,34px);font-weight:700;letter-spacing:.5px;margin-bottom:14px}
+h3{font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;letter-spacing:.3px}
+p{line-height:1.72}
+.lead{font-size:17px;color:var(--muted);line-height:1.75;max-width:640px;margin-bottom:24px}
+
+/* ─ BUTTONS ─ */
+.btn{
+  display:inline-flex;align-items:center;gap:9px;
+  padding:13px 26px;
+  font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;border:none;cursor:pointer;border-radius:2px;
+  transition:all .2s;position:relative;overflow:hidden;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn-p{background:var(--gold);color:#000}
+.btn-p:hover{box-shadow:0 8px 28px rgba(245,197,24,.32)}
+.btn-o{background:transparent;color:var(--text);border:1px solid var(--border)}
+.btn-o:hover{border-color:var(--gold);color:var(--gold)}
+.btn-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+
+/* ─ TERMINAL ─ */
+.terminal{
+  background:#000;border:1px solid var(--gold);border-radius:3px;
+  padding:20px 24px;font-family:'JetBrains Mono',monospace;font-size:13px;
+  line-height:2.1;color:var(--gold);margin:20px 0;
+}
+.terminal::before{
+  content:'● OCKELBOLIVIA FINANSMINISTERIET — SEKRETESSKLASSAT';
+  display:block;font-size:10px;letter-spacing:2px;color:var(--rose);
+  margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid rgba(245,197,24,.18);
+}
+
+/* ─ INSTRUCTIONS ─ */
+.inst{
+  background:rgba(245,197,24,.04);border:1px solid rgba(245,197,24,.2);
+  border-left:3px solid var(--gold);border-radius:0 3px 3px 0;
+  padding:16px 20px;margin:20px 0;
+}
+.inst h4{font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;color:var(--gold);margin-bottom:10px}
+.inst ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+.inst li{font-size:13px;color:var(--muted);padding-left:16px;position:relative;line-height:1.55}
+.inst li::before{content:'→';position:absolute;left:0;color:var(--gold)}
+
+/* ─ NAME INPUT ─ */
+.name-wrap{margin:4px 0 20px}
+.name-wrap label{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;color:var(--muted);margin-bottom:7px}
+.name-input{
+  background:var(--card);border:1px solid var(--border);color:var(--text);
+  padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:15px;
+  border-radius:2px;width:300px;max-width:100%;transition:border-color .2s;
+}
+.name-input:focus{outline:none;border-color:var(--gold)}
+
+/* ─ SCENARIO GRID ─ */
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:14px;margin:20px 0}
+.sc-card{
+  background:var(--card);border:1px solid var(--dim);border-radius:4px;
+  padding:22px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;
+}
+.sc-card:hover{transform:translateY(-4px);box-shadow:0 14px 42px rgba(0,0,0,.5)}
+.sc-icon{font-size:30px;margin-bottom:11px}
+.sc-name{font-family:'Rajdhani',sans-serif;font-size:21px;font-weight:700;margin-bottom:3px}
+.sc-sub{font-size:13px;color:var(--muted);margin-bottom:16px}
+.sc-stats{font-family:'JetBrains Mono',monospace;font-size:12px;display:flex;flex-direction:column;gap:7px}
+.st-row{display:flex;justify-content:space-between}
+.st-k{color:var(--muted)}
+.st-v{font-weight:600}
+
+/* ─ DASHBOARD ─ */
+.dash{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+@media(max-width:600px){.dash{grid-template-columns:1fr}}
+.metric{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px;position:relative}
+.m-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:10px}
+.m-val{font-family:'Bebas Neue',sans-serif;font-size:54px;line-height:1;letter-spacing:1px;margin-bottom:6px}
+.m-tag{font-size:11px}
+.m-bar-wrap{margin-top:10px;height:3px;background:var(--border);border-radius:2px}
+.m-bar{height:100%;border-radius:2px;transition:width 1s ease}
+
+/* ─ POLICY GRID ─ */
+.pol-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:20px 0}
+@media(max-width:680px){.pol-grid{grid-template-columns:1fr}}
+.pol-section{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:18px}
+.pol-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.pol-title{font-family:'Rajdhani',sans-serif;font-size:18px;font-weight:700}
+.pol-sub{font-size:12px;color:var(--muted);margin-top:1px}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;padding:3px 8px;border-radius:2px;letter-spacing:1px}
+
+/* ─ OPTION CARDS ─ */
+.opt{
+  border:1px solid var(--border);border-radius:3px;
+  padding:11px 13px;margin-bottom:7px;cursor:pointer;
+  display:flex;align-items:center;gap:10px;transition:all .18s;
+}
+.opt:hover{border-color:var(--gold);background:rgba(245,197,24,.04)}
+.opt.sel{border-color:var(--gold);background:rgba(245,197,24,.08)}
+.opt-bar{width:3px;height:34px;border-radius:2px;flex-shrink:0}
+.opt-txt{flex:1}
+.opt-lbl{font-weight:600;font-size:14px}
+.opt-det{font-size:12px;color:var(--muted);margin-top:2px}
+.radio{width:15px;height:15px;border:2px solid var(--border);border-radius:50%;flex-shrink:0;position:relative;transition:border-color .18s}
+.opt.sel .radio{border-color:var(--gold)}
+.opt.sel .radio::after{content:'';position:absolute;inset:3px;border-radius:50%;background:var(--gold)}
+
+/* ─ SUMMARY BOX ─ */
+.sumbox{
+  background:var(--card2);border:1px solid var(--border);border-radius:4px;
+  padding:14px 18px;margin:14px 0;display:flex;gap:22px;flex-wrap:wrap;
+}
+.sum-k{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted)}
+.sum-v{font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;color:var(--gold);margin-top:3px}
+
+/* ─ CONSEQUENCE ─ */
+.csq-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+@media(max-width:600px){.csq-grid{grid-template-columns:1fr}}
+.csq{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:18px;text-align:center}
+.csq-lbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:10px}
+.csq-before{font-size:12px;color:var(--muted);margin-bottom:6px}
+.csq-arrow{font-size:22px;margin:6px 0}
+.csq-after{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:1px}
+.csq-delta{font-family:'JetBrains Mono',monospace;font-size:11px;margin-top:5px}
+
+/* ─ ALERTS ─ */
+.alert{padding:11px 15px;border-radius:3px;font-size:13px;margin:10px 0;display:flex;align-items:flex-start;gap:9px;line-height:1.55}
+.a-ok{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.25);color:#10b981}
+.a-warn{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);color:var(--amber)}
+.a-err{background:rgba(244,63,94,.09);border:1px solid rgba(244,63,94,.25);color:var(--rose)}
+
+/* ─ WRITING ─ */
+.wr-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+@media(max-width:700px){.wr-grid{grid-template-columns:1fr}}
+.wr-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:18px}
+.wr-title{font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:700;color:var(--gold);margin-bottom:6px}
+.wr-hint{font-size:13px;color:var(--muted);margin-bottom:10px;line-height:1.6}
+textarea{
+  width:100%;background:var(--surf);border:1px solid var(--border);
+  border-radius:2px;color:var(--text);font-family:'DM Sans',sans-serif;
+  font-size:14px;line-height:1.65;padding:12px;resize:vertical;min-height:128px;
+  transition:border-color .2s;
+}
+textarea:focus{outline:none;border-color:var(--gold)}
+.wc{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);text-align:right;margin-top:4px}
+.wc.ok{color:var(--mint)}
+
+/* ─ TAGS ─ */
+.tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--card2);border:1px solid var(--border);
+  border-radius:2px;padding:4px 10px;
+  font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--muted);
+}
+.tag span{color:var(--gold)}
+.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+
+/* ─ ADVISOR ─ */
+.advisor{
+  background:var(--card);border:1px solid var(--border);border-radius:4px;
+  padding:28px;margin:20px 0;position:relative;
+}
+.advisor::before{
+  content:'// EKONOMISK RÅDGIVARE — AI';
+  position:absolute;top:-1px;left:20px;
+  background:var(--gold);color:#000;
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;
+  letter-spacing:1px;padding:2px 10px;border-radius:0 0 2px 2px;
+}
+.advisor-txt{font-size:15px;line-height:1.82;color:var(--text)}
+.cursor{display:inline-block;width:2px;height:17px;background:var(--gold);animation:blink .75s infinite;vertical-align:text-bottom;margin-left:1px}
+
+/* ─ LOADING ─ */
+.loading{display:flex;flex-direction:column;align-items:center;gap:14px;padding:40px;color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:1px}
+.spin{width:30px;height:30px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin .75s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ─ DIVIDER ─ */
+hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+
+@media print{body::before,body::after{display:none}.no-print{display:none!important}}
+</style>
+</head>
+<body>
+<div id="shell">
+  <header class="hdr no-print">
+    <div class="logo">
+      KRISRUMMET
+      <em><span class="dot"></span>OCKELBOLIVIA FINANSMINISTERIET</em>
+    </div>
+    <div id="step-lbl"></div>
+  </header>
+  <div id="prog" class="prog no-print"></div>
+  <div id="main"></div>
+</div>
+
+<script>
+// ─── KONFIGURATION — ÄNDRA HÄR ──────────────────────────────────────────────
+const LARAR_EMAIL = 'petrus.soportalen@gmail.com';
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ─── STATE ─────────────────────────────────────────────────────────────────
+const S = { step:0, scenario:null, penning:null, finans:null, answers:{q1:'',q2:'',q3:'',q4:''}, name:'', result:null };
+const STEPS = 6;
+
+// ─── DATA ──────────────────────────────────────────────────────────────────
+const SCENARIOS = [
+  {
+    id:'lag', name:'Lågkonjunktur', sub:'Ockelbolivia glider in i recession', col:'#f43f5e', icon:'📉',
+    desc:'Ockelbolivia befinner sig i en djup lågkonjunktur. BNP sjunker för tredje kvartalet i rad. Företagen varslar om personal och minskar produktionen. Hushållen drar ner på konsumtionen och skjuter upp stora köp. Statens skatteintäkter minskar medan kostnaderna för arbetslöshetsersättning stiger kraftigt. Trycket på den offentliga sektorn är hårt.',
+    stats:{bnp:-1.8, inf:1.2, un:10.3},
+    ctx:'lågkonjunktur med sjunkande BNP (-1.8%), låg inflation (1.2%) och hög arbetslöshet (10.3%)',
+  },
+  {
+    id:'hog', name:'Inflationskris', sub:'Ekonomin är farligt överhettad', col:'#f59e0b', icon:'🔥',
+    desc:'Ockelbolivias ekonomi har växt kraftigt de senaste åren och arbetslösheten är rekordlåg. Men nu är inflationen farligt hög. Priserna stiger snabbt på mat, energi och bostäder. Hushållen tappar köpkraft och kräver löneökningar, vilket driver upp kostnaderna ytterligare. Ockelbolivias exportvaror har blivit dyra och svårsålda på världsmarknaden. Riksbankens inflationsmål på 2% verkar avlägset.',
+    stats:{bnp:3.9, inf:7.8, un:4.1},
+    ctx:'hög inflation (7.8%), stark BNP-tillväxt (3.9%) och låg arbetslöshet (4.1%)',
+  },
+  {
+    id:'stag', name:'Stagflation', sub:'Det värsta av två världar', col:'#7c3aed', icon:'⚠️',
+    desc:'Ockelbolivia drabbas av stagflation — en farlig kombination av hög inflation och stigande arbetslöshet. Oljepriset har exploderat globalt och driver upp kostnaderna för allt. Företagen tvingas höja sina priser men säljer ändå allt färre varor. Politiker och ekonomer är djupt oeniga om vad som ska göras. Varje tänkbart verktyg har en baksida — det är krisernas kris.',
+    stats:{bnp:-0.4, inf:6.1, un:11.8},
+    ctx:'stagflation med hög inflation (6.1%), negativ BNP-tillväxt (-0.4%) och hög arbetslöshet (11.8%)',
+  },
+];
+
+const PENNING = [
+  {id:'pp2', lbl:'Höj räntan kraftigt',    det:'+2 procentenheter',  col:'#f43f5e', imp:{bnp:-1.0, inf:-2.2, un:1.2}},
+  {id:'pp05',lbl:'Höj räntan lite',         det:'+0.5 procentenheter',col:'#f59e0b', imp:{bnp:-0.3, inf:-0.9, un:0.4}},
+  {id:'pp0', lbl:'Håll räntan oförändrad', det:'±0 procentenheter',  col:'#64748b', imp:{bnp:0,    inf:0,    un:0}},
+  {id:'pm05',lbl:'Sänk räntan lite',        det:'-0.5 procentenheter',col:'#10b981', imp:{bnp:0.5,  inf:0.8,  un:-0.4}},
+  {id:'pm2', lbl:'Sänk räntan kraftigt',   det:'-2 procentenheter',  col:'#3b82f6', imp:{bnp:1.2,  inf:1.8,  un:-1.0}},
+];
+
+const FINANS = [
+  {id:'ft2', lbl:'Hård åtstramning',               det:'Höj skatter + kraftigt minskade bidrag',   col:'#f43f5e', imp:{bnp:-1.3, inf:-1.6, un:1.8}},
+  {id:'ft1', lbl:'Mild åtstramning',                det:'Lätt skattehöjning + spara',              col:'#f59e0b', imp:{bnp:-0.5, inf:-0.7, un:0.6}},
+  {id:'f0',  lbl:'Neutral budget',                  det:'Inga större förändringar',                col:'#64748b', imp:{bnp:0,    inf:0,    un:0}},
+  {id:'fs1', lbl:'Mild stimulans',                  det:'Sänk skatter + öka bidrag måttligt',      col:'#10b981', imp:{bnp:0.7,  inf:0.5,  un:-0.6}},
+  {id:'fs2', lbl:'Kraftig stimulans + infrastruktur',det:'Stora offentliga investeringar',         col:'#3b82f6', imp:{bnp:1.6,  inf:1.3,  un:-1.3}},
+];
+
+const QUESTIONS = [
+  {k:'q1', t:'1. Beskriv situationen', h:'Beskriv Ockelbolivias ekonomiska läge med egna ord. Vad är det huvudsakliga problemet och vad beror det på? Vilka grupper av medborgare drabbas hårdast och på vilket sätt?'},
+  {k:'q2', t:'2. Motivera räntepolitiken', h:'Förklara VARFÖR du valde din räntestrategi. Hur påverkar ränteförändringar hushållen och företagen? Koppla din motivering till principen om utbud och efterfrågan.'},
+  {k:'q3', t:'3. Motivera budgetpolitiken', h:'Motivera ditt val av finanspolitik. Vilka konkreta åtgärder ingår och varför är de rätt just nu? Hur finansieras eventuella satsningar och vad skär du ner på?'},
+  {k:'q4', t:'4. Risker och konsekvenser', h:'Vilka risker och bieffekter ser du med din valda politik? Vem i Ockelbolivia gynnas respektive missgynnas? Vad händer om åtgärderna inte får avsedd effekt?'},
+];
+
+// ─── HELPERS ───────────────────────────────────────────────────────────────
+const fmt = (n, sign=true) => (sign&&n>0?'+':'')+n.toFixed(1);
+const wc  = s => s.trim().split(/\s+/).filter(w=>w.length).length;
+const MIN_WORDS = 60;
+
+const col = (k, v) => {
+  if(k==='bnp')  return v>=2?'#10b981':v>=0?'#f59e0b':'#f43f5e';
+  if(k==='inf')  return v>=1&&v<=3?'#10b981':v<=5?'#f59e0b':'#f43f5e';
+  if(k==='un')   return v<5?'#10b981':v<8?'#f59e0b':'#f43f5e';
+  return '#e2e8f0';
+};
+
+const KL = {bnp:'BNP-TILLVÄXT',inf:'INFLATION',un:'ARBETSLÖSHET'};
+
+const calc = () => {
+  const {stats} = S.scenario;
+  const pp = PENNING.find(p=>p.id===S.penning).imp;
+  const fp = FINANS.find(f=>f.id===S.finans).imp;
+  return {
+    bnp: +( stats.bnp+pp.bnp+fp.bnp ).toFixed(1),
+    inf: +( stats.inf+pp.inf+fp.inf ).toFixed(1),
+    un:  +( stats.un +pp.un +fp.un  ).toFixed(1),
+  };
+};
+
+// ─── RENDER ENGINE ─────────────────────────────────────────────────────────
+const MAIN = ()=>document.getElementById('main');
+const PROG = ()=>document.getElementById('prog');
+const SLBL = ()=>document.getElementById('step-lbl');
+
+function go(n) {
+  S.step = n;
+  // progress
+  PROG().innerHTML = Array.from({length:STEPS},(_,i)=>{
+    const c=i<n?'done':i===n?'live':'';
+    return `<div class="prog-dot ${c}"></div>`;
+  }).join('');
+  SLBL().textContent = `STEG ${n+1} / ${STEPS}`;
+  // render
+  const wrap = document.createElement('div');
+  wrap.className = 'step';
+  wrap.innerHTML = RENDER[n]();
+  MAIN().innerHTML='';
+  MAIN().appendChild(wrap);
+  if(BIND[n]) BIND[n](wrap);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ─── STEP 0 — INTRO ────────────────────────────────────────────────────────
+const RENDER = {};
+RENDER[0] = () => `
+  <div class="lbl">// UPPDRAGSBRIEFING</div>
+  <h1 style="color:var(--gold)">KRIS<br>RUMMET</h1>
+  <p class="lead">Du har just utnämnts till <strong style="color:var(--text)">finansminister i Ockelbolivia</strong> — ett litet europeiskt land med en ekonomi i allvarlig obalans. Riksdagen väntar på din handlingsplan.</p>
+
+  <div class="terminal">
+TILL: Tillträdande finansminister<br>
+FRÅN: Statsministerns kansli<br>
+ÄRENDE: OMEDELBAR ÅTGÄRD KRÄVS<br><br>
+Ockelbolivias ekonomi kräver din uppmärksamhet.<br>
+Du har mandat att använda <em>penningpolitik</em> (Riksbanken)<br>
+och <em>finanspolitik</em> (statsbudgeten) för att stabilisera landet.<br><br>
+Din skriftliga rapport till riksdagen ska vara klar inom kort.<br>
+<span style="color:var(--rose)">// KLASSIFICERAT — BEHÖRIGHET KRÄVS</span>
+  </div>
+
+  <div class="inst">
+    <h4>📋 ANVISNINGAR — SÅ HÄR FUNGERAR UPPGIFTEN</h4>
+    <ul>
+      <li>Välj ett av tre ekonomiska krisscenarier som Ockelbolivia befinner sig i</li>
+      <li>Analysera situationen och fatta beslut om ränte- och budgetpolitik</li>
+      <li>Se konsekvenserna av dina politiska val</li>
+      <li>Skriv en rapport med minst ${MIN_WORDS} ord på var och en av de 4 frågorna</li>
+      <li>Rapporten bedöms av en ekonomisk AI-rådgivare — motivera dina val ordentligt!</li>
+      <li>Använd rätta begrepp: BNP, inflation, ränta, sysselsättning, utbud, efterfrågan</li>
+    </ul>
+  </div>
+
+  <div class="name-wrap">
+    <label>DITT NAMN (VALFRITT)</label>
+    <input class="name-input" id="nme" type="text" placeholder="Finansminister ___________" value="${S.name}">
+  </div>
+
+  <button class="btn btn-p" onclick="S.name=document.getElementById('nme').value;go(1)">Börja uppdraget →</button>
+`;
+
+// ─── STEP 1 — VÄLJ SCENARIO ────────────────────────────────────────────────
+RENDER[1] = () => `
+  <div class="lbl">// STEG 01 — VÄLJ KRISSCENARIO</div>
+  <h2>Vilket ekonomiskt läge möter Ockelbolivia?</h2>
+  <p class="lead">Välj det scenario du vill arbeta med. Varje scenario kräver sin egen politiska lösning.</p>
+
+  <div class="sc-grid">
+    ${SCENARIOS.map(sc=>`
+      <div class="sc-card" style="border-color:${sc.col}30"
+        onclick="S.scenario=SCENARIOS.find(s=>s.id==='${sc.id}');go(2)">
+        <div class="sc-icon">${sc.icon}</div>
+        <div class="sc-name" style="color:${sc.col}">${sc.name}</div>
+        <div class="sc-sub">${sc.sub}</div>
+        <div class="sc-stats">
+          <div class="st-row"><span class="st-k">BNP-TILLVÄXT</span><span class="st-v" style="color:${col('bnp',sc.stats.bnp)}">${fmt(sc.stats.bnp)}%</span></div>
+          <div class="st-row"><span class="st-k">INFLATION</span><span class="st-v" style="color:${col('inf',sc.stats.inf)}">${fmt(sc.stats.inf,false)}%</span></div>
+          <div class="st-row"><span class="st-k">ARBETSLÖSHET</span><span class="st-v" style="color:${col('un',sc.stats.un)}">${fmt(sc.stats.un,false)}%</span></div>
+        </div>
+      </div>
+    `).join('')}
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-o" onclick="go(0)">← Tillbaka</button>
+  </div>
+`;
+
+// ─── STEP 2 — DASHBOARD ────────────────────────────────────────────────────
+RENDER[2] = () => {
+  const sc = S.scenario;
+  return `
+    <div class="lbl">// STEG 02 — SITUATIONSANALYS</div>
+    <h2>${sc.icon} ${sc.name}: ${sc.sub}</h2>
+    <p style="max-width:660px;line-height:1.75;margin-bottom:22px;color:var(--muted)">${sc.desc}</p>
+
+    <div class="dash">
+      ${['bnp','inf','un'].map(k=>{
+        const v=sc.stats[k]; const c=col(k,v);
+        const tags={bnp:['▲ Tillväxt','▲ Svag','▼ Recession'],inf:['▼ Under mål','✓ Nära mål','▲ För hög'],un:['▼ Låg','– Måttlig','▲ Hög']};
+        const tag = k==='bnp'?(v>=2?tags.bnp[0]:v>=0?tags.bnp[1]:tags.bnp[2])
+                  : k==='inf'?(v<2?tags.inf[0]:v<=3?tags.inf[1]:tags.inf[2])
+                  : (v<5?tags.un[0]:v<8?tags.un[1]:tags.un[2]);
+        return `
+          <div class="metric" style="border-color:${c}33">
+            <div class="m-lbl">${KL[k]}</div>
+            <div class="m-val" style="color:${c}">${fmt(v,k==='bnp')}%</div>
+            <div class="m-tag" style="color:${c}">${tag}</div>
+            <div class="m-bar-wrap"><div class="m-bar" style="background:${c};width:${Math.min(100,Math.abs(v)*9)}%"></div></div>
+          </div>`;
+      }).join('')}
+    </div>
+
+    <div class="alert a-warn">⚡ Riksdagen och medborgarna väntar på åtgärder. Välj rätt kombination av penning- och finanspolitik.</div>
+
+    <div class="btn-row">
+      <button class="btn btn-p" onclick="go(3)">Fatta politiska beslut →</button>
+      <button class="btn btn-o" onclick="go(1)">← Byt scenario</button>
+    </div>
+  `;
+};
+
+// ─── STEP 3 — BESLUT ───────────────────────────────────────────────────────
+RENDER[3] = () => {
+  const sc=S.scenario;
+  return `
+    <div class="lbl">// STEG 03 — POLITISKA BESLUT</div>
+    <h2>Välj din ekonomiska politik</h2>
+
+    <div class="sumbox">
+      ${['bnp','inf','un'].map(k=>`
+        <div><div class="sum-k">${KL[k]}</div>
+        <div class="sum-v" style="color:${col(k,sc.stats[k])}">${fmt(sc.stats[k],k==='bnp')}%</div></div>
+      `).join('')}
+      <div><div class="sum-k">SCENARIO</div><div class="sum-v">${sc.name}</div></div>
+    </div>
+
+    <div class="pol-grid">
+      <div class="pol-section">
+        <div class="pol-hdr">
+          <div><div class="pol-title">Penningpolitik</div><div class="pol-sub">Beslutas av Riksbanken</div></div>
+          <span class="badge" style="background:rgba(124,58,237,.15);color:#7c3aed;border:1px solid rgba(124,58,237,.3)">🏦 RIKSBANKEN</span>
+        </div>
+        ${PENNING.map(o=>`
+          <div class="opt ${S.penning===o.id?'sel':''}" id="pp-${o.id}" onclick="selPP('${o.id}')">
+            <div class="opt-bar" style="background:${o.col}"></div>
+            <div class="opt-txt"><div class="opt-lbl">${o.lbl}</div><div class="opt-det">${o.det}</div></div>
+            <div class="radio"></div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="pol-section">
+        <div class="pol-hdr">
+          <div><div class="pol-title">Finanspolitik</div><div class="pol-sub">Beslutas av Regeringen</div></div>
+          <span class="badge" style="background:rgba(245,197,24,.1);color:var(--gold);border:1px solid rgba(245,197,24,.25)">🏛️ REGERINGEN</span>
+        </div>
+        ${FINANS.map(o=>`
+          <div class="opt ${S.finans===o.id?'sel':''}" id="fp-${o.id}" onclick="selFP('${o.id}')">
+            <div class="opt-bar" style="background:${o.col}"></div>
+            <div class="opt-txt"><div class="opt-lbl">${o.lbl}</div><div class="opt-det">${o.det}</div></div>
+            <div class="radio"></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div id="d-alert"></div>
+    <div class="btn-row">
+      <button class="btn btn-p" onclick="submitDecision()">Se konsekvenser →</button>
+      <button class="btn btn-o" onclick="go(2)">← Tillbaka</button>
+    </div>
+  `;
+};
+
+// ─── STEP 4 — KONSEKVENSER ─────────────────────────────────────────────────
+RENDER[4] = () => {
+  const sc=S.scenario; const r=S.result;
+  const pp=PENNING.find(p=>p.id===S.penning);
+  const fp=FINANS.find(f=>f.id===S.finans);
+
+  const analysis=[];
+  if(r.bnp>=1.5) analysis.push({t:'ok',m:'BNP-tillväxten är stark — Ockelbolivias ekonomi accelererar tydligt.'});
+  else if(r.bnp>=0) analysis.push({t:'warn',m:'BNP-tillväxten är positiv men låg — ekonomin rör sig åt rätt håll, men långsamt.'});
+  else analysis.push({t:'err',m:'BNP är fortsatt negativ — Ockelbolivia befinner sig kvar i recession.'});
+
+  if(r.inf>=1&&r.inf<=3) analysis.push({t:'ok',m:'Inflationen är nära Riksbankens mål på 2% — ett utmärkt resultat.'});
+  else if(r.inf>3&&r.inf<=5) analysis.push({t:'warn',m:'Inflationen är fortfarande över målet men rör sig i rätt riktning.'});
+  else if(r.inf>5) analysis.push({t:'err',m:'Inflationen är farligt hög — medborgarna tappar köpkraft snabbt.'});
+  else analysis.push({t:'warn',m:'Inflationen är under målet — risk för deflation som bromsar tillväxten.'});
+
+  if(r.un<5) analysis.push({t:'ok',m:'Arbetslösheten är låg — de flesta som vill arbeta har ett jobb.'});
+  else if(r.un<8) analysis.push({t:'warn',m:'Arbetslösheten är måttlig — fler behöver komma in på arbetsmarknaden.'});
+  else analysis.push({t:'err',m:'Arbetslösheten är hög — många nordavianare saknar inkomst och trygghet.'});
+
+  const cls={ok:'a-ok',warn:'a-warn',err:'a-err'};
+  const ico={ok:'✓',warn:'⚡',err:'✕'};
+
+  return `
+    <div class="lbl">// STEG 04 — KONSEKVENSER</div>
+    <h2>Ockelbolivias ekonomi efter dina beslut</h2>
+
+    <div class="sumbox">
+      <div><div class="sum-k">PENNINGPOLITIK</div><div class="sum-v" style="font-size:12px">${pp.lbl}</div></div>
+      <div><div class="sum-k">FINANSPOLITIK</div><div class="sum-v" style="font-size:12px">${fp.lbl}</div></div>
+    </div>
+
+    <div class="csq-grid">
+      ${['bnp','inf','un'].map(k=>{
+        const before=sc.stats[k]; const after=r[k]; const d=after-before;
+        const c=col(k,after);
+        const arr = d>0.05?'⬆':d<-0.05?'⬇':'➡';
+        const dc  = d>0.05?'#10b981':d<-0.05?'#f43f5e':'var(--muted)';
+        // Invert good direction for unemployment (lower=better)
+        const goodDir = k==='un' ? d<0 : d>0;
+        return `
+          <div class="csq">
+            <div class="csq-lbl">${KL[k]}</div>
+            <div class="csq-before">Innan: ${fmt(before,k==='bnp')}%</div>
+            <div class="csq-arrow">${arr}</div>
+            <div class="csq-after" style="color:${c}">${fmt(after,k==='bnp')}%</div>
+            <div class="csq-delta" style="color:${goodDir?'#10b981':'#f43f5e'}">${d>0.05?'+':''}${d.toFixed(1)} pp</div>
+          </div>`;
+      }).join('')}
+    </div>
+
+    <div style="display:grid;gap:7px">
+      ${analysis.map(a=>`<div class="alert ${cls[a.t]}">${ico[a.t]} ${a.m}</div>`).join('')}
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-p" onclick="go(5)">Skriv din rapport →</button>
+      <button class="btn btn-o" onclick="go(3)">← Ändra beslut</button>
+    </div>
+  `;
+};
+
+// ─── STEP 5 — RAPPORT ──────────────────────────────────────────────────────
+RENDER[5] = () => {
+  const sc=S.scenario;
+  const pp=PENNING.find(p=>p.id===S.penning);
+  const fp=FINANS.find(f=>f.id===S.finans);
+  return `
+    <div class="lbl">// STEG 05 — SKRIFTLIG RAPPORT</div>
+    <h2>Skriv din rapport till riksdagen</h2>
+
+    <div class="tags">
+      <span class="tag">SCENARIO: <span>${sc.name}</span></span>
+      <span class="tag">PENNING: <span>${pp.lbl}</span></span>
+      <span class="tag">FINANS: <span>${fp.lbl}</span></span>
+      ${S.name?`<span class="tag">MINISTER: <span>${S.name}</span></span>`:''}
+    </div>
+
+    <div class="inst">
+      <h4>📋 ANVISNINGAR FÖR RAPPORTEN</h4>
+      <ul>
+        <li>Besvara alla fyra frågor med minst ${MIN_WORDS} ord per svar</li>
+        <li>Använd korrekta ekonomiska begrepp — BNP, inflation, ränta, utbud, efterfrågan…</li>
+        <li>Förklara VARFÖR du valde som du gjorde, inte bara VAD du valde</li>
+        <li>Du får ett bedömningsschema när du är klar — gå igenom det och se vad du kan förbättra</li>
+      </ul>
+    </div>
+
+    <div class="wr-grid">
+      ${QUESTIONS.map(q=>`
+        <div class="wr-card">
+          <div class="wr-title">${q.t}</div>
+          <div class="wr-hint">${q.h}</div>
+          <textarea id="ta-${q.k}" placeholder="Skriv ditt svar här…"
+            oninput="updWC('${q.k}')">${S.answers[q.k]}</textarea>
+          <div class="wc" id="wc-${q.k}">0 / ${MIN_WORDS} ord</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div id="wr-alert"></div>
+    <div class="btn-row">
+      <button class="btn btn-p" onclick="submitReport()">Se bedömningsschema →</button>
+      <button class="btn btn-o" onclick="go(4)">← Tillbaka</button>
+    </div>
+  `;
+};
+
+// ─── BIND STEP 5 ───────────────────────────────────────────────────────────
+const BIND = {};
+BIND[5] = () => { QUESTIONS.forEach(q=>updWC(q.k)); };
+
+// ─── EVENT HANDLERS ────────────────────────────────────────────────────────
+function selPP(id) {
+  S.penning = id;
+  PENNING.forEach(o => { const el=document.getElementById('pp-'+o.id); if(el) el.className='opt'+(o.id===id?' sel':''); });
+}
+function selFP(id) {
+  S.finans = id;
+  FINANS.forEach(o => { const el=document.getElementById('fp-'+o.id); if(el) el.className='opt'+(o.id===id?' sel':''); });
+}
+function submitDecision() {
+  if(!S.penning||!S.finans) {
+    document.getElementById('d-alert').innerHTML=`<div class="alert a-err">⚠️ Du måste välja BÅDE penningpolitik och finanspolitik innan du kan gå vidare.</div>`;
+    return;
+  }
+  S.result = calc();
+  go(4);
+}
+function updWC(k) {
+  const ta=document.getElementById('ta-'+k);
+  const wcel=document.getElementById('wc-'+k);
+  if(!ta||!wcel) return;
+  S.answers[k]=ta.value;
+  const n=wc(ta.value);
+  wcel.textContent=n+' / '+MIN_WORDS+' ord';
+  wcel.className='wc'+(n>=MIN_WORDS?' ok':'');
+}
+function submitReport() {
+  const missing=QUESTIONS.filter(q=>wc(S.answers[q.k])<MIN_WORDS);
+  if(missing.length){
+    document.getElementById('wr-alert').innerHTML=`<div class="alert a-err">⚠️ Skriv minst ${MIN_WORDS} ord på: ${missing.map(q=>q.t).join(', ')}</div>`;
+    return;
+  }
+  showAdvisor();
+}
+
+// ─── BEDÖMNINGSSCHEMA ─────────────────────────────────────────────────────
+function showAdvisor() {
+  S.step = 5;
+  PROG().querySelectorAll('.prog-dot').forEach(d=>d.className='prog-dot done');
+  SLBL().textContent = `STEG 6 / ${STEPS}`;
+
+  const sc=S.scenario; const r=S.result;
+  const pp=PENNING.find(p=>p.id===S.penning);
+  const fp=FINANS.find(f=>f.id===S.finans);
+
+  // ── Automatisk bedömning av beslutet ──────────────────────────────────────
+  const verdict = buildVerdict(sc, pp, fp, r);
+
+  // ── Checklistor per fråga ─────────────────────────────────────────────────
+  const CHECKS = [
+    { k:'q1', title:'Fråga 1 — Beskriv situationen', items:[
+      'Jag nämner vilket scenario (lågkonjunktur, inflation el. stagflation) Ockelbolivia befinner sig i',
+      'Jag förklarar vad BNP-tillväxt, inflation och arbetslöshet betyder',
+      'Jag beskriver hur minst en specifik grupp (hushåll, företag, offentlig sektor) påverkas',
+      'Jag kopplar symptomen till en orsak (t.ex. minskad efterfrågan, stigande energipriser)',
+      'Jag använder minst tre ekonomiska facktermer korrekt',
+    ]},
+    { k:'q2', title:'Fråga 2 — Penningpolitiken', items:[
+      'Jag förklarar att det är Riksbanken (inte regeringen) som bestämmer räntan',
+      'Jag beskriver orsakskedjan: ränta → lånekostnad → konsumtion → efterfrågan → inflation',
+      'Jag motiverar VARFÖR just mitt ränteval passar det aktuella scenariot',
+      'Jag diskuterar hur beslutet påverkar hushållens och företagens beteende',
+      'Jag nämner principen om utbud och efterfrågan i samband med inflationseffekten',
+    ]},
+    { k:'q3', title:'Fråga 3 — Finanspolitiken', items:[
+      'Jag förklarar att det är Finansdepartementet/regeringen som bestämmer budgeten',
+      'Jag nämner konkreta åtgärder (t.ex. skattesänkning, infrastrukturinvestering, bidrag)',
+      'Jag motiverar VARFÖR dessa åtgärder passar scenariot just nu',
+      'Jag diskuterar hur staten finansierar satsningarna (skatteintäkter, sparpengar, lån)',
+      'Jag kopplar åtgärderna till effekter på BNP, sysselsättning eller inflation',
+    ]},
+    { k:'q4', title:'Fråga 4 — Risker och konsekvenser', items:[
+      'Jag nämner minst en konkret risk med min valda politik',
+      'Jag diskuterar vem som gynnas respektive missgynnas av mina beslut',
+      'Jag resonerar om vad som kan gå fel om åtgärderna inte fungerar som planerat',
+      'Jag visar förståelse för att penning- och finanspolitik ibland kan motverka varandra',
+      'Jag kopplar min analys till Ockelbolivias faktiska ekonomiska resultat (siffrorna)',
+    ]},
+  ];
+
+  const div=document.createElement('div');
+  div.className='step';
+  div.innerHTML=`
+    <div class="lbl">// STEG 06 — BEDÖMNINGSSCHEMA</div>
+    <h2>Din rapport är klar — hur gick det?</h2>
+
+    <div class="sumbox">
+      ${S.name?`<div><div class="sum-k">MINISTER</div><div class="sum-v">${S.name}</div></div>`:''}
+      <div><div class="sum-k">SCENARIO</div><div class="sum-v">${sc.name}</div></div>
+      <div><div class="sum-k">PENNING</div><div class="sum-v" style="font-size:11px">${pp.lbl}</div></div>
+      <div><div class="sum-k">FINANS</div><div class="sum-v" style="font-size:11px">${fp.lbl}</div></div>
+      <div><div class="sum-k">BNP</div><div class="sum-v" style="color:${col('bnp',r.bnp)}">${fmt(r.bnp)}%</div></div>
+      <div><div class="sum-k">INFLATION</div><div class="sum-v" style="color:${col('inf',r.inf)}">${r.inf}%</div></div>
+      <div><div class="sum-k">ARBETSLÖSHET</div><div class="sum-v" style="color:${col('un',r.un)}">${r.un}%</div></div>
+    </div>
+
+    <!-- BESLUTSANALYS -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:4px;padding:22px;margin:20px 0">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:14px">// ANALYS AV DINA POLITISKA BESLUT</div>
+      ${verdict.map(v=>`
+        <div class="alert ${v.cls}" style="margin-bottom:8px">
+          <div>
+            <div style="font-weight:700;margin-bottom:3px">${v.head}</div>
+            <div style="opacity:.9;font-size:12px;line-height:1.6">${v.body}</div>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <!-- CHECKLISTA PER FRÅGA -->
+    <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin:28px 0 14px">
+      Självvärdering — kryssa i det du har med i din rapport
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Gå igenom varje fråga. Vad har du med? Vad saknas? Dessa punkter visar vad som krävs för ett fullständigt svar.</p>
+
+    <div style="display:grid;gap:14px">
+      ${CHECKS.map(sec=>`
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px">
+          <div style="font-family:'Rajdhani',sans-serif;font-size:17px;font-weight:700;color:var(--gold);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">${sec.title}</div>
+          ${sec.items.map((item,i)=>`
+            <label style="display:flex;align-items:flex-start;gap:11px;cursor:pointer;padding:7px 0;border-bottom:1px solid ${i<sec.items.length-1?'var(--border)':'transparent'}">
+              <input type="checkbox" style="margin-top:3px;accent-color:var(--gold);width:15px;height:15px;flex-shrink:0">
+              <span style="font-size:14px;line-height:1.6;color:var(--muted)">${item}</span>
+            </label>
+          `).join('')}
+          <div style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-top:8px" class="score-lbl" data-total="${sec.items.length}">
+            0 / ${sec.items.length} ✓
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- BEGREPP ATT ANVÄNDA -->
+    <div style="background:rgba(245,197,24,.04);border:1px solid rgba(245,197,24,.18);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;padding:18px 22px;margin:24px 0">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:12px">// EKONOMISKA BEGREPP DU BÖR HA MED</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        ${['BNP','Konjunktur','Inflation','Deflation','Ränta','Styrränta','Riksbanken','Finansdepartementet',
+           'Utbud','Efterfrågan','Sysselsättning','Skatteintäkter','Konsumtion','Investering',
+           'Lågkonjunktur','Högkonjunktur','Stagflation','Penningpolitik','Finanspolitik',
+           'Statsbudget','Arbetsgivaravgift','Infrastruktur'].map(b=>
+          `<span style="background:var(--card2);border:1px solid var(--border);border-radius:2px;padding:4px 10px;font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--muted)">${b}</span>`
+        ).join('')}
+      </div>
+    </div>
+
+    <!-- LÄRARMALL -->
+    <div style="background:var(--card2);border:1px solid var(--dim);border-radius:4px;padding:20px;margin:20px 0">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--muted);margin-bottom:12px">// FÖR LÄRAREN — INLÄMNINGSINFO</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px">NAMN</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700">${S.name||'—'}</div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px">SCENARIO</div>
+          <div style="font-family:'Rajdhani',sans-serif;font-size:16px;font-weight:700">${sc.name}</div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px">PENNINGPOLITIK</div>
+          <div style="font-size:13px">${pp.lbl} (${pp.det})</div>
+        </div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--muted);margin-bottom:5px">FINANSPOLITIK</div>
+          <div style="font-size:13px">${fp.lbl} (${fp.det})</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INLÄMNING -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:4px;padding:24px;margin:24px 0" class="no-print">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:2px;color:var(--gold);margin-bottom:6px">// LÄMNA IN DIN RAPPORT</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.6">Välj hur du vill lämna in. Kopiera-knappen lägger alla svar i urklipp så du kan klistra in dem var som helst. Mejl-knappen öppnar din e-postklient med allt förifyllt — du trycker bara Skicka.</p>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+
+        <!-- KOPIERA -->
+        <button class="btn btn-o" id="copy-btn" onclick="copyAnswers()" style="justify-content:center;padding:16px">
+          <span style="font-size:18px">📋</span>
+          <span>Kopiera alla svar</span>
+        </button>
+
+        <!-- MEJL -->
+        <button class="btn btn-p" id="mail-btn" onclick="openMail()" style="justify-content:center;padding:16px">
+          <span style="font-size:18px">📧</span>
+          <span>Skicka till läraren</span>
+        </button>
+
+      </div>
+
+      <!-- Feedback-rad -->
+      <div id="inlamn-msg" style="display:none;font-family:'JetBrains Mono',monospace;font-size:11px;padding:10px 14px;border-radius:2px;text-align:center"></div>
+
+      <!-- Kopierat-ruta -->
+      <div id="copy-box" style="display:none;margin-top:14px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--muted);margin-bottom:6px">KOPIERADE SVAR — klistra in i ett dokument eller mejl:</div>
+        <textarea id="copy-area" readonly style="width:100%;min-height:180px;font-size:12px;line-height:1.6;background:#000;border:1px solid var(--gold);color:var(--gold);font-family:'JetBrains Mono',monospace;padding:12px;border-radius:2px;resize:vertical" onclick="this.select()"></textarea>
+      </div>
+
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-o no-print" onclick="window.print()">🖨 Skriv ut rapport</button>
+      <button class="btn btn-o no-print" onclick="go(0)">↺ Nytt uppdrag</button>
+    </div>
+  `;
+
+  MAIN().innerHTML='';
+  MAIN().appendChild(div);
+  window.scrollTo({top:0,behavior:'smooth'});
+
+  // Räknare på checkboxar
+  div.querySelectorAll('.score-lbl').forEach(lbl=>{
+    const card = lbl.closest('div[style]');
+    const boxes = card.querySelectorAll('input[type=checkbox]');
+    const total = parseInt(lbl.dataset.total);
+    boxes.forEach(cb=>{
+      cb.addEventListener('change',()=>{
+        const n = [...boxes].filter(b=>b.checked).length;
+        lbl.textContent = n+' / '+total+' ✓';
+        lbl.style.color = n===total?'var(--mint)':n>=total*0.6?'var(--amber)':'var(--muted)';
+        // highlight label
+        cb.closest('label').style.color = cb.checked ? 'var(--text)' : '';
+        cb.closest('label').querySelector('span').style.color = cb.checked ? 'var(--text)' : 'var(--muted)';
+      });
+    });
+  });
+}
+
+// ─── KOPIERA & MEJL ────────────────────────────────────────────────────────
+function buildReportText() {
+  const sc = S.scenario;
+  const pp = PENNING.find(p=>p.id===S.penning);
+  const fp = FINANS.find(f=>f.id===S.finans);
+  const r  = S.result;
+  const sep = '─'.repeat(52);
+  return [
+    'KRISRUMMET — OCKELBOLIVIA FINANSMINISTERIET',
+    'RAPPORT TILL RIKSDAGEN',
+    sep,
+    `Namn:           ${S.name || '(ej angivet)'}`,
+    `Scenario:       ${sc.name} — ${sc.sub}`,
+    `Penningpolitik: ${pp.lbl} (${pp.det})`,
+    `Finanspolitik:  ${fp.lbl} (${fp.det})`,
+    '',
+    'EKONOMISKT UTFALL',
+    `BNP:            ${fmt(sc.stats.bnp)}% → ${fmt(r.bnp)}%`,
+    `Inflation:      ${sc.stats.inf}% → ${r.inf}%`,
+    `Arbetslöshet:   ${sc.stats.un}% → ${r.un}%`,
+    sep,
+    '',
+    'FRÅGA 1 — BESKRIV SITUATIONEN',
+    S.answers.q1 || '(inget svar)',
+    '',
+    'FRÅGA 2 — MOTIVERA PENNINGPOLITIKEN',
+    S.answers.q2 || '(inget svar)',
+    '',
+    'FRÅGA 3 — MOTIVERA FINANSPOLITIKEN',
+    S.answers.q3 || '(inget svar)',
+    '',
+    'FRÅGA 4 — RISKER OCH KONSEKVENSER',
+    S.answers.q4 || '(inget svar)',
+    '',
+    sep,
+  ].join('\n');
+}
+
+function showMsg(txt, ok=true) {
+  const el = document.getElementById('inlamn-msg');
+  if(!el) return;
+  el.style.display = 'block';
+  el.style.background = ok ? 'rgba(16,185,129,.1)' : 'rgba(244,63,94,.1)';
+  el.style.border = ok ? '1px solid rgba(16,185,129,.3)' : '1px solid rgba(244,63,94,.3)';
+  el.style.color = ok ? 'var(--mint)' : 'var(--rose)';
+  el.textContent = txt;
+}
+
+function copyAnswers() {
+  const text = buildReportText();
+  const box  = document.getElementById('copy-box');
+  const area = document.getElementById('copy-area');
+  const btn  = document.getElementById('copy-btn');
+
+  // Visa textrutan
+  area.value = text;
+  box.style.display = 'block';
+  area.select();
+
+  // Kopiera till urklipp
+  if(navigator.clipboard) {
+    navigator.clipboard.writeText(text)
+      .then(()=>{
+        showMsg('✓ Kopierat! Klistra in i ett dokument eller mejl och lämna in till din lärare.');
+        btn.innerHTML = '<span>✓</span><span>Kopierat!</span>';
+        btn.style.borderColor = 'var(--mint)';
+        btn.style.color = 'var(--mint)';
+        setTimeout(()=>{ btn.innerHTML='<span style="font-size:18px">📋</span><span>Kopiera alla svar</span>'; btn.style.borderColor=''; btn.style.color=''; }, 2500);
+      })
+      .catch(()=>{ showMsg('Markera texten nedan och kopiera manuellt (Ctrl+C / Cmd+C).', false); });
+  } else {
+    document.execCommand('copy');
+    showMsg('✓ Kopierat! Klistra in i ett dokument eller mejl.');
+  }
+}
+
+function openMail() {
+  const sc   = S.scenario;
+  const name = S.name || 'Elev';
+  const text = buildReportText();
+
+  const subject = `KRISRUMMET — Rapport från ${name} (${sc.name})`;
+
+  // Kopiera till urklipp i bakgrunden
+  if(navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(()=>{});
+  }
+
+  // Visa textrutan som backup
+  const box  = document.getElementById('copy-box');
+  const area = document.getElementById('copy-area');
+  if(box && area){ area.value = text; box.style.display = 'block'; }
+
+  // Öppna mailto via dold <a>-länk (undviker window.location-problem)
+  const a = document.createElement('a');
+  a.href = `mailto:${LARAR_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(()=>document.body.removeChild(a), 500);
+
+  showMsg('✓ E-postklienten öppnas med alla svar. Om kroppen ser tom ut — klistra in med Ctrl+V (kopierades automatiskt).');
+}
+
+// ─── BESLUTSANALYS ─────────────────────────────────────────────────────────
+function buildVerdict(sc, pp, fp, r) {
+  const v = [];
+  const id = sc.id;
+
+  // Penningpolitik
+  const ppGood = (id==='lag'&&(S.penning==='pm05'||S.penning==='pm2'))
+               ||(id==='hog'&&(S.penning==='pp2'||S.penning==='pp05'))
+               ||(id==='stag'&&S.penning==='pp05');
+  const ppNeutral = S.penning==='pp0';
+
+  if(ppGood) {
+    v.push({cls:'a-ok',head:'✓ Räntebeslut — välmotiverat val',
+      body: id==='lag'
+        ? 'Att sänka räntan under en lågkonjunktur är klassisk penningpolitik. Det uppmuntrar hushåll och företag att låna och konsumera mer, vilket kan dra igång ekonomin igen.'
+        : id==='hog'
+        ? 'Att höja räntan är rätt reaktion på hög inflation. Dyrare lån minskar konsumtionen och bromsar prisstegringarna mot Riksbankens mål på 2%.'
+        : 'En måttlig räntehöjning under stagflation är ett rimligt val — du bekämpar inflationen utan att kväva en redan svag ekonomi.'
+    });
+  } else if(ppNeutral) {
+    v.push({cls:'a-warn',head:'⚡ Räntebeslut — neutralt men passivt',
+      body:'Du valde att inte förändra räntan. Det är ett försiktigt val, men i ett kristillstånd förväntar sig riksdagen och medborgarna aktiva åtgärder. Fundera på om passivitet är rätt strategi just nu.'
+    });
+  } else {
+    v.push({cls:'a-err',head:'✕ Räntebeslut — riskabelt val',
+      body: id==='lag'
+        ? 'Att höja räntan under en lågkonjunktur förstärker problemen. Det gör det ännu dyrare att låna, minskar konsumtionen ytterligare och riskerar att fördjupa recessionen.'
+        : id==='hog'
+        ? 'Att sänka räntan när inflationen redan är hög riskerar att förvärra situationen. Billigare lån driver upp konsumtionen och pressar priserna ännu högre.'
+        : 'Under stagflation är en kraftig räntesänkning riskabel — det kan elda på inflationen ytterligare, som redan är ett stort problem.'
+    });
+  }
+
+  // Finanspolitik
+  const fpGood = (id==='lag'&&(S.finans==='fs1'||S.finans==='fs2'))
+               ||(id==='hog'&&(S.finans==='ft2'||S.finans==='ft1'))
+               ||(id==='stag'&&S.finans==='ft1');
+  const fpNeutral = S.finans==='f0';
+
+  if(fpGood) {
+    v.push({cls:'a-ok',head:'✓ Budgetbeslut — välmotiverat val',
+      body: id==='lag'
+        ? 'Stimulansåtgärder under lågkonjunktur är rätt medicin. Skattesänkningar och investeringar sätter pengar i rörelse och skapar arbetstillfällen — precis vad Ockelbolivia behöver nu.'
+        : id==='hog'
+        ? 'Att strama åt budgeten dämpar den överhettade ekonomin. Högre skatter och minskade bidrag tar ner efterfrågan och hjälper inflationen att sjunka mot målet på 2%.'
+        : 'En mild budgetåtstramning under stagflation är ett balanserat val — du bromsar inflationen utan att slå ut ett redan svagt näringsliv.'
+    });
+  } else if(fpNeutral) {
+    v.push({cls:'a-warn',head:'⚡ Budgetbeslut — neutralt men passivt',
+      body:'En oförändrad budget ger Ockelbolivia ingen ny drivkraft. I en kris är det sällan tillräckligt att "stå still". Fundera på om du kunde ha gjort mer med statsbudgetens verktyg.'
+    });
+  } else {
+    v.push({cls:'a-err',head:'✕ Budgetbeslut — riskabelt val',
+      body: id==='lag'
+        ? 'Att strama åt budgeten under en lågkonjunktur är procyklisk politik — det förstärker nedgången. Minskade bidrag och höjda skatter tar ytterligare pengar ur en ekonomi som redan lider.'
+        : id==='hog'
+        ? 'Stimulansåtgärder när ekonomin redan är överhettad riskerar att driva inflationen ännu högre. Fler pengar i omlopp + hög efterfrågan = ännu större prisstegringar.'
+        : 'Kraftig finansiell stimulans under stagflation riskerar att förvärra inflationen utan att lösa arbetslösheten. En mer balanserad approach hade varit säkrare.'
+    });
+  }
+
+  // Slutresultat
+  if(r.bnp>=1&&r.inf>=1&&r.inf<=4&&r.un<=7) {
+    v.push({cls:'a-ok',head:'✓ Sammantaget resultat — Ockelbolivia stabiliseras',
+      body:`BNP: ${fmt(r.bnp)}% | Inflation: ${r.inf}% | Arbetslöshet: ${r.un}% — Din kombination av åtgärder har gett ett balanserat resultat. Ockelbolivias ekonomi rör sig i rätt riktning.`
+    });
+  } else if(r.inf>6||r.un>12||r.bnp<-2) {
+    v.push({cls:'a-err',head:'✕ Sammantaget resultat — krisen förvärras',
+      body:`BNP: ${fmt(r.bnp)}% | Inflation: ${r.inf}% | Arbetslöshet: ${r.un}% — Din politik har inte lyckats stabilisera ekonomin. Ockelbolivia befinner sig fortfarande i allvarlig kris. Fundera på vad du hade kunnat göra annorlunda.`
+    });
+  } else {
+    v.push({cls:'a-warn',head:'⚡ Sammantaget resultat — blandad effekt',
+      body:`BNP: ${fmt(r.bnp)}% | Inflation: ${r.inf}% | Arbetslöshet: ${r.un}% — Din politik ger delvis positiva effekter, men Ockelbolivia är inte ur farozonen än. Det finns utrymme att justera strategin.`
+    });
+  }
+
+  return v;
+}
+
+// ─── START ─────────────────────────────────────────────────────────────────
+go(0);
+</script>
+</body>
+</html>
+
