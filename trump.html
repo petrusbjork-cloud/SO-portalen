@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trump och det nya Amerika | SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0a0c15;
+  --bg-secondary: #111428;
+  --bg-card: #161a2e;
+  --bg-card-hover: #1c2140;
+  --red: #e63946;
+  --red-dark: #b22d37;
+  --red-glow: rgba(230, 57, 70, 0.3);
+  --blue: #1d3a6e;
+  --blue-light: #2a5298;
+  --blue-glow: rgba(42, 82, 152, 0.3);
+  --gold: #e9c46a;
+  --gold-dim: #b8943f;
+  --white: #f1faee;
+  --text: #d4d4d8;
+  --text-dim: #8888a0;
+  --spotify: #1DB954;
+  --border: rgba(255,255,255,0.06);
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ========== TICKER ========== */
+.ticker-wrap {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  background: var(--red);
+  height: 36px;
+  overflow: hidden;
+  display:flex; align-items:center;
+}
+.ticker-label {
+  background: #000;
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0 14px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.ticker-track {
+  display: flex;
+  animation: tickerScroll 60s linear infinite;
+  white-space: nowrap;
+}
+.ticker-track span {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: #fff;
+  padding: 0 30px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+.ticker-track span::after {
+  content: '★';
+  margin-left: 30px;
+  opacity: 0.5;
+}
+@keyframes tickerScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ========== NAV ========== */
+.main-nav {
+  position: fixed;
+  top: 36px; left:0; right:0; z-index:999;
+  background: rgba(10,12,21,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  transition: all 0.3s;
+}
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+.nav-brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--white);
+}
+.nav-brand em { color: var(--red); font-style: normal; }
+.nav-links { display:flex; gap:6px; flex-wrap: wrap; }
+.nav-links a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.78rem;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+.nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+
+/* ========== HERO ========== */
+.hero {
+  margin-top: 92px;
+  min-height: 85vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 30% 50%, rgba(29,58,110,0.25) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 50%, rgba(230,57,70,0.15) 0%, transparent 60%),
+              var(--bg-primary);
+}
+.hero::before {
+  content:'';
+  position: absolute;
+  inset: 0;
+  background: 
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.015) 2px, rgba(255,255,255,0.015) 3px);
+  pointer-events:none;
+}
+.hero-grid-overlay {
+  position: absolute; inset: 0;
+  background: 
+    linear-gradient(90deg, rgba(230,57,70,0.05) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(42,82,152,0.05) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+.hero-content {
+  text-align: center;
+  padding: 40px 24px;
+  position: relative;
+  z-index: 2;
+}
+.hero-flag {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.hero-flag .stripe {
+  width: 4px;
+  height: 50px;
+  border-radius: 2px;
+  animation: stripeGrow 0.8s ease-out backwards;
+}
+.hero-flag .stripe:nth-child(odd) { background: var(--red); }
+.hero-flag .stripe:nth-child(even) { background: var(--white); }
+.hero-flag .stripe:nth-child(1) { animation-delay: 0.1s; }
+.hero-flag .stripe:nth-child(2) { animation-delay: 0.15s; }
+.hero-flag .stripe:nth-child(3) { animation-delay: 0.2s; }
+.hero-flag .stripe:nth-child(4) { animation-delay: 0.25s; }
+.hero-flag .stripe:nth-child(5) { animation-delay: 0.3s; }
+.hero-flag .stripe:nth-child(6) { animation-delay: 0.35s; }
+.hero-flag .stripe:nth-child(7) { animation-delay: 0.4s; }
+.hero-flag .stripe:nth-child(8) { animation-delay: 0.45s; }
+.hero-flag .stripe:nth-child(9) { animation-delay: 0.5s; }
+.hero-flag .stripe:nth-child(10) { animation-delay: 0.55s; }
+.hero-flag .stripe:nth-child(11) { animation-delay: 0.6s; }
+.hero-flag .stripe:nth-child(12) { animation-delay: 0.65s; }
+.hero-flag .stripe:nth-child(13) { animation-delay: 0.7s; }
+@keyframes stripeGrow {
+  from { transform: scaleY(0); opacity: 0; }
+  to { transform: scaleY(1); opacity: 1; }
+}
+.hero-breaking {
+  display: inline-block;
+  background: var(--red);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 6px 20px;
+  margin-bottom: 24px;
+  animation: breakingPulse 2s ease-in-out infinite;
+}
+@keyframes breakingPulse {
+  0%,100% { box-shadow: 0 0 0 0 var(--red-glow); }
+  50% { box-shadow: 0 0 20px 4px var(--red-glow); }
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 900;
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 16px;
+  letter-spacing: -1px;
+}
+.hero h1 .accent { color: var(--red); }
+.hero h1 .blue-accent { color: var(--blue-light); }
+.hero-sub {
+  font-size: 1.15rem;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto 36px;
+  font-weight: 300;
+}
+.hero-meta {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+.hero-meta span { display:flex; align-items:center; gap:6px; }
+.hero-scroll-cta {
+  margin-top: 48px;
+  animation: float 3s ease-in-out infinite;
+}
+.hero-scroll-cta span {
+  display: block;
+  width: 24px; height: 24px;
+  border-right: 2px solid var(--red);
+  border-bottom: 2px solid var(--red);
+  transform: rotate(45deg);
+  margin: 0 auto;
+  opacity: 0.6;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+/* ========== SECTIONS ========== */
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 80px 24px;
+}
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.section-desc {
+  color: var(--text-dim);
+  max-width: 640px;
+  margin-bottom: 40px;
+  font-size: 1rem;
+}
+
+/* ========== EPISODE CARDS ========== */
+.episodes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 24px;
+}
+.episode-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+  position: relative;
+}
+.episode-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(230,57,70,0.3);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(230,57,70,0.15);
+}
+.ep-header {
+  padding: 24px 24px 16px;
+  position: relative;
+}
+.ep-number {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+}
+.ep-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.ep-desc {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.ep-topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.ep-tag {
+  font-size: 0.7rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(233,196,106,0.1);
+  color: var(--gold);
+  font-weight: 500;
+  border: 1px solid rgba(233,196,106,0.15);
+}
+.ep-actions {
+  padding: 0 24px 24px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.btn-spotify {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--spotify);
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+.btn-spotify:hover { filter: brightness(1.15); transform: scale(1.03); }
+.btn-spotify svg { width:18px; height:18px; }
+.btn-quiz {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(230,57,70,0.12);
+  color: var(--red);
+  border: 1px solid rgba(230,57,70,0.3);
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+.btn-quiz:hover { background: rgba(230,57,70,0.2); }
+.btn-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.05);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  border-radius: 24px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+.btn-expand:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+
+/* Accordion content */
+.ep-accordion {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+  padding: 0 24px;
+}
+.ep-accordion.open {
+  max-height: 2000px;
+  padding: 0 24px 24px;
+}
+.ep-accordion-inner {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+.ep-accordion-inner h4 {
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 16px 0 8px;
+}
+.ep-accordion-inner h4:first-child { margin-top: 0; }
+
+/* ========== CHECKS & BALANCES INTERACTIVE ========== */
+.cab-section {
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.cab-diagram {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 32px;
+  margin-top: 32px;
+}
+.cab-branch {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 28px 24px;
+  width: 300px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.35s;
+  position: relative;
+}
+.cab-branch:hover, .cab-branch.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 30px rgba(233,196,106,0.15);
+  transform: translateY(-4px);
+}
+.cab-icon {
+  font-size: 2.5rem;
+  margin-bottom: 12px;
+}
+.cab-branch-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--white);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.cab-branch-en {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.cab-branch-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.cab-detail {
+  margin-top: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px;
+  display: none;
+  animation: fadeSlideUp 0.4s ease;
+}
+.cab-detail.visible { display:block; }
+.cab-detail h4 {
+  font-family: var(--font-display);
+  color: var(--gold);
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+}
+.cab-detail p {
+  color: var(--text);
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+.cab-check-list {
+  list-style: none;
+  padding: 0;
+}
+.cab-check-list li {
+  padding: 8px 0;
+  padding-left: 24px;
+  position: relative;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+.cab-check-list li::before {
+  content: '⚖';
+  position: absolute;
+  left: 0;
+}
+
+/* ========== ELECTORAL MAP ========== */
+.electoral-section { background: var(--bg-primary); }
+.electoral-wrapper {
+  margin-top: 32px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+}
+.electoral-stats {
+  display: flex;
+  justify-content: center;
+  gap: 48px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+.electoral-stat {
+  text-align: center;
+}
+.electoral-stat-num {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1;
+}
+.electoral-stat-num.rep-color { color: var(--red); }
+.electoral-stat-num.dem-color { color: #4a90d9; }
+.electoral-stat-num.win-color { color: var(--gold); }
+.electoral-stat-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.electoral-bar-wrap {
+  height: 32px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  margin-bottom: 16px;
+  position: relative;
+}
+.electoral-bar-rep {
+  background: linear-gradient(90deg, var(--red-dark), var(--red));
+  height: 100%;
+  transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+  display: flex; align-items: center; justify-content: flex-end;
+  padding-right: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+}
+.electoral-bar-dem {
+  background: linear-gradient(90deg, #3570b2, #4a90d9);
+  height: 100%;
+  transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+  display: flex; align-items: center; padding-left: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #fff;
+}
+.electoral-bar-line {
+  position: absolute;
+  left: 50%;
+  top: -4px;
+  bottom: -4px;
+  width: 2px;
+  background: var(--gold);
+  z-index: 2;
+}
+.electoral-bar-label-270 {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: -22px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--gold);
+  letter-spacing: 1px;
+}
+.electoral-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+.electoral-toggle button {
+  font-family: var(--font-body);
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.electoral-toggle button.active {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+.electoral-toggle button:hover:not(.active) {
+  background: rgba(255,255,255,0.06);
+  color: var(--white);
+}
+
+/* ========== TIMELINE ========== */
+.timeline-section { background: var(--bg-secondary); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.timeline-filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+}
+.timeline-filter {
+  font-family: var(--font-body);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.timeline-filter.active, .timeline-filter:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+.timeline-track {
+  position: relative;
+  padding-left: 40px;
+}
+.timeline-track::before {
+  content:'';
+  position: absolute;
+  left: 14px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--red), var(--blue-light), var(--gold));
+}
+.tl-item {
+  position: relative;
+  margin-bottom: 28px;
+  padding-left: 24px;
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: tlReveal 0.5s ease forwards;
+}
+.tl-item:nth-child(1) { animation-delay:0.05s; }
+.tl-item:nth-child(2) { animation-delay:0.1s; }
+.tl-item:nth-child(3) { animation-delay:0.15s; }
+.tl-item:nth-child(4) { animation-delay:0.2s; }
+.tl-item:nth-child(5) { animation-delay:0.25s; }
+.tl-item:nth-child(6) { animation-delay:0.3s; }
+.tl-item:nth-child(7) { animation-delay:0.35s; }
+.tl-item:nth-child(8) { animation-delay:0.4s; }
+.tl-item:nth-child(9) { animation-delay:0.45s; }
+.tl-item:nth-child(10) { animation-delay:0.5s; }
+.tl-item:nth-child(11) { animation-delay:0.55s; }
+.tl-item:nth-child(12) { animation-delay:0.6s; }
+.tl-item:nth-child(13) { animation-delay:0.65s; }
+.tl-item:nth-child(14) { animation-delay:0.7s; }
+.tl-item:nth-child(15) { animation-delay:0.75s; }
+@keyframes tlReveal {
+  to { opacity:1; transform:translateX(0); }
+}
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -34px;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--red);
+  border: 3px solid var(--bg-secondary);
+  z-index: 1;
+}
+.tl-item[data-cat="politik"]::before { background: var(--blue-light); }
+.tl-item[data-cat="ekonomi"]::before { background: var(--gold); }
+.tl-item[data-cat="utrikes"]::before { background: #6ecf8e; }
+.tl-year {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--red);
+  letter-spacing: 2px;
+  margin-bottom: 2px;
+}
+.tl-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--white);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.tl-desc {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.tl-item.hidden { display: none; }
+
+/* ========== FLASHCARDS ========== */
+.flashcard-section { background: var(--bg-primary); }
+.flashcard-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.fc-filter {
+  font-family: var(--font-body);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.fc-filter.active { background: var(--gold); border-color: var(--gold); color: #000; font-weight: 600; }
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 18px;
+}
+.flashcard {
+  perspective: 1000px;
+  height: 200px;
+  cursor: pointer;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.flashcard-front {
+  background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-card-hover) 100%);
+  border: 1px solid var(--border);
+}
+.flashcard-front::after {
+  content: '↻ Vänd';
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+}
+.flashcard-front h4 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--gold);
+  font-weight: 700;
+}
+.flashcard-front .fc-ep-tag {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.flashcard-back {
+  background: linear-gradient(135deg, #1a2240 0%, var(--bg-card) 100%);
+  border: 1px solid rgba(233,196,106,0.2);
+  transform: rotateY(180deg);
+  font-size: 0.88rem;
+  color: var(--text);
+  line-height: 1.6;
+  overflow-y: auto;
+}
+
+/* ========== GLOSSARY ========== */
+.glossary-section { background: var(--bg-secondary); border-top: 1px solid var(--border); }
+.glossary-search-wrap {
+  margin-bottom: 24px;
+}
+.glossary-search {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--white);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.glossary-search:focus { border-color: var(--gold); }
+.glossary-search::placeholder { color: var(--text-dim); }
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.glossary-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+.glossary-item:hover { border-color: rgba(233,196,106,0.2); }
+.glossary-term {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--gold);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.glossary-def {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+.glossary-item.hidden { display:none; }
+
+/* ========== QUIZ MODAL ========== */
+.quiz-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.quiz-overlay.open { display: flex; }
+.quiz-modal {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  max-width: 680px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 36px;
+  position: relative;
+  animation: fadeSlideUp 0.3s ease;
+}
+@keyframes fadeSlideUp {
+  from { opacity:0; transform:translateY(20px); }
+  to { opacity:1; transform:translateY(0); }
+}
+.quiz-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+}
+.quiz-close:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+.quiz-header-title {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--white);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.quiz-progress {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 2px;
+  margin-bottom: 24px;
+}
+.quiz-progress-bar {
+  height: 4px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 2px;
+  margin-bottom: 28px;
+  overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--red), var(--gold));
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+.quiz-question {
+  font-size: 1.1rem;
+  color: var(--white);
+  margin-bottom: 20px;
+  line-height: 1.6;
+  font-weight: 500;
+}
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: var(--font-body);
+  text-align: left;
+  line-height: 1.5;
+  width: 100%;
+}
+.quiz-option:hover:not(.locked) { border-color: rgba(255,255,255,0.2); background: var(--bg-card-hover); }
+.quiz-option .opt-letter {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+.quiz-option.correct {
+  border-color: #2ecc71;
+  background: rgba(46,204,113,0.1);
+}
+.quiz-option.correct .opt-letter { background: #2ecc71; color: #fff; border-color: #2ecc71; }
+.quiz-option.wrong {
+  border-color: var(--red);
+  background: rgba(230,57,70,0.1);
+}
+.quiz-option.wrong .opt-letter { background: var(--red); color: #fff; border-color: var(--red); }
+.quiz-feedback {
+  margin-top: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  display: none;
+  line-height: 1.6;
+}
+.quiz-feedback.show { display:block; }
+.quiz-feedback.correct-fb {
+  background: rgba(46,204,113,0.1);
+  border: 1px solid rgba(46,204,113,0.2);
+  color: #6ee7a0;
+}
+.quiz-feedback.wrong-fb {
+  background: rgba(230,57,70,0.08);
+  border: 1px solid rgba(230,57,70,0.2);
+  color: #f08080;
+}
+.quiz-next {
+  margin-top: 20px;
+  padding: 12px 32px;
+  background: var(--red);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-body);
+  display: none;
+  transition: all 0.2s;
+}
+.quiz-next:hover { filter: brightness(1.1); }
+.quiz-next.show { display:inline-block; }
+.quiz-result {
+  text-align: center;
+  padding: 20px 0;
+}
+.quiz-result-score {
+  font-family: var(--font-display);
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: var(--white);
+}
+.quiz-result-text {
+  color: var(--text-dim);
+  margin: 12px 0 24px;
+  font-size: 1rem;
+}
+.quiz-result-bar {
+  height: 8px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 16px 0;
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.quiz-result-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 1s ease;
+}
+
+/* ========== TWEET FEED ========== */
+.tweet-section { background: var(--bg-primary); }
+.tweet-feed {
+  max-width: 560px;
+  margin: 32px auto 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.tweet-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  transition: all 0.2s;
+  cursor: default;
+}
+.tweet-card:hover { border-color: rgba(255,255,255,0.12); }
+.tweet-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.tweet-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--red), var(--gold));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  color: #fff;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.tweet-name {
+  font-weight: 700;
+  color: var(--white);
+  font-size: 0.9rem;
+}
+.tweet-handle {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+.tweet-date {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+.tweet-body {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin-bottom: 12px;
+}
+.tweet-body .caps {
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--white);
+}
+.tweet-stats {
+  display: flex;
+  gap: 24px;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+/* ========== FOOTER ========== */
+.page-footer {
+  border-top: 1px solid var(--border);
+  padding: 48px 24px;
+  text-align: center;
+}
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.footer-brand em { color: var(--red); font-style: normal; }
+.footer-text {
+  color: var(--text-dim);
+  font-size: 0.85rem;
+  max-width: 500px;
+  margin: 0 auto 20px;
+}
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .episodes-grid { grid-template-columns: 1fr; }
+  .cab-branch { width: 100%; }
+  .flashcard-grid { grid-template-columns: 1fr 1fr; }
+  .glossary-grid { grid-template-columns: 1fr; }
+  .electoral-stats { gap: 24px; }
+  .electoral-stat-num { font-size: 2.2rem; }
+  .section { padding: 48px 16px; }
+}
+@media (max-width: 480px) {
+  .flashcard-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 2.2rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- =================== TICKER =================== -->
+<div class="ticker-wrap">
+  <div class="ticker-label">SO-PORTALEN LIVE</div>
+  <div class="ticker-track" id="tickerTrack"></div>
+</div>
+
+<!-- =================== NAV =================== -->
+<nav class="main-nav" id="mainNav">
+  <div class="nav-inner">
+    <div class="nav-brand">SO med <em>Petrus</em></div>
+    <div class="nav-links">
+      <a href="#avsnitt">Avsnitt</a>
+      <a href="#makt">Maktdelning</a>
+      <a href="#val">Elektorskollegiet</a>
+      <a href="#tidslinje">Tidslinje</a>
+      <a href="#tweets">Tweets</a>
+      <a href="#flashcards">Flashcards</a>
+      <a href="#ordlista">Ordlista</a>
+    </div>
+  </div>
+</nav>
+
+<!-- =================== HERO =================== -->
+<section class="hero">
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-flag">
+      <div class="stripe"></div><div class="stripe"></div><div class="stripe"></div>
+      <div class="stripe"></div><div class="stripe"></div><div class="stripe"></div>
+      <div class="stripe"></div><div class="stripe"></div><div class="stripe"></div>
+      <div class="stripe"></div><div class="stripe"></div><div class="stripe"></div>
+      <div class="stripe"></div>
+    </div>
+    <div class="hero-breaking">PODDSERIE • 6 AVSNITT</div>
+    <h1><span class="accent">Trump</span> och det<br>nya <span class="blue-accent">Amerika</span></h1>
+    <p class="hero-sub">Från Queens till Vita huset – och vad det betyder för oss. En poddserie om makt, demokrati och en man som förändrade världen.</p>
+    <div class="hero-meta">
+      <span>📻 6 avsnitt</span>
+      <span>🎯 Åk 7–9</span>
+      <span>⏱ Ca 15–18 min/avsnitt</span>
+    </div>
+    <div class="hero-scroll-cta"><span></span></div>
+  </div>
+</section>
+
+<!-- =================== EPISODES =================== -->
+<section class="section" id="avsnitt">
+  <div class="section-label">Avsnitt</div>
+  <div class="section-title">Alla avsnitt</div>
+  <div class="section-desc">Sex avsnitt om Donald Trump, USA:s politiska system och hur det påverkar dig. Lyssna, läs och testa dina kunskaper.</div>
+  <div class="episodes-grid" id="episodesGrid"></div>
+</section>
+
+<!-- =================== CHECKS & BALANCES =================== -->
+<section class="cab-section" id="makt">
+  <div class="section" style="padding-top:80px;padding-bottom:80px;">
+    <div class="section-label">Interaktivt</div>
+    <div class="section-title">USA:s maktdelning</div>
+    <div class="section-desc">Klicka på en maktgren för att lära dig mer om hur USA:s system av checks and balances fungerar.</div>
+    <div class="cab-diagram">
+      <div class="cab-branch" data-branch="exec" onclick="showBranch('exec')">
+        <div class="cab-icon">🏛️</div>
+        <div class="cab-branch-title">Verkställande makten</div>
+        <div class="cab-branch-en">THE EXECUTIVE</div>
+        <div class="cab-branch-desc">Presidenten och regeringen genomför lagarna och leder landet.</div>
+      </div>
+      <div class="cab-branch" data-branch="legis" onclick="showBranch('legis')">
+        <div class="cab-icon">📜</div>
+        <div class="cab-branch-title">Lagstiftande makten</div>
+        <div class="cab-branch-en">THE LEGISLATURE</div>
+        <div class="cab-branch-desc">Kongressen (senaten + representanthuset) stiftar lagar.</div>
+      </div>
+      <div class="cab-branch" data-branch="jud" onclick="showBranch('jud')">
+        <div class="cab-icon">⚖️</div>
+        <div class="cab-branch-title">Dömande makten</div>
+        <div class="cab-branch-en">THE JUDICIARY</div>
+        <div class="cab-branch-desc">Högsta domstolen och federala domstolar tolkar lagarna.</div>
+      </div>
+    </div>
+    <div class="cab-detail" id="cab-exec">
+      <h4>Presidenten – statschef och regeringschef</h4>
+      <p>Presidenten i USA är både statschef och regeringschef – det finns ingen statsminister. Presidenten utser sina ministrar (kallade "sekreterare"), leder militären och representerar USA utåt. En mandatperiod varar fyra år och man kan sitta max två perioder.</p>
+      <p><strong style="color:var(--gold);">Checks på presidenten:</strong></p>
+      <ul class="cab-check-list">
+        <li>Kongressen kan neka presidentens budgetförslag och lagförslag</li>
+        <li>Kongressen kan riksrättsåtala (impeach) presidenten</li>
+        <li>Högsta domstolen kan underkänna presidentens beslut</li>
+        <li>Senaten måste godkänna presidentens utnämningar av domare och ministrar</li>
+      </ul>
+    </div>
+    <div class="cab-detail" id="cab-legis">
+      <h4>Kongressen – två kammare med olika roller</h4>
+      <p><strong style="color:var(--white);">Representanthuset</strong> har 435 ledamöter, fördelade efter delstaternas befolkning. <strong style="color:var(--white);">Senaten</strong> har 100 ledamöter – exakt 2 per delstat. Båda kamrarna måste godkänna en lag innan presidenten kan skriva under den.</p>
+      <p><strong style="color:var(--gold);">Checks på kongressen:</strong></p>
+      <ul class="cab-check-list">
+        <li>Presidenten kan lägga in veto mot lagar (kongressen behöver 2/3 majoritet för att köra över ett veto)</li>
+        <li>Högsta domstolen kan ogiltigförklara lagar som strider mot konstitutionen</li>
+        <li>De två kamrarna balanserar varandra – båda måste vara överens</li>
+      </ul>
+    </div>
+    <div class="cab-detail" id="cab-jud">
+      <h4>Högsta domstolen – den yttersta uttolkaren</h4>
+      <p>Nio domare, utsedda på livstid av presidenten (med senatens godkännande). De avgör om lagar och presidentbeslut stämmer överens med konstitutionen. Deras beslut kan inte överklagas.</p>
+      <p><strong style="color:var(--gold);">Checks på domstolarna:</strong></p>
+      <ul class="cab-check-list">
+        <li>Presidenten nominerar nya domare (påverkar domstolens riktning i decennier)</li>
+        <li>Senaten måste godkänna varje nominering</li>
+        <li>Kongressen kan ändra konstitutionen via tillägg (amendments) och därmed köra över domstolsbeslut</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- =================== ELECTORAL COLLEGE =================== -->
+<section class="electoral-section" id="val">
+  <div class="section">
+    <div class="section-label">Visualisering</div>
+    <div class="section-title">Elektorskollegiet</div>
+    <div class="section-desc">Se hur resultaten skilde sig mellan valen. I USA vinner man inte med flest röster – utan med flest elektorer. 270 behövs.</div>
+    <div class="electoral-wrapper">
+      <div class="electoral-toggle">
+        <button class="active" onclick="showElection(2016, this)">Valet 2016</button>
+        <button onclick="showElection(2020, this)">Valet 2020</button>
+        <button onclick="showElection(2024, this)">Valet 2024</button>
+      </div>
+      <div class="electoral-stats" id="electoralStats"></div>
+      <div style="position:relative;margin-top:8px;">
+        <div class="electoral-bar-wrap">
+          <div class="electoral-bar-rep" id="barRep"></div>
+          <div class="electoral-bar-dem" id="barDem"></div>
+          <div class="electoral-bar-line"></div>
+        </div>
+        <div class="electoral-bar-label-270">270 FÖR ATT VINNA</div>
+      </div>
+      <div id="electoralNote" style="text-align:center;margin-top:32px;font-size:0.88rem;color:var(--text-dim);line-height:1.7;max-width:560px;margin-left:auto;margin-right:auto;"></div>
+    </div>
+  </div>
+</section>
+
+<!-- =================== TIMELINE =================== -->
+<section class="timeline-section" id="tidslinje">
+  <div class="section">
+    <div class="section-label">Kronologi</div>
+    <div class="section-title">Tidslinje</div>
+    <div class="section-desc">Viktiga händelser i Trump-eran – från uppväxten till idag.</div>
+    <div class="timeline-filters">
+      <button class="timeline-filter active" onclick="filterTimeline('alla', this)">Alla</button>
+      <button class="timeline-filter" onclick="filterTimeline('person', this)">Person</button>
+      <button class="timeline-filter" onclick="filterTimeline('politik', this)">Politik</button>
+      <button class="timeline-filter" onclick="filterTimeline('ekonomi', this)">Ekonomi</button>
+      <button class="timeline-filter" onclick="filterTimeline('utrikes', this)">Utrikes</button>
+    </div>
+    <div class="timeline-track" id="timelineTrack"></div>
+  </div>
+</section>
+
+<!-- =================== TWEET FEED =================== -->
+<section class="tweet-section" id="tweets">
+  <div class="section">
+    <div class="section-label">Historiska inlägg</div>
+    <div class="section-title">Trumps mest omtalade tweets</div>
+    <div class="section-desc">Några av de inlägg som definierade en era. Från Twitter (nu X).</div>
+    <div class="tweet-feed" id="tweetFeed"></div>
+  </div>
+</section>
+
+<!-- =================== FLASHCARDS =================== -->
+<section class="flashcard-section" id="flashcards">
+  <div class="section">
+    <div class="section-label">Studieverktyg</div>
+    <div class="section-title">Flashcards</div>
+    <div class="section-desc">Klicka på ett kort för att vända det. Filtrera efter avsnitt.</div>
+    <div class="flashcard-controls" id="fcControls"></div>
+    <div class="flashcard-grid" id="flashcardGrid"></div>
+  </div>
+</section>
+
+<!-- =================== GLOSSARY =================== -->
+<section class="glossary-section" id="ordlista">
+  <div class="section">
+    <div class="section-label">Begrepp</div>
+    <div class="section-title">Ordlista</div>
+    <div class="section-desc">Sök bland alla viktiga begrepp från serien.</div>
+    <div class="glossary-search-wrap">
+      <input type="text" class="glossary-search" id="glossarySearch" placeholder="Sök begrepp...">
+    </div>
+    <div class="glossary-grid" id="glossaryGrid"></div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<footer class="page-footer">
+  <div class="footer-brand">SO med <em>Petrus</em></div>
+  <p class="footer-text">En del av SO-portalen. Samhällskunskap, historia och omvärld – i poddformat.</p>
+  <p class="footer-copy">© 2025 SO-PORTALEN.SE</p>
+</footer>
+
+<!-- =================== QUIZ MODAL =================== -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-modal" id="quizModal">
+    <button class="quiz-close" onclick="closeQuiz()">✕</button>
+    <div id="quizContent"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+
+const episodes = [
+  {
+    num: 1, title: "Vem är Donald Trump?",
+    desc: "Från Queens till Trump Tower – en affärsman, TV-stjärna och outsider som tog sig hela vägen till Vita huset.",
+    spotify: "https://open.spotify.com/episode/3mptZvSRsxvqIj7Xmo0kX2?si=76b26792a40f499e",
+    tags: ["Uppväxt", "Affärsimperium", "The Apprentice", "Outsider"],
+    content: `<h4>Queens och uppväxten</h4><p>Donald Trump föddes 1946 i Queens, New York. Hans far Fred Trump var fastighetsmiljonär och hans mor invandrare från Skottland. Donald skickades som 13-åring till militärinternat – en plats som formade hans tävlingsinstinkt.</p><h4>Affärsmannen</h4><p>Efter studier vid University of Pennsylvania gick Trump in i familjeföretaget men sikade mot Manhattan. Han byggde Trump Tower, köpte kasinon, men gick också igenom flera konkurser på 1990-talet. Ändå överlevde varumärket.</p><h4>TV-stjärnan</h4><p>Med The Apprentice (2004) blev Trump ett nationellt namn. "You're fired" blev hans signatur. TV lärde honom underhållningens kraft – kunskaper han bar rakt in i politiken.</p><h4>Det glömda Amerika</h4><p>Trump talade till människor i "Rust Belt" – platser där fabriker stängt och jobb försvunnit genom globalisering. Han kallade sig outsider och pekade ut syndabockar: invandring, Kina, det politiska etablissemanget.</p>`
+  },
+  {
+    num: 2, title: "USA:s politiska system",
+    desc: "Tre maktgrenar, checks and balances, och ett valsystem som gör att man kan bli president utan flest röster.",
+    spotify: "https://open.spotify.com/episode/4d0grpgELpbFGzMTin40fI?si=4c499e934cc94cba",
+    tags: ["Konstitutionen", "Kongressen", "Supreme Court", "Elektorskollegiet"],
+    content: `<h4>Byggt på misstro mot makt</h4><p>USA:s grundare 1776 ville aldrig ha en ny kung. De skapade tre maktgrenar – presidenten, kongressen och domstolarna – som alla kan begränsa varandra. Det kallas checks and balances.</p><h4>Kongressen</h4><p>Representanthuset (435 ledamöter) och senaten (100 ledamöter) bildar kongressen. Båda kamrarna måste godkänna en lag. Det gör systemet trögt – men det är meningen.</p><h4>Elektorskollegiet</h4><p>Presidenten väljs inte direkt av folket utan via elektorer. I nästan alla delstater gäller "winner takes all". Det innebär att en kandidat kan vinna utan flest röster totalt – precis som Trump 2016.</p><h4>Jämförelse med Sverige</h4><p>I Sverige är riksdagen maktcentrum och väljer statsministern. I USA väljs presidenten direkt av folket och kan sitta kvar även med hela kongressen mot sig.</p>`
+  },
+  {
+    num: 3, title: "Trumps första period",
+    desc: "Skattesänkningar, muren, handelskrig med Kina, en riksrätt, en pandemi och ett val han vägrade erkänna sig ha förlorat.",
+    spotify: "https://open.spotify.com/episode/0pCYr7Dj5uDdVYr7Hgr42W?si=e27039b2a56e4335",
+    tags: ["Skattereform", "Handelskrig", "Covid-19", "Riksrätt"],
+    content: `<h4>Twitter-presidenten</h4><p>Trump använde Twitter (nu X) som sitt viktigaste verktyg. Han kallade medierna "fake news" och "folkets fiende". Inget presidentskap hade sett ut så förut.</p><h4>Politiska genomföranden</h4><p>Skattereformen 2017 sänkte bolagsskatten från 35 till 21 procent. Han inledde handelskrig med Kina genom tullar. Han drog USA ur Parisavtalet och ifrågasatte NATO.</p><h4>Riksrätten</h4><p>I december 2019 åtalades Trump av representanthuset för att ha pressat Ukrainas president att utreda Joe Biden. Senaten frikände honom.</p><h4>Pandemin och valet 2020</h4><p>Covid-19 slog till 2020. Trump ifrågasatte experterna och USA fick höga dödstal. Joe Biden vann valet med 81 miljoner röster – men Trump vägrade erkänna förlusten.</p>`
+  },
+  {
+    num: 4, title: "Stormen mot Kapitolium",
+    desc: "Den 6 januari 2021, The Big Lie, en andra riksrätt och den mest osannolika politiska comebacken i modern tid.",
+    spotify: "https://open.spotify.com/episode/3QUV07P1RO07JnZyaiQ4tN?si=7c3c6336b0e3467c",
+    tags: ["6 januari", "The Big Lie", "Riksrätt 2", "Comeback"],
+    content: `<h4>Den stora lögnen</h4><p>Trump hävdade att valet 2020 stulits. 60 domstolar avfärdade klagomålen, men miljoner trodde honom. Den 6 januari 2021 stormade anhängare USA:s kongress efter ett tal av Trump.</p><h4>Stormen</h4><p>Folksamlingen bröt sig in i Kapitolium. Folkvalda gömde sig. Trump tittade på TV i tre timmar utan att agera. Kongressen bekräftade valresultatet senare samma natt.</p><h4>Andra riksrätten</h4><p>Trump åtalades för "uppvigling till uppror" – historiskt som den enda president som riksrättsåtalats två gånger. Senaten frikände honom igen.</p><h4>Comebacken</h4><p>Trots 91 åtal och avstängda sociala medier vann Trump det republikanska primärvalet 2024, och sedan presidentvalet mot Kamala Harris den 5 november 2024.</p>`
+  },
+  {
+    num: 5, title: "MAGA och den nya världsordningen",
+    desc: "Tullar, NATO-tvivel, Rysslands krig och Kinas uppgång – USA:s nya roll i världen under Trump 2.0.",
+    spotify: "https://open.spotify.com/episode/4G8IVajjbtkZOLIOyDLoCK?si=4cd5e2f0474548e9",
+    tags: ["MAGA", "Tullar", "NATO", "Kina", "Ryssland"],
+    content: `<h4>MAGA-rörelsen</h4><p>Make America Great Again är mer än ett slagord – det är en nationalistisk rörelse centerad kring Trump personligen. Den bygger på berättelsen att Amerika förfallit och att Trump ska återställa det.</p><h4>Tullkrig</h4><p>Trump har infört massiva tullar mot nästan alla länder. EU fick 20%, Kina 54%. Världens börser störtdök. Tullar gör importerade varor dyrare för vanliga amerikaner.</p><h4>NATO under press</h4><p>Trump ifrågasätter om USA ska försvara NATO-länder som inte betalar tillräckligt. Sverige gick med i NATO 2024 – men garantin känns osäkrare under Trump.</p><h4>Ryssland och Kina</h4><p>Trump har uttryckt beundran för Putin och minskat stödet till Ukraina. Mot Kina för han dock ett konsekvent handelskrig och vill bromsa Kinas uppgång som supermakt.</p>`
+  },
+  {
+    num: 6, title: "Vad betyder det för oss?",
+    desc: "Säkerhet, prislappar, klimat och demokrati – hur Trumps politik påverkar Sverige, Europa och dig personligen.",
+    spotify: "https://open.spotify.com/episode/3TpYnOq6Nx8iVOq7wLi8Jx?si=45249e52613344b6",
+    tags: ["Sverige", "Klimat", "Demokrati", "Källkritik"],
+    content: `<h4>Säkerheten</h4><p>Sverige har gått med i NATO men Trumps tvivel på alliansen skapar osäkerhet. Sverige satsar nu på att nå 2,6% av BNP på försvaret till 2028.</p><h4>Handelskrig och priser</h4><p>Trumps tullar påverkar EU:s handel och gör importerade varor dyrare – även i Sverige. Inflation sprider sig genom den globala ekonomin.</p><h4>Klimatet</h4><p>Trump drog USA ur Parisavtalet igen. USA och Kina står för 40% av världens utsläpp. Utan dem tappar klimatförhandlingarna sin kraft – en dominoeffekt hotar.</p><h4>Demokrati och källkritik</h4><p>Trumps angrepp på valresultat, medier och domstolar inspirerar auktoritära ledare globalt. Källkritik – att granska vem som säger vad och varför – är viktigare än någonsin.</p>`
+  }
+];
+
+// QUIZ DATA - 8 questions per episode, balanced A/B/C/D
+const quizData = {
+  1: [
+    { q: "I vilken stadsdel i New York föddes Donald Trump?", a: ["Manhattan","Queens","Brooklyn","Bronx"], c: 1, f: "Trump föddes 1946 på Jamaica Hospital i Queens – inte i det glamorösa Manhattan." },
+    { q: "Vad hette Trumps far?", a: ["Fred","John","Robert","William"], c: 0, f: "Fred Trump var fastighetsmiljonär som byggde hyreshus i New Yorks förorter." },
+    { q: "Vilket TV-program gjorde Trump till en nationell kändis?", a: ["Deal or No Deal","Shark Tank","The Apprentice","America's Got Talent"], c: 2, f: "The Apprentice sändes från 2004 i fjorton säsonger på NBC." },
+    { q: "Vad lovade Trump att bygga vid gränsen mot Mexiko under sin kampanj 2015?", a: ["Ett stängsel","En kanal","En motorväg","En mur"], c: 3, f: "Trump lovade att bygga en massiv mur och tvinga Mexiko att betala – muren byggdes delvis men Mexiko betalade aldrig." },
+    { q: "Vilket universitet gick Trump på?", a: ["Yale","Harvard","Stanford","University of Pennsylvania"], c: 3, f: "University of Pennsylvania grundades av Benjamin Franklin och är ett av USA:s mest ansedda universitet." },
+    { q: "Vad kallas det amerikanska område som drabbats hårt av avindustrialisering?", a: ["Rust Belt","Sun Belt","Bible Belt","Gold Coast"], c: 0, f: "Rust Belt (rostbältet) inkluderar städer som Detroit och Pittsburgh där fabriker stängt och jobb försvunnit." },
+    { q: "Vad kallas den process där världens ekonomier kopplas ihop allt tätare?", a: ["Urbanisering","Privatisering","Globalisering","Kolonialisering"], c: 2, f: "Globalisering skapar välstånd på vissa håll men slår hårt mot andra, som industrisamhällen i Rust Belt." },
+    { q: "Vad blev Trump mest känd som innan politiken?", a: ["Militär","TV-stjärna","Professor","Advokat"], c: 1, f: "Genom The Apprentice och sin mediepersonlighet blev Trump en av USA:s mest kända TV-personligheter." }
+  ],
+  2: [
+    { q: "Vilket år förklarade sig de amerikanska kolonierna självständiga?", a: ["1789","1812","1776","1492"], c: 2, f: "1776 antogs självständighetsförklaringen – 13 kolonier bröt sig loss från Storbritannien." },
+    { q: "Vad kallas den grundlag som bestämmer hur USA ska styras?", a: ["Konstitutionen","Deklarationen","Federationen","Chartern"], c: 0, f: "USA:s konstitution skrevs 1787 och är fortfarande landets högsta lag." },
+    { q: "Hur många maktgrenar har USA:s system?", a: ["Två","Fyra","Fem","Tre"], c: 3, f: "Tre grenar: verkställande (presidenten), lagstiftande (kongressen) och dömande (domstolarna)." },
+    { q: "Vilken del av kongressen har exakt 100 ledamöter?", a: ["Representanthuset","Senaten","Högsta domstolen","Kabinetten"], c: 1, f: "Senaten har 100 ledamöter – två från varje delstat, oavsett befolkningsstorlek." },
+    { q: "Vad kallas systemet för att välja USA:s president?", a: ["Elektorskollegiet","Riksdagen","Folkräkningen","Kommunfullmäktige"], c: 0, f: "Electoral College – elektorskollegiet – innebär att elektorer, inte folket direkt, formellt väljer presidenten." },
+    { q: "Vad kallas de delstater som kan rösta åt vilket håll som helst i presidentval?", a: ["Red states","Blue states","Gold states","Swing states"], c: 3, f: "Swing states som Florida, Pennsylvania och Michigan avgör ofta hela valet." },
+    { q: "Vilken färg representerar Demokraterna?", a: ["Röd","Blå","Grön","Guld"], c: 1, f: "Demokraterna har blå färg medan Republikanerna har röd." },
+    { q: "Vad kallas systemet där maktgrenarna begränsar varandra?", a: ["Gridlock","Federalism","Checks and balances","Gerrymandering"], c: 2, f: "Checks and balances – kontroller och balanser – säkerställer att ingen maktgren kan ta över." }
+  ],
+  3: [
+    { q: "Vad kallade Trump nyhetsmedierna?", a: ["Fake news","Old media","State press","Free press"], c: 0, f: "Trump kallade medier han ogillade för 'fake news' och 'the enemy of the people' – folkets fiende." },
+    { q: "Vad sänktes den federala bolagsskatten till i skattereformen 2017?", a: ["30 procent","10 procent","28 procent","21 procent"], c: 3, f: "Bolagsskatten sänktes från 35% till 21% – den största skattesänkningen på decennier." },
+    { q: "Vilket internationellt klimatavtal drog Trump USA ur?", a: ["Kyotoprotokollet","NATO-avtalet","Parisavtalet","Genèvekonventionen"], c: 2, f: "Trump drog USA ur Parisavtalet om klimatet, som nästan alla världens länder hade anslutit sig till." },
+    { q: "Trumps första riksrätt handlade om ett telefonsamtal till ledaren för vilket land?", a: ["Ukraina","Ryssland","Kina","Mexiko"], c: 0, f: "Trump pressade Ukrainas president att utreda Joe Biden – hans troligaste politiske motståndare." },
+    { q: "Vilken pandemi drabbade världen under Trumps sista år som president?", a: ["Ebola","Svininfluensan","SARS","Covid-19"], c: 3, f: "Covid-19 spreds globalt från början av 2020 och USA fick en av de högsta dödssiffrorna bland rika länder." },
+    { q: "Vad hette den man vars död utlöste Black Lives Matter-proteströrelserna 2020?", a: ["Trayvon Martin","Michael Brown","George Floyd","Eric Garner"], c: 2, f: "George Floyd dog den 25 maj 2020 i Minneapolis, vilket ledde till massprotester i hundratals städer." },
+    { q: "Vilket socialt medium använde Trump mest frekvent?", a: ["Facebook","Twitter","Instagram","TikTok"], c: 1, f: "Twitter (nu X) var Trumps främsta kommunikationskanal – han twittrade om allt, dygnet runt." },
+    { q: "Vem vann presidentvalet 2020?", a: ["Bernie Sanders","Joe Biden","Donald Trump","Kamala Harris"], c: 1, f: "Joe Biden fick 81 miljoner röster – fler än någon presidentkandidat i historien." }
+  ],
+  4: [
+    { q: "Vilket datum stormades Kapitolium?", a: ["20 januari 2021","4 juli 2020","14 juni 2021","6 januari 2021"], c: 3, f: "Den 6 januari 2021 bröt sig tusentals Trump-anhängare in i USA:s kongress." },
+    { q: "Vad kallas den berättelse Trump spred om att valet 2020 stulits?", a: ["The Big Lie","The Great Reset","The Deep State","The Big Short"], c: 0, f: "The Big Lie – den stora lögnen – var Trumps påstående att valet manipulerats, trots att 60 domstolar avfärdade det." },
+    { q: "Vem var vicepresident under stormningen och vägrade fly Kapitolium?", a: ["Ted Cruz","Dan Quayle","Mike Pence","Mike Pompeo"], c: 2, f: "Mike Pence stannade kvar i byggnaden och vägrade blockera godkännandet av valresultatet." },
+    { q: "Vad anklagades Trump för i sin andra riksrätt?", a: ["Skattefusk","Uppvigling till uppror","Förskingring","Landsförräderi"], c: 1, f: "Anklagelsen var 'incitement of insurrection' – uppvigling till uppror mot den demokratiska maktövergången." },
+    { q: "Hur många brott stod Trump sammantaget åtalad för 2023?", a: ["91","34","45","67"], c: 0, f: "Fyra separata åtal med sammanlagt 91 anklagelsepunkter väcktes mot Trump under 2023." },
+    { q: "Vad använde Trump som kampanjbilder efter sina gripanden?", a: ["Familjefoton","Flaggbilder","Mugshots","Skolfoton"], c: 2, f: "Trump sålde mugshot-muggar och t-shirts och samlade in rekordbelopp samma dag han greps." },
+    { q: "Vem blev Demokraternas presidentkandidat 2024 efter att Biden drog sig ur?", a: ["Bernie Sanders","Elizabeth Warren","Pete Buttigieg","Kamala Harris"], c: 3, f: "Vicepresidenten Kamala Harris övertog kandidaturen sommaren 2024 men förlorade mot Trump." },
+    { q: "Vad kallas det begrepp statsvetare använder för att beskriva demokratins försvagning inifrån?", a: ["Autokrati","Demokratisk backsliding","Anarki","Revolution"], c: 1, f: "Demokratisk backsliding innebär att demokratin urholkas inifrån – inte genom kupp utan genom att normer undermineras." }
+  ],
+  5: [
+    { q: "Vad står förkortningen MAGA för?", a: ["More American Growth Abroad","Make America Great Again","Many Americans Getting Ahead","Military And Government Alliance"], c: 1, f: "Make America Great Again – Trumps slogan som blivit en hel politisk rörelse." },
+    { q: "Vad är en tull?", a: ["En skatt på export","En importkvot","En handelsbonus","En avgift på importerade varor"], c: 3, f: "Tullar gör utländska varor dyrare och ska göra inhemska alternativ mer konkurrenskraftiga." },
+    { q: "Hur många medlemsländer har NATO (2025)?", a: ["32","28","30","25"], c: 0, f: "NATO har 32 medlemsländer efter att Sverige och Finland anslutit sig." },
+    { q: "Vad kallas NATO:s ömsesidiga försvarsgaranti?", a: ["Paragraf 1","Kapitel 7","Artikel 5","Avsnitt 3"], c: 2, f: "Artikel 5 innebär att ett angrepp mot ett NATO-land betraktas som ett angrepp mot alla." },
+    { q: "Vem leder Kina?", a: ["Li Qiang","Xi Jinping","Hu Jintao","Mao Zedong"], c: 1, f: "Xi Jinping har mer makt än någon kinesisk ledare sedan Mao Zedong." },
+    { q: "Vad kallas det när företag flyttar tillverkning tillbaka till hemlandet?", a: ["Outsourcing","Globalisering","Offshoring","Reshoring"], c: 3, f: "Reshoring innebär att tillverkning flyttas hem från länder som Kina – ett centralt mål för Trump." },
+    { q: "Vad kallas det globala system av avtal och institutioner som USA byggt upp efter andra världskriget?", a: ["Pax Americana","Monroe-doktrinen","New Deal","Fair Deal"], c: 0, f: "Pax Americana – den amerikanska freden – var det system av FN, NATO, Världsbanken m.fl. som USA ledde." },
+    { q: "Vilken internationell organisation drog Trump USA ur under sin andra period?", a: ["FN","NATO","Världshälsoorganisationen","Röda Korset"], c: 2, f: "Trump drog USA ur WHO – Världshälsoorganisationen – vilket försvagade internationellt hälsosamarbete." }
+  ],
+  6: [
+    { q: "Vilket år gick Sverige med i NATO?", a: ["2022","2023","2024","2025"], c: 2, f: "Sverige gick med i NATO i mars 2024 efter Rysslands invasion av Ukraina." },
+    { q: "Hur stor andel av BNP siktar Sverige på att lägga på försvaret till 2028?", a: ["2,6 procent","2,0 procent","1,5 procent","3,0 procent"], c: 0, f: "Sverige siktar på 2,6% av BNP på försvaret – klart över NATO:s miniminivå på 2%." },
+    { q: "Vad händer när länder slåss med tullar och handelsrestriktioner istället för vapen?", a: ["Kallt krig","Blockad","Sanktioner","Handelskrig"], c: 3, f: "Handelskrig innebär att länder besvarar varandras tullar – utan riktiga vinnare." },
+    { q: "Vilket klimatavtal drog Trump USA ur för andra gången 2025?", a: ["Kyotoprotokollet","Parisavtalet","Montrealprotokollet","Genèvekonventionen"], c: 1, f: "Trump drog USA ur Parisavtalet igen i januari 2025 – ett bakslag för globalt klimatarbete." },
+    { q: "Vad kallas förmågan att granska information och fråga sig vem som säger vad och varför?", a: ["Propaganda","Analys","Källkritik","Journalistik"], c: 2, f: "Källkritik är viktigare än någonsin i en tid av desinformation och politiska lögner." },
+    { q: "Vilken organisation mäter demokrati och frihet i världens länder?", a: ["Freedom House","Amnesty","Greenpeace","UNICEF"], c: 0, f: "Freedom House har dokumenterat en global nedgång i demokratiska rättigheter det senaste decenniet." },
+    { q: "Vad kallas det när en händelse sätter igång en kedjereaktion, likt brickor som faller?", a: ["Inflation","Recession","Globalisering","Dominoeffekt"], c: 3, f: "USA:s utträde ur klimatavtal kan ge en dominoeffekt – andra länder drar ned sina åtaganden." },
+    { q: "Vilket nordiskt land pekas ut som förebild för försvarsberedskap?", a: ["Danmark","Finland","Norge","Island"], c: 1, f: "Finland har i decennier haft starkt försvar och hög försvarsvilja – den finska modellen inspirerar nu Europa." }
+  ]
+};
+
+const timelineData = [
+  { year: "1946", title: "Donald Trump föds", desc: "Föds den 14 juni i Queens, New York. Fadern Fred är fastighetsmiljonär.", cat: "person" },
+  { year: "1964", title: "University of Pennsylvania", desc: "Trump studerar ekonomi vid ett av USA:s mest ansedda universitet.", cat: "person" },
+  { year: "1983", title: "Trump Tower invigs", desc: "Skyskrapan på Fifth Avenue i Manhattan blir Trumps flaggskepp och symbol.", cat: "ekonomi" },
+  { year: "2004", title: "The Apprentice", desc: "TV-programmet startar på NBC. 'You're fired' blir en fras hela Amerika känner till.", cat: "person" },
+  { year: "2015", title: "Ned för rulltrappan", desc: "Trump tillkännager sin kandidatur i Trump Tower. Lovar bygga en mur mot Mexiko.", cat: "politik" },
+  { year: "2016", title: "Trump vinner presidentvalet", desc: "Vinner elektorskollegiet mot Hillary Clinton trots att hon fick tre miljoner fler röster.", cat: "politik" },
+  { year: "2017", title: "Installationen", desc: "Trump talar om 'American carnage' i sitt installationstal. Skattereformen sänker bolagsskatten.", cat: "politik" },
+  { year: "2018", title: "Handelskrig med Kina", desc: "Trump inför tullar på kinesiska varor. Kina svarar. Bönder i mellanvästern drabbas.", cat: "ekonomi" },
+  { year: "2019", title: "Första riksrätten", desc: "Riksrättsåtalad för att ha pressat Ukrainas president – frikänns av senaten.", cat: "politik" },
+  { year: "2020", title: "Covid-19 och George Floyd", desc: "Pandemin slår till. 25 maj dör George Floyd – Black Lives Matter-protester sprids.", cat: "utrikes" },
+  { year: "2020", title: "Biden vinner valet", desc: "Joe Biden får 81 miljoner röster. Trump vägrar erkänna resultatet.", cat: "politik" },
+  { year: "2021", title: "Stormen mot Kapitolium", desc: "6 januari: Trump-anhängare stormar kongressen. Andra riksrätten följer.", cat: "politik" },
+  { year: "2024", title: "Sverige går med i NATO", desc: "Historiskt beslut efter Rysslands invasion av Ukraina. Artikel 5 gäller nu Sverige.", cat: "utrikes" },
+  { year: "2024", title: "Trump vinner igen", desc: "Vinner presidentvalet den 5 november mot Kamala Harris. Comebacken är fullbordad.", cat: "politik" },
+  { year: "2025", title: "Liberation Day – tullkrig", desc: "2 april: Trump inför massiva tullar mot nästan alla länder. Världens börser störtdyker.", cat: "ekonomi" }
+];
+
+const flashcardData = [
+  { ep:1, term:"Konkurs", def:"När en person eller ett företag inte kan betala sina skulder och måste omstrukturera eller lägga ned. Flera av Trumps företag gick i konkurs på 1990-talet." },
+  { ep:1, term:"Globalisering", def:"Processen där världens ekonomier kopplas ihop allt tätare genom handel, investeringar och teknik. Skapar välstånd i vissa områden men slår hårt mot andra." },
+  { ep:1, term:"Etablissemanget", def:"De politiker, experter och journalister som länge suttit vid makten. Trump kallade sig en outsider som stod utanför detta system." },
+  { ep:1, term:"Rust Belt", def:"Rostbältet – området i norra USA (Detroit, Pittsburgh m.fl.) där industrier lagt ned och jobb försvunnit." },
+  { ep:2, term:"Konstitution", def:"Den grundlag som bestämmer hur ett land ska styras. USA:s konstitution skrevs 1787 och bygger på att ingen ska ha för mycket makt." },
+  { ep:2, term:"Checks and balances", def:"Kontroller och balanser – systemet där tre maktgrenar begränsar varandra så att ingen tar över." },
+  { ep:2, term:"Elektorskollegiet", def:"Electoral College – systemet där varje delstat har elektorer som formellt väljer president. 270 elektorer krävs för att vinna." },
+  { ep:2, term:"Federal stat", def:"Ett land där delstaterna har stort självstyre. USA:s 50 delstater har egna lagar, skatter och domstolar." },
+  { ep:3, term:"Riksrätt (impeachment)", def:"Process där kongressen kan ställa en president inför rätta. Representanthuset åtalar, senaten dömer." },
+  { ep:3, term:"Fake news", def:"Trumps benämning på nyhetsmedier han ogillade. Användes för att underminera förtroendet för oberoende journalistik." },
+  { ep:3, term:"Handelskrig", def:"Ekonomisk konflikt där länder straffar varandra med tullar och handelsrestriktioner istället för militär makt." },
+  { ep:3, term:"Parisavtalet", def:"Internationellt klimatavtal från 2015 där nästan alla länder enats om att begränsa den globala uppvärmningen." },
+  { ep:4, term:"The Big Lie", def:"Den stora lögnen – Trumps påstående att presidentvalet 2020 stulits, trots att 60 domstolar avfärdade det." },
+  { ep:4, term:"Demokratisk backsliding", def:"När ett lands demokrati försvagas inifrån – inte via kupp utan genom att ledare underminerar normer och institutioner." },
+  { ep:4, term:"Primärval", def:"Den interna omröstningen inom ett parti för att utse presidentkandidat. Trump krossade alla motståndare i republikanernas primärval 2024." },
+  { ep:4, term:"Uppvigling", def:"Att hetsa upp människor till våld eller uppror. Trump anklagades för uppvigling i samband med stormningen av Kapitolium." },
+  { ep:5, term:"MAGA", def:"Make America Great Again – Trumps slogan som blivit en nationalistisk rörelse centrerad kring honom personligen." },
+  { ep:5, term:"Tullar", def:"Avgifter som ett land lägger på importerade varor. Gör utländska produkter dyrare och ska gynna inhemsk produktion." },
+  { ep:5, term:"NATO", def:"Nordatlantiska fördragsorganisationen – en militär allians med 32 medlemsländer. Artikel 5 garanterar kollektivt försvar." },
+  { ep:5, term:"Pax Americana", def:"Den amerikanska freden – det system av avtal, institutioner och allianser som USA byggt upp efter andra världskriget." },
+  { ep:6, term:"Artikel 5", def:"NATO:s ömsesidiga försvarsgaranti – ett angrepp mot ett medlemsland betraktas som ett angrepp mot alla." },
+  { ep:6, term:"Källkritik", def:"Förmågan att granska information – vem säger vad, varför, och vilka bevis finns? Avgörande i en tid av desinformation." },
+  { ep:6, term:"Desinformation", def:"Medvetet spridda lögner och vilseledande information i syfte att påverka opinionen." },
+  { ep:6, term:"Populism", def:"Politiska rörelser som säger sig tala för 'vanliga folket' mot 'eliten'. Växer i hela Europa, ofta inspirerade av Trump." }
+];
+
+const glossaryData = [
+  { term: "American Dream", def: "Idén att vem som helst i USA kan lyckas genom hårt arbete, oavsett bakgrund." },
+  { term: "Artikel 5", def: "NATO:s ömsesidiga försvarsgaranti – angrepp mot en är angrepp mot alla." },
+  { term: "Checks and balances", def: "System där tre maktgrenar begränsar varandra för att hindra maktkoncentration." },
+  { term: "Covid-19", def: "Pandemi som spreds globalt 2020 och kraftigt påverkade både USA:s politik och ekonomi." },
+  { term: "Demokratisk backsliding", def: "Demokratins försvagning inifrån, genom att ledare underminerar institutioner och normer." },
+  { term: "Desinformation", def: "Medvetet spridda lögner i syfte att vilseleda och påverka opinionen." },
+  { term: "Elektorskollegiet", def: "Electoral College – system där elektorer, inte folket direkt, formellt väljer USA:s president." },
+  { term: "Etablissemanget", def: "De politiker, experter och medier som länge innehaft makt i samhället." },
+  { term: "Fake news", def: "Trumps benämning på medier han ogillade – användes för att underminera journalistiken." },
+  { term: "Federal stat", def: "Stat där delstater har stort självstyre med egna lagar, skatter och domstolar." },
+  { term: "Freedom House", def: "Organisation som mäter graden av demokrati och frihet i världens länder." },
+  { term: "Globalisering", def: "Processen där ekonomier kopplas ihop genom handel och teknik – med både vinnare och förlorare." },
+  { term: "Gridlock", def: "Politisk trafikstockning – när president och kongress blockerar varandra." },
+  { term: "Handelskrig", def: "Ekonomisk konflikt där länder straffar varandra med tullar istället för vapen." },
+  { term: "Impeachment", def: "Riksrätt – process där kongressen kan ställa en president inför rätta." },
+  { term: "Isolationism", def: "Uppfattningen att ett land inte ska blanda sig i andra länders konflikter." },
+  { term: "Kollektivt försvar", def: "Principen att ett angrepp mot ett allierat land är ett angrepp mot alla." },
+  { term: "Konkurs", def: "När man inte kan betala sina skulder och tvingas omstrukturera eller lägga ned." },
+  { term: "Konstitution", def: "Grundlag som bestämmer hur ett land ska styras – USA:s skrevs 1787." },
+  { term: "Källkritik", def: "Förmåga att granska information: vem säger vad, varför, och vilka bevis finns?" },
+  { term: "MAGA", def: "Make America Great Again – Trumps slogan och politiska rörelse." },
+  { term: "NATO", def: "Nordatlantiska fördragsorganisationen – militär allians med 32 medlemsländer." },
+  { term: "Nationalism", def: "Att sätta den egna nationens intressen högst, ofta på bekostnad av internationellt samarbete." },
+  { term: "Parisavtalet", def: "Internationellt klimatavtal (2015) om att begränsa global uppvärmning." },
+  { term: "Pax Americana", def: "Den amerikanska freden – det internationella ordningssystem USA byggt upp sedan 1945." },
+  { term: "Populism", def: "Politisk rörelse som säger sig tala för folket mot eliten." },
+  { term: "Reshoring", def: "Att flytta tillverkning tillbaka till hemlandet från utlandet." },
+  { term: "Riksrätt", def: "Kongressens möjlighet att ställa en president inför rätta och avsätta denne." },
+  { term: "Rust Belt", def: "Rostbältet – industriregion i norra USA som drabbats hårt av avindustrialisering." },
+  { term: "Swing states", def: "Svängande delstater som kan rösta åt båda håll – avgör ofta presidentval." },
+  { term: "The Big Lie", def: "Trumps påstående att presidentvalet 2020 stulits, trots att det avfärdades av 60 domstolar." },
+  { term: "Tullar", def: "Avgifter på importerade varor – gör utländska produkter dyrare på hemmamarknaden." },
+  { term: "Winner takes all", def: "Principen att den som vinner flest röster i en delstat får alla dess elektorer." }
+];
+
+const tweetData = [
+  { date: "8 nov 2016", body: "Så otroligt tacksam! Jag lovade att aldrig svika er, det kommer jag aldrig göra. <span class='caps'>MAKE AMERICA GREAT AGAIN!</span>", likes: "638K", rt: "216K" },
+  { date: "11 jan 2018", body: "Jag är ett geni, och ett väldigt stabilt sådant. Jag gick från att vara en mycket framgångsrik affärsman till TV-stjärna, till att bli USA:s president. (Rätt bra CV).", likes: "412K", rt: "118K" },
+  { date: "11 jun 2019", body: "<span class='caps'>FAKE NEWS</span> medierna har aldrig varit så korrupta och vansinniga som de är idag. Nyhetsbevakning om mig har alltid varit 90% negativ. De är folkets fiende!", likes: "306K", rt: "87K" },
+  { date: "29 maj 2020", body: "Dessa <span class='caps'>THUGS</span> vanhedrar minnet av George Floyd. Jag har pratat med guvernören och sagt att militären finns tillgänglig. När plundringen börjar, börjar skjutningen!", likes: "523K", rt: "201K" },
+  { date: "6 jan 2021", body: "Mike Pence hade inte modet att göra vad som borde ha gjorts för att skydda vårt land och vår konstitution. USA kräver SANNINGEN!", likes: "267K", rt: "95K" }
+];
+
+// ELECTION DATA
+const elections = {
+  2016: { rep: 304, dem: 227, repName: "Trump", demName: "Clinton", note: "Trump vann elektorskollegiet 304–227, trots att Hillary Clinton fick cirka 3 miljoner fler röster totalt. Systemet med 'winner takes all' gav Trump segern i avgörande swing states som Michigan, Wisconsin och Pennsylvania – med marginaler på bara tiotusentals röster." },
+  2020: { rep: 232, dem: 306, repName: "Trump", demName: "Biden", note: "Joe Biden vann tydligt med 306 elektorer mot Trumps 232 och fick 81 miljoner röster – fler än någon presidentkandidat i historien. Trump vägrade erkänna resultatet och hävdade att valet stulits, trots att 60 domstolar avfärdade hans klagomål." },
+  2024: { rep: 312, dem: 226, repName: "Trump", demName: "Harris", note: "Trump genomförde en historisk comeback och vann tydligt med 312 elektorer mot Kamala Harris 226. Han vann tillbaka swing states och fick fler röster än i något av sina tidigare val. Det var en av de mest osannolika politiska comebacks i modern tid." }
+};
+
+// ============================================================
+// RENDER FUNCTIONS
+// ============================================================
+
+function renderTicker() {
+  const items = [
+    "TRUMP OCH DET NYA AMERIKA – 6 AVSNITT OM MAKT, DEMOKRATI OCH DIN FRAMTID",
+    "FRÅN QUEENS TILL VITA HUSET",
+    "CHECKS AND BALANCES – HUR FUNGERAR USA:S SYSTEM?",
+    "STORMEN MOT KAPITOLIUM – 6 JANUARI 2021",
+    "MAGA, TULLAR OCH DEN NYA VÄRLDSORDNINGEN",
+    "VAD BETYDER DET FÖR SVERIGE?",
+    "LYSSNA PÅ ALLA AVSNITT PÅ SPOTIFY"
+  ];
+  const track = document.getElementById('tickerTrack');
+  const html = items.map(i => `<span>${i}</span>`).join('');
+  track.innerHTML = html + html;
+}
+
+function renderEpisodes() {
+  const grid = document.getElementById('episodesGrid');
+  grid.innerHTML = episodes.map(ep => `
+    <div class="episode-card">
+      <div class="ep-header">
+        <div class="ep-number">Avsnitt ${ep.num} av 6</div>
+        <div class="ep-title">${ep.title}</div>
+        <div class="ep-desc">${ep.desc}</div>
+        <div class="ep-topics">${ep.tags.map(t => `<span class="ep-tag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="ep-actions">
+        <a href="${ep.spotify}" target="_blank" class="btn-spotify">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+          Lyssna
+        </a>
+        <button class="btn-quiz" onclick="openQuiz(${ep.num})">
+          🎯 Quiz
+        </button>
+        <button class="btn-expand" onclick="toggleAccordion(this, ${ep.num})">
+          📖 Sammanfattning
+        </button>
+      </div>
+      <div class="ep-accordion" id="acc-${ep.num}">
+        <div class="ep-accordion-inner">${ep.content}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleAccordion(btn, num) {
+  const acc = document.getElementById(`acc-${num}`);
+  acc.classList.toggle('open');
+  btn.textContent = acc.classList.contains('open') ? '📖 Stäng' : '📖 Sammanfattning';
+}
+
+// CHECKS & BALANCES
+function showBranch(branch) {
+  document.querySelectorAll('.cab-branch').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cab-detail').forEach(d => d.classList.remove('visible'));
+  document.querySelector(`.cab-branch[data-branch="${branch}"]`).classList.add('active');
+  document.getElementById(`cab-${branch}`).classList.add('visible');
+}
+
+// ELECTORAL COLLEGE
+function showElection(year, btn) {
+  if(btn) {
+    document.querySelectorAll('.electoral-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  const data = elections[year];
+  const total = 538;
+  const repPct = (data.rep / total * 100).toFixed(1);
+  const demPct = (data.dem / total * 100).toFixed(1);
+
+  document.getElementById('electoralStats').innerHTML = `
+    <div class="electoral-stat">
+      <div class="electoral-stat-num rep-color">${data.rep}</div>
+      <div class="electoral-stat-label">${data.repName} (R)</div>
+    </div>
+    <div class="electoral-stat">
+      <div class="electoral-stat-num win-color">270</div>
+      <div class="electoral-stat-label">Krävs för att vinna</div>
+    </div>
+    <div class="electoral-stat">
+      <div class="electoral-stat-num dem-color">${data.dem}</div>
+      <div class="electoral-stat-label">${data.demName} (D)</div>
+    </div>
+  `;
+
+  setTimeout(() => {
+    document.getElementById('barRep').style.width = repPct + '%';
+    document.getElementById('barRep').textContent = data.rep;
+    document.getElementById('barDem').style.width = demPct + '%';
+    document.getElementById('barDem').textContent = data.dem;
+  }, 50);
+
+  document.getElementById('electoralNote').textContent = data.note;
+}
+
+// TIMELINE
+function renderTimeline() {
+  const track = document.getElementById('timelineTrack');
+  track.innerHTML = timelineData.map(item => `
+    <div class="tl-item" data-cat="${item.cat}">
+      <div class="tl-year">${item.year}</div>
+      <div class="tl-title">${item.title}</div>
+      <div class="tl-desc">${item.desc}</div>
+    </div>
+  `).join('');
+}
+function filterTimeline(cat, btn) {
+  document.querySelectorAll('.timeline-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.tl-item').forEach(item => {
+    if(cat === 'alla' || item.dataset.cat === cat) {
+      item.classList.remove('hidden');
+    } else {
+      item.classList.add('hidden');
+    }
+  });
+}
+
+// TWEET FEED
+function renderTweets() {
+  const feed = document.getElementById('tweetFeed');
+  feed.innerHTML = tweetData.map(t => `
+    <div class="tweet-card">
+      <div class="tweet-header">
+        <div class="tweet-avatar">DT</div>
+        <div>
+          <div class="tweet-name">Donald J. Trump</div>
+          <div class="tweet-handle">@realDonaldTrump</div>
+        </div>
+        <div style="margin-left:auto"><div class="tweet-date">${t.date}</div></div>
+      </div>
+      <div class="tweet-body">${t.body}</div>
+      <div class="tweet-stats">
+        <span>♻ ${t.rt}</span>
+        <span>♥ ${t.likes}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+// FLASHCARDS
+function renderFlashcards(filterEp) {
+  const grid = document.getElementById('flashcardGrid');
+  const filtered = filterEp === 'alla' ? flashcardData : flashcardData.filter(f => f.ep === filterEp);
+  grid.innerHTML = filtered.map(f => `
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div class="fc-ep-tag">AVSNITT ${f.ep}</div>
+          <h4>${f.term}</h4>
+        </div>
+        <div class="flashcard-back">${f.def}</div>
+      </div>
+    </div>
+  `).join('');
+}
+function renderFCControls() {
+  const ctr = document.getElementById('fcControls');
+  const eps = ['alla',1,2,3,4,5,6];
+  ctr.innerHTML = eps.map(e => 
+    `<button class="fc-filter${e==='alla'?' active':''}" onclick="filterFC('${e}', this)">${e==='alla'?'Alla':'Avsnitt '+e}</button>`
+  ).join('');
+}
+function filterFC(ep, btn) {
+  document.querySelectorAll('.fc-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderFlashcards(ep === 'alla' ? 'alla' : parseInt(ep));
+}
+
+// GLOSSARY
+function renderGlossary() {
+  const grid = document.getElementById('glossaryGrid');
+  grid.innerHTML = glossaryData.map(g => `
+    <div class="glossary-item" data-term="${g.term.toLowerCase()}">
+      <div class="glossary-term">${g.term}</div>
+      <div class="glossary-def">${g.def}</div>
+    </div>
+  `).join('');
+}
+document.getElementById('glossarySearch').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.glossary-item').forEach(item => {
+    item.classList.toggle('hidden', !item.dataset.term.includes(q) && !item.querySelector('.glossary-def').textContent.toLowerCase().includes(q));
+  });
+});
+
+// ============================================================
+// QUIZ ENGINE
+// ============================================================
+
+let currentQuiz = null;
+let currentQ = 0;
+let quizScore = 0;
+
+function openQuiz(epNum) {
+  currentQuiz = quizData[epNum];
+  currentQ = 0;
+  quizScore = 0;
+  document.getElementById('quizOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  renderQuestion(epNum);
+}
+function closeQuiz() {
+  document.getElementById('quizOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  currentQuiz = null;
+}
+function renderQuestion(epNum) {
+  const qd = currentQuiz[currentQ];
+  const letters = ['A','B','C','D'];
+  const total = currentQuiz.length;
+  document.getElementById('quizContent').innerHTML = `
+    <div class="quiz-header-title">Avsnitt ${epNum}: Fråga ${currentQ+1}/${total}</div>
+    <div class="quiz-progress">POÄNG: ${quizScore} / ${total}</div>
+    <div class="quiz-progress-bar"><div class="quiz-progress-fill" style="width:${(currentQ/total)*100}%"></div></div>
+    <div class="quiz-question">${qd.q}</div>
+    <div class="quiz-options">
+      ${qd.a.map((a,i) => `
+        <button class="quiz-option" onclick="answerQuiz(${i}, ${qd.c}, ${epNum})" data-idx="${i}">
+          <span class="opt-letter">${letters[i]}</span>
+          <span>${a}</span>
+        </button>
+      `).join('')}
+    </div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="quiz-next" id="quizNext" onclick="nextQuestion(${epNum})">Nästa fråga →</button>
+  `;
+}
+function answerQuiz(chosen, correct, epNum) {
+  const options = document.querySelectorAll('.quiz-option');
+  if(options[0].classList.contains('locked')) return;
+  options.forEach(o => o.classList.add('locked'));
+  options[correct].classList.add('correct');
+  const fb = document.getElementById('quizFeedback');
+  if(chosen === correct) {
+    quizScore++;
+    fb.className = 'quiz-feedback show correct-fb';
+    fb.textContent = '✓ Rätt! ' + currentQuiz[currentQ].f;
+  } else {
+    options[chosen].classList.add('wrong');
+    fb.className = 'quiz-feedback show wrong-fb';
+    fb.textContent = '✗ Fel. ' + currentQuiz[currentQ].f;
+  }
+  document.getElementById('quizNext').classList.add('show');
+  // Update progress text
+  document.querySelector('.quiz-progress').textContent = `POÄNG: ${quizScore} / ${currentQuiz.length}`;
+}
+function nextQuestion(epNum) {
+  currentQ++;
+  if(currentQ >= currentQuiz.length) {
+    showQuizResult(epNum);
+  } else {
+    renderQuestion(epNum);
+  }
+}
+function showQuizResult(epNum) {
+  const total = currentQuiz.length;
+  const pct = Math.round((quizScore / total) * 100);
+  let msg = '';
+  let color = '';
+  if(pct >= 88) { msg = 'Fantastiskt! Du är en riktig expert! 🏆'; color = '#2ecc71'; }
+  else if(pct >= 63) { msg = 'Bra jobbat! Du har koll på det mesta! 👏'; color = var_gold; }
+  else if(pct >= 38) { msg = 'Helt okej – lyssna igen och testa om! 📻'; color = '#e9c46a'; }
+  else { msg = 'Dags att lyssna på avsnittet igen! 📖'; color = var_red; }
+
+  document.getElementById('quizContent').innerHTML = `
+    <div class="quiz-result">
+      <div class="quiz-header-title">Avsnitt ${epNum} – Resultat</div>
+      <div class="quiz-result-score" style="color:${color}">${quizScore}/${total}</div>
+      <div class="quiz-result-bar"><div class="quiz-result-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="quiz-result-text">${msg}</div>
+      <button class="btn-quiz" onclick="openQuiz(${epNum})" style="margin:8px;">🔄 Försök igen</button>
+      <button class="btn-expand" onclick="closeQuiz()" style="margin:8px;">✕ Stäng</button>
+    </div>
+  `;
+}
+// Fix variable references in result
+const var_gold = '#e9c46a';
+const var_red = '#e63946';
+
+// Close quiz on overlay click
+document.getElementById('quizOverlay').addEventListener('click', function(e) {
+  if(e.target === this) closeQuiz();
+});
+
+// ============================================================
+// INIT
+// ============================================================
+renderTicker();
+renderEpisodes();
+showElection(2016, null);
+renderTimeline();
+renderTweets();
+renderFCControls();
+renderFlashcards('alla');
+renderGlossary();
+</script>
+</body>
+</html>
