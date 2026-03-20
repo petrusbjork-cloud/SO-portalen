@@ -1,0 +1,1223 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etik och Moral – SO med Petrus</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --deep:#1B1035;--deep2:#2A1F4E;--plum:#3D2E6B;
+  --sand:#F7F4EE;--cream:#FDFBF7;--white:#FFFFFF;
+  --text:#1E1A2E;--muted:#6A5F7B;--light:#9B92AD;
+  --ruby:#B83B5E;--ruby-lt:#FDF0F3;
+  --sapphire:#3B5998;--sapphire-lt:#EEF2FA;
+  --emerald:#27856A;--emerald-lt:#EDF8F4;
+  --amber:#C4960C;--amber-lt:#FBF6E4;
+  --amethyst:#7B4BB5;--amethyst-lt:#F4EFF9;
+  --gold:#B8860B;--gold-lt:#FBF4E0;
+  --rose:#C74B7A;--rose-lt:#FDF0F5;
+  --border:#E4DCCF;
+  --spotify:#1DB954;
+  --radius:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--sand);color:var(--text);line-height:1.7}
+
+/* HERO */
+.hero{
+  background:var(--deep);
+  background-image:
+    radial-gradient(ellipse at 10% 70%,rgba(184,59,94,.2),transparent 55%),
+    radial-gradient(ellipse at 90% 20%,rgba(123,75,181,.25),transparent 50%),
+    radial-gradient(ellipse at 50% 110%,rgba(59,89,152,.2),transparent 50%);
+  color:white;padding:56px 40px 48px;position:relative;overflow:hidden;
+}
+.hero::before{content:'⚖️';position:absolute;right:40px;top:50%;transform:translateY(-50%);font-size:120px;opacity:.06;pointer-events:none}
+.hero-label{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--amber);margin-bottom:14px}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(28px,5vw,48px);font-weight:900;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--amber)}
+.hero p{font-size:16px;color:rgba(255,255,255,.7);max-width:620px;margin-bottom:24px}
+.hero-tags{display:flex;gap:10px;flex-wrap:wrap}
+.hero-tag{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);padding:5px 14px;border-radius:20px;font-size:13px}
+
+/* NAV TABS */
+.nav-tabs{background:var(--white);border-bottom:2px solid var(--border);display:flex;overflow-x:auto;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.nav-tab{padding:16px 24px;font-family:'Source Serif 4',serif;font-size:14px;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:all .2s;background:none;border-top:none;border-left:none;border-right:none}
+.nav-tab:hover{color:var(--deep);background:#F0EDF5}
+.nav-tab.active{color:var(--deep);border-bottom-color:var(--amethyst)}
+
+/* SECTIONS */
+.section{display:none;padding:40px;max-width:980px;margin:0 auto}
+.section.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* EPISODE STRIP */
+.ep-strip{display:grid;grid-template-columns:repeat(7,1fr);gap:0;margin-bottom:32px;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.ep-btn{padding:14px 8px;text-align:center;cursor:pointer;background:var(--white);border:none;font-family:'Source Serif 4',serif;font-size:12px;font-weight:600;color:var(--muted);transition:all .2s;border-right:1px solid var(--border);line-height:1.4}
+.ep-btn:last-child{border-right:none}
+.ep-btn:hover{background:var(--amethyst-lt)}
+.ep-btn.active{background:var(--deep);color:white}
+.ep-btn span{display:block;font-size:20px;margin-bottom:5px}
+.ep-btn small{display:block;font-size:10px;opacity:.6;margin-top:2px;font-weight:400}
+
+/* EP PANELS */
+.ep-panel{display:none}
+.ep-panel.active{display:block;animation:fadeIn .25s ease}
+
+/* PODCAST CARD */
+.podcast-card{background:var(--deep);color:white;border-radius:var(--radius);padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;gap:24px;position:relative;overflow:hidden}
+.podcast-card::after{content:'🎧';position:absolute;right:28px;top:50%;transform:translateY(-50%);font-size:64px;opacity:.08;pointer-events:none}
+.podcast-play{width:56px;height:56px;border-radius:50%;background:var(--spotify);flex-shrink:0;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s,background .15s;text-decoration:none}
+.podcast-play:hover{transform:scale(1.08);background:#1ed760}
+.podcast-play svg{width:20px;height:20px;fill:white;margin-left:3px}
+.podcast-info h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;margin-bottom:4px}
+.podcast-info p{font-size:13px;color:rgba(255,255,255,.55)}
+.podcast-info .ep-badge{display:inline-block;background:rgba(196,150,12,.2);border:1px solid rgba(196,150,12,.4);color:var(--amber);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:8px}
+.coming-soon{font-size:11px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.6);padding:4px 12px;border-radius:12px;display:inline-block;margin-top:6px}
+
+/* ACCORDION */
+.acc-section{margin-bottom:28px}
+.acc-section-title{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--deep);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.acc-item{border:1px solid var(--border);border-radius:8px;margin-bottom:8px;overflow:hidden;background:var(--white);transition:border-color .2s}
+.acc-item:hover{border-color:#C5BFD6}
+.acc-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;cursor:pointer;font-weight:600;font-size:15px;color:var(--text);transition:background .2s;background:var(--white)}
+.acc-header:hover{background:#F5F3F8}
+.acc-arrow{transition:transform .3s;font-size:12px;color:var(--amethyst)}
+.acc-item.open .acc-arrow{transform:rotate(180deg)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease;padding:0 20px}
+.acc-item.open .acc-body{max-height:2000px;padding:0 20px 20px}
+.acc-body p{font-size:14px;color:var(--muted);margin-top:12px;line-height:1.7}
+
+/* INFO BOX */
+.info-box{border-left:3px solid var(--amethyst);background:var(--amethyst-lt);padding:18px 22px;border-radius:0 8px 8px 0;margin:20px 0;font-size:14px;color:var(--muted);line-height:1.7}
+.info-box strong{color:var(--deep)}
+.info-box.ruby{border-color:var(--ruby);background:var(--ruby-lt)}
+.info-box.emerald{border-color:var(--emerald);background:var(--emerald-lt)}
+.info-box.amber{border-color:var(--amber);background:var(--amber-lt)}
+.info-box.sapphire{border-color:var(--sapphire);background:var(--sapphire-lt)}
+
+/* QUIZ */
+.quiz-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:32px;margin-bottom:28px}
+.quiz-wrap h3{font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--deep);margin-bottom:6px}
+.quiz-wrap>p{font-size:14px;color:var(--muted);margin-bottom:24px}
+.quiz-start-btn{background:var(--deep);color:white;font-family:'Source Serif 4',serif;font-size:15px;font-weight:600;padding:14px 36px;border-radius:8px;border:none;cursor:pointer;transition:all .15s}
+.quiz-start-btn:hover{background:var(--deep2);transform:translateY(-1px)}
+.quiz-progress-label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.quiz-progress-bar-wrap{height:4px;background:var(--border);border-radius:2px;margin-bottom:24px}
+.quiz-progress-bar{height:100%;background:linear-gradient(90deg,var(--amethyst),var(--ruby));border-radius:2px;transition:width .4s ease}
+.quiz-question-text{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--deep);line-height:1.4;margin-bottom:20px}
+.quiz-options{display:flex;flex-direction:column;gap:10px;margin-bottom:16px}
+.quiz-option{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;border:1.5px solid var(--border);border-radius:8px;background:var(--white);cursor:pointer;font-family:'Source Serif 4',serif;font-size:14px;text-align:left;color:var(--text);line-height:1.5;transition:all .15s}
+.quiz-option:hover:not(.disabled){border-color:var(--deep);background:#F0EDF5}
+.opt-letter{font-weight:700;color:var(--amethyst);min-width:18px;font-family:'JetBrains Mono',monospace}
+.quiz-option.correct{border-color:var(--emerald);background:var(--emerald-lt);color:#1A4A3A}
+.quiz-option.correct .opt-letter{color:var(--emerald)}
+.quiz-option.wrong{border-color:var(--ruby);background:var(--ruby-lt);color:#7A1A2A}
+.quiz-option.wrong .opt-letter{color:var(--ruby)}
+.quiz-option.disabled{cursor:default;pointer-events:none}
+.quiz-feedback{border-left:3px solid var(--amber);background:var(--amber-lt);border-radius:0 8px 8px 0;padding:14px 18px;font-size:14px;color:var(--text);line-height:1.6;margin-bottom:16px;animation:fadeIn .25s}
+.quiz-next-btn{background:var(--deep);color:white;font-family:'Source Serif 4',serif;font-size:14px;font-weight:600;padding:12px 28px;border-radius:8px;border:none;cursor:pointer;transition:all .15s}
+.quiz-next-btn:hover{background:var(--deep2);transform:translateY(-1px)}
+.quiz-retry-btn{background:transparent;border:1.5px solid var(--deep);color:var(--deep);font-family:'Source Serif 4',serif;font-size:14px;font-weight:600;padding:11px 28px;border-radius:8px;cursor:pointer;transition:all .15s}
+.quiz-retry-btn:hover{background:var(--deep);color:white}
+.score-circle{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,var(--deep),var(--plum));display:flex;flex-direction:column;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 8px 32px rgba(27,16,53,.3)}
+.score-num{font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:white;line-height:1}
+.score-den{font-size:13px;color:rgba(255,255,255,.6)}
+
+/* DILEMMA */
+.dilemma-wrap{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:32px;margin-bottom:28px;position:relative;overflow:hidden}
+.dilemma-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--ruby),var(--sapphire),var(--emerald),var(--amber),var(--amethyst))}
+.dilemma-scenario{font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--text);line-height:1.7;margin:16px 0 20px;padding:16px 20px;background:var(--amethyst-lt);border-radius:8px;border-left:3px solid var(--amethyst)}
+.dilemma-choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:16px 0}
+.dilemma-choice{background:var(--white);border:2px solid var(--border);border-radius:var(--radius);padding:20px;cursor:pointer;transition:all .25s;text-align:center}
+.dilemma-choice:hover{border-color:var(--amethyst);background:var(--amethyst-lt);transform:translateY(-2px)}
+.dilemma-choice.selected{border-color:var(--amethyst);background:var(--amethyst-lt);box-shadow:0 4px 20px rgba(123,75,181,.15)}
+.dilemma-choice h5{font-family:'Playfair Display',serif;font-size:16px;margin-bottom:6px;color:var(--deep)}
+.dilemma-choice p{font-size:13px;color:var(--muted)}
+.dilemma-analysis{display:none;margin-top:20px}
+.dilemma-analysis.show{display:block;animation:fadeIn .4s}
+.model-verdict{display:flex;align-items:flex-start;gap:12px;margin:10px 0;padding:14px;border-radius:8px;background:var(--sand)}
+.model-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.model-verdict p{font-size:14px;color:var(--muted)}
+.model-verdict strong{color:var(--deep)}
+.dilemma-nav{display:flex;gap:12px;margin-top:16px;align-items:center}
+
+/* GOLDEN RULE */
+.golden-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:20px 0}
+.golden-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;text-align:center;cursor:default;transition:all .3s}
+.golden-card:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.06)}
+.golden-card .g-sym{font-size:2.2rem;margin-bottom:8px}
+.golden-card h5{font-size:14px;color:var(--deep);margin-bottom:4px}
+.golden-card .g-src{font-size:10px;color:var(--light);margin-bottom:10px;text-transform:uppercase;letter-spacing:.5px}
+.golden-card .g-quote{font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--muted);line-height:1.5}
+
+/* FLASHCARDS */
+.flash-controls{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.flash-filter{padding:8px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);color:var(--muted);cursor:pointer;font-size:13px;font-weight:600;transition:all .2s;font-family:'Source Serif 4',serif}
+.flash-filter:hover,.flash-filter.active{border-color:var(--amethyst);color:var(--amethyst);background:var(--amethyst-lt)}
+.flashcard-area{display:flex;flex-direction:column;align-items:center;gap:20px;margin:20px 0}
+.flashcard{width:100%;max-width:500px;height:260px;perspective:1000px;cursor:pointer}
+.flashcard-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .6s ease}
+.flashcard.flipped .flashcard-inner{transform:rotateY(180deg)}
+.flashcard-front,.flashcard-back{position:absolute;width:100%;height:100%;backface-visibility:hidden;border-radius:var(--radius);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+.flashcard-front{background:var(--deep);color:white;border:none}
+.flashcard-front h3{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:8px}
+.flashcard-front p{font-size:12px;opacity:.5}
+.flashcard-back{background:var(--amethyst-lt);border:2px solid var(--amethyst);transform:rotateY(180deg)}
+.flashcard-back p{font-size:15px;color:var(--text);line-height:1.7}
+.flash-nav{display:flex;align-items:center;gap:20px}
+.flash-nav button{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--border);background:var(--white);color:var(--deep);cursor:pointer;font-size:1.1rem;transition:all .2s;display:flex;align-items:center;justify-content:center}
+.flash-nav button:hover{border-color:var(--amethyst);background:var(--amethyst-lt)}
+.flash-counter{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--muted)}
+
+/* PERSONALITY TEST */
+.test-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:32px}
+.test-dots{display:flex;gap:8px;margin-bottom:20px}
+.test-dot{width:10px;height:10px;border-radius:50%;background:var(--border);transition:background .3s}
+.test-dot.done{background:var(--amethyst)}
+.test-dot.current{background:var(--ruby);box-shadow:0 0 8px rgba(184,59,94,.4)}
+.test-q{font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--deep);margin-bottom:16px}
+.test-opt{background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:14px 18px;cursor:pointer;transition:all .2s;font-size:14px;color:var(--text);margin-bottom:10px}
+.test-opt:hover{border-color:var(--amethyst);background:var(--amethyst-lt)}
+.test-opt.chosen{border-color:var(--amethyst);background:var(--amethyst-lt)}
+.test-result{text-align:center;padding:20px}
+.test-result h3{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--deep);margin-bottom:8px}
+.test-result p{color:var(--muted);font-size:15px;max-width:480px;margin:0 auto 20px}
+.model-bars{max-width:400px;margin:20px auto}
+.model-bar-row{display:flex;align-items:center;gap:12px;margin:8px 0}
+.model-bar-label{font-size:13px;color:var(--muted);width:130px;text-align:right}
+.model-bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.model-bar-fill{height:100%;border-radius:4px;transition:width 1s ease}
+
+/* TRAINING STEPS */
+.train-steps{display:flex;gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:28px}
+.train-step{flex:1;padding:14px 8px;text-align:center;cursor:pointer;background:var(--white);border:none;border-right:1px solid var(--border);font-family:'Source Serif 4',serif;font-size:12px;font-weight:600;color:var(--muted);transition:all .2s;line-height:1.4}
+.train-step:last-child{border-right:none}
+.train-step:hover{background:var(--amethyst-lt)}
+.train-step.active{background:var(--deep);color:white}
+.train-step.completed{background:var(--emerald-lt);color:var(--emerald)}
+.train-step span{display:block;font-size:20px;margin-bottom:4px}
+.train-step small{display:block;font-size:10px;opacity:.6;margin-top:2px;font-weight:400}
+.train-panel{display:none}
+.train-panel.active{display:block;animation:fadeIn .25s}
+.train-xp{display:flex;align-items:center;gap:16px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:14px 20px;margin-bottom:24px}
+.train-xp .xp-bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.train-xp .xp-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--amethyst),var(--ruby));transition:width .6s ease}
+
+/* MATCH GAME */
+.match-board{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:20px 0}
+.match-col-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center}
+.match-col{display:flex;flex-direction:column;gap:8px}
+.match-item{padding:14px 16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:14px;color:var(--text);background:var(--white);transition:all .2s;text-align:center;user-select:none;min-height:52px;display:flex;align-items:center;justify-content:center}
+.match-item:hover:not(.matched):not(.selected){border-color:var(--amethyst);background:var(--amethyst-lt)}
+.match-item.selected{border-color:var(--amethyst);background:var(--amethyst-lt);box-shadow:0 0 0 3px rgba(123,75,181,.15)}
+.match-item.matched{border-color:var(--emerald);background:var(--emerald-lt);color:var(--emerald);cursor:default;opacity:.7}
+.match-item.wrong-flash{border-color:var(--ruby);background:var(--ruby-lt);animation:shake .4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* FILL IN BLANK */
+.fib-sentence{font-family:'Playfair Display',serif;font-size:18px;color:var(--deep);line-height:1.6;margin-bottom:20px}
+.fib-blank{display:inline-block;min-width:120px;border-bottom:3px dashed var(--amethyst);color:var(--amethyst);font-weight:700;padding:0 4px;font-style:normal}
+.fib-options{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.fib-opt{padding:10px 18px;border:1.5px solid var(--border);border-radius:20px;cursor:pointer;font-size:14px;color:var(--text);background:var(--white);transition:all .2s;font-family:'Source Serif 4',serif}
+.fib-opt:hover:not(.disabled){border-color:var(--amethyst);background:var(--amethyst-lt)}
+.fib-opt.correct{border-color:var(--emerald);background:var(--emerald-lt);color:var(--emerald)}
+.fib-opt.wrong{border-color:var(--ruby);background:var(--ruby-lt);color:var(--ruby)}
+.fib-opt.disabled{cursor:default;pointer-events:none;opacity:.6}
+
+/* SPEED ROUND */
+.speed-hud{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.speed-timer{font-family:'JetBrains Mono',monospace;font-size:28px;font-weight:700;color:var(--ruby)}
+.speed-timer.low{animation:pulse .5s infinite alternate}
+@keyframes pulse{from{opacity:1}to{opacity:.4}}
+.speed-streak{font-size:14px;color:var(--muted)}
+.speed-streak b{color:var(--amber);font-size:18px}
+.speed-term{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--deep);text-align:center;margin:24px 0 20px}
+.speed-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.speed-opt{padding:16px;border:2px solid var(--border);border-radius:8px;cursor:pointer;font-size:13px;color:var(--text);background:var(--white);transition:all .15s;text-align:center;line-height:1.4}
+.speed-opt:hover{border-color:var(--deep);background:#F0EDF5}
+.speed-opt.correct{border-color:var(--emerald);background:var(--emerald-lt)}
+.speed-opt.wrong{border-color:var(--ruby);background:var(--ruby-lt)}
+
+/* GLOSSARY */
+.glossary-search{width:100%;padding:14px 20px;border-radius:var(--radius);border:1.5px solid var(--border);background:var(--white);color:var(--text);font-size:15px;margin-bottom:20px;outline:none;font-family:'Source Serif 4',serif}
+.glossary-search:focus{border-color:var(--amethyst)}
+.glossary-search::placeholder{color:var(--light)}
+.glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.glossary-item{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 18px;transition:all .2s}
+.glossary-item:hover{border-color:#C5BFD6}
+.glossary-item h5{font-size:14px;color:var(--deep);margin-bottom:4px;font-family:'Playfair Display',serif}
+.glossary-item p{font-size:13px;color:var(--muted);line-height:1.55}
+.glossary-item .g-ep{font-size:10px;color:var(--light);margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+.section-heading{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--deep);margin:0 0 20px}
+.divider{height:1px;background:var(--border);margin:32px 0}
+
+@media(max-width:760px){
+  .hero{padding:40px 20px 36px}
+  .section{padding:24px 16px}
+  .ep-strip{grid-template-columns:repeat(4,1fr)}
+  .ep-btn{border-bottom:1px solid var(--border)}
+  .podcast-card{flex-direction:column;gap:16px;padding:24px}
+  .quiz-wrap{padding:24px 16px}
+  .dilemma-choices{grid-template-columns:1fr}
+  .golden-grid{grid-template-columns:1fr 1fr}
+  .glossary-grid{grid-template-columns:1fr}
+  .dilemma-wrap{padding:24px 16px}
+  .train-steps{flex-wrap:wrap}
+  .train-step{min-width:33%}
+  .match-board{grid-template-columns:1fr;gap:16px}
+  .speed-opts{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .ep-strip{grid-template-columns:repeat(2,1fr)}
+  .golden-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">SO-Portalen · Religionskunskap</div>
+  <h1>Etik och Moral<br><span>Rätt, fel och allt däremellan</span></h1>
+  <p>Från samvetets röst och etiska dilemman till den gyllene regeln och livets mening. Lyssna, lär och testa dig — sju avsnitt om de stora frågorna.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">🎙️ 7 avsnitt</span>
+    <span class="hero-tag">✅ Quiz per avsnitt</span>
+    <span class="hero-tag">⚖️ Dilemma-simulator</span>
+    <span class="hero-tag">🧠 Etik-test (12 frågor)</span>
+    <span class="hero-tag">🃏 Begreppsträning i 5 steg</span>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('avsnitt',this)">Avsnitt & Quiz</button>
+  <button class="nav-tab" onclick="showTab('flashcards',this)">Begreppsträning</button>
+  <button class="nav-tab" onclick="showTab('etiktest',this)">Vilken etiker är du?</button>
+  <button class="nav-tab" onclick="showTab('ordlista',this)">Ordlista</button>
+</div>
+
+<!-- ═══════════ AVSNITT TAB ═══════════ -->
+<div class="section active" id="tab-avsnitt">
+  <div class="ep-strip" id="epStrip"></div>
+  <div id="epPanels"></div>
+</div>
+
+<!-- ═══════════ BEGREPPSTRÄNING TAB ═══════════ -->
+<div class="section" id="tab-flashcards">
+  <h2 class="section-heading">🧠 Begreppsträning</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:20px">Lär dig alla begrepp i fem steg — från flashcards till mästarprovet!</p>
+
+  <div class="train-xp" id="trainXP">
+    <span style="font-size:13px;font-weight:700;color:var(--deep)">⭐ <span id="xpCount">0</span> XP</span>
+    <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width:0%"></div></div>
+    <span style="font-size:12px;color:var(--muted)" id="xpLevel">Nivå 1</span>
+  </div>
+
+  <div class="train-steps" id="trainSteps">
+    <button class="train-step active" onclick="showTrain('fc')"><span>🃏</span>Steg 1<small>Flashcards</small></button>
+    <button class="train-step" onclick="showTrain('match')"><span>🔗</span>Steg 2<small>Para ihop</small></button>
+    <button class="train-step" onclick="showTrain('fib')"><span>✏️</span>Steg 3<small>Fyll i luckan</small></button>
+    <button class="train-step" onclick="showTrain('speed')"><span>⏱️</span>Steg 4<small>Tidstävling</small></button>
+    <button class="train-step" onclick="showTrain('master')"><span>🏆</span>Steg 5<small>Mästarprov</small></button>
+  </div>
+
+  <!-- STEP 1: FLASHCARDS -->
+  <div class="train-panel active" id="train-fc">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px">
+      <h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--deep);margin-bottom:4px">🃏 Flashcards — Bläddra & lär</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Klicka på kortet för att se definitionen. Lär dig alla ${flashcards.length} begrepp!</p>
+      <div class="flash-controls" id="flashFilters"></div>
+      <div class="flashcard-area">
+        <div class="flashcard" id="flashcard" onclick="flipCard()">
+          <div class="flashcard-inner">
+            <div class="flashcard-front"><p id="fcCat"></p><h3 id="fcTerm"></h3><p>Klicka för att vända</p></div>
+            <div class="flashcard-back"><p id="fcDef"></p></div>
+          </div>
+        </div>
+        <div class="flash-nav">
+          <button onclick="prevCard()">◀</button>
+          <span class="flash-counter" id="fcCounter"></span>
+          <button onclick="nextCard()">▶</button>
+          <button onclick="shuffleCards()" title="Blanda">🔀</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: PARA IHOP -->
+  <div class="train-panel" id="train-match">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px">
+      <h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--deep);margin-bottom:4px">🔗 Para ihop — Matcha begrepp med definition</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:4px">Klicka på ett begrepp, sedan på rätt definition. Matcha alla 6 par!</p>
+      <p style="font-size:12px;color:var(--light);margin-bottom:16px" id="matchScore"></p>
+      <div id="matchBoard"></div>
+      <div id="matchResult" style="display:none;text-align:center;padding:24px 0"></div>
+    </div>
+  </div>
+
+  <!-- STEP 3: FYLL I LUCKAN -->
+  <div class="train-panel" id="train-fib">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px">
+      <h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--deep);margin-bottom:4px">✏️ Fyll i luckan — Välj rätt begrepp</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Vilket begrepp passar i meningen?</p>
+      <div id="fibBody"></div>
+    </div>
+  </div>
+
+  <!-- STEP 4: TIDSTÄVLING -->
+  <div class="train-panel" id="train-speed">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px">
+      <h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--deep);margin-bottom:4px">⏱️ Tidstävling — Hur många hinner du på 60 sekunder?</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Välj rätt definition så snabbt du kan!</p>
+      <div id="speedBody"></div>
+    </div>
+  </div>
+
+  <!-- STEP 5: MÄSTARPROV -->
+  <div class="train-panel" id="train-master">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px">
+      <h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--deep);margin-bottom:4px">🏆 Mästarprov — Kan du alla begrepp?</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">15 frågor blandat från alla avsnitt. Nå 80% för att klara provet!</p>
+      <div id="masterBody"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ ETIK TEST TAB ═══════════ -->
+<div class="section" id="tab-etiktest">
+  <h2 class="section-heading">🧭 Vilken etiker är du?</h2>
+  <p style="font-size:14px;color:var(--muted);margin-bottom:20px">12 etiska scenarier från vardagen, skolan och samhället. Hur du resonerar avslöjar vilken etisk modell du lutar åt!</p>
+  <div class="test-card" id="testCard">
+    <div class="test-dots" id="testDots"></div>
+    <div id="testBody"></div>
+  </div>
+</div>
+
+<!-- ═══════════ ORDLISTA TAB ═══════════ -->
+<div class="section" id="tab-ordlista">
+  <h2 class="section-heading">📖 Alla begrepp A–Ö</h2>
+  <input class="glossary-search" id="glossarySearch" placeholder="🔍 Sök begrepp..." oninput="filterGlossary()">
+  <div class="glossary-grid" id="glossaryGrid"></div>
+</div>
+
+<script>
+// ============================================================
+// EPISODE META
+// ============================================================
+const episodes = [
+  {id:'ep1',num:'01',icon:'💡',title:'Det goda och det onda',sub:'Vad är egentligen etik?',badge:'Avsnitt 1'},
+  {id:'ep2',num:'02',icon:'🔓',title:'Frihet och ansvar',sub:'Var slutar din frihet?',badge:'Avsnitt 2'},
+  {id:'ep3',num:'03',icon:'⚖️',title:'Etiska modeller',sub:'Fem verktyg för svåra val',badge:'Avsnitt 3'},
+  {id:'ep4',num:'04',icon:'🏛️',title:'Etik i samhället',sub:'Läkare, företag, politik',badge:'Avsnitt 4'},
+  {id:'ep5',num:'05',icon:'✨',title:'Gyllene regeln & pliktetiken',sub:'Kant och världsreligionerna',badge:'Avsnitt 5'},
+  {id:'ep6',num:'06',icon:'🌍',title:'Djurrätt & mänskliga rättigheter',sub:'Vems jord är det?',badge:'Avsnitt 6'},
+  {id:'ep7',num:'07',icon:'🕯️',title:'Döden och livets mening',sub:'Vad händer sedan?',badge:'Avsnitt 7'}
+];
+
+// ============================================================
+// CONTENT PER EPISODE
+// ============================================================
+const epContent = {
+ep1:[
+  {h:'Hjältar och skurkar: gott mot ont',b:'Genom alla tider har berättelser handlat om kampen mellan gott och ont — från Mesopotamiens myter till dagens filmer. Men verkligheten är mer gråskalig. De flesta av oss är varken hjältar eller skurkar. Godhet handlar om omtänksamhet och medkänsla, medan ondska innebär att medvetet vilja skada andra.'},
+  {h:'Känslor, skuld och försoning',b:'Etiken drivs av känslor: samvete (den inre rösten vid felsteg), skam (att inte leva upp till vem man vill vara), tillit (förtroende för andra) och glädje. Försoning är inte samma sak som förlåtelse — det innebär att parterna erkänner det som hänt och väljer att gå vidare. Sydafrika och Rwanda använde försoningsprocesser efter enorma trauman.'},
+  {h:'Etik och moral — vad är skillnaden?',b:'Etik kommer från grekiskans "ethos" och moral från latinets "mores". Idag särskiljer vi dem: moral är det praktiska handlandet, medan etik är den teoretiska reflektionen. Moralen är spelet — etiken är reglerna och tanken bakom reglerna.'},
+  {h:'Tre utgångspunkter för etiken',b:'(1) Religiösa — alla världsreligioner har idéer om rätt och fel. (2) Filosofiska — att genom tänkande nå insikt utan religion. (3) Samhälleliga — lagar och regler som upprätthålls med tvång. De flesta av oss blandar alla tre i vardagen.'},
+  {h:'Varifrån kommer vår moral?',b:'Forskning visar att det handlar om både arv och miljö. Spädbarn vid sex månaders ålder föredrar figurer som hjälper andra. Apor reagerar starkt på orättvisa — en apa som får gurka medan grannen får druva kan kasta gurkan i protest! Uppfostran, kultur och religion formar moralen genom generationer.'}
+],
+ep2:[
+  {h:'Frihet och ansvar växer tillsammans',b:'Som liten bestämde föräldrarna allt — men du hade inget ansvar. Med åren fick du mer frihet och mer ansvar. Det är grundprincipen: frihet och ansvar är två sidor av samma mynt.'},
+  {h:'Frihet och ansvar i lagen',b:'Lagen säger att du har frihet att göra allt som inte är förbjudet, men "jag visste inte att det var olagligt" fungerar aldrig som försvar. Tänk på trafiken: du har stor rörlighet men enormt ansvar.'},
+  {h:'Straffmyndighetsåldern: 15 år',b:'I Sverige kan man dömas av domstol från 15 år. Under 15 kan socialtjänsten ingripa och föräldrar bär ansvar — men domstol gäller inte.'},
+  {h:'Samtyckeslagen 2018',b:'Samtyckeslagen kräver ett frivilligt ja vid sexuella handlingar. Innan 2018 fokuserade lagen på att bevisa tvång. Nu måste det finnas ett aktivt samtycke — och det kan dras tillbaka.'},
+  {h:'Normer, värderingar och normkritik',b:'Normer är oskrivna sociala regler. Bakom dem ligger värderingar som ärlighet och rättvisa. Normkritik handlar om att ifrågasätta förväntningar som kanske gör mer skada än nytta — t.ex. stela könsroller.'}
+],
+ep3:[
+  {h:'Avvägningar och dilemman',b:'De flesta etiska frågor kräver avvägningar. Ibland hamnar vi i dilemman där alla alternativ har dåliga konsekvenser. Etiska modeller hjälper oss resonera igenom sådana situationer.'},
+  {h:'Regeletik: följ reglerna!',b:'Det rätta är att följa reglerna, oavsett konsekvenser. Styrkan: förutsägbarhet och rättvisa. Svagheten: livet är inte en regelbok — regler kan krocka.'},
+  {h:'Konsekvensetik: resultatet räknas!',b:'Det är resultatet som avgör. Om effekten är god, är handlingen god. Styrkan: flexibilitet. Svagheten: vi kan aldrig säkert förutse framtiden.'},
+  {h:'Sinnelagsetik: avsikten räknas!',b:'Det är tanken som räknas — goda avsikter gör handlingen god. Spelar roll juridiskt: skillnaden mellan mord och dråp. Svagheten: en björntjänst gör skada trots god vilja.'},
+  {h:'Dygdetik: var en god människa!',b:'Istället för "vad ska jag göra?" frågar dygdetiken "vem vill jag vara?". Aristoteles menade att dygder tränas. Hans gyllene medelväg: mod är mitten mellan feghet och dumdristighet.'},
+  {h:'Situationsetik: bedöm varje läge!',b:'Mest flexibla modellen — men riskerar godtycke. Fungerar bäst i kombination med de andra. De flesta av oss blandar faktiskt alla modeller.'}
+],
+ep4:[
+  {h:'Sjukvårdsetik: patientens rätt vs läkarens plikt',b:'Patientlagen ger rätt att vägra behandling. Hälso- och sjukvårdslagen kräver att personalen gör sitt bästa. En 84-årig pigg man som vägrar sin medicin — juridiskt har han rätt, men mänskligt är det en enorm utmaning.'},
+  {h:'Företagsetik: vems ansvar?',b:'Jeans för 79 kr innebär extremt låga produktionskostnader — ofta på arbetares bekostnad. Ansvaret delas mellan företag, fabriker, regeringar och konsumenter.'},
+  {h:'Politisk etik: stora beslut',b:'En gruvdebatt kan ställa 400 jobb mot naturförstörelse och urfolks rättigheter. Politiker väger konsekvenser men begränsas av lagar som miljöbalken.'},
+  {h:'Demokrati och protesträtt',b:'I en demokrati kan du rösta, demonstrera och engagera dig. Demonstrationsrätten är grundlagsskyddad. Historiska rörelser — från kvinnlig rösträtt till miljörörelsen — har förändrat världen.'},
+  {h:'Civil olydnad',b:'Att öppet, fredligt och medvetet bryta mot lagen som protest — och acceptera straffet. Martin Luther King Jr. förändrade USA med fredliga marcher. Men frågan kvarstår: vem bestämmer vilka lagar som förtjänar att brytas?'}
+],
+ep5:[
+  {h:'Den gyllene regeln i fem religioner',b:'Samma grundtanke dyker upp oberoende i judendom, kristendom, islam, hinduism och buddhism. Fem traditioner, tusentals år, olika kontinenter — och samma insikt: sätt dig i den andres ställe.'},
+  {h:'Immanuel Kant och pliktetiken',b:'Kant (1724–1804) formulerade pliktetiken: det finns moraliska skyldigheter som gäller alltid, för alla. Hans kategoriska imperativ: "Handla bara på sätt du vill upphöja till allmän lag."'},
+  {h:'Styrkan: principer och människovärde',b:'Kants etik är principfast. Alla människor har okränkbart värde — ingen får användas enbart som verktyg. Denna tanke lade grunden för FN:s mänskliga rättigheter 1948.'},
+  {h:'Svagheten: nödlögnen',b:'En mördare frågar var din vän gömmer sig. Kant sa att man inte ens då får ljuga. De flesta tar avstånd — det strider mot vår intuition att skydda oskyldiga ibland kräver en lögn.'},
+  {h:'Den gyllene regeln i vardagen',b:'Innan du skriver en elak kommentar online — fråga: "Hur skulle jag känna?" Det kräver empati: förmågan att sätta sig in i en annan persons upplevelse. Enkelt men kraftfullt.'}
+],
+ep6:[
+  {h:'Synen på djur förändras',b:'Forskning visar att djurs inre liv är rikare än vi trott: grisar löser komplexa uppgifter, elefanter sörjer sina döda, kråkor planerar framåt. Cirkusdjur och pälsindustri möter alltmer kritik.'},
+  {h:'Djurskyddslagar — men inte rättigheter',b:'Djurskyddslagen skyddar djur från onödigt lidande men tillåter hållande, slakt och djurförsök under ordentliga villkor. En kompromiss som många ifrågasätter.'},
+  {h:'Djurrättsrörelsen och speciesism',b:'Peter Singer myntade speciesism: diskriminering baserad på art. Om lidande är grunden för moralisk hänsyn spelar det ingen roll vem som lider. Djurrättsrörelsen menar att djur har egenvärde.'},
+  {h:'Mänskliga rättigheternas historia',b:'Allas lika värde fick formell form efter Förintelsen. FN:s deklaration 1948 slog fast att alla människor har samma grundläggande rättigheter oavsett bakgrund.'},
+  {h:'Förvaltarskap — inte herravälde',b:'Vi är inte jordens herrar utan dess förvaltare. Hållbar utveckling innebär att leva gott utan att förstöra framtida generationers möjligheter.'}
+],
+ep7:[
+  {h:'Rädslan för döden',b:'Gilgamesheposet, skrivet för 4000 år sedan, skildrar en kungs kamp med dödsångesten. Denna rädsla har i alla kulturer lett till berättelser om vad som händer efter döden.'},
+  {h:'Det gamla Egypten: Osiris dom',b:'Varje död person ställdes inför Osiris domstol. Hjärtat vägdes mot sanningens fjäder. Rättfärdigt liv = plats i det lyckliga riket. Orättfärdigt = utplåning.'},
+  {h:'Abrahamitiska religioner: uppståndelse',b:'Kristendom bygger på Jesu uppståndelse. Islam beskriver paradiset Janna och helvetet Jahannam. Judendomen har mer varierade uppfattningar. Gemensamt: döden är inte slutet.'},
+  {h:'Hinduism och buddhism: återfödelse',b:'Reinkarnation styrd av karma. Målet är inte bättre återfödelse utan befrielse: moksha (hinduism) eller nirvana (buddhism) — ett tillstånd bortom begär och lidande.'},
+  {h:'Livet utan religion: Epikuros',b:'Epikuros: "Döden angår oss inte — när vi finns, finns inte döden." Vid borgerliga begravningar berättas om den dödes liv. Så länge du minns, lever de vidare.'},
+  {h:'Vägen är meningen — Karin Boye',b:'Karin Boye uttryckte det i dikten "I rörelse": det är inte målet utan strävan som ger mening. Meningen skapar vi själva i det levda livet.'}
+]
+};
+
+// ============================================================
+// QUIZ DATA — 8 frågor per ep, 2A 2B 2C 2D
+// ============================================================
+const quizData = {
+ep1: [
+{q:'Vad innebär begreppet etik?',o:['Läran om rätt och fel','Religiösa förbud och regler för troende','Straffrätt','Artighet och etikett i sociala sammanhang'],a:0,f:'Etik kommer från grekiskans "ethos" och handlar om hur vi resonerar kring rätt och fel.'},
+{q:'Vad kallas den inre röst som påminner oss när vi gjort fel?',o:['Intuition','Samvete','Empati, det vill säga förmågan att känna med andra','Skuld'],a:1,f:'Samvetet är den inre känslan som signalerar att vi agerat mot våra värderingar.'},
+{q:'Vad innebär begreppet försoning?',o:['Att glömma allt dåligt som inträffat','Exakt samma sak som förlåtelse','Att gå vidare trots det onda','Att bestraffa den som gjort fel'],a:2,f:'Försoning handlar om att båda parter erkänner det som hänt och väljer att gå vidare — utan att nödvändigtvis förlåta.'},
+{q:'Vilken av dessa är en filosofisk utgångspunkt för etiken?',o:['Guds vilja som den uttrycks i heliga skrifter','Instinkt och överlevnadsdrift','Tradition som ärvts i generationer','Eget tänkande'],a:3,f:'Filosofin menar att vi kan nå insikt om rätt och fel genom att tänka, resonera och söka kunskap.'},
+{q:'Vad visar forskning om spädbarn?',o:['De har tidig rättvisekänsla','De saknar etisk förmåga helt och hållet','De lär sig etik först i 5-årsåldern','Det finns ännu ingen forskning på området'],a:0,f:'Studier visar att spädbarn redan vid sex månaders ålder föredrar figurer som hjälper framför dem som stjäl.'},
+{q:'Vad brukar vi kalla det när apor reagerar negativt på orättvis behandling?',o:['Instinkt','Rättvisekänsla','Grupptryck som uppstår i sociala sammanhang','Ren aggression utan djupare innebörd'],a:1,f:'Forskare har observerat att apor protesterar kraftigt vid orättvis belöning.'},
+{q:'Hur skiljer sig moral från etik?',o:['De betyder exakt samma sak i alla sammanhang','Moral handlar om teori, etik om praktik','Moral = handling, etik = reflektion','Etik handlar uteslutande om religiösa frågor'],a:2,f:'I dag används "moral" för konkret handling och "etik" för det teoretiska resonerandet.'},
+{q:'Vilken faktor formar INTE vår moral?',o:['Uppfostran från föräldrar och samhälle','Kulturella traditioner och vanor','Genetiskt nedärvda egenskaper','Blodgrupp'],a:3,f:'Uppfostran, kultur och till viss del genetik formar vår moral — men blodgrupp har inget med saken att göra.'}
+],
+ep2: [
+{q:'Vad är straffmyndighetsåldern i Sverige?',o:['12 år','18 år','15 år','16 år'],a:2,f:'I Sverige blir man straffmyndig vid 15 — då kan man dömas och straffas av domstol.'},
+{q:'Vad innebär samtyckeslagen från 2018?',o:['Att ett tydligt nej alltid måste uttalas högt','Att vittnen krävs vid alla tillfällen','Att tvång och hot måste bevisas av åklagaren','Att ett frivilligt ja krävs'],a:3,f:'Samtyckeslagen kräver ett aktivt, frivilligt ja.'},
+{q:'Vad menas med normer?',o:['Oskrivna sociala förväntningar','Vetenskapliga principer som bevisats genom experiment','Religiösa bud och gudomliga påbud','Skrivna lagar som stiftats av riksdagen'],a:0,f:'Normer är oskrivna regler och sociala förväntningar som styr beteende.'},
+{q:'Vad innebär normkritik?',o:['Att strunta i regler','Att granska sociala förväntningar','Att följa majoriteten i alla lägen','Att agera respektlöst mot andra'],a:1,f:'Normkritik handlar om att medvetet ifrågasätta förväntningar.'},
+{q:'Vad beskriver uttrycket "frihet och ansvar hänger ihop"?',o:['Att friheten kostar pengar i alla samhällen','Att ansvar alltid kan undvikas om man vill','Med mer frihet följer mer ansvar','Att ansvar alltid leder till total ofrihet'],a:2,f:'Ju mer frihet du har, desto mer ansvarig blir du.'},
+{q:'Vad ligger bakom normerna i ett samhälle?',o:['Slumpen och tillfälligheter','Den ekonomiska situationen','Reklam och marknadsföring från företag','Värderingar'],a:3,f:'Värderingar — djupa principer som ärlighet, rättvisa och respekt.'},
+{q:'Vad händer om en person under 15 begår brott?',o:['Socialtjänsten kan ingripa','Personen döms som vuxen','Absolut ingenting händer','Föräldrarna fängslas automatiskt'],a:0,f:'Barn under 15 kan inte dömas men socialtjänsten kan ingripa.'},
+{q:'Vad är ett exempel på normkritik kring kön?',o:['Att avskaffa alla skolor','Att pojkar ska få visa känslor','Att förbjuda sport och idrott','Att alla ska klä sig likadant'],a:1,f:'Normkritik utmanar stela könsroller.'}
+],
+ep3: [
+{q:'Vad är ett etiskt dilemma?',o:['En fråga med ett tydligt och klart rätt svar','En situation där alla val har dåliga sidor','En religiös konflikt mellan troende','Ett juridiskt problem som avgörs i domstol'],a:1,f:'Ett dilemma innebär att du sitter fast mellan alternativ som alla har dåliga konsekvenser.'},
+{q:'Vad är regeletikens grundprincip?',o:['Följ reglerna, oavsett resultat','Tänk på dig själv först och främst','Maximera lyckan för så många som möjligt','Lita på din magkänsla i stunden'],a:0,f:'Regeletiken säger: följ reglerna — punkt.'},
+{q:'Vad fokuserar konsekvensetiken på?',o:['Regler och plikter som aldrig får brytas','Den dolda avsikten bakom handlingen','Personlig dygd och karaktär','Handlingens resultat'],a:3,f:'Konsekvensetiken bedömer handlingar utifrån deras resultat.'},
+{q:'Vad menas med en björntjänst?',o:['En generös och omtänksam handling','En handling som utförs av feghet','En välmenande handling med dåligt resultat','En noga uträknad och beräknande handling'],a:2,f:'En björntjänst — goda avsikter garanterar inte goda resultat.'},
+{q:'Vilken filosof förknippas med dygdetiken?',o:['Platon','Aristoteles','Immanuel Kant','Sokrates'],a:1,f:'Aristoteles menade att dygder är goda karaktärsdrag vi tränar oss i.'},
+{q:'Vad innebär den "gyllene medelvägen"?',o:['Dygden finns mellan ytterligheter','Man ska alltid nå en kompromiss med andra','Pengar och rikedom ger verklig lycka','Det finns bara en enda dygd'],a:0,f:'Aristoteles: dygden hittas mitt emellan — mod = mitten mellan feghet och dumdristighet.'},
+{q:'Vad utmärker sinnelagsetiken?',o:['De skrivna reglerna avgör alltid vad som är rätt','Det slutgiltiga resultatet är det enda som spelar roll','Samhällets rådande normer styr helt och hållet','Avsikten avgör'],a:3,f:'Det är tanken som räknas — goda avsikter gör handlingen god.'},
+{q:'Varför kritiseras situationsetiken?',o:['Den har för strikta principer','Den saknar helt koppling till verkligheten','Den riskerar att bli godtycklig','Den uppfanns för länge sedan'],a:2,f:'Utan fasta principer kan man rationalisera nästan vad som helst.'}
+],
+ep4: [
+{q:'Vad innebär patientens autonomi?',o:['Att läkaren alltid bestämmer behandlingen','Att sjukhuset har det sista avgörande ordet','Anhöriga väljer åt den sjuke i alla lägen','Rätten att själv bestämma'],a:3,f:'Autonomi = patientens rätt att godkänna eller avböja behandling.'},
+{q:'Varför är billiga kläder ett etiskt problem?',o:['De har sämre kvalitet och går sönder snabbare','De slits ut för fort för att vara hållbara','Låga priser kräver ofta dåliga arbetsvillkor','De innehåller farliga kemikalier och gifter'],a:2,f:'Extremt låga priser innebär ofta att arbetare i låglöneländer utnyttjas.'},
+{q:'Vad utmärker civil olydnad?',o:['Den använder alltid våld som verktyg','Den är öppen, fredlig och man tar sitt straff','Den görs i hemlighet utan att synas','Man accepterar aldrig konsekvenser'],a:1,f:'Civil olydnad: öppet, fredligt, och man accepterar konsekvenserna.'},
+{q:'Vem är känd för fredlig civil olydnad?',o:['Martin Luther King Jr.','Napoleon Bonaparte','Julius Caesar','Winston Churchill'],a:0,f:'MLK organiserade fredliga protester mot rasåtskillnad i USA.'},
+{q:'Vad gäller om en beslutskapabel patient vägrar vård?',o:['Personalen är tvungen att ge medicinen ändå','Anhöriga tar över beslutsrätten direkt','Polisen kallas in för att tvinga patienten','Patienten har rätt att vägra'],a:3,f:'En beslutskapabel vuxen har juridisk rätt att avböja behandling.'},
+{q:'Vems ansvar är etisk klädproduktion?',o:['Enbart företagens ansvar och inget andras','Bara fabrikernas som tillverkar plaggen','Ansvaret delas mellan alla','Bara vi konsumenter som handlar'],a:2,f:'Ansvaret delas mellan företag, fabriker, regeringar och konsumenter.'},
+{q:'Vilken typ av etik använder politiker vid gruvbeslut?',o:['Enbart regeletik utan undantag','Konsekvensetik i kombination med lagstiftning','Enbart sinnelagsetik och goda intentioner','Ingen etik alls — bara ekonomi'],a:1,f:'Politiker väger konsekvenser men begränsas av lagar.'},
+{q:'Vad är demonstrationsrätten i Sverige?',o:['Grundlagsskyddad rätt till fredlig protest','Rätten att bära vapen för att försvara sig','Rätten att strejka på sin arbetsplats','Laglig rätt att utföra civil olydnad utan straff'],a:0,f:'Demonstrationsrätten skyddas i grundlagen.'}
+],
+ep5: [
+{q:'Vad är den gyllene regeln?',o:['Behandla andra som du själv vill bli behandlad','Den starkaste har alltid rätt att bestämma','Total lydnad inför den som har makten','Principen ögat för öga, tand för tand'],a:0,f:'Den gyllene regeln: sätt dig i den andres ställe.'},
+{q:'Vad kallas Kants moralfilosofi?',o:['Konsekvensetik som fokuserar på resultat','Dygdetik baserad på karaktär','Situationsetik anpassad efter varje läge','Pliktetik'],a:3,f:'Kant: det finns plikter som gäller för alla, alltid.'},
+{q:'Vad innebär det kategoriska imperativet?',o:['Gör det som gynnar dig mest','Handla som du vill att alla ska handla','Känslan avgör i varje enskilt fall','Bryt regler vid behov'],a:1,f:'Handla bara på sätt du vill upphöja till allmän lag.'},
+{q:'I vilken religion formulerade Hillel den gyllene regeln?',o:['Islam','Hinduism','Judendomen','Buddhismen'],a:2,f:'Hillel sammanfattade hela Toran med den gyllene regeln.'},
+{q:'Vad menade Kant med "mål i sig"?',o:['Alla har ett okränkbart värde','Alla borde sätta upp personliga mål i livet','Människor kan användas som medel för andra','Man ska bara visa respekt för överordnade'],a:0,f:'Ingen människa får enbart användas som verktyg.'},
+{q:'Vad är pliktetikens klassiska problem?',o:['Den är alldeles för flexibel i sina principer','Den kräver en stark religiös tro som grund','Den har inga tydliga regler att följa','Nödlögnen — lögn förbjuds även för att skydda oskyldiga'],a:3,f:'Kant tillåter aldrig lögner, inte ens för att rädda liv.'},
+{q:'Var återfinns islams version av gyllene regeln?',o:['Koranen, den heliga huvudboken','Haditherna','Talmud, den judiska lagtolkningen','Tripitaka, buddhismens textsamling'],a:1,f:'Muhammed formulerade den gyllene regeln i haditherna.'},
+{q:'Vilken förmåga kräver den gyllene regeln?',o:['Strikt logik och matematik','Fysisk styrka och uthållighet','Empati','Juridisk expertis och lagkunskap'],a:2,f:'Den gyllene regeln bygger på empati.'}
+],
+ep6: [
+{q:'Vad innebär begreppet speciesism?',o:['Att visa respekt för alla jordens arter','Att studera biologi och arternas utveckling','Diskriminering baserad på art','Att enbart äta växter och undvika kött'],a:2,f:'Speciesism: att automatiskt värdera mänskligt lidande högre utan goda skäl.'},
+{q:'Vad skyddar djurskyddslagen djur från?',o:['All form av kontakt med människor','Onödigt lidande','Att hållas som husdjur och sällskapsdjur','All forskning oavsett syfte'],a:1,f:'Djurskyddslagen skyddar djur från onödigt lidande.'},
+{q:'När antogs FN:s deklaration om mänskliga rättigheter?',o:['1948','1918','1789','1968'],a:0,f:'FN:s deklaration antogs 1948, efter Förintelsen.'},
+{q:'Vad innebär hållbar utveckling?',o:['Så hög ekonomisk tillväxt som det bara går','Att förbjuda all industriell produktion','Att aldrig använda några naturresurser alls','Möta dagens behov utan att äventyra framtidens'],a:3,f:'Leva gott nu utan att förstöra framtida generationers möjligheter.'},
+{q:'Vad visar forskning om grisars intelligens?',o:['De är mycket mindre intelligenta än hundraser','De saknar helt problemlösningsförmåga','De är kognitivt jämförbara med hundar','De har nästan ingen inlärningsförmåga alls'],a:2,f:'Grisar är kognitivt lika komplexa som hundar.'},
+{q:'Vad menar djurrättsrörelsen med "egenvärde"?',o:['Att djur kan säljas till höga priser','Värde oberoende av nytta för människan','Att djur är viktigare än alla människor','Att bara sällskapsdjur har rättigheter och skydd'],a:1,f:'Egenvärde: ett värde i sig, inte bara som resurs.'},
+{q:'Hur tolkas "bruka och vårda" Edens trädgård idag?',o:['Som förvaltarskap och ansvar','Som total frihet att utnyttja naturen','Som helt irrelevant för moderna samhällen','Som ett totalt förbud mot jordbruk'],a:0,f:'Förvaltarskap — vårda naturen, inte förstöra den.'},
+{q:'Vem skrev "Animal Liberation"?',o:['Aristoteles','Immanuel Kant','Platon','Peter Singer'],a:3,f:'Peter Singer, 1975: djurs lidande bör väga lika tungt som människors.'}
+],
+ep7: [
+{q:'Vad handlar Gilgamesheposet om?',o:['En kärlekshistoria mellan gudar och människor','Handelsresor längs antika handelsvägar','Avancerade matematiska bevis från Mesopotamien','En kungs kamp mot dödsångest'],a:3,f:'Gilgamesheposet: en kungs rädsla för döden — 4000 år gammalt.'},
+{q:'Vad hände vid Osiris domstol?',o:['Hjärtat vägdes mot en fjäder','Man fick betala guld för att komma in','Bara kungar ställdes inför domen','Alla fick komma in utan prövning'],a:0,f:'Hjärtat vägdes mot sanningens fjäder.'},
+{q:'Vad betyder reinkarnation?',o:['Evigt liv i himlen efter döden','Att själen förstörs och upphör','Återfödelse i ett nytt liv','Uppståndelse på den yttersta domens dag'],a:2,f:'Reinkarnation: man föds om och om igen, styrt av karma.'},
+{q:'Vad är buddhismens ultimata mål?',o:['Rikedom och materiell framgång','Nirvana — befrielse från återfödelse','Politisk makt och inflytande','Encyklopedisk kunskap om allt'],a:1,f:'Nirvana: fullständig ro, fri från begär.'},
+{q:'Vad menade Epikuros om döden?',o:['Att döden är det absolut värsta som kan drabba oss','Att vi borde frukta döden varje dag vi lever','Att gudarna straffar oss efter döden baserat på gärningar','Att döden inte angår oss'],a:3,f:'Epikuros: vi kan aldrig uppleva döden.'},
+{q:'Vad innebär karma?',o:['Handlingars konsekvenser påverkar kommande liv','Ödet som bestämts av gudarna på förhand','Tur och otur som drabbar oss slumpmässigt','Att man straffas av samhällets domstolar'],a:0,f:'Karma: goda handlingar ger bättre återfödelse.'},
+{q:'Vad kallas hinduismens befrielse från återfödelse?',o:['Nirvana — buddhistisk befrielse','Karma — handlingens konsekvens','Moksha','Dharma — den kosmiska ordningen'],a:2,f:'Moksha: förening med det gudomliga Brahman.'},
+{q:'Vem uttryckte "det är vägen som är mödan värd"?',o:['August Strindberg','Karin Boye','Selma Lagerlöf','Astrid Lindgren'],a:1,f:'Karin Boye, dikten "I rörelse" (1927).'}
+]
+};
+
+// ============================================================
+// FLASHCARDS
+// ============================================================
+const flashcards=[
+{term:'Etik',def:'Läran om och reflektionen kring rätt och fel — de teoretiska principerna bakom moralen.',cat:'Avsnitt 1'},
+{term:'Moral',def:'Det konkreta, praktiska handlandet i vardagen — hur vi faktiskt beter oss.',cat:'Avsnitt 1'},
+{term:'Samvete',def:'Den inre känsla som talar om för oss när vi gjort något vi inte borde.',cat:'Avsnitt 1'},
+{term:'Försoning',def:'Att enas om att gå vidare trots det onda — utan att nödvändigtvis förlåta.',cat:'Avsnitt 1'},
+{term:'Tillit',def:'Förtroende för att andra vill oss väl och handlar i god avsikt.',cat:'Avsnitt 1'},
+{term:'Normer',def:'Oskrivna sociala regler och förväntningar som styr beteende.',cat:'Avsnitt 2'},
+{term:'Värderingar',def:'Djupliggande principer vi anser viktiga — ärlighet, rättvisa, respekt.',cat:'Avsnitt 2'},
+{term:'Normkritik',def:'Att kritiskt granska sociala förväntningar: varför har vi dem? Vem gynnas?',cat:'Avsnitt 2'},
+{term:'Straffmyndighetsålder',def:'Den ålder man kan dömas av domstol. I Sverige: 15 år.',cat:'Avsnitt 2'},
+{term:'Samtycke',def:'Ett genuint, frivilligt ja. Krävs alltid vid sexuella handlingar sedan 2018.',cat:'Avsnitt 2'},
+{term:'Dilemma',def:'En situation där alla alternativ har dåliga sidor — inget val är helt rätt.',cat:'Avsnitt 3'},
+{term:'Regeletik',def:'Etisk modell: det rätta är att följa reglerna, oavsett konsekvenser.',cat:'Avsnitt 3'},
+{term:'Konsekvensetik',def:'Etisk modell: handlingens resultat avgör om den är rätt.',cat:'Avsnitt 3'},
+{term:'Sinnelagsetik',def:'Etisk modell: avsikten bakom handlingen räknas — "det är tanken som räknas".',cat:'Avsnitt 3'},
+{term:'Dygdetik',def:'Etisk modell: fokus på karaktär — "vem vill jag vara?" Förknippas med Aristoteles.',cat:'Avsnitt 3'},
+{term:'Situationsetik',def:'Etisk modell: varje situation bedöms utifrån sina unika omständigheter.',cat:'Avsnitt 3'},
+{term:'Björntjänst',def:'En välmenande handling som gör mer skada än nytta.',cat:'Avsnitt 3'},
+{term:'Autonomi',def:'Rätten till självbestämmande — t.ex. patientens rätt att avböja behandling.',cat:'Avsnitt 4'},
+{term:'Civil olydnad',def:'Att öppet, fredligt bryta mot lagen som protest — och acceptera straffet.',cat:'Avsnitt 4'},
+{term:'Företagsetik',def:'Etiska frågor kring företags ansvar för arbetsvillkor och miljö.',cat:'Avsnitt 4'},
+{term:'Den gyllene regeln',def:'Behandla andra som du själv vill bli behandlad. Finns i alla stora religioner.',cat:'Avsnitt 5'},
+{term:'Pliktetik',def:'Kants moralfilosofi: plikter som gäller för alla, alltid.',cat:'Avsnitt 5'},
+{term:'Kategoriska imperativet',def:'Kants princip: handla bara på sätt du vill att alla ska handla.',cat:'Avsnitt 5'},
+{term:'Empati',def:'Förmågan att sätta sig in i en annan persons upplevelse.',cat:'Avsnitt 5'},
+{term:'Speciesism',def:'Diskriminering baserad på art — att automatiskt värdera mänskligt lidande högre.',cat:'Avsnitt 6'},
+{term:'Egenvärde',def:'Att ha ett värde i sig själv, oberoende av nytta för någon annan.',cat:'Avsnitt 6'},
+{term:'Hållbar utveckling',def:'Utveckling som inte äventyrar kommande generationers möjligheter.',cat:'Avsnitt 6'},
+{term:'Mänskliga rättigheter',def:'FN:s princip att alla har samma grundläggande rättigheter oavsett bakgrund.',cat:'Avsnitt 6'},
+{term:'Reinkarnation',def:'Återfödelse — tron att själen föds om i nya liv.',cat:'Avsnitt 7'},
+{term:'Karma',def:'Summan av handlingar som bestämmer villkoren i nästa liv.',cat:'Avsnitt 7'},
+{term:'Nirvana',def:'Buddhistisk befrielse: fullständig ro, fri från begär och lidande.',cat:'Avsnitt 7'},
+{term:'Moksha',def:'Hinduistisk befrielse: förening med det gudomliga Brahman.',cat:'Avsnitt 7'}
+];
+
+// ============================================================
+// DILEMMA SCENARIOS
+// ============================================================
+const dilemmas=[
+{title:'Mormor eller konsert?',scenario:'Du och din bästa kompis har planerat en konsert i månader. Biljetterna kostade en förmögenhet. Men just nu ringer mamma — mormor har ramlat och sitter ensam, rädd. Du är den enda som kan hjälpa.',
+choices:[{label:'Åker till mormor',desc:'Du sviker kompisen och missar konserten.'},{label:'Går på konserten',desc:'Mormor får vänta eller klara sig själv.'}],
+analysis:[{model:'Regeletik',color:'var(--ruby)',text:'Plikt mot en anhörig i nöd väger tyngre än ett löfte om nöje.'},{model:'Konsekvensetik',color:'var(--sapphire)',text:'Mormor kan vara skadad — konsekvenserna av att inte åka dit överstiger en missad konsert.'},{model:'Sinnelagsetik',color:'var(--emerald)',text:'Om du går på konserten av bekvämlighet medan mormor lider — talar avsikten emot dig.'},{model:'Dygdetik',color:'var(--amber)',text:'En omtänksam person hjälper den som behöver — och förklarar sedan för kompisen.'}]},
+{title:'Fuskande kompis',scenario:'Du ser att din bästa kompis fuskar på ett viktigt prov. Läraren märker inget. Om kompisen underkänns förlorar hen platsen i fotbollslaget. Men fusk är fusk.',
+choices:[{label:'Berättar för läraren',desc:'Din kompis kan bli underkänd.'},{label:'Säger inget',desc:'Du skyddar kompisen men accepterar fusket.'}],
+analysis:[{model:'Regeletik',color:'var(--ruby)',text:'Fusk bryter mot reglerna. Reglerna ska gälla lika för alla.'},{model:'Konsekvensetik',color:'var(--sapphire)',text:'Om alla fuskar kollapsar utbildningssystemet. Men att anmäla skadar en vän konkret.'},{model:'Sinnelagsetik',color:'var(--emerald)',text:'Anmäler du av rättvisa — eller avund? Tiger du av lojalitet — eller feghet?'},{model:'Dygdetik',color:'var(--amber)',text:'Kanske prata med kompisen först och ge hen chansen att göra rätt.'}]},
+{title:'Nödlögnen',scenario:'En vän gömmer sig hemma hos dig. En farlig person knackar på och frågar om du vet var din vän är. Du kan ljuga eller säga sanningen.',
+choices:[{label:'Ljuger för att skydda',desc:'Du bryter sanningsprincipen men skyddar din vän.'},{label:'Berättar sanningen',desc:'Du är ärlig men utsätter din vän för fara.'}],
+analysis:[{model:'Regeletik',color:'var(--ruby)',text:'Kant hävdade att man aldrig får ljuga — inte ens här. Pliktetikens mest kritiserade ståndpunkt.'},{model:'Konsekvensetik',color:'var(--sapphire)',text:'Konsekvenserna av sanningen är katastrofala. En konsekvensetiker ljuger utan tvekan.'},{model:'Sinnelagsetik',color:'var(--emerald)',text:'Din avsikt är god: du vill skydda en oskyldig. Avsikten försvarar lögnen.'},{model:'Dygdetik',color:'var(--amber)',text:'En modig och lojal person skyddar den som behöver skydd.'}]}
+];
+
+// ============================================================
+// PERSONALITY TEST
+// ============================================================
+const testQuestions=[
+// --- Vardagsscenarier ---
+{q:'Din kompis frågar om du gillar hens nya frisyr. Du tycker den är hemsk. Vad gör du?',
+opts:[{text:'Säger sanningen — ärlighet är viktigast.',model:'regel'},{text:'Ljuger — hens känslor väger tyngre just nu.',model:'konsekvens'},{text:'Jag menar väl oavsett — det räcker.',model:'sinnelag'},{text:'Försöker vara vänlig OCH ärlig — det bygger karaktär.',model:'dygd'}],cat:'💇 Vardagen'},
+{q:'Du hittar en plånbok med 500 kr på gatan. Ingen ser dig. Vad tänker du?',
+opts:[{text:'Lämnar in den — det är det rätta, punkt.',model:'regel'},{text:'Funderar på vad som ger bäst utfall för alla.',model:'konsekvens'},{text:'Mitt hjärta säger att jag borde lämna tillbaka.',model:'sinnelag'},{text:'En ärlig person lämnar tillbaka — jag vill vara den.',model:'dygd'}],cat:'💰 Vardagen'},
+{q:'Du ser att en klasskompis kopierar din läxa ord för ord och lämnar in den som sin egen. Hur reagerar du?',
+opts:[{text:'Regler mot fusk finns — jag säger till läraren.',model:'regel'},{text:'Jag konfronterar kompisen privat — minst drama, bäst resultat.',model:'konsekvens'},{text:'Hen menade säkert inget illa — jag låter det passera.',model:'sinnelag'},{text:'Jag tar ett ärligt samtal. Jag vill hantera det med integritet.',model:'dygd'}],cat:'📝 Skolan'},
+// --- Skola & vänskap ---
+{q:'Din bästa kompis är sjuk och ber dig ta med facit till morgondagens prov. "Bara den här gången." Vad gör du?',
+opts:[{text:'Nej — fusk är fusk, oavsett vem som ber.',model:'regel'},{text:'Jag väger: hjälper det hen mer än det skadar?',model:'konsekvens'},{text:'Hen behöver hjälp — min avsikt att ställa upp är god.',model:'sinnelag'},{text:'En bra vän hjälper på rätt sätt — inte genom fusk.',model:'dygd'}],cat:'🤝 Vänskap'},
+{q:'En grupp i klassen sprider elaka rykten om någon du inte känner så väl. Alla skrattar. Vad gör du?',
+opts:[{text:'Det är fel att prata illa om folk — jag säger ifrån.',model:'regel'},{text:'Jag tänker på konsekvenserna för den som drabbas och agerar.',model:'konsekvens'},{text:'Jag vet att det känns hemskt att bli mobbad — det räcker som skäl.',model:'sinnelag'},{text:'Att stå upp mot grupptryck kräver mod — det är den jag vill vara.',model:'dygd'}],cat:'🗣️ Skolan'},
+// --- Samhälle & politik ---
+{q:'Ska man alltid följa lagen, även om den är orättvis?',
+opts:[{text:'Ja — lagar finns av en anledning och gäller alla.',model:'regel'},{text:'Nej, om konsekvenserna av lagen skadar fler än den hjälper.',model:'konsekvens'},{text:'Jag måste följa mitt samvete, även om det bryter mot lagen.',model:'sinnelag'},{text:'Det beror på vilka värden jag vill stå för som människa.',model:'dygd'}],cat:'🏛️ Samhället'},
+{q:'En stor klädkedja säljer snygga kläder superbilligt. Du vet att de tillverkas i fabriker med barnarbete. Köper du?',
+opts:[{text:'Det borde vara förbjudet — jag köper inte.',model:'regel'},{text:'Jag köper inte, för min konsumtion förstärker ett skadligt system.',model:'konsekvens'},{text:'Jag mår dåligt av tanken — det känns fel i magen.',model:'sinnelag'},{text:'Jag vill vara en person som lever som jag lär.',model:'dygd'}],cat:'👕 Konsumtion'},
+// --- Stora frågor ---
+{q:'Du kan rädda fem personer genom att offra en. Vad resonerar du kring?',
+opts:[{text:'Det finns en regel att aldrig offra en oskyldig.',model:'regel'},{text:'Fem räddade liv väger tyngre — matematiken är tydlig.',model:'konsekvens'},{text:'Vad driver mig? Vill jag verkligen rädda — eller fly ansvar?',model:'sinnelag'},{text:'Vad gör en modig och rättvis person i detta ögonblick?',model:'dygd'}],cat:'⚖️ Filosofin'},
+{q:'Din mormor är ensam och ledsen på julafton. Dina kompisar har bjudit in dig på en fantastisk resa. Du kan inte göra båda.',
+opts:[{text:'Familjen går först — det är en oskriven regel.',model:'regel'},{text:'Mormor behöver mig mer än kompisarna gör just nu.',model:'konsekvens'},{text:'Kärleken till mormor är äkta — den avsikten styr mig.',model:'sinnelag'},{text:'En omtänksam människa prioriterar den som behöver en mest.',model:'dygd'}],cat:'❤️ Familjen'},
+// --- Digitala livet ---
+{q:'Du får veta en hemlighet om en kompis. En annan vän frågar rakt ut: "Stämmer det att...?" Vad gör du?',
+opts:[{text:'Jag bryter inte ett löfte — tystnadsplikten gäller.',model:'regel'},{text:'Beror på om det skadar eller hjälper att avslöja.',model:'konsekvens'},{text:'Jag lovade att hålla tyst — min lojalitet är äkta.',model:'sinnelag'},{text:'En pålitlig person håller ord — det definierar vem jag är.',model:'dygd'}],cat:'🤫 Förtroende'},
+{q:'Någon postar en pinsam bild på dig i en gruppchatt. Alla skrattar. Du har en pinsam bild på den personen också. Publicerar du den?',
+opts:[{text:'Hämnd löser inget — "öga för öga" är inte rätt princip.',model:'regel'},{text:'Det skapar bara mer konflikter — inte värt det.',model:'konsekvens'},{text:'Jag vet hur det känns — jag vill inte orsaka samma smärta.',model:'sinnelag'},{text:'Jag vill vara bättre än så. Man svarar inte på elakhet med elakhet.',model:'dygd'}],cat:'📱 Sociala medier'},
+{q:'Du donerar pengar till en hjälporganisation. Vill du att det syns på ditt sociala medie-konto?',
+opts:[{text:'Det spelar ingen roll — huvudsaken är att man ger.',model:'regel'},{text:'Om det inspirerar andra att ge är det positivt att visa.',model:'konsekvens'},{text:'Det viktiga är att jag gör det av genuin vilja — inte för likes.',model:'sinnelag'},{text:'Äkta generositet behöver ingen publik.',model:'dygd'}],cat:'💝 Generositet'}
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let currentEp='ep1';
+const quizStates={};
+const completedQuizzes=new Set();
+const flashState={idx:0,flipped:false,filter:'Alla'};
+let dilemmaIdx=0;
+let testIdx=0,testScores={regel:0,konsekvens:0,sinnelag:0,dygd:0},testDone=false;
+
+// ============================================================
+// BUILD EPISODE STRIP + PANELS
+// ============================================================
+function buildEpStrip(){
+  const strip=document.getElementById('epStrip');
+  strip.innerHTML=episodes.map(e=>`<button class="ep-btn${e.id===currentEp?' active':''}" onclick="showEp('${e.id}',this)"><span>${e.icon}</span>Avsnitt ${e.num}<small>${e.sub}</small></button>`).join('');
+}
+
+function buildEpPanels(){
+  const wrap=document.getElementById('epPanels');
+  let html='';
+  episodes.forEach(e=>{
+    const content=epContent[e.id]||[];
+    html+=`<div class="ep-panel${e.id===currentEp?' active':''}" id="${e.id}">
+      <div class="podcast-card">
+        <a href="#" onclick="return false;" class="podcast-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="white"/></svg></a>
+        <div class="podcast-info">
+          <div class="ep-badge">${e.badge}</div>
+          <h3>${e.title}</h3>
+          <p>${e.sub}</p>
+          <span class="coming-soon">🎧 Kommer snart på Spotify</span>
+        </div>
+      </div>
+      <div class="acc-section">
+        <div class="acc-section-title">📖 Innehåll</div>
+        ${content.map((c,i)=>`<div class="acc-item${i===0?' open':''}">
+          <div class="acc-header" onclick="toggleAcc(this)"><span>${c.h}</span><span class="acc-arrow">▼</span></div>
+          <div class="acc-body"><p>${c.b}</p></div>
+        </div>`).join('')}
+      </div>
+      ${e.id==='ep3'?buildDilemmaHTML():''}
+      ${e.id==='ep5'?buildGoldenHTML():''}
+      <div class="quiz-wrap">
+        <h3>📝 Quiz — ${e.badge}</h3>
+        <p>8 frågor om ${e.title.toLowerCase()}.</p>
+        <div id="quiz-start-${e.id}"><button class="quiz-start-btn" onclick="startQuiz('${e.id}')">Starta quiz →</button></div>
+        <div id="quiz-play-${e.id}" style="display:none"></div>
+        <div id="quiz-score-${e.id}" style="display:none"></div>
+      </div>
+    </div>`;
+  });
+  wrap.innerHTML=html;
+}
+
+// ============================================================
+// DILEMMA HTML
+// ============================================================
+function buildDilemmaHTML(){
+  return `<div class="dilemma-wrap">
+    <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--deep);margin-bottom:4px">⚖️ Etiskt dilemma-simulator</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:8px">Välj ett alternativ och se hur de etiska modellerna analyserar ditt val.</p>
+    <div class="dilemma-scenario" id="dilScenario"></div>
+    <div class="dilemma-choices" id="dilChoices"></div>
+    <div class="dilemma-analysis" id="dilAnalysis"></div>
+    <div class="dilemma-nav"><button class="quiz-next-btn" onclick="nextDilemma()">Nästa dilemma →</button><span style="font-size:12px;color:var(--muted)" id="dilCounter"></span></div>
+  </div>`;
+}
+
+function renderDilemma(){
+  const d=dilemmas[dilemmaIdx];
+  const s=document.getElementById('dilScenario');if(!s)return;
+  s.textContent=d.scenario;
+  document.getElementById('dilChoices').innerHTML=d.choices.map((c,i)=>`<div class="dilemma-choice" onclick="chooseDilemma(${i})"><h5>${c.label}</h5><p>${c.desc}</p></div>`).join('');
+  document.getElementById('dilAnalysis').className='dilemma-analysis';
+  document.getElementById('dilAnalysis').innerHTML='';
+  document.getElementById('dilCounter').textContent=(dilemmaIdx+1)+' / '+dilemmas.length;
+}
+function chooseDilemma(idx){
+  document.querySelectorAll('#dilChoices .dilemma-choice').forEach((c,i)=>c.classList.toggle('selected',i===idx));
+  const d=dilemmas[dilemmaIdx],an=document.getElementById('dilAnalysis');
+  an.innerHTML=`<h4 style="font-family:'Playfair Display',serif;color:var(--deep);margin-bottom:12px">Så resonerar modellerna:</h4>${d.analysis.map(a=>`<div class="model-verdict"><div class="model-dot" style="background:${a.color}"></div><p><strong>${a.model}:</strong> ${a.text}</p></div>`).join('')}`;
+  an.className='dilemma-analysis show';
+}
+function nextDilemma(){dilemmaIdx=(dilemmaIdx+1)%dilemmas.length;renderDilemma();}
+
+// ============================================================
+// GOLDEN RULE
+// ============================================================
+function buildGoldenHTML(){
+  const r=[
+    {s:'✡️',n:'Judendom',src:'Hillel',q:'Det som är avskyvärt för dig, skall du icke göra mot andra.'},
+    {s:'✝️',n:'Kristendom',src:'Jesus, Bergspredikan',q:'Allt vad ni vill att människorna skall göra för er, det skall ni göra för dem.'},
+    {s:'☪️',n:'Islam',src:'Muhammed, haditherna',q:'Ingen av er är troende förrän han önskar detsamma för sin broder som för sig själv.'},
+    {s:'🕉️',n:'Hinduism',src:'Mahabharata',q:'Gör inte mot andra något som skulle vålla dig smärta.'},
+    {s:'☸️',n:'Buddhism',src:'Buddha, Tripitaka',q:'Skada inte andra med sådant som du själv blir plågad av.'}
+  ];
+  return `<div style="margin-bottom:28px"><h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--deep);margin-bottom:16px">🌍 Gyllene regeln i fem religioner</h3>
+  <div class="golden-grid">${r.map(x=>`<div class="golden-card"><div class="g-sym">${x.s}</div><h5>${x.n}</h5><div class="g-src">${x.src}</div><div class="g-quote">"${x.q}"</div></div>`).join('')}</div></div>`;
+}
+
+// ============================================================
+// QUIZ ENGINE
+// ============================================================
+function startQuiz(ep){
+  document.getElementById('quiz-start-'+ep).style.display='none';
+  document.getElementById('quiz-play-'+ep).style.display='block';
+  document.getElementById('quiz-score-'+ep).style.display='none';
+  quizStates[ep]={idx:0,score:0};
+  renderQ(ep);
+}
+function renderQ(ep){
+  const st=quizStates[ep],qs=quizData[ep],el=document.getElementById('quiz-play-'+ep);
+  if(st.idx>=qs.length){
+    el.style.display='none';
+    const se=document.getElementById('quiz-score-'+ep);se.style.display='block';
+    completedQuizzes.add(ep);
+    const pct=Math.round(st.score/qs.length*100);
+    let emoji=pct>=88?'🏆':pct>=63?'🌟':pct>=38?'📚':'💪';
+    let msg=pct>=88?'Fantastiskt!':pct>=63?'Bra jobbat!':pct>=38?'Bra start — repetera!':'Fortsätt plugga!';
+    se.innerHTML=`<div style="text-align:center;padding:20px 0"><div class="score-circle"><div class="score-num">${st.score}</div><div class="score-den">av ${qs.length}</div></div><div style="font-size:36px;margin-bottom:8px">${emoji}</div><div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--deep);margin-bottom:8px">${msg}</div><p style="font-size:14px;color:var(--muted);margin-bottom:20px">${pct}% rätt</p><button class="quiz-retry-btn" onclick="startQuiz('${ep}')">Gör om quiz</button></div>`;
+    return;
+  }
+  const q=qs[st.idx],letters=['A','B','C','D'];
+  el.innerHTML=`<div class="quiz-progress-label">Fråga ${st.idx+1} av ${qs.length}</div>
+  <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" style="width:${st.idx/qs.length*100}%"></div></div>
+  <div class="quiz-question-text">${q.q}</div>
+  <div class="quiz-options">${q.o.map((o,i)=>`<button class="quiz-option" onclick="answerQ('${ep}',${i},this)"><span class="opt-letter">${letters[i]}</span><span>${o}</span></button>`).join('')}</div>
+  <div id="qfb-${ep}"></div>
+  <div id="qnav-${ep}" style="display:none"><button class="quiz-next-btn" onclick="nextQ('${ep}')">Nästa →</button></div>`;
+}
+function answerQ(ep,chosen,btn){
+  const st=quizStates[ep],q=quizData[ep][st.idx];
+  const opts=btn.parentElement.querySelectorAll('.quiz-option');
+  opts.forEach((o,i)=>{o.disabled=true;o.classList.add('disabled');if(i===q.a)o.classList.add('correct');if(i===chosen&&i!==q.a)o.classList.add('wrong');});
+  const fb=document.getElementById('qfb-'+ep);
+  if(chosen===q.a){st.score++;fb.innerHTML=`<div class="quiz-feedback" style="border-color:var(--emerald);background:var(--emerald-lt)">✓ Rätt! ${q.f}</div>`;}
+  else fb.innerHTML=`<div class="quiz-feedback" style="border-color:var(--ruby);background:var(--ruby-lt)">✗ Fel. ${q.f}</div>`;
+  document.getElementById('qnav-'+ep).style.display='block';
+}
+function nextQ(ep){quizStates[ep].idx++;renderQ(ep);}
+
+// ============================================================
+// FLASHCARDS (Step 1)
+// ============================================================
+let filteredCards=[...flashcards];
+function buildFlashFilters(){
+  const f=document.getElementById('flashFilters');if(!f)return;
+  const cats=['Alla','Avsnitt 1','Avsnitt 2','Avsnitt 3','Avsnitt 4','Avsnitt 5','Avsnitt 6','Avsnitt 7'];
+  f.innerHTML=cats.map(c=>`<button class="flash-filter ${flashState.filter===c?'active':''}" onclick="filterCards('${c}')">${c}</button>`).join('');
+}
+function filterCards(cat){flashState.filter=cat;flashState.idx=0;flashState.flipped=false;filteredCards=cat==='Alla'?[...flashcards]:flashcards.filter(c=>c.cat===cat);buildFlashFilters();renderCard();}
+function renderCard(){const card=document.getElementById('flashcard');if(!card||!filteredCards.length)return;card.classList.remove('flipped');flashState.flipped=false;const fc=filteredCards[flashState.idx];document.getElementById('fcTerm').textContent=fc.term;document.getElementById('fcDef').textContent=fc.def;document.getElementById('fcCat').textContent=fc.cat;document.getElementById('fcCounter').textContent=(flashState.idx+1)+' / '+filteredCards.length;}
+function flipCard(){flashState.flipped=!flashState.flipped;document.getElementById('flashcard').classList.toggle('flipped',flashState.flipped);}
+function nextCard(){flashState.idx=(flashState.idx+1)%filteredCards.length;renderCard();}
+function prevCard(){flashState.idx=(flashState.idx-1+filteredCards.length)%filteredCards.length;renderCard();}
+function shuffleCards(){filteredCards.sort(()=>Math.random()-.5);flashState.idx=0;renderCard();}
+
+// ============================================================
+// TRAINING CENTER STATE
+// ============================================================
+let trainXP=0;
+let currentTrain='fc';
+const trainCompleted=new Set();
+
+function addXP(pts){
+  trainXP+=pts;
+  const el=document.getElementById('xpCount');if(el)el.textContent=trainXP;
+  const lvl=trainXP>=500?5:trainXP>=300?4:trainXP>=150?3:trainXP>=50?2:1;
+  const lvlEl=document.getElementById('xpLevel');if(lvlEl)lvlEl.textContent='Nivå '+lvl;
+  const fill=document.getElementById('xpFill');if(fill)fill.style.width=Math.min(100,trainXP/500*100)+'%';
+}
+function showTrain(id){
+  currentTrain=id;
+  document.querySelectorAll('.train-step').forEach((s,i)=>{
+    const ids=['fc','match','fib','speed','master'];
+    s.classList.toggle('active',ids[i]===id);
+    if(trainCompleted.has(ids[i])&&ids[i]!==id)s.classList.add('completed');
+  });
+  document.querySelectorAll('.train-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('train-'+id).classList.add('active');
+  if(id==='fc'){buildFlashFilters();renderCard();}
+  if(id==='match')initMatch();
+  if(id==='fib')initFIB();
+  if(id==='speed')initSpeed();
+  if(id==='master')initMaster();
+}
+
+// ============================================================
+// STEP 2: PARA IHOP (Match Game)
+// ============================================================
+let matchState={pairs:[],selTerm:null,matched:0,attempts:0};
+
+function initMatch(){
+  const shuffled=[...flashcards].sort(()=>Math.random()-.5);
+  const pick=shuffled.slice(0,6);
+  matchState={pairs:pick,selTerm:null,matched:0,attempts:0};
+  const board=document.getElementById('matchBoard');
+  const result=document.getElementById('matchResult');
+  if(result){result.style.display='none';}
+  const terms=[...pick].sort(()=>Math.random()-.5);
+  const defs=[...pick].sort(()=>Math.random()-.5);
+  board.innerHTML=`<div class="match-board">
+    <div><div class="match-col-label">Begrepp</div><div class="match-col" id="matchTerms">
+      ${terms.map(t=>`<div class="match-item" data-term="${t.term}" onclick="pickTerm(this)">${t.term}</div>`).join('')}
+    </div></div>
+    <div><div class="match-col-label">Definition</div><div class="match-col" id="matchDefs">
+      ${defs.map(d=>{
+        const short=d.def.length>70?d.def.substring(0,67)+'...':d.def;
+        return `<div class="match-item" data-term="${d.term}" onclick="pickDef(this)">${short}</div>`;
+      }).join('')}
+    </div></div>
+  </div>`;
+  updateMatchScore();
+}
+
+function updateMatchScore(){
+  const el=document.getElementById('matchScore');
+  if(el)el.textContent=`Matchade: ${matchState.matched} / 6 | Försök: ${matchState.attempts}`;
+}
+
+function pickTerm(el){
+  if(el.classList.contains('matched'))return;
+  document.querySelectorAll('#matchTerms .match-item').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  matchState.selTerm=el.dataset.term;
+}
+
+function pickDef(el){
+  if(el.classList.contains('matched')||!matchState.selTerm)return;
+  matchState.attempts++;
+  if(el.dataset.term===matchState.selTerm){
+    matchState.matched++;
+    el.classList.add('matched');
+    const termEl=document.querySelector(`#matchTerms .match-item[data-term="${matchState.selTerm}"]`);
+    if(termEl)termEl.classList.add('matched');
+    matchState.selTerm=null;
+    addXP(10);
+    updateMatchScore();
+    if(matchState.matched>=6){
+      trainCompleted.add('match');
+      setTimeout(()=>{
+        const res=document.getElementById('matchResult');
+        const stars=matchState.attempts<=8?'⭐⭐⭐':matchState.attempts<=12?'⭐⭐':'⭐';
+        res.innerHTML=`<div style="font-size:2.5rem;margin-bottom:8px">${stars}</div>
+          <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--deep);margin-bottom:6px">Alla matchade!</h3>
+          <p style="font-size:14px;color:var(--muted);margin-bottom:16px">${matchState.attempts} försök — ${matchState.attempts<=8?'imponerande!':matchState.attempts<=12?'bra jobbat!':'fortsätt öva!'}</p>
+          <button class="quiz-start-btn" onclick="initMatch()">Spela igen</button>`;
+        res.style.display='block';
+      },500);
+    }
+  } else {
+    el.classList.add('wrong-flash');
+    setTimeout(()=>el.classList.remove('wrong-flash'),500);
+  }
+  updateMatchScore();
+}
+
+// ============================================================
+// STEP 3: FYLL I LUCKAN
+// ============================================================
+const fibSentences=[
+  {sentence:'Den inre röst som påminner oss om att vi gjort fel kallas ___.',answer:'Samvete',alts:['Empati','Normer','Moral']},
+  {sentence:'Att båda parter enas om att gå vidare efter en konflikt kallas ___.',answer:'Försoning',alts:['Tillit','Samtycke','Karma']},
+  {sentence:'De oskrivna sociala regler som styr beteende i en grupp kallas ___.',answer:'Normer',alts:['Lagar','Etik','Värderingar']},
+  {sentence:'___ handlar om att kritiskt granska förväntningar vi tar för givna.',answer:'Normkritik',alts:['Konsekvensetik','Autonomi','Pliktetik']},
+  {sentence:'I Sverige blir man straffmyndig vid 15 — det kallas ___.',answer:'Straffmyndighetsålder',alts:['Samtycke','Autonomi','Civil olydnad']},
+  {sentence:'Etisk modell där handlingens resultat avgör om den är rätt kallas ___.',answer:'Konsekvensetik',alts:['Regeletik','Dygdetik','Sinnelagsetik']},
+  {sentence:'En välmenande handling som gör mer skada än nytta kallas en ___.',answer:'Björntjänst',alts:['Nödlögn','Dilemma','Försoning']},
+  {sentence:'Att öppet och fredligt bryta mot lagen som protest kallas ___.',answer:'Civil olydnad',alts:['Normkritik','Demonstrationsrätt','Speciesism']},
+  {sentence:'Kants princip att handla som du vill att alla ska handla kallas ___.',answer:'Kategoriska imperativet',alts:['Gyllene regeln','Autonomi','Dygdetik']},
+  {sentence:'Peter Singers begrepp för diskriminering baserad på art kallas ___.',answer:'Speciesism',alts:['Egenvärde','Hållbar utveckling','Empati']},
+  {sentence:'Förmågan att sätta sig in i hur en annan person känner kallas ___.',answer:'Empati',alts:['Samvete','Moral','Tillit']},
+  {sentence:'Att ha ett värde i sig själv, oberoende av nytta för andra, kallas ___.',answer:'Egenvärde',alts:['Mänskliga rättigheter','Karma','Autonomi']},
+  {sentence:'Inom hinduism och buddhism kallas återfödelse i ett nytt liv ___.',answer:'Reinkarnation',alts:['Nirvana','Moksha','Karma']},
+  {sentence:'Buddhistisk befrielse från begär och lidande kallas ___.',answer:'Nirvana',alts:['Moksha','Karma','Reinkarnation']},
+  {sentence:'Aristoteles menade att dygder tränas — hans modell kallas ___.',answer:'Dygdetik',alts:['Regeletik','Pliktetik','Situationsetik']}
+];
+let fibIdx=0,fibScore=0,fibTotal=10;
+
+function initFIB(){
+  fibIdx=0;fibScore=0;
+  const shuffled=[...fibSentences].sort(()=>Math.random()-.5);
+  fibSentences._shuffled=shuffled.slice(0,fibTotal);
+  renderFIB();
+}
+
+function renderFIB(){
+  const body=document.getElementById('fibBody');if(!body)return;
+  if(fibIdx>=fibTotal){
+    trainCompleted.add('fib');
+    const pct=Math.round(fibScore/fibTotal*100);
+    body.innerHTML=`<div style="text-align:center;padding:20px">
+      <div class="score-circle"><div class="score-num">${fibScore}</div><div class="score-den">av ${fibTotal}</div></div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--deep);margin:16px 0 8px">${pct>=80?'Fantastiskt!':pct>=60?'Bra jobbat!':'Fortsätt öva!'}</h3>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:16px">${pct}% rätt</p>
+      <button class="quiz-start-btn" onclick="initFIB()">Gör om</button></div>`;
+    return;
+  }
+  const q=fibSentences._shuffled[fibIdx];
+  const opts=[q.answer,...q.alts].sort(()=>Math.random()-.5);
+  const parts=q.sentence.split('___');
+  body.innerHTML=`<div style="margin-bottom:8px">
+    <span style="font-size:12px;font-weight:600;color:var(--muted);letter-spacing:1px;text-transform:uppercase">Fråga ${fibIdx+1} av ${fibTotal}</span>
+    <div style="height:4px;background:var(--border);border-radius:2px;margin-top:6px"><div style="height:100%;width:${fibIdx/fibTotal*100}%;background:linear-gradient(90deg,var(--amethyst),var(--ruby));border-radius:2px;transition:width .3s"></div></div>
+  </div>
+  <div class="fib-sentence">${parts[0]}<span class="fib-blank" id="fibBlank">?</span>${parts[1]||''}</div>
+  <div class="fib-options">${opts.map(o=>`<div class="fib-opt" onclick="answerFIB(this,'${o.replace(/'/g,"\\'")}','${q.answer.replace(/'/g,"\\'")}')">${o}</div>`).join('')}</div>
+  <div id="fibFeedback"></div>`;
+}
+
+function answerFIB(el,chosen,correct){
+  const isCorrect=chosen===correct;
+  document.querySelectorAll('.fib-opt').forEach(o=>{
+    o.classList.add('disabled');
+    if(o.textContent===correct)o.classList.add('correct');
+    if(o===el&&!isCorrect)o.classList.add('wrong');
+  });
+  if(isCorrect){fibScore++;addXP(8);}
+  document.getElementById('fibBlank').textContent=correct;
+  document.getElementById('fibBlank').style.borderBottom='3px solid var(--emerald)';
+  document.getElementById('fibBlank').style.color='var(--emerald)';
+  const fb=document.getElementById('fibFeedback');
+  fb.innerHTML=`<div style="margin-top:16px"><button class="quiz-next-btn" onclick="fibIdx++;renderFIB()">Nästa →</button></div>`;
+}
+
+// ============================================================
+// STEP 4: TIDSTÄVLING (Speed Round)
+// ============================================================
+let speedTimer=null,speedSec=60,speedScore=0,speedStreak=0,speedBest=0,speedCards=[],speedIdx=0;
+
+function initSpeed(){
+  const body=document.getElementById('speedBody');
+  body.innerHTML=`<div style="text-align:center;padding:20px">
+    <div style="font-size:3rem;margin-bottom:12px">⏱️</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--deep);margin-bottom:8px">Redo?</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:20px">Du får 60 sekunder. Välj rätt definition till varje begrepp — så snabbt du kan! Varje rätt svar ger poäng, och streak-bonus multiplicerar!</p>
+    ${speedBest?`<p style="font-size:13px;color:var(--amber);margin-bottom:16px">🏅 Ditt rekord: ${speedBest} poäng</p>`:''}
+    <button class="quiz-start-btn" onclick="startSpeed()">Starta! →</button></div>`;
+}
+
+function startSpeed(){
+  speedSec=60;speedScore=0;speedStreak=0;
+  speedCards=[...flashcards].sort(()=>Math.random()-.5);speedIdx=0;
+  clearInterval(speedTimer);
+  speedTimer=setInterval(()=>{
+    speedSec--;
+    const te=document.getElementById('speedTime');
+    if(te){te.textContent=speedSec;if(speedSec<=10)te.classList.add('low');else te.classList.remove('low');}
+    if(speedSec<=0){clearInterval(speedTimer);endSpeed();}
+  },1000);
+  renderSpeedQ();
+}
+
+function renderSpeedQ(){
+  const body=document.getElementById('speedBody');
+  if(speedIdx>=speedCards.length)speedIdx=0;
+  const card=speedCards[speedIdx];
+  const wrongs=[...flashcards].filter(f=>f.term!==card.term).sort(()=>Math.random()-.5).slice(0,3);
+  const opts=[{def:card.def,correct:true},...wrongs.map(w=>({def:w.def.length>65?w.def.substring(0,62)+'...':w.def,correct:false}))].sort(()=>Math.random()-.5);
+  const shortDef=d=>d.length>65?d.substring(0,62)+'...':d;
+  body.innerHTML=`<div class="speed-hud">
+    <div class="speed-timer" id="speedTime">${speedSec}</div>
+    <div style="text-align:center"><div style="font-size:24px;font-weight:900;color:var(--deep)">${speedScore}</div><div style="font-size:11px;color:var(--muted)">poäng</div></div>
+    <div class="speed-streak">Streak: <b>${speedStreak}🔥</b></div>
+  </div>
+  <div class="speed-term">${card.term}</div>
+  <div class="speed-opts">${opts.map((o,i)=>`<div class="speed-opt" onclick="answerSpeed(this,${o.correct})">${shortDef(o.def)}</div>`).join('')}</div>`;
+}
+
+function answerSpeed(el,correct){
+  if(correct){
+    speedStreak++;
+    const bonus=speedStreak>=5?3:speedStreak>=3?2:1;
+    speedScore+=10*bonus;
+    el.classList.add('correct');
+    addXP(5);
+  } else {
+    speedStreak=0;
+    el.classList.add('wrong');
+  }
+  speedIdx++;
+  setTimeout(renderSpeedQ,correct?300:600);
+}
+
+function endSpeed(){
+  trainCompleted.add('speed');
+  if(speedScore>speedBest)speedBest=speedScore;
+  const body=document.getElementById('speedBody');
+  body.innerHTML=`<div style="text-align:center;padding:20px">
+    <div style="font-size:3rem;margin-bottom:8px">${speedScore>=200?'🏆':speedScore>=100?'🌟':speedScore>=50?'👍':'💪'}</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--deep);margin-bottom:4px">${speedScore} poäng!</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:4px">Rekord: ${speedBest} poäng</p>
+    <p style="font-size:13px;color:var(--light);margin-bottom:20px">Längsta streak: ${speedStreak}🔥</p>
+    <button class="quiz-start-btn" onclick="startSpeed()">Kör igen!</button></div>`;
+}
+
+// ============================================================
+// STEP 5: MÄSTARPROV
+// ============================================================
+let masterQs=[],masterIdx=0,masterScore=0;
+
+function initMaster(){
+  masterIdx=0;masterScore=0;
+  const shuffled=[...flashcards].sort(()=>Math.random()-.5).slice(0,15);
+  masterQs=shuffled.map(card=>{
+    const wrongs=[...flashcards].filter(f=>f.term!==card.term).sort(()=>Math.random()-.5).slice(0,3);
+    const opts=[{text:card.def,correct:true},...wrongs.map(w=>({text:w.def,correct:false}))].sort(()=>Math.random()-.5);
+    return {term:card.term,cat:card.cat,opts};
+  });
+  renderMasterStart();
+}
+
+function renderMasterStart(){
+  const body=document.getElementById('masterBody');
+  body.innerHTML=`<div style="text-align:center;padding:20px">
+    <div style="font-size:3rem;margin-bottom:12px">🏆</div>
+    <h3 style="font-family:'Playfair Display',serif;font-size:20px;color:var(--deep);margin-bottom:8px">Mästarprovet</h3>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:20px">15 begrepp blandat från alla avsnitt. Nå minst 80% (12/15) för att klara provet och bli en etik-mästare!</p>
+    <button class="quiz-start-btn" onclick="renderMasterQ()">Starta mästarprovet →</button></div>`;
+}
+
+function renderMasterQ(){
+  const body=document.getElementById('masterBody');
+  if(masterIdx>=masterQs.length){
+    trainCompleted.add('master');
+    const pct=Math.round(masterScore/masterQs.length*100);
+    const passed=pct>=80;
+    if(passed)addXP(100);
+    body.innerHTML=`<div style="text-align:center;padding:20px">
+      <div style="font-size:3.5rem;margin-bottom:8px">${passed?'🎓':'📚'}</div>
+      <div class="score-circle" style="${passed?'background:linear-gradient(135deg,var(--emerald),#1a6b4a)':''}"><div class="score-num">${masterScore}</div><div class="score-den">av ${masterQs.length}</div></div>
+      <h3 style="font-family:'Playfair Display',serif;font-size:22px;color:var(--deep);margin:12px 0 8px">${passed?'Du är en Etik-mästare!':'Inte klarat ännu — men nära!'}</h3>
+      <p style="font-size:14px;color:var(--muted);margin-bottom:20px">${pct}% rätt. ${passed?'Fantastiskt jobbat! Du behärskar alla begrepp.':'Du behöver 80% för att klara provet. Repetera och försök igen!'}</p>
+      <button class="quiz-start-btn" onclick="initMaster()">Försök igen</button></div>`;
+    return;
+  }
+  const q=masterQs[masterIdx];
+  const letters=['A','B','C','D'];
+  body.innerHTML=`<div class="quiz-progress-label">Fråga ${masterIdx+1} av ${masterQs.length}</div>
+    <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" style="width:${masterIdx/masterQs.length*100}%"></div></div>
+    <div style="display:inline-block;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:12px;background:var(--amethyst-lt);color:var(--amethyst);margin-bottom:12px">${q.cat}</div>
+    <div class="quiz-question-text">Vad betyder <em>${q.term}</em>?</div>
+    <div class="quiz-options">${q.opts.map((o,i)=>{
+      const short=o.text.length>80?o.text.substring(0,77)+'...':o.text;
+      return `<button class="quiz-option" onclick="answerMaster(${i},${o.correct},this)"><span class="opt-letter">${letters[i]}</span><span>${short}</span></button>`;
+    }).join('')}</div>
+    <div id="masterFb"></div>
+    <div id="masterNav" style="display:none"><button class="quiz-next-btn" onclick="masterIdx++;renderMasterQ()">Nästa →</button></div>`;
+}
+
+function answerMaster(idx,correct,btn){
+  const opts=btn.parentElement.querySelectorAll('.quiz-option');
+  opts.forEach((o,i)=>{o.disabled=true;o.classList.add('disabled');});
+  if(correct){masterScore++;btn.classList.add('correct');addXP(10);}
+  else{btn.classList.add('wrong');opts.forEach(o=>{if(o.querySelector('.opt-letter')){}/* mark correct */});}
+  // Find and mark the correct one
+  const q=masterQs[masterIdx];
+  opts.forEach((o,i)=>{if(q.opts[i].correct)o.classList.add('correct');});
+  document.getElementById('masterNav').style.display='block';
+}
+
+// ============================================================
+// PERSONALITY TEST
+// ============================================================
+function renderTest(){
+  const dots=document.getElementById('testDots'),body=document.getElementById('testBody');if(!dots||!body)return;
+  const total=testQuestions.length;
+  // Progress bar instead of dots for 12 questions
+  dots.innerHTML=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+    <div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden">
+      <div style="height:100%;width:${testDone?100:(testIdx/total*100)}%;background:linear-gradient(90deg,var(--amethyst),var(--ruby));border-radius:3px;transition:width .4s ease"></div>
+    </div>
+    <span style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;white-space:nowrap">${testDone?total:testIdx} / ${total}</span>
+  </div>`;
+  if(testDone){
+    const models=[
+      {key:'regel',name:'Regeletiker',icon:'📏',color:'var(--ruby)',colorHex:'#B83B5E',
+       desc:'Du tror på principer som gäller för alla, alltid. Regler skapar rättvisa och förutsägbarhet — utan dem blir allt kaos.',
+       thinker:'Immanuel Kant',
+       strength:'Du är pålitlig och konsekvent. Folk vet var de har dig.',
+       weakness:'Ibland kan livet kräva undantag som regler inte täcker.',
+       motto:'"Rätt ska vara rätt."'},
+      {key:'konsekvens',name:'Konsekvensetiker',icon:'📊',color:'var(--sapphire)',colorHex:'#3B5998',
+       desc:'Du fokuserar på vad som faktiskt händer i världen. Det som ger bäst resultat för flest är det rätta — praktiskt och logiskt.',
+       thinker:'Jeremy Bentham & John Stuart Mill',
+       strength:'Du är pragmatisk och lösningsorienterad. Du ser helheten.',
+       weakness:'Risken är att enskilda individer offras för "det större goda".',
+       motto:'"Vad ger bäst utfall?"'},
+      {key:'sinnelag',name:'Sinnelagsetiker',icon:'💗',color:'var(--emerald)',colorHex:'#27856A',
+       desc:'Du litar på din inre kompass. Om avsikten är god är handlingen god — det är tanken som räknas, på riktigt.',
+       thinker:'Inom kristen etik & existentialism',
+       strength:'Du är empatisk och äkta. Dina handlingar drivs av genuin omtanke.',
+       weakness:'Goda avsikter kan ibland leda fel — en björntjänst är välmenande men skadlig.',
+       motto:'"Det är tanken som räknas."'},
+      {key:'dygd',name:'Dygdetiker',icon:'🌟',color:'var(--amber)',colorHex:'#C4960C',
+       desc:'Du strävar efter att vara en god människa — inte bara göra rätt i stunden, utan bygga en karaktär du kan vara stolt över.',
+       thinker:'Aristoteles',
+       strength:'Du tänker långsiktigt och har en stark moralisk kompass.',
+       weakness:'I akuta dilemman kan det vara svårt att veta vad "en god person" gör.',
+       motto:'"Vem vill jag vara?"'}
+    ];
+    const max=Math.max(...Object.values(testScores));
+    const winner=models.find(m=>testScores[m.key]===max);
+    const totalPts=Object.values(testScores).reduce((a,b)=>a+b,0)||1;
+    body.innerHTML=`<div class="test-result">
+      <div style="font-size:3.5rem;margin-bottom:8px">${winner.icon}</div>
+      <h3>Du är en ${winner.name}!</h3>
+      <p style="font-style:italic;color:var(--amethyst);font-family:'Playfair Display',serif;margin-bottom:16px">${winner.motto}</p>
+      <p>${winner.desc}</p>
+
+      <div style="background:var(--sand);border-radius:12px;padding:20px;margin:24px auto;max-width:480px;text-align:left">
+        <div style="margin-bottom:14px"><strong style="color:var(--deep)">🧠 Känd tänkare:</strong> <span style="color:var(--muted)">${winner.thinker}</span></div>
+        <div style="margin-bottom:14px"><strong style="color:var(--emerald)">✅ Din styrka:</strong> <span style="color:var(--muted)">${winner.strength}</span></div>
+        <div><strong style="color:var(--ruby)">⚠️ Se upp för:</strong> <span style="color:var(--muted)">${winner.weakness}</span></div>
+      </div>
+
+      <div style="max-width:400px;margin:24px auto;text-align:left">
+        <p style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:12px">Din etiska profil</p>
+        ${models.map(m=>`<div class="model-bar-row">
+          <div class="model-bar-label" style="${m.key===winner.key?'font-weight:700;color:var(--deep)':''}">${m.icon} ${m.name}</div>
+          <div class="model-bar-track">
+            <div class="model-bar-fill" style="width:${(testScores[m.key]/totalPts*100).toFixed(0)}%;background:${m.color}"></div>
+          </div>
+          <span style="font-size:12px;color:var(--muted);font-family:'JetBrains Mono',monospace;min-width:32px;text-align:right">${Math.round(testScores[m.key]/totalPts*100)}%</span>
+        </div>`).join('')}
+      </div>
+
+      <p style="font-size:13px;color:var(--light);margin:20px auto 16px;max-width:420px">De flesta blandar modellerna beroende på situation — och det är faktiskt det klokaste! Prova igen och se om du svarar annorlunda.</p>
+      <button class="quiz-retry-btn" onclick="resetTest()">Gör om testet</button>
+    </div>`;
+    return;
+  }
+  const tq=testQuestions[testIdx];
+  body.innerHTML=`
+    <div style="display:inline-block;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:12px;background:var(--amethyst-lt);color:var(--amethyst);margin-bottom:14px">${tq.cat||'Scenario'}</div>
+    <div class="test-q">${tq.q}</div>
+    ${tq.opts.map((o,i)=>`<div class="test-opt" onclick="answerTest(${i})">${o.text}</div>`).join('')}
+    <p style="font-size:11px;color:var(--light);margin-top:12px;text-align:center">Fråga ${testIdx+1} av ${total} — välj det som känns mest naturligt för dig</p>`;
+}
+function answerTest(idx){const tq=testQuestions[testIdx];testScores[tq.opts[idx].model]++;document.querySelectorAll('.test-opt').forEach((o,i)=>{o.classList.toggle('chosen',i===idx);o.style.pointerEvents='none';});setTimeout(()=>{testIdx++;if(testIdx>=testQuestions.length)testDone=true;renderTest();},500);}
+function resetTest(){testIdx=0;testDone=false;testScores={regel:0,konsekvens:0,sinnelag:0,dygd:0};renderTest();}
+
+// ============================================================
+// GLOSSARY
+// ============================================================
+function buildGlossary(){
+  const sorted=[...flashcards].sort((a,b)=>a.term.localeCompare(b.term,'sv'));
+  document.getElementById('glossaryGrid').innerHTML=sorted.map(f=>`<div class="glossary-item" data-term="${f.term.toLowerCase()}" data-def="${f.def.toLowerCase()}"><h5>${f.term}</h5><p>${f.def}</p><div class="g-ep">${f.cat}</div></div>`).join('');
+}
+function filterGlossary(){const q=document.getElementById('glossarySearch').value.toLowerCase();document.querySelectorAll('.glossary-item').forEach(i=>{i.style.display=(i.dataset.term.includes(q)||i.dataset.def.includes(q))?'':'none';});}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showTab(id,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  if(id==='flashcards'){showTrain(currentTrain);}
+  if(id==='etiktest')renderTest();
+  if(id==='ordlista')buildGlossary();
+  window.scrollTo(0,0);
+}
+function showEp(id,btn){
+  currentEp=id;
+  document.querySelectorAll('.ep-btn').forEach(b=>b.classList.remove('active'));
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.ep-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='ep3')setTimeout(renderDilemma,100);
+}
+function toggleAcc(el){el.parentElement.classList.toggle('open');}
+
+// ============================================================
+// INIT
+// ============================================================
+buildEpStrip();
+buildEpPanels();
+</script>
+</body>
+</html>
