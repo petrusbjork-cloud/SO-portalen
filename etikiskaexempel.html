@@ -1,0 +1,1348 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Etik & Moral – När rätt och fel krockar</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-dark:    #0B0E14;
+  --bg-panel:   #131824;
+  --text-main:  #E2E8F0;
+  --text-dim:   #94A3B8;
+  --gold:       #D4AF37;
+  --gold-dim:   rgba(212, 175, 55, 0.15);
+  --border:     rgba(255, 255, 255, 0.08);
+  
+  /* Etiska färger */
+  --plikt:      #3B82F6; /* Blå */
+  --konsekvens: #10B981; /* Grön */
+  --sinnelag:   #F43F5E; /* Röd/Rosa */
+  --dygd:       #8B5CF6; /* Lila */
+  
+  --mono:       'JetBrains Mono', monospace;
+  --serif:      'Source Serif 4', Georgia, serif;
+  --display:    'Playfair Display', serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  font-family: var(--serif);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ── ANIMATIONER ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUpFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulseBorder {
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  /* Animerad bakgrundsgradient */
+  background: radial-gradient(circle at 50% 50%, #1a2235 0%, #0B0E14 60%, #05070a 100%);
+  background-size: 200% 200%;
+  animation: gradientFlow 15s ease infinite;
+}
+
+/* Svävande ikoner i bakgrunden */
+.floating-icon {
+  position: absolute;
+  opacity: 0.05;
+  font-size: 80px;
+  pointer-events: none;
+  z-index: 0;
+  animation: float 6s infinite ease-in-out;
+}
+.icon-1 { top: 15%; left: 10%; animation-delay: 0s; font-size: 100px; }
+.icon-2 { top: 60%; right: 10%; animation-delay: 2s; font-size: 70px; }
+.icon-3 { top: 30%; right: 20%; animation-delay: 1s; font-size: 50px; }
+.icon-4 { top: 75%; left: 20%; animation-delay: 3s; font-size: 60px; }
+.icon-5 { top: 10%; right: 40%; animation-delay: 1.5s; font-size: 40px; }
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+}
+.hero-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 24px;
+  animation: fadeUp 1s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 8vw, 80px);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 24px;
+  color: #fff;
+  text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  animation: fadeUp 1s 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+}
+.hero h1 em {
+  color: var(--gold);
+  font-style: italic;
+}
+.hero p {
+  font-size: 20px;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  animation: fadeUp 1s 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+}
+.hero-btn {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 16px 32px;
+  border-radius: 30px; /* Mer rundade knappar */
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  animation: fadeUp 1s 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0;
+  backdrop-filter: blur(5px);
+}
+.hero-btn:hover {
+  background: var(--gold);
+  color: #000;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ── NAVIGATION (3 FLIKAR) ── */
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(11, 14, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+}
+.nav-tab {
+  flex: 1;
+  padding: 20px 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border-bottom: 2px solid transparent;
+  position: relative;
+}
+.nav-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.3s;
+}
+.nav-tab:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.02);
+}
+.nav-tab.active {
+  color: var(--gold);
+  background: linear-gradient(to top, var(--gold-dim), transparent);
+}
+.nav-tab.active::after {
+  width: 100%;
+}
+
+/* ── MAIN LAYOUT ── */
+.main-content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  min-height: 80vh;
+}
+.level-section {
+  display: none;
+}
+.level-section.active {
+  display: block;
+  animation: slideUpFade 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.level-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+.level-header h2 {
+  font-family: var(--display);
+  font-size: 36px;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.level-header p {
+  color: var(--text-dim);
+  font-size: 18px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ── DILEMMA CARDS (NIVÅ 1 & 2) ── */
+.dilemma-card, .reflect-card, .profile-container {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s, border-color 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+/* Magic Hover Effect */
+.dilemma-card:hover, .reflect-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 20px rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+.dilemma-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: inline-block;
+  background: var(--gold-dim);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.dilemma-title {
+  font-family: var(--display);
+  font-size: 28px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+.dilemma-scenario {
+  font-size: 18px;
+  color: var(--text-main);
+  background: rgba(0,0,0,0.25);
+  padding: 24px;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 12px 12px 0;
+  margin-bottom: 32px;
+  line-height: 1.8;
+}
+.options-grid {
+  display: grid;
+  gap: 16px;
+}
+.option-btn {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border);
+  color: var(--text-main);
+  font-family: var(--serif);
+  font-size: 16px;
+  padding: 20px 24px;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.option-btn:hover:not(:disabled) {
+  border-color: var(--gold);
+  background: rgba(212, 175, 55, 0.05);
+  transform: translateX(5px);
+}
+.option-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+.option-btn.selected {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  opacity: 1;
+  box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.1);
+  animation: pulseBorder 1s;
+}
+.opt-letter {
+  font-family: var(--mono);
+  font-weight: bold;
+  color: var(--gold);
+  background: rgba(0,0,0,0.4);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: all 0.3s;
+}
+.option-btn.selected .opt-letter {
+  background: var(--gold);
+  color: #000;
+}
+
+/* Feedback Box */
+.feedback-box {
+  display: none;
+  margin-top: 24px;
+  padding: 24px;
+  border-radius: 12px;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border);
+}
+.feedback-box.show {
+  display: block;
+  animation: slideUpFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.fb-model {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+.model-plikt { background: rgba(59, 130, 246, 0.15); color: var(--plikt); border: 1px solid rgba(59, 130, 246, 0.4); }
+.model-konsekvens { background: rgba(16, 185, 129, 0.15); color: var(--konsekvens); border: 1px solid rgba(16, 185, 129, 0.4); }
+.model-sinnelag { background: rgba(244, 63, 94, 0.15); color: var(--sinnelag); border: 1px solid rgba(244, 63, 94, 0.4); }
+.model-dygd { background: rgba(139, 92, 246, 0.15); color: var(--dygd); border: 1px solid rgba(139, 92, 246, 0.4); }
+
+.feedback-text {
+  font-size: 16px;
+  color: var(--text-main);
+  line-height: 1.6;
+}
+
+/* ── REFLECTION CARDS (NIVÅ 2) ── */
+.student-input {
+  width: 100%;
+  min-height: 120px;
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  color: #fff;
+  font-family: var(--serif);
+  font-size: 16px;
+  resize: vertical;
+  margin-bottom: 24px;
+  transition: all 0.3s;
+}
+.student-input:focus {
+  outline: none;
+  border-color: var(--gold);
+  background: rgba(0,0,0,0.4);
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+}
+.reveal-btn {
+  background: var(--gold);
+  color: #000;
+  border: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 18px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.reveal-btn:hover {
+  background: #fff;
+  transform: scale(1.02);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+.reveal-content {
+  display: none;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.reveal-content.show {
+  display: block;
+  animation: slideUpFade 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.reveal-title {
+  font-family: var(--display);
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.perspectives-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.perspective {
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 24px;
+  border-top: 4px solid;
+  transition: transform 0.3s;
+}
+.perspective:hover {
+  transform: translateY(-4px);
+  background: rgba(0,0,0,0.4);
+}
+.perspective h4 {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.perspective p {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+.p-plikt { border-top-color: var(--plikt); }
+.p-plikt h4 { color: var(--plikt); }
+.p-konsekvens { border-top-color: var(--konsekvens); }
+.p-konsekvens h4 { color: var(--konsekvens); }
+.p-sinnelag { border-top-color: var(--sinnelag); }
+.p-sinnelag h4 { color: var(--sinnelag); }
+.p-dygd { border-top-color: var(--dygd); }
+.p-dygd h4 { color: var(--dygd); }
+
+/* ── PROFILE TAB (NIVÅ 3) ── */
+.profile-progress {
+  font-family: var(--mono);
+  color: var(--gold);
+  margin-bottom: 30px;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.profile-dominant {
+  font-family: var(--display);
+  font-size: 48px;
+  color: #fff;
+  margin-bottom: 10px;
+  text-shadow: 0 0 20px currentColor;
+  animation: float 4s infinite ease-in-out;
+}
+.profile-desc {
+  font-size: 18px;
+  color: var(--text-dim);
+  max-width: 600px;
+  margin: 0 auto 40px;
+  line-height: 1.8;
+}
+.stat-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.stat-label {
+  width: 120px;
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 12px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.stat-bar-bg {
+  flex: 1;
+  height: 14px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+}
+.stat-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 8px;
+  transition: width 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: 0 0 10px currentColor;
+}
+.stat-pct {
+  width: 50px;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* ── EXPORT BUTTONS ── */
+.export-container {
+  background: rgba(0,0,0,0.2);
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 40px;
+  text-align: center;
+  margin-top: 60px;
+}
+.export-container h3 {
+  font-family: var(--display);
+  font-size: 24px;
+  color: #fff;
+  margin-bottom: 12px;
+}
+.export-container p {
+  color: var(--text-dim);
+  margin-bottom: 24px;
+  font-size: 16px;
+}
+.export-btns {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.export-btn {
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.export-btn:hover {
+  background: var(--gold-dim);
+  color: #fff;
+  transform: translateY(-2px);
+}
+.btn-email {
+  border-color: var(--text-dim);
+  color: var(--text-main);
+}
+.btn-email:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: #fff;
+}
+.export-msg {
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  height: 20px;
+}
+.export-msg.show {
+  opacity: 1;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 40px; }
+  .floating-icon { display: none; } /* Göm ikoner på små skärmar för att spara plats */
+  .dilemma-card, .reflect-card, .profile-container { padding: 24px; }
+  .perspectives-grid { grid-template-columns: 1fr; }
+  .nav-tab { font-size: 14px; padding: 16px 5px; }
+  .option-btn { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .stat-row { flex-direction: column; align-items: stretch; gap: 8px; }
+  .stat-label { width: auto; text-align: left; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <!-- Svävande ikoner (bara dekorativa element) -->
+  <div class="floating-icon icon-1">⚖️</div>
+  <div class="floating-icon icon-2">⏳</div>
+  <div class="floating-icon icon-3">👁️</div>
+  <div class="floating-icon icon-4">🧠</div>
+  <div class="floating-icon icon-5">⚡</div>
+
+  <div class="hero-content">
+    <div class="hero-label">SO-Portalen · Etik & Moral</div>
+    <h1>När rätt och fel<br><em>krockar</em></h1>
+    <p>Testa dig själv mot historiens stora moralfilosofer. Utforska dilemman från vardagens gråzoner till liv och död.</p>
+    <button class="hero-btn" onclick="document.getElementById('nav').scrollIntoView({behavior: 'smooth'})">
+      Börja testet ↓
+    </button>
+  </div>
+</section>
+
+<!-- NAVIGATION -->
+<div class="nav-wrap" id="nav">
+  <div class="nav-container">
+    <button class="nav-tab active" onclick="switchLevel('level1')">1. Flervalsfrågor</button>
+    <button class="nav-tab" onclick="switchLevel('level3')">2. Min Profil</button>
+    <button class="nav-tab" onclick="switchLevel('level2')">3. Skrivfrågor</button>
+  </div>
+</div>
+
+<div class="main-content">
+
+  <!-- ══════════════════════════════════════════════
+       FLIK 1: FLERVALSFRÅGOR (NIVÅ 1)
+  ══════════════════════════════════════════════ -->
+  <section id="level1" class="level-section active">
+    
+    <div class="level-header">
+      <h2>Hur tänker du egentligen?</h2>
+      <p>I den här nivån får du möta en rad klassiska och vardagliga dilemman. Varje svar kopplas till en av de fyra stora etiska modellerna. Gör dina val för att bygga din personliga etiska profil.</p>
+    </div>
+
+    <div id="dilemmas-container">
+      <!-- DILEMMA 1 -->
+      <div class="dilemma-card" id="d1">
+        <div class="dilemma-tag">Dilemma 1 · Skolgården</div>
+        <h3 class="dilemma-title">Det upptäckta fusket</h3>
+        <div class="dilemma-scenario">
+          Din bästa vän riskerar att få F i historia. Under det avgörande provet ser du hur vännen tar upp fusklappar och skriver av svaren. Läraren märker ingenting. Om vännen åker fast riskerar hen att bli avstängd, men om du inte säger något bidrar du till fusk. Vad gör du?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d1', 0, this, 'plikt')">
+            <span class="opt-letter">A</span> Du berättar för läraren. Det är förbjudet att fuska och regler måste följas.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d1', 1, this, 'sinnelag')">
+            <span class="opt-letter">B</span> Du säger inget. Din intention är att skydda din vän för att du bryr dig om hen.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d1', 2, this, 'konsekvens')">
+            <span class="opt-letter">C</span> Du håller tyst. Skadan av att förstöra vänskapen är mycket större än skadan av ett fusk.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d1', 3, this, 'dygd')">
+            <span class="opt-letter">D</span> Du konfronterar vännen efteråt. En sann och ärlig vän hjälper andra att göra rätt, snarare än att bara skvallra eller tiga.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d1"><span class="fb-model" id="model-badge-d1"></span><div class="feedback-text" id="fb-text-d1"></div></div>
+      </div>
+
+      <!-- DILEMMA 2 -->
+      <div class="dilemma-card" id="d2">
+        <div class="dilemma-tag">Dilemma 2 · Medicinen</div>
+        <h3 class="dilemma-title">Heinz Dilemma</h3>
+        <div class="dilemma-scenario">
+          Din partner är dödssjuk. Ett botemedel finns, men apotekaren kräver ockerpris och vägrar sänka det. Du har inte råd. En natt står du utanför apoteket. Bryter du dig in för att stjäla medicinen och rädda din partner?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d2', 0, this, 'konsekvens')">
+            <span class="opt-letter">A</span> Ja. Att rädda ett liv väger totalt sett tyngre än apotekarens ekonomiska förlust.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d2', 1, this, 'plikt')">
+            <span class="opt-letter">B</span> Nej. Det är olagligt och fel att stjäla oavsett vilka konsekvenser det får.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d2', 2, this, 'dygd')">
+            <span class="opt-letter">C</span> Ja. En kärleksfull och lojal partner skyddar alltid sin familj, det är så man bör vara.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d2', 3, this, 'sinnelag')">
+            <span class="opt-letter">D</span> Ja. Din avsikt är ren kärlek och förtvivlan, och det gör handlingen god oavsett vad lagen säger.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d2"><span class="fb-model" id="model-badge-d2"></span><div class="feedback-text" id="fb-text-d2"></div></div>
+      </div>
+
+      <!-- DILEMMA 3 -->
+      <div class="dilemma-card" id="d3">
+        <div class="dilemma-tag">Dilemma 3 · Det löfte du gav</div>
+        <h3 class="dilemma-title">Hemligheten</h3>
+        <div class="dilemma-scenario">
+          Din vän ber dig svära på att hålla en hemlighet. Du lovar. Vännen berättar sedan att hen tänker vandalisera skolan ikväll. Om du varnar rektorn bryter du ditt heliga löfte. Om du är tyst skadas skolan för hundratusentals kronor.
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d3', 0, this, 'plikt')">
+            <span class="opt-letter">A</span> Du håller tyst. Ett löfte är ett löfte, och löftesbrott är principiellt fel.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d3', 1, this, 'konsekvens')">
+            <span class="opt-letter">B</span> Du varnar rektorn. Den ekonomiska skadan för alla är mycket värre än att svika en person.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d3', 2, this, 'dygd')">
+            <span class="opt-letter">C</span> Du försöker stoppa vännen fysiskt. En rättrådig person tar ansvar utan att blanda in auktoriteter.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d3', 3, this, 'sinnelag')">
+            <span class="opt-letter">D</span> Du skvallrar anonymt med tårar i ögonen. Din avsikt är att skydda din vän från att göra ett misstag, driven av genuint bryende.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d3"><span class="fb-model" id="model-badge-d3"></span><div class="feedback-text" id="fb-text-d3"></div></div>
+      </div>
+
+      <!-- DILEMMA 4 -->
+      <div class="dilemma-card" id="d4">
+        <div class="dilemma-tag">Dilemma 4 · Frestelsen</div>
+        <h3 class="dilemma-title">Den upphittade plånboken</h3>
+        <div class="dilemma-scenario">
+          Du hittar en plånbok på gatan med 10 000 kr. ID-kortet visar att den tillhör en otroligt otrevlig miljardär som är känd för att lura folk. Du själv är fattig student och pengarna skulle lösa din hyra i månader. Vad gör du?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d4', 0, this, 'plikt')">
+            <span class="opt-letter">A</span> Lämnar in den till polisen. Man får inte ta annans egendom, oavsett vem ägaren är.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d4', 1, this, 'konsekvens')">
+            <span class="opt-letter">B</span> Behåller pengarna. Miljardären lider inte märkbart, men lyckan och nyttan i ditt liv ökar enormt.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d4', 2, this, 'dygd')">
+            <span class="opt-letter">C</span> Lämnar in den direkt, eftersom du aktivt vill odla en ärlig och hederlig karaktär.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d4', 3, this, 'sinnelag')">
+            <span class="opt-letter">D</span> Ger pengarna till ett härbärge. Din goda intention att hjälpa de allra mest utsatta gör stölden godhjärtad.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d4"><span class="fb-model" id="model-badge-d4"></span><div class="feedback-text" id="fb-text-d4"></div></div>
+      </div>
+
+      <!-- DILEMMA 5 -->
+      <div class="dilemma-card" id="d5">
+        <div class="dilemma-tag">Dilemma 5 · Nätmobbing</div>
+        <h3 class="dilemma-title">Det falska ryktet</h3>
+        <div class="dilemma-scenario">
+          Ett extremt elakt rykte sprids i klassens gruppchatt om en person du faktiskt tycker ganska illa om. Om du säger ifrån riskerar du att själv bli utfryst av gruppen. Vad gör du?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d5', 0, this, 'konsekvens')">
+            <span class="opt-letter">A</span> Håller tyst. Det gör bara saken värre för alla om gruppen splittras och du också blir mobbad.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d5', 1, this, 'plikt')">
+            <span class="opt-letter">B</span> Säger ifrån direkt. Att sprida förtal är förbjudet och fel, regeln gäller även för folk man ogillar.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d5', 2, this, 'dygd')">
+            <span class="opt-letter">C</span> Säger ifrån tydligt. Det krävs mod för att stå emot massan, och mod är en dygd du eftersträvar.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d5', 3, this, 'sinnelag')">
+            <span class="opt-letter">D</span> Du skickar ett privat tröstande meddelande till offret. Din avsikt är att lindra smärtan i tysthet för att du har empati.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d5"><span class="fb-model" id="model-badge-d5"></span><div class="feedback-text" id="fb-text-d5"></div></div>
+      </div>
+
+      <!-- DILEMMA 6 -->
+      <div class="dilemma-card" id="d6">
+        <div class="dilemma-tag">Dilemma 6 · Vita lögner</div>
+        <h3 class="dilemma-title">Den hiskeliga tröjan</h3>
+        <div class="dilemma-scenario">
+          Din vän har sparat länge och köpt en dyr tröja. Hen strålar av lycka och frågar: "Visst är den fantastisk?". Du tycker ärligt talat att den är fruktansvärt ful. Vad svarar du?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d6', 0, this, 'sinnelag')">
+            <span class="opt-letter">A</span> "Ja, superfin!" Din avsikt är att bevara vännens lycka; du ljuger av ren omtanke.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d6', 1, this, 'plikt')">
+            <span class="opt-letter">B</span> "Nej, jag gillar den inte alls." Att ljuga är fel och sanningen måste alltid fram.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d6', 2, this, 'konsekvens')">
+            <span class="opt-letter">C</span> "Den passar verkligen dig!" (Halv-lögn). Ger bäst stämning resten av dagen utan en rak lögn.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d6', 3, this, 'dygd')">
+            <span class="opt-letter">D</span> Du säger vänligt att det inte är din stil, men att du älskar att se vännen så glad. En god människa är ärlig men taktfull.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d6"><span class="fb-model" id="model-badge-d6"></span><div class="feedback-text" id="fb-text-d6"></div></div>
+      </div>
+
+      <!-- DILEMMA 7 -->
+      <div class="dilemma-card" id="d7">
+        <div class="dilemma-tag">Dilemma 7 · Vänskap & Brott</div>
+        <h3 class="dilemma-title">Snatteriet</h3>
+        <div class="dilemma-scenario">
+          Du är i en butik med en kompis. Plötsligt ser du hur din kompis stoppar ner ett par dyra hörlurar i jackan. Om du säger till åker din vän fast för stöld. Om du tiger skyddar du en tjuv. Vad gör du?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d7', 0, this, 'plikt')">
+            <span class="opt-letter">A</span> Du tvingar vännen att lägga tillbaka dem, annars larmar du. Stöld är alltid fel.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d7', 1, this, 'konsekvens')">
+            <span class="opt-letter">B</span> Du gör ingenting i butiken, men skäller ut vännen efteråt för att undvika polis och dramatik på plats.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d7', 2, this, 'dygd')">
+            <span class="opt-letter">C</span> Du tvingar vännen att lägga tillbaka dem direkt, eftersom en god vän inte låter sina vänner bli brottslingar.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d7', 3, this, 'sinnelag')">
+            <span class="opt-letter">D</span> Du tar på dig skulden om ni blir påkomna. Din intention är fullständigt självuppoffrande lojalitet till vännen.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d7"><span class="fb-model" id="model-badge-d7"></span><div class="feedback-text" id="fb-text-d7"></div></div>
+      </div>
+
+      <!-- DILEMMA 8 -->
+      <div class="dilemma-card" id="d8">
+        <div class="dilemma-tag">Dilemma 8 · Djurrätt & Traditioner</div>
+        <h3 class="dilemma-title">Mormors köttbullar</h3>
+        <div class="dilemma-scenario">
+          Du har precis blivit strikt vegan. Du besöker din gamla mormor som du inte sett på länge. Hon vet inte om ditt val och har glatt lagat sin paradrätt: hemmagjorda köttbullar. Hur hanterar du situationen?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d8', 0, this, 'sinnelag')">
+            <span class="opt-letter">A</span> Du äter upp maten i tystnad. Din enda intention är att visa tacksamhet och glädja din mormor.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d8', 1, this, 'plikt')">
+            <span class="opt-letter">B</span> Du tackar nej. Principen mot att utnyttja djur är absolut och får inte brytas av artighet.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d8', 2, this, 'konsekvens')">
+            <span class="opt-letter">C</span> Du äter litegrann för husfridens skull för att maximera den trevliga stämningen under besöket.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d8', 3, this, 'dygd')">
+            <span class="opt-letter">D</span> Du förklarar kärleksfullt men bestämt din nya livsstil. En person med integritet står för sina värderingar på ett respektfullt sätt.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d8"><span class="fb-model" id="model-badge-d8"></span><div class="feedback-text" id="fb-text-d8"></div></div>
+      </div>
+
+      <!-- DILEMMA 9 -->
+      <div class="dilemma-card" id="d9">
+        <div class="dilemma-tag">Dilemma 9 · Misstag i din favör</div>
+        <h3 class="dilemma-title">Det felrättade provet</h3>
+        <div class="dilemma-scenario">
+          Du får tillbaka ett viktigt slutprov. Läraren har råkat ge dig poäng för tre helt felaktiga svar. Misstaget ger dig ett A istället för ett C, vilket antagligen är avgörande för din framtid. Berättar du för läraren?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d9', 0, this, 'konsekvens')">
+            <span class="opt-letter">A</span> Säger ingenting. Att du får din drömutbildning överväger vida lärarens byråkratiska misstag.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d9', 1, this, 'plikt')">
+            <span class="opt-letter">B</span> Du berättar direkt. Man får inte få fördelar på falska grunder. Sanningen gäller alltid.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d9', 2, this, 'dygd')">
+            <span class="opt-letter">C</span> Du berättar, för att du inte vill bli en fuskare. En hederlig människa gör rätt för sig.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d9', 3, this, 'sinnelag')">
+            <span class="opt-letter">D</span> Du behåller betyget men bestämmer dig för att jobba stenhårt i framtiden för att "förtjäna" det. Din goda avsikt framåt rättfärdigar tystnaden.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d9"><span class="fb-model" id="model-badge-d9"></span><div class="feedback-text" id="fb-text-d9"></div></div>
+      </div>
+
+      <!-- DILEMMA 10 -->
+      <div class="dilemma-card" id="d10">
+        <div class="dilemma-tag">Dilemma 10 · Bystander effect</div>
+        <h3 class="dilemma-title">Det krossade fönstret</h3>
+        <div class="dilemma-scenario">
+          Du genar över en skolgård på kvällen och ser ett äldre gäng krossa en ruta. Dagen efter frågar rektorn hela skolan om någon vet något. Om du pekar ut gänget riskerar du att bli misshandlad av dem. Berättar du?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d10', 0, this, 'plikt')">
+            <span class="opt-letter">A</span> Ja. Jag har en medborgerlig plikt att hjälpa rättvisan, oavsett vilka risker det innebär.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d10', 1, this, 'konsekvens')">
+            <span class="opt-letter">B</span> Nej. Skolan har råd att laga fönstret, men min fysiska säkerhet är mycket viktigare än en glasruta.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d10', 2, this, 'sinnelag')">
+            <span class="opt-letter">C</span> Jag skickar ett anonymt tips. Min avsikt är att ställa till rätta men jag vill inte offra min egen trygghet.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d10', 3, this, 'dygd')">
+            <span class="opt-letter">D</span> Ja, jag träder fram öppet. Mod och civilkurage är de viktigaste egenskaperna en människa kan ha.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d10"><span class="fb-model" id="model-badge-d10"></span><div class="feedback-text" id="fb-text-d10"></div></div>
+      </div>
+
+      <!-- DILEMMA 11 -->
+      <div class="dilemma-card" id="d11">
+        <div class="dilemma-tag">Dilemma 11 · Lojalitet vs Rättvisa</div>
+        <h3 class="dilemma-title">Grupparbetet</h3>
+        <div class="dilemma-scenario">
+          Ni gör ett grupparbete. En person har inte gjort någonting alls på grund av "personliga skäl" och riskerar att förlora sitt studiebidrag (F). Läraren frågar dig enskilt om alla i gruppen har bidragit lika mycket. Vad svarar du?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d11', 0, this, 'plikt')">
+            <span class="opt-letter">A</span> Du talar sanning. Det är orättvist och regelvidrigt att få betyg för någon annans arbete.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d11', 1, this, 'konsekvens')">
+            <span class="opt-letter">B</span> Du ljuger. Att personen förlorar sina pengar skapar enormt lidande, medan din lilla lögn inte skadar någon.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d11', 2, this, 'dygd')">
+            <span class="opt-letter">C</span> Du svarar ärligt men försöker samtidigt hitta en kompromiss med läraren för att personen ska få en extrauppgift.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d11', 3, this, 'sinnelag')">
+            <span class="opt-letter">D</span> Du ljuger helt och hållet, enbart driven av djup medkänsla för personens tragiska privata situation.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d11"><span class="fb-model" id="model-badge-d11"></span><div class="feedback-text" id="fb-text-d11"></div></div>
+      </div>
+
+      <!-- DILEMMA 12 -->
+      <div class="dilemma-card" id="d12">
+        <div class="dilemma-tag">Dilemma 12 · Digital stöld</div>
+        <h3 class="dilemma-title">Piratkopieringen</h3>
+        <div class="dilemma-scenario">
+          Din skola kräver att ni köper en digital lärobok för 800 kr, vilket du inte har råd med. Ett multinationellt förlag äger rättigheterna. Du hittar en gratis, olaglig PDF-kopia på nätet. Laddar du ner den?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d12', 0, this, 'konsekvens')">
+            <span class="opt-letter">A</span> Ja. Att jag får min utbildning ökar världens totala nytta mer än förlaget (som omsätter miljarder) förlorar.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d12', 1, this, 'plikt')">
+            <span class="opt-letter">B</span> Nej. Upphovsrätt är en lag och piratkopiering är stöld. Att jag är fattig ger mig inte rätt att stjäla.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d12', 2, this, 'sinnelag')">
+            <span class="opt-letter">C</span> Ja, för min enda ärliga avsikt är att lära mig och utvecklas, jag har inget ont uppsåt mot förlaget.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d12', 3, this, 'dygd')">
+            <span class="opt-letter">D</span> Jag avstår, och ber istället rektorn att skolan ska köpa in boken. Man bör lösa problem hederligt.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d12"><span class="fb-model" id="model-badge-d12"></span><div class="feedback-text" id="fb-text-d12"></div></div>
+      </div>
+
+      <!-- DILEMMA 13 -->
+      <div class="dilemma-card" id="d13">
+        <div class="dilemma-tag">Dilemma 13 · Sanningen gör ont</div>
+        <h3 class="dilemma-title">Kompisens partner</h3>
+        <div class="dilemma-scenario">
+          Du råkar se din bästa väns partner kyssa någon annan. Din vän planerar att fria till partnern imorgon under en dyr utlandsresa. Berättar du vad du såg och förstör resan/relationen i förtid?
+        </div>
+        <div class="options-grid" data-answered="false">
+          <button class="option-btn" onclick="selectAnswer('d13', 0, this, 'plikt')">
+            <span class="opt-letter">A</span> Berättar direkt. Man har en plikt att vara ärlig mot sina vänner. Sanningen är överordnad allt.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d13', 1, this, 'konsekvens')">
+            <span class="opt-letter">B</span> Berättar direkt. Det gör ont nu, men smärtan blir betydligt värre om de hinner gifta sig.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d13', 2, this, 'sinnelag')">
+            <span class="opt-letter">C</span> Konfronterar partnern istället för att vännen ska slippa höra det från dig, i en välmenande avsikt att skona vännen.
+          </button>
+          <button class="option-btn" onclick="selectAnswer('d13', 3, this, 'dygd')">
+            <span class="opt-letter">D</span> Du sätter dig ner med vännen och berättar försiktigt. En rättrådig och sann vän skyddar dig från lögner, oavsett hur svårt det är.
+          </button>
+        </div>
+        <div class="feedback-box" id="fb-d13"><span class="fb-model" id="model-badge-d13"></span><div class="feedback-text" id="fb-text-d13"></div></div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 60px;">
+      <button class="hero-btn" style="padding: 20px 40px; font-size: 16px; background: var(--gold); color: #000; font-weight: bold;" onclick="switchLevel('level3')">
+        Räkna ut min Etiska Profil ✨
+      </button>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FLIK 2: MIN PROFIL (NIVÅ 3)
+  ══════════════════════════════════════════════ -->
+  <section id="level3" class="level-section">
+    <div class="level-header">
+      <h2>Din Etiska Kompass</h2>
+      <p>Här sammanställs dina svar från de snabba dilemmana. Vilken filosofisk inriktning lutar du oftast åt när det hettar till?</p>
+    </div>
+
+    <div class="profile-container">
+      <div class="profile-progress" id="profile-progress">Du har svarat på 0 av 13 dilemman</div>
+      
+      <div id="profile-result-area" style="display: none;">
+        <h3 style="font-family: var(--mono); font-size: 14px; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; margin-bottom: 8px;">Du är övervägande en...</h3>
+        <div class="profile-dominant" id="profile-dominant">Beräknar...</div>
+        <p class="profile-desc" id="profile-desc"></p>
+        
+        <div class="stat-bars">
+          <!-- Plikt -->
+          <div class="stat-row">
+            <div class="stat-label" style="color: var(--plikt);">Regeletik</div>
+            <div class="stat-bar-bg"><div class="stat-fill" id="bar-plikt" style="background: var(--plikt);"></div></div>
+            <div class="stat-pct" id="pct-plikt">0%</div>
+          </div>
+          <!-- Konsekvens -->
+          <div class="stat-row">
+            <div class="stat-label" style="color: var(--konsekvens);">Konsekvensetik</div>
+            <div class="stat-bar-bg"><div class="stat-fill" id="bar-konsekvens" style="background: var(--konsekvens);"></div></div>
+            <div class="stat-pct" id="pct-konsekvens">0%</div>
+          </div>
+          <!-- Sinnelag -->
+          <div class="stat-row">
+            <div class="stat-label" style="color: var(--sinnelag);">Sinnelagsetik</div>
+            <div class="stat-bar-bg"><div class="stat-fill" id="bar-sinnelag" style="background: var(--sinnelag);"></div></div>
+            <div class="stat-pct" id="pct-sinnelag">0%</div>
+          </div>
+          <!-- Dygd -->
+          <div class="stat-row">
+            <div class="stat-label" style="color: var(--dygd);">Dygdetik</div>
+            <div class="stat-bar-bg"><div class="stat-fill" id="bar-dygd" style="background: var(--dygd);"></div></div>
+            <div class="stat-pct" id="pct-dygd">0%</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="profile-empty" style="padding: 40px; color: var(--text-dim);">
+        <span style="font-size: 50px; display: inline-block; animation: float 4s infinite ease-in-out;">⚖️</span><br><br>
+        Du måste svara på åtminstone ett par dilemman under flik 1 för att din profil ska kunna räknas ut!
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       FLIK 3: SKRIVFRÅGOR (NIVÅ 2)
+  ══════════════════════════════════════════════ -->
+  <section id="level2" class="level-section">
+    
+    <div class="level-header">
+      <h2>Dags att tänka själv</h2>
+      <p>I verkligheten finns det inga färdiga svarsalternativ. Här får du de riktigt tunga scenarierna. Skriv ned dina tankar, och tryck sedan fram "facit" för att se hur historiens filosofer skulle lösa situationen.</p>
+    </div>
+
+    <!-- HÄR ÄR DET NYA DILEMMAT -->
+    <div class="reflect-card">
+      <div class="dilemma-tag">Skrivuppgift 1 · Tidsresor & Mord</div>
+      <h3 class="dilemma-title">Tidsresenärens val</h3>
+      <div class="dilemma-scenario">
+        Du har uppfunnit en tidsmaskin. Du har chansen att åka tillbaka till år 1889 och mörda en nyfödd bebis som du vet med absolut säkerhet kommer att växa upp, bli en av historiens värsta diktatorer och orsaka miljontals människors död. Bebisen ligger lugnt och sover och har i denna stund inte gjort någon fluga förnär. <br><br>
+        <strong>Är det rätt att mörda ett oskyldigt spädbarn för att rädda tiotals miljoner framtida liv?</strong>
+      </div>
+      <textarea class="student-input" placeholder="Vad väger tyngst? Barnets oskyldighet i stunden eller miljontals framtida dödsoffer?"></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('r1', this)"><span>👀</span> Visa de etiska perspektiven</button>
+      <div class="reveal-content" id="r1">
+        <h4 class="reveal-title">Så här tänker filosoferna</h4>
+        <div class="perspectives-grid">
+          <div class="perspective p-konsekvens">
+            <h4>Konsekvensetikern</h4>
+            <p>Svaret är enkelt: Ja. Målet är alltid att minimera det totala lidandet i världen. Ett enda liv offras för att rädda tiotals miljoner människor och förhindra världskrig. Det är en fasansfull handling att utföra, men moraliskt och matematiskt är det din absoluta skyldighet att dra i spaken.</p>
+          </div>
+          <div class="perspective p-plikt">
+            <h4>Regeletikern</h4>
+            <p>Svaret är Nej. Mord är alltid fel, och du kan aldrig straffa eller döda någon för brott som de ännu inte har begått. I det ögonblick du befinner dig i är barnet helt oskyldigt. Om du mördar babyn, så begår du ett mord. Du får aldrig använda en människa enbart som ett verktyg för att förhindra framtida händelser.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reflect-card">
+      <div class="dilemma-tag">Skrivuppgift 2 · Straffets syfte</div>
+      <h3 class="dilemma-title">Den gamle krigsförbrytaren</h3>
+      <div class="dilemma-scenario">
+        I en by i Argentina bor en 92-årig, extremt älskad och snäll farfar. Han bakar kakor till barnhem och skänker bort allt han äger. Plötsligt avslöjas det att han 70 år tidigare var en brutal lägervakt under förintelsen som plågade ihjäl oskyldiga. Om han sätts i fängelse nu riskerar han att dö i cellen, och hans by kommer sörja djupt.<br><br>
+        <strong>Bör han straffas och sättas i fängelse efter 70 år?</strong>
+      </div>
+      <textarea class="student-input" placeholder="Vad är syftet med ett straff? Hämnd, rehabilitering eller rättvisa?"></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('r2', this)"><span>👀</span> Visa de etiska perspektiven</button>
+      <div class="reveal-content" id="r2">
+        <h4 class="reveal-title">Så här tänker filosoferna</h4>
+        <div class="perspectives-grid">
+          <div class="perspective p-plikt">
+            <h4>Regeletikern (Retributivism)</h4>
+            <p>Ja, han måste straffas. Rättvisa är en absolut plikt. Har man begått ett oerhört brott <em>förtjänar</em> man sitt straff, oavsett hur lång tid som gått eller hur god man blivit. Rättvisan ska skipas oavsett omgivningens känslor.</p>
+          </div>
+          <div class="perspective p-konsekvens">
+            <h4>Konsekvensetikern</h4>
+            <p>Förmodligen inte. Han utgör inte längre en fara för samhället, och fängelset kommer inte rehabilitera honom. Det enda vi uppnår är smärta, utan någon samhällsnytta framåt. Bättre att låta honom fortsätta baka kakor.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="reflect-card">
+      <div class="dilemma-tag">Skrivuppgift 3 · Kapitalism vs Kropp</div>
+      <h3 class="dilemma-title">Njurar på fria marknaden</h3>
+      <div class="dilemma-scenario">
+        Det råder enorm brist på organ. En lag föreslås som tillåter levande människor att sälja en av sina njurar på en fri marknad för valfri summa (t.ex. 2 miljoner kronor). De som försvarar lagen menar att det räddar liv och hjälper fattiga ur misär.<br><br>
+        <strong>Bör det vara tillåtet att sälja sina egna organ för pengar?</strong>
+      </div>
+      <textarea class="student-input" placeholder="Har man rätt att göra vad man vill med sin egen kropp?"></textarea>
+      <button class="reveal-btn" onclick="toggleReveal('r3', this)"><span>👀</span> Visa de etiska perspektiven</button>
+      <div class="reveal-content" id="r3">
+        <h4 class="reveal-title">Så här tänker filosoferna</h4>
+        <div class="perspectives-grid">
+          <div class="perspective p-konsekvens">
+            <h4>Konsekvensetikern</h4>
+            <p>Ja, tillåt det. Den rika överlever och den fattiga får livsförändrande pengar. Båda vinner och nettolikandet minskar kraftigt i världen (köerna försvinner). Att hindra affären vore irrationellt.</p>
+          </div>
+          <div class="perspective p-plikt">
+            <h4>Regeletikern (Kant)</h4>
+            <p>Absolut inte. Du får aldrig behandla mänskligheten enbart som en handelsvara. Att sälja din kropp som en reservdel förringar ditt mänskliga värde till en prislapp, vilket bryter mot respekten för människans värdighet.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPORT-SEKTION -->
+    <div class="export-container">
+      <h3>Färdig med skrivfrågorna?</h3>
+      <p>Sammanställ dina reflektioner för att lämna in till läraren eller spara dem för dig själv.</p>
+      <div class="export-btns">
+        <button class="export-btn" onclick="copyAnswers()">📋 Kopiera mina svar</button>
+        <button class="export-btn btn-email" onclick="emailAnswers()">✉️ Skicka via e-post</button>
+      </div>
+      <div id="export-msg" class="export-msg">Svaren har kopierats!</div>
+    </div>
+
+  </section>
+
+</div>
+
+<script>
+// --- TABS / NAVIGATION ---
+function switchLevel(levelId) {
+  const tabs = document.querySelectorAll('.nav-tab');
+  tabs.forEach(tab => tab.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const sections = document.querySelectorAll('.level-section');
+  sections.forEach(section => section.classList.remove('active'));
+  
+  // Tvinga reflow för att trigga animationen om igen
+  const targetSection = document.getElementById(levelId);
+  void targetSection.offsetWidth; 
+  targetSection.classList.add('active');
+  
+  if(levelId === 'level3') {
+    calculateProfile();
+  }
+  
+  window.scrollTo({ top: document.getElementById('nav').offsetTop, behavior: 'smooth' });
+}
+
+// --- LOGIK: FLERVALSFRÅGOR & PROFIL ---
+const totalQuestions = 13;
+let userScores = {
+  plikt: 0,
+  konsekvens: 0,
+  sinnelag: 0,
+  dygd: 0
+};
+let answeredQuestions = 0;
+
+const profileDescriptions = {
+  'plikt': 'För dig är regler, principer och rättvisa det absolut viktigaste. Rätt är rätt, oavsett konsekvenserna. Du anser att man aldrig får tumma på moraliska grundlagar (som att man inte får stjäla eller ljuga) för att lösa problem.',
+  'konsekvens': 'För dig är resultatet allt. Du är en utilitarist – du kalkylerar snabbt vad som kommer att ge största möjliga nytta för största möjliga antal. Du bryr dig mindre om vad som "ser" rätt ut, så länge slutet blir bra.',
+  'sinnelag': 'För dig är avsikten bakom handlingen det centrala. Du drivs av empati, kärlek och viljan att göra gott i stunden. Om någon gör fel men menade extremt väl, har du stor förståelse för det.',
+  'dygd': 'Du styrs av frågan: "Vad skulle en god människa göra?". För dig handlar etik inte om lagböcker eller matematiska kalkyler, utan om karaktärsdrag som mod, ärlighet och lojalitet.'
+};
+
+const profileNames = {
+  'plikt': 'REGELETIKER',
+  'konsekvens': 'KONSEKVENSETIKER',
+  'sinnelag': 'SINNELAGSETIKER',
+  'dygd': 'DYGDETIKER'
+};
+
+const feedbackData = {
+  'plikt': { title: 'Regeletik', class: 'model-plikt', desc: 'Du valde ett alternativ som sätter lagar och regler först.' },
+  'konsekvens': { title: 'Konsekvensetik (Utilitarism)', class: 'model-konsekvens', desc: 'Du valde ett alternativ som sätter det slutgiltiga resultatet i fokus.' },
+  'sinnelag': { title: 'Sinnelagsetik (Avsikt)', class: 'model-sinnelag', desc: 'Du valde ett alternativ som fokuserar på den goda intentionen.' },
+  'dygd': { title: 'Dygdetik (Karaktär)', class: 'model-dygd', desc: 'Du valde ett alternativ som speglar dygder som hederlighet eller mod.' }
+};
+
+function selectAnswer(dilemmaId, btnIndex, btnElement, modelId) {
+  const container = document.getElementById(dilemmaId);
+  const optionsGrid = container.querySelector('.options-grid');
+  
+  // Prevent multiple answering for the profile calc
+  if(optionsGrid.getAttribute('data-answered') === 'false') {
+    userScores[modelId]++;
+    answeredQuestions++;
+    optionsGrid.setAttribute('data-answered', 'true');
+  }
+
+  // Update UI for buttons
+  const buttons = optionsGrid.querySelectorAll('.option-btn');
+  buttons.forEach((btn, index) => {
+    btn.disabled = true;
+    if (index === btnIndex) {
+      btn.classList.add('selected');
+    }
+  });
+
+  // Show Feedback
+  const feedbackBox = document.getElementById('fb-' + dilemmaId);
+  const badge = document.getElementById('model-badge-' + dilemmaId);
+  const text = document.getElementById('fb-text-' + dilemmaId);
+
+  badge.textContent = feedbackData[modelId].title;
+  badge.className = 'fb-model ' + feedbackData[modelId].class;
+  text.innerHTML = feedbackData[modelId].desc;
+
+  feedbackBox.classList.add('show');
+}
+
+function calculateProfile() {
+  document.getElementById('profile-progress').textContent = `Du har svarat på ${answeredQuestions} av ${totalQuestions} dilemman`;
+  
+  if (answeredQuestions === 0) {
+    document.getElementById('profile-empty').style.display = 'block';
+    document.getElementById('profile-result-area').style.display = 'none';
+    return;
+  }
+  
+  document.getElementById('profile-empty').style.display = 'none';
+  document.getElementById('profile-result-area').style.display = 'block';
+
+  // Find dominant
+  let dominantModel = 'plikt';
+  let maxScore = -1;
+  for (const [model, score] of Object.entries(userScores)) {
+    if (score > maxScore) {
+      maxScore = score;
+      dominantModel = model;
+    }
+  }
+
+  // Update Texts
+  const dominantEl = document.getElementById('profile-dominant');
+  dominantEl.textContent = profileNames[dominantModel];
+  dominantEl.style.color = `var(--${dominantModel})`;
+  document.getElementById('profile-desc').textContent = profileDescriptions[dominantModel];
+
+  // Update Bars
+  ['plikt', 'konsekvens', 'sinnelag', 'dygd'].forEach(model => {
+    const pct = Math.round((userScores[model] / answeredQuestions) * 100);
+    // Timeout for cool slide-in effect
+    setTimeout(() => {
+      document.getElementById(`bar-${model}`).style.width = pct + '%';
+      document.getElementById(`pct-${model}`).textContent = pct + '%';
+    }, 100);
+  });
+}
+
+// --- SKRIVFRÅGOR (FACIT REVEAL) ---
+function toggleReveal(revealId, btnElement) {
+  const content = document.getElementById(revealId);
+  if (content.classList.contains('show')) {
+    content.classList.remove('show');
+    btnElement.innerHTML = '<span>👀</span> Visa de etiska perspektiven';
+    btnElement.style.background = 'var(--gold)';
+    btnElement.style.color = '#000';
+  } else {
+    content.classList.add('show');
+    btnElement.innerHTML = '<span>✕</span> Dölj perspektiven';
+    btnElement.style.background = 'transparent';
+    btnElement.style.border = '1px solid var(--border)';
+    btnElement.style.color = 'var(--text-main)';
+  }
+}
+
+// --- EXPORT FUNKTIONER ---
+function gatherAnswers() {
+  let text = "Mina etiska reflektioner (SO-portalen)\n\n";
+  const cards = document.querySelectorAll('.reflect-card');
+  let hasAnswers = false;
+
+  cards.forEach(card => {
+    const title = card.querySelector('.dilemma-title').innerText;
+    const answer = card.querySelector('.student-input').value.trim();
+
+    if (answer) {
+      hasAnswers = true;
+      text += `Dilemma: ${title}\nSvar: ${answer}\n\n-----------------------------------\n\n`;
+    }
+  });
+
+  if (!hasAnswers) {
+    return "empty";
+  }
+  return text;
+}
+
+function showExportMsg(msg, isError = false) {
+  const msgEl = document.getElementById('export-msg');
+  msgEl.textContent = msg;
+  msgEl.style.color = isError ? 'var(--sinnelag)' : 'var(--konsekvens)';
+  msgEl.classList.add('show');
+  setTimeout(() => msgEl.classList.remove('show'), 4000);
+}
+
+function copyAnswers() {
+  const text = gatherAnswers();
+  if(text === "empty") {
+    showExportMsg("Du måste skriva något i rutorna först!", true);
+    return;
+  }
+
+  // Använder ett dolt textarea-element för maximal kompatibilitet i iframes/webbläsare
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.select();
+  
+  try {
+    document.execCommand('copy');
+    showExportMsg("✅ Dina svar har kopierats till urklipp!");
+  } catch (err) {
+    showExportMsg("❌ Kunde inte kopiera automatiskt. Markera texten själv.", true);
+  }
+  document.body.removeChild(textArea);
+}
+
+function emailAnswers() {
+  const text = gatherAnswers();
+  if(text === "empty") {
+    showExportMsg("Du måste skriva något i rutorna först innan du skickar!", true);
+    return;
+  }
+  
+  const subject = encodeURIComponent("Mina etiska reflektioner");
+  const body = encodeURIComponent(text);
+  window.location.href = `mailto:?subject=${subject}&body=${body}`;
+  showExportMsg("✉️ Öppnar ditt e-postprogram...");
+}
+</script>
+</body>
+</html>
