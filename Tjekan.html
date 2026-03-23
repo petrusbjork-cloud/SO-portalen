@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tjekan – När drömmen om frihet blev en terrorstat</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:    #050505;
+    --charcoal: #121212;
+    --coal-lt:  #1E1E1E;
+    --blood:    #8B1A1A;
+    --blood-dk: #5A0E0E;
+    --gold:     #C8A96E;
+    --gold-dim: rgba(200,169,110,0.3);
+    --text:     #E8E4D9;
+    --muted:    #9A9587;
+    --border:   #333333;
+    --mono:     'JetBrains Mono', monospace;
+  }
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { 
+    font-family: 'Source Serif 4', Georgia, serif; 
+    background: var(--charcoal); 
+    color: var(--text); 
+    line-height: 1.8; 
+    font-size: 18px;
+  }
+
+  /* ── ATMOSPHERE / NOISE ── */
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999;
+  }
+
+  /* ── HERO ── */
+  .article-hero {
+    background: var(--black);
+    background-image: radial-gradient(circle at 50% 100%, rgba(139,26,26,0.15) 0%, transparent 60%);
+    padding: 100px 20px 80px;
+    text-align: center;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .article-hero::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 3px; background: var(--blood);
+  }
+  .tag {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+    display: inline-block; margin-bottom: 20px; border: 1px solid var(--gold-dim);
+    padding: 6px 14px; border-radius: 4px;
+  }
+  .article-hero h1 {
+    font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900; line-height: 1.1; margin-bottom: 20px; max-width: 900px;
+    margin-inline: auto; color: #fff;
+  }
+  .article-hero p {
+    font-size: 20px; color: var(--muted); max-width: 700px; margin: 0 auto;
+    font-style: italic;
+  }
+
+  /* ── CONTENT CONTAINER ── */
+  .article-content {
+    max-width: 720px; margin: 60px auto; padding: 0 24px; position: relative; z-index: 2;
+  }
+  
+  .article-content h2 {
+    font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700;
+    color: var(--gold); margin: 60px 0 24px; line-height: 1.3;
+  }
+  
+  .article-content p { margin-bottom: 24px; }
+  
+  .article-content hr {
+    border: none; border-top: 1px solid var(--border);
+    margin: 50px auto; width: 50%;
+  }
+
+  .dropcap::first-letter {
+    font-family: 'Playfair Display', serif; font-size: 80px; font-weight: 900;
+    color: var(--blood); float: left; line-height: 0.8; margin-right: 12px; margin-top: 8px;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .fact-box {
+    background: var(--coal-lt); border-left: 4px solid var(--blood);
+    padding: 30px; margin: 40px 0; border-radius: 0 8px 8px 0;
+  }
+  .fact-box h3 {
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .fact-box p { margin-bottom: 0; font-size: 16px; color: #ccc; }
+
+  /* ── INTERACTIVE CENSORSHIP TOOL ── */
+  .censor-wrap {
+    background: var(--black); border: 1px solid var(--border);
+    border-radius: 8px; margin: 60px 0; overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  }
+  .censor-header {
+    background: var(--coal-lt); padding: 20px 24px; border-bottom: 2px solid #222;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;
+  }
+  .censor-header-text h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--gold); margin-bottom: 5px; }
+  .censor-header-text p { font-size: 14px; color: var(--muted); margin: 0; }
+  
+  .censor-counter {
+    background: var(--blood-dk); border: 1px solid var(--blood); color: #fff;
+    font-family: var(--mono); font-size: 12px; font-weight: 700; padding: 8px 16px; border-radius: 4px;
+    letter-spacing: 1px;
+  }
+
+  .censor-body { padding: 40px; display: flex; flex-direction: column; align-items: center; background: #080808; }
+  
+  .censor-paper {
+    background: #Dbd5c6; color: #111; padding: 40px; width: 100%; max-width: 550px;
+    font-family: 'Courier New', Courier, monospace; font-size: 17px; line-height: 1.8; font-weight: 600;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.5);
+    position: relative; transform: rotate(-1deg);
+  }
+  
+  .censor-stamp {
+    position: absolute; top: 20px; right: 20px;
+    border: 3px solid #1a5c2a; color: #1a5c2a; font-family: 'Times New Roman', serif;
+    font-size: 22px; font-weight: 900; padding: 5px 10px; transform: rotate(10deg);
+    letter-spacing: 2px; opacity: 0; transition: opacity 0.3s; pointer-events: none;
+  }
+  .censor-stamp.visible { opacity: 0.8; }
+
+  .redactable {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M3 3h18v18H3z" fill="black" opacity="0.5"/></svg>') 12 12, pointer;
+    border-bottom: 2px dashed rgba(139,26,26,0.6);
+    transition: background 0.1s, color 0.1s;
+    padding: 0 2px;
+  }
+  .redactable:hover { background: rgba(139,26,26,0.2); }
+  .redactable.redacted {
+    background: #050505; color: #050505; border-bottom: none;
+    cursor: default; pointer-events: none;
+  }
+
+  .censor-action { margin-top: 30px; text-align: center; width: 100%; }
+  .censor-btn {
+    background: var(--coal-lt); color: var(--muted); border: 1px solid var(--border);
+    font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 2px;
+    padding: 16px 32px; border-radius: 4px; cursor: not-allowed; transition: all 0.3s;
+    text-transform: uppercase;
+  }
+  .censor-btn.ready {
+    background: var(--blood); color: #fff; border-color: var(--blood); cursor: pointer;
+    box-shadow: 0 4px 15px rgba(139,26,26,0.3);
+  }
+  .censor-btn.ready:hover { background: #a81d1d; transform: translateY(-2px); }
+  
+  .censor-feedback {
+    display: none; margin-top: 20px; padding: 20px; background: rgba(26,92,42,0.1);
+    border-left: 4px solid #1a5c2a; color: #E8E4D9; font-size: 15px; line-height: 1.6;
+    text-align: left; animation: fadeIn 0.4s;
+  }
+
+  /* ── INTERACTIVE DILEMMA DOSSIER ── */
+  .dossier-wrap {
+    background: var(--black); border: 1px solid var(--border);
+    border-radius: 8px; margin: 60px 0; overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  }
+  .dossier-header {
+    background: var(--blood-dk); padding: 20px 24px; border-bottom: 2px solid var(--blood);
+    text-align: center;
+  }
+  .dossier-header h3 { font-family: 'Playfair Display', serif; font-size: 24px; color: #fff; margin-bottom: 5px; }
+  .dossier-header p { font-size: 14px; color: rgba(255,255,255,0.7); font-family: var(--mono); letter-spacing: 1px; text-transform: uppercase; }
+
+  .dossier-body { padding: 40px; background-color: #0A0A0A; }
+  
+  .case-nav { display: flex; gap: 10px; margin-bottom: 30px; border-bottom: 1px solid var(--border); padding-bottom: 20px; overflow-x: auto; }
+  .case-tab { 
+    background: var(--coal-lt); border: 1px solid var(--border); color: var(--muted);
+    padding: 10px 20px; font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; border-radius: 4px; transition: all 0.2s; white-space: nowrap;
+  }
+  .case-tab.active { background: var(--blood); border-color: var(--blood); color: #fff; }
+  .case-tab:hover:not(.active) { border-color: var(--gold); color: var(--gold); }
+  .case-tab.completed { border-color: #1a5c2a; color: #2e7d32; }
+
+  .case-card { display: none; animation: fadeIn 0.4s ease; }
+  .case-card.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .case-file { background: #E8E0D0; color: #111; padding: 30px; border-radius: 2px; position: relative; box-shadow: inset 0 0 30px rgba(0,0,0,0.05); }
+  .case-stamp { position: absolute; top: 20px; right: 20px; color: #a02020; font-family: 'Times New Roman', serif; font-size: 24px; font-weight: 900; border: 3px solid #a02020; padding: 5px 10px; transform: rotate(15deg); opacity: 0.6; pointer-events: none; letter-spacing: 2px; }
+  
+  .case-title { font-family: var(--mono); font-size: 14px; font-weight: 700; color: #555; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; letter-spacing: 1px; }
+  .case-desc { font-family: 'Courier New', Courier, monospace; font-size: 16px; font-weight: 600; line-height: 1.6; margin-bottom: 30px; }
+  
+  .decision-grid { display: flex; flex-direction: column; gap: 12px; }
+  .dec-btn { 
+    background: #fff; border: 2px solid #ccc; padding: 15px 20px; text-align: left;
+    font-family: 'Source Serif 4', serif; font-size: 16px; font-weight: 600; color: #333;
+    cursor: pointer; transition: all 0.2s; border-radius: 4px; display: flex; align-items: center; gap: 15px;
+  }
+  .dec-btn:hover { border-color: var(--blood); background: #fdf5f5; }
+  .dec-btn .letter { background: #eee; color: #555; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-family: var(--mono); font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .dec-btn:hover .letter { background: var(--blood); color: #fff; }
+
+  .case-result { display: none; margin-top: 30px; padding: 20px; background: var(--black); border-left: 4px solid var(--blood); color: var(--text); font-size: 15px; line-height: 1.6; }
+  .res-title { font-family: var(--mono); font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+
+  /* ── INTERACTIVE WRITER ── */
+  .writer-wrap {
+    background: var(--coal-lt); border: 1px solid var(--border);
+    border-radius: 8px; margin-top: 40px; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .writer-toolbar {
+    display: flex; gap: 10px; padding: 12px 16px; background: var(--black);
+    border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center;
+  }
+  .writer-title {
+    font-family: var(--mono); font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-right: auto;
+  }
+  .writer-btn {
+    background: transparent; border: 1px solid var(--muted); padding: 8px 14px;
+    border-radius: 4px; font-family: var(--mono); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; color: var(--text); cursor: pointer;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .writer-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .writer-btn.primary { background: var(--blood); color: white; border-color: var(--blood); }
+  .writer-btn.primary:hover { background: #a81d1d; color: white; }
+  .writer-hint-box {
+    display: none; padding: 16px; background: rgba(200,169,110,0.1);
+    border-bottom: 1px dashed var(--border); font-size: 14px; color: var(--text);
+    border-left: 4px solid var(--gold);
+  }
+  .writer-textarea {
+    width: 100%; min-height: 200px; padding: 20px; border: none;
+    font-family: 'Source Serif 4', serif; font-size: 16px; line-height: 1.7;
+    color: var(--text); resize: vertical; outline: none; background: transparent;
+  }
+  .writer-textarea::placeholder { color: #555; font-style: italic; }
+
+  @media (max-width: 700px) {
+    .article-hero { padding: 80px 20px 60px; }
+    .article-content { padding: 0 20px; margin: 40px auto; }
+    .censor-header { flex-direction: column; align-items: flex-start; }
+    .censor-paper { padding: 25px 20px; font-size: 15px; }
+    .dossier-body { padding: 20px; }
+    .case-file { padding: 20px 15px; }
+    .writer-toolbar { flex-direction: column; align-items: stretch; }
+    .writer-title { margin-bottom: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="article-hero">
+  <span class="tag">Makt & Moral</span>
+  <h1>Tjekan</h1>
+  <p>Hur långt är vi beredda att gå för att bygga ett perfekt samhälle? För Lenins hemliga polis var svaret: Hur långt som helst.</p>
+</header>
+
+<main class="article-content">
+  <p class="dropcap">Ett av de vackraste löftena under den ryska revolutionen var löftet om frihet. Inga fler tsariska hemliga poliser. Inga fler politiska fångar i Sibirien. Äntligen skulle folket få andas. Men bara en månad efter att bolsjevikerna tagit makten i oktober 1917, insåg Lenin ett iskallt faktum: Om han ville behålla makten, behövde han ett vapen.</p>
+  
+  <p>I december 1917 skapades därför <em>Allryska utomordentliga kommissionen för kamp mot kontrarevolution och sabotage</em>. Dess ryska förkortning blev <strong>Tjekan</strong>. Det var världens första moderna, totalitära hemliga polis, och den skulle snart få tsarens gamla poliskår att framstå som en samling snälla scouter.</p>
+
+  <h2>Järn-Felix tar kommandot</h2>
+  <p>För att leda denna nya organisation valde Lenin en polsk adelsman vid namn Felix Dzerzjinskij. Han var en mager, blek fanatiker som hade spenderat en stor del av sitt liv i tsarens fängelser. Han kallades "Järn-Felix" eftersom han helt saknade empati för individer; han brann bara för "Saken".</p>
+
+  <div class="fact-box">
+    <h3>Ur ett tal av Felix Dzerzjinskij:</h3>
+    <p>"Vi representerar den organiserade terrorn... Tjekan är inte en domstol. Tjekan måste försvara revolutionen och besegra fienden även om dess svärd av misstag ibland skulle falla över oskyldiga huvuden."</p>
+  </div>
+
+  <p>Till en början var Tjekans metoder ganska milda – de konfiskerade egendom och delade ut ransoneringskort. Men allt förändrades sommaren 1918. Det ryska inbördeskriget bröt ut, och i augusti blev Lenin skjuten i axeln av en ung kvinna (Fanja Kaplan) under ett tal. Lenin överlevde, men händelsen utlöste vad som gått till historien som <strong>Den Röda Terrorn</strong>.</p>
+
+  <h2>Terror som system</h2>
+  <p>Ordern gick ut över hela landet: "Skjut dem." Tjekan fick oinskränkt makt att arrestera, tortera och avrätta vem de ville, helt utan rättegång. Men det mest skrämmande var inte <em>hur</em> de dödade, utan <em>varför</em>.</p>
+
+  <p>Tjekan letade inte nödvändigtvis efter bevis för att någon hade begått ett brott. En av Tjekans högsta chefer, Martin Latsis, förklarade logiken för sina officerare i en tidningsartikel: <em>"Leta inte i mappen efter bevis på om den anklagade rest sig mot Sovjet med vapen eller ord. Den första frågan ni ska ställa honom är vilken klass han tillhör, vilket ursprung, vilken utbildning och vilket yrke han har. Dessa frågor ska avgöra hans öde."</em></p>
+
+  <p>Om du var en före detta präst, en advokat, en fabriksägare eller bara hade ovanligt rena händer – då var du en fiende till arbetarklassen, och fiender måste utrotas som ohyra. Tiotalstusentals människor fängslades, sattes i nyskapade arbetsläger (som senare blev det ökända Gulag-systemet) eller sköts nattetid i Tjekans ljudisolerade källare.</p>
+
+  <!-- INTERACTIVE CENSORSHIP TOOL -->
+  <div class="censor-wrap">
+    <div class="censor-header">
+      <div class="censor-header-text">
+        <h3>Interaktivt: Sanningsministeriet</h3>
+        <p>Tjekan övervakade all post. Agera statlig censur-officer och stryk över lögnerna.</p>
+      </div>
+      <div class="censor-counter" id="censor-count">FARLIGA ORD KVAR: 4</div>
+    </div>
+    <div class="censor-body">
+      <div class="censor-paper">
+        <div class="censor-stamp" id="censor-stamp">GODKÄNT</div>
+        <p style="font-size: 14px; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 20px; color: #555;">TILLHÖR TJEKANS ARKIV - AVDELNING FÖR POSTCENSUR</p>
+        
+        Kära mor. Vi har äntligen nått fronten i söder. Men situationen här är <span class="redactable" onclick="toggleRedact(this)">fullständigt kaotisk</span>. 
+        Våra soldater <span class="redactable" onclick="toggleRedact(this)">saknar mat och fryser ihjäl</span> varje natt i skyttegravarna. 
+        Igår beordrade vår kommissarie att vi skulle <span class="redactable" onclick="toggleRedact(this)">skjuta tre av våra egna</span> för att de vägrade anfalla. 
+        Bönderna i byarna intill hatar oss eftersom vi <span class="redactable" onclick="toggleRedact(this)">stjäl deras sista säd</span> med vapenhot.
+        Men oroa dig inte för mig mor, jag överlever. Länge leve revolutionen. Din son, Ivan.
+      </div>
+      
+      <div class="censor-action">
+        <button class="censor-btn" id="censor-btn" onclick="approveCensorship()" disabled>Hitta fler ord att stryka...</button>
+        <div class="censor-feedback" id="censor-feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <!-- INTERACTIVE DOSSIER -->
+  <div class="dossier-wrap">
+    <div class="dossier-header">
+      <h3>Interaktivt: Ett dygn i Tjekan</h3>
+      <p>Året är 1919. Du är en nyligen utnämnd förhörsledare. Gör dina val.</p>
+    </div>
+    
+    <div class="dossier-body">
+      <div class="case-nav">
+        <button class="case-tab active" id="tab-1" onclick="showCase(1)">Fall #1: Arbetaren</button>
+        <button class="case-tab" id="tab-2" onclick="showCase(2)">Fall #2: Änkan</button>
+        <button class="case-tab" id="tab-3" onclick="showCase(3)">Fall #3: Kollegan</button>
+      </div>
+
+      <!-- CASE 1 -->
+      <div class="case-card active" id="case-1">
+        <div class="case-file">
+          <div class="case-stamp">TJEKAN</div>
+          <div class="case-title">DOSSIER NR. 4092 | STATUS: VÄNTAR PÅ DOM</div>
+          <div class="case-desc">
+            DEN ANKLAGADE: Ivan, 34 år. Fabriksarbetare.<br><br>
+            BROTT: Arresterad på marknaden efter att ha stulit en halv limpa bröd. I samband med arresteringen skrek han: "Lenin och hans jävla kommissarier äter sig feta medan vi svälter ihjäl!" Han har en fru och tre barn hemma.
+          </div>
+          <div class="decision-grid" id="opts-1">
+            <button class="dec-btn" onclick="makeDecision(1, 0)"><span class="letter">A</span> Låt honom gå med en varning. Hans barn svälter.</button>
+            <button class="dec-btn" onclick="makeDecision(1, 1)"><span class="letter">B</span> Skicka honom till arbetsläger i 5 år för stölden.</button>
+            <button class="dec-btn" onclick="makeDecision(1, 2)"><span class="letter">C</span> Skjut honom omedelbart för kontrarevolutionärt tal.</button>
+          </div>
+        </div>
+        <div class="case-result" id="res-1"></div>
+      </div>
+
+      <!-- CASE 2 -->
+      <div class="case-card" id="case-2">
+        <div class="case-file">
+          <div class="case-stamp">TJEKAN</div>
+          <div class="case-title">DOSSIER NR. 8114 | STATUS: VÄNTAR PÅ DOM</div>
+          <div class="case-desc">
+            DEN ANKLAGADE: Maria, 62 år. Före detta adelskvinna.<br><br>
+            BROTT: Ingen aktivitet mot staten har bevisats. Dock hittades ett silverhalsband gömt i hennes madrass under en husrannsakan. Hennes make var general i Tsarens armé, men dog i kriget för tre år sedan. Hon är tystlåten och sjuklig.
+          </div>
+          <div class="decision-grid" id="opts-2">
+            <button class="dec-btn" onclick="makeDecision(2, 0)"><span class="letter">A</span> Konfiskera halsbandet till staten, men släpp henne. Hon är ofarlig.</button>
+            <button class="dec-btn" onclick="makeDecision(2, 1)"><span class="letter">B</span> Avrätta henne omedelbart som en representant för den gamla förtryckarklassen.</button>
+          </div>
+        </div>
+        <div class="case-result" id="res-2"></div>
+      </div>
+
+      <!-- CASE 3 -->
+      <div class="case-card" id="case-3">
+        <div class="case-file">
+          <div class="case-stamp">TJEKAN</div>
+          <div class="case-title">DOSSIER NR. 0081 | STATUS: INTERN RAPPORT</div>
+          <div class="case-desc">
+            DEN ANKLAGADE: Sergej, 28 år. Din egen kollega i Tjekan.<br><br>
+            BROTT: Du såg Sergej tveka vid gårdagens massavrättning av studenter. Han blundade när han sköt och kränktes efteråt. En annan officer frågar dig tyst om du anser att Sergej "brister i revolutionär hängivenhet".
+          </div>
+          <div class="decision-grid" id="opts-3">
+            <button class="dec-btn" onclick="makeDecision(3, 0)"><span class="letter">A</span> Försvara honom. Säg att han bara var trött men är lojal.</button>
+            <button class="dec-btn" onclick="makeDecision(3, 1)"><span class="letter">B</span> Anmäl honom direkt. "Tvekan är samma sak som förräderi."</button>
+          </div>
+        </div>
+        <div class="case-result" id="res-3"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <h2>Arvet efter Järn-Felix</h2>
+  <p>Det råder ingen tvekan om att Tjekans metoder fungerade kortsiktigt. Den skoningslösa terrorn knäckte all opposition och såg till att kommunisterna vann det ryska inbördeskriget. Men priset var att hela samhället förgiftades av paranoia. Grannar angav grannar, och ingen – inte ens bolsjevikerna själva – gick säkra från nattliga knackningar på dörren.</p>
+  
+  <p>När kriget var över lades Tjekan formellt ner, men den bytte egentligen bara namn (till GPU, NKVD och slutligen KGB). Maskineriet för statlig terror fanns nu inbyggt i Sovjetunionens grundmurar. När Josef Stalin tog makten efter Lenins död behövde han inte uppfinna några nya fängelser eller mördare – han tog bara över tangentbordet till den terrorstat som Järn-Felix och Lenin redan hade byggt.</p>
+
+  <!-- WRITER TOOL -->
+  <div class="writer-wrap">
+    <div class="writer-toolbar">
+      <div class="writer-title">SO-Portalen Skrivblock</div>
+      <button class="writer-btn" onclick="document.getElementById('writer-hint').style.display = document.getElementById('writer-hint').style.display === 'block' ? 'none' : 'block'">💡 Få en ledtråd</button>
+      <button class="writer-btn primary" onclick="exportWord()">💾 Exportera till Word</button>
+    </div>
+    
+    <div id="writer-hint" class="writer-hint-box">
+      <strong>Analys-tips:</strong> Tänk på Lenins grundtanke. Målet var kommunism (ett klasslöst paradis där alla är jämlika och ingen svälter). För att nå dit menade han att man var *tvungen* att tillfälligt mörda dem som stretade emot. Men vad händer med ett "paradis" om vägen dit består av blod och terror? Kan "onda" metoder leda till "goda" resultat?
+    </div>
+    
+    <textarea id="student-text" class="writer-textarea" placeholder="Uppgift: Skriv en kort reflektion. Bolsjevikernas filosofi kan sammanfattas som att 'Målet helgar medlen'. Utifrån vad du precis lärt dig om Tjekan – håller du med om detta? Kan man skapa ett gott samhälle genom att använda ondska för att komma dit? Börja skriva här..."></textarea>
+  </div>
+
+</main>
+
+<script>
+// CENSORSHIP TOOL JS
+let redactedCount = 0;
+const totalToRedact = 4;
+
+function toggleRedact(el) {
+  if(el.classList.contains('redacted')) return; // Redan censurerad
+  
+  el.classList.add('redacted');
+  redactedCount++;
+  
+  const counter = document.getElementById('censor-count');
+  const btn = document.getElementById('censor-btn');
+  
+  const remaining = totalToRedact - redactedCount;
+  
+  if(remaining > 0) {
+    counter.textContent = `FARLIGA ORD KVAR: ${remaining}`;
+  } else {
+    counter.textContent = "DOKUMENT SÄKRAT";
+    counter.style.background = "#1a5c2a";
+    counter.style.borderColor = "#1a5c2a";
+    
+    btn.disabled = false;
+    btn.classList.add('ready');
+    btn.textContent = "GODKÄNN OCH ARKIVERA";
+  }
+}
+
+function approveCensorship() {
+  const btn = document.getElementById('censor-btn');
+  const fb = document.getElementById('censor-feedback');
+  const stamp = document.getElementById('censor-stamp');
+  
+  btn.style.display = 'none';
+  stamp.classList.add('visible');
+  
+  fb.style.display = 'block';
+  fb.innerHTML = `<strong>Bra jobbat, kamrat censur-officer.</strong><br>Du har förhindrat spridningen av farliga sanningar. Så här låter brevet som nu kommer skickas hem till modern:<br><br>
+  <em>"Kära mor. Vi har äntligen nått fronten i söder. Våra soldater varje natt i skyttegravarna. Igår beordrade vår kommissarie att vi skulle för att de vägrade anfalla. Bönderna i byarna intill hatar oss eftersom vi med vapenhot. Men oroa dig inte för mig mor, jag överlever. Länge leve revolutionen."</em><br><br>Verkligheten är vad vi bestämmer att den är.`;
+}
+
+
+// DOSSIER INTERACTIVITY JS
+const caseData = {
+  1: {
+    0: "<strong>DITT VAL: (A) Låt honom gå.</strong><br><br><em>KONVENS:</em> Fel val. Din chef ser att du visade svaghet. Arbetaren arresteras igen dagen efter, och du själv kallas in till ett förhör gällande dina 'borgerliga sympatier'. I Tjekan är nåd ett brott mot revolutionen.",
+    1: "<strong>DITT VAL: (B) Arbetsläger.</strong><br><br><em>KONSEKVENS:</em> Accepterat. Att sno bröd ses som småsint, men att skrika mot Lenin kräver omskolning. Mannen överlever förmodligen inte vintern i lägret.",
+    2: "<strong>DITT VAL: (C) Skjut honom omedelbart.</strong><br><br><em>KONSEKVENS:</em> Perfekt revolutionär logik. Han kritiserade ledningen och spred fientlig stämning. Det spelar ingen roll att han var hungrig. Du befordras."
+  },
+  2: {
+    0: "<strong>DITT VAL: (A) Släpp henne.</strong><br><br><em>KONSEKVENS:</em> Du varnas allvarligt av din överordnade. Har du glömt Latsis regel? Vi tittar inte på vad de <em>gjort</em>, vi tittar på vilka de <em>är</em>. Hon är från adeln och därmed fienden. Hon skjuts av din kollega istället.",
+    1: "<strong>DITT VAL: (B) Avrätta henne omedelbart.</strong><br><br><em>KONSEKVENS:</em> Rätt beslut enligt Tjekan. 'Vi utrotar borgerligheten som klass', sa Latsis. Ett rent samhälle kräver att de gamla rötterna dras upp, oavsett om hon som individ var ofarlig."
+  },
+  3: {
+    0: "<strong>DITT VAL: (A) Försvara honom.</strong><br><br><em>KONSEKVENS:</em> Katastrofalt val. Genom att försvara en förrädare dras du med i fallet. Både du och Sergej skickas till källaren samma natt. Paranoian äter sina egna barn.",
+    1: "<strong>DITT VAL: (B) Anmäl honom direkt.</strong><br><br><em>KONSEKVENS:</em> Utmärkt. Sergej avrättas tyst och du tar över hans skrivbord. För att överleva i en terrorstat måste du misstänka alla, till och med dina vänner."
+  }
+};
+
+function showCase(id) {
+  // Update Tabs
+  document.querySelectorAll('.case-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  
+  // Update Cards
+  document.querySelectorAll('.case-card').forEach(c => c.classList.remove('active'));
+  document.getElementById('case-' + id).classList.add('active');
+}
+
+function makeDecision(caseId, choiceIdx) {
+  // Hide buttons
+  document.getElementById('opts-' + caseId).style.display = 'none';
+  
+  // Show result
+  const resBox = document.getElementById('res-' + caseId);
+  resBox.style.display = 'block';
+  resBox.innerHTML = `<div class="res-title">Officiell utvärdering av ditt beslut:</div>` + caseData[caseId][choiceIdx];
+  
+  // Mark tab as completed
+  document.getElementById('tab-' + caseId).classList.add('completed');
+}
+
+// WRITER EXPORT JS
+function exportWord() {
+  const text = document.getElementById('student-text').value;
+  if(!text.trim()) { 
+    alert("Du måste skriva något i rutan innan du exporterar!"); 
+    return; 
+  }
+  
+  const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Reflektion Tjekan</title></head><body>";
+  const footer = "</body></html>";
+  const html = header + "<h2>Reflektion: Målet helgar medlen?</h2><p>" + text.replace(/\n/g, "<br>") + "</p>" + footer;
+  
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'Reflektion_Tjekan.doc';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+
+</body>
+</html>
