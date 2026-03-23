@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vad är inflation? – SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --cream:#fdf6ec;--cream2:#f5e8d0;--cream3:#ede0c4;
+  --brown:#3d2b1f;--brown2:#5c3d2e;--brown3:#7a5543;
+  --terra:#c4622d;--terra2:#d4753e;--terra3:#e8956a;
+  --gold:#b8860b;--gold2:#d4a017;--gold3:#f0c040;
+  --green:#2d5a27;--green2:#3d7a35;--green3:#5a9e52;
+  --red:#8b1a1a;--red2:#b02020;
+  --text:#2a1a0e;--text2:#5c3d2e;--text3:#8a6a50;
+  --border:rgba(61,43,31,0.15);--border2:rgba(61,43,31,0.08);
+  --shadow:0 4px 24px rgba(61,43,31,0.12);
+  --radius:10px;--radius2:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Libre Baskerville',serif;background:var(--cream);color:var(--text);line-height:1.75;overflow-x:hidden}
+
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:var(--cream2)}
+::-webkit-scrollbar-thumb{background:var(--terra3);border-radius:4px}
+
+/* === NOISE TEXTURE === */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+
+/* === TOPBAR NAV === */
+.nav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--brown);z-index:100;display:flex;align-items:center;gap:0;overflow:hidden;border-bottom:2px solid rgba(255,255,255,.08)}
+.nav-logo-wrap{display:flex;align-items:center;gap:10px;padding:0 18px;border-right:1px solid rgba(255,255,255,.1);height:100%;flex-shrink:0}
+.nav-logo{font-family:'Playfair Display',serif;font-size:.7rem;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold3);white-space:nowrap}
+.nav-title{display:none}
+.nav-sub{display:none}
+.nav-links{display:flex;align-items:center;gap:2px;padding:0 10px;overflow-x:auto;flex:1;height:100%;scrollbar-width:none}
+.nav-links::-webkit-scrollbar{display:none}
+.nav-link{display:flex;align-items:center;gap:6px;padding:6px 12px;border-radius:7px;color:rgba(253,246,236,.6);text-decoration:none;font-family:'DM Sans',sans-serif;font-size:.76rem;font-weight:500;cursor:pointer;transition:all .2s;border:none;background:none;white-space:nowrap;height:38px;flex-shrink:0}
+.nav-link:hover{background:rgba(255,255,255,.08);color:var(--cream)}
+.nav-link.active{background:var(--terra);color:var(--cream)}
+.nav-icon{font-size:.9rem}
+.nav-bottom{display:flex;align-items:center;gap:6px;padding:0 16px;border-left:1px solid rgba(255,255,255,.1);height:100%;flex-shrink:0}
+.nav-score-label{display:none}
+.nav-score{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--gold3);font-weight:700;line-height:1}
+.nav-score-sub{font-family:'DM Sans',sans-serif;font-size:.65rem;color:rgba(253,246,236,.4);white-space:nowrap}
+
+/* === HAMBURGER (hidden — topbar always visible) === */
+.hamburger{display:none}
+
+/* === MAIN === */
+.main{margin-left:0;padding-top:56px;min-height:100vh;position:relative;z-index:1}
+.section{display:none;animation:fadeIn .4s ease}
+.section.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+/* === SECTION HERO === */
+.section-hero{padding:44px 52px 32px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:14px}
+.hero-tag::before{content:'';width:24px;height:2px;background:var(--terra);border-radius:1px}
+.section-hero h2{font-family:'Playfair Display',serif;font-size:2.6rem;line-height:1.15;color:var(--brown);max-width:680px}
+.section-hero h2 em{color:var(--terra);font-style:italic}
+.section-hero .subtitle{font-family:'DM Sans',sans-serif;color:var(--text3);font-size:.95rem;margin-top:12px;max-width:580px;line-height:1.6}
+.hero-ornament{position:absolute;right:52px;top:50%;transform:translateY(-50%);font-size:7rem;opacity:.07;user-select:none;line-height:1}
+
+/* === CONTENT === */
+.content{padding:0 52px 56px;max-width:880px}
+.content h3{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--brown);margin:40px 0 16px;position:relative;padding-left:20px}
+.content h3::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);width:4px;height:60%;background:var(--terra);border-radius:2px}
+.content p{color:var(--text2);margin-bottom:14px;font-size:.96rem;line-height:1.8}
+.content strong{color:var(--brown);font-weight:700}
+
+/* === HIGHLIGHT BOX === */
+.highlight{background:linear-gradient(135deg,rgba(196,98,45,.06),rgba(184,134,11,.06));border:1px solid rgba(196,98,45,.2);border-left:4px solid var(--terra);border-radius:var(--radius);padding:20px 22px;margin:22px 0;position:relative}
+.highlight-label{font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:8px}
+.highlight p{margin:0;font-size:.92rem}
+
+/* === PRICE TAG ANIMATION === */
+.price-demo{background:var(--cream2);border:1px solid var(--border);border-radius:var(--radius2);padding:28px;margin:24px 0;text-align:center;position:relative;overflow:hidden}
+.price-demo h4{font-family:'DM Sans',sans-serif;font-size:.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:20px}
+.price-items{display:flex;justify-content:center;gap:28px;flex-wrap:wrap}
+.price-item{background:white;border:1px solid var(--border);border-radius:12px;padding:18px 22px;text-align:center;box-shadow:var(--shadow);transition:all .3s;min-width:120px}
+.price-item-icon{font-size:2.2rem;margin-bottom:8px}
+.price-item-name{font-family:'DM Sans',sans-serif;font-size:.75rem;color:var(--text3);margin-bottom:6px}
+.price-item-price{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--brown);transition:all .5s}
+.price-item-price.rising{color:var(--red2);animation:priceJump .4s ease}
+.price-item-price.falling{color:var(--green2)}
+@keyframes priceJump{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+.price-controls{margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn{font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600;padding:9px 18px;border-radius:8px;border:none;cursor:pointer;transition:all .25s}
+.btn-terra{background:var(--terra);color:white}
+.btn-terra:hover{background:var(--terra2);transform:translateY(-1px)}
+.btn-green{background:var(--green2);color:white}
+.btn-green:hover{background:var(--green3);transform:translateY(-1px)}
+.btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--text2)}
+.btn-outline:hover{border-color:var(--terra);color:var(--terra)}
+.inflation-rate-display{font-family:'Playfair Display',serif;font-size:1rem;margin-top:14px;color:var(--text3)}
+.inflation-rate-display span{font-size:1.6rem;font-weight:700;color:var(--terra)}
+
+/* === KPI STRIP === */
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:28px 0}
+.kpi{background:white;border:1px solid var(--border);border-radius:var(--radius2);padding:20px;text-align:center;box-shadow:var(--shadow);transition:transform .3s}
+.kpi:hover{transform:translateY(-3px)}
+.kpi-val{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--terra);line-height:1}
+.kpi-label{font-family:'DM Sans',sans-serif;font-size:.72rem;color:var(--text3);margin-top:6px;line-height:1.4}
+
+/* === CAUSE CARDS === */
+.cause-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:24px 0}
+.cause-card{background:white;border:1px solid var(--border);border-radius:var(--radius2);padding:22px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.cause-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--terra);transform:scaleX(0);transition:transform .3s;transform-origin:left}
+.cause-card:hover::after,.cause-card.open::after{transform:scaleX(1)}
+.cause-card:hover,.cause-card.open{border-color:rgba(196,98,45,.3);box-shadow:0 8px 30px rgba(196,98,45,.1);transform:translateY(-2px)}
+.cause-icon{font-size:2rem;margin-bottom:10px}
+.cause-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--brown);margin-bottom:6px}
+.cause-preview{font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--text3)}
+.cause-expand{max-height:0;overflow:hidden;transition:max-height .5s ease}
+.cause-expand.open{max-height:300px}
+.cause-body{font-family:'DM Sans',sans-serif;font-size:.83rem;color:var(--text2);line-height:1.65;margin-top:12px;padding-top:12px;border-top:1px solid var(--border2)}
+
+/* === BUYING POWER SLIDER === */
+.buying-power-widget{background:linear-gradient(135deg,var(--brown),var(--brown2));border-radius:var(--radius2);padding:28px;margin:24px 0;color:var(--cream)}
+.bp-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--cream);margin-bottom:4px}
+.bp-sub{font-family:'DM Sans',sans-serif;font-size:.78rem;color:rgba(253,246,236,.55);margin-bottom:22px}
+.bp-slider-wrap{margin-bottom:20px}
+.bp-slider-wrap label{font-family:'DM Sans',sans-serif;font-size:.78rem;color:rgba(253,246,236,.7);display:block;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:var(--terra3);cursor:pointer;height:6px}
+.bp-result{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.bp-box{background:rgba(255,255,255,.08);border-radius:10px;padding:16px;text-align:center}
+.bp-box-label{font-family:'DM Sans',sans-serif;font-size:.7rem;color:rgba(253,246,236,.5);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.bp-box-val{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--gold3);font-weight:700}
+.bp-box-sub{font-family:'DM Sans',sans-serif;font-size:.75rem;color:rgba(253,246,236,.5);margin-top:4px}
+.bp-arrow{display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:rgba(253,246,236,.3);padding:0 4px;grid-row:1}
+
+/* === QUIZ === */
+.quiz-widget{background:white;border:1px solid var(--border);border-radius:var(--radius2);padding:28px;margin:28px 0;box-shadow:var(--shadow)}
+.quiz-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.quiz-title{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--brown)}
+.quiz-progress{font-family:'DM Sans',sans-serif;font-size:.75rem;color:var(--text3)}
+.quiz-q{font-family:'Libre Baskerville',serif;font-size:.95rem;color:var(--text);margin-bottom:16px;line-height:1.6}
+.quiz-opts{display:grid;gap:8px}
+.quiz-opt{background:var(--cream);border:1.5px solid var(--border);border-radius:8px;padding:12px 16px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--text2);text-align:left;width:100%}
+.quiz-opt:hover:not(:disabled){border-color:var(--terra);background:rgba(196,98,45,.04);color:var(--brown)}
+.quiz-opt.correct{border-color:var(--green2);background:rgba(45,90,39,.08);color:var(--green)}
+.quiz-opt.wrong{border-color:var(--red2);background:rgba(139,26,26,.06);color:var(--red2)}
+.quiz-opt:disabled{cursor:default}
+.quiz-feedback{margin-top:14px;padding:12px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.83rem;display:none;line-height:1.5}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:rgba(45,90,39,.08);border:1px solid rgba(45,90,39,.2);color:var(--green)}
+.quiz-feedback.no{background:rgba(139,26,26,.06);border:1px solid rgba(139,26,26,.2);color:var(--red2)}
+.quiz-nav{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+.quiz-score-bar{height:5px;background:var(--cream2);border-radius:3px;margin-top:16px;overflow:hidden}
+.quiz-score-fill{height:100%;background:linear-gradient(90deg,var(--terra),var(--gold2));border-radius:3px;transition:width .5s ease}
+
+/* === INFLATION CHART === */
+.chart-widget{background:white;border:1px solid var(--border);border-radius:var(--radius2);padding:24px;margin:24px 0;box-shadow:var(--shadow)}
+.chart-title{font-family:'Playfair Display',serif;font-size:1rem;color:var(--brown);margin-bottom:4px}
+.chart-sub{font-family:'DM Sans',sans-serif;font-size:.75rem;color:var(--text3);margin-bottom:18px}
+canvas{max-width:100%;border-radius:6px}
+
+/* === SORTING GAME === */
+.sort-game{background:var(--cream2);border:1px solid var(--border);border-radius:var(--radius2);padding:26px;margin:24px 0}
+.sort-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--brown);margin-bottom:6px}
+.sort-sub{font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--text3);margin-bottom:20px}
+.sort-columns{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.sort-col{background:white;border:1.5px dashed var(--border);border-radius:10px;min-height:120px;padding:12px;transition:border-color .2s}
+.sort-col.drag-over{border-color:var(--terra);background:rgba(196,98,45,.04)}
+.sort-col-title{font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border2)}
+.sort-col-title.inflation{color:var(--red2)}
+.sort-col-title.deflation{color:var(--green2)}
+.sort-item{background:var(--cream);border:1px solid var(--border);border-radius:7px;padding:8px 12px;margin-bottom:7px;cursor:grab;font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--text2);transition:all .2s;user-select:none;display:flex;align-items:center;gap:7px}
+.sort-item:hover{border-color:var(--terra);background:white}
+.sort-item.dragging{opacity:.4}
+.sort-result{margin-top:16px;padding:12px 16px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.83rem;display:none}
+.sort-result.show{display:block}
+.sort-result.win{background:rgba(45,90,39,.08);border:1px solid rgba(45,90,39,.2);color:var(--green)}
+.sort-result.lose{background:rgba(139,26,26,.06);border:1px solid rgba(139,26,26,.2);color:var(--red2)}
+
+/* === FLASHCARDS === */
+.flashcard-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:20px 0}
+.flashcard{height:130px;cursor:pointer;perspective:1000px}
+.fc-inner{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform .5s}
+.flashcard.flipped .fc-inner{transform:rotateY(180deg)}
+.fc-front,.fc-back{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center}
+.fc-front{background:white;border:1px solid var(--border);box-shadow:0 2px 12px rgba(61,43,31,.08)}
+.fc-front span{font-family:'Playfair Display',serif;font-size:.95rem;color:var(--brown);font-weight:700}
+.fc-back{background:var(--terra);border:1px solid var(--terra2);transform:rotateY(180deg)}
+.fc-back span{font-family:'DM Sans',sans-serif;font-size:.78rem;color:white;line-height:1.5}
+.fc-hint{font-family:'DM Sans',sans-serif;font-size:.63rem;color:var(--text3);text-align:center;margin-bottom:8px}
+
+/* === INFLATION METER === */
+.meter-widget{background:white;border:1px solid var(--border);border-radius:var(--radius2);padding:26px;margin:24px 0;box-shadow:var(--shadow);text-align:center}
+.meter-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--brown);margin-bottom:4px}
+.meter-sub{font-family:'DM Sans',sans-serif;font-size:.77rem;color:var(--text3);margin-bottom:22px}
+.meter-svg-wrap{position:relative;display:inline-block}
+.meter-value-display{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);text-align:center;width:120px}
+.meter-num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--brown)}
+.meter-pct{font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--text3)}
+.meter-scenarios{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+.meter-scenario{font-family:'DM Sans',sans-serif;font-size:.75rem;padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);color:var(--text3);cursor:pointer;transition:all .2s;background:var(--cream)}
+.meter-scenario:hover,.meter-scenario.active{border-color:var(--terra);color:var(--terra);background:rgba(196,98,45,.06)}
+.meter-desc{font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--text2);margin-top:16px;min-height:40px;max-width:380px;margin-inline:auto;line-height:1.55}
+
+/* === TIMELINE === */
+.timeline{margin:28px 0;position:relative;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--terra),var(--gold2))}
+.tl-item{position:relative;margin-bottom:26px;animation:none}
+.tl-dot{position:absolute;left:-24px;top:4px;width:14px;height:14px;background:var(--terra);border:2px solid white;border-radius:50%;box-shadow:0 0 0 3px rgba(196,98,45,.2)}
+.tl-year{font-family:'DM Sans',sans-serif;font-size:.7rem;font-weight:700;color:var(--terra);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px}
+.tl-text{font-family:'DM Sans',sans-serif;font-size:.83rem;color:var(--text2);line-height:1.6}
+.tl-text strong{color:var(--brown)}
+
+/* === GLOSSARY === */
+.glossary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:20px 0}
+.gloss-item{background:white;border:1px solid var(--border);border-radius:var(--radius);padding:18px;transition:all .3s;cursor:default}
+.gloss-item:hover{border-color:rgba(196,98,45,.3);box-shadow:0 4px 20px rgba(196,98,45,.08)}
+.gloss-term{font-family:'Playfair Display',serif;font-size:1rem;color:var(--terra);margin-bottom:6px;font-weight:700}
+.gloss-def{font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--text2);line-height:1.55}
+
+/* === WRITING QUESTIONS === */
+.wq-card{background:white;border:1px solid var(--border);border-radius:var(--radius2);padding:28px;margin-bottom:22px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.wq-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--terra),var(--gold2))}
+.wq-num{font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--terra);margin-bottom:8px}
+.wq-question{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--brown);margin-bottom:6px;line-height:1.4}
+.wq-hint{font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--text3);margin-bottom:16px;font-style:italic}
+.wq-textarea{width:100%;min-height:110px;border:1.5px solid var(--border);border-radius:8px;padding:12px 14px;font-family:'Libre Baskerville',serif;font-size:.88rem;color:var(--text);background:var(--cream);resize:vertical;transition:border-color .2s;line-height:1.65}
+.wq-textarea:focus{outline:none;border-color:var(--terra);background:white}
+.wq-textarea::placeholder{color:var(--text3);font-style:italic}
+.wq-actions{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.wq-chars{font-family:'DM Sans',sans-serif;font-size:.72rem;color:var(--text3);margin-left:auto}
+.teacher-feedback{margin-top:16px;border-radius:10px;overflow:hidden;display:none}
+.teacher-feedback.show{display:block;animation:slideDown .4s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+.tf-header{background:var(--brown);color:var(--cream);padding:10px 16px;display:flex;align-items:center;gap:10px;font-family:'DM Sans',sans-serif;font-size:.8rem;font-weight:600}
+.tf-avatar{width:30px;height:30px;background:var(--terra);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.tf-body{background:linear-gradient(135deg,rgba(61,43,31,.04),rgba(184,134,11,.04));border:1px solid rgba(61,43,31,.12);border-top:none;padding:16px}
+.tf-body p{font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--text2);margin-bottom:8px;line-height:1.65}
+.tf-body p:last-child{margin-bottom:0}
+.tf-body strong{color:var(--brown)}
+.tf-keywords{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tf-kw{background:rgba(196,98,45,.1);border:1px solid rgba(196,98,45,.2);color:var(--terra);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;padding:3px 10px;border-radius:20px}
+.wq-done-badge{display:inline-flex;align-items:center;gap:5px;font-family:'DM Sans',sans-serif;font-size:.75rem;color:var(--green2);font-weight:600;margin-top:8px;opacity:0;transition:opacity .4s}
+.wq-done-badge.show{opacity:1}
+
+.wq-prog-dot{font-size:1.6rem;color:var(--border);transition:color .3s;line-height:1}
+
+/* === CONFETTI === */
+.confetti-piece{position:fixed;width:8px;height:8px;pointer-events:none;z-index:9999;animation:confettiFall 3s ease-in forwards}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* === SCORE TOAST === */
+.toast{position:fixed;bottom:28px;right:28px;background:var(--brown);color:var(--gold3);font-family:'DM Sans',sans-serif;font-size:.85rem;padding:12px 20px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,.2);transform:translateY(80px);opacity:0;transition:all .4s;z-index:1000;font-weight:600}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* === RESPONSIVE === */
+@media(max-width:768px){
+  .nav-logo-wrap{padding:0 12px}
+  .nav-link{padding:6px 8px;font-size:.7rem}
+  .section-hero{padding:28px 22px 24px}
+  .content{padding:0 22px 40px}
+  .sort-columns{grid-template-columns:1fr}
+  .bp-result{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-logo-wrap">
+    <div class="nav-logo">SO-Portalen</div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-link active" onclick="showSection(0)"><span class="nav-icon">📖</span>Vad är inflation?</button>
+    <button class="nav-link" onclick="showSection(1)"><span class="nav-icon">🔥</span>Varför stiger priserna?</button>
+    <button class="nav-link" onclick="showSection(2)"><span class="nav-icon">💸</span>Pengarna</button>
+    <button class="nav-link" onclick="showSection(3)"><span class="nav-icon">🏦</span>Riksbanken</button>
+    <button class="nav-link" onclick="showSection(4)"><span class="nav-icon">🧩</span>Ordlista</button>
+    <button class="nav-link" onclick="showSection(5)"><span class="nav-icon">❓</span>Quiz</button>
+    <button class="nav-link" onclick="showSection(6)"><span class="nav-icon">✍️</span>Skrivfrågor</button>
+  </div>
+  <div class="nav-bottom">
+    <div class="nav-score" id="navScore">0</div>
+    <div class="nav-score-sub">poäng</div>
+  </div>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<main class="main">
+
+<!-- SECTION 0: VAD ÄR INFLATION -->
+<section class="section active" id="s0">
+  <div class="section-hero">
+    <div class="hero-tag">Del 1</div>
+    <h2>Vad är <em>inflation</em>?</h2>
+    <p class="subtitle">Inflation innebär att priset på varor och tjänster stiger — och att pengarnas köpkraft minskar. Men vad betyder det i praktiken?</p>
+    <div class="hero-ornament">📈</div>
+  </div>
+  <div class="content">
+    <p>Du har säkert hört att "allt blivit dyrare". Det är precis vad inflation handlar om. Men inflation är inte att <em>en</em> sak blivit dyrare — det är när <em>priserna generellt</em> i samhället stiger över tid.</p>
+
+    <div class="highlight">
+      <div class="highlight-label">💡 Enkelt förklarat</div>
+      <p>Tänk dig att du hade 100 kronor i fickan för 10 år sedan. Idag kan du köpa <strong>färre saker</strong> för samma 100-lapp. Det beror på inflation — pengarna är fortfarande 100 kronor, men de <em>räcker inte lika långt</em>.</p>
+    </div>
+
+    <h3>Se priserna stiga — live!</h3>
+    <p>Klicka på "Starta inflation" och se hur priserna på vardagliga varor förändras. Det händer sakta till en början — precis som i verkligheten.</p>
+
+    <div class="price-demo" id="priceDemo">
+      <h4>Prisutveckling i Svenssons korg</h4>
+      <div class="price-items">
+        <div class="price-item">
+          <div class="price-item-icon">🥛</div>
+          <div class="price-item-name">Mjölk (1L)</div>
+          <div class="price-item-price" id="pp0">15 kr</div>
+        </div>
+        <div class="price-item">
+          <div class="price-item-icon">🍞</div>
+          <div class="price-item-name">Bröd (limpan)</div>
+          <div class="price-item-price" id="pp1">28 kr</div>
+        </div>
+        <div class="price-item">
+          <div class="price-item-icon">⛽</div>
+          <div class="price-item-name">Bensin (L)</div>
+          <div class="price-item-price" id="pp2">19 kr</div>
+        </div>
+        <div class="price-item">
+          <div class="price-item-icon">🚌</div>
+          <div class="price-item-name">Busskort (mån)</div>
+          <div class="price-item-price" id="pp3">850 kr</div>
+        </div>
+        <div class="price-item">
+          <div class="price-item-icon">☕</div>
+          <div class="price-item-name">Kaffe (kafe)</div>
+          <div class="price-item-price" id="pp4">42 kr</div>
+        </div>
+      </div>
+      <div style="margin:16px 0 8px;text-align:left;padding:0 8px">
+        <label style="font-family:'DM Sans',sans-serif;font-size:.78rem;color:var(--text3);display:block;margin-bottom:6px">Välj inflationstakt: <strong id="inflRateLabel">2%</strong> per år</label>
+        <input type="range" min="1" max="15" value="2" id="inflRateChooser" oninput="document.getElementById('inflRateLabel').textContent=this.value+'%'" style="width:100%;accent-color:var(--terra)">
+        <div style="display:flex;justify-content:space-between;font-family:'DM Sans',sans-serif;font-size:.65rem;color:var(--text3);margin-top:2px"><span>1% (låg)</span><span>2% (Riksbankens mål)</span><span>7%</span><span>15% (kris)</span></div>
+      </div>
+      <div class="price-controls">
+        <button class="btn btn-terra" id="startInflBtn" onclick="startInflation()">▶ Starta inflation</button>
+        <button class="btn btn-green" onclick="stopInflation()">⏸ Pausa</button>
+        <button class="btn btn-outline" onclick="resetPrices()">↺ Återställ</button>
+      </div>
+      <div class="inflation-rate-display">Inflationstakt: <span id="rateDisplay">0%</span> per år &nbsp;|&nbsp; År: <span id="yearDisplay">2024</span></div>
+    </div>
+
+    <h3>Mäter man verkligen <em>all</em> priser?</h3>
+    <p>Nej — det vore omöjligt! Statistiska centralbyrån (SCB) mäter istället ett urval av varor och tjänster som ett genomsnittshushåll köper. Det kallas <strong>Konsumentprisindex (KPI)</strong>. Det är ungefär som att hålla koll på en kundvagn med typiska vardagsvaror.</p>
+
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-val">30%</div><div class="kpi-label">Mat och dryck (störst vikt)</div></div>
+      <div class="kpi"><div class="kpi-val">25%</div><div class="kpi-label">Boende och energi</div></div>
+      <div class="kpi"><div class="kpi-val">13%</div><div class="kpi-label">Transport</div></div>
+      <div class="kpi"><div class="kpi-val">9%</div><div class="kpi-label">Rekreation & kultur</div></div>
+      <div class="kpi"><div class="kpi-val">23%</div><div class="kpi-label">Övrigt (kläder, hälsa…)</div></div>
+    </div>
+
+    <div class="highlight">
+      <div class="highlight-label">🎯 Riksbankens mål</div>
+      <p>Riksbanken försöker hålla inflationen på <strong>2% per år</strong>. Det låter lite — men det räcker för att pengarna sakta ska tappa i värde. Både för hög och för låg inflation är ett problem för samhället.</p>
+    </div>
+
+    <h3>Svensk inflation 1970–2024 — det verkliga diagrammet</h3>
+    <p>Nedan ser du hur inflationen faktiskt sett ut i Sverige under de senaste 50 åren. Håll muspekaren över staplarna för att se siffrorna — och klicka på en händelse för att läsa vad som orsakade den!</p>
+
+    <div class="chart-widget" id="histChart">
+      <div class="chart-title">KPI-inflation i Sverige 1970–2024</div>
+      <div class="chart-sub">Procent per år. Källa: SCB / Riksbanken (historiska data)</div>
+      <div style="position:relative;overflow-x:auto">
+        <canvas id="inflCanvas" width="780" height="300" style="display:block;max-width:100%"></canvas>
+      </div>
+      <div id="chartTooltip" style="font-family:'DM Sans',sans-serif;font-size:.82rem;color:var(--text2);min-height:44px;margin-top:12px;padding:10px 14px;background:var(--cream2);border-radius:8px;border-left:3px solid var(--terra);display:none"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px" id="chartEvents"></div>
+    </div>
+
+    <h3>Vad <em>beror</em> inflation på — en djupare förklaring</h3>
+    <p>Inflation uppstår aldrig av en enda anledning. Det är ett samspel mellan <strong>utbud</strong> (hur mycket som produceras), <strong>efterfrågan</strong> (hur mycket folk vill köpa) och <strong>penningmängden</strong> (hur mycket pengar som finns i omlopp). När dessa tre faktorer hamnar ur balans — stiger priserna.</p>
+
+    <div class="highlight">
+      <div class="highlight-label">🔑 Grundformeln</div>
+      <p>Tänk dig en marknad med <strong>100 varor</strong> och <strong>100 kr</strong> i omlopp. Varje vara kostar 1 kr. Om penningmängden fördubblas till 200 kr — men fortfarande bara finns 100 varor — kostar varje vara nu 2 kr. <em>Det är inflation i ett nötskal.</em></p>
+    </div>
+
+    <p>Men i verkligheten är det mer komplicerat. Inflation kan komma från <strong>tre håll</strong> — och ofta flera på en gång:</p>
+
+    <div class="cause-grid" style="margin-top:16px">
+      <div class="cause-card" onclick="toggleCause(this)" style="border-top:3px solid var(--terra)">
+        <div class="cause-icon">🛒</div>
+        <div class="cause-title">Från efterfrågesidan</div>
+        <div class="cause-preview">"För mycket pengar jagar för få varor"</div>
+        <div class="cause-expand"><div class="cause-body">
+          När hushåll och företag plötsligt har mer pengar att spendera — t.ex. efter skattesänkningar, löneökningar eller stimulanscheckar — ökar efterfrågan snabbt. Om produktionen inte hinner med stiger priserna.<br><br>
+          <strong>Vad driver det?</strong> Stark arbetsmarknad, låga räntor, statliga stödpaket, konjunkturuppgång, ökad kreditgivning från banker.<br><br>
+          <em>Exempel: USA 2021–2022.</em> Covid-stödet pumpade in tusentals miljarder dollar i ekonomin. Hushållen shoppade intensivt — men fabrikerna var fortfarande halvstängda. Priserna sköt i höjden.
+        </div></div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)" style="border-top:3px solid var(--gold2)">
+        <div class="cause-icon">🏭</div>
+        <div class="cause-title">Från utbudssidan</div>
+        <div class="cause-preview">"Det kostar mer att producera"</div>
+        <div class="cause-expand"><div class="cause-body">
+          Ibland stiger priserna inte för att folk vill köpa mer — utan för att det kostar mer att producera. Dyrare råvaror, energi, transporter eller löner välts över på konsumenterna.<br><br>
+          <strong>Vad driver det?</strong> Stigande energipriser, brist på råvaror, naturkatastrofer, krig som stör handel, pandemier som stoppar leveranskedjor.<br><br>
+          <em>Exempel: Europa 2022.</em> När Ryssland stängde gasflödet till Europa steg energipriserna explosivt. Allt som krävde energi att producera — mat, stål, plast, transport — blev dyrare.
+        </div></div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)" style="border-top:3px solid var(--brown3)">
+        <div class="cause-icon">🖨️</div>
+        <div class="cause-title">Från penningmängden</div>
+        <div class="cause-preview">"För många kronor, för få varor"</div>
+        <div class="cause-expand"><div class="cause-body">
+          Om en centralbank skapar pengar snabbare än ekonomin växer sjunker varje sedels köpkraft. Det är som att spä ut en koncentrerad juice — mer vätska, men samma mängd smak.<br><br>
+          <strong>Vad driver det?</strong> Centralbanker som "trycker pengar" (kvantitativa lättnader), stater som finansierar utgifter genom att låna av centralbanken, snabb kreditexpansion i banker.<br><br>
+          <em>Historiskt extremfall:</em> Zimbabwe 2007–2009. Penningmängden ökade med miljarder procent. Folk behövde kärror av sedlar för att handla mat.
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1: VARFÖR STIGER PRISERNA -->
+<section class="section" id="s1">
+  <div class="section-hero">
+    <div class="hero-tag">Del 2</div>
+    <h2>Varför stiger <em>priserna</em>?</h2>
+    <p class="subtitle">Det finns flera olika orsaker till inflation. Klicka på korten för att utforska dem!</p>
+    <div class="hero-ornament">⚡</div>
+  </div>
+  <div class="content">
+    <p>Inflation uppstår sällan av en enda orsak. Det är snarare som ett pussel — flera faktorer samverkar och driver upp priserna. Ekonomer brukar dela in orsakerna i tre huvudgrupper.</p>
+
+    <h3>De tre stora orsakerna</h3>
+    <div class="cause-grid">
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">🛒</div>
+        <div class="cause-title">Efterfråge&shy;inflation</div>
+        <div class="cause-preview">För mycket pengar jagar för få varor...</div>
+        <div class="cause-expand">
+          <div class="cause-body">
+            <strong>Efterfrågeinflation</strong> uppstår när det finns mer pengar i omlopp än det finns varor och tjänster. Alla vill köpa — men det finns inte tillräckligt mycket att köpa. Då tävlar folk om varorna, och säljarna kan ta mer betalt.<br><br>
+            <em>Exempel:</em> Under pandemin satt folk hemma med sparpengar och handlade online. Efterfrågan på vissa varor exploderade — och priserna följde efter.
+          </div>
+        </div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">🏭</div>
+        <div class="cause-title">Kostnads&shy;inflation</div>
+        <div class="cause-preview">När det kostar mer att producera...</div>
+        <div class="cause-expand">
+          <div class="cause-body">
+            <strong>Kostnadsinflation</strong> uppstår när det blir dyrare att tillverka varor — t.ex. om löner stiger, råvaror blir dyrare eller energipriserna skjuter i höjden. Företagen välter då kostnaderna på konsumenterna.<br><br>
+            <em>Exempel:</em> När Ryssland invaderade Ukraina steg energipriserna dramatiskt i Europa. Det gjorde allt från bageriernas ugnar till bilfabrikernas löpande band dyrare att driva.
+          </div>
+        </div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">💰</div>
+        <div class="cause-title">Penning&shy;mängds&shy;inflation</div>
+        <div class="cause-preview">För mycket pengar i omlopp...</div>
+        <div class="cause-expand">
+          <div class="cause-body">
+            <strong>Penningmängdsinflation</strong> är det klassiska ekonomiska fenomenet: om ett land trycker för mycket pengar (eller centralbankerna skapar mer pengar) minskar varje sedels värde. Mer pengar, men lika mycket varor = varje krona är värd mindre.<br><br>
+            <em>Historiskt exempel:</em> I Zimbabwe på 2000-talet trycktes så mycket pengar att det inte gick att köpa ett bröd utan en kasse sedlar.
+          </div>
+        </div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">📦</div>
+        <div class="cause-title">Utbuds&shy;störningar</div>
+        <div class="cause-preview">När produktionen störs eller minskar...</div>
+        <div class="cause-expand">
+          <div class="cause-body">
+            <strong>Utbudsstörningar</strong> gör att det plötsligt produceras färre varor. Det kan bero på torka som slår ut skördar, krig som stänger fabriker, eller sjukdomar som stoppar sjöfarten.<br><br>
+            <em>Exempel:</em> När Covid-19 stoppade produktion i Asien och blockerade fartyg uppstod brist på allt från mikrochips till möbler — och priserna steg.
+          </div>
+        </div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">🔄</div>
+        <div class="cause-title">Pris-lön-spiralen</div>
+        <div class="cause-preview">Löner och priser driver upp varandra...</div>
+        <div class="cause-expand">
+          <div class="cause-body">
+            En farlig mekanism: priserna stiger → arbetstagare kräver högre löner → löner stiger → företag höjer priserna för att täcka lönekostnaderna → priser stiger igen.<br><br>
+            Det kallas en <strong>lön-pris-spiral</strong> och är svår att bryta. Det är en av anledningarna till att Riksbanken agerar tidigt när inflationen stiger.
+          </div>
+        </div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">🌍</div>
+        <div class="cause-title">Importerad inflation</div>
+        <div class="cause-preview">Priserna i omvärlden smittar av sig...</div>
+        <div class="cause-expand">
+          <div class="cause-body">
+            Sverige importerar enormt mycket — mat, kläder, elektronik, råvaror. Om det blir dyrare utomlands, eller om kronan försvagas (man får färre dollar för sin krona), smittar det av sig på svenska priser.<br><br>
+            <em>Exempel:</em> Olja prissätts i dollar. Om dollarn stärks mot kronan betalar vi mer för bensin — även om oljepriset i dollar inte förändrats.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Inflationsmätaren — välj ett scenario</h3>
+    <p>Testa att växla mellan olika ekonomiska scenarier och se hur inflationen påverkas.</p>
+    <div class="meter-widget">
+      <div class="meter-title">Inflationsmätaren</div>
+      <div class="meter-sub">Välj ett scenario för att se hur hög inflationen kan bli</div>
+      <div class="meter-svg-wrap">
+        <svg width="220" height="120" viewBox="0 0 220 120" id="meterSVG">
+          <defs>
+            <linearGradient id="meterGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color:#2d5a27"/>
+              <stop offset="30%" style="stop-color:#d4a017"/>
+              <stop offset="65%" style="stop-color:#c4622d"/>
+              <stop offset="100%" style="stop-color:#8b1a1a"/>
+            </linearGradient>
+          </defs>
+          <!-- Track -->
+          <path d="M 20 100 A 90 90 0 0 1 200 100" stroke="url(#meterGrad)" stroke-width="14" fill="none" stroke-linecap="round"/>
+          <!-- Needle -->
+          <g id="meterNeedle" style="transform-origin:110px 100px;transform:rotate(-90deg);transition:transform 1s ease">
+            <line x1="110" y1="100" x2="110" y2="22" stroke="#3d2b1f" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="110" cy="100" r="6" fill="#3d2b1f"/>
+          </g>
+          <!-- Labels -->
+          <text x="14" y="115" font-size="9" fill="#2d5a27" font-family="DM Sans">0%</text>
+          <text x="95" y="18" font-size="9" fill="#c4622d" font-family="DM Sans" text-anchor="middle">5%</text>
+          <text x="190" y="115" font-size="9" fill="#8b1a1a" font-family="DM Sans">10%+</text>
+        </svg>
+        <div class="meter-value-display">
+          <div class="meter-num" id="meterNum">0%</div>
+          <div class="meter-pct" id="meterLabel">Välj scenario</div>
+        </div>
+      </div>
+      <div class="meter-scenarios">
+        <div class="meter-scenario" onclick="setMeter(1.5,'Normal tid','Ekonomin fungerar som den ska. Riksbanken är nöjd.')">Normal tid</div>
+        <div class="meter-scenario" onclick="setMeter(3.2,'Stigande energipriser','El och bensin drar upp priserna på nästan allt.')">Energikris</div>
+        <div class="meter-scenario" onclick="setMeter(5.8,'Hög efterfrågan','Boom i ekonomin — alla köper och priserna hettas upp.')">Högkonjunktur</div>
+        <div class="meter-scenario" onclick="setMeter(8.4,'Utbudssvikt + lönespiral','Produktionsbrist + lönekrav driver upp priserna kraftigt.')">Kris</div>
+        <div class="meter-scenario" onclick="setMeter(22,'Hyperinflation','Staten trycker pengar okontrollerat. Ekonomin kollapsar.')">Hyperinflation</div>
+      </div>
+      <div class="meter-desc" id="meterDesc">Välj ett scenario ovan för att se hur inflationen förändras och vad det innebär.</div>
+    </div>
+
+    <!-- SORT GAME -->
+    <h3>Sortera: Inflation eller deflation?</h3>
+    <p>Dra (eller klicka) på exemplen och sortera dem i rätt kolumn. <strong>Deflation</strong> är när priserna sjunker — det låter bra, men är ofta farligt!</p>
+    <div class="sort-game" id="sortGame">
+      <div class="sort-title">Vad driver vad?</div>
+      <div class="sort-sub">Klicka på ett kort och sedan en kolumn för att placera det.</div>
+      <div class="sort-columns">
+        <div class="sort-col" id="col-infl" onclick="dropToCol('infl')">
+          <div class="sort-col-title inflation">🔴 Leder till INFLATION</div>
+        </div>
+        <div class="sort-col" id="col-defl" onclick="dropToCol('defl')">
+          <div class="sort-col-title deflation">🟢 Leder till DEFLATION</div>
+        </div>
+      </div>
+      <div id="sortItemsPool" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:14px"></div>
+      <div class="sort-result" id="sortResult"></div>
+      <div style="margin-top:14px;display:flex;gap:10px;">
+        <button class="btn btn-terra" onclick="checkSort()">✓ Kolla svar</button>
+        <button class="btn btn-outline" onclick="resetSort()">↺ Starta om</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: KÖPKRAFT -->
+<section class="section" id="s2">
+  <div class="section-hero">
+    <div class="hero-tag">Del 3</div>
+    <h2>Vad händer med <em>pengarna</em>?</h2>
+    <p class="subtitle">Inflation urholkar pengars värde. Men hur mycket — och hur snabbt? Utforska köpkraftens förändring.</p>
+    <div class="hero-ornament">💸</div>
+  </div>
+  <div class="content">
+    <p>Inflation är inte bara abstrakt ekonomi — det drabbar din plånbok. Varje år som går med inflation innebär att dina pengar <em>köper lite mindre</em>. Sparpengar på ett konto som inte ger ränta <em>minskar i realt värde</em> år för år.</p>
+
+    <h3>Köpkraftskalkylatorn</h3>
+    <p>Justera inflationstakten och antalet år — och se hur mycket dina pengar egentligen är värda!</p>
+
+    <div class="buying-power-widget">
+      <div class="bp-title">💰 Köpkraftskalkylatorn</div>
+      <div class="bp-sub">Hur mycket är 10 000 kronor värda efter X år med Y% inflation?</div>
+      <div class="bp-slider-wrap">
+        <label>Inflationstakt: <strong id="rateVal">3</strong>% per år</label>
+        <input type="range" min="1" max="20" value="3" id="rateSlider" oninput="updateBP()">
+      </div>
+      <div class="bp-slider-wrap">
+        <label>Antal år: <strong id="yearVal">10</strong> år</label>
+        <input type="range" min="1" max="30" value="10" id="yearSlider" oninput="updateBP()">
+      </div>
+      <div class="bp-result">
+        <div class="bp-box">
+          <div class="bp-box-label">Du börjar med</div>
+          <div class="bp-box-val">10 000 kr</div>
+          <div class="bp-box-sub">idag</div>
+        </div>
+        <div class="bp-box">
+          <div class="bp-box-label">Köpkraft om <span id="bpYearLabel">10</span> år</div>
+          <div class="bp-box-val" id="bpResult">7 441 kr</div>
+          <div class="bp-box-sub" id="bpLost">Du förlorar 2 559 kr i köpkraft</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>72-regeln — ett smart knep</h3>
+    <div class="highlight">
+      <div class="highlight-label">🧮 72-regeln</div>
+      <p>Dela 72 med inflationstakten — så får du ungefär hur många år det tar för pengar att halveras i köpkraft.<br><br>
+      <strong>Exempel:</strong> Med 6% inflation → 72 ÷ 6 = <strong>12 år</strong> för att pengarnas köpkraft ska halveras. Med 2% inflation tar det 36 år.</p>
+    </div>
+
+    <h3>Sju vardagliga konsekvenser</h3>
+    <p>Inflation märks inte alltid direkt — men den påverkar vardagen på många sätt:</p>
+    <div class="cause-grid">
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">🏠</div>
+        <div class="cause-title">Boendekostnader</div>
+        <div class="cause-preview">Hyror och bolån påverkas...</div>
+        <div class="cause-expand"><div class="cause-body">Höga räntor (som Riksbanken använder för att bekämpa inflation) gör bolån dyrare. Många hushåll fick chockhöjda månadskostnader 2022–2023 när inflationen var hög och räntorna steg kraftigt.</div></div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">🧓</div>
+        <div class="cause-title">Pensioner</div>
+        <div class="cause-preview">Inflation drabbar pensionärer hårt...</div>
+        <div class="cause-expand"><div class="cause-body">Pensioner är ofta fixerade belopp. Om inflationen är hög och pensionen inte följer med urholkas köpkraften — pensionären kan köpa allt färre varor för sin pension.</div></div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">📊</div>
+        <div class="cause-title">Sparande</div>
+        <div class="cause-preview">Pengar på kontot krymper...</div>
+        <div class="cause-expand"><div class="cause-body">Om din sparränta är lägre än inflationen <em>minskar</em> ditt sparandes värde, trots att siffran på kontot ser likadan ut. Det kallas <strong>negativ realränta</strong>.</div></div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">💳</div>
+        <div class="cause-title">Skulder</div>
+        <div class="cause-preview">Låntagare kan faktiskt gynnas...</div>
+        <div class="cause-expand"><div class="cause-body">Paradoxalt nog kan inflation gynna den som har lån — skulden är nominellt densamma, men pengarnas värde har minskat. Staten betalar tillbaka lån "i billigare pengar". Däremot stiger räntan ofta och slår tillbaka.</div></div>
+      </div>
+    </div>
+
+    <h3>Historiska inflationstopper i Sverige</h3>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1970-tal</div>
+        <div class="tl-text">Oljekrisen 1973 slog hårt. Sverige upplevde inflation på <strong>10–14%</strong> per år — lönerna jagade priserna i en farlig spiral.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">1990–1991</div>
+        <div class="tl-text">Bankkrisen och avregleringen skapade en turbulent period. Riksbanken höjde räntan till <strong>500%</strong> (!) för en kort period för att försvara kronan.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2009–2019</div>
+        <div class="tl-text">Sverige kämpade med <strong>för låg</strong> inflation. Riksbanken använde till och med negativ ränta för att försöka få igång ekonomin.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2022–2023</div>
+        <div class="tl-text">Inflationen slog i <strong>10,9%</strong> — den högsta på 30 år. Energipriser efter Ukrainakriget och störningar i leveranskedjor var de främsta orsakerna.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-year">2024–2025</div>
+        <div class="tl-text">Inflationen sjönk tillbaka mot Riksbankens mål på 2%. Riksbanken sänkte successivt räntan igen under 2024.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: RIKSBANKEN -->
+<section class="section" id="s3">
+  <div class="section-hero">
+    <div class="hero-tag">Del 4</div>
+    <h2>Riksbanken <em>bekämpar</em> inflationen</h2>
+    <p class="subtitle">Vad gör staten och centralbanken när inflationen skenar? Och hur fungerar räntevapnet?</p>
+    <div class="hero-ornament">🏦</div>
+  </div>
+  <div class="content">
+    <p>Riksbanken är Sveriges centralbank — en oberoende myndighet vars viktigaste uppgift är att hålla inflationen i schack. Målet är <strong>2% inflation per år</strong>. Det verkar lite — men det är precis lagom för att ekonomin ska fungera.</p>
+
+    <div class="highlight">
+      <div class="highlight-label">🤔 Varför inte 0% inflation?</div>
+      <p>Noll procent låter perfekt — men det är farligt! Med deflation (fallande priser) skjuter folk upp köp i hopp om ännu lägre priser. Konsumtionen faller, företag tjänar mindre, varsel ökar. Det kallas en <strong>deflationsspiral</strong> — och är en ekonomis mardröm.</p>
+    </div>
+
+    <h3>Riksbankens viktigaste vapen: styrräntan</h3>
+    <p>Riksbanken styr inflationen primärt genom att höja eller sänka <strong>styrräntan</strong> — den ränta som banker betalar när de lånar pengar av Riksbanken. Förändringen sprider sig sedan genom hela ekonomin.</p>
+
+    <div class="cause-grid">
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">📈</div>
+        <div class="cause-title">Höjer räntan</div>
+        <div class="cause-preview">När inflationen är för hög...</div>
+        <div class="cause-expand"><div class="cause-body">
+          <strong>Hög ränta → dyrare att låna → folk konsumerar och investerar mindre → efterfrågan sjunker → priserna slutar stiga.</strong><br><br>
+          Nackdelen: Det kan bromsa tillväxten och öka arbetslösheten. Många som har lån får högre månadsutgifter.
+        </div></div>
+      </div>
+      <div class="cause-card" onclick="toggleCause(this)">
+        <div class="cause-icon">📉</div>
+        <div class="cause-title">Sänker räntan</div>
+        <div class="cause-preview">När ekonomin behöver stimulans...</div>
+        <div class="cause-expand"><div class="cause-body">
+          <strong>Låg ränta → billigare att låna → folk konsumerar och investerar mer → efterfrågan ökar → priserna börjar stiga.</strong><br><br>
+          Används när ekonomin är för svag eller inflationen är för låg. Risk: kan skapa bubblor på bostads- eller aktiemarknaderna.
+        </div></div>
+      </div>
+    </div>
+
+    <h3>Vad du kan göra som privatperson</h3>
+    <p>Inflation drabbar alla — men det finns strategier för att skydda sig:</p>
+    <div class="kpi-strip">
+      <div class="kpi"><div class="kpi-val">🏦</div><div class="kpi-label">Välj sparkonton med hög ränta</div></div>
+      <div class="kpi"><div class="kpi-val">📈</div><div class="kpi-label">Investera i aktier eller fonder</div></div>
+      <div class="kpi"><div class="kpi-val">🏠</div><div class="kpi-label">Fastigheter behåller ofta värdet</div></div>
+      <div class="kpi"><div class="kpi-val">🌾</div><div class="kpi-label">Råvaror stiger ofta med inflationen</div></div>
+    </div>
+
+    <div class="highlight">
+      <div class="highlight-label">⚖️ Att tänka på</div>
+      <p>Riksbanken är <em>politiskt oberoende</em>. Det innebär att ingen politiker kan beordra Riksbanken att sänka räntan inför ett val — en viktig garanti mot att penningpolitiken missbrukas.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: ORDLISTA -->
+<section class="section" id="s4">
+  <div class="section-hero">
+    <div class="hero-tag">Del 5</div>
+    <h2>Viktiga <em>begrepp</em></h2>
+    <p class="subtitle">Klicka på korten för att se förklaringarna. Lär dig alla — och imponera på dina kompisar!</p>
+    <div class="hero-ornament">📚</div>
+  </div>
+  <div class="content">
+    <p class="fc-hint">👆 Klicka på korten för att vända dem!</p>
+    <div class="flashcard-grid" id="fcGrid"></div>
+    <div class="glossary-grid" id="glossGrid"></div>
+  </div>
+</section>
+
+<!-- SECTION 5: QUIZ -->
+<section class="section" id="s5">
+  <div class="section-hero">
+    <div class="hero-tag">Del 6</div>
+    <h2>Testa dina <em>kunskaper</em>!</h2>
+    <p class="subtitle">16 frågor om inflation. Klarar du alla?</p>
+    <div class="hero-ornament">❓</div>
+  </div>
+  <div class="content">
+    <div class="quiz-widget" id="quizWidget">
+      <div class="quiz-header">
+        <div class="quiz-title">Inflationsquizet</div>
+        <div class="quiz-progress" id="quizProg">Fråga 1 av 16</div>
+      </div>
+      <div class="quiz-q" id="quizQ"></div>
+      <div class="quiz-opts" id="quizOpts"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <div class="quiz-score-bar"><div class="quiz-score-fill" id="quizFill" style="width:0%"></div></div>
+      <div class="quiz-nav">
+        <span id="quizScoreText" style="font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--text3)">Poäng: 0</span>
+        <button class="btn btn-terra" id="nextBtn" onclick="nextQuiz()" style="display:none">Nästa fråga →</button>
+      </div>
+    </div>
+    <div id="quizDone" style="display:none;text-align:center;padding:40px 20px">
+      <div style="font-size:4rem;margin-bottom:16px" id="quizEmoji">🎉</div>
+      <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--brown);margin-bottom:8px">Quiz klart!</div>
+      <div style="font-family:'DM Sans',sans-serif;color:var(--text3);margin-bottom:24px">Du fick <strong id="quizFinalScore" style="color:var(--terra)"></strong> av 16 rätt!</div>
+      <button class="btn btn-terra" onclick="resetQuiz()">↺ Gör om quizet</button>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 6: SKRIVFRÅGOR -->
+<section class="section" id="s6">
+  <div class="section-hero">
+    <div class="hero-tag">Del 7</div>
+    <h2>Skrivfrågor — <em>tänk djupare</em></h2>
+    <p class="subtitle">Skriv ditt svar och tryck sedan på "Visa lärarkommentar" för att se vad din lärare vill att du tänker på.</p>
+    <div class="hero-ornament">✍️</div>
+  </div>
+  <div class="content">
+    <p>Dessa frågor har inget enkelt rätt eller fel svar — de tränar din förmåga att <strong>resonera, förklara och koppla ihop</strong> ekonomiska begrepp med verkligheten. Skriv minst 3–5 meningar.</p>
+
+    <!-- Q1 -->
+    <div class="wq-card" id="wq1">
+      <div class="wq-num">Skrivfråga 1 av 5</div>
+      <div class="wq-question">Förklara med egna ord vad inflation är och varför det spelar roll för vanliga hushåll.</div>
+      <div class="wq-hint">💡 Tänk på: köpkraft, sparande, löner, dagliga inköp. Ge gärna ett eget exempel.</div>
+      <textarea class="wq-textarea" id="wqa1" placeholder="Skriv ditt svar här..." oninput="countChars(1)"></textarea>
+      <div class="wq-actions">
+        <button class="btn btn-terra" onclick="showFeedback(1)">👩‍🏫 Visa lärarkommentar</button>
+        <button class="btn btn-outline" onclick="markDone(1)">✓ Klar</button>
+        <span class="wq-chars" id="wqc1">0 tecken</span>
+      </div>
+      <div class="wq-done-badge" id="wqd1">✅ Markerad som klar</div>
+      <div class="teacher-feedback" id="wqf1">
+        <div class="tf-header"><div class="tf-avatar">👩‍🏫</div>Lärarkommentar</div>
+        <div class="tf-body">
+          <p>Bra start! Inflation handlar om att <strong>pengarnas köpkraft minskar</strong> — du kan köpa mindre för samma summa. Glöm inte att koppla till vardagen: en familj som handlar mat, betalar hyra och tankar bilen märker inflationen varje dag.</p>
+          <p>Starka svar brukar också nämna att inflation <strong>inte drabbar alla lika</strong>. Pensionärer med fast inkomst, unga utan sparkapital och låginkomsthushåll drabbas hårdast. Den som har skulder kan till och med gynnas när pengars värde sjunker.</p>
+          <p>Kolla om du använt dessa nyckelbegrepp:</p>
+          <div class="tf-keywords">
+            <span class="tf-kw">köpkraft</span>
+            <span class="tf-kw">KPI</span>
+            <span class="tf-kw">prisstegring</span>
+            <span class="tf-kw">hushåll</span>
+            <span class="tf-kw">reallön</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="wq-card" id="wq2">
+      <div class="wq-num">Skrivfråga 2 av 5</div>
+      <div class="wq-question">Varför tror du att oljekrisen 1973 ledde till så hög inflation i Sverige? Vad hade olja med svenska matpriser att göra?</div>
+      <div class="wq-hint">💡 Tänk på: produktionskostnader, transport, energi i jordbruket, importerade varor.</div>
+      <textarea class="wq-textarea" id="wqa2" placeholder="Skriv ditt svar här..." oninput="countChars(2)"></textarea>
+      <div class="wq-actions">
+        <button class="btn btn-terra" onclick="showFeedback(2)">👩‍🏫 Visa lärarkommentar</button>
+        <button class="btn btn-outline" onclick="markDone(2)">✓ Klar</button>
+        <span class="wq-chars" id="wqc2">0 tecken</span>
+      </div>
+      <div class="wq-done-badge" id="wqd2">✅ Markerad som klar</div>
+      <div class="teacher-feedback" id="wqf2">
+        <div class="tf-header"><div class="tf-avatar">👩‍🏫</div>Lärarkommentar</div>
+        <div class="tf-body">
+          <p>Utmärkt fråga för att förstå hur <strong>kedjereaktioner</strong> fungerar i ekonomin! Olja är inte bara bränsle i bilen — det är en insatsvara i nästan allt vi tillverkar och transporterar.</p>
+          <p>Brödet i affären har åkt lastbil. Lastbilen kör på diesel. Vete odlas med maskiner som drivs av olja. Konstgödsel är oljebaserat. <strong>Stiger oljepriset → stiger produktionskostnaderna för nästan allt</strong> → kostnadsinflation sprider sig genom hela ekonomin.</p>
+          <p>De bästa svaren lyfter också fram att Sverige på 1970-talet var mer oljeberoende än idag, och att löne-pris-spiralen förstärkte effekten.</p>
+          <div class="tf-keywords">
+            <span class="tf-kw">kostnadsinflation</span>
+            <span class="tf-kw">insatsvara</span>
+            <span class="tf-kw">kedjereaktion</span>
+            <span class="tf-kw">transport</span>
+            <span class="tf-kw">utbudschock</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="wq-card" id="wq3">
+      <div class="wq-num">Skrivfråga 3 av 5</div>
+      <div class="wq-question">Riksbanken höjde räntan kraftigt 2022–2023. Förklara hur en räntehöjning är tänkt att dämpa inflation — och vad nackdelarna kan vara.</div>
+      <div class="wq-hint">💡 Tänk på: bolåntagare, företagsinvesteringar, konsumtion, arbetslöshet, låntagare vs. sparare.</div>
+      <textarea class="wq-textarea" id="wqa3" placeholder="Skriv ditt svar här..." oninput="countChars(3)"></textarea>
+      <div class="wq-actions">
+        <button class="btn btn-terra" onclick="showFeedback(3)">👩‍🏫 Visa lärarkommentar</button>
+        <button class="btn btn-outline" onclick="markDone(3)">✓ Klar</button>
+        <span class="wq-chars" id="wqc3">0 tecken</span>
+      </div>
+      <div class="wq-done-badge" id="wqd3">✅ Markerad som klar</div>
+      <div class="teacher-feedback" id="wqf3">
+        <div class="tf-header"><div class="tf-avatar">👩‍🏫</div>Lärarkommentar</div>
+        <div class="tf-body">
+          <p>Det här är hjärtat i penningpolitiken! Logiken är enkel: <strong>dyrare att låna → folk spenderar och investerar mindre → efterfrågan sjunker → priserna slutar stiga</strong>. Riksbanken försöker "kyla av" ekonomin.</p>
+          <p>Men nackdelarna är verkliga och viktiga. Familjer med rörliga bolån fick chockhöjda månadskostnader. Företag skjuter upp investeringar. Byggsektorn bromsade dramatiskt — nyproduktionen av bostäder rasade. Och om räntan höjs för kraftigt riskerar ekonomin att gå in i recession.</p>
+          <p>Det klurига med 2022 var att inflationen berodde på <em>utbudssidan</em> (energikrisen) — inte på att folk spenderade för mycket. Räntehöjning är ett verktyg för efterfrågeinflation, och passar inte lika bra mot kostnadsinflation.</p>
+          <div class="tf-keywords">
+            <span class="tf-kw">styrränta</span>
+            <span class="tf-kw">bolån</span>
+            <span class="tf-kw">konsumtion</span>
+            <span class="tf-kw">recession</span>
+            <span class="tf-kw">penningpolitik</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="wq-card" id="wq4">
+      <div class="wq-num">Skrivfråga 4 av 5</div>
+      <div class="wq-question">Vem vinner och vem förlorar på hög inflation? Ge konkreta exempel på olika grupper i samhället.</div>
+      <div class="wq-hint">💡 Tänk på: pensionärer, bolåntagare, hyresgäster, statsskuld, aktieägare, den som har sparpengar på hög.</div>
+      <textarea class="wq-textarea" id="wqa4" placeholder="Skriv ditt svar här..." oninput="countChars(4)"></textarea>
+      <div class="wq-actions">
+        <button class="btn btn-terra" onclick="showFeedback(4)">👩‍🏫 Visa lärarkommentar</button>
+        <button class="btn btn-outline" onclick="markDone(4)">✓ Klar</button>
+        <span class="wq-chars" id="wqc4">0 tecken</span>
+      </div>
+      <div class="wq-done-badge" id="wqd4">✅ Markerad som klar</div>
+      <div class="teacher-feedback" id="wqf4">
+        <div class="tf-header"><div class="tf-avatar">👩‍🏫</div>Lärarkommentar</div>
+        <div class="tf-body">
+          <p>Superb analysuppgift! Inflation är <strong>inte neutral</strong> — den omfördelar resurser på ett dolt sätt. Det är en av anledningarna till att ekonomer tar den så seriöst.</p>
+          <p><strong>Förlorare:</strong> Pensionärer och andra med fast inkomst (köpkraften urholkas). Den som har sparpengar på ett lågräntekonto (negativ realränta). Hyresgäster om hyran höjs. Kreditgivare som lånat ut pengar till fast ränta.</p>
+          <p><strong>Vinnare (ibland):</strong> Låntagare — skulden är nominellt densamma men "billigare" i reala termer. Staten kan betala av statsskulden i "billigare" kronor. Ägare av reala tillgångar som fastigheter och aktier — de tenderar att följa inflationen.</p>
+          <p>Observera att höga räntor (inflationsbekämpning) sedan kan slå tillbaka mot låntagarna.</p>
+          <div class="tf-keywords">
+            <span class="tf-kw">realvärde</span>
+            <span class="tf-kw">omfördelning</span>
+            <span class="tf-kw">nominell skuld</span>
+            <span class="tf-kw">reala tillgångar</span>
+            <span class="tf-kw">köpkraft</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="wq-card" id="wq5">
+      <div class="wq-num">Skrivfråga 5 av 5</div>
+      <div class="wq-question">Om du var chef för Riksbanken under energikrisen 2022 — hur hade du resonerat? Hade du höjt räntan lika kraftigt, eller valt en annan strategi?</div>
+      <div class="wq-hint">💡 Det finns inget perfekt svar här. Det handlar om att resonera kring avvägningar: inflation vs. recession, kortsiktigt vs. långsiktigt.</div>
+      <textarea class="wq-textarea" id="wqa5" placeholder="Skriv ditt svar här..." oninput="countChars(5)"></textarea>
+      <div class="wq-actions">
+        <button class="btn btn-terra" onclick="showFeedback(5)">👩‍🏫 Visa lärarkommentar</button>
+        <button class="btn btn-outline" onclick="markDone(5)">✓ Klar</button>
+        <span class="wq-chars" id="wqc5">0 tecken</span>
+      </div>
+      <div class="wq-done-badge" id="wqd5">✅ Markerad som klar</div>
+      <div class="teacher-feedback" id="wqf5">
+        <div class="tf-header"><div class="tf-avatar">👩‍🏫</div>Lärarkommentar</div>
+        <div class="tf-body">
+          <p>Det här är en riktig "dilemma-fråga" — och det finns verkligen inget rätt svar. Riksbanken stod inför ett klassiskt dilemma: <strong>inflationsbekämpning kontra risken att skapa recession</strong>.</p>
+          <p><em>Argument för kraftiga räntehöjningar:</em> Inflationsförväntningarna måste hållas förankrade. Om folk tror att inflationen fortsätter kräver de högre löner → pris-lön-spiral. Riksbankens trovärdighet som inflationsbekämpare är avgörande.</p>
+          <p><em>Argument mot:</em> Inflationen berodde på energipriser — ett utbudsproblem som räntan inte kan "bota". Räntehöjningar drabbar oskyldiga bolåntagare och bromsar bostadsbyggande som redan var lågt.</p>
+          <p>Ett riktigt starkt svar väger båda sidor och visar att ekonomisk politik alltid handlar om <strong>avvägningar</strong> — inte om enkla lösningar.</p>
+          <div class="tf-keywords">
+            <span class="tf-kw">avvägning</span>
+            <span class="tf-kw">inflationsförväntningar</span>
+            <span class="tf-kw">trovärdighet</span>
+            <span class="tf-kw">utbudschock</span>
+            <span class="tf-kw">recession</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress summary -->
+    <div style="background:var(--cream2);border:1px solid var(--border);border-radius:var(--radius2);padding:22px;margin-top:8px;text-align:center" id="wqSummary">
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;color:var(--brown);margin-bottom:6px">Din framsteg</div>
+      <div style="font-family:'DM Sans',sans-serif;font-size:.8rem;color:var(--text3);margin-bottom:14px">Klara skrivfrågor: <strong id="wqDoneCount" style="color:var(--terra)">0</strong> av 5</div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <div class="wq-prog-dot" id="wqp1">○</div>
+        <div class="wq-prog-dot" id="wqp2">○</div>
+        <div class="wq-prog-dot" id="wqp3">○</div>
+        <div class="wq-prog-dot" id="wqp4">○</div>
+        <div class="wq-prog-dot" id="wqp5">○</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// === GLOBAL STATE ===
+let totalScore = 0;
+
+function addScore(pts){
+  totalScore += pts;
+  document.getElementById('navScore').textContent = totalScore;
+  showToast('+' + pts + ' poäng! 🎯');
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+
+function confetti(x, y){
+  const colors = ['#c4622d','#d4a017','#2d5a27','#3d2b1f','#f0c040'];
+  for(let i=0;i<18;i++){
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `left:${x+Math.random()*80-40}px;top:${y}px;background:${colors[Math.floor(Math.random()*colors.length)]};border-radius:${Math.random()>0.5?'50%':'2px'};width:${6+Math.random()*6}px;height:${6+Math.random()*6}px;animation-delay:${Math.random()*0.3}s;animation-duration:${2+Math.random()}s`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(), 3500);
+  }
+}
+
+// === NAV ===
+function showSection(idx){
+  document.querySelectorAll('.section').forEach((s,i)=>s.classList.toggle('active',i===idx));
+  document.querySelectorAll('.nav-link').forEach((l,i)=>l.classList.toggle('active',i===idx));
+  document.getElementById('nav').classList.remove('open');
+  window.scrollTo(0,0);
+  if(idx===4) initFlashcards();
+  if(idx===5) initQuiz();
+}
+
+function toggleNav(){
+  document.getElementById('nav').classList.toggle('open');
+}
+
+// === PRICE DEMO ===
+const basePrices = [15, 28, 19, 850, 42];
+let currentPrices = [...basePrices];
+let inflInterval = null;
+let inflYear = 2024;
+let inflRate = 0;
+
+function startInflation(){
+  if(inflInterval) return;
+  const chosenRate = parseFloat(document.getElementById('inflRateChooser').value);
+  inflRate = chosenRate;
+  inflInterval = setInterval(()=>{
+    inflYear++;
+    inflRate = Math.max(0.5, Math.min(inflRate + (Math.random()-0.45)*0.3, chosenRate+1));
+    currentPrices = currentPrices.map((p,i)=>{
+      const newP = p * (1 + inflRate/100);
+      const el = document.getElementById('pp'+i);
+      el.classList.remove('rising','falling');
+      void el.offsetWidth;
+      el.classList.add('rising');
+      const suffix = i===3 ? ' kr' : ' kr';
+      el.textContent = (i===3 ? Math.round(newP) : newP.toFixed(2)) + suffix;
+      return newP;
+    });
+    document.getElementById('rateDisplay').textContent = inflRate.toFixed(1)+'%';
+    document.getElementById('yearDisplay').textContent = inflYear;
+  }, 1200);
+}
+
+function stopInflation(){
+  clearInterval(inflInterval);
+  inflInterval = null;
+}
+
+function resetPrices(){
+  stopInflation();
+  currentPrices = [...basePrices];
+  const suffixes = [' kr',' kr',' kr',' kr',' kr'];
+  const labels = ['15','28','19','850','42'];
+  [0,1,2,3,4].forEach(i=>{
+    const el = document.getElementById('pp'+i);
+    el.className = 'price-item-price';
+    el.textContent = labels[i]+' kr';
+  });
+  document.getElementById('rateDisplay').textContent = '0%';
+  document.getElementById('yearDisplay').textContent = '2024';
+  inflYear = 2024; inflRate = 0;
+}
+
+// === CAUSE CARDS ===
+function toggleCause(el){
+  const expand = el.querySelector('.cause-expand');
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.cause-card').forEach(c=>{
+    c.classList.remove('open');
+    c.querySelector('.cause-expand').classList.remove('open');
+  });
+  if(!isOpen){
+    el.classList.add('open');
+    expand.classList.add('open');
+    addScore(2);
+  }
+}
+
+// === METER ===
+function setMeter(val, label, desc){
+  document.querySelectorAll('.meter-scenario').forEach(s=>s.classList.remove('active'));
+  event.target.classList.add('active');
+  const clampedPct = Math.min(val/12, 1);
+  const angle = -90 + clampedPct * 180;
+  document.getElementById('meterNeedle').style.transform = `rotate(${angle}deg)`;
+  document.getElementById('meterNum').textContent = val+'%';
+  document.getElementById('meterLabel').textContent = label;
+  document.getElementById('meterDesc').textContent = desc;
+  addScore(1);
+}
+
+// === BUYING POWER ===
+function updateBP(){
+  const rate = parseFloat(document.getElementById('rateSlider').value);
+  const years = parseInt(document.getElementById('yearSlider').value);
+  document.getElementById('rateVal').textContent = rate;
+  document.getElementById('yearVal').textContent = years;
+  document.getElementById('bpYearLabel').textContent = years;
+  const result = 10000 / Math.pow(1+rate/100, years);
+  const lost = 10000 - result;
+  document.getElementById('bpResult').textContent = Math.round(result).toLocaleString('sv-SE')+' kr';
+  document.getElementById('bpLost').textContent = 'Du förlorar '+Math.round(lost).toLocaleString('sv-SE')+' kr i köpkraft';
+}
+updateBP();
+
+// === SORT GAME ===
+const sortItems = [
+  {id:'si1', text:'🛒 Alla har fått mer pengar och vill shoppa', cat:'infl'},
+  {id:'si2', text:'🏭 Lönerna sjunker kraftigt', cat:'defl'},
+  {id:'si3', text:'⛽ Energipriserna stiger dramatiskt', cat:'infl'},
+  {id:'si4', text:'📉 Ekonomin går in i en lågkonjunktur', cat:'defl'},
+  {id:'si5', text:'💰 Staten trycker för mycket sedlar', cat:'infl'},
+  {id:'si6', text:'🏪 Butikerna tvingas sänka priser för att sälja', cat:'defl'},
+  {id:'si7', text:'📦 Brist på varor pga. transportkris', cat:'infl'},
+  {id:'si8', text:'🌾 Rekordskördar ger prispress nedåt', cat:'defl'},
+];
+let selectedSort = null;
+
+function renderSortItems(){
+  const pool = document.getElementById('sortItemsPool');
+  pool.innerHTML = '';
+  sortItems.forEach(item=>{
+    const el = document.createElement('div');
+    el.className = 'sort-item';
+    el.id = item.id;
+    el.innerHTML = item.text;
+    el.onclick = ()=>selectSortItem(item.id);
+    pool.appendChild(el);
+  });
+  document.getElementById('col-infl').innerHTML = '<div class="sort-col-title inflation">🔴 Leder till INFLATION</div>';
+  document.getElementById('col-defl').innerHTML = '<div class="sort-col-title deflation">🟢 Leder till DEFLATION</div>';
+  document.getElementById('sortResult').className = 'sort-result';
+  document.getElementById('sortResult').textContent = '';
+  selectedSort = null;
+}
+
+function selectSortItem(id){
+  document.querySelectorAll('.sort-item').forEach(el=>el.style.outline='');
+  const el = document.getElementById(id);
+  if(el && el.parentElement.id === 'sortItemsPool'){
+    selectedSort = id;
+    el.style.outline = '2px solid var(--terra)';
+  }
+}
+
+function dropToCol(colName){
+  if(!selectedSort) return;
+  const itemEl = document.getElementById(selectedSort);
+  if(!itemEl) return;
+  const col = document.getElementById('col-'+colName);
+  itemEl.style.outline = '';
+  col.appendChild(itemEl);
+  itemEl.onclick = ()=>{
+    // click to move back
+    document.getElementById('sortItemsPool').appendChild(itemEl);
+    selectedSort = null;
+  };
+  selectedSort = null;
+}
+
+function checkSort(){
+  let correct = 0;
+  sortItems.forEach(item=>{
+    const el = document.getElementById(item.id);
+    const inCorrectCol = el.closest('#col-'+item.cat);
+    if(inCorrectCol) correct++;
+    if(inCorrectCol) el.style.background = 'rgba(45,90,39,.15)';
+    else el.style.background = 'rgba(139,26,26,.1)';
+  });
+  const res = document.getElementById('sortResult');
+  if(correct === sortItems.length){
+    res.className = 'sort-result show win';
+    res.textContent = '🎉 Perfekt! Alla '+correct+' rätt! Du förstår skillnaden mellan inflation och deflation.';
+    addScore(10);
+    confetti(400, 200);
+  } else {
+    res.className = 'sort-result show lose';
+    res.textContent = correct+' av '+sortItems.length+' rätt. Röda kort är felplacerade — försök igen!';
+  }
+}
+
+function resetSort(){ renderSortItems(); }
+
+// === FLASHCARDS ===
+const flashcards = [
+  {front:'Inflation', back:'Allmän prisstegring i ekonomin — pengarna köper mindre'},
+  {front:'Deflation', back:'Allmän prisminskning — låter bra men är farligt för ekonomin'},
+  {front:'KPI', back:'Konsumentprisindex — mäter prisnivån på en korg med vanliga varor'},
+  {front:'Styrräntan', back:'Riksbankens nyckelränta som påverkar alla räntor i ekonomin'},
+  {front:'Köpkraft', back:'Hur mycket varor och tjänster du faktiskt kan köpa för dina pengar'},
+  {front:'Hyperinflation', back:'Extremt snabb inflation — pengar förlorar värde på dagar eller timmar'},
+  {front:'Riksbanken', back:'Sveriges centralbank — sköter penningpolitiken med målet 2% inflation'},
+  {front:'Realränta', back:'Räntan minus inflationstakten — vad du verkligen tjänar på att spara'},
+];
+
+const glossary = [
+  {term:'Penningmängd', def:'Totala mängden pengar i omlopp i en ekonomi. Ökar den snabbare än produktionen → inflation.'},
+  {term:'Stagflation', def:'En ovanlig kombination av hög inflation OCH hög arbetslöshet. Svårt att bekämpa.'},
+  {term:'Pris-lön-spiral', def:'Priser stiger → lönekrav ökar → priser stiger igen. En självförstärkande cykel.'},
+  {term:'Kvantitetsteorin', def:'Gammal ekonomisk teori: om penningmängden fördubblas fördubblas priserna på sikt.'},
+  {term:'Importerad inflation', def:'Inflation som beror på att importerade varor blivit dyrare — t.ex. via valutakurs.'},
+  {term:'Nominell vs real', def:'Nominell = det faktiska beloppet. Real = justerat för inflation. Real lön = löneökning minus inflation.'},
+];
+
+function initFlashcards(){
+  const grid = document.getElementById('fcGrid');
+  if(grid.innerHTML !== '') return;
+  flashcards.forEach(fc=>{
+    const el = document.createElement('div');
+    el.className = 'flashcard';
+    el.innerHTML = `<div class="fc-inner"><div class="fc-front"><span>${fc.front}</span></div><div class="fc-back"><span>${fc.back}</span></div></div>`;
+    el.onclick = ()=>{el.classList.toggle('flipped'); addScore(1);};
+    grid.appendChild(el);
+  });
+  const gGrid = document.getElementById('glossGrid');
+  glossary.forEach(g=>{
+    const el = document.createElement('div');
+    el.className = 'gloss-item';
+    el.innerHTML = `<div class="gloss-term">${g.term}</div><div class="gloss-def">${g.def}</div>`;
+    gGrid.appendChild(el);
+  });
+}
+
+// === QUIZ ===
+const quizData = [
+  {q:'Vad innebär inflation?', opts:['A) Att statsskulden ökar','B) Att priserna allmänt stiger i ekonomin','C) Att en specifik vara blivit dyrare','D) Att kronan stärks mot euron'], ans:1, feedback:'Inflation är när priserna generellt stiger — inte bara en enstaka vara.'},
+  {q:'Vilket mål har Riksbanken för inflation?', opts:['A) 0% — inga prisökningar alls','B) 5% — lagom med tillväxt','C) 2% per år','D) 10% — gynnar exportföretag'], ans:2, feedback:'Riksbankens inflationsmål är 2% per år — tillräckligt för ekonomisk dynamik, men inte destabiliserande.'},
+  {q:'Vad är KPI?', opts:['A) Kronans Pris Index — valutaindex','B) Konsumentprisindex — mäter prisutvecklingen på vanliga varor','C) Konjunktur Produktions Indikator','D) En riksbanksrapport om räntor'], ans:1, feedback:'KPI = Konsumentprisindex. Det mäter prisförändringen på en representativ "korg" med varor och tjänster.'},
+  {q:'Vad händer med köpkraften vid inflation?', opts:['A) Den ökar — du kan köpa mer','B) Den är oförändrad','C) Den minskar — pengarna räcker till mindre','D) Det beror på vilken bank du är kund hos'], ans:2, feedback:'Inflation urholkar köpkraften. Dina pengar köper gradvis färre varor och tjänster.'},
+  {q:'Vad är efterfrågeinflation?', opts:['A) Inflation som uppstår när centralbankerna höjer räntan','B) Inflation orsakad av höga importkostnader','C) Inflation som uppstår när efterfrågan överstiger utbudet','D) Inflation kopplad till politiska val'], ans:2, feedback:'Efterfrågeinflation: för mycket pengar jagar för få varor. Alla vill köpa → priserna stiger.'},
+  {q:'Hur bekämpar Riksbanken hög inflation?', opts:['A) Sänker skatterna för att stimulera ekonomin','B) Höjer styrräntan för att dämpa efterfrågan','C) Trycker mer pengar för att öka utbudet','D) Sänker räntan för att göra sparande mer attraktivt'], ans:1, feedback:'Hög styrränta → dyrare att låna → folk konsumerar mindre → efterfrågan faller → priserna dämpas.'},
+  {q:'Vad kallas det när priserna allmänt sjunker?', opts:['A) Devalvering','B) Recession','C) Stagflation','D) Deflation'], ans:3, feedback:'Deflation = fallande priser. Det låter positivt men kan leda till en ond spiral av minskad konsumtion.'},
+  {q:'72-regeln används för att beräkna...', opts:['A) Hur länge en centralbank kan hålla en ränta','B) Hur snabbt köpkraften halveras vid en given inflationstakt','C) Hur stor statsskulden är i relation till BNP','D) Hur mycket ränta en bank får ta ut maximalt'], ans:1, feedback:'72 ÷ inflationstakten = antal år för köpkraften att halveras. Vid 6% inflation tar det 12 år.'},
+  {q:'Vad är kostnadsinflation?', opts:['A) Inflation som beror på att staten höjer skatterna','B) Inflation som uppstår när produktionskostnaderna stiger','C) En typ av inflation som bara drabbar företag','D) Inflation orsakad av stigande bostadspriser'], ans:1, feedback:'Kostnadsinflation: råvaror, löner eller energi blir dyrare → företag höjer priserna för att täcka kostnaderna.'},
+  {q:'Sverige upplevde inflation på nästan 11% under vilket år?', opts:['A) 1990','B) 2008','C) 2015','D) 2022'], ans:3, feedback:'2022 nådde inflationen 10,9% i Sverige — den högsta på 30 år, drivet av energipriser och störda leveranskedjor.'},
+  {q:'Vad är realräntan?', opts:['A) Riksbankens officiella styrränta','B) Den ränta banker tar ut på lån','C) Räntan minus inflationstakten','D) En fast ränta som inte förändras'], ans:2, feedback:'Realräntan = nominell ränta − inflation. Den visar vad du verkligen tjänar på att spara i reala termer.'},
+  {q:'Varför är deflation farligt?', opts:['A) Det gör importen dyrare och skadar exportföretag','B) Det kan leda till att folk skjuter upp köp, minskar efterfrågan och skapar lågkonjunktur','C) Det gör det svårare att sälja statsobligationer','D) Det höjer automatiskt arbetslösheten via lagstiftning'], ans:1, feedback:'Fallande priser → folk väntar med att köpa (det blir billigare imorgon) → efterfrågan rasar → deflationsspiral.'},
+  {q:'Vad är pris-lön-spiralen?', opts:['A) Riksbankens modell för att förutsäga inflation','B) En lag om maximal prisstegring','C) En formel för att räkna ut reallöner','D) En cykel där stigande priser leder till lönekrav som leder till högre priser'], ans:3, feedback:'Priser stiger → lönekrav ökar → löner stiger → företag höjer priser → cykeln fortsätter. Svår att bryta.'},
+  {q:'Importerad inflation kan bero på...', opts:['A) Att svenska staten ger bidrag till importörer','B) Att den svenska kronan försvagas och importerade varor blir dyrare','C) Riksbankens beslut att sänka styrräntan','D) Höga svenska löner jämfört med omvärlden'], ans:1, feedback:'En svag krona = du betalar mer kronor för samma importerade vara. Utländsk inflation "smittar" Sverige.'},
+  {q:'Vad är hyperinflation?', opts:['A) Inflation över 2% som Riksbanken reagerar på','B) Inflation som varar mer än fem år','C) Extrem och snabb inflation som gör valutan värdelös','D) Inflation som uppstår i höginkomstländer'], ans:2, feedback:'Hyperinflation är okontrollerad prisexplotion. Zimbabwe 2000-tal är ett extremt exempel — sedlar behövdes i kilo.'},
+  {q:'Vilken myndighet ansvarar för att mäta inflation i Sverige?', opts:['A) Riksbanken','B) Konjunkturinstitutet','C) Statistiska centralbyrån (SCB)','D) Finansdepartementet'], ans:2, feedback:'SCB (Statistiska centralbyrån) beräknar KPI och mäter inflationen i Sverige varje månad.'},
+];
+
+let quizIdx = 0, quizScore = 0, quizAnswered = false;
+
+function initQuiz(){
+  quizIdx = 0; quizScore = 0; quizAnswered = false;
+  document.getElementById('quizWidget').style.display = 'block';
+  document.getElementById('quizDone').style.display = 'none';
+  renderQuiz();
+}
+
+function renderQuiz(){
+  if(quizIdx >= quizData.length){ endQuiz(); return; }
+  const q = quizData[quizIdx];
+  quizAnswered = false;
+  document.getElementById('quizQ').textContent = q.q;
+  document.getElementById('quizProg').textContent = 'Fråga '+(quizIdx+1)+' av '+quizData.length;
+  document.getElementById('quizScoreText').textContent = 'Poäng: '+quizScore;
+  document.getElementById('quizFill').style.width = (quizScore/quizData.length*100)+'%';
+  document.getElementById('nextBtn').style.display = 'none';
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  const opts = document.getElementById('quizOpts');
+  opts.innerHTML = '';
+  q.opts.forEach((opt,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = ()=>answerQuiz(i, btn);
+    opts.appendChild(btn);
+  });
+}
+
+function answerQuiz(i, btn){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  const q = quizData[quizIdx];
+  const allBtns = document.querySelectorAll('.quiz-opt');
+  allBtns.forEach(b=>b.disabled=true);
+  const fb = document.getElementById('quizFeedback');
+  if(i === q.ans){
+    btn.classList.add('correct');
+    quizScore++;
+    fb.className = 'quiz-feedback show ok';
+    fb.textContent = '✅ Rätt! '+q.feedback;
+    addScore(5);
+    confetti(window.innerWidth/2, 200);
+  } else {
+    btn.classList.add('wrong');
+    allBtns[q.ans].classList.add('correct');
+    fb.className = 'quiz-feedback show no';
+    fb.textContent = '❌ Fel. '+q.feedback;
+  }
+  document.getElementById('nextBtn').style.display = 'inline-block';
+}
+
+function nextQuiz(){
+  quizIdx++;
+  renderQuiz();
+}
+
+function endQuiz(){
+  document.getElementById('quizWidget').style.display = 'none';
+  document.getElementById('quizDone').style.display = 'block';
+  document.getElementById('quizFinalScore').textContent = quizScore;
+  const emoji = quizScore >= 14 ? '🏆' : quizScore >= 10 ? '🎉' : quizScore >= 6 ? '👍' : '📚';
+  document.getElementById('quizEmoji').textContent = emoji;
+  if(quizScore >= 12) confetti(window.innerWidth/2, 200);
+}
+
+function resetQuiz(){ initQuiz(); }
+
+// === HISTORICAL INFLATION CHART ===
+const inflData = [
+  {y:1970,v:7.0},{y:1971,v:7.4},{y:1972,v:6.0},{y:1973,v:6.7},{y:1974,v:9.9},
+  {y:1975,v:9.8},{y:1976,v:10.3},{y:1977,v:11.4},{y:1978,v:10.0},{y:1979,v:7.2},
+  {y:1980,v:13.7},{y:1981,v:12.1},{y:1982,v:8.6},{y:1983,v:8.9},{y:1984,v:8.0},
+  {y:1985,v:7.4},{y:1986,v:4.3},{y:1987,v:4.2},{y:1988,v:5.8},{y:1989,v:6.4},
+  {y:1990,v:10.4},{y:1991,v:9.3},{y:1992,v:2.3},{y:1993,v:4.6},{y:1994,v:2.4},
+  {y:1995,v:2.5},{y:1996,v:0.5},{y:1997,v:0.5},{y:1998,v:-0.1},{y:1999,v:0.3},
+  {y:2000,v:1.3},{y:2001,v:2.7},{y:2002,v:2.4},{y:2003,v:2.3},{y:2004,v:0.4},
+  {y:2005,v:0.5},{y:2006,v:1.5},{y:2007,v:2.2},{y:2008,v:3.3},{y:2009,v:-0.5},
+  {y:2010,v:1.2},{y:2011,v:3.0},{y:2012,v:0.9},{y:2013,v:0.0},{y:2014,v:-0.2},
+  {y:2015,v:0.0},{y:2016,v:1.0},{y:2017,v:1.9},{y:2018,v:2.0},{y:2019,v:1.7},
+  {y:2020,v:0.5},{y:2021,v:2.7},{y:2022,v:8.4},{y:2023,v:10.9},{y:2024,v:2.3}
+];
+
+const chartEvents = [
+  {year:1973, label:'🛢️ Oljekrisen 1973', desc:'OPEC-länderna stoppade oljeexporten till väst. Energipriserna fyrdubblas. Sverige drabbas hårt — kostnadsinflationen skenar.'},
+  {year:1980, label:'⛽ Andra oljekrisen', desc:'Iran-Irak-kriget störde oljeproduktionen igen. Sveriges inflation nådde 13,7% — det värsta sedan andra världskriget.'},
+  {year:1990, label:'🏦 Bankkrisen', desc:'Avreglering av kreditmarknaden ledde till spekulation och fastighetsbubblor. Sverige föll in i en djup recession med hög inflation och stigande arbetslöshet.'},
+  {year:1993, label:'💱 Kronan flytade', desc:'Sverige tvingades överge den fasta växelkursen. Kronan devalverades kraftigt — dyrare import gav en inflationspuls.'},
+  {year:1996, label:'🎯 Inflationsmål', desc:'Riksbanken etablerade formellt 2%-målet. Inflationen pressades ner och hölls stabil i decennier.'},
+  {year:2009, label:'📉 Finanskris', desc:'Den globala finanskrisen 2008-09 drog ner efterfrågan kraftigt. Sverige upplevde faktisk deflation (-0,5%) — priser sjönk.'},
+  {year:2022, label:'⚔️ Ukrainakriget', desc:'Rysslands invasion höjde gas- och elpriserna dramatiskt. Sveriges inflation nådde 8,4% — på väg mot 10,9% år 2023, den högsta på 30 år.'},
+];
+
+function drawInflChart(){
+  const canvas = document.getElementById('inflCanvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const pad = {top:24, right:20, bottom:40, left:44};
+  const chartW = W - pad.left - pad.right;
+  const chartH = H - pad.top - pad.bottom;
+  const maxV = 15, minV = -1;
+  const n = inflData.length;
+
+  ctx.clearRect(0,0,W,H);
+
+  // Background
+  ctx.fillStyle = '#fdf6ec';
+  ctx.fillRect(0,0,W,H);
+
+  // Zero line area tint
+  const zeroY = pad.top + chartH * (1 - (0 - minV)/(maxV - minV));
+  ctx.fillStyle = 'rgba(184,134,11,0.04)';
+  ctx.fillRect(pad.left, pad.top, chartW, zeroY - pad.top);
+
+  // Grid lines
+  [-1,0,2,5,10,15].forEach(v=>{
+    const y = pad.top + chartH * (1 - (v - minV)/(maxV - minV));
+    ctx.beginPath();
+    ctx.strokeStyle = v===0 ? 'rgba(61,43,31,0.25)' : v===2 ? 'rgba(196,98,45,0.3)' : 'rgba(61,43,31,0.08)';
+    ctx.lineWidth = v===0||v===2 ? 1.5 : 1;
+    ctx.setLineDash(v===2 ? [5,4] : []);
+    ctx.moveTo(pad.left, y); ctx.lineTo(pad.left+chartW, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = v===2 ? 'rgba(196,98,45,0.7)' : 'rgba(61,43,31,0.4)';
+    ctx.font = '10px DM Sans, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(v+'%', pad.left-6, y+3);
+    if(v===2){
+      ctx.fillStyle = 'rgba(196,98,45,0.6)';
+      ctx.font = '9px DM Sans, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('Riksbankens mål', pad.left+4, y-5);
+    }
+  });
+
+  const barW = Math.floor(chartW / n) - 1;
+  const getX = i => pad.left + (i / n) * chartW + barW/2;
+
+  // Draw bars
+  inflData.forEach((d,i)=>{
+    const x = pad.left + (i/n)*chartW;
+    const barH = Math.abs(d.v - 0) / (maxV - minV) * chartH;
+    const y = d.v >= 0 ? zeroY - barH : zeroY;
+    const pct = Math.min(Math.max(d.v/maxV, 0), 1);
+
+    // Color: green-gold-terra-red gradient by value
+    let color;
+    if(d.v < 0) color = '#3d7a35';
+    else if(d.v < 2) color = '#2d5a27';
+    else if(d.v < 4) color = '#b8860b';
+    else if(d.v < 7) color = '#c4622d';
+    else color = '#8b1a1a';
+
+    ctx.fillStyle = color;
+    ctx.globalAlpha = 0.82;
+    ctx.beginPath();
+    ctx.roundRect ? ctx.roundRect(x+1, y, barW-1, barH, [2,2,0,0]) : ctx.rect(x+1, y, barW-1, barH);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  });
+
+  // Mark event years
+  chartEvents.forEach(ev=>{
+    const idx = inflData.findIndex(d=>d.y===ev.year);
+    if(idx<0) return;
+    const x = getX(idx);
+    const d = inflData[idx];
+    const barH = Math.abs(d.v)/maxV * chartH;
+    const topY = d.v>=0 ? zeroY-barH : zeroY;
+    ctx.beginPath();
+    ctx.strokeStyle = 'rgba(61,43,31,0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([3,3]);
+    ctx.moveTo(x, topY-2); ctx.lineTo(x, pad.top+4);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = 'rgba(61,43,31,0.7)';
+    ctx.beginPath();
+    ctx.arc(x, pad.top+4, 3.5, 0, Math.PI*2);
+    ctx.fill();
+  });
+
+  // Year labels every 5 years
+  ctx.fillStyle = 'rgba(61,43,31,0.5)';
+  ctx.font = '10px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  inflData.forEach((d,i)=>{
+    if(d.y % 5 === 0){
+      const x = getX(i);
+      ctx.fillText(d.y, x, H - 6);
+    }
+  });
+
+  // Hover interaction
+  canvas._data = inflData;
+  canvas._pad = pad;
+  canvas._chartW = chartW;
+  canvas._zeroY = zeroY;
+  canvas._maxV = maxV;
+  canvas._minV = minV;
+}
+
+function setupChartHover(){
+  const canvas = document.getElementById('inflCanvas');
+  if(!canvas) return;
+  const tooltip = document.getElementById('chartTooltip');
+  canvas.style.cursor = 'crosshair';
+  canvas.addEventListener('mousemove', e=>{
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const mx = (e.clientX - rect.left) * scaleX;
+    const n = inflData.length;
+    const pad = canvas._pad;
+    const chartW = canvas._chartW;
+    const idx = Math.floor((mx - pad.left) / chartW * n);
+    if(idx >= 0 && idx < n){
+      const d = inflData[idx];
+      const ev = chartEvents.find(c=>c.year===d.y);
+      tooltip.style.display = 'block';
+      tooltip.innerHTML = `<strong style="font-family:'Playfair Display',serif;font-size:.95rem;color:var(--brown)">${d.y}: ${d.v}% inflation</strong>${ev ? '<br>📌 '+ev.desc : '<br>Håll koll på trenderna runt detta år.'}`;
+    }
+  });
+  canvas.addEventListener('mouseleave', ()=>{ tooltip.style.display='none'; });
+}
+
+function renderChartEventBtns(){
+  const wrap = document.getElementById('chartEvents');
+  if(!wrap) return;
+  chartEvents.forEach(ev=>{
+    const btn = document.createElement('button');
+    btn.className = 'meter-scenario';
+    btn.textContent = ev.label;
+    btn.title = ev.desc;
+    btn.onclick = ()=>{
+      document.getElementById('chartTooltip').style.display='block';
+      document.getElementById('chartTooltip').innerHTML = `<strong style="font-family:'Playfair Display',serif;font-size:.95rem;color:var(--brown)">${ev.year}: ${inflData.find(d=>d.y===ev.year)?.v}% inflation</strong><br>📌 ${ev.desc}`;
+      btn.classList.toggle('active');
+      addScore(1);
+    };
+    wrap.appendChild(btn);
+  });
+}
+
+// Draw chart on load
+window.addEventListener('load', ()=>{
+  drawInflChart();
+  setupChartHover();
+  renderChartEventBtns();
+});
+
+// === WRITING QUESTIONS ===
+let wqDoneCount = 0;
+const wqDone = {1:false,2:false,3:false,4:false,5:false};
+
+function countChars(n){
+  const ta = document.getElementById('wqa'+n);
+  document.getElementById('wqc'+n).textContent = ta.value.length + ' tecken';
+}
+
+function showFeedback(n){
+  const ta = document.getElementById('wqa'+n);
+  const fb = document.getElementById('wqf'+n);
+  if(ta.value.trim().length < 20){
+    showToast('✏️ Skriv lite mer först!');
+    ta.focus();
+    return;
+  }
+  fb.classList.add('show');
+  fb.style.display = 'block';
+  fb.scrollIntoView({behavior:'smooth', block:'nearest'});
+  addScore(8);
+}
+
+function markDone(n){
+  if(wqDone[n]) return;
+  const ta = document.getElementById('wqa'+n);
+  if(ta.value.trim().length < 20){
+    showToast('✏️ Skriv lite mer innan du markerar som klar!');
+    return;
+  }
+  wqDone[n] = true;
+  wqDoneCount++;
+  document.getElementById('wqd'+n).classList.add('show');
+  document.getElementById('wqp'+n).textContent = '●';
+  document.getElementById('wqp'+n).style.color = 'var(--terra)';
+  document.getElementById('wqDoneCount').textContent = wqDoneCount;
+  addScore(5);
+  if(wqDoneCount === 5){
+    confetti(window.innerWidth/2, 300);
+    showToast('🏆 Alla skrivfrågor klara! Fantastiskt jobbat!');
+  }
+}
+
+// === INIT ===
+renderSortItems();
+</script>
+</body>
+</html>
