@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Massakern i källaren – Myten om Tsarfamiljen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:    #050505;
+    --charcoal: #121212;
+    --coal-lt:  #1E1E1E;
+    --blood:    #8B1A1A;
+    --blood-dk: #5A0E0E;
+    --gold:     #C8A96E;
+    --gold-dim: rgba(200,169,110,0.3);
+    --text:     #E8E4D9;
+    --muted:    #9A9587;
+    --border:   #333333;
+    --mono:     'JetBrains Mono', monospace;
+  }
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body { 
+    font-family: 'Source Serif 4', Georgia, serif; 
+    background: var(--charcoal); 
+    color: var(--text); 
+    line-height: 1.8; 
+    font-size: 18px;
+  }
+
+  /* ── ATMOSPHERE / NOISE ── */
+  body::before {
+    content: ""; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999;
+  }
+
+  /* ── HERO ── */
+  .article-hero {
+    background: var(--black);
+    background-image: radial-gradient(circle at 50% 100%, rgba(139,26,26,0.15) 0%, transparent 60%);
+    padding: 100px 20px 80px;
+    text-align: center;
+    border-bottom: 2px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .article-hero::after {
+    content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 100px; height: 3px; background: var(--blood);
+  }
+  .tag {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase; color: var(--gold);
+    display: inline-block; margin-bottom: 20px; border: 1px solid var(--gold-dim);
+    padding: 6px 14px; border-radius: 4px;
+  }
+  .article-hero h1 {
+    font-family: 'Playfair Display', serif; font-size: clamp(36px, 6vw, 64px);
+    font-weight: 900; line-height: 1.1; margin-bottom: 20px; max-width: 900px;
+    margin-inline: auto; color: #fff;
+  }
+  .article-hero p {
+    font-size: 20px; color: var(--muted); max-width: 700px; margin: 0 auto;
+    font-style: italic;
+  }
+
+  /* ── CONTENT CONTAINER ── */
+  .article-content {
+    max-width: 720px; margin: 60px auto; padding: 0 24px; position: relative; z-index: 2;
+  }
+  
+  .article-content h2 {
+    font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700;
+    color: var(--gold); margin: 60px 0 24px; line-height: 1.3;
+  }
+  
+  .article-content p { margin-bottom: 24px; }
+  
+  .article-content hr {
+    border: none; border-top: 1px solid var(--border);
+    margin: 50px auto; width: 50%;
+  }
+
+  .dropcap::first-letter {
+    font-family: 'Playfair Display', serif; font-size: 80px; font-weight: 900;
+    color: var(--blood); float: left; line-height: 0.8; margin-right: 12px; margin-top: 8px;
+  }
+
+  /* ── HIGHLIGHT BOX ── */
+  .fact-box {
+    background: var(--coal-lt); border-left: 4px solid var(--blood);
+    padding: 30px; margin: 40px 0; border-radius: 0 8px 8px 0;
+  }
+  .fact-box h3 {
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .fact-box p { margin-bottom: 0; font-size: 16px; color: #ccc; }
+
+  /* ── INTERACTIVE TELEGRAM (DECODER) ── */
+  .telegram-wrap {
+    background: var(--black); border: 1px solid var(--border);
+    border-radius: 8px; margin: 50px 0; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+  .telegram-header {
+    background: var(--coal-lt); padding: 16px 24px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .telegram-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--gold); font-weight: 700; }
+  
+  .telegram-stage {
+    padding: 40px;
+    background-color: #080808;
+    background-image: radial-gradient(circle at center, rgba(139,26,26,0.05) 0%, transparent 70%);
+    display: flex; justify-content: center; align-items: center;
+    flex-direction: column;
+  }
+
+  .telegram-paper {
+    background: #e4ddc8;
+    width: 100%; max-width: 500px;
+    padding: 40px 30px;
+    position: relative;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.1), 0 10px 20px rgba(0,0,0,0.4);
+    border-radius: 2px;
+    transform: rotate(-1deg);
+  }
+  .telegram-paper::before {
+    content: 'STRÄNGT HEMLIGT';
+    position: absolute; top: 15px; left: 15px;
+    font-family: 'Times New Roman', Times, serif; font-size: 24px; font-weight: 900;
+    color: rgba(180, 20, 20, 0.4); border: 3px solid rgba(180, 20, 20, 0.4);
+    padding: 4px 10px; transform: rotate(-10deg); letter-spacing: 2px;
+    pointer-events: none;
+  }
+
+  .telegram-text {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 16px; color: #222; line-height: 1.6;
+    font-weight: 600; white-space: pre-wrap;
+    min-height: 180px; margin-top: 20px;
+    text-transform: uppercase;
+  }
+
+  .decode-btn {
+    margin-top: 30px;
+    background: var(--blood); color: white;
+    border: none; padding: 14px 28px;
+    font-family: var(--mono); font-size: 13px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase;
+    cursor: pointer; border-radius: 4px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 10px rgba(139,26,26,0.3);
+  }
+  .decode-btn:hover { background: #a81d1d; transform: translateY(-2px); }
+  .decode-btn:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; transform: none; box-shadow: none; }
+  .decode-btn.success { background: #1a5c2a; color: white; }
+
+  /* ── INTERACTIVE MYTH CARDS ── */
+  .interactive-section {
+    background: var(--black); border: 1px solid var(--border);
+    border-radius: 12px; padding: 50px 40px; margin: 60px 0;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  }
+  .int-header { text-align: center; margin-bottom: 40px; }
+  .int-header h3 { font-family: 'Playfair Display', serif; font-size: 28px; color: #fff; margin-bottom: 10px; }
+  .int-header p { font-size: 16px; color: var(--muted); }
+
+  .myth-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 24px; }
+  
+  .myth-card {
+    perspective: 1000px; height: 280px; cursor: pointer;
+  }
+  .myth-inner {
+    position: relative; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+  .myth-card.flipped .myth-inner { transform: rotateY(180deg); }
+  
+  .myth-front, .myth-back {
+    position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+    border-radius: 8px; padding: 24px; display: flex; flex-direction: column; justify-content: center;
+  }
+  .myth-front {
+    background: var(--coal-lt); border: 1px solid var(--border);
+    align-items: center; text-align: center;
+  }
+  .myth-front-icon { font-size: 32px; margin-bottom: 16px; }
+  .myth-front-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .myth-front h4 { font-family: 'Playfair Display', serif; font-size: 18px; color: var(--gold); line-height: 1.4; }
+  .myth-front-hint { font-size: 12px; color: var(--blood); margin-top: auto; font-family: var(--mono); font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
+  
+  .myth-back {
+    background: var(--blood-dk); border: 1px solid var(--blood);
+    transform: rotateY(180deg); text-align: left; align-items: flex-start;
+  }
+  .myth-back-label { font-family: var(--mono); font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .myth-back p { font-size: 14px; color: #fff; line-height: 1.6; margin: 0; }
+
+  /* ── INTERACTIVE WRITER ── */
+  .writer-wrap {
+    background: var(--coal-lt); border: 1px solid var(--border);
+    border-radius: 8px; margin-top: 40px; overflow: hidden; display: flex; flex-direction: column;
+  }
+  .writer-toolbar {
+    display: flex; gap: 10px; padding: 12px 16px; background: var(--black);
+    border-bottom: 1px solid var(--border); flex-wrap: wrap; align-items: center;
+  }
+  .writer-title {
+    font-family: var(--mono); font-size: 12px; color: var(--gold); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-right: auto;
+  }
+  .writer-btn {
+    background: transparent; border: 1px solid var(--muted); padding: 8px 14px;
+    border-radius: 4px; font-family: var(--mono); font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; color: var(--text); cursor: pointer;
+    transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;
+  }
+  .writer-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .writer-btn.primary { background: var(--blood); color: white; border-color: var(--blood); }
+  .writer-btn.primary:hover { background: #a81d1d; color: white; }
+  .writer-hint-box {
+    display: none; padding: 16px; background: rgba(200,169,110,0.1);
+    border-bottom: 1px dashed var(--border); font-size: 14px; color: var(--text);
+    border-left: 4px solid var(--gold);
+  }
+  .writer-textarea {
+    width: 100%; min-height: 200px; padding: 20px; border: none;
+    font-family: 'Source Serif 4', serif; font-size: 16px; line-height: 1.7;
+    color: var(--text); resize: vertical; outline: none; background: transparent;
+  }
+  .writer-textarea::placeholder { color: #555; font-style: italic; }
+
+  @media (max-width: 700px) {
+    .article-hero { padding: 80px 20px 60px; }
+    .article-content { padding: 0 20px; margin: 40px auto; }
+    .interactive-section { padding: 30px 20px; }
+    .writer-toolbar { flex-direction: column; align-items: stretch; }
+    .writer-title { margin-bottom: 10px; }
+    .telegram-stage { padding: 30px 15px; }
+    .telegram-paper { padding: 30px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="article-hero">
+  <span class="tag">Historisk Gåta</span>
+  <h1>Massakern i källaren</h1>
+  <p>En sommarnatt 1918 väcktes världens mäktigaste familj och leddes ner i en mörk källare. Vad hände egentligen bakom de igenspikade fönstren i Jekaterinburg?</p>
+</header>
+
+<main class="article-content">
+  <p class="dropcap">Klockan hade precis passerat midnatt natten till den 17 juli 1918. I staden Jekaterinburg, djupt inne i de ryska Uralbergen, låg ett beslagtaget stenhus som bolsjevikerna olycksbådande hade döpt till "Huset med det särskilda syftet". Fönstren var vitmålade från insidan och igenspikade. Ingen skulle kunna se ut. Ingen skulle kunna se in.</p>
+  
+  <p>Inuti huset sov den 50-årige ex-tsaren Nikolaj II, hans fru Alexandra, deras fyra döttrar (Olga, Tatjana, Maria och Anastasia) och den 13-årige, svårt blödarsjuke sonen Aleksej. De hade varit fångar i över ett år sedan Nikolaj tvingades abdikera under Februarirevolutionen.</p>
+
+  <p>Plötsligt bankade vaktchefen Jurovskij hårt på deras dörrar. Han skrek åt dem att klä på sig omedelbart. "De Vita arméerna närmar sig staden," ljög han. "Det pågår skottlossning på gatorna. För er egen säkerhet måste ni flyttas ner till säkerheten i källaren."</p>
+
+  <h2>Ned i mörkret</h2>
+  <p>Familjen klädde på sig i tystnad. Nikolaj bar sin sjuke son Aleksej i armarna nerför trätrapporna. De leddes in i ett litet källarrum, knappt större än 30 kvadratmeter. Alexandra, som hade svårt att stå på grund av smärtor, bad om en stol. Jurovskij lät hämta in två stolar; en till tsarinnan och en till den sjuke pojken. Resten av familjen, tillsammans med fyra lojala tjänare (bland annat deras läkare och kokerska), ställde sig bakom dem i väntan på att bli fotograferade – det var i alla fall vad de hade blivit itutade.</p>
+
+  <p>Istället öppnades dubbeldörrarna och en exekutionspluton på ett tiotal män med skarpladdade revolvrar och gevär trängde in i det trånga rummet. Jurovskij klev fram, tog upp ett pappersark och läste snabbt upp en order från den lokala sovjeten:</p>
+
+  <div class="fact-box">
+    <h3>Ur Jurovskijs egna anteckningar:</h3>
+    <p>"Nikolaj Aleksandrovitj, med anledning av att dina släktingar i Europa fortsätter sin attack mot Sovjetryssland, har Ural-sovjetens exekutivkommitté beslutat att avrätta dig."</p>
+  </div>
+
+  <p>Nikolaj vände sig om, tittade oförstående på Jurovskij och stammade fram: "Vad? Vad?" Jurovskij upprepade snabbt ordern och höjde omedelbart sin pistol. Innan någon hann reagera sköt han Nikolaj rakt i bröstet. Det blev startskottet för ett obeskrivligt, blodigt kaos.</p>
+
+  <h2>Ett obeskrivligt kaos</h2>
+  <p>Skyttarna öppnade eld urskillningslöst på extremt nära håll. Ljudet i det lilla stenhård källarrummet var öronbedövande. Krutröken blev omedelbart så tjock att lamporna knappt lyste igenom och männen hostade våldsamt medan de sköt tills deras vapen klickade tomma.</p>
+
+  <p>Men när röken skingrades möttes de av en fasansfull syn. Flera av döttrarna levde fortfarande och skrek i skräck. Vissa av skyttarna trodde i sin vidskeplighet att de kungliga barnen var demoner, men den makabra sanningen var en helt annan.</p>
+
+  <p>Tsarinnan och döttrarna hade i hemlighet sytt in nästan två kilo av familjens finaste diamanter och ädelstenar i sina korsetter för att smuggla dem ut ur landet. Under beskjutningen hade ädelstenarna fungerat som en hemmagjord, skottsäker väst. Kulorna hade studsat mot diamanterna och rikoschetterat runt i rummet. I panik fick mördarna använda sina bajonetter och gevärskolvar för att avsluta det brutala arbetet.</p>
+
+  <!-- INTERACTIVE TELEGRAM SECTION -->
+  <div class="telegram-wrap">
+    <div class="telegram-header">
+      <div class="telegram-title">Interaktivt: Avkoda mörkläggningen</div>
+    </div>
+    <div style="padding: 20px 24px; background: var(--black); color: var(--muted); font-size: 15px; border-bottom: 1px solid var(--border);">
+      Bolsjevikerna var livrädda för hur det ryska folket – och omvärlden – skulle reagera på massakern. Utåt sett gick de ut med en officiell lögn om att barnen flyttats till "säkerhet". Men i arkiven fanns detta telegram, skickat till Lenin och ledningen i Moskva.
+    </div>
+    
+    <div class="telegram-stage">
+      <div class="telegram-paper">
+        <div style="font-family: 'Courier New', monospace; font-size: 12px; color: #555; border-bottom: 1px solid #ccc; padding-bottom: 10px; margin-bottom: 10px; font-weight: 600;">
+          TELEGRAFBYRÅN | REG. NR: 492<br>
+          DATUM: 17 JULI 1918
+        </div>
+        <div class="telegram-text" id="encoded-text">
+XQZ YR: QXNLTGAB, KVWLMX.
+PKHM: TYMJKZQVQOQW, PXLAMNKZYFJK.
+
+VXGQRZYH DKYWZN LKK OXYBNZWK PXMMPLKG XJ EXFMW RTG PXC MZW TQMKYJTM. KWZVQTBBX RKGQXY YXYBNZWK YXX OXYKZMUXL DB YXTDBKVNWZ VQBB XMQKVWXN. TQBX IKMJ YMLWKXA.
+        </div>
+      </div>
+      
+      <button class="decode-btn" id="decode-btn" onclick="startDecoding()">Starta Avkodning</button>
+    </div>
+  </div>
+
+  <h2>Lenins kallblodiga logik</h2>
+  <p>Varför mördades även barnen, läkaren och kokerskan? Det ryska inbördeskriget hade just börjat. De "Röda" (bolsjevikerna) slogs för sin överlevnad mot de "Vita" (anti-kommunisterna). De Vita arméerna var vid tillfället bara några dagar ifrån att inta Jekaterinburg.</p>
+
+  <p>I Moskva satt Vladimir Lenin och bedömde situationen med isande kyla. Han visste att om de Vita trupperna lyckades frita tsaren, eller ens någon av prinsessorna eller den lille pojken, skulle de omedelbart få en "levande fana" – en galjonsfigur att samlas kring. Ett mördat barn var, enligt Lenins brutala revolutionära matematik, ett nödvändigt pris för att säkra kommunisternas totala makt.</p>
+
+  <hr>
+
+  <!-- INTERACTIVE SECTION -->
+  <div class="interactive-section">
+    <div class="int-header">
+      <h3>Utforska Myterna (och Sanningen)</h3>
+      <p>Bolsjevikernas försök att mörklägga morden och gömma kropparna skapade en perfekt grogrund för konspirationsteorier. Klicka på korten från 1920-talet för att se hur modern vetenskap löste mysteriet nästan 90 år senare.</p>
+    </div>
+
+    <div class="myth-grid">
+      <!-- Card 1 -->
+      <div class="myth-card" onclick="this.classList.toggle('flipped')">
+        <div class="myth-inner">
+          <div class="myth-front">
+            <div class="myth-front-icon">📜</div>
+            <div class="myth-front-label">Rykte #1</div>
+            <h4>"Bara Tsaren dog. Kvinnorna skickades i hemlighet utomlands."</h4>
+            <div class="myth-front-hint">Klicka för sanningen</div>
+          </div>
+          <div class="myth-back">
+            <div class="myth-back-label">Sanningen:</div>
+            <p><strong>Lögn från staten.</strong> Detta var bolsjevikernas officiella pressmeddelande de första åren! De var rädda att det ryska folket – och omvärlden – skulle reagera med avsky om de erkände att de mördat tonårsflickor och en sjuk 13-åring. Tystnaden fick hoppet att leva.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="myth-card" onclick="this.classList.toggle('flipped')">
+        <div class="myth-inner">
+          <div class="myth-front">
+            <div class="myth-front-icon">👑</div>
+            <div class="myth-front-label">Rykte #2</div>
+            <h4>"Prinsessan Anastasia överlevde och flydde till Europa."</h4>
+            <div class="myth-front-hint">Klicka för sanningen</div>
+          </div>
+          <div class="myth-back">
+            <div class="myth-back-label">Sanningen:</div>
+            <p><strong>Falskt (Anna Anderson).</strong> En kvinna i Berlin påstod sig i årtionden vara Anastasia. Det gjordes t.o.m. Disney-filmer om detta. Men på 1990-talet analyserades hennes DNA (från en sparad tarmbit på ett sjukhus). Hon var i själva verket Franziska Schanzkowska, en polsk fabriksarbetare.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="myth-card" onclick="this.classList.toggle('flipped')">
+        <div class="myth-inner">
+          <div class="myth-front">
+            <div class="myth-front-icon">🧬</div>
+            <div class="myth-front-label">Rykte #3</div>
+            <h4>"Kropparna hittades aldrig, de måste ha överlevt."</h4>
+            <div class="myth-front-hint">Klicka för sanningen</div>
+          </div>
+          <div class="myth-back">
+            <div class="myth-back-label">Sanningen:</div>
+            <p><strong>Falskt. De hittades.</strong> År 1991 (efter Sovjetunionens fall) hittades en massgrav i skogen nära staden. Men två barn saknades! Gåtan levde fram till 2007, då en arkeologisk utgrävning fann benresterna av de två sista barnen (Aleksej och Maria) i en eldstad lite längre bort. DNA bevisade att alla var döda.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Arvet efter Jekaterinburg</h2>
+  <p>Morden i Jekaterinburg satte tonen för det ryska inbördeskriget och hela skapandet av Sovjetunionen. Det visade att den nya regimen inte tänkte sky några medel för att behålla makten. Idag är hela familjen Romanov helgonförklarad av den rysk-ortodoxa kyrkan, och på platsen där det trånga huset en gång stod, står idag en enorm kyrka – <em>Kyrkan på blodet</em>.</p>
+  
+  <p>Historien om tsarfamiljen är en brutal påminnelse om vad som händer när lagar och mänskliga rättigheter kastas ut genom fönstret till förmån för en politisk idé.</p>
+
+  <!-- WRITER TOOL -->
+  <div class="writer-wrap">
+    <div class="writer-toolbar">
+      <div class="writer-title">SO-Portalen Skrivblock</div>
+      <button class="writer-btn" onclick="document.getElementById('writer-hint').style.display = document.getElementById('writer-hint').style.display === 'block' ? 'none' : 'block'">💡 Få en ledtråd</button>
+      <button class="writer-btn primary" onclick="exportWord()">💾 Exportera till Word</button>
+    </div>
+    
+    <div id="writer-hint" class="writer-hint-box">
+      <strong>Analys-tips:</strong> Lenins logik var att morden var en "säkerhetsåtgärd" för staten. Var går gränsen för vad en stat får göra för att skydda sin makt? Tror du att ett land som byggs på den typen av "nödvändigt" blodspillan någonsin kan bli fredligt?
+    </div>
+    
+    <textarea id="student-text" class="writer-textarea" placeholder="Uppgift: Skriv en kort reflektion. Lenin menade att mordet på barnen var politiskt nödvändigt för att rädda revolutionen. Vad säger detta beslut om hur kommunisterna (bolsjevikerna) såg på människoliv och lagar? Börja skriva här..."></textarea>
+  </div>
+
+</main>
+
+<script>
+// TELEGRAM DECODER JS
+const targetText = "TILL: SVERDLOV, MOSKVA.\nFRÅN: URALSOVJETEN, JEKATERINBURG.\n\nMEDDELAR HÄRMED ATT FAMILJEN DRABBATS AV SAMMA ÖDE SOM DESS ÖVERHUVUD. OFFICIELLT KOMMER FAMILJEN ATT FÖRKLARAS HA EVAKUERATS TILL SÄKERHET. INGA SPÅR LÄMNADE.";
+let isDecoded = false;
+
+function startDecoding() {
+  if(isDecoded) return;
+  isDecoded = true;
+  
+  const el = document.getElementById('encoded-text');
+  const btn = document.getElementById('decode-btn');
+  btn.textContent = "AVKODAR SIGNAL...";
+  btn.disabled = true;
+
+  let iterations = 0;
+  // Slumpmässiga tecken som visas under "avkodningen"
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+
+  const interval = setInterval(() => {
+    el.innerText = targetText.split("").map((letter, index) => {
+      // Om vi har passerat detta index, visa den riktiga bokstaven
+      if(index < iterations) {
+        return targetText[index];
+      }
+      // Bevara mellanrum och radbrytningar
+      if(letter === " " || letter === "\n" || letter === "." || letter === ":" || letter === ",") {
+        return letter;
+      }
+      // Annars visa ett slumpmässigt tecken
+      return letters[Math.floor(Math.random() * letters.length)];
+    }).join("");
+
+    if(iterations >= targetText.length){
+      clearInterval(interval);
+      btn.textContent = "TELEGRAM AVKODAT";
+      btn.classList.add('success');
+    }
+    
+    // Hastigheten på avkodningen
+    iterations += 1/2; 
+  }, 30);
+}
+
+// WRITER EXPORT JS
+function exportWord() {
+  const text = document.getElementById('student-text').value;
+  if(!text.trim()) { 
+    alert("Du måste skriva något i rutan innan du exporterar!"); 
+    return; 
+  }
+  
+  const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Reflektion Tsarfamiljen</title></head><body>";
+  const footer = "</body></html>";
+  const html = header + "<h2>Reflektion: Massakern i källaren</h2><p>" + text.replace(/\n/g, "<br>") + "</p>" + footer;
+  
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'Reflektion_Tsarfamiljen.doc';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+</script>
+
+</body>
+</html>
