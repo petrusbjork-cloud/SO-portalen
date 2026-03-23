@@ -1,0 +1,2315 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SO med Petrus – Erik Röde & Vinland</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Uncial+Antiqua&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blood: #8B1A1A;
+  --fire: #C94A1A;
+  --ember: #E8831A;
+  --gold: #D4A017;
+  --gold-light: #F0C040;
+  --ice: #B8D4E8;
+  --ice-dark: #7AAFC8;
+  --sea: #1A3A4A;
+  --deep-sea: #0D1F2D;
+  --midnight: #080E14;
+  --parchment: #F2E8D0;
+  --parchment-dark: #D9C9A0;
+  --rune: #C8A050;
+  --stone: #3A3028;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--midnight);
+  color: var(--parchment);
+  font-family: 'Lora', serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ===== ANIMATED BACKGROUND ===== */
+.bg-ocean {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 10% 20%, rgba(139,26,26,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 70%, rgba(26,58,74,0.4) 0%, transparent 50%),
+    linear-gradient(180deg, #080E14 0%, #0D1F2D 60%, #0A1520 100%);
+  overflow: hidden;
+}
+
+.wave {
+  position: absolute;
+  bottom: 0;
+  left: -100%;
+  width: 300%;
+  height: 120px;
+  opacity: 0.15;
+}
+
+.wave path { fill: var(--ice-dark); }
+
+.wave-1 { animation: waveMove 8s linear infinite; bottom: 0; }
+.wave-2 { animation: waveMove 12s linear infinite reverse; bottom: 20px; opacity: 0.08; }
+
+@keyframes waveMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(33.33%); }
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+    radial-gradient(1px 1px at 25% 5%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(2px 2px at 40% 20%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 60% 8%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 18%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(2px 2px at 85% 12%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 92% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 15% 35%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 50% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.3) 0%, transparent 100%);
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(8,14,20,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212,160,23,0.3);
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 2rem;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: var(--gold-light);
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-decoration: none;
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 0.2rem;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.nav-tabs a {
+  display: block;
+  padding: 0.4rem 0.9rem;
+  color: rgba(242,232,208,0.6);
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.nav-tabs a:hover, .nav-tabs a.active {
+  color: var(--gold-light);
+  background: rgba(212,160,23,0.15);
+}
+
+/* ===== MAIN WRAPPER ===== */
+main {
+  position: relative;
+  z-index: 10;
+  padding-top: 60px;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  overflow: hidden;
+}
+
+.longship-svg {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(700px, 90vw);
+  opacity: 0.18;
+  animation: shipRock 6s ease-in-out infinite;
+}
+
+@keyframes shipRock {
+  0%, 100% { transform: translateX(-50%) rotate(-1.5deg) translateY(0); }
+  50% { transform: translateX(-50%) rotate(1.5deg) translateY(-8px); }
+}
+
+.hero-rune {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px var(--fire)) drop-shadow(0 0 20px var(--blood)); }
+  50% { filter: drop-shadow(0 0 20px var(--ember)) drop-shadow(0 0 40px var(--fire)); }
+}
+
+.hero-title {
+  font-family: 'Cinzel', serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 10vw, 7rem);
+  line-height: 0.9;
+  background: linear-gradient(135deg, var(--gold-light) 0%, var(--ember) 50%, var(--blood) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+
+.hero-subtitle {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+  color: var(--ice);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.hero-desc {
+  max-width: 620px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--parchment-dark);
+  font-style: italic;
+  margin-bottom: 3rem;
+}
+
+.hero-scroll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(242,232,208,0.4);
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+/* ===== SECTION ===== */
+section {
+  position: relative;
+  z-index: 10;
+  padding: 5rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-badge {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 4px;
+  color: var(--ember);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.section-title {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 1rem;
+}
+
+.section-divider {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--fire), transparent);
+  margin: 0 auto;
+}
+
+/* ===== CARDS / PROSE ===== */
+.prose-card {
+  background: rgba(13,31,45,0.7);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  backdrop-filter: blur(8px);
+  position: relative;
+  overflow: hidden;
+}
+
+.prose-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--fire), transparent);
+}
+
+.prose-card h3 {
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.prose-card p {
+  line-height: 1.9;
+  color: var(--parchment-dark);
+  margin-bottom: 1rem;
+}
+
+.prose-card p:last-child { margin-bottom: 0; }
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--blood), var(--fire), var(--gold));
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2.5rem;
+  padding-left: 1.5rem;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.5s ease;
+}
+
+.timeline-item.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.1rem;
+  top: 0.3rem;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--fire);
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 10px var(--fire);
+}
+
+.timeline-year {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ember);
+  letter-spacing: 2px;
+  margin-bottom: 0.3rem;
+}
+
+.timeline-event {
+  font-size: 1rem;
+  color: var(--gold-light);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+
+.timeline-desc {
+  font-size: 0.9rem;
+  color: var(--parchment-dark);
+  line-height: 1.7;
+}
+
+/* ===== INTERACTIVE: SHIP NAVIGATOR ===== */
+.ship-map {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(122,175,200,0.3);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.map-canvas-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+#mapCanvas {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(122,175,200,0.2);
+  cursor: crosshair;
+}
+
+.map-instruction {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  color: var(--ice);
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+
+.map-score {
+  font-family: 'Cinzel', serif;
+  color: var(--gold-light);
+  font-size: 1.1rem;
+  margin-top: 1rem;
+}
+
+/* ===== QUIZ ===== */
+.quiz-container {
+  background: rgba(8,14,20,0.85);
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 12px;
+  padding: 2.5rem;
+  backdrop-filter: blur(10px);
+}
+
+.quiz-progress {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 2rem;
+}
+
+.quiz-dot {
+  flex: 1;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(212,160,23,0.2);
+  transition: background 0.3s;
+}
+
+.quiz-dot.done { background: var(--gold); }
+.quiz-dot.current { background: var(--fire); }
+
+.quiz-q-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--ember);
+  letter-spacing: 3px;
+  margin-bottom: 0.5rem;
+}
+
+.quiz-question {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--parchment);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.quiz-opt {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  color: var(--parchment-dark);
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  font-family: 'Lora', serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.quiz-opt:hover { border-color: var(--gold); color: var(--parchment); background: rgba(212,160,23,0.1); }
+.quiz-opt.correct { background: rgba(30,100,50,0.4); border-color: #4CAF50; color: #90EE90; }
+.quiz-opt.wrong { background: rgba(139,26,26,0.4); border-color: var(--blood); color: #FFB3B3; }
+
+.quiz-feedback {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  display: none;
+}
+
+.quiz-feedback.show { display: block; }
+.quiz-feedback.ok { background: rgba(30,100,50,0.2); border: 1px solid rgba(76,175,80,0.3); color: #90EE90; }
+.quiz-feedback.bad { background: rgba(139,26,26,0.2); border: 1px solid rgba(139,26,26,0.4); color: #FFB3B3; }
+
+.quiz-next {
+  margin-top: 1.5rem;
+  padding: 0.8rem 2rem;
+  background: linear-gradient(135deg, var(--blood), var(--fire));
+  border: none;
+  border-radius: 6px;
+  color: var(--parchment);
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s;
+}
+
+.quiz-next:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(201,74,26,0.4); }
+.quiz-next.show { display: inline-block; }
+
+.quiz-result {
+  text-align: center;
+  display: none;
+}
+
+.quiz-result.show { display: block; }
+.quiz-result-score {
+  font-family: 'Cinzel', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--gold-light);
+  margin: 1rem 0;
+}
+
+/* ===== FLASHCARDS ===== */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.flashcard {
+  height: 160px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%; height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.2rem;
+  text-align: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flashcard-front {
+  background: rgba(13,31,45,0.9);
+  border: 1px solid rgba(212,160,23,0.3);
+}
+
+.flashcard-front-text {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.flashcard-back {
+  background: rgba(139,26,26,0.3);
+  border: 1px solid rgba(201,74,26,0.4);
+  transform: rotateY(180deg);
+}
+
+.flashcard-back-text {
+  font-size: 0.85rem;
+  color: var(--parchment);
+  line-height: 1.5;
+}
+
+.flashcard-hint {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.8rem;
+  font-size: 0.65rem;
+  color: rgba(212,160,23,0.4);
+  font-family: 'Cinzel', serif;
+  letter-spacing: 1px;
+}
+
+/* ===== SAGA GENERATOR ===== */
+.saga-box {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.saga-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.saga-select {
+  background: rgba(8,14,20,0.8);
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: 6px;
+  color: var(--parchment);
+  padding: 0.7rem 1rem;
+  font-family: 'Lora', serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.saga-select option { background: #0D1F2D; }
+
+.saga-generate-btn {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, var(--sea), var(--deep-sea));
+  border: 1px solid rgba(122,175,200,0.4);
+  border-radius: 8px;
+  color: var(--ice);
+  font-family: 'Cinzel', serif;
+  font-size: 0.9rem;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-bottom: 1.5rem;
+}
+
+.saga-generate-btn:hover {
+  background: linear-gradient(135deg, #1A3A4A, #0D2A3A);
+  box-shadow: 0 4px 20px rgba(122,175,200,0.2);
+}
+
+.saga-output {
+  background: rgba(8,14,20,0.6);
+  border-left: 3px solid var(--fire);
+  padding: 1.5rem;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  line-height: 2;
+  color: var(--parchment-dark);
+  min-height: 100px;
+  display: none;
+  font-size: 1.05rem;
+}
+
+.saga-output.show { display: block; }
+
+/* ===== REPUTATION METER ===== */
+.rep-game {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.rep-bar-wrap {
+  margin: 1.5rem 0;
+}
+
+.rep-label {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--ice);
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+}
+
+.rep-bar-bg {
+  height: 24px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(212,160,23,0.2);
+  overflow: hidden;
+  position: relative;
+}
+
+.rep-bar-fill {
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--blood), var(--fire), var(--gold));
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.rep-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: linear-gradient(90deg, transparent 60%, rgba(255,255,255,0.15));
+}
+
+.rep-value {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  color: var(--parchment);
+  font-weight: 700;
+}
+
+.rep-dilemmas {
+  margin-top: 1.5rem;
+}
+
+.rep-dilemma {
+  background: rgba(8,14,20,0.6);
+  border: 1px solid rgba(212,160,23,0.15);
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+  display: none;
+}
+
+.rep-dilemma.active { display: block; }
+.rep-dilemma-q {
+  font-size: 1rem;
+  color: var(--parchment);
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.rep-choices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.rep-choice {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 6px;
+  padding: 0.7rem;
+  color: var(--parchment-dark);
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: 'Lora', serif;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.rep-choice:hover { border-color: var(--gold); color: var(--parchment); }
+
+.rep-verdict {
+  font-family: 'Cinzel', serif;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: var(--gold-light);
+  padding: 1rem;
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: 8px;
+  display: none;
+}
+
+.rep-verdict.show { display: block; }
+
+/* ===== RUNIC ALPHABET ===== */
+.rune-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 0.8rem;
+}
+
+.rune-card {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 8px;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.rune-card:hover {
+  border-color: var(--gold);
+  background: rgba(212,160,23,0.1);
+  transform: translateY(-3px);
+}
+
+.rune-symbol {
+  font-size: 2rem;
+  color: var(--gold-light);
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.rune-name {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  color: var(--ice);
+  letter-spacing: 1px;
+}
+
+.rune-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(8,14,20,0.98);
+  border: 1px solid rgba(212,160,23,0.4);
+  border-radius: 6px;
+  padding: 0.5rem 0.8rem;
+  font-size: 0.75rem;
+  color: var(--parchment);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 100;
+}
+
+.rune-card:hover .rune-tooltip { opacity: 1; }
+
+/* ===== NAME TRANSLATOR ===== */
+.translator-box {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(212,160,23,0.25);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.translator-input {
+  background: rgba(8,14,20,0.8);
+  border: 1px solid rgba(212,160,23,0.3);
+  border-radius: 8px;
+  color: var(--parchment);
+  padding: 0.9rem 1.5rem;
+  font-family: 'Lora', serif;
+  font-size: 1.1rem;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.translator-input::placeholder { color: rgba(242,232,208,0.3); }
+
+.translator-btn {
+  padding: 0.9rem 2.5rem;
+  background: linear-gradient(135deg, var(--blood), var(--fire));
+  border: none;
+  border-radius: 8px;
+  color: var(--parchment);
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 1.5rem;
+  display: block;
+  margin: 0 auto 1.5rem;
+}
+
+.translator-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(201,74,26,0.4); }
+
+.translator-result {
+  font-size: 3rem;
+  color: var(--gold-light);
+  letter-spacing: 8px;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cinzel', serif;
+}
+
+.translator-latin {
+  font-size: 0.85rem;
+  color: var(--ice);
+  margin-top: 0.5rem;
+  font-style: italic;
+  min-height: 24px;
+}
+
+/* ===== SCORE DISPLAY ===== */
+.score-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  background: rgba(8,14,20,0.9);
+  border: 1px solid rgba(212,160,23,0.4);
+  border-radius: 10px;
+  padding: 0.8rem 1.2rem;
+  backdrop-filter: blur(10px);
+  text-align: center;
+  min-width: 120px;
+}
+
+.score-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.6rem;
+  color: var(--ember);
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.score-val {
+  font-family: 'Cinzel', serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
+/* ===== BUTTONS ===== */
+.btn-viking {
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  background: linear-gradient(135deg, var(--blood), var(--fire));
+  border: none;
+  border-radius: 6px;
+  color: var(--parchment);
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-viking:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,74,26,0.4); }
+.btn-viking:active { transform: translateY(0); }
+
+.btn-sea {
+  display: inline-block;
+  padding: 0.9rem 2rem;
+  background: rgba(26,58,74,0.8);
+  border: 1px solid var(--ice-dark);
+  border-radius: 6px;
+  color: var(--ice);
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-sea:hover { background: rgba(26,58,74,1); transform: translateY(-2px); }
+
+/* ===== CONFETTI ===== */
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  top: -20px;
+  animation: confettiFall linear forwards;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@keyframes confettiFall {
+  to {
+    transform: translateY(110vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* ===== MATCHING GAME ===== */
+.match-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.match-col-title {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  color: var(--ember);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.match-item {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 8px;
+  padding: 0.9rem 1.2rem;
+  margin-bottom: 0.7rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.9rem;
+  color: var(--parchment-dark);
+  text-align: center;
+}
+
+.match-item:hover { border-color: var(--gold); color: var(--parchment); }
+.match-item.selected { border-color: var(--fire); background: rgba(201,74,26,0.15); color: var(--parchment); }
+.match-item.matched { border-color: #4CAF50; background: rgba(30,100,50,0.2); color: #90EE90; pointer-events: none; }
+.match-item.wrong-flash { animation: wrongFlash 0.4s ease; }
+
+@keyframes wrongFlash {
+  0%,100% { border-color: rgba(212,160,23,0.2); }
+  50% { border-color: var(--blood); background: rgba(139,26,26,0.3); }
+}
+
+.match-score-display {
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  color: var(--gold-light);
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+
+/* ===== SPOT-THE-MYTH QUIZ ===== */
+.myth-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.myth-card {
+  background: rgba(13,31,45,0.8);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 10px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.myth-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 3px;
+}
+
+.myth-card.myth::before { background: var(--blood); }
+.myth-card.fact::before { background: #4CAF50; }
+
+.myth-card:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+
+.myth-card.revealed.myth {
+  border-color: var(--blood);
+  background: rgba(139,26,26,0.25);
+}
+
+.myth-card.revealed.fact {
+  border-color: #4CAF50;
+  background: rgba(30,100,50,0.2);
+}
+
+.myth-card-text {
+  font-size: 0.95rem;
+  color: var(--parchment-dark);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.myth-card-badge {
+  display: none;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  padding: 0.3rem 0.7rem;
+  border-radius: 4px;
+}
+
+.myth-card.revealed .myth-card-badge { display: inline-block; }
+.myth-card.revealed.myth .myth-card-badge { background: rgba(139,26,26,0.4); color: #FFB3B3; }
+.myth-card.revealed.fact .myth-card-badge { background: rgba(30,100,50,0.4); color: #90EE90; }
+
+.myth-card-explain {
+  display: none;
+  font-size: 0.82rem;
+  color: var(--parchment-dark);
+  margin-top: 0.8rem;
+  font-style: italic;
+  line-height: 1.6;
+}
+
+.myth-card.revealed .myth-card-explain { display: block; }
+
+/* ===== GLOSSARY ===== */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.glossary-item {
+  background: rgba(13,31,45,0.7);
+  border: 1px solid rgba(212,160,23,0.2);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.glossary-item:hover { border-color: var(--gold); }
+.glossary-item.open { border-color: var(--ember); }
+
+.glossary-term {
+  font-family: 'Cinzel', serif;
+  font-size: 0.95rem;
+  color: var(--gold);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.glossary-arrow {
+  transition: transform 0.2s;
+  font-size: 0.8rem;
+  color: var(--ember);
+}
+
+.glossary-item.open .glossary-arrow { transform: rotate(180deg); }
+
+.glossary-def {
+  margin-top: 0.8rem;
+  font-size: 0.88rem;
+  color: var(--parchment-dark);
+  line-height: 1.7;
+  display: none;
+}
+
+.glossary-item.open .glossary-def { display: block; }
+
+/* ===== SECTIONS w/ anchor IDs ===== */
+.section-anchor { scroll-margin-top: 80px; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .quiz-options { grid-template-columns: 1fr; }
+  .saga-options { grid-template-columns: 1fr; }
+  .match-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .nav-tabs { gap: 0; }
+  .nav-tabs a { padding: 0.4rem 0.6rem; font-size: 0.65rem; }
+  .hero-title { font-size: clamp(2.5rem, 12vw, 5rem); }
+}
+
+/* ===== EPISODE CARD (podcast) ===== */
+.podcast-card {
+  background: rgba(13,31,45,0.7);
+  border: 1px solid rgba(30,215,96,0.25);
+  border-radius: 10px;
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1rem;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.podcast-card:hover {
+  border-color: #1DB954;
+  background: rgba(29,185,84,0.08);
+  transform: translateX(4px);
+}
+
+.podcast-icon {
+  width: 48px; height: 48px;
+  background: #1DB954;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.3rem;
+}
+
+.podcast-info { flex: 1; }
+
+.podcast-ep {
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  color: #1DB954;
+  letter-spacing: 2px;
+  margin-bottom: 0.2rem;
+}
+
+.podcast-title {
+  font-size: 0.95rem;
+  color: var(--parchment);
+  font-weight: 600;
+}
+
+.podcast-arrow {
+  color: rgba(242,232,208,0.3);
+  font-size: 1.2rem;
+}
+</style>
+</head>
+<body>
+
+<!-- BG -->
+<div class="bg-ocean">
+  <div class="stars"></div>
+  <svg class="wave wave-1" viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <path d="M0,60 C150,100 350,0 600,60 C850,120 1050,20 1200,60 L1200,120 L0,120 Z"/>
+  </svg>
+  <svg class="wave wave-2" viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <path d="M0,80 C200,20 400,100 600,80 C800,60 1000,100 1200,80 L1200,120 L0,120 Z"/>
+  </svg>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">⚔ SO-Portalen</a>
+  <ul class="nav-tabs">
+    <li><a href="#historia" onclick="setActive(this)">Historia</a></li>
+    <li><a href="#resor" onclick="setActive(this)">Resor</a></li>
+    <li><a href="#karta" onclick="setActive(this)">Karta</a></li>
+    <li><a href="#quiz" onclick="setActive(this)">Quiz</a></li>
+    <li><a href="#flashcards" onclick="setActive(this)">Flashcards</a></li>
+    <li><a href="#runor" onclick="setActive(this)">Runor</a></li>
+    <li><a href="#saga" onclick="setActive(this)">Saga</a></li>
+    <li><a href="#myt" onclick="setActive(this)">Myt/Fakta</a></li>
+    <li><a href="#ordlista" onclick="setActive(this)">Ordlista</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-rune">᛭⚔᛭</div>
+  <h1 class="hero-title">Erik Röde</h1>
+  <p class="hero-subtitle">Vikingen som erövrade det okända</p>
+  <p class="hero-desc">
+    En man fördriven från Island, en okänd kust i dimman och ett beslut som förändrade världshistorien.
+    Följ Erik Röde på hans resa mot Grönland — och hans sons resa ännu längre bort.
+  </p>
+  <div class="hero-scroll">
+    <span>▼</span>
+    <span>SCROLLA FÖR ATT UTFORSKA</span>
+  </div>
+
+  <!-- Longship SVG -->
+  <svg class="longship-svg" viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+    <!-- Hull -->
+    <path d="M50,180 Q175,140 350,130 Q525,140 650,180 Q600,210 350,220 Q100,210 50,180Z" fill="#5A3010" stroke="#8B6040" stroke-width="2"/>
+    <!-- Keel -->
+    <path d="M100,215 Q350,230 600,215" fill="none" stroke="#6B4020" stroke-width="4"/>
+    <!-- Strakes -->
+    <path d="M80,175 Q350,155 620,175" fill="none" stroke="#7B5030" stroke-width="1.5" opacity="0.5"/>
+    <path d="M65,190 Q350,168 635,190" fill="none" stroke="#7B5030" stroke-width="1.5" opacity="0.4"/>
+    <!-- Mast -->
+    <line x1="350" y1="40" x2="350" y2="135" stroke="#6B4020" stroke-width="8"/>
+    <!-- Sail -->
+    <path d="M220,45 Q350,38 480,45 L460,130 Q350,140 240,130Z" fill="#8B1A1A" opacity="0.8"/>
+    <line x1="220" y1="45" x2="480" y2="45" stroke="#6B3010" stroke-width="3"/>
+    <!-- Cross-stripes on sail -->
+    <line x1="350" y1="38" x2="350" y2="140" stroke="#C94A1A" stroke-width="2" opacity="0.6"/>
+    <line x1="230" y1="80" x2="470" y2="80" stroke="#C94A1A" stroke-width="2" opacity="0.6"/>
+    <!-- Dragon head -->
+    <path d="M640,165 Q680,140 700,120 Q690,145 680,155 Q700,150 710,135 Q700,165 680,175 Q660,178 640,178Z" fill="#6B3010" stroke="#8B5030" stroke-width="1.5"/>
+    <!-- Tail -->
+    <path d="M70,175 Q40,155 20,130 Q30,150 35,165 Q15,155 5,140 Q10,170 30,180 Q50,185 70,183Z" fill="#6B3010" stroke="#8B5030" stroke-width="1.5"/>
+    <!-- Shields -->
+    <circle cx="160" cy="185" r="18" fill="#8B1A1A" stroke="#C94A1A" stroke-width="2" opacity="0.9"/>
+    <circle cx="215" cy="180" r="18" fill="#1A3A4A" stroke="#7AAFC8" stroke-width="2" opacity="0.9"/>
+    <circle cx="270" cy="175" r="18" fill="#8B1A1A" stroke="#C94A1A" stroke-width="2" opacity="0.9"/>
+    <circle cx="325" cy="173" r="18" fill="#1A3A4A" stroke="#7AAFC8" stroke-width="2" opacity="0.9"/>
+    <circle cx="380" cy="173" r="18" fill="#8B1A1A" stroke="#C94A1A" stroke-width="2" opacity="0.9"/>
+    <circle cx="435" cy="175" r="18" fill="#1A3A4A" stroke="#7AAFC8" stroke-width="2" opacity="0.9"/>
+    <circle cx="490" cy="178" r="18" fill="#8B1A1A" stroke="#C94A1A" stroke-width="2" opacity="0.9"/>
+    <circle cx="540" cy="183" r="18" fill="#1A3A4A" stroke="#7AAFC8" stroke-width="2" opacity="0.9"/>
+    <!-- Oars -->
+    <line x1="200" y1="200" x2="180" y2="240" stroke="#5A3010" stroke-width="3" opacity="0.7"/>
+    <line x1="280" y1="205" x2="265" y2="245" stroke="#5A3010" stroke-width="3" opacity="0.7"/>
+    <line x1="360" y1="207" x2="350" y2="248" stroke="#5A3010" stroke-width="3" opacity="0.7"/>
+    <line x1="440" y1="205" x2="435" y2="246" stroke="#5A3010" stroke-width="3" opacity="0.7"/>
+    <line x1="520" y1="200" x2="518" y2="242" stroke="#5A3010" stroke-width="3" opacity="0.7"/>
+  </svg>
+</div>
+
+<!-- HISTORIA -->
+<section id="historia" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">⚔ Bakgrund</span>
+    <h2 class="section-title">Vem var Erik Röde?</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="prose-card">
+    <h3>🪓 En man med rött hår och kort stubin</h3>
+    <p>Erik Thorvaldsson — känd som Erik Röde på grund av sitt brinnande röda hår — föddes på Jæren i Norge troligen runt år 950. Hans far Thorvald tvingades lämna Norge efter ett dödande, och familjen sökte en ny start på Island. Men våldsbenägenheten verkar ha gått i arv. Erik hamnade i blodiga fejder med grannarna på Island, dödade flera män och dömdes till tre års landsflykt.</p>
+    <p>I stället för att sitta still och acceptera sin dom bestämde sig Erik för att göra det som vikingarna var bäst på: segla ut i det okända. Han hade hört rykten om ett land västerut — ett land som norrmännen Gunnbjörn Ulfsson faktiskt observerat men aldrig satt foten på.</p>
+  </div>
+
+  <div class="prose-card">
+    <h3>🧊 Grönland — ett mästerverk i marknadsföring</h3>
+    <p>Erik utforskade kusten under sina tre förvisningsår och fann ett land med bördiga dalar och frodig vegetation längs fjordarna — i alla fall jämfört med Islands klippiga lavaöknar. När han återvände till Island hade han en plan: han kallade det nya landet <em>Grönland</em>, för som han själv ska ha sagt — folk lockades lättare dit om landet hade ett gott namn.</p>
+    <p>Det är en av historiens tidiga reklamkampanjer. Erik lyckades övertala runt 500 personer att göra resan. Av de 25 skeppen som lämnade Island år 985 eller 986 nådde 14 fram — resten vände tillbaka eller gick under i stormarna. De som kom fram byggde två bosättningar: Östra bygden och Västra bygden.</p>
+  </div>
+
+  <!-- Podcast card -->
+  <a class="podcast-card" href="https://open.spotify.com/show/4mM8pr8rMsOGHFx5FObhfc" target="_blank">
+    <div class="podcast-icon">🎙</div>
+    <div class="podcast-info">
+      <div class="podcast-ep">SO MED PETRUS • AVSNITT</div>
+      <div class="podcast-title">Erik Röde & Vikingatidens upptäckter</div>
+    </div>
+    <div class="podcast-arrow">→</div>
+  </a>
+</section>
+
+<!-- REPUTATION DILEMMA GAME -->
+<section>
+  <div class="section-header">
+    <span class="section-badge">⚖ Interaktivt</span>
+    <h2 class="section-title">Var du en bra ledare?</h2>
+    <div class="section-divider"></div>
+  </div>
+  <p style="text-align:center; color:var(--parchment-dark); margin-bottom:2rem; font-style:italic;">
+    Du är Erik Röde. Fatta beslut — och se om din ryktespoäng håller.
+  </p>
+
+  <div class="rep-game">
+    <div class="rep-bar-wrap">
+      <div class="rep-label">
+        <span>☠ UTSTÖTT</span>
+        <span>RYKTE</span>
+        <span>SAGOHJÄLTE ⚔</span>
+      </div>
+      <div class="rep-bar-bg">
+        <div class="rep-bar-fill" id="repBar" style="width: 50%">
+          <span class="rep-value" id="repValue">50</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rep-dilemmas" id="repDilemmas">
+      <!-- dilemmas injected by JS -->
+    </div>
+    <div class="rep-verdict" id="repVerdict"></div>
+  </div>
+</section>
+
+<!-- RESOR & UTFORSKNING -->
+<section id="resor" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">⛵ Expeditionerna</span>
+    <h2 class="section-title">Resor mot horisonten</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.5rem; margin-bottom:2rem;">
+    <div class="prose-card">
+      <h3>🗺 Eriks Grönlandsresa (~985 e.Kr.)</h3>
+      <p>Med 25 skepp och hundratals emigranter slog sig Erik ned i Brattahlid i Eriks fjord. Han blev hövding och förste man i kolonin — en position han höll livet ut.</p>
+    </div>
+    <div class="prose-card">
+      <h3>⛵ Leif Erikssons resa (~1000 e.Kr.)</h3>
+      <p>Eriks son Leif Eriksson seglade ännu längre västerut och nådde en kust han kallade Vinland — troligen i nuvarande Nordamerika. Erik planerade följa med, men föll av hästen precis när de skulle ge sig av.</p>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section-header" style="margin-top:3rem;">
+    <span class="section-badge">📅 Kronologi</span>
+    <h2 class="section-title" style="font-size:1.8rem;">Tidslinje</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="timeline" id="timeline">
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 950 e.Kr.</div>
+      <div class="timeline-event">Erik Röde föds i Norge</div>
+      <div class="timeline-desc">Erik Thorvaldsson föds troligen på Jæren. Hans far Thorvald dödar en man och familjen flyr till Island för att undkomma vendetta.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 970 e.Kr.</div>
+      <div class="timeline-event">Familjen slår sig ned på Island</div>
+      <div class="timeline-desc">Erik och hans far bosätter sig på nordvästra Island. Thorvald dör och Erik tar över gården. Han gifter sig med Þjóðhildr och får sonen Leif.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 982 e.Kr.</div>
+      <div class="timeline-event">Fejder och landsflykt</div>
+      <div class="timeline-desc">Erik hamnar i blodiga konflikter med grannar. Tingrätten dömer honom till tre års landsflykt från Island — ett hårt straff men inte dödsstraff.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">982–985 e.Kr.</div>
+      <div class="timeline-event">Utforskning av Grönland</div>
+      <div class="timeline-desc">Under sin förvisning seglar Erik västerut och utforskar den kust som senare kallas Grönland. Han kartlägger fjordarna och planerar en kolonisation.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">985–986 e.Kr.</div>
+      <div class="timeline-event">Kolonin grundas</div>
+      <div class="timeline-desc">Erik leder 25 skepp från Island. Endast 14 når fram. Runt 400–500 nordbor grundar Östra bygden och Västra bygden på Grönland. Erik bosätter sig i Brattahlid.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 1000 e.Kr.</div>
+      <div class="timeline-event">Kristendomen anländer — och Leif seglar västerut</div>
+      <div class="timeline-desc">Eriks hustru Þjóðhildr omvänds till kristendomen och bygger Grönlands första kyrka. Leif Eriksson seglar till Vinland — troligen det som idag är Nordamerika. Erik planerar följa med men skadas när han faller av hästen.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-year">ca. 1003 e.Kr.</div>
+      <div class="timeline-event">Erik Röde dör</div>
+      <div class="timeline-desc">Erik dör troligen i en epidemi som drabbade kolonin strax efter att Leif återvänt från Vinland. Exakt dödsorsak och datum är okänt. Hans arv lever vidare i sönernas äventyr.</div>
+    </div>
+  </div>
+</section>
+
+<!-- KARTA / SHIP NAVIGATION GAME -->
+<section id="karta" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">🗺 Interaktiv karta</span>
+    <h2 class="section-title">Navigatörsspelet</h2>
+    <div class="section-divider"></div>
+  </div>
+  <p style="text-align:center; color:var(--parchment-dark); margin-bottom:1.5rem; font-style:italic;">
+    Läs frågan — klicka sedan på rätt plats!
+  </p>
+
+  <div class="ship-map" id="navGame">
+    <div id="navIdle" style="text-align:center;">
+      <div style="font-size:3rem; margin-bottom:1rem;">⚓</div>
+      <p style="font-family:'Cinzel',serif; font-size:0.85rem; letter-spacing:3px; color:var(--ice); margin-bottom:2rem;">KLICKA PÅ RÄTT PLATS NÄR FRÅGAN STÄLLS</p>
+      <button class="btn-sea" onclick="startNavGame()">⚓ Starta Navigatörsspelet</button>
+    </div>
+    <div id="navActive" style="display:none; width:100%;">
+      <div id="navProgress" style="display:flex; gap:6px; margin-bottom:1.5rem; justify-content:center;"></div>
+      <div id="navQuestion" style="font-family:'Cinzel',serif; font-size:1.1rem; color:var(--parchment); margin-bottom:0.5rem; line-height:1.5;"></div>
+      <div id="navSubtitle" style="font-size:0.85rem; color:var(--ice); font-style:italic; margin-bottom:2rem;"></div>
+      <div id="navChoices" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap:1rem; max-width:700px; margin:0 auto 1.5rem;"></div>
+      <div id="navFeedback" style="display:none; padding:1rem 1.5rem; border-radius:8px; font-size:0.95rem; line-height:1.6; max-width:600px; margin:0 auto 1.5rem;"></div>
+      <button id="navNext" onclick="nextNavQ()" style="display:none;" class="btn-viking">NÄSTA →</button>
+    </div>
+    <div id="navResult" style="display:none; text-align:center;">
+      <div id="navResultScore" style="font-family:'Cinzel',serif; font-size:3.5rem; font-weight:900; color:var(--gold-light); margin:1rem 0;"></div>
+      <div id="navResultText" style="color:var(--parchment-dark); margin-bottom:2rem; font-style:italic;"></div>
+      <button class="btn-sea" onclick="startNavGame()">⟳ Spela igen</button>
+    </div>
+  </div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">🧠 Testa dig själv</span>
+    <h2 class="section-title">Quiz: Erik Röde</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div id="quizQNum" class="quiz-q-num"></div>
+    <div id="quizQuestion" class="quiz-question"></div>
+    <div class="quiz-options" id="quizOptions"></div>
+    <div class="quiz-feedback" id="quizFeedback"></div>
+    <button class="quiz-next" id="quizNext" onclick="nextQuestion()">NÄSTA FRÅGA →</button>
+    <div class="quiz-result" id="quizResult">
+      <div class="quiz-result-score" id="quizResultScore"></div>
+      <p id="quizResultText" style="color:var(--parchment-dark); margin-bottom:1.5rem;"></p>
+      <button class="btn-viking" onclick="restartQuiz()">⟳ Gör om quizet</button>
+    </div>
+  </div>
+</section>
+
+<!-- FLASHCARDS -->
+<section id="flashcards" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">🃏 Memorera</span>
+    <h2 class="section-title">Flashcards</h2>
+    <div class="section-divider"></div>
+  </div>
+  <p style="text-align:center; color:var(--parchment-dark); margin-bottom:2rem; font-style:italic;">Klicka på ett kort för att se svaret!</p>
+
+  <div class="flashcard-grid" id="flashcardGrid"></div>
+</section>
+
+<!-- RUNOR -->
+<section id="runor" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">ᚱ Vikingaskrift</span>
+    <h2 class="section-title">Det Yngre Futharket</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="prose-card" style="margin-bottom:2rem;">
+    <p>Vikingarna använde ett alfabet av 16 symboler kallat <strong>Det yngre futharket</strong>. Runorna höggs in i sten, trä och metall och användes för allt från gravstenar till magiska besvärjelser. Håll muspekaren över en runa för att lära dig mer.</p>
+  </div>
+
+  <div class="rune-grid" id="runeGrid"></div>
+
+  <!-- NAME TRANSLATOR -->
+  <div class="section-header" style="margin-top:3rem;">
+    <span class="section-badge">✍ Skriv ditt namn</span>
+    <h2 class="section-title" style="font-size:1.8rem;">Namnöversättaren</h2>
+    <div class="section-divider"></div>
+  </div>
+  <p style="text-align:center; color:var(--parchment-dark); margin-bottom:1.5rem; font-style:italic;">Skriv ditt namn och se det i runor!</p>
+
+  <div class="translator-box">
+    <input class="translator-input" type="text" id="nameInput" placeholder="Skriv ditt namn..." maxlength="20" oninput="translateName()">
+    <div class="translator-result" id="translatorResult">—</div>
+    <div class="translator-latin" id="translatorLatin"></div>
+  </div>
+</section>
+
+<!-- SAGA GENERATOR -->
+<section id="saga" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">📜 Kreativt</span>
+    <h2 class="section-title">Sagageneratorn</h2>
+    <div class="section-divider"></div>
+  </div>
+  <p style="text-align:center; color:var(--parchment-dark); margin-bottom:2rem; font-style:italic;">
+    Välj alternativ och skapa din egen vikingasaga!
+  </p>
+
+  <div class="saga-box">
+    <div class="saga-options">
+      <div>
+        <label style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--ember); display:block; margin-bottom:0.5rem; letter-spacing:1px;">HJÄLTE</label>
+        <select class="saga-select" id="sagaHero">
+          <option value="Erik Röde, den rödhårige hövdingen">Erik Röde</option>
+          <option value="Leif Eriksson, den djärve utforskaren">Leif Eriksson</option>
+          <option value="Freydís Eiríksdóttir, den fruktade sköldjungfrun">Freydís (Eriks dotter)</option>
+          <option value="Thorvald Eriksson, den ärorike krigaren">Thorvald (Eriks son)</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--ember); display:block; margin-bottom:0.5rem; letter-spacing:1px;">UPPDRAG</label>
+        <select class="saga-select" id="sagaQuest">
+          <option value="sökte det gröna landet bortom havet">Hitta Grönland</option>
+          <option value="färdades mot Vinland, det rika landet i väster">Nå Vinland</option>
+          <option value="hämtade vedergällning för en oförrättat brott">Vedergällning</option>
+          <option value="sökte guds välsignelse men fann bara storm och is">Undfly stormen</option>
+        </select>
+      </div>
+      <div>
+        <label style="font-family:'Cinzel',serif; font-size:0.75rem; color:var(--ember); display:block; margin-bottom:0.5rem; letter-spacing:1px;">ÖDET</label>
+        <select class="saga-select" id="sagaFate">
+          <option value="och vann evig ära bland männen i Valhall">Evig ära</option>
+          <option value="men försvann i dimman och minns av ingen">Glömskans slöja</option>
+          <option value="och återvände som en rikare man än han lämnat">Rikedom</option>
+          <option value="och fann det han sökte, fast inte på det sätt han hoppades">Oväntat slut</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="saga-generate-btn" onclick="generateSaga()">⚓ SKAPA SAGA</button>
+
+    <div class="saga-output" id="sagaOutput"></div>
+  </div>
+</section>
+
+<!-- MATCHING GAME -->
+<section>
+  <div class="section-header">
+    <span class="section-badge">🎮 Matchningsspel</span>
+    <h2 class="section-title">Para ihop begreppen</h2>
+    <div class="section-divider"></div>
+  </div>
+  <p style="text-align:center; color:var(--parchment-dark); margin-bottom:2rem; font-style:italic;">
+    Klicka på ett ord i varje kolumn för att matcha dem!
+  </p>
+
+  <div class="match-grid" id="matchGrid">
+    <div>
+      <div class="match-col-title">BEGREPP / NAMN</div>
+      <div id="matchLeft"></div>
+    </div>
+    <div>
+      <div class="match-col-title">FÖRKLARING</div>
+      <div id="matchRight"></div>
+    </div>
+  </div>
+  <div class="match-score-display" id="matchScore"></div>
+</section>
+
+<!-- MYT / FAKTA -->
+<section id="myt" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">🔍 Kritiskt tänkande</span>
+    <h2 class="section-title">Myt eller Fakta?</h2>
+    <div class="section-divider"></div>
+  </div>
+  <p style="text-align:center; color:var(--parchment-dark); margin-bottom:2rem; font-style:italic;">
+    Klicka på ett påstående och se om det är sant eller falskt!
+  </p>
+  <div class="myth-cards" id="mythCards"></div>
+</section>
+
+<!-- ORDLISTA -->
+<section id="ordlista" class="section-anchor">
+  <div class="section-header">
+    <span class="section-badge">📚 Ordlista</span>
+    <h2 class="section-title">Viktiga begrepp</h2>
+    <div class="section-divider"></div>
+  </div>
+
+  <div class="glossary-grid" id="glossaryGrid"></div>
+</section>
+
+<!-- FOOTER -->
+<div style="text-align:center; padding:4rem 2rem; position:relative; z-index:10; border-top:1px solid rgba(212,160,23,0.15);">
+  <p style="font-family:'Cinzel',serif; font-size:0.7rem; letter-spacing:3px; color:var(--ember);">SO-PORTALEN.SE</p>
+  <p style="color:rgba(242,232,208,0.3); font-size:0.8rem; margin-top:0.5rem;">Undervisningsmaterial av Petrus • Grönlands historia</p>
+</div>
+
+</main>
+
+<!-- SCORE BAR -->
+<div class="score-bar">
+  <span class="score-label">VIKINGAPOÄNG</span>
+  <span class="score-val" id="totalScore">0</span>
+</div>
+
+<script>
+// ===== GLOBAL SCORE =====
+let totalScore = 0;
+
+function addScore(pts) {
+  totalScore += pts;
+  document.getElementById('totalScore').textContent = totalScore;
+  if (pts > 0) confetti(3);
+}
+
+function confetti(count) {
+  const colors = ['#D4A017','#C94A1A','#8B1A1A','#7AAFC8','#F0C040'];
+  for (let i = 0; i < count; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.cssText = `
+      left:${Math.random()*100}vw;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      animation-duration:${1.5+Math.random()*2}s;
+      animation-delay:${Math.random()*0.5}s;
+      transform:rotate(${Math.random()*360}deg);
+    `;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 4000);
+  }
+}
+
+// ===== NAV ACTIVE =====
+function setActive(el) {
+  document.querySelectorAll('.nav-tabs a').forEach(a => a.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ===== TIMELINE SCROLL ANIMATION =====
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+
+// ===== REPUTATION GAME =====
+const dilemmas = [
+  {
+    q: "Din granne Eyiolf har stulit dina trälar. Du kräver tillbaka dem vid tinget men han vägrar lyssna. Vad gör du?",
+    choices: [
+      { text: "Hämta dina trälar med vapenmakt", delta: +10, fb: "Mannen! Du löser det som en viking. Folk respekterar din beslutsamhet." },
+      { text: "Ta saken till lagmannen", delta: +5, fb: "Klokt. Du respekterar lagen — men vissa ser dig som svag." },
+      { text: "Förlåt och glöm det", delta: -15, fb: "Svagt drag. Ryktet börjar viska att du är lätt att luras." },
+      { text: "Döda Eyiolf och hans två söner", delta: -5, fb: "Effektivt, men nu har du tre familjer som vill ha blodshämnd på dig." }
+    ]
+  },
+  {
+    q: "En svår storm slår mot din flotta på väg till Grönland. Tre av dina skepp signalerar nöd. Vad gör du?",
+    choices: [
+      { text: "Vänd hela flottan och rädda dem", delta: +15, fb: "Du visar att du aldrig lämnar dina egna. Lojalitet är guld värd." },
+      { text: "Segla vidare — missionen är störst", delta: -10, fb: "Du når Grönland, men de som överlevde glömmer aldrig att du övergav dem." },
+      { text: "Skicka ditt snabbaste skepp till undsättning", delta: +8, fb: "Balansen mellan risk och lojalitet. De flesta ser det som ett bra beslut." },
+      { text: "Be till Tor om god vind och fortsätt", delta: -5, fb: "Tor hjälper de djärva — men inte de likgiltiga." }
+    ]
+  },
+  {
+    q: "Din hustru Þjóðhildr vill omvändas till kristendomen och bygga en kyrka. Du är hängiven Tor och Oden. Vad säger du?",
+    choices: [
+      { text: "Låt henne — det är hennes tro", delta: +10, fb: "Klok kompromiss. Kolonin välkomnar handelspartnernas kristna tro." },
+      { text: "Förbjuder henne bestämt", delta: -10, fb: "Konflikten sprider sig. Din hustru vägrar sova i din säng." },
+      { text: "Ignorera det — låtsas inte om det", delta: 0, fb: "Svansen mellan benen. Du slipper konflikten men vinner heller inget." },
+      { text: "Omvändas själv för politikens skull", delta: +5, fb: "Pragmatisk. Grönland behöver europeiska handelspartners." }
+    ]
+  },
+  {
+    q: "Leif vill segla västerut mot ett okänt land. Du planerade följa med men föll av hästen dagen ni skulle ge er av. Vad gör du?",
+    choices: [
+      { text: "Stanna kvar — fallet var ett dåligt omen", delta: +5, fb: "Du lyssnar på ödet. Sagorna säger att Erik aldrig nådde Vinland — kanske var det klokast." },
+      { text: "Ignorerar smärtan och hoppas i båten ändå", delta: -10, fb: "Ditt sår infekterar. Du hindrar expeditionen snarare än hjälper den." },
+      { text: "Skicka Leif med ditt välsignande", delta: +12, fb: "Leif når Vinland. Du är fadern till det första europeiska Nordamerika-besöket." },
+      { text: "Förbjud Leif att resa — för farligt", delta: -15, fb: "Leif reser ändå. Nu är ni i konflikt, och hans äventyr skriver hans historia — inte din." }
+    ]
+  }
+];
+
+let repValue = 50;
+let currentDilemma = 0;
+
+function initRepGame() {
+  const container = document.getElementById('repDilemmas');
+  container.innerHTML = '';
+  dilemmas.forEach((d, i) => {
+    const div = document.createElement('div');
+    div.className = 'rep-dilemma' + (i === 0 ? ' active' : '');
+    div.id = 'dilemma-' + i;
+    div.innerHTML = `
+      <div class="rep-dilemma-q">Situation ${i+1}/4: "${d.q}"</div>
+      <div class="rep-choices">
+        ${d.choices.map((c,ci) => `<button class="rep-choice" onclick="makeChoice(${i}, ${ci})">${c.text}</button>`).join('')}
+      </div>
+    `;
+    container.appendChild(div);
+  });
+}
+
+function makeChoice(dilemmaIdx, choiceIdx) {
+  const d = dilemmas[dilemmaIdx];
+  const c = d.choices[choiceIdx];
+  repValue = Math.max(0, Math.min(100, repValue + c.delta));
+  updateRepBar();
+
+  // disable choices
+  const dilemmaEl = document.getElementById('dilemma-' + dilemmaIdx);
+  dilemmaEl.querySelectorAll('.rep-choice').forEach(btn => btn.disabled = true);
+
+  // show feedback inline
+  const fb = document.createElement('p');
+  fb.style.cssText = 'margin-top:0.8rem; font-style:italic; color:var(--ice); font-size:0.85rem; line-height:1.6;';
+  fb.textContent = c.fb;
+  dilemmaEl.appendChild(fb);
+
+  if (c.delta > 0) addScore(c.delta);
+
+  setTimeout(() => {
+    const next = dilemmaIdx + 1;
+    if (next < dilemmas.length) {
+      document.getElementById('dilemma-' + next).classList.add('active');
+    } else {
+      showRepVerdict();
+    }
+  }, 1800);
+}
+
+function updateRepBar() {
+  const bar = document.getElementById('repBar');
+  const val = document.getElementById('repValue');
+  bar.style.width = repValue + '%';
+  val.textContent = repValue;
+}
+
+function showRepVerdict() {
+  const v = document.getElementById('repVerdict');
+  v.classList.add('show');
+  let msg = '';
+  if (repValue >= 80) msg = '⚔ Sagahjälte! Skalder sjunger om dina bedrifter i hundra år.';
+  else if (repValue >= 60) msg = '🛡 Respekterad hövding. Kolonin blomstrar under ditt ledarskap.';
+  else if (repValue >= 40) msg = '⚓ Kompetent men omtvistad. Somliga litar på dig, andra inte.';
+  else if (repValue >= 20) msg = '🪓 Fruktad men ensam. Du har makt — men inga äkta allierade.';
+  else msg = '☠ Fördriven ur minnet. Inte ens dina egna barn nämner ditt namn.';
+  v.textContent = msg;
+  addScore(Math.floor(repValue / 5));
+}
+
+initRepGame();
+
+// ===== NAVIGATOR BUTTON GAME =====
+const navQuestions = [
+  {
+    q: 'Var på kartan hör Norge hemma?',
+    sub: 'Hint: Skandinaviska halvön i nordöst',
+    correct: 'Norge',
+    choices: ['Norge','Island','Grönland','Frankrike'],
+    fb: 'Rätt! Norge ligger på den skandinaviska halvön. Erik Rödes far Thorvald kom härifrån och flydde till Island efter ett dödande.',
+    emoji: '🏔'
+  },
+  {
+    q: 'Eriks landsflykt gick hit — var bodde han innan förvisningen?',
+    sub: 'Hint: Vulkanön mitt i Nordatlanten',
+    correct: 'Island',
+    choices: ['Grönland','Island','Britannien','Danmark'],
+    fb: 'Rätt! Erik levde på Island tills han dömdes till tre års landsflykt efter fejder med grannarna. Därifrån seglade han västerut.',
+    emoji: '🌋'
+  },
+  {
+    q: 'Vilket land grundade Erik Röde sin koloni på?',
+    sub: 'Hint: Han valde ett lockande namn för att locka nybyggare',
+    correct: 'Grönland',
+    choices: ['Island','Vinland','Grönland','Norge'],
+    fb: 'Rätt! Erik kallade det "Grönland" för att ett fint namn lockade folk. Ca. 985 e.Kr. grundades kolonin med 400–500 nordbor.',
+    emoji: '🧊'
+  },
+  {
+    q: 'Vart seglade Leif Eriksson ca. år 1000 e.Kr.?',
+    sub: 'Hint: Det var ännu längre västerut än Grönland',
+    correct: 'Vinland',
+    choices: ['Grönland','Island','Vinland','Britannien'],
+    fb: 'Rätt! Leif Eriksson nådde Vinland — troligen dagens Newfoundland i Kanada — nästan 500 år före Kolumbus!',
+    emoji: '⛵'
+  },
+  {
+    q: 'Varifrån startade de 25 skeppen med nybyggare till Grönland?',
+    sub: 'Hint: Det var Eriks hemland under åren före förvisningen',
+    correct: 'Island',
+    choices: ['Norge','Island','Danmark','Britannien'],
+    fb: 'Rätt! De 25 skeppen lämnade Island ca. 985–986 e.Kr. Bara 14 av dem nådde faktiskt fram till Grönland.',
+    emoji: '⚓'
+  },
+  {
+    q: 'Vilket land tillhör vikingarna aldrig koloniserade, men handlade med?',
+    sub: 'Hint: Det ligger söder om Skandinavien och väster om det europeiska fastlandet',
+    correct: 'Britannien',
+    choices: ['Vinland','Britannien','Grönland','Island'],
+    fb: 'Britannien! Vikingarna plundrade och handlade med England och Irland, men Erik Röde och hans familj fokuserade på den atlantiska rutten västerut.',
+    emoji: '🏰'
+  },
+];
+
+let navQ = 0;
+let navScore = 0;
+let navAnswered = false;
+
+function startNavGame() {
+  navQ = 0; navScore = 0; navAnswered = false;
+  document.getElementById('navIdle').style.display = 'none';
+  document.getElementById('navResult').style.display = 'none';
+  document.getElementById('navActive').style.display = 'block';
+  buildNavProgress();
+  showNavQuestion();
+}
+
+function buildNavProgress() {
+  const el = document.getElementById('navProgress');
+  el.innerHTML = navQuestions.map((_, i) =>
+    `<div style="width:28px; height:4px; border-radius:2px; background:${i===0?'var(--fire)':'rgba(212,160,23,0.2)'}; transition:background 0.3s;" id="ndot-${i}"></div>`
+  ).join('');
+}
+
+function showNavQuestion() {
+  const d = navQuestions[navQ];
+  document.getElementById('navQuestion').textContent = `${d.emoji}  ${d.q}`;
+  document.getElementById('navSubtitle').textContent = d.sub;
+  document.getElementById('navFeedback').style.display = 'none';
+  document.getElementById('navNext').style.display = 'none';
+  navAnswered = false;
+
+  // Shuffle choices
+  const shuffled = [...d.choices].sort(() => Math.random() - 0.5);
+  const container = document.getElementById('navChoices');
+  container.innerHTML = shuffled.map(c => `
+    <button onclick="answerNav('${c}')" style="
+      background: rgba(13,31,45,0.85);
+      border: 1px solid rgba(212,160,23,0.25);
+      border-radius: 10px;
+      padding: 1.4rem 1rem;
+      color: var(--parchment-dark);
+      cursor: pointer;
+      font-family: 'Cinzel', serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    "
+    onmouseover="this.style.borderColor='var(--gold)'; this.style.color='var(--parchment)'; this.style.transform='translateY(-3px)'; this.style.boxShadow='0 6px 20px rgba(0,0,0,0.4)'"
+    onmouseout="if(!this.dataset.locked){this.style.borderColor='rgba(212,160,23,0.25)'; this.style.color='var(--parchment-dark)'; this.style.transform=''; this.style.boxShadow=''}"
+    >
+      <span style="display:block; font-size:1.6rem; margin-bottom:0.4rem;">${getPlaceEmoji(c)}</span>
+      ${c}
+    </button>
+  `).join('');
+}
+
+function getPlaceEmoji(place) {
+  const map = { 'Norge':'🏔', 'Island':'🌋', 'Grönland':'🧊', 'Vinland':'🌲', 'Britannien':'🏰', 'Danmark':'⚓', 'Frankrike':'🍷' };
+  return map[place] || '🗺';
+}
+
+function answerNav(choice) {
+  if (navAnswered) return;
+  navAnswered = true;
+  const d = navQuestions[navQ];
+  const correct = choice === d.correct;
+
+  // Lock and style all buttons
+  document.querySelectorAll('#navChoices button').forEach(btn => {
+    btn.dataset.locked = '1';
+    btn.disabled = true;
+    btn.style.onmouseover = null;
+    const btnLabel = btn.textContent.trim().split('\n').pop().trim();
+    if (btnLabel === d.correct) {
+      btn.style.borderColor = '#4CAF50';
+      btn.style.background = 'rgba(30,100,50,0.35)';
+      btn.style.color = '#90EE90';
+      btn.style.boxShadow = '0 0 16px rgba(76,175,80,0.3)';
+    } else if (btnLabel === choice && !correct) {
+      btn.style.borderColor = 'var(--blood)';
+      btn.style.background = 'rgba(139,26,26,0.35)';
+      btn.style.color = '#FFB3B3';
+    } else {
+      btn.style.opacity = '0.4';
+    }
+  });
+
+  // Feedback
+  const fb = document.getElementById('navFeedback');
+  fb.textContent = (correct ? '✅ ' : '❌ ') + d.fb;
+  fb.style.cssText = `display:block; padding:1rem 1.5rem; border-radius:8px; font-size:0.92rem; line-height:1.7; max-width:600px; margin:0 auto 1.5rem; background:${correct?'rgba(30,100,50,0.2)':'rgba(139,26,26,0.2)'}; border:1px solid ${correct?'rgba(76,175,80,0.3)':'rgba(139,26,26,0.4)'}; color:${correct?'#90EE90':'#FFB3B3'};`;
+
+  if (correct) { navScore++; addScore(8); }
+
+  // Progress dot
+  const dot = document.getElementById(`ndot-${navQ}`);
+  if (dot) { dot.style.background = correct ? '#4CAF50' : 'var(--blood)'; }
+  if (navQ + 1 < navQuestions.length) {
+    const nextDot = document.getElementById(`ndot-${navQ+1}`);
+    if (nextDot) setTimeout(() => { nextDot.style.background = 'var(--fire)'; }, 300);
+  }
+
+  document.getElementById('navNext').style.display = 'inline-block';
+}
+
+function nextNavQ() {
+  navQ++;
+  if (navQ >= navQuestions.length) {
+    showNavResult();
+  } else {
+    showNavQuestion();
+  }
+}
+
+function showNavResult() {
+  document.getElementById('navActive').style.display = 'none';
+  const r = document.getElementById('navResult');
+  r.style.display = 'block';
+  document.getElementById('navResultScore').textContent = `${navScore} / ${navQuestions.length}`;
+  const pct = navScore / navQuestions.length;
+  let msg = '';
+  if (pct === 1) { msg = '🏆 Perfekt! Du är en äkta vikinganavigator!'; confetti(10); }
+  else if (pct >= 0.8) msg = '⚔ Utmärkt! Erik Röde hade tagit dig med på sin flotta.';
+  else if (pct >= 0.6) msg = '🛡 Godkänt — men du kanske hade hamnat på fel ö.';
+  else msg = '⚓ Öva mer — vikingarna navigerade utan GPS, men med kunskap!';
+  document.getElementById('navResultText').textContent = msg;
+  addScore(navScore * 3);
+}
+
+// ===== QUIZ =====
+const quizData = [
+  { q: 'Vilket år grundades Grönlandskolonin av Erik Röde?', opts: ['ca. 870', 'ca. 985', 'ca. 1050', 'ca. 1200'], ans: 1, fb: 'Rätt! Erik Röde grundade Grönlandskolonin ca. 985–986 e.Kr., efter tre år av utforskning under sin landsflykt från Island.' },
+  { q: 'Varför fick landet Grönland sitt namn?', opts: ['Det var täckt av gröna skogar', 'Erik ville locka folk att flytta dit', 'Grön var vikingernas heliga färg', 'Vikingarna kallade is för "grön"'], ans: 1, fb: 'Rätt! Erik döpte landet till Grönland strategiskt — för att ett lockande namn skulle locka fler nybyggare.' },
+  { q: 'Vad var Erik Rödes ursprungliga hemland?', opts: ['Danmark', 'Island', 'Norge', 'Grönland'], ans: 2, fb: 'Rätt! Erik Röde och hans far kom ursprungligen från Jæren i Norge, innan de emigrerade till Island.' },
+  { q: 'Varför förvisades Erik från Island?', opts: ['Han vägrade betala skatt', 'Han hade dödat flera män i fejder', 'Han tröttnade och reste frivilligt', 'Han hade stulit en chieftains häst'], ans: 1, fb: 'Rätt! Erik hamnade i blodiga grannfejder och dömdes till tre års landsflykt av tinget på Island.' },
+  { q: 'Vilket namn hade Eriks son som nådde Vinland?', opts: ['Björn Eriksson', 'Thorvald Eriksson', 'Leif Eriksson', 'Gunnar Eriksson'], ans: 2, fb: 'Rätt! Leif Eriksson (Leif den Lycklige) seglade till Vinland ca. 1000 e.Kr. — troligen det nuvarande Nordamerika.' },
+  { q: 'Hur många av de 25 skeppen till Grönland nådde fram?', opts: ['25 skepp — alla', '21 skepp', '14 skepp', '7 skepp'], ans: 2, fb: 'Rätt! Av de 25 skeppen nådde bara 14 fram till Grönland. Resten vände tillbaka eller förliste.' },
+  { q: 'Vad kallas de nordiska vikingabosättningarna på Grönland?', opts: ['Nordbyn och Sydbyn', 'Östra bygden och Västra bygden', 'Erik och Leifs byggder', 'Brattahlid och Vinland'], ans: 1, fb: 'Rätt! Kolonin bestod av Östra bygden och Västra bygden. Eriks gård Brattahlid låg i Östra bygden.' },
+  { q: 'Varför följde inte Erik Röde med sonen Leif till Vinland?', opts: ['Han var för gammal och vägrade', 'Han höll på att omvändas till kristendomen', 'Han föll av hästen strax innan avfärd', 'Kolonin behövde honom som ledare'], ans: 2, fb: 'Rätt! Enligt sagorna föll Erik av hästen precis när de skulle ge sig av — han såg det som ett dåligt omen och stannade.' },
+];
+
+let currentQ = 0;
+let quizScore = 0;
+let answered = false;
+
+function initQuiz() {
+  const prog = document.getElementById('quizProgress');
+  prog.innerHTML = quizData.map((_, i) => `<div class="quiz-dot ${i===0?'current':''}" id="dot-${i}"></div>`).join('');
+  showQuestion();
+}
+
+function showQuestion() {
+  const d = quizData[currentQ];
+  document.getElementById('quizQNum').textContent = `FRÅGA ${currentQ+1} AV ${quizData.length}`;
+  document.getElementById('quizQuestion').textContent = d.q;
+  const opts = document.getElementById('quizOptions');
+  const letters = ['A','B','C','D'];
+  opts.innerHTML = d.opts.map((o,i) =>
+    `<button class="quiz-opt" onclick="answerQ(${i})">${letters[i]}) ${o}</button>`
+  ).join('');
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('quizNext').className = 'quiz-next';
+  answered = false;
+}
+
+function answerQ(idx) {
+  if (answered) return;
+  answered = true;
+  const d = quizData[currentQ];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts[idx].classList.add(idx === d.ans ? 'correct' : 'wrong');
+  opts[d.ans].classList.add('correct');
+  opts.forEach(o => o.disabled = true);
+
+  const fb = document.getElementById('quizFeedback');
+  fb.textContent = idx === d.ans ? '✅ ' + d.fb : '❌ ' + d.fb;
+  fb.className = 'quiz-feedback show ' + (idx === d.ans ? 'ok' : 'bad');
+
+  if (idx === d.ans) { quizScore++; addScore(10); }
+
+  document.getElementById('quizNext').className = 'quiz-next show';
+
+  // update progress dots
+  document.getElementById(`dot-${currentQ}`).classList.remove('current');
+  document.getElementById(`dot-${currentQ}`).classList.add('done');
+  if (currentQ + 1 < quizData.length) document.getElementById(`dot-${currentQ+1}`).classList.add('current');
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= quizData.length) {
+    showQuizResult(); return;
+  }
+  showQuestion();
+}
+
+function showQuizResult() {
+  document.getElementById('quizQNum').textContent = '';
+  document.getElementById('quizQuestion').textContent = '';
+  document.getElementById('quizOptions').innerHTML = '';
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('quizNext').className = 'quiz-next';
+  const r = document.getElementById('quizResult');
+  r.className = 'quiz-result show';
+  document.getElementById('quizResultScore').textContent = `${quizScore} / ${quizData.length}`;
+  const pct = quizScore / quizData.length;
+  let msg = '';
+  if (pct === 1) { msg = '🏆 Perfekt! Du är en äkta Erikssonkännare!'; confetti(10); }
+  else if (pct >= 0.75) msg = '⚔ Väl godkänt, viking! Sagorna lever i dig.';
+  else if (pct >= 0.5) msg = '🛡 Halvhjärtat — gå igenom flashcards och försök igen!';
+  else msg = '⚓ Det finns mer att lära. Läs om och kom tillbaka!';
+  document.getElementById('quizResultText').textContent = msg;
+  addScore(quizScore * 5);
+}
+
+function restartQuiz() {
+  currentQ = 0; quizScore = 0;
+  document.getElementById('quizResult').className = 'quiz-result';
+  const dots = document.querySelectorAll('.quiz-dot');
+  dots.forEach((d,i) => { d.className = 'quiz-dot' + (i===0?' current':''); });
+  showQuestion();
+}
+
+initQuiz();
+
+// ===== FLASHCARDS =====
+const flashData = [
+  { front: 'Erik Röde', back: 'Erik Thorvaldsson, norsk-isländsk viking (~950–1003). Grundare av Grönlandskolonin.' },
+  { front: 'Vinland', back: 'Land som Leif Eriksson nådde ca. 1000 e.Kr. Troligen nuvarande Nordamerika (Newfoundland, Kanada).' },
+  { front: 'Brattahlid', back: 'Eriks gård och hövdingasäte i Östra bygden på Grönland.' },
+  { front: 'Det yngre futharket', back: '16-tecknat runalfabet som användes av vikingarna under 800–1100-talen.' },
+  { front: 'Landsflykt', back: 'Straff vid vikingatinget. Personen förvisades från landet i ett bestämt antal år.' },
+  { front: 'Leif Eriksson', back: 'Eriks son. Nådde Vinland ca. 1000 e.Kr. och är därmed den förste europeén att nå Nordamerika.' },
+  { front: 'Tinget', back: 'Vikingatidens demokratiska folkförsamling där lagar stiftades och konflikter löstes.' },
+  { front: 'Östra bygden', back: 'Den största av de två nordbosättningarna på Grönland. Eriks gård Brattahlid låg här.' },
+  { front: 'Þjóðhildr', back: 'Eriks hustru. Omvändes till kristendomen och lät bygga Grönlands första kyrka.' },
+  { front: 'Freydís Eiríksdóttir', back: 'Eriks dotter. Deltog i expeditioner till Vinland och är känd som en tuff och stridig figur i sagorna.' },
+  { front: 'Gunnbjörn Ulfsson', back: 'Norsk sjöfarare som observerade Grönland från avstånd, troligen 900-talets början — men lämnade aldrig iland.' },
+  { front: 'Nordboarnas nedgång', back: 'Grönlandskolonin överges på 1400-talet troligen pga. klimatförsämring (lilla istiden), konflikter med inuiter och handelsproblem.' },
+];
+
+const grid = document.getElementById('flashcardGrid');
+flashData.forEach((f, i) => {
+  const card = document.createElement('div');
+  card.className = 'flashcard';
+  card.innerHTML = `
+    <div class="flashcard-inner">
+      <div class="flashcard-front">
+        <span class="flashcard-front-text">${f.front}</span>
+        <span class="flashcard-hint">KLICKA →</span>
+      </div>
+      <div class="flashcard-back">
+        <span class="flashcard-back-text">${f.back}</span>
+      </div>
+    </div>
+  `;
+  card.onclick = () => {
+    card.classList.toggle('flipped');
+    if (card.classList.contains('flipped')) addScore(1);
+  };
+  grid.appendChild(card);
+});
+
+// ===== RUNIC ALPHABET =====
+const runes = [
+  { sym: 'ᚠ', name: 'Fe', latin: 'f', meaning: 'Boskap, rikedom' },
+  { sym: 'ᚢ', name: 'Ur', latin: 'u', meaning: 'Urox, kraft' },
+  { sym: 'ᚦ', name: 'Thurs', latin: 'th', meaning: 'Tors hammare' },
+  { sym: 'ᚬ', name: 'As', latin: 'o/a', meaning: 'As-gudarna' },
+  { sym: 'ᚱ', name: 'Reid', latin: 'r', meaning: 'Ritt, resa' },
+  { sym: 'ᚴ', name: 'Kaun', latin: 'k', meaning: 'Sår, smärta' },
+  { sym: 'ᚼ', name: 'Hagall', latin: 'h', meaning: 'Hagel, storm' },
+  { sym: 'ᚾ', name: 'Naud', latin: 'n', meaning: 'Nöd, tvång' },
+  { sym: 'ᛁ', name: 'Is', latin: 'i', meaning: 'Is, stillhet' },
+  { sym: 'ᛅ', name: 'Ar', latin: 'a', meaning: 'Skördetid, fred' },
+  { sym: 'ᛋ', name: 'Sol', latin: 's', meaning: 'Sol, ljus' },
+  { sym: 'ᛏ', name: 'Tyr', latin: 't', meaning: 'Krigsguden Tyr' },
+  { sym: 'ᛒ', name: 'Björk', latin: 'b', meaning: 'Björkträdet, nystart' },
+  { sym: 'ᛘ', name: 'Madr', latin: 'm', meaning: 'Människa' },
+  { sym: 'ᛚ', name: 'Logr', latin: 'l', meaning: 'Vatten, hav' },
+  { sym: 'ᛦ', name: 'Yr', latin: 'y/r', meaning: 'Idegran, döden' },
+];
+
+const runeGrid = document.getElementById('runeGrid');
+runes.forEach(r => {
+  const card = document.createElement('div');
+  card.className = 'rune-card';
+  card.innerHTML = `
+    <span class="rune-symbol">${r.sym}</span>
+    <span class="rune-name">${r.name} (${r.latin})</span>
+    <div class="rune-tooltip">${r.meaning}</div>
+  `;
+  card.onclick = () => addScore(1);
+  runeGrid.appendChild(card);
+});
+
+// ===== NAME TRANSLATOR =====
+const runeMap = {
+  a:'ᛅ', b:'ᛒ', c:'ᚴ', d:'ᛏ', e:'ᛁ', f:'ᚠ', g:'ᚴ',
+  h:'ᚼ', i:'ᛁ', j:'ᛁ', k:'ᚴ', l:'ᛚ', m:'ᛘ', n:'ᚾ',
+  o:'ᚬ', p:'ᛒ', q:'ᚴ', r:'ᚱ', s:'ᛋ', t:'ᛏ', u:'ᚢ',
+  v:'ᚠ', w:'ᚢ', x:'ᚴ', y:'ᛦ', z:'ᛋ',
+  å:'ᚬ', ä:'ᛅ', ö:'ᚬ'
+};
+
+function translateName() {
+  const name = document.getElementById('nameInput').value.toLowerCase();
+  const runes = name.split('').map(c => runeMap[c] || (c === ' ' ? ' ' : '·')).join('');
+  document.getElementById('translatorResult').textContent = runes || '—';
+  document.getElementById('translatorLatin').textContent = name ? `(${name})` : '';
+  if (name.length > 0) addScore(1);
+}
+
+// ===== SAGA GENERATOR =====
+const sagaOpeners = [
+  'Det sägs i de gamla sagorna att',
+  'Skalder berättar att',
+  'Så hördes det i mängdens mun att',
+  'Minnesrunorna vittnar om att',
+  'Ingen man glömmer att',
+];
+
+const sagaMiddles = [
+  'Med trettiofem beslutsamma män och en drakskepp av mörknat ek',
+  'Under en vinter som nordborna länge mindes',
+  'Då havet var som ett svart järntak',
+  'Med Tors välsignelse i seglen',
+  'När isarna låg som vita monster längs horisonten',
+];
+
+const sagaEndings = [
+  'Så slutar berättelsen om den man som vågade sätta sin fot i det okände.',
+  'Och den mannen nämndes länge vid eldarna.',
+  'Sålunda satt hans rykte fast i stenar som inga stormvågor kan flytta.',
+  'Det är vad sagorna säger — och sagorna ljuger aldrig.',
+];
+
+function generateSaga() {
+  const hero = document.getElementById('sagaHero').value;
+  const quest = document.getElementById('sagaQuest').value;
+  const fate = document.getElementById('sagaFate').value;
+
+  const opener = sagaOpeners[Math.floor(Math.random()*sagaOpeners.length)];
+  const middle = sagaMiddles[Math.floor(Math.random()*sagaMiddles.length)];
+  const ending = sagaEndings[Math.floor(Math.random()*sagaEndings.length)];
+
+  const saga = `${opener} ${hero} ${quest}. ${middle} skar skeppen genom Nordatlantens kallt mörka vatten. Ingen visste vad som väntade bortom dimman. ${hero} ${fate}. ${ending}`;
+
+  const out = document.getElementById('sagaOutput');
+  out.textContent = '';
+  out.className = 'saga-output show';
+  let i = 0;
+  const interval = setInterval(() => {
+    out.textContent += saga[i];
+    i++;
+    if (i >= saga.length) { clearInterval(interval); addScore(5); }
+  }, 25);
+}
+
+// ===== MATCHING GAME =====
+const matchPairs = [
+  { left: 'Brattahlid', right: 'Eriks gård på Grönland' },
+  { left: 'Leif Eriksson', right: 'Nådde Vinland ca. 1000 e.Kr.' },
+  { left: 'Det yngre futharket', right: '16-tecknat runalfabet' },
+  { left: 'Tinget', right: 'Vikingatidens folkförsamling' },
+  { left: 'Þjóðhildr', right: 'Eriks hustru, byggde kyrka' },
+  { left: 'Freydís', right: 'Eriks dotter, reste till Vinland' },
+];
+
+let matchSelected = null;
+let matchMatches = 0;
+
+function initMatch() {
+  const shuffledRight = [...matchPairs].sort(() => Math.random() - 0.5);
+  const leftDiv = document.getElementById('matchLeft');
+  const rightDiv = document.getElementById('matchRight');
+  leftDiv.innerHTML = '';
+  rightDiv.innerHTML = '';
+
+  matchPairs.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.id = i;
+    el.dataset.side = 'left';
+    el.textContent = p.left;
+    el.onclick = () => handleMatch(el);
+    leftDiv.appendChild(el);
+  });
+
+  shuffledRight.forEach((p, i) => {
+    const origIdx = matchPairs.findIndex(x => x.left === p.left);
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.id = origIdx;
+    el.dataset.side = 'right';
+    el.textContent = p.right;
+    el.onclick = () => handleMatch(el);
+    rightDiv.appendChild(el);
+  });
+}
+
+function handleMatch(el) {
+  if (el.classList.contains('matched')) return;
+  if (!matchSelected) {
+    if (matchSelected) matchSelected.classList.remove('selected');
+    matchSelected = el;
+    el.classList.add('selected');
+  } else {
+    if (matchSelected === el) { el.classList.remove('selected'); matchSelected = null; return; }
+    if (matchSelected.dataset.side === el.dataset.side) {
+      matchSelected.classList.remove('selected');
+      matchSelected = el;
+      el.classList.add('selected');
+      return;
+    }
+    if (matchSelected.dataset.id === el.dataset.id) {
+      matchSelected.classList.remove('selected');
+      matchSelected.classList.add('matched');
+      el.classList.add('matched');
+      matchMatches++;
+      addScore(8);
+      document.getElementById('matchScore').textContent = `✅ ${matchMatches} / ${matchPairs.length} matchade!`;
+      if (matchMatches === matchPairs.length) { confetti(8); document.getElementById('matchScore').textContent = '🏆 Alla matchade! Fantastiskt!'; }
+    } else {
+      matchSelected.classList.remove('selected');
+      el.classList.add('wrong-flash');
+      matchSelected.classList.add('wrong-flash');
+      setTimeout(() => { el.classList.remove('wrong-flash'); matchSelected && matchSelected.classList.remove('wrong-flash'); }, 400);
+    }
+    matchSelected = null;
+  }
+}
+
+initMatch();
+
+// ===== MYTH/FACT =====
+const myths = [
+  { text: 'Vikingarna hade hornen på hjälmarna.', type: 'myth', explain: 'Ingen bevisad vikingahjälm har horn. Myten kommer från 1800-talets romantiska konst. De facto buro vikingarna enkla järnhjälmar eller läderskydd.' },
+  { text: 'Leif Eriksson nådde Nordamerika nästan 500 år före Kolumbus.', type: 'fact', explain: 'Sant! Leif Eriksson nådde Vinland ca. 1000 e.Kr. Kolumbus kom 1492. Arkeologiska fynd i L\'Anse aux Meadows, Kanada, bekräftar nordbonärvaro.' },
+  { text: 'Erik Röde kallade landet "Grönland" för att det faktiskt var grönt och börd.', type: 'fact', explain: 'Delvis sant! Längs fjordarna växte gräs och buskar. Men framförallt var det ett marknadsföringsdrag — ett bra namn lockade fler nybyggare.' },
+  { text: 'Grönlandskolonin lever fortfarande som en isolerad vikingastam.', type: 'myth', explain: 'Nej! Nordbobosättningarna på Grönland övergavs helt på 1400-talet. Orsaker inkluderar klimatförsämring, svårigheter med handel och konflikter med inuiter.' },
+  { text: 'Vikingarna hade ett demokratiskt tingsystem där medborgare röstade.', type: 'fact', explain: 'Sant! Tinget var en av historiens äldsta demokratiska institutioner. Fria männen samlades för att stifta lagar, lösa tvister och välja ledare.' },
+  { text: 'Erik Röde var den förste att nå Grönland.', type: 'myth', explain: 'Faktiskt nej! Gunnbjörn Ulfsson observerade Grönland från havet troligen på 900-talets tidiga decennier. Erik var dock den förste att systematiskt utforska och kolonisera landet.' },
+];
+
+const mythGrid = document.getElementById('mythCards');
+myths.forEach(m => {
+  const card = document.createElement('div');
+  card.className = `myth-card ${m.type}`;
+  card.innerHTML = `
+    <div class="myth-card-text">${m.text}</div>
+    <span class="myth-card-badge">${m.type === 'myth' ? '❌ MYTE' : '✅ FAKTA'}</span>
+    <div class="myth-card-explain">${m.explain}</div>
+    <small style="color:rgba(242,232,208,0.3); font-size:0.7rem; font-family:'Cinzel',serif; letter-spacing:1px;">KLICKA FÖR ATT SE SVAR</small>
+  `;
+  card.onclick = () => {
+    if (!card.classList.contains('revealed')) {
+      card.classList.add('revealed');
+      card.querySelector('small').style.display = 'none';
+      addScore(3);
+    }
+  };
+  mythGrid.appendChild(card);
+});
+
+// ===== GLOSSARY =====
+const glossary = [
+  { term: 'Landsflykt', def: 'Vikingatingsstraff där en person förvisas från landet under ett bestämt antal år. Brott mot förvisningsbeslutet straffades med döden.' },
+  { term: 'Skalden', def: 'Professionell poet i vikingatidens nordiska samhälle. Skalderna bevarat historier och hyllade hövdingars bedrifter i muntlig tradition.' },
+  { term: 'Normand', def: 'Normander eller nordbor — benämning på vikingatida skandinaver, framförallt norrmän och danskar som seglade söderut och västerut.' },
+  { term: 'Vinland', def: 'Det land Leif Eriksson nådde ca. 1000 e.Kr. Troligen nutidens Newfoundland, Kanada. Arkeologiska bevis finns i L\'Anse aux Meadows.' },
+  { term: 'Brattahlid', def: 'Eriks gård och den viktigaste bosättningen i Östra bygden på Grönland. Idag kallad Qassiarsuk.' },
+  { term: 'Det yngre futharket', def: '16-tecknat runalfabet som användes av vikingarna ca. 800–1100 e.Kr. Ersatte det äldre 24-tecknade Proto-norska futharket.' },
+  { term: 'Tinget (þing)', def: 'Vikingatidens folkförsamling. Fria männen samlades regelbundet för att stifta lagar, lösa konflikter och fatta gemensamma beslut.' },
+  { term: 'Longship (drakkar)', def: 'Vikingaskeppets klassiska form: smalt, snabbt och grunt för att kunna navigera både öppet hav och grunda floder. Druvhuvud i fören skrämde fiender.' },
+  { term: 'Östra och Västra bygden', def: 'De två nordbonbosättningarna på Grönland, grundade ca. 985 e.Kr. Östra bygden var störst och Eriks gård Brattahlid låg där.' },
+  { term: 'Saga', def: 'Medeltida nordisk prosaberättelse som bevarade historiska och legendariska händelser. Erikssagorna (Grönländernas saga, Eiriks saga) berättar om Vinlandsresor.' },
+  { term: 'Koloni', def: 'En bosättning grundad av folkgrupper från ett annat land. Nordbosättningarna på Grönland var en av de tidigaste atlantiska kolonierna.' },
+  { term: 'Inuiter', def: 'Ursprungsfolk i Arktis. Nordborna kallade dem "skrälingar". Kontakter med inuiterna — möjligen konfliktartade — kan ha bidragit till kolonins nedgång.' },
+];
+
+const gGrid = document.getElementById('glossaryGrid');
+glossary.forEach(g => {
+  const item = document.createElement('div');
+  item.className = 'glossary-item';
+  item.innerHTML = `
+    <div class="glossary-term">${g.term} <span class="glossary-arrow">▼</span></div>
+    <div class="glossary-def">${g.def}</div>
+  `;
+  item.onclick = () => {
+    item.classList.toggle('open');
+    addScore(1);
+  };
+  gGrid.appendChild(item);
+});
+</script>
+</body>
+</html>
