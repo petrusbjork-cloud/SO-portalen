@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ryska revolutionen – SO-portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:    #0D0D0D;
+    --charcoal: #1A1A1A;
+    --paper:    #F4F1EA;
+    --blood:    #8B1A1A;
+    --blood-lt: #A62121;
+    --gold:     #C8A96E;
+    --gold-lt:  #E8DABF;
+    --text:     #2C2A26;
+    --muted:    #6A655A;
+    --border:   #D9D2C5;
+    --mono:     'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Serif 4', Georgia, serif; background: var(--paper); color: var(--text); line-height: 1.7; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--black);
+    background-image:
+      radial-gradient(ellipse at 20% 80%, rgba(139,26,26,0.3) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, rgba(200,169,110,0.15) 0%, transparent 50%);
+    color: white; padding: 70px 40px 60px; position: relative; overflow: hidden;
+    border-bottom: 4px solid var(--blood);
+  }
+  .hero::after {
+    content: ""; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-label { font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 14px; position: relative; z-index: 2; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 6vw, 64px); font-weight: 900; line-height: 1.05; margin-bottom: 16px; position: relative; z-index: 2; }
+  .hero h1 em { color: var(--blood); font-style: italic; }
+  .hero p { font-size: 18px; color: rgba(255,255,255,0.7); max-width: 650px; margin-bottom: 32px; position: relative; z-index: 2; }
+  .hero-tags { display: flex; gap: 10px; flex-wrap: wrap; position: relative; z-index: 2; }
+  .hero-tag { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); padding: 6px 16px; border-radius: 20px; font-size: 12px; font-family: var(--mono); text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── NAV TABS ── */
+  .nav-tabs { background: white; border-bottom: 1px solid var(--border); display: flex; overflow-x: auto; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+  .nav-tab { padding: 18px 28px; font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s; background: none; border-top: none; border-left: none; border-right: none; }
+  .nav-tab:hover { color: var(--blood); background: #fcf9f9; }
+  .nav-tab.active { color: var(--blood); border-bottom-color: var(--blood); }
+
+  /* ── SECTIONS ── */
+  .section { display: none; padding: 50px 40px; max-width: 900px; margin: 0 auto; min-height: 60vh; }
+  .section.active { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+  /* ── EPISODE SELECTOR ── */
+  .ep-strip { display: flex; gap: 0; margin-bottom: 40px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: white; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+  .ep-btn {
+    flex: 1; padding: 16px 10px; text-align: center; cursor: pointer;
+    background: white; border: none; font-family: 'Source Serif 4', serif;
+    font-size: 14px; font-weight: 600; color: var(--muted);
+    transition: all 0.2s; border-right: 1px solid var(--border);
+    line-height: 1.4;
+  }
+  .ep-btn:last-child { border-right: none; }
+  .ep-btn:hover { background: #faf8f5; color: var(--blood); }
+  .ep-btn.active { background: var(--blood); color: white; border-color: var(--blood); }
+  .ep-btn span { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; opacity: 0.8; }
+
+  /* ── EPISODE PANELS ── */
+  .ep-panel { display: none; }
+  .ep-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+  /* ── PODCAST PLACEHOLDER ── */
+  .podcast-card {
+    background: var(--charcoal); color: white; border-radius: 12px;
+    padding: 32px; margin-bottom: 36px;
+    display: flex; align-items: center; gap: 24px; position: relative;
+    overflow: hidden; border: 1px solid #333;
+  }
+  .podcast-card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--blood);
+  }
+  .podcast-play-placeholder {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: rgba(255,255,255,0.1); flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px dashed rgba(255,255,255,0.3);
+  }
+  .podcast-play-placeholder svg { width: 24px; height: 24px; fill: rgba(255,255,255,0.4); margin-left: 3px; }
+  .podcast-info { flex: 1; }
+  .podcast-info h3 { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+  .podcast-info p { font-size: 14px; color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+  .coming-soon-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(200,169,110,0.15); border: 1px solid rgba(200,169,110,0.3);
+    color: var(--gold); font-family: var(--mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+  }
+  .pulse-dot { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(200,169,110,0.7); } 70% { box-shadow: 0 0 0 6px rgba(200,169,110,0); } 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0); } }
+
+  /* ── TIMELINE ── */
+  .timeline { margin-bottom: 40px; position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 15px; top: 10px; bottom: 0; width: 2px; background: var(--border); }
+  .tl-item { display: flex; gap: 30px; margin-bottom: 30px; position: relative; }
+  .tl-dot { width: 32px; height: 32px; border-radius: 50%; background: var(--paper); border: 2px solid var(--blood); color: var(--blood); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; z-index: 2; font-family: var(--mono); font-weight: 700; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+  .tl-content { background: white; border: 1px solid var(--border); padding: 20px 24px; border-radius: 8px; flex: 1; position: relative; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+  .tl-content::before { content: ''; position: absolute; left: -6px; top: 10px; width: 10px; height: 10px; background: white; border-left: 1px solid var(--border); border-bottom: 1px solid var(--border); transform: rotate(45deg); }
+  .tl-year { font-family: var(--mono); font-size: 12px; letter-spacing: 2px; color: var(--blood); margin-bottom: 6px; display: block; }
+  .tl-content h4 { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--charcoal); margin-bottom: 8px; }
+  .tl-content p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* ── BEGREPP & KARAKTÄRER ── */
+  .grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+  .person-card, .term-card { background: white; border: 1px solid var(--border); border-radius: 8px; padding: 20px; transition: transform 0.2s, box-shadow 0.2s; }
+  .person-card:hover, .term-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.05); border-color: var(--gold); }
+  .card-emoji { font-size: 32px; margin-bottom: 12px; display: block; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--charcoal); margin-bottom: 4px; }
+  .card-sub { font-family: var(--mono); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: var(--blood); margin-bottom: 10px; }
+  .card-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .section-heading { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 900; color: var(--charcoal); margin: 40px 0 20px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+
+  /* ── TASKS & INTERACTIVE ── */
+  .task-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 40px; }
+  .task { border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+  .task-header { display: flex; align-items: center; gap: 14px; padding: 16px 20px; cursor: pointer; user-select: none; background: white; transition: background 0.2s; }
+  .task-header:hover { background: #faf9f7; }
+  .task-type-badge { font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; padding: 4px 10px; border-radius: 4px; flex-shrink: 0; }
+  .type-disk  { background: #F0EDF8; color: #5A2D8A; border: 1px solid #D6CBE8; }
+  .type-write { background: #FDF3EE; color: #8B3A1A; border: 1px solid #F0D5C6; }
+  .type-source{ background: #EBF5F5; color: #1A4A4A; border: 1px solid #C2E0E0; }
+  .type-dilemma{ background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; }
+  .task-title-text { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; color: var(--charcoal); flex: 1; }
+  .task-chev { color: var(--muted); font-size: 14px; transition: transform 0.25s; flex-shrink: 0; }
+  .task.open .task-chev { transform: rotate(180deg); }
+  .task-body { display: none; padding: 0 20px 20px; border-top: 1px solid var(--border); background: #faf9f7; }
+  .task.open .task-body { display: block; animation: fadeIn 0.3s; }
+  .task-inner { padding-top: 20px; }
+  .task-desc { font-size: 15px; color: var(--text); line-height: 1.7; margin-bottom: 16px; }
+
+  .source-box { background: white; border: 1px solid var(--border); border-left: 4px solid var(--gold); padding: 20px; margin: 16px 0; font-size: 15px; font-style: italic; line-height: 1.7; color: var(--charcoal); box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+  .source-box cite { display: block; font-style: normal; font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--muted); margin-top: 12px; letter-spacing: 1px; text-transform: uppercase; }
+  .q-list { list-style: none; padding: 0; margin-top: 16px; background: white; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .q-list li { padding: 14px 16px 14px 40px; position: relative; font-size: 15px; line-height: 1.6; border-bottom: 1px solid var(--border); color: var(--text); }
+  .q-list li:last-child { border-bottom: none; }
+  .q-list li::before { content: "→"; position: absolute; left: 16px; color: var(--blood); font-weight: 700; }
+  
+  /* Interaktivt Dilemma */
+  .dilemma-box { background: white; border: 2px solid var(--blood); border-radius: 8px; padding: 24px; margin: 16px 0; }
+  .dilemma-box h4 { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--blood); margin-bottom: 12px; }
+  .dilemma-btn { display: block; width: 100%; text-align: left; padding: 16px; margin-bottom: 10px; background: #faf9f7; border: 1px solid var(--border); border-radius: 6px; font-family: 'Source Serif 4', serif; font-size: 15px; cursor: pointer; transition: all 0.2s; }
+  .dilemma-btn:hover { border-color: var(--blood); background: #fdf5f5; }
+  .dilemma-result { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border); font-size: 15px; }
+
+  /* ── INTERACTIVE WRITER ── */
+  .writer-wrap { background: white; border: 1px solid var(--border); border-radius: 8px; margin-top: 20px; overflow: hidden; display: flex; flex-direction: column; }
+  .writer-toolbar { display: flex; gap: 10px; padding: 12px 16px; background: #faf8f5; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .writer-btn { background: white; border: 1px solid var(--border); padding: 8px 14px; border-radius: 4px; font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--charcoal); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+  .writer-btn:hover { border-color: var(--blood); color: var(--blood); box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+  .writer-btn.primary { background: var(--blood); color: white; border-color: var(--blood); }
+  .writer-btn.primary:hover { background: var(--blood-lt); color: white; }
+  .writer-hint-box { display: none; padding: 16px; background: #fdfaf5; border-bottom: 1px dashed var(--border); font-size: 14px; color: var(--muted); border-left: 4px solid var(--gold); }
+  .writer-hint-box strong { color: var(--charcoal); }
+  .writer-textarea { width: 100%; min-height: 180px; padding: 16px; border: none; font-family: 'Source Serif 4', serif; font-size: 16px; line-height: 1.7; color: var(--text); resize: vertical; outline: none; background: transparent; }
+  .writer-textarea::placeholder { color: #bbb; font-style: italic; }
+
+  /* ── QUIZ ── */
+  .quiz-wrap { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.04); }
+  .quiz-wrap h3 { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: var(--charcoal); margin-bottom: 10px; }
+  .quiz-wrap p { font-size: 15px; color: var(--muted); margin-bottom: 30px; }
+  .quiz-start-btn {
+    background: var(--blood); color: white;
+    font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 16px 32px; border-radius: 6px; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .quiz-start-btn:hover { background: var(--blood-lt); transform: translateY(-2px); }
+
+  .quiz-progress-label { font-family: var(--mono); font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; }
+  .quiz-progress-bar-wrap { height: 6px; background: var(--paper); border-radius: 3px; margin-bottom: 32px; overflow: hidden; }
+  .quiz-progress-bar { height: 100%; background: var(--blood); border-radius: 3px; transition: width 0.4s ease; }
+  .quiz-question-text { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--charcoal); line-height: 1.4; margin-bottom: 24px; }
+  .quiz-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+  .quiz-option {
+    display: flex; align-items: flex-start; gap: 16px; padding: 16px 20px;
+    border: 2px solid var(--paper); border-radius: 8px; background: #faf9f7;
+    cursor: pointer; font-family: 'Source Serif 4', serif; font-size: 15px;
+    text-align: left; color: var(--text); line-height: 1.5;
+    transition: all 0.2s;
+  }
+  .quiz-option:hover:not(:disabled) { border-color: var(--gold); background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.03); }
+  .opt-letter { font-family: var(--mono); font-weight: 700; color: var(--gold); min-width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--gold); display: flex; align-items: center; justify-content: center; font-size: 12px; margin-top: 1px; }
+  
+  .quiz-option.correct { border-color: #2e7d32; background: #edf7ed; color: #1b5e20; }
+  .quiz-option.correct .opt-letter { border-color: #2e7d32; color: #2e7d32; background: white; }
+  .quiz-option.wrong { border-color: #c62828; background: #ffebee; color: #b71c1c; }
+  .quiz-option.wrong .opt-letter { border-color: #c62828; color: #c62828; background: white; }
+  .quiz-option:disabled { cursor: default; }
+
+  .quiz-feedback {
+    background: white; border: 1px solid var(--border); border-left: 4px solid var(--gold);
+    border-radius: 4px; padding: 20px; font-size: 15px;
+    color: var(--text); line-height: 1.6; margin-bottom: 24px;
+    animation: fadeIn 0.3s ease; box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  }
+  .quiz-next-btn {
+    background: var(--charcoal); color: white;
+    font-family: var(--mono); font-size: 13px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 16px 32px; border-radius: 6px; border: none; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .quiz-next-btn:hover { background: black; }
+
+  /* score */
+  .quiz-score { text-align: center; padding: 20px 0; }
+  .score-circle {
+    width: 120px; height: 120px; border-radius: 50%;
+    background: white; border: 4px solid var(--blood);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    margin: 0 auto 24px; box-shadow: 0 8px 24px rgba(139,26,26,0.15);
+  }
+  .score-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 900; color: var(--blood); line-height: 1; }
+  .score-den { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .score-emoji { font-size: 48px; margin-bottom: 16px; display: block; }
+  .score-title { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 700; color: var(--charcoal); margin-bottom: 10px; }
+  .score-msg { font-size: 16px; color: var(--muted); margin-bottom: 32px; max-width: 400px; margin-left: auto; margin-right: auto; }
+  .quiz-retry-btn {
+    background: transparent; border: 2px solid var(--charcoal); color: var(--charcoal);
+    font-family: var(--mono); font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    padding: 14px 32px; border-radius: 6px; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .quiz-retry-btn:hover { background: var(--charcoal); color: white; }
+
+  @media (max-width: 700px) {
+    .hero { padding: 50px 24px 40px; }
+    .section { padding: 30px 20px; }
+    .ep-strip { flex-direction: column; }
+    .ep-btn { border-right: none; border-bottom: 1px solid var(--border); }
+    .grid-2col { grid-template-columns: 1fr; }
+    .podcast-card { flex-direction: column; text-align: center; padding: 24px; gap: 16px; }
+    .quiz-wrap { padding: 24px 20px; }
+    .tl-item { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">SO-Portalen · Historia</div>
+  <h1>Ryska revolutionen<br><em>Ett imperium i fritt fall</em></h1>
+  <p>Från blänkande palats och svältande bönder till ett blodigt inbördeskrig som formade hela 1900-talet. Följ med in i kylan, blodet och stålet.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">🎧 4 Avsnitt</span>
+    <span class="hero-tag">📝 32 Quizfrågor</span>
+    <span class="hero-tag">🔍 Interaktiva uppgifter</span>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showTab('quiz')">Lyssna & Quiz</button>
+  <button class="nav-tab" onclick="showTab('tidslinje')">Tidslinje</button>
+  <button class="nav-tab" onclick="showTab('begrepp')">Begrepp & Karaktärer</button>
+</div>
+
+<!-- ═══ PODD & QUIZ TAB ═══ -->
+<div class="section active" id="tab-quiz">
+
+  <!-- Episode strip -->
+  <div class="ep-strip">
+    <button class="ep-btn active" onclick="showEp('ep1')">
+      <span>Del 1</span>Gnistan och Tsaren
+    </button>
+    <button class="ep-btn" onclick="showEp('ep2')">
+      <span>Del 2</span>Bröd och blod
+    </button>
+    <button class="ep-btn" onclick="showEp('ep3')">
+      <span>Del 3</span>Lenins kupp
+    </button>
+    <button class="ep-btn" onclick="showEp('ep4')">
+      <span>Del 4</span>Rött mot Vitt
+    </button>
+  </div>
+
+  <!-- ── EP 1: Gnistan och Tsaren ── -->
+  <div class="ep-panel active" id="ep1">
+    <div class="podcast-card">
+      <div class="podcast-play-placeholder">
+        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </div>
+      <div class="podcast-info">
+        <div class="coming-soon-badge"><div class="pulse-dot"></div>Kommer snart på Spotify</div>
+        <h3>Del 1: Gnistan och Tsaren</h3>
+        <p>Året är 1914. Klyftan mellan palatsens guld och folkets svält är en ravin. Vi möter tsarfamiljen, den mystiske munken Rasputin och ser hur första världskriget blir köttkvarnen som startar allt.</p>
+      </div>
+    </div>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(event,this)">
+        <div class="task-header">
+          <span class="task-type-badge type-disk">Diskussion</span>
+          <span class="task-title-text">Klyftorna i Ryssland – kunde det ha slutat annorlunda?</span>
+          <span class="task-chev">▼</span>
+        </div>
+        <div class="task-body"><div class="task-inner">
+          <div class="task-desc">I början av 1900-talet bestod Ryssland till 80% av fattiga bönder, medan adeln (1%) levde i ofattbar lyx och pratade franska för att slippa "böndernas språk". Tsaren hade all makt.</div>
+          <ul class="q-list">
+            <li>Vad är faran för ett samhälle när eliten lever helt isolerad från majoritetens verklighet?</li>
+            <li>Tror du att revolutionen hade kunnat undvikas om Ryssland hade haft en demokrati med fria val? Varför/varför inte?</li>
+            <li>Finns det liknande (om än mindre extrema) klyftor i samhällen idag?</li>
+          </ul>
+        </div></div>
+      </div>
+
+      <div class="task" onclick="toggleTask(event,this)">
+        <div class="task-header">
+          <span class="task-type-badge type-source">Källanalys & Skrivuppgift</span>
+          <span class="task-title-text">Blodiga söndagen 1905</span>
+          <span class="task-chev">▼</span>
+        </div>
+        <div class="task-body" onclick="event.stopPropagation()"><div class="task-inner">
+          <div class="task-desc">År 1905 marscherade arbetare fredligt till Vinterpalatset för att be tsaren om hjälp. De sköts ner av hans soldater. Läs utdraget ur deras brev till tsaren och svara på frågorna.</div>
+          <div class="source-box">
+            "Vi, arbetare och invånare i S:t Petersburg, kommer till dig, Härskare, för att söka rättvisa och skydd. Vi är utblottade, förtryckta och belastade med arbete över våra krafter. Vi behandlas inte som människor, utan som slavar."
+            <cite>Ur petitionen till Tsar Nikolaj II, 9 januari 1905</cite>
+          </div>
+          <p style="font-weight:600; font-size:15px; margin-top:16px;">Svara på:</p>
+          <ul style="margin-left:20px; font-size:14px; color:var(--muted); margin-bottom:10px;">
+            <li>Vilken ton har brevet? Låter de som farliga revolutionärer?</li>
+            <li>Vad hände med myten om den "gode tsaren" efter skotten?</li>
+          </ul>
+          
+          <div class="writer-wrap">
+            <div class="writer-toolbar">
+              <button class="writer-btn" onclick="toggleHint('hint-ep1')">💡 Få en ledtråd</button>
+              <button class="writer-btn primary" onclick="exportWord('text-ep1', 'Kallanalys_Avsnitt1')">💾 Exportera till Word</button>
+            </div>
+            <div id="hint-ep1" class="writer-hint-box">
+              <strong>Tips!</strong> Titta på orden de använder: "söka rättvisa", "skydd", "Härskare". De ber om hjälp från sin ledare, de hotar honom inte. När han svarar med kulor förstår de att han inte bryr sig om dem.
+            </div>
+            <textarea id="text-ep1" class="writer-textarea" placeholder="Skriv din analys här..."></textarea>
+          </div>
+
+        </div></div>
+      </div>
+    </div>
+
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 1</h3>
+      <p>Testa vad du minns om Tsaren, Rasputin och imperiets förfall.</p>
+      <div id="quiz-start-ep1"><button class="quiz-start-btn" onclick="startQuiz('ep1')">Starta quiz →</button></div>
+      <div id="quiz-play-ep1" style="display:none;"></div>
+      <div id="quiz-score-ep1" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ── EP 2: Bröd och blod ── -->
+  <div class="ep-panel" id="ep2">
+    <div class="podcast-card">
+      <div class="podcast-play-placeholder"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="podcast-info">
+        <div class="coming-soon-badge"><div class="pulse-dot"></div>Kommer snart på Spotify</div>
+        <h3>Del 2: Bröd och blod</h3>
+        <p>Februari 1917. Tjugo minusgrader. Kvinnornas köer utanför bagerierna blir till en massiv revolt. Vi följer dagarna då soldaterna bytte sida och hur 300 år av envälde avslutades med ett blyertsstreck på ett tågspår.</p>
+      </div>
+    </div>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(event,this)">
+        <div class="task-header">
+          <span class="task-type-badge type-dilemma">Interaktivt</span>
+          <span class="task-title-text">Dilemma: Soldatens val på gatan</span>
+          <span class="task-chev">▼</span>
+        </div>
+        <div class="task-body" onclick="event.stopPropagation()"><div class="task-inner">
+          <div class="task-desc">För att en revolution ska lyckas måste de som har vapnen välja sida. Prova att sätta dig in i en av historiens mest spända situationer.</div>
+          
+          <div class="dilemma-box">
+            <h4>Februari 1917. Du är en 19-årig soldat.</h4>
+            <p style="margin-bottom: 16px;">Du är en bondson som blivit inkallad till armén i Petrograd. Framför dig på gatan står hundratals demonstranter – svältande kvinnor, mammor och fabriksarbetare. De skriker efter bröd. Din officer drar sitt svärd, pekar på folkmassan och skriker åt din pluton: <strong>"Lägg an! Eld!"</strong> Vad gör du?</p>
+            
+            <button class="dilemma-btn" onclick="showDilemmaRes('d1', 0)">A. Jag lyder order och skjuter in i folkmassan. Jag är soldat och straffet för myteri är döden.</button>
+            <button class="dilemma-btn" onclick="showDilemmaRes('d1', 1)">B. Jag skjuter medvetet över deras huvuden för att skrämmas men slippa döda.</button>
+            <button class="dilemma-btn" onclick="showDilemmaRes('d1', 2)">C. Jag sänker geväret, vägrar lyda och vänder vapnet mot officeren istället.</button>
+            
+            <div id="res-d1" class="dilemma-result"></div>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="task" onclick="toggleTask(event,this)">
+        <div class="task-header">
+          <span class="task-type-badge type-disk">Diskussion</span>
+          <span class="task-title-text">Dubbelmakten – varför blev det kaos?</span>
+          <span class="task-chev">▼</span>
+        </div>
+        <div class="task-body"><div class="task-inner">
+          <div class="task-desc">Efter att tsaren störtades fick Ryssland "dubbelmakt": Den provisoriska regeringen (kostymklädda politiker som ville fortsätta kriget) och Sovjeterna (arbetarnas och soldaternas egna råd som ville ha fred).</div>
+          <ul class="q-list">
+            <li>Varför är det farligt för ett land att ha två olika grupper som anser sig bestämma?</li>
+            <li>Petrogradsovjeten utfärdade "Order nummer 1" som sa att soldaterna inte behövde lyda officerare längre. Vad händer med en armé i krig då?</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 2</h3>
+      <p>Testa vad du minns om februarirevolutionen, tsarens fall och dubbelmakten.</p>
+      <div id="quiz-start-ep2"><button class="quiz-start-btn" onclick="startQuiz('ep2')">Starta quiz →</button></div>
+      <div id="quiz-play-ep2" style="display:none;"></div>
+      <div id="quiz-score-ep2" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ── EP 3: Lenins kupp ── -->
+  <div class="ep-panel" id="ep3">
+    <div class="podcast-card">
+      <div class="podcast-play-placeholder"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="podcast-info">
+        <div class="coming-soon-badge"><div class="pulse-dot"></div>Kommer snart på Spotify</div>
+        <h3>Del 3: Lenins kupp</h3>
+        <p>Ett förseglat tåg rullar genom Europa med ett mänskligt biologiskt vapen ombord: Vladimir Lenin. Vi kollar in bolsjevikernas extremistiska plan och den natten i oktober när de tyst tog över Ryssland.</p>
+      </div>
+    </div>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(event,this)">
+        <div class="task-header">
+          <span class="task-type-badge type-write">Skrivuppgift</span>
+          <span class="task-title-text">Analysera propaganda: "Fred, bröd och jord!"</span>
+          <span class="task-chev">▼</span>
+        </div>
+        <div class="task-body" onclick="event.stopPropagation()"><div class="task-inner">
+          <div class="task-desc">När Lenin kom tillbaka till Ryssland i april 1917 lanserade bolsjevikerna de enkla slagorden: <strong>"Fred, bröd och jord!"</strong></div>
+          <p style="font-weight:600; font-size:15px;">Din uppgift:</p>
+          <ul style="margin-left:20px; font-size:14px; color:var(--muted); margin-bottom:10px;">
+            <li>Förklara vilka samhällsgrupper som varje ord riktade sig till, och varför detta var så effektivt.</li>
+            <li>Fundera: Varför fungerar ofta enkla budskap och slogans bättre än komplexa politiska förklaringar?</li>
+          </ul>
+          
+          <div class="writer-wrap">
+            <div class="writer-toolbar">
+              <button class="writer-btn" onclick="toggleHint('hint-ep3')">💡 Få en ledtråd</button>
+              <button class="writer-btn primary" onclick="exportWord('text-ep3', 'Propagandaanalys_Avsnitt3')">💾 Exportera till Word</button>
+            </div>
+            <div id="hint-ep3" class="writer-hint-box">
+              <strong>Tips!</strong> Dela upp det: Vem dog vid fronten (Fred)? Vem svalt i städerna (Bröd)? Vilka saknade egen mark att odla på landet (Jord)? Ett enkelt budskap är lätt att ropa på gatan och lätt att förstå när man är desperat.
+            </div>
+            <textarea id="text-ep3" class="writer-textarea" placeholder="Börja skriva ditt svar här..."></textarea>
+          </div>
+
+        </div></div>
+      </div>
+
+      <div class="task" onclick="toggleTask(event,this)">
+        <div class="task-header">
+          <span class="task-type-badge type-compare">Jämförelse</span>
+          <span class="task-title-text">Revolution vs. Statskupp</span>
+          <span class="task-chev">▼</span>
+        </div>
+        <div class="task-body"><div class="task-inner">
+          <div class="task-desc">Historiker skiljer ofta på händelserna i Ryssland 1917: <em>Februarirevolutionen</em> kallas en spontan folklig revolution. <em>Oktoberrevolutionen</em> kallas ofta för en planerad statskupp av bolsjevikerna.</div>
+          <ul class="q-list">
+            <li>Vad är skillnaden mellan en folklig revolution och en statskupp?</li>
+            <li>När bolsjevikerna stormade Vinterpalatset mötte de knappt något motstånd. Varför är statskupper ofta snabba jämfört med revolutioner?</li>
+          </ul>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 3</h3>
+      <p>Testa vad du minns om tyskarnas plan, Lenins paroller och Oktoberrevolutionen.</p>
+      <div id="quiz-start-ep3"><button class="quiz-start-btn" onclick="startQuiz('ep3')">Starta quiz →</button></div>
+      <div id="quiz-play-ep3" style="display:none;"></div>
+      <div id="quiz-score-ep3" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- ── EP 4: Rött mot Vitt ── -->
+  <div class="ep-panel" id="ep4">
+    <div class="podcast-card">
+      <div class="podcast-play-placeholder"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+      <div class="podcast-info">
+        <div class="coming-soon-badge"><div class="pulse-dot"></div>Kommer snart på Spotify</div>
+        <h3>Del 4: Rött mot Vitt</h3>
+        <p>Natten i Jekaterinburg när tsarfamiljen mördades brutalt markerade starten på ett gränslöst inbördeskrig. Vi granskar den Röda terrorn, svälten och hur drömmen om frihet slutade i en av historiens grymmaste diktaturer.</p>
+      </div>
+    </div>
+
+    <div class="task-list">
+      <div class="task" onclick="toggleTask(event,this)">
+        <div class="task-header">
+          <span class="task-type-badge type-disk">Diskussion</span>
+          <span class="task-title-text">Målet helgar medlen?</span>
+          <span class="task-chev">▼</span>
+        </div>
+        <div class="task-body"><div class="task-inner">
+          <div class="task-desc">Lenin och bolsjevikerna skapade den hemliga polisen (Tjekan) för att rensa ut "fiender". Tiotusentals mördades. Kommunisternas logik var: <em>"För att bygga det perfekta framtidssamhället måste vi skära bort de ruttna delarna av det gamla."</em></div>
+          <ul class="q-list">
+            <li>Diskutera begreppet "Målet helgar medlen". Kan man skapa ett gott och rättvist samhälle genom att använda extremt våld och terror för att komma dit?</li>
+            <li>När bolsjevikerna mördade tsar Nikolajs barn i källaren, var det av "säkerhetsskäl". Finns det någon gräns för vad en stat kan göra i namn av "säkerhet"?</li>
+          </ul>
+        </div></div>
+      </div>
+      
+      <div class="task" onclick="toggleTask(event,this)">
+        <div class="task-header">
+          <span class="task-type-badge type-write">Skrivuppgift</span>
+          <span class="task-title-text">Varför vann De Röda?</span>
+          <span class="task-chev">▼</span>
+        </div>
+        <div class="task-body" onclick="event.stopPropagation()"><div class="task-inner">
+          <div class="task-desc">I inbördeskriget (1918-1921) slogs "De Röda" (kommunisterna) mot "De Vita" (tsaranhängare, liberaler, utländska trupper). Trots att De Vita hade enormt stöd utifrån, förlorade de.</div>
+          <p style="font-weight:600; font-size:15px;">Din uppgift:</p>
+          <ul style="margin-left:20px; font-size:14px; color:var(--muted); margin-bottom:10px;">
+            <li>Förklara varför Bolsjevikernas kontroll över mitten av Ryssland var en så enorm fördel.</li>
+            <li>Analysera hur bristen på enighet bland "De Vita" påverkade kriget.</li>
+          </ul>
+
+          <div class="writer-wrap">
+            <div class="writer-toolbar">
+              <button class="writer-btn" onclick="toggleHint('hint-ep4')">💡 Få en ledtråd</button>
+              <button class="writer-btn primary" onclick="exportWord('text-ep4', 'Inbordeskriget_Avsnitt4')">💾 Exportera till Word</button>
+            </div>
+            <div id="hint-ep4" class="writer-hint-box">
+              <strong>Tips!</strong> Eftersom de Röda hade centrum av landet kontrollerade de huvudstäderna, de stora vapenfabrikerna och järnvägarna (så de snabbt kunde flytta trupper). De Vita var spridda i landets ytterkanter och ogillade ofta varandra lika mycket som de ogillade Lenin.
+            </div>
+            <textarea id="text-ep4" class="writer-textarea" placeholder="Skriv ditt svar här..."></textarea>
+          </div>
+
+        </div></div>
+      </div>
+    </div>
+
+    <div class="quiz-wrap">
+      <h3>Quiz – Avsnitt 4</h3>
+      <p>Testa vad du lärt dig om inbördeskriget, terrorn och skapandet av Sovjetunionen.</p>
+      <div id="quiz-start-ep4"><button class="quiz-start-btn" onclick="startQuiz('ep4')">Starta quiz →</button></div>
+      <div id="quiz-play-ep4" style="display:none;"></div>
+      <div id="quiz-score-ep4" style="display:none;"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══ TIDSLINJE TAB ═══ -->
+<div class="section" id="tab-tidslinje">
+  <h2 class="section-heading">Ryska revolutionens tidslinje</h2>
+  
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot">1</div>
+      <div class="tl-content">
+        <span class="tl-year">1905</span>
+        <h4>Blodiga söndagen</h4>
+        <p>Fredliga demonstranter skjuts ihjäl av tsarens soldater framför Vinterpalatset. Myten om den "gode tsaren" krossas för alltid och Ryssland skakas av en tidig, misslyckad revolution.</p>
+      </div>
+    </div>
+    
+    <div class="tl-item">
+      <div class="tl-dot">2</div>
+      <div class="tl-content">
+        <span class="tl-year">1914</span>
+        <h4>Första världskriget bryter ut</h4>
+        <p>Ryssland dras in i kriget. Den dåligt utrustade armén slaktas vid fronten, maten tar slut i städerna och hela imperiets ekonomi kollapsar under trycket.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">3</div>
+      <div class="tl-content">
+        <span class="tl-year">December 1916</span>
+        <h4>Mordet på Rasputin</h4>
+        <p>Den maktgalne och skandalomsusade munken Grigorij Rasputin förgiftas och skjuts av ryska adelsmän i ett desperat försök att rädda tsardömets rykte.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">4</div>
+      <div class="tl-content">
+        <span class="tl-year">Februari 1917</span>
+        <h4>Februarirevolutionen</h4>
+        <p>Kvinnor demonstrerar för bröd i Petrograd. Soldaterna vägrar skjuta och byter sida. Tsar Nikolaj II tvingas abdikera. 300 år av Romanov-dynastin är över.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">5</div>
+      <div class="tl-content">
+        <span class="tl-year">April 1917</span>
+        <h4>Lenin återvänder</h4>
+        <p>Vladimir Lenin smugglas in i Ryssland i ett förseglat tåg med tysk hjälp. Han lanserar sina aprilteser med löftet: "Fred, bröd och jord".</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">6</div>
+      <div class="tl-content">
+        <span class="tl-year">Oktober 1917</span>
+        <h4>Oktoberrevolutionen</h4>
+        <p>Bolsjevikerna genomför en välplanerad statskupp, tar över strategiska punkter i Petrograd och arresterar den provisoriska regeringen i Vinterpalatset utan större blodspillan.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">7</div>
+      <div class="tl-content">
+        <span class="tl-year">Juli 1918</span>
+        <h4>Tsarfamiljen avrättas</h4>
+        <p>Tsar Nikolaj II, hans fru och deras fem barn mördas brutalt i en källare i Jekaterinburg av bolsjeviker, så att De Vita (tsaranhängarna) inte ska kunna frita dem.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">8</div>
+      <div class="tl-content">
+        <span class="tl-year">1918 - 1921</span>
+        <h4>Det Ryska inbördeskriget</h4>
+        <p>Ett skoningslöst krig rasar mellan De Röda (kommunisterna under Trotskij) och De Vita. Miljontals dör av strider, "Röd Terror", sjukdomar och svält.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot">9</div>
+      <div class="tl-content">
+        <span class="tl-year">1922</span>
+        <h4>Sovjetunionen bildas</h4>
+        <p>De Röda har vunnit inbördeskriget. Ryssland och dess erövrade territorier döps om till Sovjetunionen (USSR) – världens första kommunistiska stat och en brutal enpartidiktatur.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ BEGREPP TAB ═══ -->
+<div class="section" id="tab-begrepp">
+  <h2 class="section-heading">Nyckelpersoner</h2>
+  <div class="grid-2col">
+    <div class="person-card">
+      <span class="card-emoji">👑</span>
+      <div class="card-title">Tsar Nikolaj II</div>
+      <div class="card-sub">Romanov-dynastin</div>
+      <div class="card-desc">Rysslands siste enväldiga kejsare. Envis men politiskt svag, övertygad om att han styrde med Guds vilja. Abdikerade i mars 1917 och avrättades med sin familj 1918.</div>
+    </div>
+    <div class="person-card">
+      <span class="card-emoji">🧔🏻‍♂️</span>
+      <div class="card-title">Grigorij Rasputin</div>
+      <div class="card-sub">Den galne munken</div>
+      <div class="card-desc">Obildad munk från Sibirien som fick enormt inflytande över tsarfamiljen genom att han sades kunna bota sonens blödarsjuka. Hatad av folket och mördades 1916.</div>
+    </div>
+    <div class="person-card">
+      <span class="card-emoji">✊🏻</span>
+      <div class="card-title">Vladimir Lenin</div>
+      <div class="card-sub">Bolsjevikernas ledare</div>
+      <div class="card-desc">Extremt driven revolutionär och kommunist. Smugglades in i Ryssland av tyskarna 1917, ledde oktoberkuppen och blev Sovjetunionens första diktator.</div>
+    </div>
+    <div class="person-card">
+      <span class="card-emoji">⚔️</span>
+      <div class="card-title">Leo Trotskij</div>
+      <div class="card-sub">Militärt geni</div>
+      <div class="card-desc">Bolsjevikernas briljanta militära strateg. Planerade Oktoberrevolutionen och byggde upp den Röda armén som vann inbördeskriget.</div>
+    </div>
+  </div>
+
+  <h2 class="section-heading">Begrepp & Grupper</h2>
+  <div class="grid-2col">
+    <div class="term-card">
+      <div class="card-title">Envälde</div>
+      <div class="card-desc">Ett statsskick där en enda person (i detta fall Tsaren) har all politisk makt, utan att kontrolleras av ett parlament eller lagar. Inga fria val.</div>
+    </div>
+    <div class="term-card">
+      <div class="card-title">Bolsjeviker</div>
+      <div class="card-desc">Lenins radikala kommunistiska parti. De ville ta makten med våld genom en elitgrupp ("yrkesrevolutionärer") istället för att vänta på demokrati.</div>
+    </div>
+    <div class="term-card">
+      <div class="card-title">Sovjet</div>
+      <div class="card-desc">Ryska ordet för "råd". Under revolutionen skapade arbetare och soldater lokala råd (sovjeter) som styrde ute på gatorna och i fabrikerna.</div>
+    </div>
+    <div class="term-card">
+      <div class="card-title">Provisoriska regeringen</div>
+      <div class="card-desc">Den "tillfälliga" regering av liberala politiker som tog över officiellt efter Tsaren. De blev impopulära eftersom de vägrade dra Ryssland ur första världskriget.</div>
+    </div>
+    <div class="term-card">
+      <div class="card-title">Tjekan</div>
+      <div class="card-desc">Lenins fruktade hemliga polis (föregångare till KGB). Deras uppgift var att rensa ut revolutionens fiender genom terror och mord utan rättegång.</div>
+    </div>
+    <div class="term-card">
+      <div class="card-title">Kommunism</div>
+      <div class="card-desc">Ideologi baserad på Karl Marx tankar. Målet är ett klasslöst samhälle där allt privat ägande avskaffas och staten äger fabrikerna och jorden. Genomfördes i Ryssland med en brutal diktatur.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── TAB NAVIGATION ──
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── EPISODE NAVIGATION ──
+function showEp(id) {
+  document.querySelectorAll('.ep-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.ep-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ── TOGGLE TASKS ──
+function toggleTask(e, task) {
+  e.stopPropagation();
+  task.classList.toggle('open');
+}
+
+// ── INTERACTIVE WRITER FUNCTIONS ──
+function toggleHint(id) {
+  const hintEl = document.getElementById(id);
+  if (hintEl.style.display === 'block') {
+    hintEl.style.display = 'none';
+  } else {
+    hintEl.style.display = 'block';
+  }
+}
+
+function exportWord(textareaId, filename) {
+  const text = document.getElementById(textareaId).value;
+  if(!text.trim()) { 
+    alert("Du måste skriva något i rutan innan du exporterar!"); 
+    return; 
+  }
+  
+  // Create a basic HTML structure that MS Word can read
+  const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Export</title></head><body>";
+  const footer = "</body></html>";
+  const html = header + "<p>" + text.replace(/\n/g, "<br>") + "</p>" + footer;
+  
+  // Create Blob and trigger download
+  const blob = new Blob(['\ufeff', html], { type: 'application/msword' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename + '.doc';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+
+// ── INTERACTIVE DILEMMA ──
+function showDilemmaRes(id, choice) {
+  const resEl = document.getElementById('res-' + id);
+  resEl.style.display = 'block';
+  if(choice === 0) {
+    resEl.innerHTML = "<strong>Du valde att skjuta (A).</strong> Det var vad som hände i början, under 'Blodiga söndagen' 1905 och under de första dagarna av februarirevolutionen 1917. Men hatet från folket blev enormt.";
+  } else if (choice === 1) {
+    resEl.innerHTML = "<strong>Du valde att skjuta över (B).</strong> Detta var vanligt under februarirevolutionen! Många kosacker och soldater red försiktigt runt demonstranterna och vägrade dra svärd. Detta visade Tsaren att han höll på att tappa greppet.";
+  } else {
+    resEl.innerHTML = "<strong>Du valde myteri (C).</strong> Detta är exakt vad som fällde imperiet! Natten till den 27 februari kom soldaterna i Volynskij-regementet överens om att aldrig mer skjuta på sitt folk. De sköt sin officer och delade ut vapen till folket. Tsaren var förlorad.";
+  }
+}
+
+// ── QUIZ DATA ──
+const quizData = {
+  ep1: [
+    { q: "Vad var huvudstaden i det ryska imperiet år 1914?", opts: ["S:t Petersburg", "Moskva", "Kiev", "Vladivostok"], correct: 0, feedback: "S:t Petersburg var huvudstad (och döptes senare om till Petrograd för att låta mindre tyskt under kriget)." },
+    { q: "Vilken allvarlig och hemlig sjukdom led tsarens ende son Aleksej av?", opts: ["Tuberkulos", "Blödarsjuka (hemofili)", "Polio", "Epilepsi"], correct: 1, feedback: "Aleksej led av blödarsjuka, en sjukdom som hölls hemlig för att inte få tsarriket att framstå som svagt." },
+    { q: "Vad hette den ryska tsaren som styrde Ryssland i början av 1900-talet?", opts: ["Aleksandr Kerenskij", "Vladimir Lenin", "Nikolaj II", "Ivan den förskräcklige"], correct: 2, feedback: "Nikolaj II tillhörde ätten Romanov och var en enväldig härskare som blundade för landets enorma problem." },
+    { q: "Vem var Grigorij Rasputin?", opts: ["En tysk spion", "Bolsjevikernas ledare", "En rysk general vid fronten", "En kringvandrande munk med enormt inflytande"], correct: 3, feedback: "Rasputin var en obildad munk som lyckades stoppa Aleksejs blödningar och därför blev oumbärlig för tsarinnan." },
+    { q: "Vad hände under 'Blodiga söndagen' 1905?", opts: ["Fredliga demonstranter sköts ner av tsarens soldater", "Rasputin mördades av adelsmän", "Bolsjevikerna stormade Vinterpalatset", "Ryssland förklarade krig mot Tyskland"], correct: 0, feedback: "Hundratals dödades när tsarens soldater öppnade eld mot arbetare. Myten om den 'gode tsaren' krossades för alltid." },
+    { q: "Vilket var tsarens absolut sämsta beslut under första världskriget?", opts: ["Att sälja vapen till tyskarna", "Att åka till fronten och ta högsta befälet över armén", "Att låta Rasputin bli general", "Att låta bönderna bestämma"], correct: 1, feedback: "När tsaren tog över armén innebar det att varje död soldat och varje förlorat slag blev hans personliga fel i folkets ögon." },
+    { q: "Vem lämnades kvar för att styra regeringen i Petrograd när tsaren åkte till krigsfronten?", opts: ["Duman (parlamentet)", "Militärens högsta råd", "Tsarinnan och Rasputin", "Arbetarråden (sovjeterna)"], correct: 2, feedback: "Tsaren överlät makten hemma till sin tyskfödda fru och Rasputin, vilket retade upp både folket och adeln enormt." },
+    { q: "Hur stor del av Rysslands befolkning bestod av fattiga bönder i början av 1900-talet?", opts: ["Cirka 20%", "Cirka 40%", "Cirka 60%", "Cirka 80%"], correct: 3, feedback: "Hela 80% av ryssarna var bönder som levde i djup fattigdom, ofta i enkla trästugor utan rättigheter." }
+  ],
+  ep2: [
+    { q: "Vilken händelse i februari 1917 blev 'gnistan' som startade revolutionen?", opts: ["Kvinnor i brödköer började marschera och protestera", "Tyskarnas attack mot Moskva", "Lenins återkomst med tåg", "Mordet på Rasputin"], correct: 0, feedback: "Det var svältande och frysande kvinnor på Internationella kvinnodagen som startade de massiva protesterna i Petrograd." },
+    { q: "Vad var den avgörande vändpunkten under februarirevolutionen?", opts: ["Att USA gick med i kriget", "Att soldaterna vägrade skjuta och bytte sida", "Att tsaren dog i strid", "Att Rasputin använde hypnos"], correct: 1, feedback: "När soldaterna (som ofta var bondpojkar) vägrade lyda order och ställde sig på folkets sida hade tsaren förlorat sin makt." },
+    { q: "Vad hände med tsar Nikolaj II den 2 mars 1917?", opts: ["Han flydde till Frankrike", "Han vann kriget mot Tyskland", "Han abdikerade (avsade sig tronen) på ett tåg", "Han arresterade Lenin"], correct: 2, feedback: "Utan stöd från militären tvingades tsaren skriva på sin abdikation på ett stillastående tåg, och Romanovs 300-åriga styre tog slut." },
+    { q: "Efter tsarens fall uppstod 'dubbelmakt'. Vilka två grupper hade makten?", opts: ["Adeln och kyrkan", "Tyskarna och ryssarna", "Tsaren och Rasputin", "Provisoriska regeringen och sovjeterna"], correct: 3, feedback: "Den provisoriska regeringen styrde på papperet, medan arbetarnas och soldaternas egna råd (sovjeterna) hade den verkliga makten på gatorna." },
+    { q: "Vilket ödesdigert beslut tog den nya Provisoriska regeringen?", opts: ["De bestämde att Ryssland skulle fortsätta kriga", "De förbjöd all religion", "De gav all mark till bönderna direkt", "De bjöd in tsaren igen"], correct: 0, feedback: "Trots att folket startat revolutionen för att de var trötta på kriget valde regeringen att fortsätta, vilket gjorde dem avskydda." },
+    { q: "Vad innebar Petrogradsovjetens beryktade 'Order nummer 1'?", opts: ["Att all mat skulle delas lika", "Att soldaterna inte behövde lyda sina officerare längre", "Att tsaren skulle avrättas omedelbart", "Att alla fabriker stängdes"], correct: 1, feedback: "Order nummer 1 slog fast att soldater bara behövde lyda sovjeten, vilket skapade totalt kaos och myteri i den ryska armén." },
+    { q: "Hur var stämningen i Petrograd under de allra första dagarna efter februarirevolutionen?", opts: ["Sorgsen och tyst", "Extremt våldsam med mycket militär kontroll", "Euforisk och fri eftersom tsarens poliser var borta", "Panikartad på grund av tyskarnas ankomst"], correct: 2, feedback: "Det beskrivs ofta som en fantastisk, euforisk fest där främlingar kramades på gatorna nu när enväldet äntligen var krossat." },
+    { q: "Vilket uttryck beskriver bäst <em>Februarirevolutionen</em> till skillnad från Oktoberrevolutionen?", opts: ["Militär statskupp", "Utländsk invasion", "Religiöst korståg", "Spontan folklig massrevolt"], correct: 3, feedback: "Historiker är överens om att februarirevolutionen var en oplanerad och spontan resning underifrån av folket." }
+  ],
+  ep3: [
+    { q: "Var befann sig Vladimir Lenin innan han återvände till Ryssland i april 1917?", opts: ["I landsflykt i Schweiz", "I fängelse i Sibirien", "Vid krigsfronten", "Gömd i Vinterpalatset"], correct: 0, feedback: "Lenin befann sig i landsflykt i Schweiz, eftersom han var efterlyst som en farlig radikal i Ryssland." },
+    { q: "Vilket land hjälpte Lenin att smugglas in i Ryssland via ett förseglat tåg?", opts: ["Storbritannien", "Tyskland", "Frankrike", "USA"], correct: 1, feedback: "Tyskarna använde Lenin som ett 'biologiskt vapen' för att skapa kaos i Ryssland så att Ryssland skulle tvingas dra sig ur kriget." },
+    { q: "Vad var bolsjevikernas tre kända slagord i Lenins 'Aprilteser'?", opts: ["Frihet, jämlikhet, broderskap", "Gud, Tsar, Fosterland", "Fred, bröd och jord", "Mer krig, mer makt, mer pengar"], correct: 2, feedback: "Dessa tre ord var extremt effektiva eftersom de lovade precis det som soldaterna (fred), arbetarna (bröd) och bönderna (jord) var desperata efter." },
+    { q: "Vilken typ av ideologi förespråkade Lenin och bolsjevikerna?", opts: ["Liberal demokrati", "Enväldig monarki", "Fascism", "Kommunism"], correct: 3, feedback: "De inspirerades av Karl Marx och ville skapa ett kommunistiskt samhälle genom en väpnad revolution och proletariatets diktatur." },
+    { q: "Hur gick 'Oktoberrevolutionen' till rent praktiskt?", opts: ["Det var en 'tyst' och välplanerad statskupp på natten", "Det var ett gigantiskt fältslag mitt på dagen", "Bönderna röstade fram Lenin i ett demokratiskt val", "Tyska armén invaderade och satte Lenin på tronen"], correct: 0, feedback: "Bolsjevikerna tog metodiskt över broar, telegrafstationer och till slut Vinterpalatset utan att majoriteten av folket ens märkte det." },
+    { q: "Vem var hjärnan bakom själva det militära och praktiska genomförandet av Oktoberrevolutionen?", opts: ["Josef Stalin", "Leo Trotskij", "Grigorij Rasputin", "Aleksandr Kerenskij"], correct: 1, feedback: "Medan Lenin var den politiska ledaren, var det Trotskij som organiserade kuppen och senare byggde upp den Röda armén." },
+    { q: "Vad gjorde Lenin när bolsjevikerna förlorade det demokratiska valet till parlamentet?", opts: ["Han avgick och lät vinnarna styra", "Han bad om ett omval", "Han stängde parlamentet med våld efter bara 12 timmar", "Han flydde till Finland igen"], correct: 2, feedback: "När de bara fick 25% av rösterna krossade Lenin Rysslands korta dröm om demokrati med orden 'Vi viker inte en tum'." },
+    { q: "Vilken grupp människor ansåg Lenin måste leda revolutionen (och som han kallade 'yrkesrevolutionärer')?", opts: ["Arbetarna ute på gatan", "Soldaterna i skyttegravarna", "Bönderna på fälten", "En liten, stenhård elit av partimedlemmar"], correct: 3, feedback: "Lenin trodde inte att folket själva kunde skapa en revolution, det krävdes en liten elit av yrkesrevolutionärer som styrde med järnhand." }
+  ],
+  ep4: [
+    { q: "Vad hände med Tsarfamiljen i juli 1918 i källaren i Jekaterinburg?", opts: ["De mördades brutalt av bolsjevikerna", "De räddades av brittiska soldater", "De flydde till Kina i hemlighet", "De sattes i ett fängelse efter en rättegång"], correct: 0, feedback: "Bolsjevikerna var desperata under inbördeskriget och mördade tsaren, tsarinnan och alla fem barnen för att De Vita inte skulle kunna frita dem." },
+    { q: "Vilka stred mot varandra i det extremt blodiga Ryska inbördeskriget?", opts: ["Tyskland mot Ryssland", "De Röda (kommunister) mot De Vita (tsaranhängare m.fl.)", "Bönderna mot arbetarna", "Adeln mot tsaren"], correct: 1, feedback: "De Röda leddes av Trotskij. De Vita var en extremt splittrad grupp av olika motståndare till kommunismen." },
+    { q: "Vad var 'Tjekan'?", opts: ["Röda arméns musikkår", "Det ryska ordet för bageri", "Lenins hemliga statspolis som mördade 'fiender'", "En grupp som ville återinföra tsaren"], correct: 2, feedback: "Tjekan var ett brutalt verktyg för 'Den Röda terrorn', vars syfte var att utrota hela samhällsklasser utan någon rättegång." },
+    { q: "Varför var De Röda så strategiskt framgångsrika militärt under inbördeskriget?", opts: ["De fick massiv hjälp av USA", "De hade överlägset flest utländska soldater", "De var mycket snällare mot folket", "De kontrollerade järnvägarna och stora städer i landets mitt"], correct: 3, feedback: "Genom att kontrollera centrum (Moskva och Petrograd) hade de tillgång till vapenfabrikerna och kunde snabbt flytta trupper via tåg." },
+    { q: "Varför gjorde de berömda matroserna (sjömännen) i Kronstadt uppror mot Lenin år 1921?", opts: ["De krävde frihet och demokrati och avskydde diktaturen", "De ville ha högre lön", "De var hemliga agenter från Tyskland", "De ville ha tillbaka Tsaren"], correct: 0, feedback: "Dessa hjältar från 1917 hade fått nog av bolsjevikernas diktatur och terror, men deras rop på frihet krossades brutalt av Trotskij." },
+    { q: "Vad bytte Ryssland och dess erövrade områden officiellt namn till år 1922?", opts: ["Ryska Demokratiska Republiken", "Sovjetunionen (USSR)", "Eurasiska unionen", "Lenins rike"], correct: 1, feedback: "Efter att De Röda vunnit inbördeskriget bildades Sovjetunionen, som blev en av 1900-talets hårdaste totalitära diktaturer." },
+    { q: "Varför förlorade De Vita inbördeskriget trots att de hade enormt mycket stöd från utlandet?", opts: ["De hade inga vapen alls", "De vägrade strida på vintern", "De var extremt splittrade och ogillade varandra lika mycket som de ogillade Lenin", "De bytte sida till De Röda frivilligt"], correct: 2, feedback: "De Vita bestod av allt från tsargeneraler till liberaler. Deras brist på enhet och gemensamt mål blev deras stora fall." },
+    { q: "Vilket uttryck sammanfattar bäst Bolsjevikernas syn på terror och våld under den här perioden?", opts: ["Allt våld är principiellt fel", "Våld får bara användas i absolut självförsvar", "Fred och kärlek bygger framtiden", "Målet (det perfekta framtidssamhället) helgar alla medel"], correct: 3, feedback: "Bolsjevikerna ansåg att för att bygga ett perfekt socialistiskt samhälle hade de rätt att rensa bort och mörda alla som stod i vägen." }
+  ]
+};
+
+const quizState = {};
+
+function startQuiz(ep) {
+  document.getElementById('quiz-start-' + ep).style.display = 'none';
+  quizState[ep] = { current: 0, score: 0, answered: false };
+  renderQuestion(ep);
+}
+
+function renderQuestion(ep) {
+  const state = quizState[ep];
+  const questions = quizData[ep];
+  const q = questions[state.current];
+  const total = questions.length;
+  const pct = Math.round((state.current / total) * 100);
+  const letters = ['A', 'B', 'C', 'D'];
+
+  const optsHtml = q.opts.map((o, i) =>
+    `<button class="quiz-option" id="opt-${ep}-${i}" onclick="selectAnswer('${ep}', ${i})">
+      <span class="opt-letter">${letters[i]}</span>${o}
+    </button>`
+  ).join('');
+
+  document.getElementById('quiz-play-' + ep).style.display = 'block';
+  document.getElementById('quiz-play-' + ep).innerHTML = `
+    <div class="quiz-progress-label">Fråga ${state.current + 1} av ${total}</div>
+    <div class="quiz-progress-bar-wrap"><div class="quiz-progress-bar" style="width:${pct}%"></div></div>
+    <div class="quiz-question-text">${q.q}</div>
+    <div class="quiz-options" id="opts-${ep}">${optsHtml}</div>
+    <div id="feedback-${ep}" class="quiz-feedback" style="display:none"></div>
+    <div id="next-wrap-${ep}" style="display:none; margin-top:16px;">
+      <button class="quiz-next-btn" onclick="nextQuestion('${ep}')">
+        ${state.current + 1 < total ? 'Nästa fråga →' : 'Se resultat →'}
+      </button>
+    </div>
+  `;
+  state.answered = false;
+}
+
+function selectAnswer(ep, chosen) {
+  const state = quizState[ep];
+  if (state.answered) return;
+  state.answered = true;
+
+  const q = quizData[ep][state.current];
+  const opts = document.querySelectorAll(`#opts-${ep} .quiz-option`);
+
+  opts.forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === q.correct) btn.classList.add('correct');
+    else if (i === chosen && chosen !== q.correct) btn.classList.add('wrong');
+  });
+
+  if (chosen === q.correct) state.score++;
+
+  const fb = document.getElementById('feedback-' + ep);
+  fb.style.display = 'block';
+  fb.innerHTML = `<strong>${chosen === q.correct ? 'Rätt!' : 'Fel.'}</strong> ${q.feedback}`;
+
+  document.getElementById('next-wrap-' + ep).style.display = 'block';
+}
+
+function nextQuestion(ep) {
+  const state = quizState[ep];
+  state.current++;
+  if (state.current < quizData[ep].length) {
+    renderQuestion(ep);
+  } else {
+    showScore(ep);
+  }
+}
+
+function showScore(ep) {
+  document.getElementById('quiz-play-' + ep).style.display = 'none';
+  const { score } = quizState[ep];
+  const total = quizData[ep].length;
+  const pct = Math.round((score / total) * 100);
+  
+  let emoji, title, msg;
+  if (pct >= 90) { emoji = '🔥'; title = 'Fantastiskt!'; msg = 'Du har benkoll på händelserna. Revolutionen har inga hemligheter för dig!'; }
+  else if (pct >= 70) { emoji = '⭐️'; title = 'Snyggt jobbat!'; msg = 'Du har riktigt bra förståelse för avsnittet.'; }
+  else if (pct >= 50) { emoji = '📚'; title = 'På god väg!'; msg = 'Du kan grunderna, men lyssna gärna en gång till på detaljerna.'; }
+  else { emoji = '🥶'; title = 'Det är tufft i Ryssland!'; msg = 'Det här var knepigt. Lyssna igenom avsnittet en gång till och försök igen.'; }
+
+  const scoreEl = document.getElementById('quiz-score-' + ep);
+  scoreEl.style.display = 'block';
+  scoreEl.innerHTML = `
+    <div class="quiz-score">
+      <span class="score-emoji">${emoji}</span>
+      <div class="score-circle"><div class="score-num">${score}</div><div class="score-den">av ${total}</div></div>
+      <div class="score-title">${title}</div>
+      <div class="score-msg">${msg}</div>
+      <button class="quiz-retry-btn" onclick="retryQuiz('${ep}')">Försök igen ↺</button>
+    </div>
+  `;
+}
+
+function retryQuiz(ep) {
+  document.getElementById('quiz-score-' + ep).style.display = 'none';
+  document.getElementById('quiz-start-' + ep).style.display = 'block';
+}
+</script>
+</body>
+</html>
