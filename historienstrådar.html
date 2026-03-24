@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historiens Trådar – Jämför tidslinjer | SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0f1e;--bg2:#0f1629;--bg3:#141c34;--surface:#182040;--surface2:#1c2850;
+  --gold:#e8b84b;--gold-dim:#a07a2e;--gold-glow:rgba(232,184,75,.15);
+  --copper:#cf7b5b;--teal:#5ba4cf;--emerald:#5bcf8a;--purple:#a78bfa;
+  --rose:#f472b6;--amber:#fbbf24;--red:#ef4444;
+  --text:#e8e0d4;--text-dim:#8a9ab5;--text-muted:#5a6a85;
+  --border:rgba(232,184,75,.12);--border2:rgba(255,255,255,.06);
+  --radius:12px;--radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden;}
+::-webkit-scrollbar{width:6px;height:6px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:3px;}
+
+canvas#starfield{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.4;}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;z-index:1;padding:70px 40px 50px;text-align:center;}
+.hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(232,184,75,.07) 0%,transparent 70%);pointer-events:none;}
+.hero-label{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;opacity:0;animation:fadeUp .8s ease .2s forwards;}
+.hero h1{font-family:'Crimson Pro',serif;font-size:clamp(32px,6vw,68px);font-weight:800;line-height:1.05;margin-bottom:16px;background:linear-gradient(135deg,var(--text) 0%,var(--gold) 50%,var(--copper) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .8s ease .4s forwards;}
+.hero p{font-size:16px;color:var(--text-dim);max-width:640px;margin:0 auto 28px;opacity:0;animation:fadeUp .8s ease .6s forwards;}
+.hero-stats{display:flex;justify-content:center;gap:36px;flex-wrap:wrap;opacity:0;animation:fadeUp .8s ease .8s forwards;}
+.hero-stat-num{font-family:'Crimson Pro',serif;font-size:34px;font-weight:700;color:var(--gold);line-height:1;text-shadow: 0 0 15px var(--gold-glow);}
+.hero-stat-label{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-top:3px;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══ NAV ═══ */
+.main-nav{position:sticky;top:0;z-index:100;background:rgba(10,15,30,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;overflow-x:auto;padding:0 16px;-webkit-overflow-scrolling:touch;}
+.main-nav::-webkit-scrollbar{height:0;}
+.nav-btn{padding:14px 18px;font-family:'Outfit',sans-serif;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border:none;background:none;white-space:nowrap;border-bottom:2px solid transparent;transition:all .25s;}
+.nav-btn:hover{color:var(--text-dim);}
+.nav-btn.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* ═══ SECTIONS ═══ */
+.section{display:none;position:relative;z-index:1;padding:32px 20px;max-width:1500px;margin:0 auto;}
+.section.active{display:block;animation:fadeIn .4s ease-out;}
+@keyframes fadeIn{from{opacity:0; transform: translateY(10px)}to{opacity:1; transform: translateY(0)}}
+.sec-title{font-family:'Crimson Pro',serif;font-size:28px;font-weight:700;margin-bottom:6px;}
+.sec-sub{color:var(--text-dim);font-size:14px;margin-bottom:28px;max-width:700px;}
+
+/* ═══ CATEGORY GRID ═══ */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:24px;}
+.cat-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:18px;cursor:pointer;transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);position:relative;overflow:hidden;text-align:center;}
+.cat-card:hover{border-color:var(--gold);transform:translateY(-5px);box-shadow:0 8px 30px rgba(0,0,0,.3);}
+.cat-icon{font-size:30px;margin-bottom:8px;display:block; transition: transform 0.3s;}
+.cat-card:hover .cat-icon { transform: scale(1.1) rotate(5deg); }
+.cat-name{font-family:'Crimson Pro',serif;font-size:15px;font-weight:700;margin-bottom:2px;}
+.cat-count{font-size:11px;color:var(--text-muted);}
+.cat-bar{position:absolute;bottom:0;left:0;right:0;height:3px;}
+
+/* ═══ CATEGORY DETAIL ═══ */
+.cat-detail{animation:fadeIn .3s ease;}
+.cat-detail-header{display:flex;align-items:center;gap:16px;margin-bottom:24px;}
+.cat-detail-header .back-btn{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text-dim);padding:8px 16px;cursor:pointer;font-family:'Outfit',sans-serif;font-size:13px;transition:all .2s;}
+.cat-detail-header .back-btn:hover{border-color:var(--gold);color:var(--gold);}
+.cat-detail-header h2{font-family:'Crimson Pro',serif;font-size:26px;font-weight:700;}
+.cat-detail-header .cat-big-icon{font-size:36px;}
+
+/* ═══ VISUAL TIMELINE ═══ */
+.tl-block{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);margin-bottom:20px;overflow:hidden;transition:border-color .3s;}
+.tl-block:hover{border-color:rgba(232,184,75,.3); box-shadow: 0 4px 20px rgba(0,0,0,0.2);}
+.tl-header{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border-bottom:1px solid var(--border2); background: linear-gradient(to right, var(--surface), var(--surface2));}
+.tl-header-left{display:flex;align-items:center;gap:12px;}
+.tl-header-title{font-family:'Crimson Pro',serif;font-size:18px;font-weight:700;}
+.tl-header-period{font-size:12px;color:var(--gold);font-weight:600;}
+.tl-header-count{font-size:11px;color:var(--text-muted);background:var(--bg);padding:3px 10px;border-radius:10px;}
+.tl-header-arrow{color:var(--text-muted);font-size:18px;transition:transform .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+.tl-block.open .tl-header-arrow{transform:rotate(180deg); color:var(--gold);}
+.tl-body{display:none;padding:24px 0;}
+.tl-block.open .tl-body{display:block;animation:fadeIn .4s ease;}
+
+.timeline-vis{position:relative;padding:20px 40px 40px;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.timeline-vis::-webkit-scrollbar{height:4px;}
+.timeline-track{position:relative;min-width:max-content;padding:80px 60px;}
+.timeline-line{position:absolute;top:50%;left:40px;right:40px;height:3px;border-radius:2px;transform:translateY(-50%); box-shadow: 0 0 10px currentColor;}
+.timeline-nodes{display:flex;align-items:center;position:relative;gap:0;}
+.tl-node-wrap{position:relative;display:flex;flex-direction:column;align-items:center;min-width:180px;flex:1;}
+.tl-node-wrap:nth-child(odd) .tl-node-card{bottom:calc(50% + 24px);top:auto;}
+.tl-node-wrap:nth-child(even) .tl-node-card{top:calc(50% + 24px);bottom:auto;}
+.tl-node-wrap:nth-child(odd) .tl-node-stem{bottom:50%;height:24px;}
+.tl-node-wrap:nth-child(even) .tl-node-stem{top:50%;height:24px;}
+
+.tl-node{width:16px;height:16px;border-radius:50%;border:3px solid;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:3;cursor:pointer;transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+.tl-node::after { content: ''; position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border-radius: 50%; border: 1px solid currentColor; opacity: 0; transition: all 0.3s;}
+.tl-node:hover{transform:translate(-50%,-50%) scale(1.4);box-shadow:0 0 15px currentColor;}
+.tl-node:hover::after { opacity: 0.5; transform: scale(1.5); animation: pulse 1.5s infinite; }
+.tl-node.active{transform:translate(-50%,-50%) scale(1.5);}
+@keyframes pulse { 0% { transform: scale(1); opacity: 0.8; } 100% { transform: scale(1.8); opacity: 0; } }
+
+.tl-node-stem{position:absolute;width:2px;left:50%;transform:translateX(-50%);opacity:.3;z-index:1;}
+
+.tl-node-card{position:absolute;left:50%;transform:translateX(-50%);width:160px;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:10px 12px;transition:all .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);cursor:pointer;z-index:2;}
+.tl-node-card:hover{border-color:var(--gold);transform:translateX(-50%) scale(1.06);box-shadow:0 8px 25px rgba(0,0,0,.5); z-index:10;}
+.tl-node-card.expanded{width:240px;z-index:11;box-shadow:0 8px 30px rgba(0,0,0,.6); border-color:var(--gold); background: var(--surface);}
+.tl-node-year{font-family:'Crimson Pro',serif;font-size:13px;font-weight:700;margin-bottom:2px;}
+.tl-node-title{font-size:12px;font-weight:600;line-height:1.3;margin-bottom:0;}
+.tl-node-desc{font-size:12px;color:var(--text-dim);line-height:1.5;margin-top:8px;display:none; border-top: 1px solid var(--border2); padding-top: 8px;}
+.tl-node-card.expanded .tl-node-desc{display:block; animation: fadeIn 0.3s;}
+
+/* ═══ COMPARE VIEW (Lodrät Layout) ═══ */
+.compare-picker{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap;}
+.compare-slot{flex:1;min-width:280px;background:var(--surface);border:2px dashed var(--border);border-radius:var(--radius);padding:20px;text-align:center;transition:all .3s;cursor:pointer;position:relative;}
+.compare-slot:hover{background:var(--bg3); border-color:var(--gold-dim);}
+.compare-slot.filled{border-style:solid; background:var(--bg3);}
+.compare-slot-label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;}
+.compare-slot-name{font-family:'Crimson Pro',serif;font-size:18px;font-weight:700;}
+.compare-slot-remove{position:absolute;top:10px;right:10px;background:var(--red);color:#fff;border:none;border-radius:50%;width:24px;height:24px;font-size:12px;cursor:pointer;display:none;transition:transform 0.2s;}
+.compare-slot-remove:hover{transform:scale(1.2);}
+.compare-slot.filled .compare-slot-remove{display:block;}
+.compare-start{background:var(--gold);color:var(--bg);border:none;border-radius:var(--radius-sm);padding:12px 32px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .25s;margin-bottom:24px; box-shadow: 0 4px 15px var(--gold-glow);}
+.compare-start:hover{background:#f0c45a;transform:translateY(-2px); box-shadow: 0 6px 20px rgba(232,184,75,.3);}
+.compare-start:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* Vertical Compare Timeline Styles */
+.compare-overlay{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:40px 20px;}
+.cmp-v-container { position:relative; max-width:850px; margin:40px auto 0; padding:10px 0; }
+.cmp-v-spine { position:absolute; left:50%; top:0; bottom:0; width:2px; background:linear-gradient(to bottom, transparent, var(--border2) 2%, var(--border2) 98%, transparent); transform:translateX(-50%); }
+.cmp-v-row { display:flex; justify-content:center; position:relative; width:100%; }
+.cmp-v-year { position:absolute; left:50%; top:0; transform:translate(-50%, -10px); background:var(--bg3); border:1px solid var(--border2); color:var(--gold); font-family:'Crimson Pro',serif; font-weight:700; font-size:15px; padding:4px 18px; border-radius:20px; z-index:2; box-shadow:0 4px 10px rgba(0,0,0,.3); white-space:nowrap; }
+.cmp-v-card { width:45%; background:var(--bg2); border:1px solid var(--border2); border-radius:var(--radius-sm); padding:20px; position:relative; transition:transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s; z-index:1; margin-top: 16px; margin-bottom: 24px;}
+.cmp-v-card:hover { transform:translateY(-5px); box-shadow:0 8px 25px rgba(0,0,0,.4); z-index:3; border-color:var(--evt-color); }
+.cmp-v-side-0 { margin-right:50%; border-right: 3px solid var(--evt-color); text-align:right; }
+.cmp-v-side-1 { margin-left:50%; border-left: 3px solid var(--evt-color); text-align:left; }
+.cmp-v-side-0 .cmp-v-card-cat { justify-content: flex-end; }
+.cmp-v-card-cat { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; font-weight:600; }
+
+/* Compare picker dropdown */
+.cp-dropdown{position:absolute;top:100%;left:0;right:0;background:var(--bg2);border:1px solid var(--gold);border-radius:var(--radius-sm);max-height:300px;overflow-y:auto;z-index:50;display:none;box-shadow:0 8px 30px rgba(0,0,0,.5); text-align:left;}
+.cp-dropdown.open{display:block; animation: fadeIn 0.2s;}
+.cp-cat-label{padding:10px 14px;font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:1px;font-weight:700;background:var(--bg3);position:sticky;top:0;z-index:2;border-bottom:1px solid var(--border2);}
+.cp-tl-item{padding:10px 14px;font-size:13px;cursor:pointer;transition:background .2s;display:flex;justify-content:space-between; border-bottom:1px solid rgba(255,255,255,0.02);}
+.cp-tl-item:hover{background:var(--gold-glow); padding-left: 18px;}
+.cp-tl-item .cp-period{font-size:11px;color:var(--text-muted);}
+
+/* ═══ TIDSLUCKAN ═══ */
+.tw-wrap{max-width:1000px;margin:0 auto;}
+.tw-slider-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:28px;text-align:center; position:relative; overflow:hidden;}
+.tw-slider-box::before { content:''; position:absolute; top:0;left:0;right:0;height:4px; background: linear-gradient(90deg, var(--gold), var(--copper), var(--rose)); }
+.tw-year-big{font-family:'Crimson Pro',serif;font-size:64px;font-weight:800;color:var(--gold);line-height:1;margin-bottom:6px; text-shadow: 0 0 20px var(--gold-glow); transition: color 0.3s;}
+.tw-year-lbl{font-size:13px; color:var(--text-muted); margin-bottom:24px; text-transform:uppercase; letter-spacing:2px;}
+.tw-slider{width:100%;height:8px;-webkit-appearance:none;appearance:none;background:var(--bg);border-radius:4px;outline:none;cursor:pointer; position:relative; z-index:2;}
+.tw-slider::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:var(--gold);border:4px solid var(--bg);cursor:grab;box-shadow:0 0 15px var(--gold-glow); transition: transform 0.1s;}
+.tw-slider::-webkit-slider-thumb:active { transform: scale(1.2); cursor: grabbing; }
+.tw-slider::-moz-range-thumb{width:28px;height:28px;border-radius:50%;background:var(--gold);border:4px solid var(--bg);cursor:grab;}
+
+.tw-era-container { position: relative; width: 100%; height: 24px; margin-top: 12px; }
+.tw-era-labels{position:absolute; width: calc(100% - 28px); left: 14px; top:0; height:100%; font-size:11px; color:var(--text-muted); font-weight:600;}
+.tw-era-labels span{position:absolute; transform:translateX(-50%); white-space:nowrap;}
+.tw-era-labels span::before { content:''; position:absolute; top:-8px; left:50%; width:2px; height:6px; background:var(--border); transform:translateX(-50%);}
+.tw-era-labels span.zero-mark { color: var(--gold); }
+.tw-era-labels span.zero-mark::before { background: var(--gold); height:8px; top:-10px; }
+
+.tw-results{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.tw-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:20px;border-top:3px solid transparent;transition:all .3s;}
+.tw-card:hover{border-color:var(--border);transform:translateY(-4px); box-shadow: 0 8px 25px rgba(0,0,0,0.3);}
+.tw-card-cat{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:6px; font-weight:600;}
+.tw-card-cat .dot{width:8px;height:8px;border-radius:50%;}
+.tw-card-tl{font-size:12px;color:var(--text-dim);margin-top:4px;}
+.tw-card-year{font-size:13px;color:var(--gold);font-weight:700;margin-top:6px; display:inline-block; background:rgba(232,184,75,0.1); padding:2px 8px; border-radius:4px;}
+.tw-card-title{font-family:'Crimson Pro',serif;font-size:18px;font-weight:700;margin-top:8px;}
+.tw-card-desc{font-size:13px;color:var(--text-dim);margin-top:6px;line-height:1.5;}
+
+/* ═══ SEARCH ═══ */
+.search-box{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:14px 20px;display:flex;align-items:center;gap:12px;margin-bottom:24px;transition:all .3s; box-shadow: 0 4px 15px rgba(0,0,0,0.1);}
+.search-box:focus-within{border-color:var(--gold); box-shadow: 0 4px 20px var(--gold-glow); transform: scale(1.01);}
+.search-box input{flex:1;background:none;border:none;color:var(--text);font-family:'Outfit',sans-serif;font-size:16px;outline:none;}
+.search-box input::placeholder{color:var(--text-muted);}
+.sr-item{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:16px 20px;cursor:pointer;transition:all .2s;display:flex;gap:16px;margin-bottom:10px;}
+.sr-item:hover{border-color:var(--gold);background:var(--bg3); transform: translateX(5px);}
+.sr-year{font-family:'Crimson Pro',serif;font-size:22px;font-weight:700;color:var(--gold);min-width:65px; text-align:right;}
+.sr-title{font-size:15px;font-weight:600;margin:2px 0;}
+.sr-meta{font-size:11px;color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; font-weight:600;}
+.sr-desc{font-size:13px;color:var(--text-dim); margin-top:4px;}
+
+/* ═══ QUIZ ═══ */
+.quiz-sel{display:flex;gap:12px;margin-bottom:28px;flex-wrap:wrap;}
+.quiz-sel-btn{flex:1;min-width:200px;background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:20px;cursor:pointer;text-align:center;transition:all .3s;font-family:'Outfit',sans-serif; position:relative; overflow:hidden;}
+.quiz-sel-btn:hover{border-color:var(--gold); transform:translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2);}
+.quiz-sel-btn.active{border-color:var(--gold);background:var(--gold-glow);}
+.quiz-sel-icon{font-size:32px;margin-bottom:8px; transition: transform 0.3s;}
+.quiz-sel-btn:hover .quiz-sel-icon { transform: scale(1.15); }
+.quiz-sel-name{font-weight:700;font-size:15px; margin-bottom:4px;}
+.quiz-sel-info{font-size:12px;color:var(--text-muted);}
+.quiz-progress{display:flex;gap:6px;margin-bottom:24px;}
+.quiz-dot{flex:1;height:6px;border-radius:3px;background:var(--bg3);transition:background .3s, transform 0.3s;}
+.quiz-dot.done{background:var(--emerald);}
+.quiz-dot.wrong{background:var(--copper);}
+.quiz-dot.current{background:var(--gold); transform: scaleY(1.5);}
+.q-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:32px;margin-bottom:14px; position:relative; overflow:hidden;}
+.q-card::before { content:''; position:absolute; top:0; right:0; width:150px; height:150px; background: radial-gradient(circle, var(--gold-glow) 0%, transparent 70%); border-radius:50%; transform: translate(50%, -50%); pointer-events:none;}
+.q-num{font-size:11px;color:var(--gold);font-weight:700;letter-spacing:2px;margin-bottom:12px;}
+.q-text{font-family:'Crimson Pro',serif;font-size:22px;font-weight:600;line-height:1.4;margin-bottom:24px;}
+.q-opts{display:flex;flex-direction:column;gap:10px;}
+.q-opt{background:var(--bg);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:14px 18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;font-size:15px;}
+.q-opt:hover{border-color:var(--gold);background:var(--gold-glow); transform: translateX(5px);}
+.q-opt .letter{width:28px;height:28px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:var(--gold);flex-shrink:0;}
+.q-opt.correct{border-color:var(--emerald);background:rgba(91,207,138,.1); transform: translateX(5px);}
+.q-opt.correct .letter{background:var(--emerald);color:var(--bg);}
+.q-opt.wrong{border-color:var(--copper);background:rgba(207,123,91,.1);}
+.q-opt.wrong .letter{background:var(--copper);color:#fff;}
+.q-opt.disabled{pointer-events:none;opacity:.4;}
+.q-explain{background:var(--bg3);border-radius:var(--radius-sm);padding:16px 20px;margin-top:20px;font-size:14px;color:var(--text-dim);line-height:1.6;display:none;border-left:4px solid var(--gold);}
+.q-explain.show{display:block;animation:fadeIn .4s;}
+.q-next{display:none;margin-top:20px;background:var(--gold);color:var(--bg);border:none;border-radius:var(--radius-sm);padding:12px 32px;font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;cursor:pointer; transition: transform 0.2s;}
+.q-next:hover { transform: scale(1.05); }
+.q-next.show{display:inline-block;}
+.q-score{text-align:center;padding:50px 30px;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);}
+.q-score-num{font-family:'Crimson Pro',serif;font-size:72px;font-weight:800;color:var(--gold); line-height:1; margin-bottom:10px;}
+.q-score-msg{font-size:16px;color:var(--text-dim);margin-bottom:24px;}
+.q-retry{background:var(--gold);color:var(--bg);border:none;border-radius:var(--radius-sm);padding:12px 32px;font-family:'Outfit',sans-serif;font-weight:700;cursor:pointer;margin:0 8px; transition: transform 0.2s;}
+.q-retry:hover { transform: scale(1.05); }
+
+/* ═══ STATS ═══ */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;margin-bottom:32px;}
+.stat-card{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:24px;text-align:center; position:relative; overflow:hidden;}
+.stat-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity:0.5;}
+.stat-big{font-family:'Crimson Pro',serif;font-size:42px;font-weight:800;color:var(--gold); line-height:1; margin-bottom:4px;}
+.stat-label{font-size:12px;color:var(--text-muted);text-transform:uppercase; letter-spacing:1px; font-weight:600;}
+.bar-row{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.bar-label{font-size:12px;color:var(--text-dim);min-width:120px;text-align:right; font-weight:500;}
+.bar-track{flex:1;height:20px;background:var(--bg);border-radius:4px;overflow:hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:10px;font-size:11px;font-weight:700;transition:width 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+
+/* ═══ POINTS ═══ */
+.points-box{position:fixed;top:60px;right:20px;z-index:90;background:rgba(24,32,64,0.9); backdrop-filter:blur(10px); border:1px solid var(--gold);border-radius:20px;padding:6px 16px;font-size:14px;font-weight:700;color:var(--gold);box-shadow:0 4px 20px rgba(0,0,0,.4);transition:transform .3s cubic-bezier(0.175, 0.885, 0.32, 1.275);}
+.points-box.bump{transform:scale(1.2) rotate(3deg); border-color: #fff; color: #fff; box-shadow: 0 0 20px var(--gold-glow);}
+.pts-fly{position:fixed;z-index:91;font-weight:800;font-size:20px;color:var(--emerald);pointer-events:none;animation:flyUp 1s ease-out forwards; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
+@keyframes flyUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.5);}}
+
+.back-top{position:fixed;bottom:24px;right:24px;z-index:90;background:var(--gold);color:var(--bg);border:none;width:44px;height:44px;border-radius:50%;font-size:20px;font-weight:bold;cursor:pointer;opacity:0;transition:all .3s;box-shadow:0 4px 15px rgba(0,0,0,.3);}
+.back-top.visible{opacity:1;}
+.back-top:hover{transform:translateY(-5px) scale(1.1); box-shadow: 0 8px 20px rgba(232,184,75,0.4);}
+
+@media(max-width:768px){
+  .hero{padding:50px 16px 36px;}
+  .section{padding:20px 12px;}
+  .cat-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .cat-card{padding:14px;}
+  .compare-picker{flex-direction:column;}
+  .tw-year-big{font-size:48px;}
+  .q-score-num{font-size:56px;}
+
+  /* Mobile adjustments for vertical timeline */
+  .compare-overlay { padding: 24px 12px; }
+  .cmp-v-spine { left:24px; }
+  .cmp-v-year { left:24px; transform:translate(-50%, -10px); font-size:12px; padding:4px 10px; }
+  .cmp-v-side-0, .cmp-v-side-1 { width:calc(100% - 48px); margin-left:48px !important; margin-right:0 !important; border-right: 1px solid var(--border2) !important; border-left: 3px solid var(--evt-color) !important; text-align:left; }
+  .cmp-v-side-0 .cmp-v-card-cat { justify-content: flex-start; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="starfield"></canvas>
+
+<div class="hero">
+  <div class="hero-label">SO-Portalen.se</div>
+  <h1>Historiens Trådar</h1>
+  <p>Utforska hur händelser i olika delar av världen sammanfaller, krockar och påverkar varandra. Över 130 visuella tidslinjer – jämför epoker, sök bland årtusenden och se historiens komplexa väv.</p>
+  <div class="hero-stats">
+    <div><div class="hero-stat-num">16</div><div class="hero-stat-label">Kategorier</div></div>
+    <div><div class="hero-stat-num" id="hstat-tl">0</div><div class="hero-stat-label">Tidslinjer</div></div>
+    <div><div class="hero-stat-num" id="hstat-ev">0</div><div class="hero-stat-label">Händelser</div></div>
+    <div><div class="hero-stat-num">5000+</div><div class="hero-stat-label">År av historia</div></div>
+  </div>
+</div>
+
+<nav class="main-nav" id="main-nav">
+  <button class="nav-btn active" data-sec="explore">🧭 Utforska</button>
+  <button class="nav-btn" data-sec="compare">⚖️ Jämför</button>
+  <button class="nav-btn" data-sec="tidsluckan">🔮 Tidsluckan</button>
+  <button class="nav-btn" data-sec="search">🔍 Sök</button>
+  <button class="nav-btn" data-sec="quiz">🧠 Quiz</button>
+  <button class="nav-btn" data-sec="stats">📊 Statistik</button>
+</nav>
+
+<div class="points-box" id="pts-box" title="Dina kunskapspoäng!">⭐ <span id="pts-num">0</span>p</div>
+
+<!-- EXPLORE -->
+<section class="section active" id="sec-explore">
+  <h2 class="sec-title">Utforska tidslinjer</h2>
+  <p class="sec-sub">Välj en kategori för att se dess tidslinjer visualiserade. Klicka på en tidslinje för att expandera den och utforska händelserna.</p>
+  <div class="cat-grid" id="cat-grid"></div>
+  <div id="cat-detail"></div>
+</section>
+
+<!-- COMPARE -->
+<section class="section" id="sec-compare">
+  <h2 class="sec-title">Jämför tidslinjer</h2>
+  <p class="sec-sub">Välj två tidslinjer från vilken kategori som helst och lägg dem bredvid varandra för att se hur de sammanfaller i tid.</p>
+  <div class="compare-picker" id="compare-picker">
+    <div class="compare-slot" id="cs0" onclick="openPicker(0)">
+      <div class="compare-slot-label">Tidslinje 1</div>
+      <div class="compare-slot-name" id="csn0">Klicka för att välja...</div>
+      <button class="compare-slot-remove" onclick="event.stopPropagation();clearSlot(0);">✕</button>
+      <div class="cp-dropdown" id="cpd0"></div>
+    </div>
+    <div class="compare-slot" id="cs1" onclick="openPicker(1)">
+      <div class="compare-slot-label">Tidslinje 2</div>
+      <div class="compare-slot-name" id="csn1">Klicka för att välja...</div>
+      <button class="compare-slot-remove" onclick="event.stopPropagation();clearSlot(1);">✕</button>
+      <div class="cp-dropdown" id="cpd1"></div>
+    </div>
+  </div>
+  <button class="compare-start" id="compare-go" disabled onclick="doCompare()">Jämför tidslinjer →</button>
+  <div id="compare-result"></div>
+</section>
+
+<!-- TIDSLUCKAN -->
+<section class="section" id="sec-tidsluckan">
+  <h2 class="sec-title">Tidsluckan</h2>
+  <p class="sec-sub">Dra reglaget och se vad som hände runt om i världen samtidigt. Historien tar aldrig paus.</p>
+  <div class="tw-wrap">
+    <div class="tw-slider-box">
+      <div class="tw-year-big" id="tw-year">1500</div>
+      <div class="tw-year-lbl">Res genom tiden</div>
+      <input type="range" class="tw-slider" id="tw-slider" min="-3000" max="2025" value="1500" oninput="updateTW(this.value)">
+      <div class="tw-era-container">
+        <div class="tw-era-labels">
+          <span style="left:0%;">3000 f.Kr.</span>
+          <span style="left:20%;">2000 f.Kr.</span>
+          <span style="left:40%;">1000 f.Kr.</span>
+          <span class="zero-mark" style="left:59.7%;">År 0</span>
+          <span style="left:80%;">1000 e.Kr.</span>
+          <span style="left:100%;">2025</span>
+        </div>
+      </div>
+    </div>
+    <div class="tw-results" id="tw-results"></div>
+  </div>
+</section>
+
+<!-- SEARCH -->
+<section class="section" id="sec-search">
+  <h2 class="sec-title">Sök bland alla händelser</h2>
+  <p class="sec-sub">Sök bland hundratals händelser, personer och platser i alla tidslinjer.</p>
+  <div class="search-box">
+    <span style="font-size:20px;">🔍</span>
+    <input type="text" id="s-input" placeholder="T.ex. 'revolution', 'Vasa', 'uppfinning'..." oninput="doSearch(this.value)">
+  </div>
+  <div id="s-results"></div>
+</section>
+
+<!-- QUIZ -->
+<section class="section" id="sec-quiz">
+  <h2 class="sec-title">Testa dina kunskaper</h2>
+  <p class="sec-sub">Tre utmanande quizzer som sätter din förståelse av historiens samband på prov.</p>
+  <div id="quiz-area"></div>
+</section>
+
+<!-- STATS -->
+<section class="section" id="sec-stats">
+  <h2 class="sec-title">Statistik</h2>
+  <p class="sec-sub">Siffror och mönster från historiens trådar.</p>
+  <div id="stats-area"></div>
+</section>
+
+<button class="back-top" id="back-top" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
+
+<script>
+// ══════════════════════════════════════════════════
+// DATA - Massivt utökad med 15 helt nya tidslinjer!
+// ══════════════════════════════════════════════════
+const DATA=[
+{id:'sverige',name:'Sverige',icon:'🇸🇪',color:'#fbbf24',timelines:[
+{name:'Vikingatiden',period:'793–1100',events:[
+{y:793,t:'Vikingarna anfaller Lindisfarne',d:'Det första stora vikingaanfallet mot ett engelskt kloster chockar Europa.'},
+{y:829,t:'Ansgar anländer till Birka',d:'Missionären Ansgar besöker Sverige för att sprida kristendomen.'},
+{y:830,t:'Birka blomstrar',d:'Handelsstad på Björkö i Mälaren blir centrum för nordisk och internationell handel.'},
+{y:860,t:'Rurik i Novgorod',d:'Svear grundar Rysslands första statsbildning genom handel och krigståg österut.'},
+{y:911,t:'Normandiet grundas',d:'Vikingen Rollo får land av den franske kungen – normandernas saga börjar.'},
+{y:970,t:'Sigtuna grundas',d:'Sveriges äldsta bevarade stad anläggs av Erik Segersäll.'},
+{y:1000,t:'Olof Skötkonung döps',d:'Sveriges första kristne kung markerar religionsskiftet i Norden.'},
+{y:1041,t:'Ingvarståget',d:'En ödesdiger vikingaexpedition österut mot Kaspiska havet.'},
+{y:1066,t:'Vikingatiden slutar',d:'Slaget vid Stamford Bridge markerar slutet på den skandinaviska expansionen.'}]},
+{name:'Medeltid & Kalmarunion',period:'1200–1523',events:[
+{y:1210,t:'Slaget vid Gestilren',d:'En avgörande strid mellan den erikska och sverkerska ätten om kungamakten.'},
+{y:1252,t:'Stockholm grundas',d:'Birger jarl grundar Stockholm som handelsplats och försvarsborg.'},
+{y:1280,t:'Alsnö stadga',d:'Magnus Ladulås inför frälset, vilket lägger grunden för den svenska adeln.'},
+{y:1350,t:'Digerdöden når Sverige',d:'Pesten utplånar stora delar av befolkningen och förändrar samhällsstrukturen.'},
+{y:1361,t:'Slaget vid Visby',d:'Den danska kungen Valdemar Atterdag landstiger på Gotland och brandskattar Visby.'},
+{y:1373,t:'Heliga Birgitta dör',d:'Sveriges enda helgon dör i Rom efter att ha grundat Birgittinorden.'},
+{y:1397,t:'Kalmarunionen',d:'De tre nordiska rikena förenas under drottning Margareta.'},
+{y:1434,t:'Engelbrektsupproret',d:'Gruvarbetare och bönder gör uppror mot unionskungen Erik av Pommern.'},
+{y:1435,t:'Första riksdagen i Arboga',d:'Det brukar räknas som den första svenska riksdagen med alla fyra stånden.'},
+{y:1471,t:'Slaget vid Brunkeberg',d:'Sten Sture besegrar dansken och stärker svenskt självstyre.'},
+{y:1520,t:'Stockholms blodbad',d:'Kristian II låter avrätta ett 80-tal svenska stormän på Stortorget.'}]},
+{name:'Vasatiden',period:'1523–1611',events:[
+{y:1523,t:'Gustav Vasa väljs till kung',d:'Sverige lämnar Kalmarunionen permanent och en ny dynasti tar över.'},
+{y:1527,t:'Västerås riksdag',d:'Startskottet för den svenska reformationen. Kyrkans egendomar dras in till staten.'},
+{y:1542,t:'Dackefejden',d:'Bönderna i Småland gör ett massivt, men till slut misslyckat, uppror mot kungens makt.'},
+{y:1560,t:'Gustav Vasa dör',d:'Kungen dör och efterlämnar ett enat och arvkungadöme till sina söner.'},
+{y:1593,t:'Uppsala möte',d:'Sverige antar formellt den lutherska läran och avvisar katolicismen helt.'},
+{y:1600,t:'Linköpings blodbad',d:'Hertig Karl låter avrätta kung Sigismunds anhängare för att säkra tronen.'}]},
+{name:'Stormaktstiden',period:'1611–1721',events:[
+{y:1611,t:'Gustav II Adolf kung',d:'En av Sveriges mest betydelsefulla regenter tar tronen vid 17 års ålder.'},
+{y:1613,t:'Freden i Knäred',d:'Sverige tvingas betala Älvsborgs lösen efter krig mot Danmark.'},
+{y:1628,t:'Regalskeppet Vasa sjunker',d:'Sveriges mäktigaste krigsskepp kantrar på sin jungfrufärd utanför Beckholmen.'},
+{y:1630,t:'Sverige i trettioåriga kriget',d:'Kungen landar i Tyskland som protestantismens försvarare.'},
+{y:1632,t:'Gustav II Adolf stupar vid Lützen',d:'Kungen dör i strid men Sverige fortsätter som stormakt.'},
+{y:1638,t:'Nya Sverige grundas',d:'Sverige etablerar en koloni i Nordamerika (Delaware).'},
+{y:1648,t:'Westfaliska freden',d:'Sverige får stora landområden och bekräftas som europeisk stormakt.'},
+{y:1654,t:'Drottning Kristina abdikerar',d:'Drottningen avsäger sig kronan, konverterar till katolicismen och flyttar till Rom.'},
+{y:1658,t:'Freden i Roskilde',d:'Sverige når sin största utbredning och Skåne, Halland och Blekinge blir svenska.'},
+{y:1675,t:'Häxprocesserna i Torsåker',d:'Över 70 kvinnor avrättas i Sveriges största och mest brutala häxprocess.'},
+{y:1676,t:'Slaget vid Lund',d:'Ett av de blodigaste slagen i nordisk historia utkämpas under skånska kriget.'},
+{y:1700,t:'Stora nordiska kriget',d:'Karl XII leder Sverige mot en koalition av fiender.'},
+{y:1709,t:'Slaget vid Poltava',d:'Katastrofalt nederlag mot Ryssland – stormaktstidens slut.'}]},
+{name:'Frihetstiden & 1800-talet',period:'1718–1900',events:[
+{y:1719,t:'Frihetstiden börjar',d:'Riksdagen tar makten efter enväldet. En era av parlamentarism inleds.'},
+{y:1766,t:'Tryckfrihetsförordningen',d:'Världens första lag om tryckfrihet antas i Sverige.'},
+{y:1786,t:'Svenska Akademien grundas',d:'Gustav III instiftar akademin för att värna det svenska språket och litteraturen.'},
+{y:1809,t:'Ny regeringsform',d:'Kungen avsätts, Finland förloras, och en ny konstitution skrivs.'},
+{y:1810,t:'Jean Baptiste Bernadotte',d:'Den franske fältmarskalken väljs till svensk tronföljare, ätten Bernadottes intåg.'},
+{y:1827,t:'Laga skifte införs',d:'En enorm jordreform som spränger de gamla byarna och förändrar landskapet i grunden.'},
+{y:1832,t:'Göta kanal öppnas',d:'Ett gigantiskt infrastrukturprojekt som förbinder Östersjön med Kattegatt.'},
+{y:1842,t:'Folkskolan införs',d:'Alla barn får rätt till grundläggande utbildning.'},
+{y:1862,t:'Västra stambanan klar',d:'Järnvägen revolutionerar transporterna mellan Stockholm och Göteborg.'},
+{y:1864,t:'Näringsfrihet införs',d:'Milstolpe som avskaffar skråväsendet och möjliggör ett modernt näringsliv.'},
+{y:1866,t:'Tvåkammarriksdagen',d:'Ståndsriksdagen ersätts av en modern riksdag.'},
+{y:1879,t:'Emigrationsvågen',d:'Hundratusentals svenskar emigrerar till Amerika.'}]},
+{name:'Sverige under andra världskriget',period:'1939–1945',events:[
+{y:1939,t:'Beredskapen inleds',d:'Ransoneringskort införs och mörkläggning anbefalls över landet för att klara krisen.'},
+{y:1940,t:'Permittenttrafiken',d:'Sverige frångår sin strikta neutralitet och låter tyska soldater resa med svenska tåg.'},
+{y:1941,t:'Midsommarkrisen',d:'Regeringen hotas av splittring när Tyskland kräver att få skicka en fullt utrustad division genom Sverige.'},
+{y:1943,t:'Kullagerexporten',d:'Svensk export av SKF-kullager till den tyska krigsmaskinen kritiseras hårt av de allierade.'},
+{y:1945,t:'De vita bussarna',d:'Svenska Röda Korset under Folke Bernadotte räddar tusentals fångar från nazistiska läger.'}]},
+{name:'Moderna Sverige',period:'1905–2025',events:[
+{y:1905,t:'Unionsupplösningen',d:'Sverige och Norge går fredligt skilda vägar efter 91 års union.'},
+{y:1917,t:'Hungerkravallerna',d:'Brist på mat under första världskriget leder till stora upplopp i flera svenska städer.'},
+{y:1921,t:'Allmän rösträtt',d:'Kvinnor får rösträtt och deltar i riksdagsvalet för första gången.'},
+{y:1950,t:'Folkhemmet byggs',d:'Välfärdssamhällets guldålder med reformer inom sjukvård och utbildning.'},
+{y:1973,t:'IB-affären avslöjas',d:'Två journalister avslöjar en hemlig svensk underrättelseorganisation, vilket skakar landet.'},
+{y:1974,t:'Ny regeringsform',d:'Kungen blir rent ceremoniell. Demokratin fördjupas.'},
+{y:1980,t:'Kärnkraftsomröstningen',d:'Svenskarna röstar om kärnkraftens framtid efter olyckan i Harrisburg.'},
+{y:1986,t:'Olof Palme mördas',d:'Statsministern skjuts på öppen gata – en nationell traumatisering.'},
+{y:1995,t:'EU-medlemskap',d:'Sverige går med i Europeiska unionen.'},
+{y:2000,t:'Öresundsbron invigs',d:'En fast förbindelse mellan Sverige och Danmark skapas.'},
+{y:2003,t:'Nej till Euron',d:'Svenska folket röstar nej till att byta valuta i en folkomröstning.'},
+{y:2006,t:'Första svensken i rymden',d:'Astronauten Christer Fuglesang åker upp till rymdstationen ISS.'},
+{y:2015,t:'Flyktingkrisen',d:'Sverige tar emot rekordmånga flyktingar och samhällsdebatten intensifieras.'},
+{y:2024,t:'NATO-medlem',d:'Sverige ansluter efter över 200 år av formell alliansfrihet.'}]}
+]},
+{id:'europa',name:'Europa',icon:'🏰',color:'#818cf8',timelines:[
+{name:'Antiken',period:'2000 f.Kr.–476',events:[
+{y:-2000,t:'Minoisk civilisation',d:'Kreta blomstrar som Europas första avancerade kultur.'},
+{y:-776,t:'Olympiska spelen',d:'De första spelen i Olympia förenar grekiska stadsstater.'},
+{y:-753,t:'Rom grundas',d:'Enligt myten grundas staden av de diande bröderna Romulus och Remus.'},
+{y:-509,t:'Romerska republiken',d:'Rom kastar av sin kung och inför folkstyre med senat.'},
+{y:-447,t:'Parthenon byggs',d:'Templet i Aten reses som en symbol för demokrati och makt.'},
+{y:-323,t:'Alexander den store dör',d:'Hellenismen sprids över tre kontinenter efter erövrarens död.'},
+{y:-73,t:'Spartacusupproret',d:'Gladiatorer leder ett enormt, men i slutändan misslyckat, slavuppror mot Rom.'},
+{y:-27,t:'Augustus – Roms första kejsare',d:'Pax Romana inleds med fred och välstånd.'},
+{y:79,t:'Vesuvius utbrott',d:'Pompeji och Herculaneum begravs i aska.'},
+{y:313,t:'Kristendomen legaliseras',d:'Kejsar Konstantin gör kristendomen tillåten.'},
+{y:476,t:'Västroms fall',d:'Det västromerska riket kollapsar.'}]},
+{name:'Medeltiden',period:'500–1453',events:[
+{y:800,t:'Karl den store kröns',d:'Frankernas kung kröns till kejsare och enar stora delar av Europa.'},
+{y:845,t:'Vikingar belägrar Paris',d:'Ragnar Lodbrok tvingar frankerna att betala en enorm lösesumma i silver.'},
+{y:1054,t:'Stora schismen',d:'Den kristna kyrkan delas i en västlig och en östlig del.'},
+{y:1088,t:'Universitetet i Bologna',d:'Europas äldsta universitet grundas i Italien.'},
+{y:1096,t:'Första korståget',d:'Europeiska riddare marscherar mot Jerusalem.'},
+{y:1215,t:'Magna Carta',d:'Engelska baroner begränsar kungamakten genom dokument.'},
+{y:1271,t:'Marco Polos resa',d:'Den venetianske köpmannen påbörjar sin långa resa till Kina.'},
+{y:1337,t:'Hundraårskriget börjar',d:'En extremt långdragen och förödande serie konflikter mellan England och Frankrike inleds.'},
+{y:1347,t:'Digerdöden',d:'Pesten utplånar en tredjedel av Europas befolkning.'},
+{y:1358,t:'Hansan formellt bildad',d:'Det nordeuropeiska handelsnätverket som kom att dominera Östersjön knyter formella band.'},
+{y:1440,t:'Gutenbergs tryckpress',d:'Revolutionerar kunskapsspridningen i Europa.'},
+{y:1453,t:'Konstantinopels fall',d:'Osmanska riket erövrar Bysans.'}]},
+{name:'Reformation & krig',period:'1500–1700',events:[
+{y:1517,t:'Reformationen',d:'Luther spikar sina teser och utmanar påvens makt.'},
+{y:1534,t:'Henrik VIII bryter med Rom',d:'England skapar sin egen kyrka.'},
+{y:1543,t:'Copernicus system',d:'Den heliocentriska världsbilden presenteras, vilket skakar kyrkans fundament.'},
+{y:1555,t:'Augsburgska freden',d:'Furstarna får välja religion.'},
+{y:1558,t:'Elisabet I kröns',d:'Englands guldålder börjar under "Jungfrudrottningen".'},
+{y:1572,t:'Bartolomeinatten',d:'Tusentals franska protestanter (hugenotter) mördas systematiskt i Paris.'},
+{y:1588,t:'Spanska armadan besegras',d:'Engelsk seger över den spanska flottan skakar maktbalansen.'},
+{y:1618,t:'Trettioåriga kriget',d:'Europas mest förödande konflikt före modern tid.'},
+{y:1648,t:'Westfaliska freden',d:'Det moderna statssystemet tar form.'},
+{y:1688,t:'Glorious Revolution',d:'England etablerar parlamentarisk demokrati.'},
+{y:1715,t:'Ludvig XIV dör',d:'Solkungen lämnar efter sig ett mäktigt men skuldsatt Frankrike.'}]},
+{name:'Upplysning & revolutioner',period:'1700–1815',events:[
+{y:1751,t:'Encyklopedin publiceras',d:'Diderot och d\'Alembert samlar upplysningens kunskap.'},
+{y:1755,t:'Lissabon-jordbävningen',d:'En naturkatastrof som får intellektuella att ifrågasätta Gud.'},
+{y:1776,t:'Adam Smiths Nationernas välstånd',d:'Den fria marknadens bibel publiceras.'},
+{y:1789,t:'Franska revolutionen',d:'Folket störtar monarkin – frihet, jämlikhet, broderskap.'},
+{y:1792,t:'Första franska republiken',d:'Frankrike avskaffar monarkin helt under revolutionskrigen.'},
+{y:1799,t:'Napoleon tar makten',d:'En general blir diktator och omformar Europa.'},
+{y:1805,t:'Slaget vid Trafalgar',d:'Brittisk sjömakt säkrar kontroll över haven.'},
+{y:1812,t:'Napoleons Rysslandsfälttåg',d:'Ett katastrofalt fälttåg som krossar den stora armén och inleder Napoleons fall.'},
+{y:1815,t:'Wienkongressen',d:'Europa ritas om efter Napoleon.'}]},
+{name:'Franska revolutionens faser',period:'1789–1799',events:[
+{y:1789,t:'Stormningen av Bastiljen',d:'Den 14 juli intar massorna fästningen i Paris, vilket blir startskottet för revolutionen.'},
+{y:1789,t:'Kvinnotåget till Versailles',d:'Tusentals hungriga kvinnor marscherar till slottet och tvingar kungafamiljen till Paris.'},
+{y:1793,t:'Ludvig XVI avrättas',d:'Republiken har utropats och kungen döms till döden och halshuggs offentligt.'},
+{y:1793,t:'Skräckväldet',d:'Maximilien Robespierre leder en extremt blodig utrensning av inre "fiender" med giljotinen.'},
+{y:1799,t:'Brumairekuppen',d:'Napoleon Bonaparte störtar det korrupta direktoriet och tar ensam makten.'}]},
+{name:'1900-talets Europa',period:'1900–1945',events:[
+{y:1912,t:'Titanic sjunker',d:'Det "osänkbara" skeppet går under på sin jungfrufärd, över 1500 omkommer.'},
+{y:1914,t:'Första världskriget',d:'Europas självförstörelse börjar i skyttegravarna.'},
+{y:1917,t:'Ryska revolutionen',d:'Tsaren störtas och världens första kommuniststat bildas.'},
+{y:1936,t:'Spanska inbördeskriget',d:'En brutal konflikt som fungerar som generalrepetition för de fascistiska och kommunistiska krafterna inför andra världskriget.'},
+{y:1939,t:'Andra världskriget',d:'Europas mörkaste kapitel med förintelsen och total krig.'},
+{y:1945,t:'Jaltakonferensen',d:'Segrarmakterna drar upp riktlinjerna för hur Europa ska styras och delas upp efter kriget.'}]},
+{name:'Kalla krigets delning',period:'1945–1991',events:[
+{y:1948,t:'Berlinblockaden',d:'Sovjet blockerar Västberlin, varpå västmakterna svarar med en massiv luftbro.'},
+{y:1948,t:'Marshallplanen',d:'USA lånar ut enorma summor pengar för att bygga upp det förstörda (och icke-kommunistiska) Europa.'},
+{y:1956,t:'Ungernrevolten',d:'Folkligt uppror i Budapest slås blodigt ner av sovjetiska stridsvagnar.'},
+{y:1957,t:'Romfördraget – EEC',d:'Sex länder lägger grunden för det som senare ska bli EU.'},
+{y:1961,t:'Berlinmuren byggs',d:'En betongvägg delar Europa fysiskt i öst och väst i decennier.'},
+{y:1968,t:'Pragvåren',d:'Tjeckoslovakiens försök till reformkommunism krossas brutalt av Warszawapakten.'},
+{y:1980,t:'Solidaritet i Polen',d:'Den fria fackföreningen bildas och blir en mäktig folkrörelse mot kommunistregimen.'},
+{y:1989,t:'Berlinmurens fall',d:'Kalla krigets slut och en gigantisk demokrativåg sveper över Östeuropa.'},
+{y:1991,t:'Sovjetunionens upplösning',d:'Det kalla kriget är officiellt över när det sovjetiska imperiet kollapsar och delas i 15 länder.'}]}
+]},
+{id:'mellanosten',name:'Mellanöstern',icon:'🕌',color:'#f472b6',timelines:[
+{name:'Flodkulturerna',period:'3500 f.Kr.–330 f.Kr.',events:[
+{y:-3100,t:'Sumers stadsstater',d:'Världens första civilisation med skrift och lagar.'},
+{y:-2500,t:'Pyramiderna byggs',d:'Monumenten i Giza reses som bevis på faraonernas makt.'},
+{y:-2100,t:'Ur-Nammu-lagarna',d:'En av de äldsta kända lagsamlingarna i historien.'},
+{y:-1894,t:'Babylon grundas',d:'Amoriterna etablerar staden som ska bli regionens mäktigaste imperiecentrum under Hammurabi.'},
+{y:-1754,t:'Hammurabis lagar',d:'En av historiens första skrivna lagsamlingar.'},
+{y:-1300,t:'Moses och uttåget',d:'Judendomens grundmyt om flykten från Egypten.'},
+{y:-1274,t:'Slaget vid Kadesh',d:'Egypten och hettiterna utkämpar ett av de första stora slagen.'},
+{y:-550,t:'Persiska riket',d:'Kyros enar ett imperium från Indien till Egypten.'},
+{y:-330,t:'Alexander erövrar Persien',d:'Hellenistisk kultur sprids genom regionen.'},
+{y:-196,t:'Rosettastenen ristas',d:'Detta dekret blev nyckeln till att årtusenden senare tyda de egyptiska hieroglyferna.'}]},
+{name:'Islams guldålder',period:'600–1258',events:[
+{y:622,t:'Hijra',d:'Muhammed emigrerar till Medina – islams kalender börjar.'},
+{y:632,t:'Islams expansion',d:'Inom 100 år sträcker sig det islamiska riket från Spanien till Indien.'},
+{y:691,t:'Mekka erövras',d:'Profeten Muhammed och hans styrkor intar Mekka och rensar Kaba på avgudabilder.'},
+{y:762,t:'Bagdad grundas',d:'Abbasidernas huvudstad blir ett vetenskapligt centrum.'},
+{y:800,t:'Harun al-Rashid regerar',d:'Kalifatet når sin kulturella kulmen under denna legendariska kalif.'},
+{y:830,t:'Al-Khwarizmi och algebran',d:'Algebran utvecklas i Bagdad.'},
+{y:980,t:'Avicenna föds',d:'Ibn Sina (Avicenna) föds – en av historiens största medicinska och filosofiska tänkare.'},
+{y:1238,t:'Alhambra börjar byggas',d:'Bygget av det magnifika moriska palatset i Granada, Spanien, inleds.'},
+{y:1258,t:'Mongolerna plundrar Bagdad',d:'Kalifatet förstörs – guldåldern tar slut.'}]},
+{name:'Korsfararstaterna',period:'1099–1291',events:[
+{y:1099,t:'Kungariket Jerusalem grundas',d:'Korsfararna intar Jerusalem under ett massivt blodbad och upprättar ett kristet rike i Mellanöstern.'},
+{y:1144,t:'Edessas fall',d:'Den allra första korsfararstaten faller tillbaka i muslimska händer, vilket utlöser det andra korståget.'},
+{y:1187,t:'Slaget vid Hattin',d:'Den muslimske ledaren Saladin krossar korsfararnas samlade armé i en förödande strid i öknen.'},
+{y:1187,t:'Saladin intar Jerusalem',d:'Efter Hattin tvingas staden kapitulera, men Saladin skonar invånarna i skarp kontrast till korsfararna 1099.'},
+{y:1291,t:'Akko faller',d:'De egyptiska mamlukerna intar det allra sista stora kristna fästet och korsfarareran i Mellanöstern är formellt över.'}]},
+{name:'Safavidiska riket',period:'1501–1736',events:[
+{y:1501,t:'Ismail I kröns',d:'Ismail utropar sig till Shah av Iran och gör shiaislam till statsreligion.'},
+{y:1514,t:'Slaget vid Chaldiran',d:'Krossande nederlag mot Osmanska riket etablerar gränsen mellan det shiamuslimska Iran och de sunnimuslimska osmanerna.'},
+{y:1588,t:'Abbas den store',d:'Den största safavidiska monarken tar makten och inleder en kulturell och militär renässans.'},
+{y:1598,t:'Isfahan blir huvudstad',d:'Shah Abbas gör staden till en av världens absolut vackraste metropoler.'},
+{y:1722,t:'Afghaner intar Isfahan',d:'Riket försvagas inifrån och faller till sist för en afghansk invasion.'}]},
+{name:'Osmanska riket',period:'1300–1922',events:[
+{y:1299,t:'Osmanska riket grundas',d:'Osman I lägger grunden för ett rike som ska bli enormt.'},
+{y:1453,t:'Konstantinopels fall',d:'Osmanerna erövrar Bysans och kontrollerar öst-väst-handeln.'},
+{y:1520,t:'Suleiman den store',d:'Imperiets guldålder med erövringar i både Europa och Asien.'},
+{y:1529,t:'Belägringen av Wien',d:'Osmansk expansion når sitt maximala i Europa.'},
+{y:1683,t:'Andra belägringen av Wien',d:'Osmansk expansion stoppas permanent.'},
+{y:1798,t:'Napoleon invaderar Egypten',d:'Europeisk kolonialism når Mellanöstern.'},
+{y:1839,t:'Tanzimat-reformerna',d:'Osmanska riket försöker moderniseras efter västerländsk modell.'},
+{y:1915,t:'Armeniska folkmordet',d:'Det Osmanska riket inleder systematiska deportationer och massmord på armenier och andra kristna minoriteter.'},
+{y:1922,t:'Sultanatet avskaffas',d:'Osmanska riket upplöses efter första världskriget.'}]},
+{name:'Kolonialtiden',period:'1916–1979',events:[
+{y:1916,t:'Sykes-Picot',d:'Frankrike och Storbritannien ritar gränser som fortfarande präglar regionen.'},
+{y:1917,t:'Balfourdeklarationen',d:'Storbritannien lovar judar ett hemland i Palestina.'},
+{y:1923,t:'Turkiska republiken',d:'Atatürk utropar en sekulär republik ur ruinerna av imperiet.'},
+{y:1932,t:'Saudiarabien grundas',d:'Ibn Saud enar flera stammar och erövringar och utropar kungariket Saudiarabien.'},
+{y:1948,t:'Israel bildas',d:'Staten Israel grundas och den första konflikten utbryter.'},
+{y:1953,t:'CIA-kuppen i Iran',d:'USA störtar Irans demokratiskt valde ledare.'},
+{y:1956,t:'Suezkrisen',d:'Egypten nationaliserar kanalen och utmanar kolonialmakterna.'},
+{y:1967,t:'Sexdagarskriget',d:'Israel erövrar Sinai, Västbanken och Golanhöjderna.'},
+{y:1973,t:'Yom Kippur-kriget',d:'Egypten och Syrien anfaller Israel, vilket indirekt utlöser den globala oljekrisen.'},
+{y:1979,t:'Iranska revolutionen',d:'Shahen störtas, en islamisk republik upprättas.'}]},
+{name:'Moderna Mellanöstern',period:'1990–2025',events:[
+{y:1979,t:'Gisslankrisen i Iran',d:'Amerikanska ambassadpersonalen tas som gisslan i Teheran i 444 dagar.'},
+{y:1990,t:'Gulfkriget',d:'Koalition befriar Kuwait från irakisk ockupation.'},
+{y:1993,t:'Osloavtalet',d:'Ett historiskt – men sedermera bräckligt – fredsavtal undertecknas mellan Israel och PLO.'},
+{y:2001,t:'Kriget mot terrorismen',d:'Terrorattackerna mot USA förändrar regionen permanent.'},
+{y:2003,t:'Irakkriget',d:'USA invaderar Irak och störtar Saddam Hussein.'},
+{y:2011,t:'Arabiska våren',d:'Folkuppror sveper genom regionen.'},
+{y:2011,t:'Syriska inbördeskriget utbryter',d:'Protester mot Assad-regimen eskalerar till ett förödande krig som driver miljoner på flykt.'},
+{y:2014,t:'IS – Islamiska staten',d:'Terrorgruppen tar kontroll över delar av Irak och Syrien.'},
+{y:2020,t:'Abraham-avtalen',d:'Israel normaliserar relationer med flera arabländer för första gången.'},
+{y:2023,t:'Kriget i Gaza',d:'Konflikten mellan Israel och Hamas eskalerar dramatiskt.'}]}
+]},
+{id:'asien',name:'Asien',icon:'🏯',color:'#f87171',timelines:[
+{name:'Kinas dynastier',period:'1600 f.Kr.–1912',events:[
+{y:-1600,t:'Shang-dynastin',d:'Kinas första historiskt verifierade dynasti med orakelben.'},
+{y:-1046,t:'Zhou-dynastin börjar',d:'Begreppet "Himlens mandat" (Mandate of Heaven) introduceras för att legitimera kejsarens makt.'},
+{y:-221,t:'Kina enat under Qin',d:'Första kejsaren bygger muren och enar riket.'},
+{y:-210,t:'Terrakottaarmén skapas',d:'Kejsar Qin Shi Huangdi begravs tillsammans med tusentals unika lerstatyer.'},
+{y:618,t:'Tang-dynastin',d:'Kinas guldålder med konst, poesi och vetenskap.'},
+{y:1405,t:'Zheng Hes resor',d:'Kinesiska flottan utforskar haven långt före européerna.'},
+{y:1406,t:'Förbjudna staden byggs',d:'Mingdynastin påbörjar det massiva palatsbygget i Peking.'},
+{y:1644,t:'Qing-dynastin',d:'Manchuerna tar makten – den sista kejsardynastin.'},
+{y:1839,t:'Första opiumkriget',d:'Västerländska makter tvingar Kina att öppna sina hamnar.'},
+{y:1912,t:'Republikens utropande',d:'Kejsardömet faller efter tusentals år.'}]},
+{name:'Mongolväldet',period:'1206–1368',events:[
+{y:1206,t:'Djingis Khan enar stammar',d:'Djingis Khan lyckas ena de splittrade nomadstammarna på den asiatiska stäppen.'},
+{y:1215,t:'Peking intas',d:'Mongolerna erövrar den kinesiska staden och påbörjar sitt massiva världsherravälde.'},
+{y:1220,t:'Samarkand faller',d:'De rika och avancerade städerna i Centralasien ödeläggs av mongolarméerna.'},
+{y:1258,t:'Bagdad förstörs',d:'Hulegu Khan krossar den islamiska guldålderns huvudstad.'},
+{y:1279,t:'Yuandynastin grundas',d:'Kublai Khan besegrar den sista Song-kejsaren och styr nu över hela Kina.'},
+{y:1368,t:'Mongolerna drivs ut',d:'Mingdynastin lyckas återta makten i Kina, vilket markerar slutet på imperiets storhetstid.'}]},
+{name:'Indiens historia',period:'2600 f.Kr.–1947',events:[
+{y:-2600,t:'Indusdalen',d:'Harappa och Mohenjo-Daro – en av världens äldsta civilisationer.'},
+{y:-563,t:'Buddha föds',d:'Siddharta Gautama söker upplysning i Nepal.'},
+{y:-326,t:'Alexander når Indien',d:'Makedonska styrkor korsar in i Punjab innan de tvingas vända om.'},
+{y:-250,t:'Ashoka den store',d:'Kejsaren som sprider buddhismen och enar Indien.'},
+{y:320,t:'Guptariket',d:'Indiens guldålder med framsteg i matematik och filosofi.'},
+{y:1526,t:'Mogulriket',d:'Babur grundar ett rike som skapar Taj Mahal.'},
+{y:1632,t:'Taj Mahal byggs',d:'Shah Jahan reser mausoleet till sin hustrus minne.'},
+{y:1857,t:'Sepoyupproret',d:'Ett massivt, men misslyckat, uppror mot det brittiska styret.'},
+{y:1858,t:'Brittiska Indien',d:'Kronan tar över efter kompaniet – kolonisering fullt ut.'},
+{y:1930,t:'Saltmarschen',d:'Gandhi leder en världsberömd, fredlig protest mot det brittiska saltmonopolet.'},
+{y:1947,t:'Självständighet',d:'Indien och Pakistan blir fria – delningen kostar miljoner.'}]},
+{name:'Japan',period:'700–2025',events:[
+{y:710,t:'Nara-perioden',d:'Japansk statsbildning med kinesiska influenser.'},
+{y:1008,t:'Berättelsen om Genji',d:'Murasaki Shikibu författar vad som ofta räknas som världens första roman.'},
+{y:1185,t:'Kamakura-shogunatet',d:'Samurajerna tar makten – shogunatens era börjar.'},
+{y:1274,t:'Kamikaze-vindarna',d:'En tyfon sänker den invaderande mongoliska flottan och räddar Japan (och igen 1281).'},
+{y:1600,t:'Tokugawa-shogunatet',d:'250 år av isolering och intern fred i Japan.'},
+{y:1639,t:'Sakoku-ediktet',d:'Strikt isolationspolitik. Nästan alla utlänningar portförbjuds och japaner hindras att resa ut.'},
+{y:1868,t:'Meiji-restaurationen',d:'Japan moderniseras blixtsnabbt till industristat.'},
+{y:1923,t:'Stora Kanto-jordbävningen',d:'Tokyo förstörs i en av historiens värsta katastrofer.'},
+{y:1941,t:'Attacken mot Pearl Harbor',d:'Japanska flottan anfaller den amerikanska basen och utvidgar andra världskriget.'},
+{y:1945,t:'Hiroshima & Nagasaki',d:'Atombomberna faller – Japan kapitulerar.'},
+{y:1964,t:'Shinkansen & Tokyo OS',d:'Japan visar sin teknologiska återhämtning.'}]},
+{name:'Sydostasien',period:'800–2025',events:[
+{y:802,t:'Khmerriket',d:'Angkor-perioden börjar i Kambodja.'},
+{y:1350,t:'Ayutthaya',d:'Thailands mäktiga kungarike grundas.'},
+{y:1511,t:'Malacka faller',d:'Portugiserna erövrar nyckelhamnen i Sydostasien.'},
+{y:1819,t:'Singapore grundas',d:'Storbritannien etablerar en strategisk handelsplats.'},
+{y:1887,t:'Franska Indokina',d:'Frankrike koloniserar Vietnam, Laos och Kambodja.'},
+{y:1954,t:'Dien Bien Phu',d:'Frankrike besegras – kolonialismens slut i regionen.'},
+{y:1967,t:'ASEAN bildas',d:'Länder i regionen går samman för ekonomiskt samarbete.'}]},
+{name:'Kalla kriget i Asien',period:'1950–1979',events:[
+{y:1950,t:'Koreakriget bryter ut',d:'Nordkorea anfaller Sydkorea med sovjetiskt stöd, vilket drar in USA och Kina i konflikten.'},
+{y:1954,t:'Delningen av Vietnam',d:'Efter fransk förlust vid Dien Bien Phu delas landet vid 17:e breddgraden.'},
+{y:1965,t:'Amerikansk eskalering',d:'USA börjar skicka hundratusentals marktrupper till Vietnam för att stoppa kommunismen.'},
+{y:1975,t:'Saigons fall',d:'Sydvietnam kollapsar, Nordvietnamesiska trupper rullar in i huvudstaden och kriget tar slut.'},
+{y:1975,t:'Röda khmererna',d:'Pol Pots extremistiska regim intar Phnom Penh och inleder ett folkmord i Kambodja.'}]},
+{name:'Moderna Asien',period:'1934–2025',events:[
+{y:1934,t:'Den långa marschen',d:'Mao Zedong leder kommunisterna på en episk och mytomspunnen reträtt genom Kina.'},
+{y:1949,t:'Folkrepubliken Kina',d:'Mao utropar den kommunistiska folkrepubliken.'},
+{y:1978,t:'Kinas öppning',d:'Deng Xiaoping startar ekonomiska reformer.'},
+{y:1979,t:'Ettbarnspolitiken införs',d:'Kina inför en brutal befolkningskontroll för att bromsa den demografiska tillväxten.'},
+{y:1989,t:'Himmelska fridens torg',d:'Demokratiprotester krossas brutalt i Peking.'},
+{y:1991,t:'Indiens liberalisering',d:'Ekonomiska reformer öppnar Indien för världen.'},
+{y:1997,t:'Asiatiska finanskrisen',d:'Ekonomier rasar i hela Sydostasien.'},
+{y:2008,t:'Peking-OS',d:'Kina visar upp sin nya globala status för världen.'},
+{y:2020,t:'COVID-19 från Wuhan',d:'Pandemin som förändrar världen börjar i Kina.'},
+{y:2021,t:'Talibans återkomst',d:'Efter 20 år av USA-ledd närvaro faller Afghanistan återigen under talibanernas kontroll.'}]}
+]},
+{id:'afrika',name:'Afrika',icon:'🌍',color:'#34d399',timelines:[
+{name:'Forntida civilisationer',period:'3100 f.Kr.–700',events:[
+{y:-3100,t:'Egyptens enande',d:'Övre och nedre Egypten förenas under en farao.'},
+{y:-2500,t:'Pyramiderna i Giza',d:'Keopspyramiden byggs som det enda kvarvarande underverket.'},
+{y:-1470,t:'Hatshepsuts expeditioner',d:'Egyptens kvinnliga farao sänder historiska handelsexpeditioner till Punt.'},
+{y:-814,t:'Karthago grundas',d:'Fenicier bygger en mäktig handelsstad i Nordafrika.'},
+{y:-664,t:'Nubiska faraoner',d:'Kungariket Kush tar kontroll över Egypten.'},
+{y:-332,t:'Alexandria grundas',d:'Alexander den store skapar en ny metropol vid Medelhavet.'},
+{y:-300,t:'Kungariket Aksum',d:'Etiopiskt rike med egen skrift och handel med Rom.'},
+{y:300,t:'Ghanaväldets blomstring',d:'Västafrikas guldhandel kontrolleras av ett mäktigt rike.'},
+{y:642,t:'Islam når Nordafrika',d:'Arabisk expansion förändrar hela regionens kultur.'}]},
+{name:'Nordafrika under Rom & Bysans',period:'146 f.Kr.–439 e.Kr.',events:[
+{y:-146,t:'Karthago förstörs',d:'Den romerska republiken krossar sin rival helt och hållet efter det tredje puniska kriget.'},
+{y:-30,t:'Egypten erövras',d:'Roms framtida kejsare Augustus gör Egypten till en personlig romersk provins efter Kleopatras död.'},
+{y:200,t:'Kristendomen sprids',d:'Nordafrika blir ett av de absolut starkaste och mest inflytelserika fästena för tidig kristendom.'},
+{y:430,t:'Hippo Regius faller',d:'De germanska Vandalerna erövrar staden precis efter att teologen Augustinus dött där.'},
+{y:439,t:'Vandalerna tar Karthago',d:'Roms dominans i Nordafrika bryts och Vandalerna etablerar ett mäktigt kungarike över Medelhavet.'}]},
+{name:'Medeltida riken',period:'1000–1500',events:[
+{y:1000,t:'Stor-Zimbabwe',d:'Monumentala stenstrukturer vittnar om ett rikt kungarike.'},
+{y:1076,t:'Almoraviderna',d:'Berbiska krigare skapar ett imperium i Nordafrika.'},
+{y:1100,t:'Ifes bronser',d:'Avancerad metallkonst blomstrar i dagens Nigeria.'},
+{y:1235,t:'Maliimperiet',d:'Sundiata Keita enar mandinka och bygger ett rike av guld.'},
+{y:1324,t:'Mansa Musas pilgrimsresa',d:'Hans guld sänker priset i hela Medelhavsvärlden.'},
+{y:1400,t:'Beninriket blomstrar',d:'Ett mäktigt skogskungarike utvecklas i Västafrika.'},
+{y:1464,t:'Songhaiimperiet',d:'Timbuktu blir ett centrum för lärdom och handel.'},
+{y:1498,t:'Portugiserna når Östafrika',d:'Europeisk närvaro etableras vid kusten.'}]},
+{name:'Afrikanska imperier (pre-kolonialt)',period:'1701–1896',events:[
+{y:1701,t:'Ashantiriket grundas',d:'Osei Tutu enar stammarna kring Guldkusten (nuvarande Ghana) till ett mäktigt och rikt imperium.'},
+{y:1804,t:'Sokotokalifatet',d:'Ett enormt islamiskt rike etableras genom jihad i det som idag är norra Nigeria.'},
+{y:1816,t:'Shaka Zulu tar makten',d:'Zuluriket expanderar kraftigt i södra Afrika genom innovativa och brutala militära reformer.'},
+{y:1879,t:'Zulukriget',d:'Britterna besegrar Zulukungariket, men chockerar världen genom att först lida ett massivt nederlag vid Isandlwana.'},
+{y:1896,t:'Slaget vid Adwa',d:'Etiopien krossar Italiens moderna invasionsarmé och säkrar sin fortsatta självständighet.'}]},
+{name:'Slavhandeln',period:'1444–1870',events:[
+{y:1444,t:'Slavhandeln börjar',d:'Portugiser tar de första slavarna från Västafrika.'},
+{y:1526,t:'Transatlantisk slavhandel',d:'Miljontals afrikaner transporteras tvångsvis till Amerika.'},
+{y:1652,t:'Kapkolonin grundas',d:'Holländare etablerar en bas vid Afrikas sydspets.'},
+{y:1738,t:'Slavhandeln på topp',d:'Uppskattningsvis 80 000 afrikaner per år forslas bort.'},
+{y:1791,t:'Haitiska revolutionen börjar',d:'Inspirerad av afrikanska slavars frihetslängtan.'},
+{y:1807,t:'Slavhandeln förbjuds',d:'Storbritannien förbjuder handeln men den fortsätter illegalt.'},
+{y:1814,t:'Kapkolonin brittisk',d:'Britterna tar formellt över kontrollen av södra Afrika från holländarna.'},
+{y:1834,t:'Emancipation i kolonierna',d:'Slaveriet upphör formellt i de brittiska områdena.'},
+{y:1865,t:'Slaveriet avskaffas i USA',d:'13:e tillägget avslutar slaveriet på pappret.'}]},
+{name:'Kolonialism & motstånd',period:'1884–1970',events:[
+{y:1884,t:'Berlinkonferensen',d:'Europa delar upp Afrika utan afrikanernas samtycke.'},
+{y:1885,t:'Kongofristaten upprättas',d:'Kung Leopold II av Belgien gör formellt Kongo till sin barbariska privata egendom.'},
+{y:1899,t:'Boerkriget utbryter',d:'Ett blodigt krig mellan brittiska imperiet och afrikander (boer) i Sydafrika.'},
+{y:1922,t:'Egyptisk självständighet',d:'Egypten blir formellt fritt från Storbritannien.'},
+{y:1948,t:'Apartheid i Sydafrika',d:'Rasåtskillnad blir officiell politik.'},
+{y:1952,t:'Mau-Mau-upproret',d:'Ett blodigt antikolonialt uppror mot det brittiska styret i Kenya inleds.'},
+{y:1954,t:'Algerietkriget börjar',d:'En av de blodigaste frihetskamperna mot Frankrike.'},
+{y:1957,t:'Ghana blir fritt',d:'Första landet söder om Sahara att bli självständigt.'},
+{y:1960,t:'Afrikas år',d:'17 länder blir självständiga under ett enda år.'},
+{y:1963,t:'OAU bildas',d:'Organisation of African Unity samlar kontinenten.'}]},
+{name:'Moderna Afrika',period:'1990–2025',events:[
+{y:1990,t:'Mandela frigiven',d:'27 år i fängelse tar slut, apartheids dagar räknade.'},
+{y:1994,t:'Folkmordet i Rwanda',d:'800 000 mördas på 100 dagar.'},
+{y:1994,t:'Fria val i Sydafrika',d:'Mandela väljs i landets första demokratiska val.'},
+{y:2002,t:'Afrikanska unionen',d:'AU ersätter OAU med bredare ambitioner.'},
+{y:2011,t:'Sydsudan självständigt',d:'Afrikas yngsta nation bildas.'},
+{y:2011,t:'Svälten på Afrikas horn',d:'En extrem torka och konflikt leder till en humanitär katastrof i Somalia, Etiopien och Kenya.'},
+{y:2018,t:'Etiopien-Eritrea fred',d:'Ett historiskt avtal avslutar årtionden av konflikt.'},
+{y:2019,t:'Svepande protester i Sudan',d:'Månader av folkliga protester leder till att diktatorn Omar al-Bashir störtas.'},
+{y:2021,t:'AfCFTA lanseras',d:'Ett enormt kontinentalt frihandelsområde skapas.'},
+{y:2023,t:'Sahel-kupper',d:'Militärkupper i flera västafrikanska länder.'}]}
+]},
+{id:'amerika',name:'Amerika',icon:'🗽',color:'#60a5fa',timelines:[
+{name:'Urfolkscivilisationer',period:'1500 f.Kr.–1533',events:[
+{y:-1500,t:'Olmekerna',d:'Centralamerikas modercivilisation skapar kolossala stenhuvuden.'},
+{y:-900,t:'Chavín de Huántar',d:'Ett tidigt religiöst och kulturellt centrum i Anderna.'},
+{y:-200,t:'Mayacivilisationen',d:'Avancerad astronomi och skrift i Centralamerikas regnskogar.'},
+{y:600,t:'Tiahuanaco blomstrar',d:'En mäktig civilisation vid Titicacasjön.'},
+{y:1200,t:'Inkariket växer',d:'Avancerad terrassodling och vägsystem i Anderna.'},
+{y:1325,t:'Tenochtitlán grundas',d:'Aztekernas huvudstad – större än de flesta europeiska städer.'},
+{y:1438,t:'Inkaväldets storhetstid',d:'Imperiet sträcker sig längs hela Sydamerikanska västkusten.'},
+{y:1450,t:'Machu Picchu byggs',d:'Inkaindianerna anlägger den mytomspunna staden högt upp i Anderna.'},
+{y:1533,t:'Inkarikets fall',d:'Pizarro tillfångatar Atahualpa – imperiet kollapsar.'}]},
+{name:'Kolonisering',period:'1492–1776',events:[
+{y:1492,t:'Columbus',d:'En genuesisk sjöfarare når Amerika och förändrar världshistorien.'},
+{y:1513,t:'Ponce de León når Florida',d:'Den första dokumenterade europeiska landstigningen på det som idag är USA:s fastland.'},
+{y:1519,t:'Cortés erövrar aztekerna',d:'Sjukdomar och allianser ger spanjorerna seger.'},
+{y:1532,t:'Atahualpa möter Pizarro',d:'Ett möte i Cajamarca som leder till Inkarikets undergång.'},
+{y:1585,t:'Roanoke-kolonin',d:'Englands första försök till en koloni i Nordamerika. Kolonisatörerna försvinner spårlöst.'},
+{y:1607,t:'Jamestown',d:'Englands första permanenta koloni i Nordamerika.'},
+{y:1619,t:'Första slavarna till Virginia',d:'Slavekonomin tar fäste i kolonierna.'},
+{y:1620,t:'Mayflower anländer',d:'Pilgrimsfäderna landstiger vid Cape Cod.'},
+{y:1692,t:'Häxprocesserna i Salem',d:'Masspsykos och rädsla dömer oskyldiga i kolonierna.'},
+{y:1763,t:'Freden i Paris',d:'Frankrike förlorar Kanada till Storbritannien.'}]},
+{name:'Revolutioner & nationsbygge',period:'1776–1900',events:[
+{y:1776,t:'Amerikanska revolutionen',d:'Tretton kolonier förklarar sig fria.'},
+{y:1789,t:'USA:s konstitution',d:'Världens äldsta fortfarande gällande konstitution antas.'},
+{y:1804,t:'Haitis revolution',d:'Det första lyckade slavupproret i historien.'},
+{y:1822,t:'Brasilien självständigt',d:'Sydamerikas största land bryter sig fri.'},
+{y:1823,t:'Monroedoktrinen',d:'USA varnar Europa för inblandning i Amerika.'},
+{y:1830,t:'Indian Removal Act',d:'Lagen som tvingade tusentals urfolk från sina hem i vad som kom att kallas the Trail of Tears.'},
+{y:1845,t:'Texas annekteras',d:'USA:s gränser flyttas kraftigt västerut vilket leder till krig med Mexiko.'},
+{y:1888,t:'Slaveriet avskaffas i Brasilien',d:'Sista landet i Amerika att förbjuda slaveri.'},
+{y:1898,t:'Spansk-amerikanska kriget',d:'USA blir en imperialistisk makt.'}]},
+{name:'Amerikanska inbördeskriget',period:'1861–1865',events:[
+{y:1861,t:'Attacken mot Fort Sumter',d:'Sydstaterna anfaller unionens fort i South Carolina, och det blodiga inbördeskriget är ett faktum.'},
+{y:1862,t:'Slaget vid Antietam',d:'Den absolut blodigaste enskilda dagen i amerikansk militärhistoria.'},
+{y:1863,t:'Emancipationsproklamationen',d:'President Lincoln förklarar alla slavar i rebellstaterna för formellt fria.'},
+{y:1863,t:'Slaget vid Gettysburg',d:'Nordstaternas avgörande seger i Pennsylvania som för alltid vänder krigslyckan.'},
+{y:1865,t:'Lee kapitulerar',d:'Sydstaternas General Lee kapitulerar vid Appomattox Court House och kriget är över.'}]},
+{name:'Supermakten USA',period:'1900–1991',events:[
+{y:1914,t:'Panamakanalen öppnas',d:'Gör det möjligt för den växande amerikanska flottan att snabbt röra sig mellan oceanerna.'},
+{y:1917,t:'USA i första världskriget',d:'Amerikanskt inträde avgör krigets utgång.'},
+{y:1929,t:'Wall Street-kraschen',d:'Börskraschen utlöser den stora depressionen.'},
+{y:1933,t:'New Deal lanseras',d:'Roosevelt inför reformer för att rädda ekonomin.'},
+{y:1941,t:'Pearl Harbor',d:'Japan anfaller – USA dras in i andra världskriget.'},
+{y:1945,t:'Atombomben',d:'Hiroshima och Nagasaki bombas – kriget tar slut.'},
+{y:1954,t:'Brown v. Board of Education',d:'Historiskt domslut mot segregation i skolor.'},
+{y:1959,t:'Kubanska revolutionen',d:'Fidel Castro och Che Guevara störtar Batistas regim och upprättar en kommunistisk stat.'},
+{y:1962,t:'Kubakrisen',d:'Världen står på randen till kärnvapenkrig under 13 dramatiska dagar.'},
+{y:1969,t:'Apollo 11',d:'Människan på månen – USA vinner rymdkapplöpningen.'}]},
+{name:'Kalla kriget i Latinamerika',period:'1947–1990',events:[
+{y:1948,t:'OAS bildas',d:'Organization of American States bildas för att främja samarbete (och ofta USA:s inflytande) i regionen.'},
+{y:1954,t:'CIA störtar Arbenz',d:'En statskupp i Guatemala iscensatt av USA för att stoppa vänsterreformer och skydda amerikanska bolag.'},
+{y:1959,t:'Castro tar makten',d:'Kubanska revolutionen vinner och en sovjetvänlig stat etableras mitt i USA:s "bakgård".'},
+{y:1973,t:'Militärkuppen i Chile',d:'President Allende mördas och Augusto Pinochet tar makten med USA:s stöd.'},
+{y:1979,t:'Sandinister i Nicaragua',d:'En socialistisk gerillarörelse störtar Somoza-diktaturen, vilket leder till USA-stödda "Contra"-kriget.'},
+{y:1982,t:'Falklandskriget',d:'Militärjuntan i Argentina startar krig mot Storbritannien, vilket leder till regimens fall när de förlorar.'}]},
+{name:'Moderna Amerika',period:'1963–2025',events:[
+{y:1963,t:'I Have a Dream',d:'Martin Luther King Jr:s historiska tal.'},
+{y:1969,t:'Woodstock-festivalen',d:'Över 400 000 människor samlas för "fred och musik" i en definierande kulturell händelse.'},
+{y:1974,t:'Watergate',d:'Nixon avgår i USA:s största politiska skandal.'},
+{y:1994,t:'NAFTA-avtalet',d:'Frihandel mellan USA, Kanada och Mexiko.'},
+{y:2001,t:'11 september',d:'Terrorattacker förändrar global säkerhetspolitik.'},
+{y:2008,t:'Obama vald',d:'USA:s första svarta president.'},
+{y:2015,t:'USA och Kuba närmar sig',d:'USA och Kuba återupptar formellt diplomatiska relationer efter årtionden av kalla kriget-fientlighet.'},
+{y:2021,t:'Capitolium-stormningen',d:'En unik attack mot USA:s politiska centrum.'},
+{y:2024,t:'Trump vald igen',d:'Kontroversiellt presidentval polariserar landet.'}]}
+]},
+{id:'vetenskap',name:'Vetenskap & teknik',icon:'🔬',color:'#a78bfa',timelines:[
+{name:'Antikens vetenskap',period:'3500 f.Kr.–500',events:[
+{y:-3500,t:'Hjulet uppfinns',d:'Mesopotamien revolutionerar transport och keramik.'},
+{y:-3000,t:'Skriften uppfinns',d:'Kilskrift i Sumer – mänsklighetens minne börjar.'},
+{y:-300,t:'Euklides geometri',d:'Elementa lägger grunden för matematik i 2000 år.'},
+{y:-250,t:'Arkimedes princip',d:'Heureka! Vattnets uppdrift förklaras.'},
+{y:-240,t:'Jordens omkrets beräknas',d:'Eratosthenes mäter jordens storlek med imponerande precision i Alexandria.'},
+{y:-200,t:'Antikythera-mekanismen',d:'Världens första "analoga dator" skapas i Grekland.'},
+{y:105,t:'Papper i Kina',d:'Cai Lun förfinar papperstillverkning.'},
+{y:150,t:'Ptolemaios kosmologi',d:'En modell som dominerar i 1400 år.'},
+{y:1000,t:'Ibn al-Haytham och optik',d:'Vetenskaplig metod tillämpas på ljusets lagar.'}]},
+{name:'Vetenskapliga revolutionen',period:'1440–1700',events:[
+{y:1440,t:'Gutenbergs tryckpress',d:'Kunskap kan nu massproduceras.'},
+{y:1514,t:'Vesalius anatomi',d:'De humani corporis fabrica revolutionerar läkekonsten.'},
+{y:1543,t:'Copernicus modell',d:'Jorden kretsar kring solen – inte tvärtom.'},
+{y:1609,t:'Galileos teleskop',d:'Jupitermånar upptäcks och bekräftar Copernicus.'},
+{y:1628,t:'Harveys blodcirkulation',d:'Blodet cirkulerar genom kroppen.'},
+{y:1665,t:'Celler upptäcks',d:'Robert Hooke ser celler i ett mikroskop för första gången.'},
+{y:1676,t:'Ljusets hastighet mäts',d:'Ole Rømer blir den förste som vetenskapligt fastställer att ljus har en ändlig hastighet.'},
+{y:1687,t:'Newtons Principia',d:'Gravitationslagen och rörelsens lagar formuleras.'},
+{y:1698,t:'Första ångmaskinen',d:'Savery patenterar en primitiv ångmaskin.'}]},
+{name:'Medicinhistoriska genombrott',period:'1796–1955',events:[
+{y:1796,t:'Smittkoppsvaccinet',d:'Edward Jenner uppfinner och testar världens första framgångsrika vaccin.'},
+{y:1847,t:'Semmelweis upptäckt',d:'Ignaz Semmelweis bevisar att handtvätt drastiskt minskar dödligheten i barnsängsfeber på sjukhus.'},
+{y:1865,t:'Antiseptisk kirurgi',d:'Joseph Lister introducerar karbolsyra, vilket kraftigt minskar dödliga infektioner vid operationer.'},
+{y:1928,t:'Penicillinet upptäcks',d:'Alexander Fleming upptäcker av en slump världens första antibiotika.'},
+{y:1955,t:'Poliovaccinet',d:'Jonas Salks efterlängtade vaccin godkänns och räddar miljontals barn från förlamning.'}]},
+{name:'1800-talets genombrott',period:'1800–1900',events:[
+{y:1808,t:'Daltons atomteori',d:'All materia består av atomer.'},
+{y:1831,t:'Induktion upptäcks',d:'Faraday lägger grunden för elkraft.'},
+{y:1846,t:'Neptunus upptäcks',d:'Planeten hittas genom matematiska beräkningar.'},
+{y:1851,t:'Foucaults pendel',d:'En enkel pendeluppställning bevisar visuellt för allmänheten att jorden roterar runt sin egen axel.'},
+{y:1859,t:'Darwins evolutionsteori',d:'Om arternas uppkomst förändrar vår syn på livet.'},
+{y:1865,t:'Mendels ärftlighetslagar',d:'Gregor Mendel publicerar resultaten av sina ärtförsök och lägger grunden för modern genetik.'},
+{y:1869,t:'Periodiska systemet',d:'Mendelejev ordnar grundämnena.'},
+{y:1885,t:'Rabiesvaccinet',d:'Louis Pasteur genomför den första lyckade vaccineringen.'},
+{y:1895,t:'Röntgenstrålning',d:'Osynlig strålning revolutionerar medicinen.'},
+{y:1898,t:'Radium upptäcks',d:'Marie Curie identifierar ett nytt radioaktivt ämne.'}]},
+{name:'Atomåldern',period:'1900–1960',events:[
+{y:1905,t:'Relativitetsteorin',d:'E=mc² förändrar vår förståelse av universum.'},
+{y:1911,t:'Atomkärnan upptäcks',d:'Rutherford visar att atomen har en kompakt kärna.'},
+{y:1927,t:'Big Bang-teorin',d:'Georges Lemaître föreslår att hela universum skapades från en enda extremt tät punkt.'},
+{y:1929,t:'Universum expanderar',d:'Edwin Hubble upptäcker att galaxer rör sig bortåt.'},
+{y:1938,t:'Kärnklyvning',d:'Hahn och Strassmann klyver atomen.'},
+{y:1945,t:'Atombomben',d:'Manhattan-projektet kulminerar i Hiroshima.'},
+{y:1953,t:'DNA:s struktur',d:'Watson och Crick avslöjar dubbelhelixen.'}]},
+{name:'Rymdkapplöpningen',period:'1957–1975',events:[
+{y:1957,t:'Sputnik 1',d:'Sovjetunionen skickar upp världens första konstgjorda satellit och chockar USA.'},
+{y:1961,t:'Jurij Gagarin i rymden',d:'Första människan i yttre rymden är en rysk kosmonaut.'},
+{y:1963,t:'Valentina Teresjkova',d:'Första kvinnan i rymden (Sovjet).'},
+{y:1969,t:'Månlandningen (Apollo 11)',d:'Neil Armstrong och Buzz Aldrin promenerar på månen – USA "vinner" kapplöpningen.'},
+{y:1971,t:'Första rymdstationen',d:'Sovjetiska Saljut 1 skjuts upp och blir världens första bemannade rymdstation.'},
+{y:1975,t:'Apollo-Sojuz-projektet',d:'En amerikansk och en sovjetisk rymdfarkost dockar i rymden – en symbolisk fredshandling.'}]},
+{name:'Digital revolution',period:'1960–2025',events:[
+{y:1969,t:'ARPANET',d:'Det första datanätverket, föregångaren till internet, testas.'},
+{y:1971,t:'Mikroprocessorn',d:'Intel 4004 – datorrevolutionens startskott.'},
+{y:1981,t:'IBM PC lanseras',d:'Persondatorn börjar nå kontor och hem.'},
+{y:1986,t:'Rymdstationen Mir',d:'Sovjetunionen skjuter upp kärnan till mänsklighetens första beboeliga forskningsstation i rymden.'},
+{y:1990,t:'World Wide Web',d:'Tim Berners-Lee uppfinner webben.'},
+{y:1996,t:'Fåret Dolly klonas',d:'Det första lyckade försöket att klona ett däggdjur från en vuxen cell väcker global debatt.'},
+{y:2003,t:'Människans genom klart',d:'Alla våra gener identifierade.'},
+{y:2012,t:'CRISPR-Cas9',d:'Det exakta genredigeringsverktyget presenteras och revolutionerar biologisk forskning.'},
+{y:2012,t:'Higgspartikeln',d:'CERN bekräftar "gudspartikeln".'},
+{y:2022,t:'ChatGPT & AI-explosion',d:'Artificiell intelligens når mainstreamsamhället.'},
+{y:2023,t:'James Webb-teleskopet',d:'Skickar hem bilder från universums början.'}]}
+]},
+{id:'krig',name:'Krig & konflikter',icon:'⚔️',color:'#ef4444',timelines:[
+{name:'Antikens krig',period:'1274 f.Kr.–476',events:[
+{y:-1274,t:'Kadesh',d:'Egypten mot hettiterna – ett av historiens första stora slag.'},
+{y:-490,t:'Marathon',d:'Aten besegrar den persiska invasionen.'},
+{y:-480,t:'Thermopyle',d:'Spartanerna stoppar perserna vid de varma portarna.'},
+{y:-431,t:'Peloponnesiska kriget',d:'Ett decennielångt och destruktivt inbördeskrig mellan Greklands giganter, Aten och Sparta.'},
+{y:-334,t:'Alexanders fälttåg',d:'Alexander den store erövrar allt från Grekland till Indien.'},
+{y:-264,t:'Puniska krigen',d:'Rom mot Karthago om Medelhavet.'},
+{y:-216,t:'Slaget vid Cannae',d:'Hannibals största seger över romarna.'},
+{y:-49,t:'Caesar korsar Rubicon',d:'Inbördeskrig som slutar med en diktator.'},
+{y:9,t:'Teutoburgerskogen',d:'Germanerna krossar tre romerska legioner.'}]},
+{name:'Medeltida krig',period:'732–1453',events:[
+{y:732,t:'Slaget vid Tours',d:'Karl Martell stoppar muslimsk expansion i Europa.'},
+{y:1066,t:'Hastings',d:'Vilhelm Erövraren tar England.'},
+{y:1099,t:'Jerusalem erövras',d:'Korsfarare intar staden efter en blodig belägring och upprättar ett kristet kungadöme.'},
+{y:1187,t:'Saladin tar Jerusalem',d:'Korsfararnas kungarike faller.'},
+{y:1204,t:'Konstantinopel plundras',d:'Det fjärde korståget vänder sig mot bysantinerna.'},
+{y:1337,t:'Hundraårskriget',d:'England mot Frankrike i 116 år.'},
+{y:1415,t:'Slaget vid Agincourt',d:'Engelska långbågar krossar det franska ridderskapet.'},
+{y:1429,t:'Jeanne d\'Arc',d:'En bondflicka leder Frankrike till seger.'},
+{y:1453,t:'Konstantinopels belägring',d:'Kanoner avgör – murarna faller.'}]},
+{name:'Tidig modern krigsföring',period:'1500–1800',events:[
+{y:1571,t:'Lepanto',d:'Osmansk sjömakt stoppas i Medelhavet.'},
+{y:1588,t:'Spanska armadan',d:'En enorm flotta sänks av väder och engelsk taktik.'},
+{y:1683,t:'Wien belägras',d:'Osmanska rikets sista stora europeiska offensive.'},
+{y:1709,t:'Poltava',d:'Sverige förlorar – Ryssland stiger.'},
+{y:1756,t:'Sjuårskriget',d:'Det första "världskriget" – strider på tre kontinenter.'},
+{y:1781,t:'Slaget vid Yorktown',d:'Avgörande seger i den amerikanska revolutionen.'}]},
+{name:'Trettioåriga kriget',period:'1618–1648',events:[
+{y:1618,t:'Defenestrationen i Prag',d:'Katolska representanter kastas ut genom ett slottsfönster, vilket bokstavligen utlöser kriget.'},
+{y:1631,t:'Slaget vid Breitenfeld',d:'Gustav II Adolf krossar den kejserliga armén och vänder krigslyckan för protestanterna.'},
+{y:1632,t:'Slaget vid Lützen',d:'Den svenska kungen stupar i dimman, men den protestantiska sidan står kvar som segrare på fältet.'},
+{y:1635,t:'Freden i Prag',d:'Kriget övergår från att vara ett religionskrig till en storpolitisk konflikt mellan Frankrike och Habsburg.'},
+{y:1648,t:'Westfaliska freden',d:'Ett massivt fredsavtal ritar om Europas karta efter att miljontals tyskar dött av svält och sjukdomar.'}]},
+{name:'Napoleankrigen',period:'1799–1815',events:[
+{y:1799,t:'Napoleon tar makten',d:'Efter revolutionens kaos tar general Bonaparte makten i en militärkupp.'},
+{y:1805,t:'Trafalgar & Austerlitz',d:'Napoleon segrar på land (Austerlitz) men förlorar till sjöss (Trafalgar).'},
+{y:1806,t:'Kontinentalsystemet',d:'Napoleon blockerar all europeisk handel med Storbritannien för att krossa sin rival ekonomiskt.'},
+{y:1812,t:'Tåget mot Ryssland',d:'Ett massivt misstag där kyla och gerillakrigföring krossar Napoleons jättearmé.'},
+{y:1813,t:'Folkslaget vid Leipzig',d:'Den försvagade Napoleon besegras av en enorm allierad koalition.'},
+{y:1815,t:'Slaget vid Waterloo',d:'Napoleons absolut sista, slutgiltiga nederlag i Belgien.'}]},
+{name:'Världskrigen',period:'1914–1945',events:[
+{y:1905,t:'Rysk-japanska kriget',d:'Japan chockar världen genom att besegra det ryska imperiet i ett modernt industrikrig.'},
+{y:1914,t:'Första världskriget utbryter',d:'Skottet i Sarajevo startar kriget.'},
+{y:1915,t:'Slaget vid Gallipoli',d:'En misslyckad allierad invasion av det Osmanska riket som skördar hundratusentals offer.'},
+{y:1916,t:'Somme & Verdun',d:'Hundratusentals dör i skyttegravarna.'},
+{y:1917,t:'USA inträder',d:'Det avgörande ögonblicket i första världskriget.'},
+{y:1939,t:'Andra världskriget börjar',d:'Hitlers invasion av Polen startar kriget.'},
+{y:1941,t:'Operation Barbarossa',d:'Nazitysklands fatala invasion av Sovjet.'},
+{y:1942,t:'Slaget vid Stalingrad',d:'Vändpunkten på östfronten.'},
+{y:1944,t:'D-dagen',d:'Europas befrielse börjar på Normandies stränder.'},
+{y:1945,t:'Segerdagen',d:'Tyskland och Japan kapitulerar – kriget slutar.'}]},
+{name:'Kalla kriget & efter',period:'1947–2025',events:[
+{y:1950,t:'Koreakriget',d:'Kalla krigets första heta konflikt.'},
+{y:1955,t:'Vietnamkriget',d:'USA:s längsta och mest kontroversiella krig.'},
+{y:1962,t:'Kubakrisen',d:'Världen var timmar från ett kärnvapenkrig.'},
+{y:1979,t:'Sovjet i Afghanistan',d:'Supermaktens Vietnam – börjar Sovjets fall.'},
+{y:1982,t:'Falklandskriget',d:'Storbritannien och Argentina drabbar samman i ett kort men intensivt krig över en ögrupp i Sydatlanten.'},
+{y:1990,t:'Gulfkriget',d:'Koalition befriar Kuwait.'},
+{y:1991,t:'Sovjetunionens fall',d:'Kalla kriget tar slut utan ett stort krig.'},
+{y:1995,t:'Srebrenicamassakern',d:'FN-styrkor står maktlösa när tusentals civila mördas brutalt under det jugoslaviska inbördeskriget.'},
+{y:2003,t:'Irakkriget',d:'USA invaderar och störtar Saddam Hussein.'},
+{y:2022,t:'Ukrainakriget',d:'Fullskalig invasion omformar europeisk säkerhet.'}]}
+]},
+{id:'religion',name:'Religion & filosofi',icon:'🕉️',color:'#c084fc',timelines:[
+{name:'Forntida religioner',period:'2000 f.Kr.–300',events:[
+{y:-2000,t:'Vediska texter',d:'Hinduismens äldsta skrifter tar form i Indien.'},
+{y:-1350,t:'Aton-kulten i Egypten',d:'Farao Akhenaten inför historiens första kända monoteism.'},
+{y:-1200,t:'Mose och uttåget',d:'Judendomens grundmyt om befrielse från Egypten.'},
+{y:-563,t:'Buddha föds',d:'Siddharta Gautama söker upplysning.'},
+{y:-551,t:'Konfucius föds',d:'Kinas store filosof lägger grunden för konfucianismen.'},
+{y:-469,t:'Sokrates föds',d:'Filosofins fader börjar ifrågasätta allt i Aten.'},
+{y:-399,t:'Sokrates död',d:'Filosofen tvingas dricka giftbägaren.'},
+{y:-4,t:'Jesus föds',d:'Det troliga historiska födelseåret för kristendomens grundare.'},
+{y:30,t:'Jesus korsfästs',d:'En predikant avrättas – kristendomen föds.'}]},
+{name:'Nordisk fornssed (Asatro)',period:'700–1100',events:[
+{y:700,t:'Asatrons blomstring',d:'Kulten av Oden, Tor, Freja och Frej är djupt rotad i hela det skandinaviska samhället.'},
+{y:800,t:'Heliga lundar och blot',d:'Blot (offerfester) hålls regelbundet för att blidka gudarna och säkra god skörd eller seger i krig.'},
+{y:980,t:'Gudaskymning (Ragnarök)',d:'Berättelserna om världens undergång och pånyttfödelse lever starkt i den muntliga traditionen.'},
+{y:1080,t:'Templet i Uppsala förstörs',d:'Enligt kristen tradition bränns det sista stora hedniska templet ned av den kristne kungen Inge den äldre.'},
+{y:1100,t:'Kristnandet fullbordat',d:'De fornnordiska gudarna förpassas till sagor och mytologi när kristendomen tar total kontroll.'}]},
+{name:'Mesoamerikansk religion',period:'1200 f.Kr.–1521',events:[
+{y:-1200,t:'Olmekernas gudar',d:'Myter om Jaguarguden och den Fjäderprydda ormen (Quetzalcoatl) börjar spridas.'},
+{y:250,t:'Teotihuacan',d:'Solens och Månens pyramider byggs och staden blir hela regionens heliga medelpunkt.'},
+{y:600,t:'Mayas blodsoffer',d:'Eliten utför komplexa ritualer och astronomiska beräkningar för att tillfredsställa gudarna.'},
+{y:1325,t:'Templo Mayor',d:'Aztekerna påbörjar sitt massiva huvudtempel mitt i Tenochtitlán (dagens Mexico City).'},
+{y:1487,t:'Enorma tempeloffer',d:'Tusentals fångar offras till sol- och krigsguden Huitzilopochtli vid invigningen av Templo Mayor.'},
+{y:1521,t:'Konkvistadorerna',d:'De spanska erövrarna förstör templen och tvingar fram katolicismen med våld.'}]},
+{name:'Religionernas spridning',period:'300–1100',events:[
+{y:313,t:'Kristendomen legaliseras',d:'Ediktet i Milano öppnar dörren för kristendom i Rom.'},
+{y:380,t:'Kristendomen statsreligion',d:'Teodosios gör kristendom till Roms enda religion.'},
+{y:622,t:'Hijra',d:'Islams startpunkt – en ny världsreligion sprids.'},
+{y:632,t:'Islams expansion',d:'Från Arabien till Spanien på mindre än 100 år.'},
+{y:638,t:'Jerusalem faller',d:'Muslimska arméer tar kontroll över den heliga staden.'},
+{y:1000,t:'Kristnandet av Norden',d:'Vikingafolken byter Oden mot Kristus.'},
+{y:1054,t:'Stora schismen',d:'Kristendomen splittras i katolsk och ortodox.'},
+{y:1095,t:'Korstågen predikas',d:'Påve Urban II kallar till krig för att befria Jerusalem.'}]},
+{name:'Reformation & förnyelse',period:'1400–1700',events:[
+{y:1469,t:'Guru Nanak föds',d:'Sikhismens grundare förkunnar jämlikhet.'},
+{y:1517,t:'Luthers teser',d:'Protestantismen föds och splittrar Europa.'},
+{y:1521,t:'Riksdagen i Worms',d:'Luther vägrar ta tillbaka sin lära inför kejsaren.'},
+{y:1534,t:'Anglikanska kyrkan',d:'Henrik VIII gör sig själv till kyrkans överhuvud.'},
+{y:1545,t:'Tridentinska konciliet',d:'Katolska kyrkan reformerar sig som svar på Luther.'},
+{y:1620,t:'Pilgrimsfäderna',d:'Religiösa flyktingar seglar till den nya världen.'},
+{y:1648,t:'Westfaliska freden',d:'Religionsfrihet för furstendömen erkänns.'},
+{y:1685,t:'Ediktet i Nantes upphävs',d:'Frankrike förföljer protestanter igen.'}]},
+{name:'Modern religionsdebatt',period:'1800–2025',events:[
+{y:1844,t:'Baha\'i-tron grundas',d:'En ny världsreligion med fokus på mänsklighetens enhet.'},
+{y:1859,t:'Darwin utmanar kyrkan',d:'Evolutionsteorin krockar med skapelseberättelsen.'},
+{y:1889,t:'Dalai Lama får Nobels fredspris',d:'Den tibetanska buddhismen och dess ickevåldskamp uppmärksammas stort globalt.'},
+{y:1893,t:'Religionernas parlament',d:'Historiskt interreligiöst möte i Chicago.'},
+{y:1947,t:'Dödahavsrullarna upptäcks',d:'Enastående arkeologiskt fynd ger unika inblickar i tidig judendom och kristendomens rötter.'},
+{y:1948,t:'Religionsfrihet',d:'Fastställs som en universell rättighet av FN.'},
+{y:1962,t:'Andra Vatikankonciliet',d:'Katolska kyrkan moderniseras.'},
+{y:1979,t:'Islamiska revolutionen',d:'Religion och politik sammanflätas i Iran.'},
+{y:2013,t:'Påve Franciskus',d:'En reformvänlig påve från Latinamerika.'}]}
+]},
+{id:'konst',name:'Konst & litteratur',icon:'🎨',color:'#fb923c',timelines:[
+{name:'Antik & medeltida konst',period:'3000 f.Kr.–1400',events:[
+{y:-3000,t:'Gilgamesh-eposet',d:'Världens äldsta kända litterära verk.'},
+{y:-450,t:'Grekisk tragedi',d:'Sofokles och Euripides skapar teater.'},
+{y:-350,t:'Praxiteles skulpturer',d:'Grekisk konst når en ny nivå av realism.'},
+{y:80,t:'Colosseum står klart',d:'Roms främsta arkitektoniska mästerverk invigs.'},
+{y:800,t:'Tusen och en natt',d:'Berättelser som definierar arabisk litteratur.'},
+{y:1010,t:'Shahnameh',d:'Ferdowsis persiska nationalepos fullbordas.'},
+{y:1307,t:'Dantes Gudomliga komedin',d:'Medeltidens litterära mästerverk.'},
+{y:1387,t:'Canterbury Tales',d:'Chaucer skriver de första stora berättelserna på engelska.'}]},
+{name:'Renässansens mästare',period:'1420–1520',events:[
+{y:1420,t:'Kupolen i Florens',d:'Brunelleschi påbörjar den revolutionerande och massiva kupolen på Santa Maria del Fiore.'},
+{y:1486,t:'Venus födelse',d:'Sandro Botticelli målar sitt djupt ikoniska verk helt inspirerat av grekisk mytologi.'},
+{y:1498,t:'Nattvarden',d:'Leonardo da Vinci fullbordar den storslagna fresken i Milano.'},
+{y:1504,t:'Michelangelos David',d:'Den majestätiska statyn avtäcks och blir omedelbart symbolen för den perfekta människan.'},
+{y:1511,t:'Skolan i Aten',d:'Rafael målar antikens allra största tänkare och vetenskapsmän på väggarna i Vatikanen.'}]},
+{name:'Renässans & barock',period:'1400–1750',events:[
+{y:1440,t:'Renässansen i Florens',d:'Da Vinci och Michelangelo förändrar konsten.'},
+{y:1503,t:'Mona Lisa påbörjas',d:'Världens mest kända målning av Leonardo Da Vinci.'},
+{y:1512,t:'Sixtinska kapellet',d:'Michelangelo avslutar de världsberömda takmålningarna i Vatikanen.'},
+{y:1600,t:'Shakespeares storhetstid',d:'Hamlet och Macbeth – odödliga pjäser.'},
+{y:1605,t:'Don Quijote',d:'Cervantes skriver den första moderna romanen.'},
+{y:1642,t:'Nattvakten',d:'Rembrandts mästerverk inom ljus och skugga färdigställs.'},
+{y:1685,t:'Bach & Händel föds',d:'Barockmusikens giganter kommer till världen.'},
+{y:1719,t:'Robinson Crusoe',d:'Defoe publicerar en av de mest inflytelserika romanerna.'}]},
+{name:'Romantik & realism',period:'1770–1900',events:[
+{y:1770,t:'Beethoven föds',d:'Kompositören som förenar klassicism och romantik.'},
+{y:1808,t:'Faust publiceras',d:'Goethes mästerverk om vetenskapsmannen som säljer sin själ till djävulen.'},
+{y:1812,t:'Bröderna Grimms sagor',d:'Folksagor samlas och publiceras i Tyskland.'},
+{y:1818,t:'Frankenstein',d:'Mary Shelley skapar science fiction-genren.'},
+{y:1862,t:'Les Misérables',d:'Victor Hugo publicerar sitt stora epos.'},
+{y:1874,t:'Impressionismen',d:'Monet bryter med de traditionella konstreglerna.'},
+{y:1889,t:'Stjärnenatt',d:'Vincent van Gogh målar sitt mest ikoniska verk.'},
+{y:1891,t:'Dorian Grays porträtt',d:'Oscar Wildes klassiker utforskar estetik.'}]},
+{name:'Fotografi & Filmens födelse',period:'1826–1930',events:[
+{y:1826,t:'Världens första fotografi',d:'Joseph Nicéphore Niépce fångar en vy från sitt fönster (Utsikt från fönstret i Le Gras).'},
+{y:1839,t:'Daguerreotypin presenteras',d:'Tekniken görs tillgänglig för allmänheten i Paris och revolutionerar visuell dokumentation.'},
+{y:1888,t:'Kodak-kameran lanserats',d:'George Eastman gör kameran tillgänglig för massorna ("Tryck på knappen, vi gör resten").'},
+{y:1895,t:'Bröderna Lumière',d:'Världens allra första offentliga filmvisning äger rum på ett café i Paris.'},
+{y:1902,t:'Resan till månen',d:'Georges Méliès skapar banbrytande specialeffekter och bevisar att film kan berätta påhittade historier.'},
+{y:1927,t:'Jazzsångaren',d:'Filmens format förändras för alltid när synkroniserat ljud slår igenom på biograferna.'}]},
+{name:'Modernism & avantgarde',period:'1900–1960',events:[
+{y:1907,t:'Kubismen föds',d:'Picasso chockerar med Les Demoiselles d\'Avignon.'},
+{y:1913,t:'Våroffer',d:'Stravinskys musik orsakar upplopp i Paris.'},
+{y:1922,t:'Modernismens genombrott',d:'Ulysses av James Joyce publiceras.'},
+{y:1925,t:'The Great Gatsby',d:'Fitzgerald skriver romanen om den amerikanska drömmen.'},
+{y:1928,t:'Musse Pigg debuterar',d:'Den animerade kortfilmen Steamboat Willie har premiär och startar ett imperium.'},
+{y:1937,t:'Guernica',d:'Picassos protest mot krigets vansinne.'},
+{y:1945,t:'Existentialismen',d:'Sartre och de Beauvoir dominerar tänkandet.'},
+{y:1949,t:'1984 publiceras',d:'George Orwells dystopiska mästerverk kommer ut.'},
+{y:1957,t:'Popkonsten',d:'Warhol suddar gränsen mellan konst och konsumtion.'}]},
+{name:'Samtidskonst & kultur',period:'1960–2025',events:[
+{y:1964,t:'Beatlemania',d:'Musik blir en global kraft som förenar generationer.'},
+{y:1977,t:'Punkrocken',d:'Sex Pistols river ner musikaliska konventioner.'},
+{y:1981,t:'MTV börjar sända',d:'Musikvideon blir en ny konstform.'},
+{y:1982,t:'Hiphop exploderar',d:'Från Bronx till världsscenen.'},
+{y:1997,t:'Harry Potter',d:'J.K. Rowling startar ett globalt fenomen.'},
+{y:2006,t:'Streamingrevolutionen',d:'Spotify förändrar hur vi lyssnar på musik.'},
+{y:2011,t:'Minecraft släpps',d:'Digitala spel blir en interaktiv konstform.'},
+{y:2023,t:'AI-genererad konst',d:'Maskiner börjar skapa egna konstverk.'}]}
+]},
+{id:'demokrati',name:'Demokrati & rättigheter',icon:'⚖️',color:'#2dd4bf',timelines:[
+{name:'Antikens demokrati',period:'508 f.Kr.–476',events:[
+{y:-508,t:'Atens demokrati',d:'Kleisthenes reformer – världens första demokratiska system.'},
+{y:-461,t:'Efialtes reformer',d:'Folkförsamlingens makt stärks och adeln försvagas i Aten.'},
+{y:-450,t:'Romersk lag',d:'Tolvtavlelagen gör lagen tillgänglig för alla.'},
+{y:-133,t:'Gracchernas reformer',d:'Bröderna Gracchus kämpar för jord åt de fattiga i Rom.'},
+{y:-44,t:'Caesars mord',d:'Senatorer mördar diktatorn i demokratins namn.'},
+{y:212,t:'Alla romare medborgare',d:'Caracallas edikt ger medborgarskap åt alla fria.'},
+{y:380,t:'Religionstvång',d:'Religionsfriheten inskränks i Romarriket.'},
+{y:476,t:'Republiktanken överlever',d:'Roms idéer lever vidare i litteraturen.'}]},
+{name:'Medeltida rättigheter',period:'1100–1700',events:[
+{y:1100,t:'Alltinget på Island',d:'En av världens äldsta parlamentariska institutioner.'},
+{y:1215,t:'Magna Carta',d:'Kungen tvingas acceptera begränsningar av sin makt.'},
+{y:1320,t:'Arbroath-deklarationen',d:'Skottarna formulerar folkets rätt till frihet.'},
+{y:1349,t:'Gyllene bullan',d:'Reglerar valet av kejsare i det tysk-romerska riket.'},
+{y:1517,t:'Comuneros-upproret',d:'Spanska städer kämpar för lokalt självstyre.'},
+{y:1581,t:'Nederländsk frihet',d:'Folket gör uppror mot spansk tyranni.'},
+{y:1647,t:'Putneydebatterna',d:'Soldater i det engelska inbördeskriget argumenterar radikalt för allmän rösträtt för alla män.'},
+{y:1679,t:'Habeas Corpus',d:'Ingen kan fängslas utan rättegång i England.'},
+{y:1689,t:'Bill of Rights',d:'Englands parlament begränsar monarkins makt.'}]},
+{name:'Revolutionernas tidsålder',period:'1776–1850',events:[
+{y:1776,t:'Amerikanska frihetskriget',d:'Tretton kolonier förklarar sig fria.'},
+{y:1789,t:'Franska rättigheterna',d:'Deklarationen om människans rättigheter.'},
+{y:1791,t:'Olympe de Gouges',d:'Kräver lika rättigheter för kvinnor i Frankrike.'},
+{y:1791,t:'USA:s Bill of Rights',d:'Tillägg till konstitutionen som garanterar yttrandefrihet.'},
+{y:1793,t:'Slaveri avskaffas på Haiti',d:'Under den haitiska revolutionen slopas slaveriet – det första och enda gången det sker genom slavarnas eget uppror.'},
+{y:1804,t:'Haitis frihet',d:'Första lyckade slavuppror skapar en fri republik.'},
+{y:1812,t:'Cádiz-konstitutionen',d:'En tidig liberal spansk konstitution antas.'},
+{y:1833,t:'Slaveriet avskaffas i Storbritannien',d:'Milstolpe i kampen mot slaveri.'},
+{y:1848,t:'Revolutionsåret',d:'Folkuppror för demokrati över hela Europa.'}]},
+{name:'Arbetarrörelsens framväxt',period:'1848–1938',events:[
+{y:1848,t:'Kommunistiska manifestet',d:'Karl Marx och Friedrich Engels publicerar texten som formar den globala arbetarrörelsen.'},
+{y:1864,t:'Första internationalen',d:'Internationella arbetarassociationen bildas i London.'},
+{y:1886,t:'Haymarketmassakern',d:'Strejker för 8-timmars arbetsdag i Chicago slutar i blodbad (orsaken till att vi firar 1 maj).'},
+{y:1889,t:'Svenska SAP bildas',d:'Socialdemokratiska arbetarepartiet grundas och blir en avgörande kraft i svensk politik.'},
+{y:1919,t:'ILO grundas',d:'Internationella arbetsorganisationen (ILO) bildas för att förbättra arbetsvillkor globalt.'},
+{y:1938,t:'Saltsjöbadsavtalet',d:'LO och SAF enas om ett historiskt huvudavtal som bygger den "svenska modellen" på arbetsmarknaden.'}]},
+{name:'Rösträtt & medborgarrätt',period:'1893–1968',events:[
+{y:1893,t:'Nya Zeeland – kvinnlig rösträtt',d:'Första landet med full rösträtt för kvinnor.'},
+{y:1907,t:'Norge ger kvinnor rösträtt',d:'Första landet i Norden med full kvinnlig rösträtt.'},
+{y:1920,t:'Nationernas förbund',d:'Första försöket till internationellt samarbete.'},
+{y:1921,t:'Rösträtt i Sverige',d:'Kvinnor röstar för första gången.'},
+{y:1945,t:'Förenta Nationerna grundas',d:'Efter två världskrig samlas världens länder för att garantera framtida fred och säkerhet.'},
+{y:1948,t:'FN:s rättighetsdeklaration',d:'Universell standard för mänskliga rättigheter.'},
+{y:1955,t:'Rosa Parks bussvägran',d:'Tänder medborgarrättsrörelsen i USA.'},
+{y:1960,t:'Rösträtt för urfolk i Kanada',d:'Indigenous peoples får äntligen rösträtt i federala val.'},
+{y:1964,t:'Civil Rights Act',d:'USA förbjuder rasdiskriminering.'}]},
+{name:'Medborgarrättsrörelsen i USA',period:'1954–1968',events:[
+{y:1954,t:'Brown v. Board of Education',d:'Högsta domstolen slår fast att rassegregation i de amerikanska skolorna är grundlagsstridig.'},
+{y:1955,t:'Bussbojkotten i Montgomery',d:'Rosa Parks vägrar lämna sin plats på bussen, vilket utlöser en årslång och framgångsrik bojkott.'},
+{y:1963,t:'Marschen till Washington',d:'Över 200 000 samlas framför Lincoln Memorial där MLK håller sitt odödliga "I Have a Dream"-tal.'},
+{y:1964,t:'Civil Rights Act',d:'Svepande lagstiftning som formellt förbjuder all diskriminering baserad på ras, färg, religion eller kön.'},
+{y:1965,t:'Voting Rights Act',d:'Lagen antas för att en gång för alla skydda svartas rätt att rösta utan hinder på federal nivå.'},
+{y:1968,t:'Martin Luther King mördas',d:'Medborgarrättsrörelsens frontfigur skjuts till döds, vilket utlöser kravaller i över 100 amerikanska städer.'}]},
+{name:'Globala demokratirörelser',period:'1989–2025',events:[
+{y:1989,t:'Sammetsrevolutionen',d:'Tjeckoslovakien lyckas fredligt störta sin kommunistiska regim och införa demokrati.'},
+{y:1989,t:'Demokrativåg i öst',d:'Kommunistregimer faller som dominobrickor.'},
+{y:1990,t:'Mandela fri',d:'Apartheid börjar falla i Sydafrika.'},
+{y:1994,t:'Sydafrikas fria val',d:'Mandela blir president i demokratiskt val.'},
+{y:2001,t:'Samkönade äktenskap',d:'Nederländerna blir det första landet i världen att legalisera äktenskap mellan personer av samma kön.'},
+{y:2003,t:'Färgrevolutioner',d:'Fredliga protester leder till demokratisering i flera länder.'},
+{y:2011,t:'Arabiska våren',d:'Folkuppror kräver demokrati i Mellanöstern.'},
+{y:2019,t:'Hongkong-protesterna',d:'Massprotester för demokrati mot Kinas inflytande.'},
+{y:2022,t:'Mahsa Amini-protesterna',d:'Iranska kvinnor kämpar för frihet och rättigheter.'},
+{y:2024,t:'Demokratisk tillbakagång',d:'Rapport om att demokratin minskar globalt.'}]}
+]},
+{id:'ekonomi',name:'Ekonomi & handel',icon:'💰',color:'#a3e635',timelines:[
+{name:'Tidig handel',period:'3000 f.Kr.–1200',events:[
+{y:-3000,t:'Mesopotamiska betalningar',d:'Silver och korn som betalningsmedel.'},
+{y:-1800,t:'Gamla assyriska handeln',d:'Världens första dokumenterade internationella handelsnätverk.'},
+{y:-600,t:'Första mynten',d:'Lydien präglar mynt av ädelmetaller.'},
+{y:100,t:'Sidenvägen',d:'Handelskorridor mellan öst och väst.'},
+{y:600,t:'Kinesiska sedlar',d:'Världens första papperspengar.'},
+{y:800,t:'Abbasidisk handelsboom',d:'Den islamska guldåldern skapar global handel.'},
+{y:1000,t:'Vikingarnas nätverk',d:'Skandinaver handlar från Bagdad till Nordamerika.'},
+{y:1100,t:'Hansan',d:'Tyska städer dominerar Östersjöhandeln.'}]},
+{name:'Kryddhandeln',period:'130 f.Kr.–1602',events:[
+{y:-130,t:'Sidenvägen öppnas',d:'De första karavanerna börjar transportera silke, kryddor och idéer mellan Kina och väst.'},
+{y:1453,t:'Osmansk blockad',d:'När Konstantinopel faller tar Osmanska riket kontroll över handeln, vilket tvingar Europa att söka sjövägar.'},
+{y:1498,t:'Indiska Oceanen',d:'Vasco da Gama når Indien och kringgår därmed det arabiska och venetianska kryddmonopolet.'},
+{y:1511,t:'Malacka erövras',d:'Portugal tar makten över den strategiska hamnen för att kontrollera all kryddhandel i Asien.'},
+{y:1602,t:'VOC grundas',d:'Holländska ostindiska kompaniet skapas och tar snart över hela det globala kryddmonopolet.'}]},
+{name:'Bank & merkantilism',period:'1397–1700',events:[
+{y:1397,t:'Medicibanken',d:'Europas mest inflytelserika bank grundas i Florens.'},
+{y:1400,t:'Växelbrev blir vanliga',d:'Möjliggör handel utan fysiska pengar.'},
+{y:1492,t:'Columbianska utbytet',d:'Varor och djur utbyts mellan världar.'},
+{y:1602,t:'Holländska VOC',d:'Världens första aktienoterade företag.'},
+{y:1609,t:'Amsterdams växelbank',d:'Blir Europas finansiella centrum.'},
+{y:1637,t:'Tulpanmanin',d:'Historiens första spekulationsbubbla spricker.'},
+{y:1694,t:'Bank of England',d:'Världens moderna centralbankssystem föds.'},
+{y:1700,t:'Merkantilism',d:'Stater samlar guld och reglerar handel.'},
+{y:1720,t:'South Sea-bubblan spricker',d:'Massiv börskrasch i London ruinerar många investerare och skakar imperiets ekonomi.'}]},
+{name:'Industriell ekonomi',period:'1776–1945',events:[
+{y:1776,t:'Adam Smith',d:'Nationernas välstånd – frimarknaden förklarad.'},
+{y:1848,t:'Kommunistiska manifestet',d:'Marx och Engels utmanar det kapitalistiska systemet.'},
+{y:1867,t:'Marx Kapitalet',d:'Kapitalismens skarpaste kritiker publicerar sitt verk.'},
+{y:1869,t:'Suezkanalen öppnas',d:'Den nya farleden genom Egypten revolutionerar världshandeln genom att drastiskt korta restiden mellan Europa och Asien.'},
+{y:1913,t:'Federal Reserve',d:'USA skapar sin centralbank.'},
+{y:1914,t:'Panamakanalen öppnas',d:'Revolutionerar den globala sjöfarten.'},
+{y:1929,t:'Den stora depressionen',d:'Världsekonomin kollapsar.'},
+{y:1936,t:'Keynes teori',d:'Staten bör styra ekonomi i kriser.'},
+{y:1944,t:'Bretton Woods',d:'Världens valutor knyts till dollarn.'}]},
+{name:'Global finansekonomi',period:'1971–2025',events:[
+{y:1971,t:'Guldmyntfoten överges',d:'Nixon kopplar loss dollarn från guld.'},
+{y:1973,t:'Oljekrisen',d:'OPEC:s oljeembargo leder till kraftigt stigande priser och stagnerande världsekonomi.'},
+{y:1980,t:'Kinas ekonomiska zoner',d:'Kina börjar öppna sig för utländska investeringar.'},
+{y:1989,t:'Washington-konsensus',d:'Frihandel och avreglering sprids globalt.'},
+{y:1995,t:'WTO grundas',d:'Global handel regleras formellt.'},
+{y:1999,t:'Dotcom-bubblan spricker',d:'En gigantisk spekulationsbubbla kring nya internetföretag kraschar börsen.'},
+{y:2001,t:'Kina går med i WTO',d:'Världsekonomin förändras dramatiskt när den massiva kinesiska marknaden integreras.'},
+{y:2002,t:'Euron införs',d:'Gemensam valuta för miljontals européer.'},
+{y:2008,t:'Finanskrisen',d:'Lehman Brothers kraschar – global kris.'},
+{y:2009,t:'Bitcoin startar',d:'Den första decentraliserade kryptovalutan skapas.'},
+{y:2021,t:'Kryptoboom',d:'Digitala tillgångar når rekordhöjder.'}]},
+{name:'Kryptovalutor & Blockkedjor',period:'2008–2024',events:[
+{y:2008,t:'Bitcoin Vitbok publiceras',d:'Signaturen Satoshi Nakamoto publicerar konceptet för ett helt decentraliserat finansiellt system.'},
+{y:2009,t:'Genesis-blocket',d:'Det allra första blocket i Bitcoins blockkedja "mineas" och valutan blir verklighet.'},
+{y:2015,t:'Ethereum lanseras',d:'En ny typ av blockkedja med "smarta kontrakt" möjliggör tusentals nya typer av tokens och appar.'},
+{y:2021,t:'Krypto blir mainstream',d:'Bitcoin når enorma rekordvärden och El Salvador blir första land att göra valutan till lagligt betalningsmedel.'},
+{y:2024,t:'Bitcoin ETF godkänns',d:'Wall Street och den traditionella finansvärlden omfamnar kryptovalutor formellt.'}]}
+]},
+{id:'kolonialism',name:'Kolonialism',icon:'⛵',color:'#f97316',timelines:[
+{name:'Portugisiska imperiet',period:'1415–1975',events:[
+{y:1415,t:'Ceuta erövras',d:'Portugals första koloniala erövring.'},
+{y:1488,t:'Godahoppsudden',d:'Dias rundar Afrikas sydspets.'},
+{y:1498,t:'Sjövägen till Indien',d:'Vasco da Gama når Indien.'},
+{y:1500,t:'Brasilien upptäcks',d:'Cabral gör anspråk på landområdet.'},
+{y:1510,t:'Goa erövras',d:'Portugisiskt brohuvud i Indien.'},
+{y:1557,t:'Macau etableras',d:'Portugisisk handelsutpost i Kina.'},
+{y:1580,t:'Iberiska unionen',d:'Spanien och Portugal förenas under en kung.'},
+{y:1975,t:'Angola blir fritt',d:'Portugals sista afrikanska kolonier befrias.'}]},
+{name:'Spanska imperiet',period:'1492–1898',events:[
+{y:1492,t:'Columbus seglar',d:'Startskottet för spansk expansion.'},
+{y:1494,t:'Tordesillas-fördraget',d:'Spanien och Portugal delar upp världen.'},
+{y:1521,t:'Aztekerna faller',d:'Cortés erövrar Tenochtitlán.'},
+{y:1533,t:'Inkariket faller',d:'Pizarro tillfångatar Atahualpa.'},
+{y:1545,t:'Potosí-gruvan öppnas',d:'Enorma mängder silver skeppas till Europa.'},
+{y:1571,t:'Manila grundas',d:'Spanien kopplar samman Amerika med Asien.'},
+{y:1810,t:'Latinamerikansk frihet',d:'Simón Bolívar leder frihetskampen.'},
+{y:1898,t:'Imperiet kollapsar',d:'Spanien förlorar sina sista områden till USA.'}]},
+{name:'Holländska imperiet',period:'1602–1799',events:[
+{y:1602,t:'VOC grundas',d:'Det nederländska ostindiska kompaniet får monopol på all tänkbar handel i Asien.'},
+{y:1619,t:'Batavia erövras',d:'Holländarna grundar sin väldiga asiatiska huvudstad (som idag är Jakarta i Indonesien).'},
+{y:1625,t:'New Amsterdam grundas',d:'Holländarna etablerar staden på Manhattan som britterna senare kommer döpa om till New York.'},
+{y:1652,t:'Kapkolonin etableras',d:'Jan van Riebeeck bygger en livsviktig förnödenhetsstation vid Godahoppsudden i Sydafrika.'},
+{y:1799,t:'VOC upplöses',d:'Det en gång omåttligt rika företaget går i konkurs på grund av korruption och ständiga krig mot britterna.'}]},
+{name:'Brittiska imperiet',period:'1600–1997',events:[
+{y:1600,t:'Ostindiska kompaniet',d:'Handelsmonopol som blir en stat i staten.'},
+{y:1757,t:'Slaget vid Plassey',d:'Kompaniet tar kontroll över Bengal.'},
+{y:1788,t:'Australien koloniseras',d:'Straffångar landar i Botany Bay.'},
+{y:1815,t:'Kapkolonin blir brittisk',d:'Storbritannien tar över från holländarna i Sydafrika.'},
+{y:1839,t:'Första opiumkriget',d:'Storbritannien tvingar genom krigsmakt Kina att öppna sina hamnar för brittisk opiumhandel.'},
+{y:1857,t:'Sepoyupproret',d:'Indiens motstånd krossas brutalt.'},
+{y:1919,t:'Amritsar-massakern',d:'Brittiska trupper skjuter mot fredliga indier.'},
+{y:1947,t:'Indiens självständighet',d:'Imperiets kronjuvel blir fri.'},
+{y:1997,t:'Hongkong återlämnas',d:'Den sista symboliska akten för imperiet.'}]},
+{name:'Franska imperiet',period:'1534–1962',events:[
+{y:1534,t:'Kanada utforskas',d:'Jacques Cartier gör anspråk på landet.'},
+{y:1608,t:'Quebec grundas',d:'Champlain etablerar fransk närvaro.'},
+{y:1663,t:'Nya Frankrike blir provins',d:'Kolonin hamnar direkt under franska kungen.'},
+{y:1830,t:'Algeriet invaderas',d:'Början på en lång och blodig ockupation.'},
+{y:1887,t:'Franska Indokina',d:'Vietnam, Laos och Kambodja under fransk flagg.'},
+{y:1946,t:'Union française skapas',d:'Ett försök att behålla kontroll över kolonierna efter kriget.'},
+{y:1954,t:'Dien Bien Phu',d:'Frankrike förlorar kontrollen i Asien.'},
+{y:1962,t:'Algeriet blir fritt',d:'Ett sjuårigt krig för självständighet slutar.'}]},
+{name:'Kapplöpningen om Afrika',period:'1881–1914',events:[
+{y:1881,t:'Ockupationen av Tunisien',d:'Frankrike inleder den nya, aggressiva fasen av europeisk imperialism i Afrika.'},
+{y:1882,t:'Brittiska Egypten',d:'Storbritannien tar kontroll över Egypten och Suezkanalen.'},
+{y:1884,t:'Berlinkonferensen',d:'Europas makter sätter sig vid ett bord och drar godtyckliga gränser över den afrikanska kartan.'},
+{y:1885,t:'Kongofristaten skapas',d:'Kung Leopold II utropar sin fruktansvärda personliga regim i Kongo.'},
+{y:1898,t:'Fashodakonflikten',d:'Storbritannien och Frankrike hamnar på randen till krig över en avlägsen utpost i Sudan.'},
+{y:1914,t:'Nästintill total kontroll',d:'Endast Liberia och Etiopien har lyckats bevara sin självständighet.'}]},
+{name:'Avkolonisering',period:'1947–2000',events:[
+{y:1945,t:'Vietnam förklarar sig fritt',d:'Ho Chi Minh utropar självständighet från Frankrike.'},
+{y:1947,t:'Indiens delning',d:'Brittiska Indien blir Indien och Pakistan.'},
+{y:1956,t:'Suezkrisen',d:'Visar att de gamla kolonialmakternas tid är förbi.'},
+{y:1957,t:'Ghana blir fritt',d:'Den svarta stjärnan lyser i Afrika.'},
+{y:1960,t:'Afrikas år',d:'Självständighetsvågen når sin topp.'},
+{y:1961,t:'Patrice Lumumba mördas',d:'Kongos förste folkvalda premiärminister mördas med utländsk inblandning, vilket kastar landet in i kaos.'},
+{y:1962,t:'Algeriet fritt',d:'Slutet på fransk närvaro i Nordafrika.'},
+{y:1975,t:'Portugisiska revolutionen',d:'Leder till omedelbar frihet för kolonierna.'},
+{y:1980,t:'Rhodesia blir Zimbabwe',d:'Efter ett långt, rasistiskt minoritetsstyre och inbördeskrig blir landet äntligen fritt.'},
+{y:1999,t:'Macau återlämnas',d:'Sista europeiska besittningen i Asien upphör.'}]}
+]},
+{id:'industri',name:'Industrialisering',icon:'🏭',color:'#94a3b8',timelines:[
+{name:'Textilrevolutionen',period:'1733–1800',events:[
+{y:1733,t:'Flygande skytteln',d:'Kay snabbar upp vävningen dramatiskt.'},
+{y:1738,t:'Paul-Wyatt spinnmaskin',d:'Första försöket att mekanisera spinningen.'},
+{y:1764,t:'Spinning Jenny',d:'Hargreaves mångdubblar garnproduktionen.'},
+{y:1769,t:'Vattenramen',d:'Arkwright driver spinnerier med vattenkraft.'},
+{y:1779,t:'Spinning Mule',d:'Möjliggör produktion av extra fint garn.'},
+{y:1784,t:'Helautomatisk mjölkvarn',d:'Evans skapar den första helautomatiska fabriksprocessen.'},
+{y:1785,t:'Ångdriven vävstol',d:'Hela textilprocessen blir mekaniserad.'},
+{y:1793,t:'Cotton Gin',d:'Effektiviserar bomullsrensningen i USA.'}]},
+{name:'Ångmaskinen & transport',period:'1712–1870',events:[
+{y:1712,t:'Newcomens ångmaskin',d:'Används för att pumpa vatten ur gruvor.'},
+{y:1769,t:'Watts förbättring',d:'Ångmaskinen blir effektiv nog för fabriker.'},
+{y:1807,t:'Ångbåten Clermont',d:'Fultons båt visar ångans kraft på vatten.'},
+{y:1814,t:'Lokomotivet Blücher',d:'George Stephenson bygger sitt första lokomotiv.'},
+{y:1825,t:'Första järnvägen',d:'Stockton-Darlington öppnar för passagerare.'},
+{y:1829,t:'Stephensons Rocket',d:'Det lok som vinner tävlingen om järnvägens framtid.'},
+{y:1837,t:'S.S. Great Western',d:'Första ångfartyget byggt för oceanresor.'},
+{y:1869,t:'Transamerikanska järnvägen',d:'Förbinder USA:s öst- och västkust.'}]},
+{name:'Järnvägens expansion',period:'1825–1883',events:[
+{y:1825,t:'Första passagerartåget',d:'Stockton and Darlington Railway öppnar i England, den allra första ångdrivna passagerarlinjen.'},
+{y:1830,t:'Liverpool-Manchester',d:'Världens första moderna och dubbelspåriga järnväg, som enbart drevs av ånglok, invigs.'},
+{y:1856,t:'Första tåget i Sverige',d:'Den första allmänna, ångdrivna järnvägen öppnas mellan Nora och Ervalla.'},
+{y:1869,t:'Transkontinentala järnvägen',d:'Arbetare (många från Kina och Irland) knyter slutligen samman USA:s öst- och västkust i Utah.'},
+{y:1883,t:'Orientexpressen',d:'Den otroligt lyxiga tåglinjen mellan Paris och Istanbul gör sin berömda jungfrufärd.'}]},
+{name:'Oljan & Bilismens genombrott',period:'1859–1950',events:[
+{y:1859,t:'Första oljeborren',d:'Edwin Drake borrar i Pennsylvania och inleder oljeeran.'},
+{y:1885,t:'Den första moderna bilen',d:'Karl Benz bygger "Motorwagen", världens första bil designad för en förbränningsmotor.'},
+{y:1901,t:'Oljeboom i Texas',d:'Fyndet vid Spindletop startar den amerikanska oljerushen.'},
+{y:1908,t:'Ford Model T',d:'Bilen upphör att vara en lyxvara och blir tillgänglig för massorna.'},
+{y:1913,t:'Löpande bandet införs',d:'Henry Fords fabriker revolutionerar hur produkter tillverkas.'},
+{y:1938,t:'Volkswagen Bubblan',d:'Folkvagnen börjar tillverkas i Tyskland, ämnad som en bil för hela folket.'}]},
+{name:'Stål, el & kommunikation',period:'1844–1910',events:[
+{y:1844,t:'Telegrafen',d:'Morse skickar det första elektriska meddelandet.'},
+{y:1856,t:'Bessemermetoden',d:'Massproduktion av billigt stål blir möjlig.'},
+{y:1866,t:'Transatlantisk kabel',d:'Europa och Amerika kopplas samman via telegraf.'},
+{y:1876,t:'Telefonen',d:'Bell patenterar sin uppfinning.'},
+{y:1879,t:'Glödlampan',d:'Edison förändrar hur vi lever efter mörkrets inbrott.'},
+{y:1888,t:'Första bilturen',d:'Bertha Benz bevisar bilens potential genom att göra den första långa resan i sin makes bensinbil.'},
+{y:1892,t:'Dieselmotorn',d:'Rudolf Diesel skapar en effektivare förbränningsmotor.'},
+{y:1895,t:'Radion',d:'Marconi sänder trådlösa signaler.'},
+{y:1903,t:'Brd Wrights flygning',d:'Världens första motoriserade flygning.'}]},
+{name:'Massproduktion',period:'1900–1950',events:[
+{y:1903,t:'Ford Motor Company',d:'Henry Ford börjar bygga bilar för massorna.'},
+{y:1908,t:'Model T',d:'Världens första prisvärda bil.'},
+{y:1911,t:'Taylorism',d:'Vetenskaplig ledning effektiviserar fabrikerna.'},
+{y:1913,t:'Löpande bandet',d:'Produktionstiden för en bil halveras.'},
+{y:1920,t:'Radion i hemmen',d:'Blir den första massmedian i folks vardagsrum.'},
+{y:1936,t:'BBC sändningar',d:'Världens första regelbundna TV-sändningar.'},
+{y:1940,t:'Radar-tekniken',d:'Utvecklas dramatiskt under krigsåren.'},
+{y:1947,t:'Transistorn',d:'Liten uppfinning som möjliggör all framtida elektronik.'}]},
+{name:'Digital & grön revolution',period:'1960–2025',events:[
+{y:1956,t:'Containern introduceras',d:'Standardiserade fraktcontainrar lanseras, vilket drastiskt sänker kostnaderna för den globaliserade världshandeln.'},
+{y:1969,t:'ARPANET',d:'Det första embryot till dagens internet.'},
+{y:1971,t:'Mikroprocessorn',d:'Hjärnan i den personliga datorn skapas.'},
+{y:1976,t:'Apple I släpps',d:'Hemdatorn börjar bli en verklig produkt.'},
+{y:1981,t:'IBM PC',d:'Datorn blir en standard för kontor i hela världen.'},
+{y:1995,t:'Internetboomen',d:'Webben förändrar handel och kommunikation.'},
+{y:2007,t:'iPhone lanseras',d:'Smartphonen förändrar mänskligt beteende helt.'},
+{y:2015,t:'Smarta hem',d:'Uppkopplade prylar i hemmet blir mainstream.'},
+{y:2020,t:'Elbilens genombrott',d:'Omställningen från bensin börjar gå snabbt.'}]}
+]},
+{id:'kvinnor',name:'Kvinnohistoria',icon:'♀️',color:'#ec4899',timelines:[
+{name:'Antikens & medeltida kvinnor',period:'1479 f.Kr.–1500',events:[
+{y:-1479,t:'Hatshepsut regerar',d:'En av Egyptens mest framgångsrika faraoner.'},
+{y:-600,t:'Sapfo på Lesbos',d:'En av antikens mest hyllade kvinnliga poeter.'},
+{y:-69,t:'Kleopatra VII',d:'Den sista faraon i Egypten.'},
+{y:415,t:'Hypatia mördas',d:'Den berömda astronomen i Alexandria dödas av en folkmassa.'},
+{y:614,t:'Khadija bint Khuwaylid',d:'Framgångsrik affärskvinna och islams första anhängare.'},
+{y:1098,t:'Hildegard av Bingen',d:'Vetenskapskvinna och kompositör i medeltidens Tyskland.'},
+{y:1412,t:'Jeanne d\'Arc',d:'Leder den franska armén vid 17 års ålder.'},
+{y:1451,t:'Isabella av Kastilien',d:'Enar Spanien och finansierar Columbus resor.'}]},
+{name:'Kvinnor i vetenskapen',period:'400 f.Kr.–1960',events:[
+{y:-400,t:'Agnodike',d:'Enligt legenden var hon en av de första kvinnliga läkarna (gynekolog) i antikens Aten.'},
+{y:415,t:'Hypatia',d:'Matematiker, astronom och filosof som ledde den platonska skolan i Alexandria.'},
+{y:1843,t:'Ada Lovelace',d:'Matematiker som publicerar historiens absolut första algoritm tänkt att köras på en dator.'},
+{y:1903,t:'Marie Curie',d:'Vinner sitt första Nobelpris för forskning kring radioaktivitet. (Får ett till 1911).'},
+{y:1953,t:'Foto 51',d:'Rosalind Franklins röntgenbild är avgörande för upptäckten av DNA:s dubbelhelixstruktur.'},
+{y:1960,t:'Jane Goodall',d:'Påbörjar sina banbrytande observationer av schimpansers beteende i Tanzania.'}]},
+{name:'Tidiga feminister',period:'1700–1870',events:[
+{y:1785,t:'Kvinnliga akademier i Ryssland',d:'Katarina den stora satsar på flickors utbildning.'},
+{y:1791,t:'Olympe de Gouges',d:'Publicerar deklarationen om kvinnans rättigheter.'},
+{y:1792,t:'Mary Wollstonecraft',d:'Skriver sitt berömda försvar för kvinnans rättigheter.'},
+{y:1837,t:'Drottning Victoria',d:'Påbörjar en rekordlång regeringstid i Storbritannien.'},
+{y:1848,t:'Seneca Falls',d:'Första stora kvinnorättskonferensen i USA.'},
+{y:1849,t:'Elizabeth Blackwell',d:'Blir den allra första kvinnan i USA som tar en fullvärdig medicinsk examen.'},
+{y:1850,t:'Fredrika Bremer',d:'Kämpar för kvinnans myndighet i Sverige.'},
+{y:1851,t:'Sojourner Truths tal',d:'Håller det historiska talet "Ain\'t I a Woman?".'},
+{y:1869,t:'Wyoming ger rösträtt',d:'Första delstaten i USA med rösträtt för kvinnor.'}]},
+{name:'Suffragettrörelsen',period:'1893–1928',events:[
+{y:1893,t:'Nya Zeeland först',d:'Kvinnor får rösträtt i parlamentariska val.'},
+{y:1903,t:'Marie Curie',d:'Första kvinnliga Nobelpristagaren.'},
+{y:1906,t:'Finland ger rösträtt',d:'Först i Europa med full kvinnlig rösträtt.'},
+{y:1911,t:'Internationella kvinnodagen',d:'Dagen firas för första gången brett internationellt med krav på rösträtt och jämställdhet.'},
+{y:1913,t:'Emily Davison',d:'Suffragett som dör för kampen vid hästkapplöpningar.'},
+{y:1918,t:'Tyskland ger rösträtt',d:'Kvinnor får rösträtt i den nya Weimarrepubliken.'},
+{y:1920,t:'USA:s 19:e tillägg',d:'Kvinnor får konstitutionell rösträtt i hela landet.'},
+{y:1921,t:'Sverige ger rösträtt',d:'Kvinnor deltar i sitt första riksdagsval.'},
+{y:1928,t:'Full rösträtt i UK',d:'Alla kvinnor över 21 får rösta på samma villkor som män.'}]},
+{name:'Kvinnor i krig och motstånd',period:'1854–1945',events:[
+{y:1854,t:'Florence Nightingale',d:'Inleder sitt banbrytande och strukturerade sjukvårdsarbete under det blodiga Krimkriget.'},
+{y:1917,t:'Dödsbataljonerna',d:'Ryssland skapar särskilda kvinnliga förband för att strida vid fronten i första världskriget.'},
+{y:1942,t:'Natthäxorna',d:'Det sovjetiska 588:e nattbombregementet utför tusentals extremt riskabla uppdrag mot nazisterna.'},
+{y:1943,t:'Nancy Wake',d:'Den australiska spionen blir Gestapos mest eftersökta person i det ockuperade Frankrike.'},
+{y:1944,t:'Warszawaupproret',d:'Tusentals polska kvinnor strider stenhårt som både soldater och sjukvårdare mot ockupationsmakten.'}]},
+{name:'Andra vågens feminism',period:'1949–1990',events:[
+{y:1949,t:'Det andra könet',d:'Simone de Beauvoirs verk lägger grunden för modern feminism.'},
+{y:1960,t:'P-pillret godkänns',d:'Ger kvinnor kontroll över sin egen reproduktion.'},
+{y:1963,t:'Den feminina mystiken',d:'Betty Friedan beskriver hemmafruarnas instängda tillvaro.'},
+{y:1968,t:'Ford-strejken för lika lön',d:'Kvinnliga bilsömmerskor strejkar i Storbritannien, vilket banar väg för lagstiftning om lika lön.'},
+{y:1970,t:'Kvinnostrejk på Island',d:'90 % av kvinnorna slutar arbeta en dag för att visa sin betydelse.'},
+{y:1975,t:'FN:s kvinnoår',d:'Jämställdhet blir en global politisk prioritet.'},
+{y:1979,t:'Margaret Thatcher',d:'Blir Storbritanniens första kvinnliga premiärminister.'},
+{y:1980,t:'Vigdis Finnbogadóttir',d:'Islands president blir världens första demokratiskt valda kvinnliga statschef.'},
+{y:1981,t:'Första kvinnan i SCOTUS',d:'Sandra Day O\'Connor blir domare i USA:s högsta domstol.'}]},
+{name:'Modern feminism',period:'1995–2025',events:[
+{y:1995,t:'Pekingdeklarationen',d:'FN-konferens om kvinnors rättigheter i hela världen.'},
+{y:2006,t:'Ellen Johnson Sirleaf',d:'Afrikas första folkvalda kvinnliga president (Liberia).'},
+{y:2012,t:'Malala Yousafzai',d:'Skjuts för sin kamp för flickors utbildning – får Nobels fredspris.'},
+{y:2015,t:'#JagÄrHär',d:'Svensk nätrörelse mot näthat mot kvinnor.'},
+{y:2017,t:'#MeToo',d:'Global rörelse mot sexuella trakasserier och maktmissbruk.'},
+{y:2020,t:'Kamala Harris',d:'Första kvinnliga vicepresidenten i USA:s historia.'},
+{y:2022,t:'Aborträtten i USA',d:'Roe v. Wade rivs upp, vilket väcker enorm protestvåg.'},
+{y:2024,t:'Högsta representationen',d:'Fler kvinnliga ledare än någonsin tidigare i historien.'}]}
+]},
+{id:'miljo',name:'Miljö & klimat',icon:'🌱',color:'#22c55e',timelines:[
+{name:'Människan förändrar naturen',period:'8000 f.Kr.–1800',events:[
+{y:-8000,t:'Jordbruksrevolutionen',d:'Landskapet börjar omformas permanent av odling.'},
+{y:-3000,t:'Avskogning i Sumer',d:'Stora skogar försvinner för att bygga städer och skepp.'},
+{y:-1000,t:'Bevattning i Kina',d:'Floder leds om för storskaligt jordbruk.'},
+{y:1306,t:'Kolförbud i London',d:'Kung Edward I förbjuder eldning av stenkol p.g.a. smog.'},
+{y:1500,t:'Columbianskt utbyte',d:'Nya arter sprids globalt och rubbar lokala ekosystem.'},
+{y:1600,t:'Dronten dör ut',d:'Det första kända exemplet på en art utrotad av människan.'},
+{y:1700,t:'Europas skogar borta',d:'Intensiv skogsavverkning tvingar fram jakt på nya bränslen.'},
+{y:1760,t:'Industrins avgaser',d:'Koldioxidhalten börjar stiga med fabrikernas intåg.'}]},
+{name:'Havens & Fiskets kris',period:'1800–2023',events:[
+{y:1800,t:'Industriell valfångst',d:'Nya fartygstyper och metoder gör att valpopulationerna globalt skjuts i sank.'},
+{y:1954,t:'Minamatakatastrofen',d:'Tusentals människor i Japan förgiftas av industriellt kvicksilver som släppts ut i havet.'},
+{y:1986,t:'Moratorium på valfångst',d:'Ett internationellt förbud mot kommersiell valfångst införs för att rädda arterna.'},
+{y:1992,t:'Torskfisket kollapsar',d:'Överfiske leder till att populationen utanför Newfoundland fullständigt kollapsar.'},
+{y:1997,t:'Plastkontinenten upptäcks',d:'Forskare upptäcker the "Great Pacific Garbage Patch", enorma mängder plast samlat i havet.'},
+{y:2015,t:'Förbud mot mikroplaster',d:'Lagar mot mikroplaster i kosmetika börjar spridas globalt för att skydda ekosystemen.'},
+{y:2023,t:'Avtal om världshaven',d:'FN enas om det historiska BBNJ-avtalet för att skydda internationella vatten.'}]},
+{name:'Industrins miljöpåverkan',period:'1859–1962',events:[
+{y:1859,t:'Första oljekällan',d:'Början på den fossila eran i Pennsylvania.'},
+{y:1872,t:'Yellowstone nationalpark',d:'Världens första statliga naturreservat skapas.'},
+{y:1883,t:'Krakataus utbrott',d:'Ett enormt vulkanutbrott sänker jordens temperatur i flera år framöver.'},
+{y:1896,t:'Arrhenius beräkningar',d:'Visar att koldioxid i atmosfären värmer jorden.'},
+{y:1905,t:'Naturskydd i Sverige',d:'Svenska Naturskyddsföreningen grundas.'},
+{y:1930,t:'Dust Bowl i USA',d:'Ekologisk katastrof på prärien p.g.a. dåligt jordbruk.'},
+{y:1948,t:'Donora-smoggen',d:'En giftig dimma i USA dödar 20 personer och väcker debatt.'},
+{y:1952,t:'The Great Smog of London',d:'Tusentals dör av kolrök, leder till miljölagar.'},
+{y:1962,t:'Tyst vår publiceras',d:'Rachel Carson varnar för miljögifter som DDT.'}]},
+{name:'Miljörörelsen',period:'1970–2000',events:[
+{y:1970,t:'Första Earth Day',d:'Miljontals människor demonstrerar för miljön i USA.'},
+{y:1971,t:'Greenpeace grundas',d:'Aktivistgrupp börjar protestera mot kärnvapenprov och valfångst.'},
+{y:1972,t:'Stockholmskonferensen',d:'FN:s första stora miljökonferens hålls i Sverige.'},
+{y:1985,t:'Ozonhålet upptäcks',d:'Forskare ser att ozonskiktet över Antarktis tunnats ut.'},
+{y:1986,t:'Tjernobylolyckan',d:'Kärnkraftens risker blir en global huvudfråga.'},
+{y:1987,t:'Montrealprotokollet',d:'Världen enas om att förbjuda ämnen som förstör ozonlagret.'},
+{y:1989,t:'Exxon Valdez-katastrofen',d:'En oljetanker går på grund i Alaska och orsakar en av historiens värsta naturkatastrofer.'},
+{y:1992,t:'Riokonferensen',d:'Agenda 21 och klimatmålen börjar formuleras.'},
+{y:1997,t:'Kyotoprotokollet',d:'Ett internationellt avtal om att minska växthusgaser.'}]},
+{name:'Klimatkrisen',period:'2006–2025',events:[
+{y:2006,t:'En obekväm sanning',d:'Al Gores film gör klimathotet till en världsfråga.'},
+{y:2010,t:'Deepwater Horizon',d:'En massiv explosion på en oljeplattform skapar enorm förödelse i Mexikanska golfen.'},
+{y:2011,t:'Fukushima-olyckan',d:'Energidebatten förändras efter tsunamin i Japan.'},
+{y:2015,t:'Parisavtalet',d:'Världens länder enas om att begränsa uppvärmningen till 1.5 grader.'},
+{y:2018,t:'Greta Thunberg strejkar',d:'Skolstrejk för klimatet sprids över hela världen.'},
+{y:2019,t:'Australiens bränder',d:'Klimatförändringar driver enorma skogsbränder som ödelägger gigantiska ytor av kontinenten.'},
+{y:2021,t:'COP26 i Glasgow',d:'Världen lovar att börja fasa ut kolkraften.'},
+{y:2023,t:'Varmaste året någonsin',d:'Nya temperaturrekord slås nästan varje månad.'},
+{y:2024,t:'Global rekordhetta',d:'Extremväder blir det nya normala i stora delar av världen.'},
+{y:2025,t:'Energiresan fortsätter',d:'Fokus på att ställa om industrin innan det är för sent.'}]}
+]}
+];
+
+// ══════════════════════════════════════════════════
+// QUIZ 
+// ══════════════════════════════════════════════════
+const QUIZZES=[
+{name:'Vad hände samtidigt?',icon:'⏱️',info:'8 frågor om parallella händelser',questions:[
+{q:'Ungefär samtidigt som Romarriket grundades som republik (~500 f.Kr.) – vad hände i Asien?',opts:['Kinas mur färdigbyggdes','Induskulturen blomstrade','Buddha och Konfucius levde','Mongolerna erövrade Kina'],c:2,ex:'Både Buddha (~563 f.Kr.) och Konfucius (~551 f.Kr.) levde vid samma tid som den romerska republiken grundades.'},
+{q:'Medan vikingarna härjade (ca 800) – vad pågick i Mellanöstern?',opts:['Korsfararna attackerade','Osmanska riket växte','Muhammed predikade','Bagdad var ett vetenskapscentrum'],c:3,ex:'Abbasidernas Bagdad var under 700-800-talen ett av världens främsta centra för vetenskap och kultur.'},
+{q:'Vad hände i Amerika ungefär samtidigt som digerdöden härjade i Europa (1347)?',opts:['Aztekerna byggde Tenochtitlán','Columbus hade just anlänt','Inbördeskriget pågick','Maya hade redan försvunnit'],c:0,ex:'Aztekerna grundade sin huvudstad Tenochtitlán år 1325, bara 22 år innan digerdöden nådde Europa.'},
+{q:'Medan Martin Luther slog upp sina teser (1517) – vad hände i Afrika?',opts:['Ghana blev självständigt','Songhaiimperiet blomstrade','Mandela satt i fängelse','Berlinkonferensen hölls'],c:1,ex:'Songhaiimperiet under Askia Mohammed (1493-1528) var Västafrikas mäktigaste rike precis när Luther utmanade påven.'},
+{q:'År 1776 antog USA sin självständighetsförklaring. Vad hände i Japan?',opts:['Meiji-restaurationen pågick','Samurajer styrde under Tokugawa','Andra världskriget rasade','Japan erövrade Korea'],c:1,ex:'Japan levde i strikt isolering under Tokugawa-shogunatet (1600-1868) medan Amerika förklarade sig fritt.'},
+{q:'Samma decennium som Berlinmuren föll (1989) – vad hände i miljöpolitiken?',opts:['Greta Thunberg strejkade','Parisavtalet skrevs','Montrealprotokollet antogs','Första Earth Day hölls'],c:2,ex:'Montrealprotokollet antogs 1987 – världen enades om att skydda ozonskiktet, samtidigt som demokrati spreds.'},
+{q:'Vad pågick i Sydamerika medan den industriella revolutionen tog fart i England (~1770)?',opts:['Inkarikets fall','Columbus ankomst','Brasilien bröt sig fritt','Kolonierna kämpade ännu under Spanien'],c:3,ex:'Sydamerikas befrielsekrig låg fortfarande 40 år framåt – kolonierna var under spanskt och portugisiskt styre.'},
+{q:'År 1869 öppnades Suezkanalen. Vad publicerades samma decennium?',opts:['Darwins evolutionsteori','Newtons Principia','Einsteins relativitetsteori','Adam Smiths Nationernas välstånd'],c:0,ex:'Darwin publicerade Om arternas uppkomst 1859, samma decennium som Suezkanalen öppnade.'}
+]},
+{name:'Kopplingar genom historien',icon:'🔗',info:'8 frågor om orsak och verkan',questions:[
+{q:'Tryckpressen (1440) hade direkt effekt på vilken händelse?',opts:['Digerdöden','Korstågen','Reformationen','Romerska rikets fall'],c:2,ex:'Tryckpressen möjliggjorde att Luthers teser spreds blixtsnabbt och nådde hela Europa.'},
+{q:'Hur hänger amerikanska revolutionen ihop med den franska?',opts:['USA:s frihetskamp inspirerade Frankrike','Napoleon invaderade USA','De hade ingen koppling','Frankrike koloniserade USA'],c:0,ex:'Upplysningsidéerna och den amerikanska segern inspirerade direkt de franska revolutionärerna.'},
+{q:'Vilken effekt hade Berlinkonferensen (1884) på Afrika långsiktigt?',opts:['Den ledde till demokrati','Afrikansk industri växte','Den stärkte afrikanska riken','Godtyckliga gränser skapade etniska konflikter'],c:3,ex:'Europeiska gränsdragningar utan hänsyn till etniska grupper lade grunden för framtida konflikter.'},
+{q:'Hur påverkade industriella revolutionen kolonialmakternas expansion?',opts:['Den hade ingen effekt','Kolonierna blev självständiga','Teknisk överlägsenhet möjliggjorde erövring','Den försvagade Europa'],c:2,ex:'Ångfartyg, järnvägar och moderna vapen gav europeiska makter enorm militär överlägsenhet.'},
+{q:'Vilken koppling finns mellan Watts ångmaskin och dagens klimatkris?',opts:['Ångmaskinen orsakade tsunamier','Ingen direkt koppling','Ångmaskinen skapade ozonhålet','Den startade den fossila eran'],c:3,ex:'Ångmaskinen drev fossila bränslen till industriellt bruk, vilket inledde den massiva ökningen av koldioxidutsläpp.'},
+{q:'Hur hänger sidenvägen ihop med digerdöden?',opts:['Pesten spreds via handelsvägar','Marco Polo spred pesten','Sidenvägen stängdes av pesten','De hänger inte ihop'],c:0,ex:'Digerdöden spreds via handelsvägar och mongoliska arméer från Centralasien till Europa.'},
+{q:'Andra världskrigets slut och avkoloniseringen – koppling?',opts:['Krig hade ingen effekt på kolonier','Kriget försvagade kolonialmakterna','FN förbjöd alla kolonier direkt','USA tvingade alla att ge upp kolonier'],c:1,ex:'Kriget försvagade europeiska makter ekonomiskt och inspirerade koloniserade folk att kräva frihet.'},
+{q:'Napoleon erövrade Spanien – vilken oväntad konsekvens fick det?',opts:['Japan öppnade sina gränser','Latinamerika kunde befria sig','Egyptens pyramider upptäcktes','Slavhandeln avskaffades'],c:1,ex:'Spaniens försvagning under Napoleon gav latinamerikanska frihetsrörelser sitt gyllene tillfälle.'}
+]},
+{name:'Historiska kuriosa',icon:'🎯',info:'8 frågor om överraskande fakta',questions:[
+{q:'Vilket land antog världens första tryckfrihetsförordning?',opts:['USA','Sverige','England','Frankrike'],c:1,ex:'Sverige antog 1766 världens första tryckfrihetsförordning.'},
+{q:'Vem sänkte guldpriset i Medelhavsvärlden med en enda resa?',opts:['Djingis Khan','Kleopatra','Alexander den store','Mansa Musa av Mali'],c:3,ex:'Mansa Musas pilgrimsresa 1324 med enorma mängder guld sänkte priset i hela regionen.'},
+{q:'Historiens första dokumenterade spekulationsbubbla var...',opts:['Tulpanmanin','Bitcoinkraschen','Wall Street 1929','South Sea Bubble'],c:0,ex:'Den holländska tulpanmanin 1637 var historiens första spekulationsbubbla.'},
+{q:'Vilket afrikanskt rike besegrade en europeisk makt i slag 1896?',opts:['Mali','Etiopien','Sydafrika','Ghana'],c:1,ex:'Etiopien besegrade Italien vid Adwa 1896 och förblev fritt under kapplöpningen om Afrika.'},
+{q:'Vem beräknade redan 1896 att koldioxid kunde värma jorden?',opts:['Marie Curie','Albert Einstein','Svante Arrhenius','Charles Darwin'],c:2,ex:'Den svenske kemisten Arrhenius var först att beräkna koldioxidens växthuseffekt.'},
+{q:'Vilket var det första landet att ge kvinnor full rösträtt?',opts:['Sverige','USA','Finland','Nya Zeeland'],c:3,ex:'Nya Zeeland gav kvinnor rösträtt 1893, först i hela världen.'},
+{q:'Vilken uppfinning hade störst effekt på reformationen?',opts:['Tryckpressen','Kompasssen','Krutet','Teleskopet'],c:0,ex:'Gutenbergs tryckpress var avgörande – utan den hade Luthers idéer aldrig kunnat spridas.'},
+{q:'Var hölls FN:s allra första internationella miljökonferens?',opts:['New York','Rio de Janeiro','Stockholm','Paris'],c:2,ex:'1972 hölls FN:s första miljökonferens i Stockholm, Sverige.'}
+]}
+];
+
+// ══════════════════════════════════════════════════
+// STATE & INIT
+// ══════════════════════════════════════════════════
+let pts=0,cQuiz=-1,cQ=0,qScore=0,qAns=false,cmpSlots=[null,null],openDropdown=-1;
+
+document.addEventListener('DOMContentLoaded',()=>{
+  initStarfield();renderCatGrid();renderQuizSel();updateTW(1500);renderStats();countAll();
+  
+  document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',function(){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sec-'+this.dataset.sec).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(n=>n.classList.remove('active'));
+    this.classList.add('active');window.scrollTo({top:180,behavior:'smooth'});
+  }));
+  window.addEventListener('scroll',()=>document.getElementById('back-top').classList.toggle('visible',scrollY>400));
+  document.addEventListener('click',e=>{if(!e.target.closest('.compare-slot')){document.querySelectorAll('.cp-dropdown').forEach(d=>d.classList.remove('open'));openDropdown=-1;}});
+});
+
+function countAll(){
+  let tl=0,ev=0;DATA.forEach(c=>{tl+=c.timelines.length;c.timelines.forEach(t=>ev+=t.events.length);});
+  document.getElementById('hstat-tl').textContent=tl;document.getElementById('hstat-ev').textContent=ev;
+}
+
+// ══════════════════════════════════════════════════
+// STARFIELD (WITH SHOOTING STARS)
+// ══════════════════════════════════════════════════
+function initStarfield(){
+  const c=document.getElementById('starfield'),ctx=c.getContext('2d');let w,h,stars=[],shootingStars=[];
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight;stars=Array.from({length:150},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.5+.3,a:Math.random()*5,s:Math.random()*.03+.01}));}
+  resize();addEventListener('resize',resize);
+  
+  function createShootingStar() {
+    if(Math.random() > 0.02) return; // 2% chance per frame to spawn
+    shootingStars.push({x: Math.random()*w, y: 0, vx: (Math.random()-0.5)*10, vy: Math.random()*10+5, life: 1, maxLife: Math.random()*30+20});
+  }
+
+  (function draw(){
+    ctx.clearRect(0,0,w,h);
+    
+    // Background stars
+    stars.forEach(s=>{s.a+=s.s;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(232,184,75,${.35+Math.sin(s.a)*.35})`;ctx.fill();});
+    
+    // Shooting stars
+    createShootingStar();
+    for(let i=shootingStars.length-1; i>=0; i--) {
+        let st = shootingStars[i];
+        st.x += st.vx; st.y += st.vy; st.life++;
+        let opacity = 1 - (st.life/st.maxLife);
+        
+        ctx.beginPath();
+        ctx.moveTo(st.x, st.y);
+        ctx.lineTo(st.x - st.vx*3, st.y - st.vy*3); // trail
+        ctx.strokeStyle = `rgba(255,255,255,${opacity})`;
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+        
+        if(st.life > st.maxLife) shootingStars.splice(i, 1);
+    }
+    
+    requestAnimationFrame(draw);
+  })();
+}
+
+// ══════════════════════════════════════════════════
+// CATEGORY GRID & DETAIL
+// ══════════════════════════════════════════════════
+function renderCatGrid(){
+  document.getElementById('cat-grid').innerHTML=DATA.map(c=>`<div class="cat-card" onclick="showCategory('${c.id}')"><span class="cat-icon">${c.icon}</span><div class="cat-name">${c.name}</div><div class="cat-count">${c.timelines.length} tidslinjer</div><div class="cat-bar" style="background:${c.color}"></div></div>`).join('');
+  document.getElementById('cat-detail').innerHTML='';
+}
+
+function showCategory(id){
+  const cat=DATA.find(c=>c.id===id);if(!cat)return;
+  document.getElementById('cat-grid').style.display='none';
+  const det=document.getElementById('cat-detail');
+  det.innerHTML=`<div class="cat-detail"><div class="cat-detail-header"><button class="back-btn" onclick="backToCats()">← Tillbaka</button><span class="cat-big-icon">${cat.icon}</span><h2>${cat.name}</h2></div>
+  ${cat.timelines.map((tl,i)=>renderTimelineBlock(tl,cat.color,`${id}-${i}`)).join('')}</div>`;
+  addPts(2);
+}
+
+function backToCats(){document.getElementById('cat-grid').style.display='';document.getElementById('cat-detail').innerHTML='';}
+
+function renderTimelineBlock(tl,color,uid){
+  const evts=tl.events;
+  return `<div class="tl-block" id="tlb-${uid}">
+    <div class="tl-header" onclick="toggleTL('${uid}')">
+      <div class="tl-header-left"><div class="tl-header-title" style="color:${color}">${tl.name}</div><div class="tl-header-period">${tl.period}</div></div>
+      <div style="display:flex;align-items:center;gap:10px;"><span class="tl-header-count">${evts.length} händelser</span><span class="tl-header-arrow">▼</span></div>
+    </div>
+    <div class="tl-body"><div class="timeline-vis"><div class="timeline-track" style="min-width:${evts.length*190}px;">
+      <div class="timeline-line" style="background:linear-gradient(90deg,transparent,${color},transparent);"></div>
+      <div class="timeline-nodes" style="height:260px;">
+        ${evts.map((e,i)=>{
+          const pct=evts.length<=1?50:(i/(evts.length-1)*100);
+          const above=i%2===0;
+          return `<div class="tl-node-wrap" style="position:absolute;left:${pct}%;width:0;height:100%;">
+            <div class="tl-node" style="border-color:${color};background:var(--bg);" onclick="event.stopPropagation();toggleCard('${uid}-${i}');"></div>
+            <div class="tl-node-stem" style="background:${color};${above?'bottom:50%;height:40px;':'top:50%;height:40px;'}"></div>
+            <div class="tl-node-card" id="nc-${uid}-${i}" onclick="event.stopPropagation();toggleCard('${uid}-${i}');" style="${above?'bottom:calc(50% + 44px);top:auto;':'top:calc(50% + 44px);bottom:auto;'} border-top: 3px solid ${color};">
+              <div class="tl-node-year" style="color:${color}">${e.y<0?Math.abs(e.y)+' f.Kr.':e.y}</div>
+              <div class="tl-node-title">${e.t}</div>
+              <div class="tl-node-desc">${e.d}</div>
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+    </div></div></div>
+  </div>`;
+}
+
+function toggleTL(uid){document.getElementById('tlb-'+uid).classList.toggle('open');addPts(1);}
+function toggleCard(uid){
+    document.querySelectorAll('.tl-node-card.expanded').forEach(c => {
+        if(c.id !== 'nc-'+uid) c.classList.remove('expanded');
+    });
+    const c=document.getElementById('nc-'+uid);
+    c.classList.toggle('expanded');
+    if(c.classList.contains('expanded')) addPts(1);
+}
+
+// ══════════════════════════════════════════════════
+// COMPARE (Lodrät Layout)
+// ══════════════════════════════════════════════════
+function buildPickerDropdown(slot){
+  let html='';
+  DATA.forEach(cat=>{
+    html+=`<div class="cp-cat-label">${cat.icon} ${cat.name}</div>`;
+    cat.timelines.forEach((tl,i)=>{
+      html+=`<div class="cp-tl-item" onclick="event.stopPropagation();selectForCompare(${slot},'${cat.id}',${i})">${tl.name}<span class="cp-period">${tl.period}</span></div>`;
+    });
+  });
+  return html;
+}
+
+function openPicker(slot){
+  if(openDropdown===slot){document.getElementById('cpd'+slot).classList.remove('open');openDropdown=-1;return;}
+  document.querySelectorAll('.cp-dropdown').forEach(d=>d.classList.remove('open'));
+  const dd=document.getElementById('cpd'+slot);
+  dd.innerHTML=buildPickerDropdown(slot);dd.classList.add('open');openDropdown=slot;
+}
+
+function selectForCompare(slot,catId,tlIdx){
+  const cat=DATA.find(c=>c.id===catId);const tl=cat.timelines[tlIdx];
+  cmpSlots[slot]={catId,tlIdx,cat,tl};
+  document.getElementById('cs'+slot).classList.add('filled');
+  document.getElementById('csn'+slot).textContent=`${cat.icon} ${tl.name}`;
+  document.getElementById('csn'+slot).style.color=cat.color;
+  document.querySelectorAll('.cp-dropdown').forEach(d=>d.classList.remove('open'));openDropdown=-1;
+  document.getElementById('compare-go').disabled=!(cmpSlots[0]&&cmpSlots[1]);
+}
+
+function clearSlot(slot){
+  cmpSlots[slot]=null;
+  document.getElementById('cs'+slot).classList.remove('filled');
+  document.getElementById('csn'+slot).textContent='Klicka för att välja...';
+  document.getElementById('csn'+slot).style.color='';
+  document.getElementById('compare-go').disabled=true;
+  document.getElementById('compare-result').innerHTML='';
+}
+
+function doCompare(){
+  if(!cmpSlots[0]||!cmpSlots[1])return;
+  const a=cmpSlots[0],b=cmpSlots[1];
+  
+  // Hämta alla händelser och märk vilken sida de tillhör (0 = vänster, 1 = höger)
+  const allEvts=[
+    ...a.tl.events.map(e=>({...e,side:0,color:a.cat.color,catName:a.cat.name,tlName:a.tl.name,icon:a.cat.icon})),
+    ...b.tl.events.map(e=>({...e,side:1,color:b.cat.color,catName:b.cat.name,tlName:b.tl.name,icon:b.cat.icon}))
+  ];
+
+  // Sortera kronologiskt (äldst först)
+  allEvts.sort((e1, e2) => e1.y - e2.y);
+
+  // Bygg upp den lodräta layouten
+  let evtsHtml = '<div class="cmp-v-container"><div class="cmp-v-spine"></div>';
+
+  allEvts.forEach(e => {
+    const yrStr = e.y < 0 ? Math.abs(e.y) + ' f.Kr.' : e.y;
+    const sideClass = e.side === 0 ? 'cmp-v-side-0' : 'cmp-v-side-1';
+
+    evtsHtml += `
+      <div class="cmp-v-row">
+        <div class="cmp-v-year">${yrStr}</div>
+        <div class="cmp-v-card ${sideClass}" style="--evt-color:${e.color};">
+          <div class="cmp-v-card-cat">${e.icon} ${e.tlName}</div>
+          <div style="font-family:'Crimson Pro',serif; font-size:18px; font-weight:700; color:var(--text); margin-bottom:6px; line-height:1.2;">${e.t}</div>
+          <div style="font-size:13px; color:var(--text-dim); line-height:1.5;">${e.d}</div>
+        </div>
+      </div>
+    `;
+  });
+  evtsHtml += '</div>';
+
+  document.getElementById('compare-result').innerHTML=`
+    <div class="compare-overlay">
+      <div style="text-align:center; margin-bottom: 30px;">
+        <div style="font-family:'Crimson Pro',serif; font-size:28px; font-weight:700;">
+            <span style="color:${a.cat.color}">${a.cat.icon} ${a.tl.name}</span>
+            <span style="color:var(--text-muted); font-size:20px; margin:0 12px; font-family:'Outfit',sans-serif; font-weight:400;">mot</span>
+            <span style="color:${b.cat.color}">${b.cat.icon} ${b.tl.name}</span>
+        </div>
+        <div style="font-size:14px; color:var(--text-dim); margin-top:8px;">Händelserna visas sida vid sida i kronologisk ordning.</div>
+      </div>
+      ${evtsHtml}
+    </div>`;
+  
+  addPts(5);
+}
+
+// ══════════════════════════════════════════════════
+// TIDSLUCKAN
+// ══════════════════════════════════════════════════
+function updateTW(val){
+  let yr=parseInt(val);
+  
+  // Magnetisk snap-funktion: Snäpp till år 0 om man är nära (-80 till +80)
+  if(Math.abs(yr) < 80 && val !== "0") {
+     document.getElementById('tw-slider').value = 0;
+     yr = 0;
+  }
+  
+  document.getElementById('tw-year').textContent = yr < 0 ? Math.abs(yr) + ' f.Kr.' : yr === 0 ? 'År 0' : yr + ' e.Kr.';
+  
+  const range=60,results=[];
+  DATA.forEach(cat=>{cat.timelines.forEach(tl=>{tl.events.forEach(e=>{
+    if(Math.abs(e.y-yr)<=range) results.push({...e,catName:cat.name,catIcon:cat.icon,catColor:cat.color,tlName:tl.name});
+  });});});
+  results.sort((a,b)=>Math.abs(a.y-yr)-Math.abs(b.y-yr));
+  const c=document.getElementById('tw-results');
+  if(!results.length){c.innerHTML='<div style="text-align:center;padding:50px;color:var(--text-muted);grid-column:1/-1; font-size:16px;">🔭 Inga större händelser registrerade inom ±60 år just här. Flytta reglaget!</div>';return;}
+  c.innerHTML=results.map(r=>`<div class="tw-card" style="border-top-color:${r.catColor}"><div class="tw-card-cat"><span class="dot" style="background:${r.catColor}"></span>${r.catIcon} ${r.catName}</div><div class="tw-card-tl">↳ ${r.tlName}</div><div class="tw-card-year">${r.y<0?Math.abs(r.y)+' f.Kr.':r.y}</div><div class="tw-card-title">${r.t}</div><div class="tw-card-desc">${r.d}</div></div>`).join('');
+}
+
+// ══════════════════════════════════════════════════
+// SEARCH
+// ══════════════════════════════════════════════════
+function doSearch(q){
+  if(q.length<2){document.getElementById('s-results').innerHTML='';return;}
+  const lq=q.toLowerCase(),res=[];
+  DATA.forEach(cat=>{cat.timelines.forEach(tl=>{tl.events.forEach(e=>{
+    if(e.t.toLowerCase().includes(lq)||e.d.toLowerCase().includes(lq))
+      res.push({...e,catName:cat.name,catIcon:cat.icon,catColor:cat.color,tlName:tl.name});
+  });});});
+  const c=document.getElementById('s-results');
+  if(!res.length){c.innerHTML='<div style="padding:30px;text-align:center;color:var(--text-muted);">Inga träffar. Prova ett annat sökord!</div>';return;}
+  c.innerHTML=res.slice(0,25).map(r=>`<div class="sr-item"><div class="sr-year">${r.y<0?Math.abs(r.y):r.y}</div><div><div class="sr-meta" style="color:${r.catColor}">${r.catIcon} ${r.catName} • ${r.tlName}</div><div class="sr-title">${r.t}</div><div class="sr-desc">${r.d}</div></div></div>`).join('');
+  addPts(1);
+}
+
+// ══════════════════════════════════════════════════
+// QUIZ
+// ══════════════════════════════════════════════════
+function renderQuizSel(){
+  document.getElementById('quiz-area').innerHTML='<div class="quiz-sel">'+QUIZZES.map((qz,i)=>`<div class="quiz-sel-btn" onclick="startQuiz(${i})"><div class="quiz-sel-icon">${qz.icon}</div><div class="quiz-sel-name">${qz.name}</div><div class="quiz-sel-info">${qz.info}</div></div>`).join('')+'</div><div id="q-content"></div>';
+}
+function startQuiz(i){cQuiz=i;cQ=0;qScore=0;qAns=false;renderQ(); window.scrollTo({top: document.getElementById('sec-quiz').offsetTop + 100, behavior: 'smooth'});}
+function renderQ(){
+  const qz=QUIZZES[cQuiz],q=qz.questions[cQ],L=['A','B','C','D'];
+  const prog=qz.questions.map((_,i)=>`<div class="quiz-dot ${i<cQ?'done':i===cQ?'current':''}"></div>`).join('');
+  document.getElementById('q-content').innerHTML=`<div style="margin-bottom:20px;"><button class="back-btn" style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-sm);color:var(--text-dim);padding:8px 16px;cursor:pointer;font-family:'Outfit';" onclick="renderQuizSel();cQuiz=-1;">← Tillbaka till alla quizzer</button></div>
+  <div class="quiz-progress">${prog}</div><div class="q-card"><div class="q-num">FRÅGA ${cQ+1} AV ${qz.questions.length}</div><div class="q-text">${q.q}</div>
+  <div class="q-opts">${q.opts.map((o,i)=>`<div class="q-opt" onclick="ansQ(${i})" id="qo-${i}"><span class="letter">${L[i]}</span><span>${o}</span></div>`).join('')}</div>
+  <div class="q-explain" id="q-expl">${q.ex}</div><button class="q-next" id="q-nxt" onclick="nextQ()">${cQ<qz.questions.length-1?'Nästa fråga →':'Se resultat →'}</button></div>`;
+}
+function ansQ(i){
+  if(qAns)return;qAns=true;const q=QUIZZES[cQuiz].questions[cQ],c=q.c;
+  document.getElementById('qo-'+c).classList.add('correct');
+  if(i!==c)document.getElementById('qo-'+i).classList.add('wrong');else{qScore++;addPts(5);}
+  document.querySelectorAll('.q-opt').forEach((el,j)=>{if(j!==i&&j!==c)el.classList.add('disabled');});
+  document.getElementById('q-expl').classList.add('show');document.getElementById('q-nxt').classList.add('show');
+  const dots=document.querySelectorAll('.quiz-dot');dots[cQ].classList.remove('current');dots[cQ].classList.add(i===c?'done':'wrong');
+}
+function nextQ(){cQ++;qAns=false;cQ>=QUIZZES[cQuiz].questions.length?showQRes():renderQ();}
+function showQRes(){
+  const qz=QUIZZES[cQuiz],pct=Math.round(qScore/qz.questions.length*100);
+  let msg=pct===100?'🏆 Perfekt! Du har verkligen sinne för historiens sammanhang.':pct>=75?'🌟 Imponerande kunskaper!':pct>=50?'👍 Bra jobbat, men det finns mer att lära!':'📚 Fortsätt utforska tidslinjerna!';
+  if(pct===100)addPts(30);else if(pct>=75)addPts(15);else addPts(5);
+  document.getElementById('q-content').innerHTML=`<div class="q-score"><div class="q-score-num">${qScore}/${qz.questions.length}</div><div class="q-score-msg">${msg}</div><button class="q-retry" onclick="startQuiz(${cQuiz})">🔄 Gör om</button><button class="q-retry" style="background:var(--teal);" onclick="renderQuizSel();cQuiz=-1;">← Alla quizzer</button></div>`;
+}
+
+// ══════════════════════════════════════════════════
+// STATS
+// ══════════════════════════════════════════════════
+function renderStats(){
+  let totalEv=0,totalTl=0;const catCounts=[];
+  DATA.forEach(c=>{let ev=0;c.timelines.forEach(t=>ev+=t.events.length);totalEv+=ev;totalTl+=c.timelines.length;catCounts.push({name:c.name,icon:c.icon,tl:c.timelines.length,ev,color:c.color});});
+  const maxEv=Math.max(...catCounts.map(c=>c.ev));
+  document.getElementById('stats-area').innerHTML=`
+    <div class="stats-grid"><div class="stat-card"><div class="stat-big">${totalEv}</div><div class="stat-label">Händelser totalt</div></div><div class="stat-card"><div class="stat-big">${totalTl}</div><div class="stat-label">Tidslinjer</div></div><div class="stat-card"><div class="stat-big">16</div><div class="stat-label">Kategorier</div></div><div class="stat-card"><div class="stat-big">5000+</div><div class="stat-label">År av historia</div></div></div>
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:32px;margin-bottom:20px;">
+      <h3 style="font-family:'Crimson Pro',serif;font-size:22px;color:var(--gold);margin-bottom:24px;">Händelser per kategori</h3>
+      ${catCounts.sort((a,b)=>b.ev-a.ev).map(c=>`<div class="bar-row"><div class="bar-label">${c.icon} ${c.name}</div><div class="bar-track"><div class="bar-fill" style="width:${c.ev/maxEv*100}%;background:${c.color};color:${['#fbbf24','#a3e635','#34d399'].includes(c.color)?'#000':'#fff'};">${c.ev}</div></div></div>`).join('')}
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius);padding:32px;">
+      <h3 style="font-family:'Crimson Pro',serif;font-size:22px;color:var(--gold);margin-bottom:24px;">Tidslinjer per kategori</h3>
+      ${catCounts.sort((a,b)=>b.tl-a.tl).map(c=>`<div class="bar-row"><div class="bar-label">${c.icon} ${c.name}</div><div class="bar-track"><div class="bar-fill" style="width:${c.tl/6*100}%;background:${c.color};color:${['#fbbf24','#a3e635','#34d399'].includes(c.color)?'#000':'#fff'};">${c.tl}</div></div></div>`).join('')}
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════
+// POINTS
+// ══════════════════════════════════════════════════
+function addPts(n){pts+=n;document.getElementById('pts-num').textContent=pts;const b=document.getElementById('pts-box');b.classList.add('bump');setTimeout(()=>b.classList.remove('bump'),300);
+  const f=document.createElement('div');f.className='pts-fly';f.textContent='+'+n;f.style.right='24px';f.style.top='70px';document.body.appendChild(f);setTimeout(()=>f.remove(),1000);
+}
+</script>
+</body>
+</html>
