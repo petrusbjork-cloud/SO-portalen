@@ -193,30 +193,47 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(6,14,28,0.95);
+  background: rgba(6,14,28,0.97);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0,196,180,0.15);
-  padding: 0 2rem;
+  padding: 0 1.5rem;
 }
 
 .nav-inner {
   max-width: 1100px;
   margin: 0 auto;
-  display: flex;
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
-.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.nav-row:last-child { border-bottom: none; }
+
+.nav-row-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--steel);
+  padding: 0.55rem 0.75rem 0;
+  opacity: 0.6;
+  white-space: nowrap;
+  align-self: center;
+}
 
 .nav-btn {
   background: none;
   border: none;
   color: var(--steel);
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 500;
-  padding: 1rem 1.2rem;
+  padding: 0.75rem 1rem;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
@@ -228,6 +245,12 @@ body {
 .nav-btn.active {
   color: var(--teal);
   border-bottom-color: var(--teal);
+}
+
+@media (max-width: 700px) {
+  .nav-inner { grid-template-columns: 1fr; }
+  .nav-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .nav-row::-webkit-scrollbar { display: none; }
 }
 
 /* ===== SECTIONS ===== */
@@ -1325,6 +1348,255 @@ body {
 .scb-title { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:var(--white); margin-bottom:0.5rem; }
 .scb-desc { font-size:0.9rem; color:var(--steel); line-height:1.6; }
 
+/* ===== WRITING PANEL ===== */
+.write-intro {
+  background: linear-gradient(135deg, rgba(167,139,250,0.08), rgba(99,102,241,0.06));
+  border: 1px solid rgba(167,139,250,0.25);
+  border-radius: 1rem;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 2rem;
+  display: flex; gap: 1.2rem; align-items: flex-start;
+}
+.write-intro .wi-icon { font-size: 2.2rem; flex-shrink: 0; }
+.write-intro h4 { font-family:'Syne',sans-serif; color: #a78bfa; font-size: 1rem; margin-bottom: 0.35rem; }
+.write-intro p { font-size: 0.86rem; color: var(--steel); line-height: 1.6; }
+
+.write-task-tabs {
+  display: flex; gap: 0.5rem; margin-bottom: 1.75rem; flex-wrap: wrap;
+}
+.wt-tab {
+  padding: 0.5rem 1rem; border-radius: 0.5rem;
+  border: 1px solid rgba(167,139,250,0.2); background: rgba(0,0,0,0.3);
+  color: var(--steel); font-family:'Space Grotesk',sans-serif;
+  font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.wt-tab:hover { border-color: #a78bfa; color: #a78bfa; }
+.wt-tab.active { background: rgba(167,139,250,0.1); border-color: #a78bfa; color: #a78bfa; }
+
+.write-task-panel { display: none; }
+.write-task-panel.active { display: block; }
+
+.write-card {
+  background: var(--wave);
+  border: 1px solid rgba(167,139,250,0.15);
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.write-card-header {
+  padding: 1.5rem 1.75rem 1.25rem;
+  background: linear-gradient(135deg, rgba(167,139,250,0.1), transparent);
+  border-bottom: 1px solid rgba(167,139,250,0.1);
+}
+.write-card-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: #a78bfa; margin-bottom: 0.5rem;
+}
+.write-card-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem; font-weight: 800; color: var(--white); margin-bottom: 0.5rem;
+}
+.write-card-prompt {
+  font-size: 0.92rem; color: var(--fog); line-height: 1.65;
+}
+
+.write-level-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 1rem 1.75rem; border-bottom: 1px solid rgba(255,255,255,0.04);
+  flex-wrap: wrap;
+}
+.wl-label { font-size: 0.78rem; color: var(--steel); flex-shrink: 0; }
+.level-btn {
+  padding: 0.35rem 0.85rem; border-radius: 2rem;
+  border: 1px solid rgba(255,255,255,0.12); background: transparent;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.78rem;
+  color: var(--steel); cursor: pointer; transition: all 0.2s;
+}
+.level-btn:hover { border-color: #a78bfa; color: #a78bfa; }
+.level-btn.active { background: rgba(167,139,250,0.15); border-color: #a78bfa; color: #a78bfa; font-weight: 600; }
+
+.support-questions {
+  padding: 1rem 1.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.sq-toggle {
+  background: none; border: none; cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem;
+  color: var(--steel); display: flex; align-items: center; gap: 0.4rem;
+  transition: color 0.2s; padding: 0;
+}
+.sq-toggle:hover { color: #a78bfa; }
+.sq-toggle .sq-arrow { transition: transform 0.2s; display: inline-block; }
+.sq-toggle.open .sq-arrow { transform: rotate(90deg); }
+.sq-list {
+  display: none; margin-top: 0.85rem;
+  padding-left: 0; list-style: none;
+  display: grid; gap: 0.5rem;
+}
+.sq-list.visible { display: grid; }
+.sq-item {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  padding: 0.6rem 0.85rem;
+  background: rgba(167,139,250,0.05);
+  border: 1px solid rgba(167,139,250,0.12);
+  border-radius: 0.5rem;
+  font-size: 0.84rem; color: var(--fog); line-height: 1.45;
+}
+.sq-item::before { content: '→'; color: #a78bfa; flex-shrink: 0; }
+
+.write-editor {
+  padding: 1.25rem 1.75rem;
+}
+.we-meta-row {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;
+}
+.we-wordcount {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem; color: var(--steel);
+}
+.we-wordcount span { color: #a78bfa; font-weight: 500; }
+.we-target { font-size: 0.75rem; color: var(--steel); }
+
+.write-textarea {
+  width: 100%;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(167,139,250,0.2);
+  border-radius: 0.6rem;
+  padding: 1rem 1.1rem;
+  color: var(--fog);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  resize: vertical;
+  min-height: 160px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.write-textarea:focus {
+  outline: none;
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 3px rgba(167,139,250,0.1);
+}
+.write-textarea::placeholder { color: var(--steel); }
+
+.word-progress-bar {
+  height: 4px; border-radius: 2px;
+  background: rgba(255,255,255,0.08);
+  margin-top: 0.5rem; overflow: hidden;
+}
+.word-progress-fill {
+  height: 100%; border-radius: 2px;
+  background: linear-gradient(90deg, #a78bfa, #7c3aed);
+  transition: width 0.3s;
+}
+.word-progress-fill.done { background: linear-gradient(90deg, #34d399, #10b981); }
+
+.write-actions {
+  display: flex; gap: 0.75rem; margin-top: 1rem; flex-wrap: wrap;
+}
+.btn-check-writing {
+  padding: 0.65rem 1.5rem;
+  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  color: var(--white); border: none; border-radius: 0.5rem;
+  font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.88rem;
+  cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem;
+}
+.btn-check-writing:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(124,58,237,0.3); }
+.btn-clear-writing {
+  padding: 0.65rem 1.2rem;
+  background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--steel);
+  border-radius: 0.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-clear-writing:hover { border-color: var(--coral); color: var(--coral); }
+
+/* Keyword chips */
+.keyword-chips {
+  display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.75rem;
+}
+.kw-chip {
+  padding: 0.25rem 0.7rem; border-radius: 2rem;
+  background: rgba(167,139,250,0.1); border: 1px solid rgba(167,139,250,0.25);
+  font-size: 0.74rem; color: #a78bfa; font-family: 'JetBrains Mono', monospace;
+  cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.kw-chip:hover { background: rgba(167,139,250,0.2); transform: scale(1.05); }
+.kw-chip.used { background: rgba(52,211,153,0.1); border-color: rgba(52,211,153,0.3); color: #34d399; }
+.kw-hint { font-size: 0.74rem; color: var(--steel); margin-top: 0.5rem; }
+
+/* Self-assessment checklist */
+.self-assess {
+  margin-top: 1.25rem; border-radius: 0.75rem;
+  border: 1px solid rgba(167,139,250,0.25);
+  overflow: hidden; display: none;
+}
+.self-assess.show { display: block; animation: fadeInUp 0.4s ease; }
+.sa-header {
+  padding: 0.85rem 1.25rem;
+  background: rgba(167,139,250,0.08);
+  border-bottom: 1px solid rgba(167,139,250,0.12);
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.sa-header-title { font-family:'Syne',sans-serif; font-size:0.9rem; font-weight:700; color:#a78bfa; }
+.sa-header-sub { font-size:0.75rem; color:var(--steel); margin-left:auto; }
+.sa-body { padding: 1.25rem; }
+.sa-criteria { display: grid; gap: 0.6rem; margin-bottom: 1.25rem; }
+.sa-criterion {
+  display: flex; align-items: flex-start; gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  background: rgba(0,0,0,0.2); border-radius: 0.5rem;
+  border: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.sa-criterion:hover { border-color: rgba(167,139,250,0.3); }
+.sa-criterion.checked { background: rgba(52,211,153,0.06); border-color: rgba(52,211,153,0.3); }
+.sa-check {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; margin-top: 1px;
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.65rem; transition: all 0.2s;
+}
+.sa-criterion.checked .sa-check { background: #34d399; border-color: #34d399; color: var(--deep); font-weight:700; }
+.sa-criterion-text { font-size:0.87rem; color:var(--fog); line-height:1.45; }
+.sa-criterion-text strong { color:var(--white); }
+.sa-score-row {
+  display: flex; align-items: center; gap: 1rem;
+  padding: 1rem; background: rgba(0,0,0,0.25); border-radius: 0.6rem;
+  flex-wrap: wrap;
+}
+.sa-score-num {
+  font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; line-height:1;
+}
+.sa-score-label { font-size:0.8rem; color:var(--steel); }
+.sa-score-bar-wrap { flex:1; min-width:120px; }
+.sa-score-bar {
+  height: 8px; background: rgba(255,255,255,0.08);
+  border-radius: 4px; overflow: hidden; margin-bottom: 0.3rem;
+}
+.sa-score-bar-fill {
+  height:100%; border-radius:4px;
+  background: linear-gradient(90deg, #a78bfa, #34d399);
+  transition: width 0.5s ease;
+}
+.sa-level-tag {
+  padding: 0.3rem 0.85rem; border-radius: 2rem;
+  font-size: 0.78rem; font-weight: 700;
+  font-family:'JetBrains Mono',monospace;
+}
+.sa-level-tag.lvl-e { background:rgba(148,163,184,0.15); color:var(--steel); }
+.sa-level-tag.lvl-c { background:rgba(251,191,36,0.12); color:var(--gold); }
+.sa-level-tag.lvl-a { background:rgba(52,211,153,0.12); color:#34d399; }
+.sa-tip {
+  margin-top: 1rem; padding: 0.85rem 1rem;
+  background: rgba(167,139,250,0.06); border-left: 3px solid #a78bfa;
+  border-radius: 0 0.5rem 0.5rem 0; font-size:0.86rem;
+  color:var(--fog); line-height:1.55;
+}
+.sa-tip strong { color:#a78bfa; }
+
+
 /* ===== GLOSSARY ===== */
 .glossary-grid {
   display: grid;
@@ -1486,14 +1758,19 @@ body {
 <!-- ===== NAV ===== -->
 <nav id="sticky-nav">
   <div class="nav-inner">
-    <button class="nav-btn active" onclick="showSection('s1', this)">📦 Varför handlar länder?</button>
-    <button class="nav-btn" onclick="showSection('s2', this)">💱 Valutor</button>
-    <button class="nav-btn" onclick="showSection('s3', this)">🛡️ Protektionism & tullar</button>
-    <button class="nav-btn" onclick="showSection('s4', this)">🇸🇪 Sveriges handel</button>
-    <button class="nav-btn" onclick="showSection('s5', this)">🌾 Ukraina-krisen</button>
-    <button class="nav-btn" onclick="showSection('s8', this)">🧪 Scenariolabbet</button>
-    <button class="nav-btn" onclick="showSection('s6', this)">🎯 Quiz</button>
-    <button class="nav-btn" onclick="showSection('s7', this)">🗂️ Begrepp</button>
+    <div class="nav-row">
+      <button class="nav-btn active" onclick="showSection('s1', this)">📦 Varför handlar länder?</button>
+      <button class="nav-btn" onclick="showSection('s2', this)">💱 Valutor</button>
+      <button class="nav-btn" onclick="showSection('s3', this)">🛡️ Protektionism</button>
+      <button class="nav-btn" onclick="showSection('s4', this)">🇸🇪 Sveriges handel</button>
+      <button class="nav-btn" onclick="showSection('s5', this)">🌾 Ukraina-krisen</button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="showSection('s8', this)">🧪 Scenariolabbet</button>
+      <button class="nav-btn" onclick="showSection('s9', this)">✍️ Skriv & Resonera</button>
+      <button class="nav-btn" onclick="showSection('s6', this)">🎯 Quiz</button>
+      <button class="nav-btn" onclick="showSection('s7', this)">🗂️ Begrepp</button>
+    </div>
   </div>
 </nav>
 
@@ -2037,6 +2314,7 @@ body {
       <button class="sc-tab active" onclick="showScenario(1, this)"><span class="sc-tab-num">1</span> 🇺🇸 Trumps tullar</button>
       <button class="sc-tab" onclick="showScenario(2, this)"><span class="sc-tab-num">2</span> 💸 Kronkrasch</button>
       <button class="sc-tab" onclick="showScenario(3, this)"><span class="sc-tab-num">3</span> 🌾 Blockad i Röda havet</button>
+      <button class="sc-tab" onclick="showScenario('write', this)"><span class="sc-tab-num" style="background:rgba(167,139,250,0.2);color:#a78bfa;">✍️</span> Skriv &amp; Resonera</button>
     </div>
 
     <!-- ===== SCENARIO 1: TRUMP TULLAR ===== -->
@@ -2386,6 +2664,252 @@ body {
         </div>
       </div>
     </div>
+
+    <!-- ===== WRITING PANEL removed - now in s9 ===== -->
+
+  </div>
+</section>
+
+<!-- ===== S9: SKRIV & RESONERA ===== -->
+<section id="s9" class="section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 9 · Skriva</div>
+      <h2 class="sec-title">Skriv &amp;<br><em>Resonera</em></h2>
+      <p class="sec-desc">Tre skrivuppgifter kopplade till verkliga handelspolitiska scenarion. Välj nivå, använd nyckelorden och få AI-feedback på ditt resonemang.</p>
+    </div>
+
+      <div class="write-intro">
+        <div class="wi-icon">✍️</div>
+        <div>
+          <h4>Skriv och resonera</h4>
+          <p>Välj en skrivuppgift kopplad till ett av scenarierna. Klicka på nyckelorden du vill använda – de markeras när du skriver dem. Klar? Skicka in för AI-feedback som analyserar ditt resonemang, ger dig konkreta förbättringstips och en bedömning.</p>
+        </div>
+      </div>
+
+      <!-- API key setup removed -->
+
+      <div class="write-task-tabs">
+        <button class="wt-tab active" onclick="showWriteTask(1, this)">🇺🇸 Uppgift 1 – Trumps tullar</button>
+        <button class="wt-tab" onclick="showWriteTask(2, this)">💸 Uppgift 2 – Kronkrasch</button>
+        <button class="wt-tab" onclick="showWriteTask(3, this)">🌾 Uppgift 3 – Röda havet</button>
+      </div>
+
+      <!-- ===== WRITE TASK 1 ===== -->
+      <div class="write-task-panel active" id="wt-panel-1">
+        <div class="write-card">
+          <div class="write-card-header">
+            <div class="write-card-tag">✍️ Skrivuppgift 1 · Handelspolitik</div>
+            <div class="write-card-title">Vem betalar priset för Trumps tullar?</div>
+            <p class="write-card-prompt">Trump inför en generell tull på 25 % på alla varor från EU. Resonera om vad som händer med Sverige och EU. Vem drabbas, vem kan vinna och vad bör EU göra? Stöd ditt resonemang med begrepp från kursen.</p>
+            <div class="keyword-chips" id="kw-chips-1">
+              <span class="kw-chip" onclick="insertKeyword(1,'tull')">tull</span>
+              <span class="kw-chip" onclick="insertKeyword(1,'protektionism')">protektionism</span>
+              <span class="kw-chip" onclick="insertKeyword(1,'frihandel')">frihandel</span>
+              <span class="kw-chip" onclick="insertKeyword(1,'handelskrig')">handelskrig</span>
+              <span class="kw-chip" onclick="insertKeyword(1,'export')">export</span>
+              <span class="kw-chip" onclick="insertKeyword(1,'WTO')">WTO</span>
+              <span class="kw-chip" onclick="insertKeyword(1,'konsument')">konsument</span>
+              <span class="kw-chip" onclick="insertKeyword(1,'konkurrenskraft')">konkurrenskraft</span>
+            </div>
+            <p class="kw-hint">Klicka på nyckelorden för att klistra in dem i din text.</p>
+          </div>
+          <div class="write-level-row">
+            <span class="wl-label">Nivå:</span>
+            <button class="level-btn active" onclick="setLevel(1,'E')" id="wt1-lvl-E">E – Grundläggande (75 ord)</button>
+            <button class="level-btn" onclick="setLevel(1,'C')" id="wt1-lvl-C">C – Utvecklat (150 ord)</button>
+            <button class="level-btn" onclick="setLevel(1,'A')" id="wt1-lvl-A">A – Välutvecklat (250 ord)</button>
+          </div>
+          <div class="support-questions">
+            <button class="sq-toggle" onclick="toggleSupport(1)" id="sq-btn-1"><span class="sq-arrow">▶</span> Visa stödfrågor</button>
+            <ul class="sq-list" id="sq-list-1">
+              <li class="sq-item">Vad händer med priset på Volvo-bilar i USA när en 25 %-ig tull läggs på?</li>
+              <li class="sq-item">Vem betalar tullen egentligen – USA, EU eller konsumenten?</li>
+              <li class="sq-item">Hur bör EU svara för att undvika ett eskalerat handelskrig?</li>
+              <li class="sq-item">Kan det finnas någon som faktiskt tjänar på tullen?</li>
+              <li class="sq-item">Koppla till WTO – bryter USA mot internationella handelsregler?</li>
+            </ul>
+          </div>
+          <div class="write-editor">
+            <div class="we-meta-row">
+              <div class="we-wordcount">Ord: <span id="wc-1">0</span></div>
+              <div class="we-target" id="wt-target-1">Mål: 75 ord (nivå E)</div>
+            </div>
+            <textarea class="write-textarea" id="write-area-1" placeholder="Skriv ditt resonemang här... Klicka på nyckelorden ovan för att använda dem i texten." oninput="updateWordCount(1)"></textarea>
+            <div class="word-progress-bar"><div class="word-progress-fill" id="wp-bar-1" style="width:0%"></div></div>
+            <div class="write-actions">
+              <button class="btn-check-writing" onclick="showSelfAssess(1)" id="btn-feedback-1">✅ Självbedömning</button>
+              <button class="btn-clear-writing" onclick="clearWriting(1)">Rensa</button>
+            </div>
+          </div>
+
+          <div class="self-assess" id="sa-1">
+            <div class="sa-header">
+              <span class="sa-header-title">✅ Självbedömning</span>
+              <span class="sa-header-sub">Bocka av det du har med i din text</span>
+            </div>
+            <div class="sa-body">
+              <div class="sa-criteria" id="sa-criteria-1">
+                <div class="sa-criterion" onclick="toggleCriterion(this,1)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag förklarar vad en tull är</strong> och vem som egentligen betalar den.</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,1)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag nämner ett konkret företag eller vara</strong> som påverkas av tullen (t.ex. Volvo, Ericsson).</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,1)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag kopplar till minst ett begrepp</strong> från kursen (tull, protektionism, frihandel, handelskrig, WTO…).</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,1)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag resonerar om konsekvenser</strong> – inte bara vad som händer, utan varför det spelar roll.</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,1)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag tar upp minst ett perspektiv</strong> – vinnare ELLER förlorare på tullen.</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,1)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag ger ett eget ställningstagande</strong> – vad borde EU göra?</span></div>
+              </div>
+              <div class="sa-score-row" id="sa-score-1">
+                <div><div class="sa-score-num" id="sa-num-1" style="color:var(--steel)">0/6</div><div class="sa-score-label">kriterier uppfyllda</div></div>
+                <div class="sa-score-bar-wrap"><div class="sa-score-bar"><div class="sa-score-bar-fill" id="sa-bar-1" style="width:0%"></div></div><span class="sa-level-tag lvl-e" id="sa-tag-1">Påbörjad</span></div>
+              </div>
+              <div class="sa-tip" id="sa-tip-1">Bocka av kriterierna ovan – de visar vad en komplett analys innehåller.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== WRITE TASK 2 ===== -->
+      <div class="write-task-panel" id="wt-panel-2">
+        <div class="write-card">
+          <div class="write-card-header">
+            <div class="write-card-tag">✍️ Skrivuppgift 2 · Valutaekonomi</div>
+            <div class="write-card-title">Kronans fall – vinnare och förlorare</div>
+            <p class="write-card-prompt">Kronan har försvagats med 15 % på en vecka. Analysera konsekvenserna för svenska exportföretag, för hushållen och för den svenska ekonomin i stort. Är en svag krona alltid dåligt? Argumentera.</p>
+            <div class="keyword-chips" id="kw-chips-2">
+              <span class="kw-chip" onclick="insertKeyword(2,'valutakurs')">valutakurs</span>
+              <span class="kw-chip" onclick="insertKeyword(2,'export')">export</span>
+              <span class="kw-chip" onclick="insertKeyword(2,'import')">import</span>
+              <span class="kw-chip" onclick="insertKeyword(2,'inflation')">inflation</span>
+              <span class="kw-chip" onclick="insertKeyword(2,'köpkraft')">köpkraft</span>
+              <span class="kw-chip" onclick="insertKeyword(2,'konkurrenskraft')">konkurrenskraft</span>
+              <span class="kw-chip" onclick="insertKeyword(2,'Riksbanken')">Riksbanken</span>
+              <span class="kw-chip" onclick="insertKeyword(2,'ränta')">ränta</span>
+            </div>
+            <p class="kw-hint">Klicka på nyckelorden för att klistra in dem i din text.</p>
+          </div>
+          <div class="write-level-row">
+            <span class="wl-label">Nivå:</span>
+            <button class="level-btn active" onclick="setLevel(2,'E')" id="wt2-lvl-E">E – Grundläggande (75 ord)</button>
+            <button class="level-btn" onclick="setLevel(2,'C')" id="wt2-lvl-C">C – Utvecklat (150 ord)</button>
+            <button class="level-btn" onclick="setLevel(2,'A')" id="wt2-lvl-A">A – Välutvecklat (250 ord)</button>
+          </div>
+          <div class="support-questions">
+            <button class="sq-toggle" onclick="toggleSupport(2)" id="sq-btn-2"><span class="sq-arrow">▶</span> Visa stödfrågor</button>
+            <ul class="sq-list" id="sq-list-2">
+              <li class="sq-item">Hur påverkas Scania som exporterar till Tyskland när kronan försvagas?</li>
+              <li class="sq-item">Vad händer med priset på importerade varor – mat, olja, kläder?</li>
+              <li class="sq-item">Är en svag krona bra eller dålig för Sverige? För vem?</li>
+              <li class="sq-item">Vad kan Riksbanken göra för att stärka kronan, och vad kostar det?</li>
+              <li class="sq-item">Hur påverkas din familj av en svagare krona i vardagen?</li>
+            </ul>
+          </div>
+          <div class="write-editor">
+            <div class="we-meta-row">
+              <div class="we-wordcount">Ord: <span id="wc-2">0</span></div>
+              <div class="we-target" id="wt-target-2">Mål: 75 ord (nivå E)</div>
+            </div>
+            <textarea class="write-textarea" id="write-area-2" placeholder="Skriv ditt resonemang här..." oninput="updateWordCount(2)"></textarea>
+            <div class="word-progress-bar"><div class="word-progress-fill" id="wp-bar-2" style="width:0%"></div></div>
+            <div class="write-actions">
+              <button class="btn-check-writing" onclick="showSelfAssess(2)" id="btn-feedback-2">✅ Självbedömning</button>
+              <button class="btn-clear-writing" onclick="clearWriting(2)">Rensa</button>
+            </div>
+          </div>
+
+          <div class="self-assess" id="sa-2">
+            <div class="sa-header">
+              <span class="sa-header-title">✅ Självbedömning</span>
+              <span class="sa-header-sub">Bocka av det du har med i din text</span>
+            </div>
+            <div class="sa-body">
+              <div class="sa-criteria" id="sa-criteria-2">
+                <div class="sa-criterion" onclick="toggleCriterion(this,2)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag förklarar vad valutakurs betyder</strong> och varför det förändras.</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,2)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag kopplar till exportföretag</strong> – hur de påverkas när kronan försvagas (t.ex. Scania, Volvo).</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,2)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag tar upp importeffekten</strong> – vad händer med priser på varor vi köper från utlandet?</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,2)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag nämner hushållens perspektiv</strong> – hur märker en vanlig familj av kronsvaghet?</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,2)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag använder minst ett begrepp</strong> från kursen (valutakurs, inflation, köpkraft, konkurrenskraft…).</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,2)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag tar ställning</strong> – är svag krona netto bra eller dåligt för Sverige?</span></div>
+              </div>
+              <div class="sa-score-row" id="sa-score-2">
+                <div><div class="sa-score-num" id="sa-num-2" style="color:var(--steel)">0/6</div><div class="sa-score-label">kriterier uppfyllda</div></div>
+                <div class="sa-score-bar-wrap"><div class="sa-score-bar"><div class="sa-score-bar-fill" id="sa-bar-2" style="width:0%"></div></div><span class="sa-level-tag lvl-e" id="sa-tag-2">Påbörjad</span></div>
+              </div>
+              <div class="sa-tip" id="sa-tip-2">Bocka av kriterierna ovan – de visar vad en komplett analys innehåller.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== WRITE TASK 3 ===== -->
+      <div class="write-task-panel" id="wt-panel-3">
+        <div class="write-card">
+          <div class="write-card-header">
+            <div class="write-card-tag">✍️ Skrivuppgift 3 · Global handel</div>
+            <div class="write-card-title">Sårbarhet i den globala ekonomin</div>
+            <p class="write-card-prompt">Huthiattackerna i Röda havet har tvingat handelsfartyg att ta en tre veckor längre rutt. Resonera om vad händelsen visar om svagheter i den globala handeln. Vad kan länder och företag göra för att minska sin sårbarhet?</p>
+            <div class="keyword-chips" id="kw-chips-3">
+              <span class="kw-chip" onclick="insertKeyword(3,'värdekedja')">värdekedja</span>
+              <span class="kw-chip" onclick="insertKeyword(3,'leveranskedja')">leveranskedja</span>
+              <span class="kw-chip" onclick="insertKeyword(3,'sårbarhet')">sårbarhet</span>
+              <span class="kw-chip" onclick="insertKeyword(3,'frihandel')">frihandel</span>
+              <span class="kw-chip" onclick="insertKeyword(3,'geopolitik')">geopolitik</span>
+              <span class="kw-chip" onclick="insertKeyword(3,'diversifiering')">diversifiering</span>
+              <span class="kw-chip" onclick="insertKeyword(3,'resiliens')">resiliens</span>
+              <span class="kw-chip" onclick="insertKeyword(3,'beroende')">beroende</span>
+            </div>
+            <p class="kw-hint">Klicka på nyckelorden för att klistra in dem i din text.</p>
+          </div>
+          <div class="write-level-row">
+            <span class="wl-label">Nivå:</span>
+            <button class="level-btn active" onclick="setLevel(3,'E')" id="wt3-lvl-E">E – Grundläggande (75 ord)</button>
+            <button class="level-btn" onclick="setLevel(3,'C')" id="wt3-lvl-C">C – Utvecklat (150 ord)</button>
+            <button class="level-btn" onclick="setLevel(3,'A')" id="wt3-lvl-A">A – Välutvecklat (250 ord)</button>
+          </div>
+          <div class="support-questions">
+            <button class="sq-toggle" onclick="toggleSupport(3)" id="sq-btn-3"><span class="sq-arrow">▶</span> Visa stödfrågor</button>
+            <ul class="sq-list" id="sq-list-3">
+              <li class="sq-item">Vad är en global värdekedja och varför gör den företag sårbara?</li>
+              <li class="sq-item">Vad kostar det att frakta om – och vem betalar till slut?</li>
+              <li class="sq-item">Vad lärde sig världen av Covid-19 om leveranskedjors sårbarhet?</li>
+              <li class="sq-item">Hur kan ett företag som Volvo göra sig mindre sårbart?</li>
+              <li class="sq-item">Finns det en konflikt mellan effektivitet (billigt just-in-time) och säkerhet (buffertar)?</li>
+            </ul>
+          </div>
+          <div class="write-editor">
+            <div class="we-meta-row">
+              <div class="we-wordcount">Ord: <span id="wc-3">0</span></div>
+              <div class="we-target" id="wt-target-3">Mål: 75 ord (nivå E)</div>
+            </div>
+            <textarea class="write-textarea" id="write-area-3" placeholder="Skriv ditt resonemang här..." oninput="updateWordCount(3)"></textarea>
+            <div class="word-progress-bar"><div class="word-progress-fill" id="wp-bar-3" style="width:0%"></div></div>
+            <div class="write-actions">
+              <button class="btn-check-writing" onclick="showSelfAssess(3)" id="btn-feedback-3">✅ Självbedömning</button>
+              <button class="btn-clear-writing" onclick="clearWriting(3)">Rensa</button>
+            </div>
+          </div>
+
+          <div class="self-assess" id="sa-3">
+            <div class="sa-header">
+              <span class="sa-header-title">✅ Självbedömning</span>
+              <span class="sa-header-sub">Bocka av det du har med i din text</span>
+            </div>
+            <div class="sa-body">
+              <div class="sa-criteria" id="sa-criteria-3">
+                <div class="sa-criterion" onclick="toggleCriterion(this,3)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag förklarar vad en global värdekedja är</strong> och varför den gör länder beroende av varandra.</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,3)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag kopplar till ett konkret företag</strong> som drabbas av blockaden (t.ex. IKEA, H&amp;M, Volvo).</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,3)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag beskriver en kaskadeffekt</strong> – hur en störning sprider sig genom ekonomin.</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,3)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag nämner konsumentperspektivet</strong> – hur hamnar ökade kostnader hos slutkunden?</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,3)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag använder minst ett begrepp</strong> (värdekedja, leveranskedja, sårbarhet, diversifiering, resiliens…).</span></div>
+                <div class="sa-criterion" onclick="toggleCriterion(this,3)"><span class="sa-check"></span><span class="sa-criterion-text"><strong>Jag ger en lösning eller lärdom</strong> – vad bör företag eller länder göra för att minska sårbarhet?</span></div>
+              </div>
+              <div class="sa-score-row" id="sa-score-3">
+                <div><div class="sa-score-num" id="sa-num-3" style="color:var(--steel)">0/6</div><div class="sa-score-label">kriterier uppfyllda</div></div>
+                <div class="sa-score-bar-wrap"><div class="sa-score-bar"><div class="sa-score-bar-fill" id="sa-bar-3" style="width:0%"></div></div><span class="sa-level-tag lvl-e" id="sa-tag-3">Påbörjad</span></div>
+              </div>
+              <div class="sa-tip" id="sa-tip-3">Bocka av kriterierna ovan – de visar vad en komplett analys innehåller.</div>
+            </div>
+          </div>
+        </div>
+      </div>
 
   </div>
 </section>
@@ -3126,8 +3650,127 @@ function scAnswer(scenario, step, choice) {
   }
 }
 
+// ===== WRITING PANEL =====
+const writeLevels = { 1: 'E', 2: 'E', 3: 'E' };
+const levelTargets = { E: 75, C: 150, A: 250 };
+const levelLabels = { E: 'nivå E', C: 'nivå C', A: 'nivå A' };
+
+function showWriteTask(n, btn) {
+  document.querySelectorAll('.wt-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.write-task-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('wt-panel-' + n).classList.add('active');
+}
+
+function setLevel(task, level) {
+  writeLevels[task] = level;
+  ['E','C','A'].forEach(l => {
+    const btn = document.getElementById(`wt${task}-lvl-${l}`);
+    if (btn) btn.classList.toggle('active', l === level);
+  });
+  document.getElementById(`wt-target-${task}`).textContent = `Mål: ${levelTargets[level]} ord (${levelLabels[level]})`;
+  updateWordCount(task);
+}
+
+function updateWordCount(task) {
+  const ta = document.getElementById(`write-area-${task}`);
+  const text = ta.value.trim();
+  const words = text === '' ? 0 : text.split(/\s+/).length;
+  document.getElementById(`wc-${task}`).textContent = words;
+  const target = levelTargets[writeLevels[task]];
+  const pct = Math.min(100, Math.round((words / target) * 100));
+  const bar = document.getElementById(`wp-bar-${task}`);
+  bar.style.width = pct + '%';
+  bar.classList.toggle('done', pct >= 100);
+  document.querySelectorAll(`#kw-chips-${task} .kw-chip`).forEach(chip => {
+    chip.classList.toggle('used', text.toLowerCase().includes(chip.textContent.trim().toLowerCase()));
+  });
+}
+
+function insertKeyword(task, word) {
+  const ta = document.getElementById(`write-area-${task}`);
+  const start = ta.selectionStart;
+  const before = ta.value.substring(0, start);
+  const after = ta.value.substring(ta.selectionEnd);
+  const space = before.length > 0 && !before.endsWith(' ') ? ' ' : '';
+  ta.value = before + space + word + ' ' + after;
+  ta.focus();
+  ta.setSelectionRange(start + space.length + word.length + 1, start + space.length + word.length + 1);
+  updateWordCount(task);
+}
+
+function clearWriting(task) {
+  document.getElementById(`write-area-${task}`).value = '';
+  updateWordCount(task);
+  const sa = document.getElementById(`sa-${task}`);
+  if (sa) {
+    sa.classList.remove('show');
+    sa.querySelectorAll('.sa-criterion').forEach(c => c.classList.remove('checked'));
+    updateSaScore(task);
+  }
+}
+
+function toggleSupport(task) {
+  const list = document.getElementById(`sq-list-${task}`);
+  const btn = document.getElementById(`sq-btn-${task}`);
+  const isOpen = list.classList.contains('visible');
+  list.classList.toggle('visible', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+  btn.querySelector('.sq-arrow').textContent = isOpen ? '▶' : '▼';
+  btn.childNodes[1].textContent = isOpen ? ' Visa stödfrågor' : ' Dölj stödfrågor';
+}
+
+function showSelfAssess(task) {
+  const words = document.getElementById(`write-area-${task}`).value.trim().split(/\s+/).filter(Boolean).length;
+  if (words < 10) { alert('Skriv minst några meningar innan du bedömer!'); return; }
+  const sa = document.getElementById(`sa-${task}`);
+  sa.classList.add('show');
+  sa.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  addPoints(5);
+}
+
+function toggleCriterion(el, task) {
+  el.classList.toggle('checked');
+  const check = el.querySelector('.sa-check');
+  check.textContent = el.classList.contains('checked') ? '✓' : '';
+  updateSaScore(task);
+}
+
+const saTips = {
+  0: 'Bocka av kriterierna ovan – de visar vad en komplett analys innehåller.',
+  1: 'Bra start! Fortsätt – försök bocka av fler punkter.',
+  2: 'Du är på gång! Lägg till mer resonemang eller fler begrepp.',
+  3: 'Halvvägs! Titta på de obockade punkterna – kan du lägga till dem?',
+  4: 'Nästan klart! En eller två saker kvar att ta med.',
+  5: 'Jättebra! Du har nästan allt med – kan du lägga till den sista punkten?',
+  6: 'Utmärkt! Du har alla delar med – det är en riktigt komplett analys! 🎉'
+};
+
+const saLevelData = {
+  0: ['Påbörjad','lvl-e'], 1: ['Påbörjad','lvl-e'], 2: ['E-nivå','lvl-e'],
+  3: ['C-nivå','lvl-c'], 4: ['C-nivå','lvl-c'], 5: ['A-nivå','lvl-a'], 6: ['A-nivå','lvl-a']
+};
+
+function updateSaScore(task) {
+  const checked = document.querySelectorAll(`#sa-criteria-${task} .sa-criterion.checked`).length;
+  const total = 6;
+  const pct = Math.round((checked / total) * 100);
+  document.getElementById(`sa-num-${task}`).textContent = `${checked}/${total}`;
+  const colors = ['var(--steel)','var(--steel)','var(--amber)','var(--amber)','#a78bfa','#34d399','#34d399'];
+  document.getElementById(`sa-num-${task}`).style.color = colors[checked];
+  document.getElementById(`sa-bar-${task}`).style.width = pct + '%';
+  const [label, cls] = saLevelData[checked];
+  const tag = document.getElementById(`sa-tag-${task}`);
+  tag.textContent = label;
+  tag.className = `sa-level-tag ${cls}`;
+  document.getElementById(`sa-tip-${task}`).innerHTML = saTips[checked];
+  if (checked === 6) { addPoints(15); confetti(20); }
+  else if (checked === 3) addPoints(5);
+}
+
 // ===== INIT =====
 initQuiz();
+
 
 // Re-init quiz when tab is clicked (already handled in showSection)
 </script>
