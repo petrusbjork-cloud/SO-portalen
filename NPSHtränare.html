@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Samhällskunskap NP-Tränaren – Åk 9</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+:root{
+  --bg:#0e1117;--surface:#161b27;--card:#1c2333;--border:#2a3347;
+  --text:#e8ecf5;--muted:#8896b3;--subtle:#4a5568;
+  --blue:#4f8ef7;--blue-dim:#1e3a6e;--blue-glow:rgba(79,142,247,.15);
+  --green:#34d399;--green-dim:#064e3b;
+  --red:#f87171;--red-dim:#7f1d1d;
+  --gold:#fbbf24;--gold-dim:#451a03;
+  --purple:#a78bfa;--purple-dim:#2e1065;
+  --cyan:#22d3ee;
+}
+html.light{
+  --bg:#f0f4ff;--surface:#ffffff;--card:#ffffff;--border:#d4daea;
+  --text:#1a2035;--muted:#5a6585;--subtle:#9aa3bc;
+  --blue:#2563eb;--blue-dim:#dbeafe;--blue-glow:rgba(37,99,235,.08);
+  --green:#059669;--green-dim:#d1fae5;
+  --red:#dc2626;--red-dim:#fee2e2;
+  --gold:#b45309;--gold-dim:#fef3c7;
+  --purple:#7c3aed;--purple-dim:#ede9fe;
+  --cyan:#0891b2;
+}
+html.light header{background:linear-gradient(135deg,#1e3a8a 0%,#2563eb 50%,#1d4ed8 100%) !important;}
+html.light header::before{background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(255,255,255,.15) 0%,transparent 60%) !important;}
+html.light .nav-bar{background:rgba(255,255,255,.95);}
+html.light .tab{color:var(--muted);}
+html.light .tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+html.light .cho{background:#f8faff;}
+html.light .cho:hover:not(:disabled){background:var(--blue-glow);}
+html.light .src{background:rgba(37,99,235,.04);}
+html.light .area{background:#f8faff;}
+html.light .fill-input{background:#f8faff;}
+html.light .match-sel{background:#f8faff;}
+html.light .tf-row-btn{background:#f8faff;}
+html.light .reveal{background:#f8faff;}
+html.light .score-box{background:#ffffff;}
+html.light .stat{background:rgba(37,99,235,.06);border-color:#c7d4f0;}
+html.light .stat-n{color:var(--blue);}
+html.light .year-sep{color:#9aa3bc;}
+.theme-toggle{
+  position:fixed;bottom:24px;right:24px;z-index:200;
+  width:52px;height:52px;border-radius:50%;border:1px solid var(--border);cursor:pointer;
+  background:var(--card);box-shadow:0 4px 20px rgba(0,0,0,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;transition:transform .2s,box-shadow .2s,background .3s;
+}
+.theme-toggle:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(0,0,0,.35);}
+html.light .theme-toggle{background:#fff;box-shadow:0 4px 20px rgba(37,99,235,.2);}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;}
+
+/* ═══ HEADER ═══ */
+header{
+  background:linear-gradient(135deg,#0d1520 0%,#111827 50%,#0d1a2e 100%);
+  padding:40px 24px 32px;border-bottom:1px solid var(--border);
+  position:relative;overflow:hidden;
+}
+header::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 20% -10%,rgba(79,142,247,.12) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 40% at 80% 110%,rgba(34,211,238,.08) 0%,transparent 60%);
+}
+header::after{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%234f8ef7' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.hdr{max-width:1060px;margin:0 auto;position:relative;z-index:1;}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:4px;
+  text-transform:uppercase;color:var(--blue);margin-bottom:12px;
+  display:flex;align-items:center;gap:8px;
+}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--blue);}
+header h1{
+  font-family:'Syne',sans-serif;font-size:clamp(1.9rem,4.5vw,3rem);
+  font-weight:800;line-height:1.05;color:var(--text);margin-bottom:8px;
+}
+header h1 span{
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.subline{font-size:14px;color:var(--muted);margin-bottom:24px;}
+.stats{display:flex;gap:20px;flex-wrap:wrap;}
+.stat{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:8px;padding:10px 16px;}
+.stat-n{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--blue);}
+.stat-l{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+
+/* ═══ NAV ═══ */
+.nav-bar{
+  background:rgba(14,17,23,.95);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);
+}
+.nav-inner{max-width:1060px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.tab{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:14px 18px;color:var(--muted);
+  cursor:pointer;white-space:nowrap;background:none;border:none;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s;
+}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue);}
+
+/* ═══ MAIN ═══ */
+.main{max-width:1060px;margin:0 auto;padding:32px 20px;}
+.panel{display:none;animation:fadeUp .3s ease;}
+.panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+/* ═══ SECTION HEADER ═══ */
+.sec-hdr{margin-bottom:24px;}
+.sec-hdr h2{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:4px;}
+.sec-hdr p{font-size:13.5px;color:var(--muted);}
+
+/* ═══ FILTER BAR ═══ */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.chip{
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;
+  padding:6px 14px;border:1px solid var(--border);border-radius:100px;
+  background:var(--surface);color:var(--muted);cursor:pointer;transition:all .15s;
+}
+.chip:hover{border-color:var(--blue);color:var(--text);}
+.chip.on{background:var(--blue-dim);color:var(--blue);border-color:var(--blue);}
+
+/* ═══ YEAR SEPARATOR ═══ */
+.year-sep{
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;
+  text-transform:uppercase;color:var(--subtle);margin:28px 0 16px;
+  display:flex;align-items:center;gap:12px;
+}
+.year-sep::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ═══ CARD ═══ */
+.qcard{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  margin-bottom:20px;overflow:hidden;transition:border-color .2s;
+}
+.qcard:hover{border-color:var(--blue-dim);}
+.qhdr{
+  background:rgba(255,255,255,.03);padding:12px 18px;
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;
+  border-bottom:1px solid var(--border);
+}
+.qmeta{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.badge{
+  font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:3px 8px;border-radius:3px;
+}
+.b-year{background:rgba(251,191,36,.12);color:var(--gold);border:1px solid rgba(251,191,36,.2);}
+.b-mc{background:rgba(79,142,247,.12);color:var(--blue);border:1px solid rgba(79,142,247,.2);}
+.b-open{background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.2);}
+.b-tf{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.2);}
+.b-match{background:rgba(251,191,36,.12);color:var(--gold);border:1px solid rgba(251,191,36,.2);}
+.b-fill{background:rgba(34,211,238,.12);color:var(--cyan);border:1px solid rgba(34,211,238,.2);}
+.b-econ{background:rgba(79,142,247,.08);color:#7eb8f5;border:1px solid rgba(79,142,247,.15);}
+.b-polit{background:rgba(167,139,250,.08);color:#c4b5fd;border:1px solid rgba(167,139,250,.15);}
+.b-rattigh{background:rgba(52,211,153,.08);color:#6ee7b7;border:1px solid rgba(52,211,153,.15);}
+.b-media{background:rgba(34,211,238,.08);color:#67e8f9;border:1px solid rgba(34,211,238,.15);}
+.b-sam{background:rgba(251,191,36,.08);color:#fcd34d;border:1px solid rgba(251,191,36,.15);}
+.qtitle{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--subtle);font-style:italic;}
+.qbody{padding:20px 20px 16px;}
+
+/* ═══ SOURCE ═══ */
+.src{
+  background:rgba(79,142,247,.05);border-left:3px solid var(--blue);
+  padding:12px 16px;margin-bottom:16px;border-radius:0 6px 6px 0;
+}
+.src-lbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+.src-text{font-size:13px;line-height:1.7;color:var(--muted);font-style:italic;}
+
+/* ═══ QUESTION ═══ */
+.qtxt{font-size:15px;line-height:1.6;font-weight:600;color:var(--text);margin-bottom:12px;}
+.qsub{font-size:13.5px;color:var(--muted);margin-bottom:12px;line-height:1.6;}
+.qsub ul{margin:5px 0 5px 16px;}
+.qsub li{margin-bottom:3px;}
+
+/* ═══ MULTIPLE CHOICE ═══ */
+.choices{display:flex;flex-direction:column;gap:7px;margin-bottom:12px;}
+.cho{
+  display:flex;align-items:flex-start;gap:12px;padding:11px 14px;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:6px;
+  cursor:pointer;transition:all .15s;text-align:left;
+  font-family:'DM Sans',sans-serif;font-size:13.5px;line-height:1.5;color:var(--text);
+}
+.cho:hover:not(:disabled){border-color:var(--blue);background:var(--blue-glow);}
+.cho-ltr{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;color:var(--muted);min-width:18px;padding-top:2px;flex-shrink:0;}
+.cho.correct{border-color:var(--green);background:rgba(52,211,153,.08);}
+.cho.correct .cho-ltr{color:var(--green);}
+.cho.wrong{border-color:var(--red);background:rgba(248,113,113,.06);opacity:.65;}
+.cho.wrong .cho-ltr{color:var(--red);}
+.cho:disabled{cursor:default;}
+.fb-msg{display:none;margin-top:9px;padding:11px 14px;border-radius:6px;font-size:13px;line-height:1.55;font-weight:500;}
+.fb-msg.c{background:rgba(52,211,153,.08);color:var(--green);border:1px solid rgba(52,211,153,.2);display:block;}
+.fb-msg.w{background:rgba(248,113,113,.07);color:var(--red);border:1px solid rgba(248,113,113,.18);display:block;}
+
+/* ═══ TRUE/FALSE TABLE ═══ */
+.tf-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:13.5px;}
+.tf-table th{
+  font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:2px;
+  text-transform:uppercase;padding:9px 10px;border-bottom:1px solid var(--border);
+  color:var(--muted);text-align:left;
+}
+.tf-table th:nth-child(2),.tf-table th:nth-child(3){text-align:center;min-width:80px;}
+.tf-table td{padding:10px;border-bottom:1px solid rgba(42,51,71,.5);vertical-align:top;line-height:1.5;}
+.tf-table td:nth-child(2),.tf-table td:nth-child(3){text-align:center;vertical-align:middle;}
+.tf-row-btn{
+  width:30px;height:30px;border-radius:6px;border:1px solid var(--border);
+  background:var(--surface);cursor:pointer;font-family:'JetBrains Mono',monospace;
+  font-size:11px;font-weight:600;color:var(--muted);transition:all .15s;
+}
+.tf-row-btn:hover:not(:disabled){border-color:var(--blue);color:var(--blue);}
+.tf-row-btn.sel-yes{background:rgba(52,211,153,.15);border-color:var(--green);color:var(--green);}
+.tf-row-btn.sel-no{background:rgba(248,113,113,.1);border-color:var(--red);color:var(--red);}
+.tf-row-btn.right-yes{background:rgba(52,211,153,.2);border-color:var(--green);color:var(--green);}
+.tf-row-btn.right-no{background:rgba(248,113,113,.15);border-color:var(--red);color:var(--red);}
+.tf-row-btn.wrong-sel{background:rgba(251,191,36,.15);border-color:var(--gold);color:var(--gold);}
+.tf-row-btn:disabled{cursor:default;}
+.tf-exp{font-size:11.5px;color:var(--muted);margin-top:3px;}
+
+/* ═══ MATCH / SELECT ═══ */
+.match-table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:13.5px;}
+.match-table th{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;padding:9px 10px;border-bottom:1px solid var(--border);color:var(--muted);text-align:left;}
+.match-table td{padding:9px 10px;border-bottom:1px solid rgba(42,51,71,.5);vertical-align:middle;}
+.match-sel{
+  font-family:'DM Sans',sans-serif;font-size:13px;padding:6px 10px;
+  border:1px solid var(--border);border-radius:6px;
+  background:var(--surface);color:var(--text);cursor:pointer;min-width:160px;
+}
+.match-sel:focus{outline:none;border-color:var(--blue);}
+.match-sel option{background:var(--card);}
+.match-sel.correct-sel{border-color:var(--green);background:rgba(52,211,153,.08);}
+.match-sel.wrong-sel-s{border-color:var(--red);background:rgba(248,113,113,.05);}
+.match-check-btn{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:8px 16px;background:var(--blue);
+  color:#fff;border:none;border-radius:6px;cursor:pointer;transition:opacity .15s;
+}
+.match-check-btn:hover{opacity:.85;}
+.match-result{margin-top:10px;padding:10px 14px;border-radius:6px;font-size:13px;display:none;}
+.match-result.show{display:block;}
+.match-result.good{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);color:var(--green);}
+.match-result.bad{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.15);color:var(--muted);}
+.match-exp{font-size:11.5px;color:var(--muted);margin-top:2px;}
+
+/* ═══ FILL IN ═══ */
+.fill-grid{display:flex;flex-direction:column;gap:10px;margin-bottom:14px;}
+.fill-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.fill-lbl{font-size:13.5px;color:var(--text);min-width:20px;}
+.fill-input{
+  font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 12px;
+  border:1px solid var(--border);border-radius:6px;background:var(--surface);
+  color:var(--text);min-width:180px;transition:border-color .15s;
+}
+.fill-input:focus{outline:none;border-color:var(--blue);}
+.fill-input.correct{border-color:var(--green);background:rgba(52,211,153,.08);}
+.fill-input.wrong{border-color:var(--red);background:rgba(248,113,113,.05);}
+.fill-check-btn{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:8px 16px;background:var(--blue);
+  color:#fff;border:none;border-radius:6px;cursor:pointer;transition:opacity .15s;
+}
+.fill-check-btn:hover{opacity:.85;}
+.fill-result{margin-top:10px;padding:10px 14px;border-radius:6px;font-size:13px;display:none;}
+.fill-result.show{display:block;}
+.fill-result.good{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);color:var(--green);}
+.fill-result.bad{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.15);color:var(--muted);}
+
+/* ═══ OPEN TEXTAREA ═══ */
+.area{
+  width:100%;min-height:100px;padding:12px 14px;
+  font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.6;
+  border:1px solid var(--border);border-radius:6px;background:var(--surface);
+  color:var(--text);resize:vertical;transition:border-color .15s;margin-bottom:10px;
+}
+.area:focus{outline:none;border-color:var(--blue);}
+.area::placeholder{color:var(--subtle);font-style:italic;}
+
+/* ═══ BUTTONS ═══ */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.btn{
+  font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:1.5px;
+  text-transform:uppercase;padding:8px 16px;border:none;border-radius:6px;
+  cursor:pointer;transition:all .15s;font-weight:500;
+}
+.btn-p{background:var(--blue);color:#fff;}
+.btn-p:hover{opacity:.85;}
+.btn-s{background:transparent;color:var(--muted);border:1px solid var(--border);}
+.btn-s:hover{border-color:var(--blue);color:var(--text);}
+
+/* ═══ REVEAL ═══ */
+.reveal{
+  display:none;background:var(--surface);border:1px solid var(--border);
+  border-radius:6px;padding:16px;margin-top:10px;
+}
+.reveal.show{display:block;animation:fadeUp .2s ease;}
+.reveal-lbl{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.level{display:inline-flex;align-items:center;gap:6px;margin-bottom:8px;}
+.lv-badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;padding:2px 8px;border-radius:3px;font-weight:600;}
+.lv-e{background:rgba(52,211,153,.12);color:var(--green);border:1px solid rgba(52,211,153,.2);}
+.lv-c{background:rgba(79,142,247,.12);color:var(--blue);border:1px solid rgba(79,142,247,.2);}
+.lv-a{background:rgba(167,139,250,.12);color:var(--purple);border:1px solid rgba(167,139,250,.2);}
+.reveal p,.reveal li{font-size:13.5px;line-height:1.6;color:var(--muted);}
+.reveal ul{margin:6px 0 6px 16px;}
+
+/* ═══ SCORE PANEL ═══ */
+.score-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px;}
+.score-box{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px;}
+.score-box-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.score-big{font-family:'Syne',sans-serif;font-size:2rem;font-weight:700;color:var(--blue);}
+.score-sub{font-size:12px;color:var(--subtle);}
+.prog-bar{height:5px;background:var(--border);border-radius:3px;margin-top:10px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));border-radius:3px;transition:width .4s ease;width:0%;}
+.score-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+.score-item:last-child{border-bottom:none;}
+.score-label{color:var(--muted);}
+.score-val{font-weight:600;}
+</style>
+</head>
+<body>
+
+<header>
+<div class="hdr">
+  <div class="eyebrow">Nationella Provet · Åk 9</div>
+  <h1>Samhälls<span>kunskap</span><br>NP-Tränaren</h1>
+  <p class="subline">Träna på autentiska provuppgifter från 2016, 2017 &amp; 2018 — med bedömningsanvisningar</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-n">60+</div><div class="stat-l">Frågor</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">Provår</div></div>
+    <div class="stat"><div class="stat-n" id="hdr-mc">0/0</div><div class="stat-l">MC Rätt</div></div>
+    <div class="stat"><div class="stat-n" id="hdr-tf">0/0</div><div class="stat-l">Sant/Falskt</div></div>
+  </div>
+</div>
+</header>
+
+<nav class="nav-bar">
+<div class="nav-inner">
+  <button class="tab active" onclick="showPanel('mc',this)">Flerval</button>
+  <button class="tab" onclick="showPanel('tf',this)">Sant/Falskt</button>
+  <button class="tab" onclick="showPanel('match',this)">Para ihop</button>
+  <button class="tab" onclick="showPanel('fill',this)">Fyll i</button>
+  <button class="tab" onclick="showPanel('open',this)">Öppna frågor</button>
+  <button class="tab" onclick="showPanel('progress',this)">Framsteg</button>
+</div>
+</nav>
+
+<main class="main">
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: FLERVAL (MC)
+══════════════════════════════════════════════════════ -->
+<section class="panel active" id="panel-mc">
+<div class="sec-hdr">
+  <h2>Flervalsfrågor</h2>
+  <p>Klicka på det alternativ du tror stämmer bäst. Direkt återkoppling ges.</p>
+</div>
+<div class="fbar" id="fbar-mc">
+  <button class="chip on" onclick="filterCards(this,'alla','panel-mc')">Alla</button>
+  <button class="chip" onclick="filterCards(this,'ekon','panel-mc')">Ekonomi</button>
+  <button class="chip" onclick="filterCards(this,'polit','panel-mc')">Politik</button>
+  <button class="chip" onclick="filterCards(this,'rattigh','panel-mc')">Rättigheter</button>
+  <button class="chip" onclick="filterCards(this,'media','panel-mc')">Media</button>
+  <button class="chip" onclick="filterCards(this,'sam','panel-mc')">Samhälle</button>
+</div>
+<div id="mc-cards"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: SANT/FALSKT (TF)
+══════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-tf">
+<div class="sec-hdr">
+  <h2>Sant eller Falskt</h2>
+  <p>Ta ställning till varje påstående — precis som i det riktiga provet.</p>
+</div>
+<div class="fbar" id="fbar-tf">
+  <button class="chip on" onclick="filterCards(this,'alla','panel-tf')">Alla</button>
+  <button class="chip" onclick="filterCards(this,'ekon','panel-tf')">Ekonomi</button>
+  <button class="chip" onclick="filterCards(this,'media','panel-tf')">Media/Källor</button>
+  <button class="chip" onclick="filterCards(this,'polit','panel-tf')">Politik</button>
+</div>
+<div id="tf-cards"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: PARA IHOP (MATCH)
+══════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-match">
+<div class="sec-hdr">
+  <h2>Para ihop</h2>
+  <p>Koppla begrepp till rätt förklaring. Välj i rullgardinsmenyn och kontrollera.</p>
+</div>
+<div id="match-cards"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: FYLL I
+══════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-fill">
+<div class="sec-hdr">
+  <h2>Fyll i rätt begrepp</h2>
+  <p>Skriv det begrepp som passar bäst i varje mening. Kontrollera med knappen.</p>
+</div>
+<div id="fill-cards"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: ÖPPNA FRÅGOR
+══════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-open">
+<div class="sec-hdr">
+  <h2>Öppna resonemangsfrågor</h2>
+  <p>Skriv ditt svar — se sedan bedömningsanvisningen för att jämföra. Dessa frågor bedöms av din lärare i det riktiga provet.</p>
+</div>
+<div class="fbar" id="fbar-open">
+  <button class="chip on" onclick="filterCards(this,'alla','panel-open')">Alla</button>
+  <button class="chip" onclick="filterCards(this,'ekon','panel-open')">Ekonomi</button>
+  <button class="chip" onclick="filterCards(this,'polit','panel-open')">Politik/Demo</button>
+  <button class="chip" onclick="filterCards(this,'rattigh','panel-open')">Rättigheter</button>
+  <button class="chip" onclick="filterCards(this,'media','panel-open')">Media/Källor</button>
+  <button class="chip" onclick="filterCards(this,'sam','panel-open')">Samhälle</button>
+</div>
+<div id="open-cards"></div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     PANEL: FRAMSTEG
+══════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-progress">
+<div class="sec-hdr">
+  <h2>Dina framsteg</h2>
+  <p>Sammanfattning av dina rätta svar per kategori.</p>
+</div>
+<div class="score-grid">
+  <div class="score-box">
+    <div class="score-box-title">Flervalsfrågor</div>
+    <div class="score-big" id="pg-mc">0</div>
+    <div class="score-sub" id="pg-mc-s">av 0 försök</div>
+    <div class="prog-bar"><div class="prog-fill" id="pg-mc-b"></div></div>
+  </div>
+  <div class="score-box">
+    <div class="score-box-title">Sant/Falskt</div>
+    <div class="score-big" id="pg-tf">0</div>
+    <div class="score-sub" id="pg-tf-s">av 0 försök</div>
+    <div class="prog-bar"><div class="prog-fill" id="pg-tf-b"></div></div>
+  </div>
+  <div class="score-box">
+    <div class="score-box-title">Para ihop</div>
+    <div class="score-big" id="pg-match">0</div>
+    <div class="score-sub" id="pg-match-s">av 0 försök</div>
+    <div class="prog-bar"><div class="prog-fill" id="pg-match-b"></div></div>
+  </div>
+  <div class="score-box">
+    <div class="score-box-title">Fyll i</div>
+    <div class="score-big" id="pg-fill">0</div>
+    <div class="score-sub" id="pg-fill-s">av 0 försök</div>
+    <div class="prog-bar"><div class="prog-fill" id="pg-fill-b"></div></div>
+  </div>
+  <div class="score-box">
+    <div class="score-box-title">Öppna frågor visade</div>
+    <div class="score-big" id="pg-open">0</div>
+    <div class="score-sub">facit granskade</div>
+  </div>
+</div>
+<div id="hist-list"></div>
+</section>
+
+</main>
+
+<button class="theme-toggle" onclick="toggleTheme()" id="theme-btn" title="Växla ljust/mörkt läge">🌙</button>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const S = {
+  mc:{c:0,t:0}, tf:{c:0,t:0}, match:{c:0,t:0}, fill:{c:0,t:0},
+  done:{}, openShown:0, hist:[]
+};
+const L = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+
+// ═══════════════════════════════════════════════════════
+// QUESTION DATA
+// ═══════════════════════════════════════════════════════
+const Q = {
+
+// ─── MULTIPLE CHOICE ───────────────────────────────────
+mc: [
+  // 2016 A13 – Demokrati/Diktatur (selected, shown as MC)
+  {id:'mc1',year:'2016',topic:'polit',badge:'b-polit',q:'Styret i landet kännetecknas av en öppen och fri debatt innan beslut fattas. Stämmer detta bäst med demokrati, diktatur eller ingetdera?',
+   opts:['Demokrati','Diktatur','Stämmer varken med demokrati eller diktatur'],ans:0,
+   exp:'I en demokrati är yttrandefrihet och fri debatt grundläggande principer.'},
+  {id:'mc2',year:'2016',topic:'polit',badge:'b-polit',q:'Styret i landet har stor eller fullständig kontroll över media. Vad stämmer detta bäst med?',
+   opts:['Demokrati','Diktatur','Stämmer varken med demokrati eller diktatur'],ans:1,
+   exp:'Kontroll av media är typiskt för diktaturer, där information kontrolleras av staten.'},
+  {id:'mc3',year:'2016',topic:'polit',badge:'b-polit',q:'Styret i landet kännetecknas av att lagar och styre saknas helt. Stämmer detta bäst med demokrati, diktatur eller ingetdera?',
+   opts:['Demokrati','Diktatur','Stämmer varken med demokrati eller diktatur'],ans:2,
+   exp:'Avsaknad av lagar och styre (anarki) stämmer varken med demokrati eller diktatur — båda har någon form av styre.'},
+  {id:'mc4',year:'2016',topic:'polit',badge:'b-polit',q:'Styret i landet kännetecknas av att minoriteter har skydd genom olika lagar. Stämmer detta bäst med demokrati, diktatur eller ingetdera?',
+   opts:['Demokrati','Diktatur','Stämmer varken med demokrati eller diktatur'],ans:0,
+   exp:'Minoritetsskydd är en viktig del av demokratiska rättssystem.'},
+  {id:'mc5',year:'2016',topic:'polit',badge:'b-polit',q:'Styret i landet kännetecknas av att de styrande utses av medborgarna i fria val. Vad stämmer detta bäst med?',
+   opts:['Demokrati','Diktatur','Stämmer varken med demokrati eller diktatur'],ans:0,
+   exp:'Fria val är kärnan i representativ demokrati.'},
+  // 2016 A10 – Grundlagar
+  {id:'mc6',year:'2016',topic:'rattigh',badge:'b-rattigh',q:'Vilken av dessa är INTE en av Sveriges grundlagar?',
+   opts:['Regeringsformen','Brottsbalken','Tryckfrihetsförordningen','Yttrandefrihetsgrundlagen'],ans:1,
+   exp:'Sveriges fyra grundlagar är: Regeringsformen, Successionsordningen, Tryckfrihetsförordningen och Yttrandefrihetsgrundlagen. Brottsbalken är en vanlig lag.'},
+  {id:'mc7',year:'2016',topic:'rattigh',badge:'b-rattigh',q:'Vilken lag reglerar hur Sverige ska styras och medborgarnas grundläggande fri- och rättigheter?',
+   opts:['Brottsbalken','Regeringsformen','Diskrimineringslagen','Lagen om nationella minoriteter'],ans:1,
+   exp:'Regeringsformen är den viktigaste grundlagen och fastställer hur Sverige ska styras och medborgarnas rättigheter.'},
+  // 2017 A8 – Ekonomiska konsekvenser
+  {id:'mc8',year:'2017',topic:'ekon',badge:'b-ekon',q:'Om inkomstskatten sänks kan det mest troligt leda till…',
+   opts:['Fler jobb inom offentlig sektor','Minskat sparande','Ökade bidrag','Ökad konsumtion'],ans:3,
+   exp:'När skatten sänks har folk mer pengar kvar i plånboken, vilket tenderar att öka konsumtionen.'},
+  {id:'mc9',year:'2017',topic:'ekon',badge:'b-ekon',q:'Om banken höjer räntan kan det mest troligt leda till…',
+   opts:['Att det blir dyrare att ta lån','Högre arbetslöshet','Minskat sparande','Ökad konsumtion'],ans:0,
+   exp:'Räntan är kostnaden för att låna pengar. Högre ränta = dyrare lån.'},
+  {id:'mc10',year:'2017',topic:'ekon',badge:'b-ekon',q:'Om efterfrågan på en vara minskar kan det mest troligt leda till att…',
+   opts:['Momsen på varan höjs','Priset på varan stiger','Produktionen av varan minskar','Produktionen av varan ökar'],ans:2,
+   exp:'Lägre efterfrågan leder till lägre produktion — det tillverkas mindre av det folk inte vill ha.'},
+  {id:'mc11',year:'2017',topic:'ekon',badge:'b-ekon',q:'Om inflationen ökar kan det på kort sikt leda till att…',
+   opts:['Andra valutor blir billigare','Priset på varor höjs','Priset på varor sänks','Sparandet på bankkonton ökar'],ans:1,
+   exp:'Inflation innebär att prisnivån stiger — alltså att varor och tjänster blir dyrare.'},
+  {id:'mc12',year:'2017',topic:'ekon',badge:'b-ekon',q:'Om pensionsåldern höjs med två år kan det på kort sikt leda till…',
+   opts:['Minskad arbetslöshet','Minskat sparande','Ökad inflation','Ökade skatteintäkter'],ans:0,
+   exp:'Om äldre arbetar längre tillförs fler till arbetsmarknaden, vilket kan minska relativ arbetslöshet bland yngre och ge mer skatteinkomster.'},
+  {id:'mc13',year:'2017',topic:'ekon',badge:'b-ekon',q:'Om det blir lågkonjunktur kan det leda till att…',
+   opts:['Arbetslösheten minskar','Den ekonomiska tillväxten minskar','Konsumtionen ökar','Produktionen ökar'],ans:1,
+   exp:'Lågkonjunktur innebär att ekonomin växer långsammare eller krymper — den ekonomiska tillväxten minskar.'},
+  // 2017 A5 – Politiska begrepp MC
+  {id:'mc14',year:'2017',topic:'polit',badge:'b-polit',q:'Vad innebär begreppet "Lobbygrupp"?',
+   opts:['Styrelse för en bostadsrättsförening','Grupp av tjänstemän på ett departement','Intressegrupp som jobbar för att påverka beslut','Medlemmar i ett riksdagsutskott'],ans:2,
+   exp:'En lobbygrupp (intressegrupp) arbetar för att påverka politiska beslut till förmån för sina intressen.'},
+  {id:'mc15',year:'2017',topic:'polit',badge:'b-polit',q:'Vad innebär begreppet "Konstitution"?',
+   opts:['Att partier samarbetar','Att muta någon till ett visst beslut','Brott mot mänskliga rättigheter','Lagar för hur ett land ska styras'],ans:3,
+   exp:'En konstitution är ett lands grundlagar som bestämmer hur landet ska styras.'},
+  {id:'mc16',year:'2017',topic:'polit',badge:'b-polit',q:'Vad innebär begreppet "Republik"?',
+   opts:['Ett land där statschefen ärver sitt uppdrag','Ett land där statschefen utses med hjälp av veto','Ett land där statschefen väljs','Ett land som styrs av oppositionen'],ans:2,
+   exp:'I en republik väljs statschefen (vanligtvis en president). I en monarki ärvs statschefstiteln.'},
+  {id:'mc17',year:'2017',topic:'polit',badge:'b-polit',q:'Vad innebär begreppet "Korruption"?',
+   opts:['Att bli dömd i domstol','Att muta en politiker','Att lämna sitt parti för ett annat','Att rösta åt någon annan i riksdagsval'],ans:1,
+   exp:'Korruption handlar om att muta eller ta mutor — att missbruka sin maktposition för personlig vinning.'},
+  {id:'mc18',year:'2017',topic:'polit',badge:'b-polit',q:'Vad innebär begreppet "Proposition"?',
+   opts:['Omröstning i regeringen','Omröstning i riksdagen','Förslag från regeringen','Förslag från en ledamot i riksdagen'],ans:2,
+   exp:'En proposition är ett lagförslag som kommer från regeringen till riksdagen.'},
+  {id:'mc19',year:'2017',topic:'polit',badge:'b-polit',q:'Vad innebär begreppet "Minoritetsregering"?',
+   opts:['En regering med alla nationella minoriteterna representerade','En regering som inte har majoritet i riksdagen','Ett parti som förlorat många medlemmar','En regering med majoritet i riksdagen'],ans:1,
+   exp:'En minoritetsregering har inte tillräckligt med mandat för att ha majoritet i riksdagen — de är beroende av stöd från andra partier.'},
+  // 2018 A3 – Juridiska begrepp
+  {id:'mc20',year:'2018',topic:'rattigh',badge:'b-rattigh',q:'Vad innebär begreppet "Straffmyndig"?',
+   opts:['Efter att man fyllt 12 år kan man dömas för brott','Efter att man fyllt 15 år kan man dömas för brott','Efter att man fyllt 16 år kan man dömas för brott','Efter att man fyllt 18 år kan man dömas för brott'],ans:1,
+   exp:'I Sverige är straffmyndighetsåldern 15 år. Yngre kan inte dömas för brott men kan bli föremål för åtgärder från socialtjänsten.'},
+  {id:'mc21',year:'2018',topic:'rattigh',badge:'b-rattigh',q:'Vad är en "Hovrätt"?',
+   opts:['Domstol som enbart tar upp rättsfall belagda med sekretess','Domstol som tar upp överklaganden av tingsrättens beslut','Den högsta domstolen i Sverige','Den första instans som prövar ett rättsfall'],ans:1,
+   exp:'Hovrätten är den andra instansen i det svenska domstolsväsendet. Man kan överklaga tingsrättens dom till hovrätten.'},
+  {id:'mc22',year:'2018',topic:'rattigh',badge:'b-rattigh',q:'Vad innebär "Prejudikat"?',
+   opts:['Ett beslut som fattas av ett flertal nämndemän','Ett beslut som fattas av enskilda parter','Ett beslut som överklagas till högsta instans','Ett beslut som blir vägledande vid liknande domar'],ans:3,
+   exp:'Ett prejudikat är en dom från en högre domstol som används som vägledning vid liknande fall i framtiden.'},
+  {id:'mc23',year:'2018',topic:'rattigh',badge:'b-rattigh',q:'Vad innebär "Mened"?',
+   opts:['Att ett vittne ljuger','Att vägra vittna','Att tvingas vittna mot en kompis','Att vittna anonymt'],ans:0,
+   exp:'Mened är brottet att medvetet lämna falska uppgifter under ed (lögn under vittnesed).'},
+  // 2018 A11 – Mediabegrepp
+  {id:'mc24',year:'2018',topic:'media',badge:'b-media',q:'Vad är en "Insändare" i en tidning?',
+   opts:['Återförsäljare av tidningar','Text skriven av någon som inte är anställd på tidningen','Expertutlåtande i en tidning','Annons som liknar en artikel'],ans:1,
+   exp:'En insändare är ett debattinlägg eller brev skrivet av en läsare eller extern person, alltså inte av tidningens egna journalister.'},
+  {id:'mc25',year:'2018',topic:'media',badge:'b-media',q:'Vad är en "Löpsedel"?',
+   opts:['Artiklar som kostar pengar att läsa','Flygblad med politiskt budskap','Affisch som ska locka människor att köpa tidningen','Artiklar skrivna av nyhetsbyråer'],ans:2,
+   exp:'Löpsedeln är de stora skyltar/affischer utanför kiosker och affärer som visar dagens viktigaste nyheter för att locka köp.'},
+  {id:'mc26',year:'2018',topic:'media',badge:'b-media',q:'Vad innebär "Källskydd"?',
+   opts:['Regler som skyddar läsaren från kränkande material','Regler som skyddar journalister från avsked','Regler som skyddar den som tipsat media om en nyhet','Regler som skyddar statligt anställda från granskning'],ans:2,
+   exp:'Källskyddet är en grundlagsskyddad princip som innebär att journalister inte behöver avslöja vem som lämnat information.'},
+  {id:'mc27',year:'2018',topic:'media',badge:'b-media',q:'Vad innebär "Offentlighetsprincipen"?',
+   opts:['Att det som publiceras offentligt inte får innehålla kränkande material','Att medborgare har rätt att läsa myndigheternas dokument','Att myndigheter har rätt att censurera offentliga dokument','Principer och regler för vad som får publiceras i en tidning'],ans:1,
+   exp:'Offentlighetsprincipen ger alla medborgare rätt att ta del av allmänna handlingar hos myndigheter — för insyn i hur makten används.'},
+  {id:'mc28',year:'2018',topic:'media',badge:'b-media',q:'Vad innebär "Tryckfrihet"?',
+   opts:['Att vem som helst har rätt att förtala någon i pressen','Att tidningar fritt kan publicera vad som helst utan risk för åtal','Att det i tryck är möjligt att kritisera de styrande i ett land','Att pressen får sina uppdrag av staten'],ans:2,
+   exp:'Tryckfrihet innebär rätten att i tryckt form kritisera makthavare utan censur. Den regleras i Tryckfrihetsförordningen.'},
+  {id:'mc29',year:'2018',topic:'media',badge:'b-media',q:'Vad innebär "Propaganda"?',
+   opts:['Att tidningar undersöker läsarnas åsikter','Hur massmedier samlar in och bearbetar nyheter','Opartisk informationsspridning','Att försöka påverka folk att tycka och tänka på ett visst sätt'],ans:3,
+   exp:'Propaganda är ensidig information som syftar till att påverka människors åsikter och beteende, ofta i politiska sammanhang.'},
+  // 2016 B10 – Ekonomiska begrepp (vilket passar inte in?)
+  {id:'mc30',year:'2016',topic:'ekon',badge:'b-ekon',q:'B10 – Vilket begrepp passar INTE in i gruppen: Disponibel inkomst, Hushållsekonomi, Nettolön, Proposition?',
+   opts:['Disponibel inkomst','Hushållsekonomi','Nettolön','Proposition'],ans:3,
+   exp:'"Proposition" är ett politiskt/lagstiftningsbegrepp. De övriga handlar om hushållsekonomi och inkomst.'},
+  {id:'mc31',year:'2016',topic:'ekon',badge:'b-ekon',q:'B10 – Vilket begrepp passar INTE in i gruppen: Bruttonationalprodukt, Fattigt/rikt land, Presstöd, Produktion?',
+   opts:['Bruttonationalprodukt','Fattigt/rikt land','Presstöd','Produktion'],ans:2,
+   exp:'"Presstöd" är mediestöd, inte ett nationalekonomiskt begrepp. De övriga handlar om ett lands ekonomi och produktion.'},
+  {id:'mc32',year:'2016',topic:'ekon',badge:'b-ekon',q:'B10 – Vilket begrepp passar INTE in i gruppen: Amortera, Banklån, Barnbidrag, Ränta?',
+   opts:['Amortera','Banklån','Barnbidrag','Ränta'],ans:2,
+   exp:'"Barnbidrag" är ett socialt bidrag. De övriga (amortera, lån, ränta) handlar om att låna och betala tillbaka pengar.'},
+  {id:'mc33',year:'2016',topic:'ekon',badge:'b-ekon',q:'B10 – Vilket begrepp passar INTE in i gruppen: Efterfrågan, Pris, Utskott, Utbud?',
+   opts:['Efterfrågan','Pris','Utskott','Utbud'],ans:2,
+   exp:'"Utskott" är ett politiskt begrepp. De övriga (efterfrågan, pris, utbud) är marknadsekonomi-begrepp.'},
+  // 2018 B6 – Vilket begrepp ska bort?
+  {id:'mc34',year:'2018',topic:'sam',badge:'b-sam',q:'B6 – Vilket begrepp handlar INTE om identitet? Genus / Sexualitet / Könsroll / Betänkande',
+   opts:['Genus','Sexualitet','Könsroll','Betänkande'],ans:3,
+   exp:'"Betänkande" är ett politiskt/juridiskt dokument. De övriga (genus, sexualitet, könsroll) handlar om identitet och kön.'},
+  {id:'mc35',year:'2018',topic:'sam',badge:'b-sam',q:'B6 – Vilket begrepp handlar INTE om att byta bostadsort? Migration / Urbanisering / Inflation / Flytta',
+   opts:['Migration','Urbanisering','Inflation','Flytta'],ans:2,
+   exp:'"Inflation" handlar om penningvärde. De övriga (migration, urbanisering, flytta) handlar om att flytta.'},
+  {id:'mc36',year:'2018',topic:'media',badge:'b-media',q:'B6 – Vilket begrepp har INTE med medias uppdrag att göra? Granska / Underhålla / Rösta / Debattera',
+   opts:['Granska','Underhålla','Rösta','Debattera'],ans:2,
+   exp:'"Rösta" är ett demokratiskt/politiskt begrepp. Medias uppdrag är att granska, underhålla och debattera — inte rösta.'},
+  // 2018 B10 – Välfärdsstrukturer
+  {id:'mc37',year:'2018',topic:'ekon',badge:'b-ekon',q:'B10 – En 15-åring tandläkarbesök betalas av…',
+   opts:['15-åringen själv','EU','Kommunen','Landstinget/regionen'],ans:3,
+   exp:'Tandvård för barn och unga (upp till 23 år) finansieras av regionen/landstinget i Sverige.'},
+  {id:'mc38',year:'2018',topic:'ekon',badge:'b-ekon',q:'B10 – Första dagen du är sjuk från jobbet och inte får lön kallas…',
+   opts:['Fast ledighet','Karensdag','Kompledighet','Tillförordnad'],ans:1,
+   exp:'Karensdagen är den första sjukdagen utan ersättning — en självrisk i sjukförsäkringen.'},
+  {id:'mc39',year:'2018',topic:'ekon',badge:'b-ekon',q:'B10 – Att jobba utan att betala skatt på lönen kallas…',
+   opts:['Fast anställning','Feriejobb','Svartjobb','Vikariat'],ans:2,
+   exp:'Svartjobb (svart arbete) innebär att man arbetar utan att deklarera och betala skatt.'},
+  {id:'mc40',year:'2018',topic:'ekon',badge:'b-ekon',q:'B10 – Skolmaten i Sverige är gratis för eleverna därför att…',
+   opts:['Alla elever ska få näringsrik mat oberoende av familjens ekonomi','Annars skulle eleverna bara äta onyttigt','Eleverna presterar sämre om de betalar för maten','Lärarna behöver ett ställe att äta'],ans:0,
+   exp:'Gratis skollunch är ett sätt att garantera jämlika möjligheter — alla barn ska ha tillgång till mat oavsett familjens inkomst.'},
+],
+
+// ─── SANT/FALSKT (TF) ──────────────────────────────────
+tf: [
+  {id:'tf1',year:'2016',topic:'media',badge:'b-media',
+   q:'Påståenden om sökmotorer och källor (2016 Delprov B)',
+   rows:[
+     {stmt:'När du använder en sökmotor kommer alltid de mest trovärdiga träffarna längst upp.',ans:false,exp:'Sökmotorer rankar sidor efter många faktorer — trovärdighet är inte alltid avgörande.'},
+     {stmt:'De olika sökmotorerna har inget ekonomiskt vinstintresse eftersom de är ideella organisationer.',ans:false,exp:'Sökmotorer som Google är kommersiella bolag som tjänar pengar på annonser.'},
+     {stmt:'Om man använder flera källor kan man öka möjligheten att avgöra om informationen stämmer.',ans:true,exp:'Att jämföra flera oberoende källor är grundläggande källkritik.'},
+     {stmt:'Alla texter på Wikipedia skrivs av ämnesexperter så man behöver inte ifrågasätta trovärdigheten.',ans:false,exp:'Wikipedia kan redigeras av vem som helst och bör alltid källkontrolleras.'},
+     {stmt:'Sökmotorerna finansieras bland annat genom företag som annonserar på deras sidor.',ans:true,exp:'Annonser är den primära inkomstkällan för sökmotorer som Google och Bing.'},
+     {stmt:'Informationen på bloggar är ofta mer kontrollerade än informationen på svenska dagstidningars webbplatser.',ans:false,exp:'Dagstidningar har redaktioner och faktagranskning — bloggar är vanligtvis okontrollerade.'},
+     {stmt:'Man behöver inte vara kritisk till det som skrivs i svenska dagstidningar eftersom de skrivs av journalister.',ans:false,exp:'Även journalister kan ha vinklade perspektiv eller göra fel. Källkritik gäller alltid.'},
+     {stmt:'Information från internet kan vara mer relevant än den information som finns i läroböcker.',ans:true,exp:'Internet uppdateras i realtid — för aktuell information kan det vara mer relevant än gamla läroböcker.'},
+     {stmt:'Företag eller organisationer använder många gånger medier för att påverka människor att köpa deras produkter.',ans:true,exp:'Reklam, PR och sponsrat innehåll är vanliga sätt att använda media för att påverka konsumenter.'},
+   ]},
+  {id:'tf2',year:'2018',topic:'ekon',badge:'b-ekon',
+   q:'Påståenden om BNP och HDI (2018 Delprov A)',
+   rows:[
+     {stmt:'BNP mäter värdet på alla varor och tjänster som produceras i ett land under ett år.',ans:true,exp:'Det är definitionen av BNP (Bruttonationalprodukt).'},
+     {stmt:'Haiti, Somalia och Uganda är tre länder som har hög BNP.',ans:false,exp:'Dessa är låginkomstländer med låg BNP.'},
+     {stmt:'För att jämföra länder med olika stor befolkning delar man BNP med antalet medborgare (BNP per capita).',ans:true,exp:'BNP per capita ger en bättre bild av levnadsstandarden per person.'},
+     {stmt:'Ekonomisk tillväxt handlar om att BNP ökar i ett land.',ans:true,exp:'Ekonomisk tillväxt definieras som ökning av BNP.'},
+     {stmt:'Hög BNP per capita innebär alltid att landet har en miljövänlig produktion.',ans:false,exp:'Hög BNP säger inget om hur miljövänlig produktionen är. Många rika länder har hög miljöpåverkan.'},
+     {stmt:'BNP visar hur ett lands budget ser ut.',ans:false,exp:'BNP mäter landets totala produktion, inte statens budget.'},
+     {stmt:'Human Development Index (HDI) mäter livslängd, utbildningsnivå och inkomst i ett land.',ans:true,exp:'HDI kombinerar tre dimensioner: hälsa (livslängd), utbildning och levnadsstandard (BNI per capita).'},
+     {stmt:'Länder med hög BNP har aldrig högt HDI.',ans:false,exp:'Rika länder har ofta bättre möjligheter att investera i utbildning och sjukvård, vilket ger högt HDI.'},
+   ]},
+  {id:'tf3',year:'2018',topic:'polit',badge:'b-polit',
+   q:'Påståenden om folkomröstningar i Sverige (2018 Delprov A)',
+   rows:[
+     {stmt:'Det är riksdagen som fattar beslut om en folkomröstning ska genomföras.',ans:true,exp:'Riksdagen beslutar om rådgivande folkomröstningar ska hållas.'},
+     {stmt:'Folket får rösta i en bestämd fråga.',ans:true,exp:'I en folkomröstning ges folket möjlighet att ta ställning i en specifik fråga.'},
+     {stmt:'Folkomröstning sker alltid vart fjärde år, i september.',ans:false,exp:'Riksdagsval sker vart fjärde år. Folkomröstningar hålls när riksdagen beslutar det — de har hållits 6 gånger i Sverige.'},
+     {stmt:'Folkomröstningar avskaffar politikernas makt.',ans:false,exp:'Svenska folkomröstningar är rådgivande — det är fortfarande riksdagen som fattar det slutgiltiga beslutet.'},
+     {stmt:'Folkomröstning kan innebära att man enkelt kan rösta bort yttrandefriheten.',ans:false,exp:'Grundlagsskyddade rättigheter som yttrandefriheten kan inte avskaffas genom en enkel folkomröstning.'},
+   ]},
+  {id:'tf4',year:'2018',topic:'ekon',badge:'b-ekon',
+   q:'Ytterligare påståenden om BNP och HDI (2018 Delprov A)',
+   rows:[
+     {stmt:'Sverige, USA och Australien är länder som har högt HDI.',ans:true,exp:'Dessa länder toppar regelbundet HDI-listan tillsammans med andra rika länder.'},
+     {stmt:'HDI mäter hur rikt ett land är men säger ingenting om hur befolkningen mår och lever.',ans:false,exp:'HDI mäter just levnadskvalitet — hälsa, utbildning och levnadsstandard. Det är mer än bara rikedom.'},
+     {stmt:'När ett land går från att vara ett jordbruksland till att vara ett industriland ökar vanligtvis landets BNP.',ans:true,exp:'Industrialisering ökar produktiviteten och värdet av vad som produceras, vilket höjer BNP.'},
+   ]},
+  // ── Nya TF-uppgifter ──
+  {id:'tf5',year:'2017',topic:'polit',badge:'b-polit',
+   q:'A1 – Diskriminering: Ja eller Nej? (2017 Delprov A)',
+   rows:[
+     {stmt:'Att en elev som sitter i rullstol inte får vara med på idrotten i skolan.',ans:true,exp:'Diskriminering pga. funktionsnedsättning — förbjudet enligt diskrimineringslagen.'},
+     {stmt:'Att ha kepsförbud i skolans samlingslokal.',ans:false,exp:'Generella ordningsregler som gäller alla är inte diskriminering.'},
+     {stmt:'Att en arbetsgivare anställer någon med sämre meriter och svenskt namn istället för någon med bättre meriter och utländskt namn.',ans:true,exp:'Diskriminering pga. etnisk tillhörighet vid anställning — förbjudet.'},
+     {stmt:'Att inte ha möjlighet att välja skola efter intresse.',ans:false,exp:'Avsaknad av valfrihet är inte diskriminering i lagens mening.'},
+     {stmt:'Att en elev får sänkt betyg på grund av sämre resultat på proven.',ans:false,exp:'Betygssättning baserad på prestation är inte diskriminering.'},
+     {stmt:'Att personalen på en restaurang slänger ut ett homosexuellt par.',ans:true,exp:'Diskriminering pga. sexuell läggning i tjänsteutövning — förbjudet.'},
+     {stmt:'Att matsalen på äldreboendet inte serverar två olika lunchalternativ.',ans:false,exp:'Brist på menyval är inte diskriminering.'},
+     {stmt:'Att bli uppsagd från jobbet på grund av graviditet.',ans:true,exp:'Diskriminering pga. kön/graviditet — förbjudet enligt diskrimineringslagen.'},
+     {stmt:'Att elever som slutat på skolan inte får vara på skolan utan tillåtelse.',ans:false,exp:'Ordnings- och säkerhetsregel som gäller alla — ingen diskriminering.'},
+   ]},
+  {id:'tf6',year:'2016',topic:'media',badge:'b-media',
+   q:'A8 – Dra slutsatser utifrån källor om arbetsmiljö (2016 Delprov A)',
+   rows:[
+     {stmt:'Den som mobbas är i underläge gentemot mobbaren.',ans:true,exp:'Källa 1 (BRÅ) definierar mobbning som en obalans i makt.'},
+     {stmt:'Det är bra att ge stöd åt den som utsatts för hot.',ans:true,exp:'Källa 3 (Suntarbetsliv) rekommenderar just detta.'},
+     {stmt:'Den vanligaste orsaken till arbetsolyckor med sjukfrånvaro i grund/gymnasieskolan är hot och våld.',ans:false,exp:'Källa 2 (Arbetsmiljöverket) visar att fallolyckor (38%) är vanligast, inte hot och våld (20%).'},
+     {stmt:'Det är meningslöst att arbeta förebyggande mot mobbning.',ans:false,exp:'Ingen av källorna stödjer detta — Källa 3 handlar just om förebyggande arbete.'},
+     {stmt:'Skolan ska inte samarbeta med andra för att göra arbetsmiljön bättre.',ans:false,exp:'Källa 3 rekommenderar tvärtom brett samarbete med t.ex. fritidsgårdar och föreningar.'},
+     {stmt:'En stor andel av arbetsolyckorna i grund/gymnasieskolan beror på fall.',ans:true,exp:'Källa 2: 38% av olyckorna är fallolyckor — den största kategorin.'},
+     {stmt:'Mobbning beror på för få vuxna i skolan.',ans:false,exp:'Ingen av källorna pekar ut vuxentäthet som orsak till mobbning.'},
+     {stmt:'Elever och vuxna på skolan kan alla jobba för att minska hot och våld.',ans:true,exp:'Källa 3 nämner explicit att elevråd, föräldraråd och antimobbinggrupper kan engageras.'},
+   ]},
+  {id:'tf7',year:'2017',topic:'polit',badge:'b-polit',
+   q:'B1 – Statsskick: Demokrati vs. Diktatur & Monarki vs. Republik (2017 Delprov B)',
+   rows:[
+     {stmt:'Alla landets medborgare har samma rättigheter. (Demokrati eller Diktatur?)',ans:true,exp:'DEMOKRATI — lika rättigheter för alla är en demokratisk grundprincip.'},
+     {stmt:'Landet styrs av en person eller grupp som har all makt. (Demokrati eller Diktatur?)',ans:false,exp:'DIKTATUR — maktkoncentration till en enda person/grupp är diktaturens kännetecken.'},
+     {stmt:'Medier i landet censureras av makthavarna. (Demokrati eller Diktatur?)',ans:false,exp:'DIKTATUR — censurera medier är typiskt för diktaturer.'},
+     {stmt:'I landet hålls regelbundna och fria val. (Demokrati eller Diktatur?)',ans:true,exp:'DEMOKRATI — fria val är kärnan i demokrati.'},
+     {stmt:'Landet har en kung/drottning som statschef. (Monarki eller Republik?)',ans:true,exp:'MONARKI — kung/drottning som statschef.'},
+     {stmt:'Landet har en president som statschef. (Monarki eller Republik?)',ans:false,exp:'REPUBLIK — president som statschef.'},
+     {stmt:'Statschefen ärver sitt uppdrag av sin företrädare. (Monarki eller Republik?)',ans:true,exp:'MONARKI — ärvt ämbete är kännetecknande för monarki.'},
+     {stmt:'Statschefen utses via val. (Monarki eller Republik?)',ans:false,exp:'REPUBLIK — statschefen väljs, inte ärver.'},
+   ]},
+  {id:'tf8',year:'2017',topic:'polit',badge:'b-polit',
+   q:'B2 – Europeiska Unionen: Stämmer eller Stämmer inte? (2017 Delprov B)',
+   rows:[
+     {stmt:'Alla Nordens länder är med i EU.',ans:false,exp:'Norge och Island är INTE med i EU (men med i EES). Norden ≠ EU-länder.'},
+     {stmt:'Vart femte år får röstberättigade i EU rösta till EU-parlamentet.',ans:true,exp:'EU-parlamentsval hålls vart femte år.'},
+     {stmt:'En av EU:s grundtankar är att bevara freden mellan medlemsländerna.',ans:true,exp:'Fredsbevarande är ett av EU:s ursprungliga syften efter 2:a världskriget.'},
+     {stmt:'Inom EU råder tullfrihet.',ans:true,exp:'EU:s inre marknad innebär fri rörlighet av varor — inga tullar mellan medlemsländer.'},
+     {stmt:'Om ett medlemsland inte följer EU:s regler kommer det omedelbart att lämna EU.',ans:false,exp:'Det finns processer och sanktioner, men uteslutning sker inte automatiskt.'},
+     {stmt:'Som medlem i EU kan ett land få ekonomiskt stöd i form av olika bidrag.',ans:true,exp:'EU har strukturfonder och jordbruksstöd som länder kan ansöka om.'},
+     {stmt:'Sverige måste införa euro som valuta inom tio år eftersom vi är EU-medlemmar.',ans:false,exp:'Sverige har valt att behålla kronan — EU-länderna bestämmer själva om euron.'},
+     {stmt:'Varje lands riksdag/parlament bestämmer om de ska lämna EU.',ans:true,exp:'Ja — exempelprocess: Brexit beslutades i brittiska parlamentet/folkomröstning.'},
+   ]},
+  {id:'tf9',year:'2017',topic:'sam',badge:'b-sam',
+   q:'B7 – Orsaker till migration: Stämmer eller Stämmer inte? (2017 Delprov B)',
+   rows:[
+     {stmt:'Många flyr för att det är krig i hemlandet.',ans:true,exp:'Väpnade konflikter är en av de vanligaste orsakerna till flykt.'},
+     {stmt:'Den främsta orsaken till migration är att människor vill sprida sin religion.',ans:false,exp:'Religionsspridning är inte en vanlig orsak till migration.'},
+     {stmt:'Majoriteten av dem som flyr på grund av krig flyr till ett närliggande land.',ans:true,exp:'De flesta flyktingar stannar i eller nära sitt hemland — inte i Europa.'},
+     {stmt:'Många människor flyttar till ett annat land för att få ett bättre liv.',ans:true,exp:'Ekonomisk migration är vanlig — söker bättre levnadsstandard och möjligheter.'},
+     {stmt:'De flesta flyr för att få leva på bidrag och slippa arbeta.',ans:false,exp:'Forskning visar att flyktingar i hög grad vill arbeta och bidra.'},
+     {stmt:'Svårigheter att leva som öppet homosexuell kan vara en anledning att fly.',ans:true,exp:'Förföljelse pga. sexuell läggning är en erkänd flyktingorsak enligt FN.'},
+     {stmt:'Naturkatastrofer tvingar ibland människor på flykt.',ans:true,exp:'Jordbävningar, översvämningar och torka tvingar miljoner på flykt.'},
+     {stmt:'Majoriteten av de som tvingas fly från sitt land kommer till Sverige.',ans:false,exp:'Absolut fel — de flesta flyktingar stannar i grannländer, inte Sverige.'},
+     {stmt:'Politisk förföljelse i hemlandet är en vanlig orsak till att människor flyr.',ans:true,exp:'Politisk förföljelse är en av FN:s erkända flyktingorsaker.'},
+     {stmt:'Människor som flyr på grund av fattigdom ska räknas som flyktingar enligt FN.',ans:false,exp:'FN:s flyktingkonvention kräver specifik förföljelse — fattigdom räcker inte.'},
+   ]},
+  {id:'tf10',year:'2017',topic:'ekon',badge:'b-ekon',
+   q:'B9 – Ungdomsarbetslöshet (2017 Delprov B)',
+   rows:[
+     {stmt:'Joel har haft svårt att skaffa bostad eftersom han saknar fast inkomst.',ans:true,exp:'Hyresvärdar kräver ofta fast inkomst eller borgen — svårt utan arbete.'},
+     {stmt:'Arbetsgivare har skyldighet att anställa arbetslösa.',ans:false,exp:'Det finns ingen lag som tvingar arbetsgivare att anställa arbetslösa.'},
+     {stmt:'Eftersom Joel är ung och saknar högskoleutbildning kan han inte få fast anställning.',ans:false,exp:'Det finns inga lagar som hindrar det, även om det kan vara svårare utan utbildning.'},
+     {stmt:'Joel, som blev arbetslös direkt efter gymnasiet, har hela tiden haft tillgång till A-kassan.',ans:false,exp:'A-kassan kräver att man arbetat en viss tid — nyexaminerade kvalificerar vanligtvis inte direkt.'},
+     {stmt:'Eftersom Joel saknar arbetslivserfarenhet kommer han att ha svårare att få anställning.',ans:true,exp:'Arbetslivserfarenhet värderas högt av arbetsgivare.'},
+     {stmt:'Studier visar att arbetslösa som Joel har bättre hälsa eftersom de har tid att träna.',ans:false,exp:'Forskning visar tvärtom — långtidsarbetslöshet är förknippad med sämre psykisk hälsa.'},
+     {stmt:'Joels pension kommer att bli lägre eftersom han inte betalat in pensionspoäng under sin arbetslösa period.',ans:true,exp:'Pensionen baseras på inkomst och inbetalda avgifter — lång arbetslöshet minskar pensionen.'},
+     {stmt:'Politiska beslut kan inte påverka Joels möjligheter att få anställning.',ans:false,exp:'Arbetsmarknadspolitik, yrkesutbildning och subventioner kan påverka möjligheterna.'},
+     {stmt:'Ett sätt att komma ur arbetslösheten är att utbilda sig.',ans:true,exp:'Utbildning ökar anställningsbarheten och ger tillgång till fler yrken.'},
+   ]},
+  {id:'tf11',year:'2017',topic:'media',badge:'b-media',
+   q:'B11 – Media: Stämmer eller Stämmer inte? (2017 Delprov B)',
+   rows:[
+     {stmt:'En viktig uppgift för media är att granska beslutsfattare och politiker.',ans:true,exp:'Mediernas granskande roll (den tredje statsmakten) är grundläggande i en demokrati.'},
+     {stmt:'En lokaltidning rapporterar framförallt utrikesnyheter.',ans:false,exp:'Lokaltidningar fokuserar på lokala nyheter — det är definitionen av en lokaltidning.'},
+     {stmt:'Propaganda vill påverka människor att ta till sig ett visst budskap.',ans:true,exp:'Propaganda är ensidig kommunikation som syftar till att påverka åsikter.'},
+     {stmt:'Insändare skrivs i första hand för att ge läsaren allmän information.',ans:false,exp:'Insändare är åsiktsartiklar från läsare — inte neutral information.'},
+     {stmt:'Censur används i Sverige för att avslöja en misstänkt brottslings identitet.',ans:false,exp:'Censur = förbud mot publicering. Sverige har censurförbud. Publicering av brottsmisstänkta regleras av pressetik.'},
+     {stmt:'Svenska Dagbladet och Dagens Nyheter ägs och drivs av politiska partier.',ans:false,exp:'Dessa är oberoende kommersiella tidningar, inte partiorgel.'},
+     {stmt:'En bloggtext förmedlar oftast personliga tankar och åsikter.',ans:true,exp:'Bloggar är personliga publiceringsplattformar — inte professionell journalistik.'},
+     {stmt:'Sveriges Radio och SVT finansieras främst av reklampengar.',ans:false,exp:'SR och SVT är public service och finansieras av public service-avgiften, inte reklam.'},
+     {stmt:'Internet har bidragit till att nyheter sprids snabbare än tidigare.',ans:true,exp:'Digitala medier möjliggör omedelbar nyhetsspridning globalt.'},
+     {stmt:'De flesta demokratiska länder har pressfrihet.',ans:true,exp:'Pressfrihet är ett centralt demokratiskt värde som ingår i de flesta demokratiers grundlagar.'},
+   ]},
+  {id:'tf12',year:'2018',topic:'polit',badge:'b-polit',
+   q:'B1 – Styrelseskick: Demokrati/Diktatur & Monarki/Republik (2018 Delprov B)',
+   rows:[
+     {stmt:'Alla myndiga medborgare får rösta. (Demokrati eller Diktatur?)',ans:true,exp:'DEMOKRATI — allmän rösträtt är en demokratisk princip.'},
+     {stmt:'Flerpartisystem. (Demokrati eller Diktatur?)',ans:true,exp:'DEMOKRATI — flera partier konkurrerar i fria val.'},
+     {stmt:'Enpartisystem. (Demokrati eller Diktatur?)',ans:false,exp:'DIKTATUR — ett enda parti med makt är typiskt för diktaturer.'},
+     {stmt:'Censur av medias nyhetsrapportering. (Demokrati eller Diktatur?)',ans:false,exp:'DIKTATUR — mediakontroll är ett diktaturens verktyg.'},
+     {stmt:'Fri debatt. (Demokrati eller Diktatur?)',ans:true,exp:'DEMOKRATI — yttrandefrihet och fri debatt är grundläggande.'},
+     {stmt:'Politiska motståndare kan fängslas för sina åsikters skull. (Demokrati eller Diktatur?)',ans:false,exp:'DIKTATUR — politisk förföljelse strider mot demokratins principer.'},
+     {stmt:'Makten kan ärvas, t.ex. från förälder till barn. (Monarki eller Republik?)',ans:true,exp:'MONARKI — ärvd makt är monarkiets kännetecken.'},
+     {stmt:'Statschefen utses av folket, genom val. (Monarki eller Republik?)',ans:false,exp:'REPUBLIK — statschefen väljs.'},
+     {stmt:'Landet har kung, drottning eller kejsare. (Monarki eller Republik?)',ans:true,exp:'MONARKI — titel kung/drottning/kejsare.'},
+     {stmt:'Statschefens titel är president. (Monarki eller Republik?)',ans:false,exp:'REPUBLIK — president är statschef i en republik.'},
+   ]},
+  {id:'tf13',year:'2018',topic:'rattigh',badge:'b-rattigh',
+   q:'B5 – När ett brott har begåtts: Stämmer eller Stämmer inte? (2018 Delprov B)',
+   rows:[
+     {stmt:'Målsäganden är den person som har blivit utsatt för brott.',ans:true,exp:'Korrekt definition — brottsoffret kallas målsäganden i juridiska sammanhang.'},
+     {stmt:'Advokaten griper den misstänkte direkt på brottsplatsen.',ans:false,exp:'Det är polisen som griper misstänkta — inte advokater.'},
+     {stmt:'Polisen gör en första undersökning på brottsplatsen.',ans:true,exp:'Polisens förundersökning börjar med att säkra brottsplatsen.'},
+     {stmt:'Notarien är den som är misstänkt för ett brott.',ans:false,exp:'Notarien för protokoll vid rättegången. Den misstänkte kallas tilltalad eller åtalad.'},
+     {stmt:'Domaren är den som väcker åtal mot den misstänkte.',ans:false,exp:'Det är ÅKLAGAREN som väcker åtal — inte domaren.'},
+     {stmt:'Domaren är den som leder rättegången.',ans:true,exp:'Domaren leder och leder förhandlingarna i rättssalen.'},
+     {stmt:'Advokaten för den tilltalades talan i rättssalen.',ans:true,exp:'Försvarsadvokaten representerar och för den tilltalades talan.'},
+     {stmt:'Nämndemännen behöver inte ha juridisk utbildning.',ans:true,exp:'Nämndemän är lekmän (vanliga medborgare) utan krav på juridisk utbildning.'},
+     {stmt:'Den dömdes ålder kan påverka hur hårt straffet blir.',ans:true,exp:'Unga lagöverträdare (under 18) döms till lindrigare straff och ungdomsvård.'},
+     {stmt:'Enligt svensk lag ska alla vara lika inför lagen.',ans:true,exp:'Likhet inför lagen är en grundläggande rättsstatsprincip i Sverige.'},
+   ]},
+],
+
+// ─── PARA IHOP (MATCH) ──────────────────────────────────
+match: [
+  {id:'match1',year:'2016',badge:'b-match',
+   q:'Para ihop åsikterna med rätt politisk ideologi (2016 Delprov A)',
+   items:[
+     {term:'Om man fördelar alla resurser i samhället lika får man ett rättvist samhälle.',ans:0,exp:'Jämlik fördelning av resurser är en kärntanke i socialismen.'},
+     {term:'Samhället mår bäst av att människor umgås med dem från samma kultur och land.',ans:4,exp:'Nationalism betonar gemensam nationell identitet och kultur.'},
+     {term:'Man ska bevara det bästa av de gamla traditionerna i samhället.',ans:1,exp:'Konservatism värdesätter tradition och beprövade institutioner.'},
+     {term:'Det är viktigt att det finns fri konkurrens för att samhället ska utvecklas.',ans:2,exp:'Liberalism betonar marknadsekonomi och fri konkurrens.'},
+     {term:'Natur och miljö kommer före ekonomisk tillväxt.',ans:5,exp:'Ekologism (miljöpartism) sätter ekologisk hållbarhet i centrum.'},
+     {term:'Män och kvinnor är inte jämställda — alla måste aktivt jobba för jämställdhet.',ans:3,exp:'Feminism kämpar för jämställdhet och mot patriarkala strukturer.'},
+   ],
+   opts:['Socialism','Konservatism','Liberalism','Feminism','Nationalism','Ekologism']},
+  {id:'match1b',year:'2016',badge:'b-match',
+   q:'B4 – Vem beslutar om vad? (2016 Delprov B)',
+   items:[
+     {term:'Besluta om högre barnbidrag',ans:2,exp:'Riksdagen fastställer socialförsäkringarna i Sverige.'},
+     {term:'Besluta om vilka läromedel eleverna ska ha',ans:0,exp:'Skolan (rektor/lärare) väljer läromedel inom ramen för läroplanen.'},
+     {term:'Besluta om att människor från Frankrike fritt kan flytta till Sverige för att arbeta',ans:3,exp:'EU:s fri rörlighet regleras av EU — inte Sverige ensamt.'},
+     {term:'Besluta om att ett nytt bostadsområde ska byggas',ans:1,exp:'Kommunen ansvarar för planering och bygglov i sin kommun.'},
+     {term:'Besluta om hur långa raster eleverna ska ha',ans:0,exp:'Skolan beslutar om sin dagliga ordning.'},
+     {term:'Besluta om vad skollagen ska innehålla',ans:2,exp:'Riksdagen stiftar lagar, inklusive skollagen.'},
+     {term:'Besluta om hur mycket pengar som läggs på försvaret',ans:2,exp:'Riksdagen fastställer statsbudgeten och försvarsanslaget.'},
+     {term:'Besluta om att bygga en simhall i samhället',ans:1,exp:'Kommunen ansvarar för fritids- och idrottsanläggningar.'},
+   ],
+   opts:['Skolan','Kommunen','Riksdagen','EU']},
+  {id:'match4',year:'2018',badge:'b-match',
+   q:'B11 – Koppla påstående till rätt samhällsfråga (2018 Delprov B)',
+   items:[
+     {term:'"Om utsläppen av växthusgaserna inte minskar är jag rädd att vår jord kommer att gå under."',ans:7,exp:'Handlar om Miljö (nr 8 i provet).'},
+     {term:'"Det är frustrerande att män tjänar mer än kvinnor när de utför samma arbete."',ans:4,exp:'Handlar om Jämställdhet (nr 5 i provet).'},
+     {term:'"Strängare fängelsestraff skulle minska antalet brott."',ans:5,exp:'Handlar om Kriminalvård (nr 6 i provet).'},
+     {term:'"Vi borde avskaffa kungahuset för det hör inte hemma i en demokrati."',ans:8,exp:'Handlar om Monarki (nr 9 i provet).'},
+     {term:'"Alla människor är lika mycket värda oavsett ålder och härkomst."',ans:3,exp:'Handlar om Jämlikhet (nr 4 i provet).'},
+     {term:'"Det känns tryggt att man är garanterad en advokat och rättvis rättegång."',ans:11,exp:'Handlar om Rättssäkerhet (nr 12 i provet).'},
+     {term:'"Unga påverkas mer än vi tror av tidningar, TV och internet."',ans:10,exp:'Handlar om Reklam/media (nr 11 i provet).'},
+     {term:'"Det är skrämmande att många lagar som styr oss bestäms utanför Sveriges gränser."',ans:1,exp:'Handlar om EU-medlemskap (nr 2 i provet).'},
+   ],
+   opts:['Demokrati','EU-medlemskap','Fastighetsskatt','Jämlikhet','Jämställdhet','Kriminalvård','Militär','Miljö','Monarki','Pensionssystemet','Reklam','Rättssäkerhet']},
+  {id:'match2',year:'2018',badge:'b-match',
+   q:'Para ihop begreppen med rätt förklaring – politiska begrepp (2018 Delprov A)',
+   items:[
+     {term:'Demokrati',ans:0,exp:'Folkstyre — makten utgår från folket.'},
+     {term:'Statsminister',ans:1,exp:'Den person som leder Sveriges regering.'},
+     {term:'Riksdag',ans:2,exp:'Sveriges folkvalda parlament med 349 ledamöter.'},
+     {term:'Majoritet',ans:3,exp:'De flesta av de röstande — mer än hälften.'},
+     {term:'Monarki',ans:4,exp:'Statsskick med kung, drottning eller kejsare.'},
+     {term:'Departement',ans:5,exp:'Avdelning inom regeringen (t.ex. Finansdepartementet).'},
+     {term:'Ideologi',ans:6,exp:'En samling idéer om hur man vill att samhället ska vara.'},
+     {term:'Utskott',ans:7,exp:'Del av riksdagen som förbereder beslut i ett specifikt område.'},
+   ],
+   opts:['Folkstyre — makten utgår från folket','Person som leder landets regering','Folkvaldat parlament','De flesta av de röstande (>50%)','Statsskick med kung/drottning','Avdelning inom regeringen','Idéer om hur samhället ska vara','Del av riksdagen som förbereder beslut']},
+  {id:'match3',year:'2017',badge:'b-match',
+   q:'Para ihop politiska begrepp med rätt förklaring (2017 Delprov A)',
+   items:[
+     {term:'Opinion',ans:0,exp:'Opinion = medborgarnas samlade åsikter i en fråga.'},
+     {term:'Votering',ans:1,exp:'En omröstning för att fatta beslut i en fråga.'},
+     {term:'Fullmäktige',ans:2,exp:'Den folkvalda församling som tar beslut i kommunen.'},
+     {term:'Proposition',ans:3,exp:'Lagförslag som lämnas från regeringen till riksdagen.'},
+     {term:'Oppositionspartier',ans:4,exp:'Riksdagspartier som inte sitter i regeringen.'},
+   ],
+   opts:['Medborgares åsikter i en fråga','Omröstning för att besluta i en fråga','Folkvalda församling i kommunen','Förslag från regeringen till riksdagen','Riksdagspartier utanför regeringen']},
+],
+
+// ─── FYLL I ─────────────────────────────────────────────
+fill: [
+  {id:'fill1',year:'2018',badge:'b-fill',
+   q:'Sveriges politiska system – fyll i rätt begrepp (2018 Delprov A)',
+   intro:'Välj bland begreppen: riksdag, ledamöter, motion, regering, proposition, utskott, talmannen, debatt, votering, majoritet, minoritet',
+   rows:[
+     {before:'Sveriges',blank:'riksdag',after:'har 349',blank2:'ledamöter',rest:'.',hint:'Riksdag & Ledamöter'},
+     {before:'En riksdagsledamot lämnar in en',blank:'motion',after:'(ett eget lagförslag).',hint:'Motion'},
+     {before:'Om förslaget kommer från en minister kallas det istället en',blank:'proposition',after:'.',hint:'Proposition'},
+     {before:'Innan beslut fattas måste frågan beredas i ett',blank:'utskott',after:'.',hint:'Utskott'},
+     {before:'I riksdagens kammare leder',blank:'talmannen',after:'diskussionen som kallas',blank2:'debatt',rest:'.',hint:'Talmannen & debatt'},
+     {before:'En omröstning kallas med ett annat ord för',blank:'votering',after:'.',hint:'Votering'},
+     {before:'Om de flesta röstar för, d.v.s. en',blank:'majoritet',after:', går förslaget igenom.',hint:'Majoritet'},
+   ]},
+  {id:'fill2',year:'2017',badge:'b-fill',
+   q:'Ekonomiska begrepp – fyll i rätt ord (2017 Delprov A)',
+   intro:'Välj bland: arbetslöshetsersättning, barnbidrag, moms, monopol, bostadsbidrag, deklaration, oligopol, svartarbete, bruttolön, inkomstskatt, utlandsbistånd',
+   rows:[
+     {before:'Den som är arbetslös har ofta rätt till',blank:'arbetslöshetsersättning',after:'.',hint:'Ersättning vid arbetslöshet'},
+     {before:'Lön innan skatten dras kallas',blank:'bruttolön',after:'.',hint:'Brutto = före avdrag'},
+     {before:'För barn upp till 15 år betalas',blank:'barnbidrag',after:'ut till vårdnadshavaren.',hint:'Bidrag för barn'},
+     {before:'Den som tjänar pengar måste betala',blank:'inkomstskatt',after:'.',hint:'Skatt på lön'},
+     {before:'När man köper en vara betalar man en skatt som kallas',blank:'moms',after:'.',hint:'Konsumtionsskatt (mervärdesskatt)'},
+     {before:'Systembolaget har',blank:'monopol',after:'på alkoholförsäljningen.',hint:'Ensamrätt på en marknad'},
+     {before:'Familjer med svårt att betala hyra kan ansöka om',blank:'bostadsbidrag',after:'.',hint:'Bidrag för boende'},
+     {before:'I din',blank:'deklaration',after:'redovisar du dina inkomster.',hint:'Årlig skattedeklaration'},
+     {before:'Om man får betalt utan att deklarera kallas det',blank:'svartarbete',after:'.',hint:'Arbete utan att betala skatt'},
+   ]},
+  {id:'fill3',year:'2017',badge:'b-fill',
+   q:'A10 – Migration: fyll i rätt begrepp (2017 Delprov A)',
+   intro:'Välj bland: asyl, flykting, visum, migration, integration, segregation, Migrationsverket, emigration, ambassad, immigration',
+   rows:[
+     {before:'Enligt FN:s mänskliga rättigheter har alla rätt att söka',blank:'asyl',after:'i ett annat land.',hint:'Rätten att söka skydd'},
+     {before:'För att räknas som',blank:'flykting',after:'enligt FN krävs förföljelse pga. kön, religion, politik, nationalitet eller ras.',hint:'FN-definition för skyddsbehövande'},
+     {before:'Från vissa länder behöver man',blank:'visum',after:'för att lagligt resa in i Sverige.',hint:'Tillstånd att resa in'},
+     {before:'',blank:'Migration',after:'betyder att människor frivilligt eller av tvång flyttar inom eller mellan länder.',hint:'Rörelse av människor'},
+     {before:'',blank:'Integration',after:'handlar om att nyanlända blir delaktiga i det nya landet — t.ex. via arbete eller bostad.',hint:'Bli delaktig i nytt land'},
+     {before:'Att olika grupper av människor lever åtskilda kallas',blank:'segregation',after:'.',hint:'Åtskillnad mellan grupper'},
+     {before:'I Sverige är det',blank:'Migrationsverket',after:'som prövar ansökningar om att bosätta sig här.',hint:'Myndighet för migration'},
+     {before:'När människor lämnar sitt land kallas det',blank:'emigration',after:'.',hint:'Flytta FRÅN ett land'},
+   ]},
+  {id:'fill4',year:'2017',badge:'b-fill',
+   q:'B4 – Ett brott begås: fyll i rätt rättsbegrepp (2017 Delprov B)',
+   intro:'Välj bland: anhållen, åklagare, försvarsadvokat, målsägande, tilltalad, vittne, nämndemännen, fängelse, dagsböter, häktad',
+   rows:[
+     {before:'Den misstänkte personen blir',blank:'anhållen',after:'av polisen.',hint:'Tas om hand av polisen'},
+     {before:'En',blank:'åklagare',after:'kopplas in och blir förundersökningsledare.',hint:'Statens representant i rättssalen'},
+     {before:'Den misstänkte har rätt att få hjälp av en',blank:'försvarsadvokat',after:'.',hint:'Advokatens roll'},
+     {before:'Brottsoffret kallas',blank:'målsägande',after:'och den misstänkte kallas',blank2:'tilltalad',rest:' i rättssalen.',hint:'Målsägande & Tilltalad'},
+     {before:'En person som såg brottet kallas',blank:'vittne',after:'.',hint:'Observerade händelsen'},
+     {before:'Man kan dömas till',blank:'fängelse',after:'eller',blank2:'dagsböter',rest:' som påföljd.',hint:'Fängelse & Dagsböter'},
+     {before:'Domaren beslutar tillsammans med',blank:'nämndemännen',after:'om vilken påföljd som utdöms.',hint:'Lekmän i domstolen'},
+   ]},
+  {id:'fill5',year:'2018',badge:'b-fill',
+   q:'B7 – Ekonomiska begrepp: fyll i rätt ord (2018 Delprov B)',
+   intro:'Välj bland: vinst, utbud, import, inflation, marknadsekonomi, BNP, ränta, moms, högkonjunktur, disponibel inkomst',
+   rows:[
+     {before:'När ett företag har större inkomster än utgifter kallas detta för',blank:'vinst',after:'.',hint:'Inkomst minus utgifter'},
+     {before:'Tillgången till en vara kan också kallas',blank:'utbud',after:'.',hint:'Mängden varor tillgängliga'},
+     {before:'',blank:'Import',after:'innebär att ett land köper varor av andra länder.',hint:'Köper varor utifrån'},
+     {before:'',blank:'Inflation',after:'betyder att ett lands pengar minskar i värde.',hint:'Prisnivån stiger'},
+     {before:'När prissättningen sker utan statlig inblandning kallas det',blank:'marknadsekonomi',after:'.',hint:'Fri marknad'},
+     {before:'Det sammanlagda värdet av ett lands produktion kallas',blank:'BNP',after:'(bruttonationalprodukt).',hint:'Mäter landets ekonomi'},
+     {before:'',blank:'Ränta',after:'är kostnaden/avgiften när man tar ett lån i en bank.',hint:'Kostnad för att låna'},
+     {before:'Skatt på varor du köper i en affär kallas',blank:'moms',after:'.',hint:'Mervärdesskatt'},
+     {before:'När ekonomin går bra och få är arbetslösa kallas det',blank:'högkonjunktur',after:'.',hint:'Ekonomin blomstrar'},
+     {before:'Pengarna en löntagare har kvar efter skatt kallas',blank:'disponibel inkomst',after:'.',hint:'Kvar att leva på'},
+   ]},
+],
+
+// ─── ÖPPNA FRÅGOR ───────────────────────────────────────
+open: [
+  {id:'op1',year:'2016',topic:'ekon',badge:'b-ekon',q:'A3 – Att finansiera sjukvård',
+   text:'Majoriteten av invånarnas sjukvård i Sverige finansieras med skattemedel.\n\nResonera om fördelar och nackdelar med att finansiera den svenska sjukvården med skatter!',
+   hint:'Försök att: förtydliga med exempel, fakta eller konsekvenser – få med både individ- och samhällsperspektiv',
+   levels:{
+     e:'Svaret innehåller minst en relevant fördel OCH en relevant nackdel med skattefinansierad sjukvård.',
+     c:'Som E, plus att minst EN av dem förtydligas med exempel, fakta eller konsekvenser.',
+     a:'Som C, plus att BÅDA förtydligas med exempel, fakta eller konsekvenser och resonemangen är mer komplexa.'
+   },
+   tips:['Fördel: Alla har råd med vård oavsett inkomst (jämlikhet).','Fördel: Minskar risken för att sjukdomar sprids (samhällsperspektiv).','Fördel: Bättre folkhälsa ger en mer produktiv arbetskraft.','Nackdel: Skatterna kan bli höga för individen.','Nackdel: Risk för lång kötid — svårt att prioritera.','Nackdel: Ineffektivitet kan uppstå utan marknadskonkurrens.']},
+  {id:'op2',year:'2016',topic:'polit',badge:'b-polit',q:'A2 – Vad är ett bra samhälle?',
+   text:'Sofia: "Jag tror att man får det bästa samhället om individen själv får bestämma över sina resurser."\n\nJosef: "Jag tror att man får det bästa samhället om alla medborgare får dela lika på samhällets resurser."\n\nHjälp dem att argumentera för sina ståndpunkter!',
+   hint:'Försök att: ange olika argument – förtydliga med exempel, fakta eller konsekvenser – beskriva konsekvenser på individ- och samhällsnivå',
+   levels:{
+     e:'Minst ett relevant argument för VARDERA ståndpunkt (Sofias liberala och Josefs socialistiska).',
+     c:'Som E, plus att minst ETT argument förtydligas med exempel/fakta/konsekvenser.',
+     a:'Som C, plus att argumenten för BÅDA är förtydligade och du visar på perspektivbyte.'
+   },
+   tips:['Sofias argument (liberalism): Frihet skapar motivation och innovation.','Sofias argument: Individen vet bäst vad hen behöver.','Josefs argument (socialism): Jämlikhet minskar klassklyftor.','Josefs argument: Grundbehov garanteras för alla, inte bara de rika.','Konsekvens av Josefs: Risk för brist på incitament att arbeta hårt.','Konsekvens av Sofias: Risk för stora inkomstklyftor.']},
+  {id:'op3',year:'2016',topic:'rattigh',badge:'b-rattigh',q:'A9 – Rättssäkerhet: försvarsadvokat',
+   text:'Oavsett hur hemska och grova brott man misstänks för, har man alltid rätt till en försvarsadvokat.\n\nFörklara varför personer som är misstänkta för ett grövre brott alltid får hjälp av en försvarsadvokat!\n\nAnvänd gärna begreppen: demokrati, rättsstat, rättssäkerhet, mänskliga rättigheter',
+   hint:'Försök att: beskriva olika anledningar – förtydliga med exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN relevant orsak till varför brottsmisstänkta har rätt till försvarsadvokat.',
+     c:'Som E, plus att orsaken förtydligas med exempel/fakta/konsekvenser.',
+     a:'Minst TVÅ orsaker, BÅDA förtydligade med exempel/fakta/konsekvenser.'
+   },
+   tips:['Rättssäkerhet: Alla ska behandlas lika inför lagen.','Ingen ska dömas oskyldigt — advokaten skyddar mot orättvisa domar.','Mänsklig rättighet: Rätt till rättvis rättegång (Artikel 6 EKMR).','I en demokratisk rättsstat måste alla ha en chans att försvara sig.','Konsekvens: Utan advokat riskerar fattiga att behandlas sämre än rika.']},
+  {id:'op4',year:'2016',topic:'rattigh',badge:'b-rattigh',q:'A11 – Ändra en grundlag',
+   text:'Om riksdagspolitikerna vill göra ändringar i grundlagarna måste de fatta SAMMA beslut i riksdagen TVÅ gånger med ett riksdagsval emellan. Detta gäller inte andra lagar.\n\nVilka anledningar finns det till att det är så svårt att ändra våra grundlagar?',
+   hint:'Försök att: använda exempel, fakta eller konsekvenser för att förtydliga ditt svar',
+   levels:{
+     e:'Minst EN relevant anledning till varför grundlagar är svåra att ändra.',
+     c:'Som E, plus att anledningen förtydligas med exempel/fakta/konsekvenser.',
+     a:'Minst TVÅ anledningar, BÅDA förtydligade.'
+   },
+   tips:['Grundlagar ska vara stabila — skyddar mot snabba maktmissbruk.','Folket ska ha möjlighet att uttrycka sin åsikt via val innan ändringen.','Förhindrar att en tillfällig riksdagsmajoritet ändrar grundläggande rättigheter.','Skapar förtroende och förutsägbarhet i samhället.','Exempel: om en enda regering enkelt kunde avskaffa yttrandefriheten skulle demokratin hotas.']},
+  {id:'op5',year:'2016',topic:'rattigh',badge:'b-rattigh',q:'A12 – Förbjuda rasistiska organisationer',
+   src:'Lördagen den 23 augusti 2014 hade det nazistiska Sverigedemokraternas parti torgmöte i Limhamn. Uppemot 1 500 motdemonstranter protesterade. Situationen blev våldsam.',
+   text:'En fråga som ställdes var om Sverige ska förbjuda rasistiska organisationer.\n\nResonera om fördelar och nackdelar med ett förbud mot rasistiska organisationer! Använd gärna begreppen frihet och rättighet.',
+   hint:'Försök att: få med minst en fördel och en nackdel – förtydliga med exempel/fakta/konsekvenser – beskriva konsekvenser för samhället',
+   levels:{
+     e:'Minst EN fördel OCH en nackdel med ett förbud.',
+     c:'Som E, plus att MINST EN förtydligas med exempel/fakta/konsekvenser.',
+     a:'Som C, plus att BÅDA förtydligas och du visar perspektivbyte.'
+   },
+   tips:['Fördel: Förhindrar spridning av hatideologi och våldsincitament.','Fördel: Skyddar utsatta grupper — tryggare samhällsklimat.','Nackdel: Inskränker föreningsfrihet och yttrandefrihet.','Nackdel: Svårt att definiera "rasistisk" — vem bestämmer gränsen?','Nackdel: Kan driva rörelserna under jorden — svårare att övervaka.','Konsekvens förbud: Minskar rekrytering till hatgrupper.']},
+  {id:'op6',year:'2016',topic:'media',badge:'b-media',q:'A5 – Att använda en blogg som källa',
+   text:'Inför ett skolarbete om HIV och andra sjukdomar får Ellis höra att bloggar inte får användas som informationskällor. De anses inte vara trovärdiga, säger läraren.\n\nResonera om vad läraren kan ha för argument till att inte tillåta bloggar som källor!',
+   hint:'Försök att: ange flera olika argument – förtydliga med exempel, fakta eller genom att beskriva konsekvenser',
+   levels:{
+     e:'Minst ETT relevant argument till varför bloggar inte bör användas som källor.',
+     c:'Minst TVÅ argument, VARAV ETT förtydligas.',
+     a:'Minst TVÅ argument, BÅDA förtydligade med exempel/fakta/konsekvenser.'
+   },
+   tips:['Vem som helst kan starta en blogg — inga krav på expertis.','Ingen redaktionell granskning eller faktagranskning sker.','Bloggaren kan ha egna intressen (ekonomiska, politiska) att framföra.','Information kan vara föråldrad utan att det märks.','Konsekvens: Eleven riskerar att sprida felaktig medicinsk information.','Jämförelse: Vetenskapliga artiklar genomgår peer review — det gör inte bloggar.']},
+  {id:'op7',year:'2016',topic:'sam',badge:'b-sam',q:'B5 – Sveriges ojämna befolkningsfördelning',
+   text:'85 % av Sveriges befolkning bor på mindre än 1,5 % av landets yta. Befolkningstätheten är mycket större i söder än i norr.\n\nVilka problem (1–3 st.) kan det finnas till följd av att Sverige är så ojämnt befolkat?',
+   hint:'Använd gärna: individ, samhälle, ekonomi, sysselsättning, utbildning, service, skatter, urbanisering, arbetsmarknad\nFörsök att: beskriva flera olika problem – beskriva vilka konsekvenser problemen kan leda till',
+   levels:{
+     e:'Minst ETT relevant problem med ojämn befolkningsfördelning.',
+     c:'Minst TVÅ problem, VARAV ETT förtydligas med konsekvenser.',
+     a:'Som C, men FLER problem med mer utvecklade konsekvenser.'
+   },
+   tips:['Problem 1: Brist på service (sjukvård, skolor) i glesbygd.','Problem 2: Svårt att hitta arbetskraft i norra Sverige.','Problem 3: Kommuner i norr har sämre skatteunderlag.','Problem 4: Svårt för unga att bo kvar i glesbygd (urbanisering).','Konsekvens: Ond cirkel — folk flyttar, service försvinner, fler flyttar.','Konsekvens för individ: Ökade resor till vård och skola.']},
+  {id:'op8',year:'2017',topic:'sam',badge:'b-sam',q:'A6 – Människor på flykt',
+   text:'Tusentals familjer flyr för sina liv varje dag. De tar risken att korsa hav och gränser med taggtråd.\n\nVad påverkar människor att fly? Beskriv orsaker (1–4 st.) till att människor flyr!',
+   hint:'Försök att: förtydliga med exempel eller fakta',
+   levels:{
+     e:'Minst EN relevant orsak till att människor flyr.',
+     c:'Minst TVÅ orsaker, VARAV EN förtydligas.',
+     a:'Minst TRE orsaker, VARAV MINST TVÅ förtydligas.'
+   },
+   tips:['Krig och väpnade konflikter (t.ex. Syrien, Sudan).','Förföljelse pga. religion, etnicitet, politisk åsikt eller kön.','Naturkatastrofer och klimatförändringar.','Fattigdom och brist på försörjningsmöjligheter.','Brott mot mänskliga rättigheter och förtryck av diktaturer.','Exempel: Under syriska inbördeskriget flydde miljontals syrier.']},
+  {id:'op9',year:'2018',topic:'polit',badge:'b-polit',q:'A2 – Varför demokratiska principer är viktiga',
+   text:'Nedan finns fyra demokratiska principer. Välj ut TVÅ och resonera om varför dessa är viktiga för att ett samhälle ska kunna kalla sig demokratiskt.\n\n• Rättssäkerhet\n• Fri media (tidningar, radio, TV, internet)\n• Fria, allmänna och regelbundna val\n• Majoriteten bestämmer',
+   hint:'Tänk på att du inte enbart ska BESKRIVA principen utan måste resonera om VARFÖR den är viktig!',
+   levels:{
+     e:'Minst en relevant anledning till att EN av principerna är viktig i en demokrati.',
+     c:'Minst en anledning för VAR OCH EN av de två valda principerna. Minst EN förtydligas.',
+     a:'Som C, men BÅDA principerna förtydligas med exempel/fakta/konsekvenser.'
+   },
+   tips:['Rättssäkerhet: Ingen oskyldigt dömd — staten kan inte fängsla utan laga grund.','Fri media: Granskar makten — förhindrar korruption.','Fri media: Ger folket information att fatta välgrundade röstningsbeslut.','Fria val: Möjliggör för folket att byta ut styrande de är missnöjda med.','Fria val: Alla röster lika värda — alla medborgare är jämlika.','Majoriteten bestämmer: Effektivt beslutsfattande med folkligt stöd.']},
+  {id:'op10',year:'2018',topic:'ekon',badge:'b-ekon',q:'A9 – Orsaker till att länder ger bistånd',
+   text:'Sverige satsade 2015 cirka 60 miljarder kronor på att hjälpa andra länder — detta kallas bistånd.\n\nResonera om orsaker (1–3 st.) till att länder, som Sverige, ger bistånd för att hjälpa andra länder.',
+   hint:'Försök att: förtydliga ditt svar med hjälp av exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN relevant orsak, förtydligad med exempel/fakta/konsekvenser.',
+     c:'Minst TVÅ orsaker, varav EN förtydligad.',
+     a:'Minst TRE orsaker, varav MINST TVÅ förtydligade.'
+   },
+   tips:['Humanitärt: Rika länder har resurser — moralisk skyldighet att hjälpa.','Egenintresse: Stabila länder orsakar färre flyktingströmmar och konflikter.','Egenintresse: Bistånd bygger relationer — handelsmöjligheter och diplomati.','Miljö: Bistånd kan bidra till klimatarbete som gynnar hela världen.','Mänskliga rättigheter: Biståndet kan stärka demokrati och rättsstatens principer.','Exempel: Katastrofbistånd efter tsunamin 2004 rädde liv och stärkte Sveriges anseende.']},
+  {id:'op11',year:'2018',topic:'sam',badge:'b-sam',q:'A7 – Fördelar och nackdelar med befolkningstillväxt',
+   text:'Sveriges befolkning växer snabbare och snabbare. Med nuvarande ökningstakt kan vi vara 12 miljoner invånare år 2040.\n\nResonera om fördelar (1–2 st.) och nackdelar (1–2 st.) med att Sveriges befolkning växer.',
+   hint:'Försök att förtydliga ditt svar med hjälp av exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN fördel och EN nackdel.',
+     c:'Som E, plus att en fördel och en nackdel förtydligas.',
+     a:'Minst TVÅ fördelar och EN nackdel (eller tvärtom), minst TRE förtydligade.'
+   },
+   tips:['Fördel: Fler i arbetsför ålder → mer skatteintäkter.','Fördel: Minskad belastning på pensionssystemet.','Fördel: Större hemmamarknad → fler företag och jobb.','Nackdel: Bostadsbrist — svårt att bygga tillräckligt snabbt.','Nackdel: Ökad belastning på skola, sjukvård, infrastruktur.','Nackdel: Kan leda till ökad trängsel och miljöproblem i städer.']},
+  {id:'op12',year:'2018',topic:'media',badge:'b-media',q:'A12 – Fördelar och nackdelar med sociala medier',
+   text:'I Sverige använder många människor flera sociala medier t.ex. Instagram, Facebook och Snapchat.\n\nResonera om vilka fördelar (1–2 st.) och vilka nackdelar (1–2 st.) det finns, för individ och samhälle, med att använda sociala medier.',
+   hint:'Försök att förtydliga ditt svar med hjälp av exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN fördel och EN nackdel, VARAV EN förtydligas.',
+     c:'Minst TVÅ fördelar/nackdelar (t.ex. 2+1 eller 1+2), minst TVÅ förtydligade.',
+     a:'Sammanlagt minst FYRA (minst 1 fördel och 1 nackdel), minst TRE förtydligade. Perspektiv: individ OCH samhälle.'
+   },
+   tips:['Fördel: Håller kontakt med vänner och familj oavsett avstånd.','Fördel: Snabb informationsspridning — nås av nyheter direkt.','Fördel: Möjlighet för individer att bilda opinion och påverka samhället.','Nackdel: Näthat och kränkningar — psykisk ohälsa hos unga.','Nackdel: Desinformation och fejknyheter sprids snabbt.','Nackdel: Tidstjuv — beroende och minskad produktivitet.','Samhällsperspektiv nackdel: Polarisering och ekkammare i samhällsdebatten.']},
+  // ── Tillkomna öppna frågor ──
+  {id:'op13',year:'2016',topic:'media',badge:'b-media',q:'A6 – Fördelar och nackdelar med att publicera fritt på internet',
+   src:'"Internet ska vara fritt! Man ska få lägga ut vilka bilder som helst och skriva vad som helst på internet utan att bli straffad för det."',
+   text:'Resonera om fördelar och nackdelar med att fritt få publicera vad som helst på internet!',
+   hint:'Försök att: förtydliga med exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN relevant fördel OCH EN nackdel med fri publicering.',
+     c:'Som E, plus att MINST EN förtydligas med exempel/fakta/konsekvenser.',
+     a:'Som C, plus att BÅDA förtydligas och du resonerar om konsekvenser för samhället.'
+   },
+   tips:['Fördel: Yttrandefrihet och demokratisk debatt — alla röster hörs.','Fördel: Snabb informationsspridning, t.ex. under kriser.','Fördel: Möjliggör visselblåsning och avslöjanden.','Nackdel: Hatbrott, trakasserier och kränkningar sprids fritt.','Nackdel: Felaktig information och propaganda sprids utan faktagranskning.','Nackdel: Integritetskränkningar — bilder kan delas utan samtycke.']},
+  {id:'op14',year:'2016',topic:'media',badge:'b-media',q:'A7 – Källkritik (Ja till Livet)',
+   src:'"Ja till Livets vision är ett samhälle där ingen skall vilja göra abort eller önska få dödshjälp." — Källa: www.jatilllivet.se',
+   text:'Du och dina klasskamrater ska söka fakta om dödshjälp och abort och hittar organisationen Ja till Livets hemsida.\n\nResonera om vilka källkritiska aspekter (1–3 st.) ni bör tänka på när ni använder information från denna hemsida!',
+   hint:'Försök att: förtydliga med exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN relevant källkritisk aspekt för denna specifika källa.',
+     c:'Minst TVÅ aspekter, VARAV EN förtydligas.',
+     a:'Minst TVÅ aspekter, BÅDA förtydligade med exempel/konsekvenser.'
+   },
+   tips:['Avsändaren: Organisationen har en tydlig åsikt om ämnet — inte neutral.','Syfte: Sidan syftar till att påverka, inte informera objektivt.','Trovärdighet: Saknas troligen vetenskapliga källhänvisningar.','Vinkelt: Information kan selektivt väljas för att stödja organisationens ståndpunkt.','Åtgärd: Jämför med neutrala källor som Socialstyrelsen eller 1177.','Konsekvens: Om du bara använder denna källa riskerar du ett ensidigt skolarbete.']},
+  {id:'op15',year:'2016',topic:'media',badge:'b-media',q:'B9 – Källkritik på internet',
+   text:'På internet finns det mycket information att hitta. Varför kan det vara viktigt att:\n\na) Ta reda på VEM som gjort webbsidan?\nb) Ta reda på VARFÖR webbsidan är gjord?\nc) Ta reda på NÄR webbsidan uppdaterades?\nd) Använda SIG AV FLERA KÄLLOR?',
+   hint:'Försök att: förtydliga med exempel, fakta eller konsekvenser för varje delfråga',
+   levels:{
+     e:'Minst en relevant anledning per delfråga (a–d).',
+     c:'Som E, plus att minst EN anledning förtydligas per delfråga.',
+     a:'Som C, men FLER anledningar förtydligas per delfråga.'
+   },
+   tips:['a) Vem: Okänd avsändare kan ha egna intressen att vinkla informationen.','a) Vem: Expertkällor är mer trovärdiga — t.ex. myndigheter vs. anonyma bloggar.','b) Varför: Reklam- eller lobbywebbplatser kan vara partiska.','b) Varför: Ideella organisationer kan ha politiska agenda.','c) När: Gammal information kan vara felaktig — t.ex. gamla lagar, statistik.','d) Flera källor: Minskar risken att bli lurad av en ensidig källa.']},
+  {id:'op16',year:'2016',topic:'sam',badge:'b-sam',q:'B2 – Argumentera för ståndpunkter',
+   text:'Anna har följande ståndpunkter. Hjälp henne argumentera:\n\na) "Det är bra att höja skatten på bensin därför att..."\nb) "Det är bra att satsa mer pengar på försvaret därför att..."\nc) "Det är bra att vi har massmedia som är fri från statlig kontroll därför att..."',
+   hint:'Försök att: ange olika argument – förtydliga med exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst ett relevant argument per delfråga.',
+     c:'Som E, plus att minst ETT argument förtydligas per delfråga.',
+     a:'Som C, men fler förtydligade argument per delfråga.'
+   },
+   tips:['Bensin: Minskar utsläpp och klimatpåverkan (miljöargument).','Bensin: Pengar till kollektivtrafik och infrastruktur.','Försvar: Avskräckningseffekt — minskar risk för angrepp.','Försvar: Kan bistå vid naturkatastrofer och kriser.','Fri media: Granskar makten och förhindrar korruption.','Fri media: Ger medborgarna rätt information att rösta på.']},
+  {id:'op17',year:'2016',topic:'ekon',badge:'b-ekon',q:'B3 – En kostnadsfri skola',
+   text:'Alvas klass vill åka på en skolresa. Alva föreslår att varje elev ska betala 500 kronor. Klassens lärare säger att skolan ska vara kostnadsfri och betalas med skattemedel.\n\nResonera om varför vi har en kostnadsfri skola i Sverige!',
+   hint:'Försök att: förtydliga ditt resonemang med konsekvenser för individ och samhälle',
+   levels:{
+     e:'Minst EN relevant anledning till varför skolan är kostnadsfri.',
+     c:'Som E, plus att anledningen förtydligas med konsekvenser ur individ- och/eller samhällsperspektiv.',
+     a:'Som C, men FLER anledningar med konsekvenser för BÅDA perspektiven.'
+   },
+   tips:['Jämlikhet: Alla barn ska ha samma möjligheter oavsett familjens ekonomi.','Demokrati: Utbildad befolkning stärker demokratin.','Samhällsekonomiskt: Utbildade medborgare bidrar mer till ekonomin.','Grundlagsstadgad: Rätten till kostnadsfri utbildning finns i skollagen.','Individ: Utan kostnadsfri skola riskerar fattiga familjer att inte skicka sina barn.','Samhälle: Risk för ökade klassklyftor om skolan kostade pengar.']},
+  {id:'op18',year:'2016',topic:'sam',badge:'b-sam',q:'B6 – Nedläggning av en skola',
+   text:'En skola hotas av nedläggning. Eleverna kommer att behöva åka till andra skolor.\n\nVilka argument FÖR och EMOT skolans nedläggning kan dessa grupper ha?\n• Politiker\n• Föräldrar\n• Elever\n• Skolpersonal',
+   hint:'Försök att: inte använda samma argument flera gånger – använda exempel och/eller fakta som stöd till argumenten',
+   levels:{
+     e:'Minst ett argument för och ett emot från minst en grupp.',
+     c:'Argument för och emot från MINST TVÅ grupper, varav ETT förtydligas.',
+     a:'Argument för och emot från MINST TRE grupper, varav MINST TVÅ förtydligas.'
+   },
+   tips:['Politiker för: Besparing för kommunen — leder till mer pengar till andra tjänster.','Politiker mot: Negativ för kommunens attraktivitet och inflyttning.','Föräldrar mot: Längre resväg — svårt att hinna till/från skolan.','Föräldrar för: Större skola kan ge bättre specialresurser och bredare ämnesutbud.','Elever mot: Förlorar vänner och trygg miljö.','Skolpersonal mot: Riskerar att förlora jobbet.']},
+  {id:'op19',year:'2016',topic:'media',badge:'b-media',q:'B7 – Kränkningar på nätet',
+   src:'45% av barn 12–16 år har blivit utsatta för kränkningar på nätet/mobilen (Friends 2013). 19% av elever i åk 9 har blivit utsatta för kränkningar i skolan (Friendsrapporten 2012).',
+   text:'Siffrorna visar att det är betydligt fler som blivit utsatta för kränkningar på nätet jämfört med i skolan.\n\nBeskriv vilka anledningar det kan finnas till att det är så många fler som blivit utsatta för kränkningar på nätet jämfört med i skolan!',
+   hint:'Försök att: förtydliga med exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN relevant anledning till varför kränkningar är vanligare på nätet.',
+     c:'Minst TVÅ anledningar, VARAV EN förtydligas.',
+     a:'Minst TVÅ anledningar, BÅDA förtydligade.'
+   },
+   tips:['Anonymitet: Lättare att vara elak när man inte syns.','Tillgänglighet: Nätet är öppet dygnet runt — offret kan inte fly.','Räckvidd: Kränkningar kan spridas till hela skolan/internet på sekunder.','Lägre tröskel: Man kan kränka utan att se offrets reaktion.','Svårare att bevisa och anmäla digitala kränkningar.','Konsekvens: Offret kan aldrig "gå hem" från kränkningarna.']},
+  {id:'op20',year:'2016',topic:'ekon',badge:'b-ekon',q:'B11 – Minska ekonomisk hjälp',
+   text:'I Sverige kan du få ekonomisk hjälp av samhället om du blir arbetslös eller inte kan försörja dig.\n\nBeskriv vad det skulle kunna få för konsekvenser (1–4 st.) för individer och samhälle om denna ekonomiska hjälp skulle minskas kraftigt!',
+   hint:'Försök att: beskriva vad konsekvenserna kan leda till – beskriva konsekvenser för individ och samhälle',
+   levels:{
+     e:'Minst EN relevant konsekvens (i flera led) ELLER minst TVÅ konsekvenser.',
+     c:'Minst TRE konsekvenser, minst TVÅ i flera led, berör BÅDA individ och samhälle.',
+     a:'Minst FYRA konsekvenser, minst TRE i flera led, berör BÅDA individ och samhälle.'
+   },
+   tips:['Individ: Svårare att betala hyra — risk för hemlöshet.','Individ: Stress och psykisk ohälsa — svårare att återgå till arbete.','Individ: Tvingad att ta lån — ökad skuldsättning.','Samhälle: Ökad kriminalitet om folk tvingas försörja sig illegalt.','Samhälle: Minskad konsumtion → lågkonjunktur → fler jobb hotas.','Möjlig positiv effekt: Ökad arbetsmotivation — lägre arbetslöshet på sikt.']},
+  {id:'op21',year:'2016',topic:'sam',badge:'b-sam',q:'B13 – Val av framtida yrke',
+   text:'Det finns många faktorer som påverkar vad en elev i åk 9 kan komma att arbeta med i framtiden.\n\nBeskriv vilka faktorer (2–4 st.) som kan påverka våra yrkesval!',
+   hint:'Försök att: beskriva olika faktorer – förtydliga med exempel, fakta eller konsekvensbeskrivningar',
+   levels:{
+     e:'Minst TVÅ relevanta faktorer, varav ETT förtydligande.',
+     c:'Minst TRE faktorer, minst TVÅ förtydligade.',
+     a:'Minst FYRA faktorer, minst TRE förtydligade.'
+   },
+   tips:['Intressen och passion — man väljer yrken man brinner för.','Utbildningsnivå och betyg — påverkar vilka utbildningar man har tillgång till.','Familjebakgrund och föräldrars yrken — kan både inspirera och begränsa.','Socioekonomisk bakgrund — rika familjer har fler möjligheter att satsa på utbildning.','Diskriminering på arbetsmarknaden pga. etnicitet, kön eller funktionsvariation.','Arbetsmarknadens efterfrågan — vissa yrken har bättre jobbchanser.']},
+  {id:'op22',year:'2017',topic:'rattigh',badge:'b-rattigh',q:'A3 – Fotboja istället för fängelse',
+   text:'Fotboja är ett alternativ till fängelsestraff. Den som döms till fängelse i högst 6 månader kan ansöka om fotboja. Den dömde övervakas dygnet runt med en sändare runt foten.\n\nResonera om vilka fördelar och vilka nackdelar det kan finnas med att brottslingar får fotboja istället för fängelse!',
+   hint:'Försök att: förtydliga med exempel, fakta eller konsekvenser – få med både individ- och samhällsperspektiv',
+   levels:{
+     e:'Minst EN fördel OCH EN nackdel.',
+     c:'Som E, plus att MINST EN förtydligas med exempel/fakta/konsekvenser.',
+     a:'Som C, plus att BÅDA förtydligas och du visar individ- och samhällsperspektiv.'
+   },
+   tips:['Fördel individ: Behåller arbete, familj och socialt nätverk.','Fördel samhälle: Billigare än fängelsevistelse — sparar skattepengar.','Fördel: Minskar risken att den dömde lär sig mer kriminalitet i fängelse.','Nackdel: Svårare att övervaka — risk att brott begås igen.','Nackdel: Upplevs som mildare straff — kan minska avskräckningseffekten.','Nackdel: Brottsoffret kan känna sig otrygg om förövaren är på fri fot.']},
+  {id:'op23',year:'2017',topic:'sam',badge:'b-sam',q:'A7 – Det har blivit bättre i världen',
+   text:'Statistik från Gapminder visar att de senaste 50 åren inneburit stora förbättringar i hela världen, framför allt för länder i Asien och Sydamerika — ökad livslängd och ökad inkomst.\n\nResonera om vilka orsaker (2–4 st.) det kan finnas till att läget i världen har blivit mycket bättre!',
+   hint:'Använd gärna: utbildning, ekonomi, demokrati, sjukvård\nFörsök att: förtydliga med exempel eller fakta',
+   levels:{
+     e:'Minst EN relevant orsak till att läget i världen förbättrats.',
+     c:'Minst TVÅ orsaker, VARAV EN förtydligas.',
+     a:'Minst TRE orsaker, VARAV MINST TVÅ förtydligas.'
+   },
+   tips:['Bättre sjukvård och vacciner — minskad barnadödlighet, längre liv.','Ökad utbildning — bättre jobb, bättre beslut om hälsa och ekonomi.','Demokratisering — fler länder med stabila institutioner och mänskliga rättigheter.','Globalisering och frihandel — ekonomisk tillväxt i länder som Kina och Indien.','Bistånd och internationellt samarbete — FN, WHO, Världsbanken.','Teknologisk utveckling — internet, mobiltelefoner, effektivare jordbruk.']},
+  {id:'op24',year:'2017',topic:'sam',badge:'b-sam',q:'A11 – Globalisering: hot eller möjlighet?',
+   text:'Globalisering innebär att länder bundits samman och fått en mer gemensam ekonomi, politik och kultur.\n\nResonera om vad det finns för fördelar och vad det finns för nackdelar med en allt mer globaliserad värld!',
+   hint:'Försök att: förtydliga med exempel eller fakta – resonera ur både individ- och samhällsperspektiv',
+   levels:{
+     e:'Minst EN fördel och EN nackdel.',
+     c:'Som E, plus att MINST EN förtydligas med exempel/fakta.',
+     a:'Minst TVÅ fördelar och TVÅ nackdelar, MINST EN av varje förtydligas. Resonemang på individ- och samhällsnivå.'
+   },
+   tips:['Fördel: Ökad handel och ekonomisk tillväxt för utvecklingsländer.','Fördel: Spridning av idéer, teknik och medicin räddar liv.','Fördel: Länder samarbetar bättre — förebygger krig.','Nackdel: Arbeten i rika länder förflyttas till billigare länder.','Nackdel: Exploatering av arbetstagare i fattiga länder (låga löner, dåliga villkor).','Nackdel: Kulturell homogenisering — lokala kulturer hotas.','Nackdel: Ekonomiska kriser sprids snabbt mellan länder.']},
+  {id:'op25',year:'2017',topic:'sam',badge:'b-sam',q:'A12 – Barnarbete',
+   text:'Det finns ungefär 265 miljoner barn i världen som arbetar.\n\na) Vad kan det finnas för orsaker (1–2 st.) till att barn arbetar?\nb) Vad kan barnarbete ge för konsekvenser (1–2 st.)?\nc) Vad skulle man kunna göra (1–2 exempel) för att minska barnarbete i världen?',
+   hint:'Försök att i alla tre deluppgifter: förtydliga med exempel eller fakta – resonera ur både individ- och samhällsperspektiv',
+   levels:{
+     e:'Minst EN orsak, EN konsekvens och EN åtgärd.',
+     c:'Minst FYRA punkter fördelade på alla tre delfrågor, varav TVÅ förtydligade.',
+     a:'Minst FEM punkter fördelade på alla tre delfrågor, varav TRE förtydligade. Resonemang om individ och samhälle.'
+   },
+   tips:['Orsak: Familjen behöver inkomst — barnen måste bidra till försörjningen.','Orsak: Barn är billig och lättstyrd arbetskraft — företag utnyttjar dem.','Orsak: Brist på skolplatser eller skolavgifter gör att barn arbetar istället.','Konsekvens: Barnen missar utbildning — begränsade framtidsmöjligheter.','Konsekvens: Fysisk och psykisk skada av hårt arbete i unga år.','Åtgärd: Stärk skollagar och ge bidrag för att gå i skola.','Åtgärd: Internationellt tryck på företag att inte använda barnarbete.']},
+  {id:'op26',year:'2017',topic:'ekon',badge:'b-ekon',q:'B3 – Om Sverige skulle gå ur EU',
+   text:'Sverige har sedan 1995 varit medlem i EU. Det finns individer och partier som vill att Sverige ska gå ur EU.\n\nHur skulle det kunna påverka individer och samhället i Sverige, om Sverige lämnade EU? Beskriv 1–3 konsekvenser.',
+   hint:'Försök att: förtydliga med exempel eller fakta – beskriva konsekvenser ur olika perspektiv: individ och samhälle, kort och lång sikt',
+   levels:{
+     e:'Minst EN relevant konsekvens av ett EU-utträde.',
+     c:'Minst TVÅ konsekvenser, VARAV EN förtydligas.',
+     a:'Minst TRE konsekvenser, VARAV MINST TVÅ förtydligas. Positiva och negativa perspektiv.'
+   },
+   tips:['Negativ: Svårare att handla och resa inom Europa — tullhinder och visumkrav.','Negativ: Förlorar inflytande över EU-lagar som ändå påverkar oss.','Negativ: Minskade EU-bidrag till lantbruk, infrastruktur, forskning.','Positiv: Sverige bestämmer mer själva — t.ex. om immigrationspolitik.','Positiv: Slipper betala EU-avgiften (ca 35 miljarder kr/år).','Individ: Svårare att arbeta och studera i EU-länder.']},
+  {id:'op27',year:'2017',topic:'ekon',badge:'b-ekon',q:'B5 – När fabriken lägger ner och flyttar utomlands',
+   src:'"Höganäs Keramik lägger ner produktionen i Sverige och flyttar till Thailand. Höga produktionskostnader och hård konkurrens är orsaker."',
+   text:'Resonera om hur samhället och enskilda individer kan påverkas av en fabriksnedläggning! Beskriv 1–3 konsekvenser.',
+   hint:'Försök att: beskriva konsekvenser på kort och lång sikt – jämföra hur individer och samhällen kan påverkas på olika sätt',
+   levels:{
+     e:'Minst EN relevant konsekvens för individ eller samhälle.',
+     c:'Minst TVÅ konsekvenser, VARAV EN förtydligas.',
+     a:'Minst TRE konsekvenser, VARAV MINST TVÅ förtydligas. Berör BÅDA individ och samhälle, kort och lång sikt.'
+   },
+   tips:['Individ kortssikt: Förlorar inkomst och trygghet — svårt att betala räkningar.','Individ lång sikt: Svårt att hitta nytt jobb i liten ort — måste kanske flytta.','Samhälle kort sikt: Minskade skatteintäkter och ökade bidragsutbetalningar.','Samhälle lång sikt: Orten kan avfolkas — skolor och service hotas.','Möjlig positiv effekt för individ: Omställningsstöd och ny utbildning.','Global aspekt: Arbetsplatser skapas i Thailand — men under sämre villkor.']},
+  {id:'op28',year:'2017',topic:'polit',badge:'b-polit',q:'B6 – Konsekvenser av politiska beslut',
+   text:'Politiker fattar beslut som kan få olika konsekvenser.\n\na) Förklara hur ett beslut om höjd pensionsålder kan leda till att statens ekonomi förbättras!\nb) Förklara hur ett beslut om en kraftig sänkning av inkomstskatten kan leda till sämre tillgång till sjukvård!',
+   hint:'Försök att: beskriva flera olika samband – förtydliga med exempel eller fakta',
+   levels:{
+     e:'Minst EN relevant koppling per delfråga (hur beslutet leder till konsekvensen).',
+     c:'Som E, plus att ETT samband förtydligas med exempel/fakta per delfråga.',
+     a:'Som C, men FLER samband förtydligas per delfråga.'
+   },
+   tips:['a) Fler arbetar längre → fler betalar skatt → mer pengar till staten.','a) Fler i arbete → färre pensionsutbetalningar → lägre statsutgifter.','b) Lägre skatt → mindre pengar till staten → lägre budget för sjukvård.','b) Lägre skatteintäkter → kommuner måste spara → stänger sjukstugor.','Kedjesamband är nyckeln: Beslut → direkt effekt → konsekvens.']},
+  {id:'op29',year:'2017',topic:'sam',badge:'b-sam',q:'B8 – Den globala handeln',
+   text:'Sverige liksom de flesta länder exporterar och importerar varor till och från hela världen.\n\nHur påverkas länder och enskilda individer av den globala handeln? Beskriv 1–3 konsekvenser.',
+   hint:'Försök att: förtydliga med exempel eller fakta – beskriva både positiva och negativa konsekvenser',
+   levels:{
+     e:'Minst EN konsekvens av global handel (positiv eller negativ).',
+     c:'Minst TVÅ konsekvenser (positiva och negativa), VARAV EN förtydligas.',
+     a:'Minst TRE konsekvenser, VARAV MINST TVÅ förtydligas. Perspektiv: länder och individer.'
+   },
+   tips:['Positiv: Lägre priser på varor — konsumenter kan köpa mer.','Positiv: Länder specialiserar sig på det de är bra på — ökad effektivitet.','Positiv: Ekonomisk tillväxt i exporterande länder.','Negativ: Jobb förflyttas till länder med lägre löner.','Negativ: Arbetstagare i fattiga länder exploateras.','Negativ: Långa transporter bidrar till ökade koldioxidutsläpp.']},
+  {id:'op30',year:'2017',topic:'ekon',badge:'b-ekon',q:'B10 – Konsekvenser av att jobba svart',
+   text:'Att jobba svart innebär att man jobbar utan att betala skatt, men också att arbetsgivaren inte betalar sociala avgifter.\n\nVilka konsekvenser kan det bli av att jobba svart?',
+   hint:'Försök att: förtydliga med exempel eller fakta – beskriva konsekvenser för både individ och samhälle',
+   levels:{
+     e:'Minst EN relevant konsekvens.',
+     c:'Som E, plus att konsekvensen förtydligas med exempel/fakta, ELLER minst EN konsekvens utvecklas i flera led.',
+     a:'Minst TVÅ konsekvenser, minst TVÅ förtydligade. Berör BÅDA individ och samhälle.'
+   },
+   tips:['Individ: Ingen sjuklön, semester eller arbetsgivaravgifter — inget skydd.','Individ: Lägre pension — svart arbete ger ingen pensionspoäng.','Individ: Risk för böter och rättsliga påföljder.','Samhälle: Staten får in mindre skatteintäkter — sämre sjukvård och skola.','Samhälle: Oseriösa företag konkurrerar ut schyssta företag.','Samhälle: Orättvist — de som betalar skatt bär en större börda.']},
+  {id:'op31',year:'2017',topic:'media',badge:'b-media',q:'B12 – Lägga ut bilder på sig själv på sociala medier',
+   text:'En del ungdomar lägger dagligen ut bilder på sig själva och sina kompisar på Instagram och andra sociala medier.\n\nResonera om konsekvenser (1–3 st.) med att lägga ut bilder på sig själv på sociala medier!',
+   hint:'Försök att: förtydliga med exempel eller fakta – växla perspektiv: positivt och negativt, kort och lång sikt',
+   levels:{
+     e:'Minst EN relevant konsekvens.',
+     c:'Minst TVÅ konsekvenser, VARAV EN förtydligas. Perspektivbyte (t.ex. + och -).',
+     a:'Minst TRE konsekvenser, VARAV MINST TVÅ förtydligas. Tydligt perspektivbyte.'
+   },
+   tips:['Positiv: Bygger identitet och självförtroende — uppmärksamhet och bekräftelse.','Positiv: Kan leda till karriärmöjligheter som influencer eller modell.','Negativ kort sikt: Bilder kan delas utan samtycke och användas för mobbning.','Negativ lång sikt: Bilder finns kvar för alltid — kan påverka framtida jobbansökan.','Negativ: Risk för nätmobbning om bilder kommenteras negativt.','Integritet: Informationen om var du är och vad du gör sprids till okända.']},
+  {id:'op32',year:'2018',topic:'polit',badge:'b-polit',q:'B2 – Demokrati som styrelsesätt',
+   text:'Demokrati är ett styrelsesätt som förespråkas av många.\n\na) Resonera om fördelar (1–2 st.) med demokrati som styrelsesätt.\nb) Resonera om svårigheter (1–2 st.) med demokrati som styrelsesätt.',
+   hint:'Försök att förtydliga ditt svar med hjälp av exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN fördel och EN svårighet.',
+     c:'Som E, plus att MINST EN av dem förtydligas per delfråga.',
+     a:'Som C, men BÅDA förtydligas per delfråga.'
+   },
+   tips:['Fördel: Alla medborgare har möjlighet att påverka — legitimitet.','Fördel: Minskar risken för godtyckliga beslut och maktmissbruk.','Fördel: Skyddar mänskliga rättigheter och minoriteter.','Svårighet: Tar lång tid att fatta beslut — effektivitetsproblem.','Svårighet: Majoritetens tyranni — minoriteters rättigheter kan hotas.','Svårighet: Kräver informerade medborgare — svårt om utbildning är ojämlik.']},
+  {id:'op33',year:'2018',topic:'media',badge:'b-media',q:'B3 – Fria medier i en demokrati',
+   text:'I en demokrati som Sverige är det viktigt att medierna är fria — de styrande får inte styra vad som skrivs i media.\n\nResonera om vilka orsaker (1–3 st.) det finns till att fria medier är viktigt i en demokrati.',
+   hint:'Försök att förtydliga ditt svar med hjälp av exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN relevant orsak till varför fri media är viktig i en demokrati.',
+     c:'Minst TVÅ orsaker, VARAV EN förtydligas.',
+     a:'Minst TRE orsaker, VARAV MINST TVÅ förtydligas.'
+   },
+   tips:['Granskning: Media kontrollerar makthavare och avslöjar korruption.','Information: Medborgare behöver korrekt information för att kunna rösta.','Yttrandefrihet: Fri media möjliggör debatt och oliktänkande.','Konsekvens: Utan fri media kan propaganda och lögner styra folket.','Exempel: Kontrollerade medier i diktaturer som Nordkorea hindrar politisk förändring.','Demokratisk förutsättning: Utan fri media vet folk inte vad makten gör.']},
+  {id:'op34',year:'2018',topic:'media',badge:'b-media',q:'B4 – Ryktesspridning på internet',
+   text:'När brott sker händer det att misstänkta namnges på internetsajter, trots att det inte är avgjort om de är skyldiga.\n\nBeskriv vilka konsekvenser (1–3 st.) den här typen av ryktesspridning på internet kan få både för individer och för samhället.',
+   hint:'Försök att förtydliga ditt svar med hjälp av exempel eller fakta',
+   levels:{
+     e:'Minst EN relevant konsekvens för individ eller samhälle.',
+     c:'Minst TVÅ konsekvenser (berör individ och samhälle), VARAV EN förtydligas.',
+     a:'Minst TRE konsekvenser, VARAV MINST TVÅ förtydligas. Berör BÅDA perspektiven.'
+   },
+   tips:['Individ: Den utpekade kan vara oskyldig — rättssäkerheten kränks.','Individ: Psykisk skada, trakasserier, hotfulla meddelanden.','Individ: Svårt att återställa sitt rykte — internet glömmer inte.','Samhälle: Underminerar rättssystemet — folk tar lagen i egna händer.','Samhälle: Minskar tilltron till rättsväsendet om folk dömmer utan rättegång.','Samhälle: Risk för lynchmobbar och hämndaktioner mot fel person.']},
+  {id:'op35',year:'2018',topic:'ekon',badge:'b-ekon',q:'B8 – De ekonomiska klyftorna ökar',
+   text:'Enligt SVT ökar de ekonomiska skillnaderna i Sverige — de rikaste har blivit rikare medan de fattiga har blivit fattigare.\n\nResonera om politiska åtgärder (1–3 st.) och hur dessa skulle kunna minska de ekonomiska klyftorna i Sverige.',
+   hint:'Försök att: förtydliga ditt svar med exempel som beskriver vilken effekt åtgärden får',
+   levels:{
+     e:'Minst EN relevant politisk åtgärd för att minska klyftorna.',
+     c:'Minst TVÅ åtgärder, VARAV EN förtydligas med konsekvens/effekt.',
+     a:'Minst TRE åtgärder, VARAV MINST TVÅ förtydligas med konsekvens/effekt.'
+   },
+   tips:['Progressiv beskattning: Rika betalar mer skatt → utjämning.','Höja minimilöner → fattiga får mer betalt.','Satsa på gratis utbildning och omskolning → fler i arbete.','Öka bidrag till låginkomsttagare (bostadsbidrag, barnbidrag).','Satsa på jämställda löner — utjämna lönegap mellan kön.','Minska bostadssegregation — alla ska ha tillgång till bra skolor.']},
+  {id:'op36',year:'2018',topic:'ekon',badge:'b-ekon',q:'B9 – Konsumera mera?',
+   text:'Vid lågkonjunktur håller folk igen och sparar. Ekonomer uppmanar ibland befolkningen att istället fortsätta konsumera för att hjälpa landets ekonomi.\n\nBeskriv vilka effekter (1–3 st.) att människor handlar kan få för ekonomin i samhället.',
+   hint:'Använd perspektiven: individen/hushållen, företagen, offentlig sektor\nFörsök att förtydliga med hjälp av exempel, fakta eller konsekvenser',
+   levels:{
+     e:'Minst EN relevant effekt ur ETT perspektiv.',
+     c:'Minst TVÅ effekter ur TVÅ perspektiv, VARAV EN förtydligas.',
+     a:'Minst TRE effekter ur TRE perspektiv, VARAV MINST TVÅ förtydligas.'
+   },
+   tips:['Individ/hushåll: Mer konsumtion → fler jobb → högre lön → mer konsumtion (positiv spiral).','Företag: Ökad försäljning → mer vinst → investeringar och anställningar.','Offentlig sektor: Mer moms och skatter in → mer pengar till välfärd.','Kedjereaktionen: Pengar man spenderar cirkulerar i ekonomin.','Exempel: Sverige under 90-talskrisen — minskad konsumtion förvärrade krisen.','Risk: För hög konsumtion kan leda till inflation.']},
+  {id:'op37',year:'2018',topic:'ekon',badge:'b-ekon',q:'B12 – Unga arbetslösa',
+   text:'I november 2017 var 55 000 ungdomar mellan 18 och 24 år inskrivna som arbetslösa.\n\nBeskriv vilka konsekvenser (1–3 st.) arbetslöshet bland unga kan få för individen och samhället.',
+   hint:'Försök att förtydliga ditt svar med exempel och fakta',
+   levels:{
+     e:'Minst EN konsekvens för individ eller samhälle.',
+     c:'Minst TVÅ konsekvenser (EN för individ, EN för samhälle), VARAV EN förtydligas.',
+     a:'Minst TRE konsekvenser för BÅDA individ och samhälle, VARAV MINST TVÅ förtydligas.'
+   },
+   tips:['Individ: Svårt att flytta hemifrån — ingen fast inkomst ger inget hyreskontrakt.','Individ: Lägre pension — inga inbetalda pensionspoäng.','Individ: Utanförskap och psykisk ohälsa vid lång arbetslöshet.','Samhälle: Minskade skatteintäkter — staten och kommuner förlorar intäkter.','Samhälle: Ökade kostnader för försörjningsstöd och A-kassa.','Samhälle: Risk för ökad kriminalitet och sociala problem.']},
+]
+};
+
+// ═══════════════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ═══════════════════════════════════════════════════════
+function renderAll(){
+  renderMC();
+  renderTF();
+  renderMatch();
+  renderFill();
+  renderOpen();
+  renderHist();
+  updateScoreDisplays();
+}
+
+function renderMC(){
+  const el=document.getElementById('mc-cards');
+  let html='';
+  let lastYear='';
+  Q.mc.forEach(q=>{
+    if(q.year!==lastYear){
+      html+=`<div class="year-sep" data-year="${q.year}">Prov ${q.year}</div>`;
+      lastYear=q.year;
+    }
+    html+=`<div class="qcard" data-topic="${q.topic}">
+      <div class="qhdr">
+        <div class="qmeta">
+          <span class="badge b-year">${q.year}</span>
+          <span class="badge b-mc">Flerval</span>
+          <span class="badge ${q.badge}">${topicLabel(q.topic)}</span>
+        </div>
+      </div>
+      <div class="qbody">
+        <div class="qtxt">${q.q}</div>
+        <div class="choices">
+          ${q.opts.map((o,i)=>`<button class="cho" id="cho-${q.id}-${i}" onclick="doMC('${q.id}',${i})">
+            <span class="cho-ltr">${L[i]}</span><span>${o}</span>
+          </button>`).join('')}
+        </div>
+        <div class="fb-msg" id="fb-${q.id}"></div>
+        <div class="btn-row">
+          <button class="btn btn-s" onclick="resetCard('${q.id}',${q.opts.length})">↺ Återställ</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function renderTF(){
+  const el=document.getElementById('tf-cards');
+  let html='';
+  Q.tf.forEach(q=>{
+    const rows=q.rows.map((r,i)=>`<tr>
+      <td>${r.stmt}</td>
+      <td><button class="tf-row-btn" id="tf-${q.id}-${i}-y" onclick="doTFRow('${q.id}',${i},true)">Sant</button></td>
+      <td><button class="tf-row-btn" id="tf-${q.id}-${i}-n" onclick="doTFRow('${q.id}',${i},false)">Falskt</button></td>
+      <td><div class="tf-exp" id="tf-exp-${q.id}-${i}"></div></td>
+    </tr>`).join('');
+    html+=`<div class="qcard" data-topic="${q.topic}">
+      <div class="qhdr">
+        <div class="qmeta">
+          <span class="badge b-year">${q.year}</span>
+          <span class="badge b-tf">Sant/Falskt</span>
+          <span class="badge ${q.badge}">${topicLabel(q.topic)}</span>
+        </div>
+      </div>
+      <div class="qbody">
+        <div class="qtxt">${q.q}</div>
+        <table class="tf-table">
+          <thead><tr><th>Påstående</th><th>Sant ✓</th><th>Falskt ✗</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div class="btn-row">
+          <button class="btn btn-s" onclick="resetTFCard('${q.id}',${q.rows.length})">↺ Återställ</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function renderMatch(){
+  const el=document.getElementById('match-cards');
+  let html='';
+  Q.match.forEach(q=>{
+    const rows=q.items.map((item,i)=>{
+      const opts=q.opts.map((o,j)=>`<option value="${j}">${o}</option>`).join('');
+      return `<tr>
+        <td>${item.term}</td>
+        <td><select class="match-sel" id="ms-${q.id}-${i}"><option value="-1">— Välj —</option>${opts}</select></td>
+        <td><div class="match-exp" id="mexp-${q.id}-${i}"></div></td>
+      </tr>`;
+    }).join('');
+    html+=`<div class="qcard">
+      <div class="qhdr">
+        <div class="qmeta">
+          <span class="badge b-year">${q.year}</span>
+          <span class="badge b-match">Para ihop</span>
+        </div>
+      </div>
+      <div class="qbody">
+        <div class="qtxt">${q.q}</div>
+        <table class="match-table">
+          <thead><tr><th>Påstående / Begrepp</th><th>Välj rätt</th><th></th></tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <button class="match-check-btn" onclick="checkMatch('${q.id}')">✓ Kontrollera svar</button>
+        <div class="match-result" id="mr-${q.id}"></div>
+        <div class="btn-row" style="margin-top:10px">
+          <button class="btn btn-s" onclick="resetMatch('${q.id}',${q.items.length})">↺ Återställ</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function renderFill(){
+  const el=document.getElementById('fill-cards');
+  let html='';
+  Q.fill.forEach(q=>{
+    const rows=q.rows.map((r,i)=>{
+      if(r.blank2){
+        return `<div class="fill-row">
+          <span class="fill-lbl">${i+1}.</span>
+          <span style="font-size:13.5px;color:var(--text)">${r.before}</span>
+          <input class="fill-input" id="fi-${q.id}-${i}-a" placeholder="skriv begrepp…" data-ans="${r.blank.toLowerCase()}">
+          <span style="font-size:13.5px;color:var(--text)">${r.after}</span>
+          <input class="fill-input" id="fi-${q.id}-${i}-b" placeholder="skriv begrepp…" data-ans="${r.blank2.toLowerCase()}">
+          <span style="font-size:13.5px;color:var(--text)">${r.rest||''}</span>
+        </div>`;
+      }
+      return `<div class="fill-row">
+        <span class="fill-lbl">${i+1}.</span>
+        <span style="font-size:13.5px;color:var(--text)">${r.before}</span>
+        <input class="fill-input" id="fi-${q.id}-${i}" placeholder="skriv begrepp…" data-ans="${r.blank.toLowerCase()}">
+        <span style="font-size:13.5px;color:var(--text)">${r.after}</span>
+      </div>`;
+    }).join('');
+    html+=`<div class="qcard">
+      <div class="qhdr">
+        <div class="qmeta">
+          <span class="badge b-year">${q.year}</span>
+          <span class="badge b-fill">Fyll i</span>
+        </div>
+      </div>
+      <div class="qbody">
+        <div class="qtxt">${q.q}</div>
+        <div class="qsub" style="margin-bottom:14px;font-style:italic;">${q.intro}</div>
+        <div class="fill-grid">${rows}</div>
+        <button class="fill-check-btn" onclick="checkFill('${q.id}')">✓ Kontrollera svar</button>
+        <div class="fill-result" id="fr-${q.id}"></div>
+        <div class="btn-row" style="margin-top:10px">
+          <button class="btn btn-s" onclick="resetFill('${q.id}')">↺ Återställ</button>
+        </div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+function renderOpen(){
+  const el=document.getElementById('open-cards');
+  let html='';
+  let lastYear='';
+  Q.open.forEach(q=>{
+    if(q.year!==lastYear){
+      html+=`<div class="year-sep" data-year="${q.year}">Prov ${q.year}</div>`;
+      lastYear=q.year;
+    }
+    const srcHtml=q.src?`<div class="src"><div class="src-lbl">Källa / Kontext</div><div class="src-text">${q.src}</div></div>`:'';
+    const tipsHtml=q.tips.map(t=>`<li>${t}</li>`).join('');
+    html+=`<div class="qcard" data-topic="${q.topic}">
+      <div class="qhdr">
+        <div class="qmeta">
+          <span class="badge b-year">${q.year}</span>
+          <span class="badge b-open">Öppen fråga</span>
+          <span class="badge ${q.badge}">${topicLabel(q.topic)}</span>
+        </div>
+        <span class="qtitle">${q.q}</span>
+      </div>
+      <div class="qbody">
+        ${srcHtml}
+        <div class="qtxt">${q.text.replace(/\n/g,'<br>')}</div>
+        <div class="qsub"><em>${q.hint.replace(/\n/g,'<br>')}</em></div>
+        <textarea class="area" placeholder="Skriv ditt svar här…"></textarea>
+        <div class="btn-row">
+          <button class="btn btn-p" onclick="showReveal('reveal-${q.id}')">📋 Visa bedömningsanvisning</button>
+        </div>
+        <div class="reveal" id="reveal-${q.id}">
+          <div class="reveal-lbl">Bedömningsanvisning</div>
+          <div class="level"><span class="lv-badge lv-e">Nivå E</span></div>
+          <p>${q.levels.e}</p>
+          <div class="level" style="margin-top:10px"><span class="lv-badge lv-c">Nivå C</span></div>
+          <p>${q.levels.c}</p>
+          <div class="level" style="margin-top:10px"><span class="lv-badge lv-a">Nivå A</span></div>
+          <p>${q.levels.a}</p>
+          <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+            <div class="reveal-lbl">Exempel på relevanta punkter</div>
+            <ul>${tipsHtml}</ul>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  el.innerHTML=html;
+}
+
+// ═══════════════════════════════════════════════════════
+// INTERACTION
+// ═══════════════════════════════════════════════════════
+function doMC(qid,chosen){
+  if(S.done[qid]) return;
+  const q=Q.mc.find(x=>x.id===qid);
+  const ok=chosen===q.ans;
+  q.opts.forEach((_,i)=>{
+    const b=document.getElementById(`cho-${qid}-${i}`);
+    if(!b) return; b.disabled=true;
+    if(i===q.ans) b.classList.add('correct');
+    else if(i===chosen&&!ok) b.classList.add('wrong');
+  });
+  const fb=document.getElementById(`fb-${qid}`);
+  if(fb){fb.className='fb-msg '+(ok?'c':'w');fb.innerHTML=(ok?'✓ Rätt! ':'✗ Fel. Rätt: '+L[q.ans]+'. ')+q.exp;}
+  S.mc.t++; if(ok) S.mc.c++;
+  S.done[qid]=true;
+  pushHist(q.q.substring(0,55)+'…',ok,q.year,'mc');
+  updateScoreDisplays();
+}
+
+function doTFRow(qid,i,chosen){
+  const key=`${qid}-${i}`;
+  if(S.done[key]) return;
+  const q=Q.tf.find(x=>x.id===qid);
+  const row=q.rows[i];
+  const ok=chosen===row.ans;
+  const yBtn=document.getElementById(`tf-${qid}-${i}-y`);
+  const nBtn=document.getElementById(`tf-${qid}-${i}-n`);
+  const expEl=document.getElementById(`tf-exp-${qid}-${i}`);
+  if(yBtn) yBtn.disabled=true;
+  if(nBtn) nBtn.disabled=true;
+  if(chosen){
+    if(yBtn) yBtn.className='tf-row-btn '+(ok?'right-yes':'wrong-sel');
+    if(!ok&&nBtn) nBtn.className='tf-row-btn right-no';
+  } else {
+    if(nBtn) nBtn.className='tf-row-btn '+(ok?'right-no':'wrong-sel');
+    if(!ok&&yBtn) yBtn.className='tf-row-btn right-yes';
+  }
+  if(expEl) expEl.innerHTML=(ok?'<span style="color:var(--green)">✓</span> ':'<span style="color:var(--red)">✗</span> ')+row.exp;
+  S.tf.t++; if(ok) S.tf.c++;
+  S.done[key]=true;
+  updateScoreDisplays();
+}
+
+function checkMatch(qid){
+  const q=Q.match.find(x=>x.id===qid);
+  let correct=0,total=q.items.length;
+  q.items.forEach((item,i)=>{
+    const sel=document.getElementById(`ms-${qid}-${i}`);
+    if(!sel) return;
+    const val=parseInt(sel.value);
+    const ok=val===item.ans;
+    sel.disabled=true;
+    sel.className='match-sel '+(ok?'correct-sel':'wrong-sel-s');
+    const expEl=document.getElementById(`mexp-${qid}-${i}`);
+    if(expEl) expEl.innerHTML=(ok?'<span style="color:var(--green)">✓</span> ':
+      `<span style="color:var(--red)">✗ Rätt: ${q.opts[item.ans]}</span>`)+'<br><small style="color:var(--muted)">'+item.exp+'</small>';
+    if(ok) correct++;
+  });
+  const res=document.getElementById(`mr-${qid}`);
+  if(res){
+    res.className='match-result show '+(correct===total?'good':'bad');
+    res.textContent=`${correct} av ${total} rätt${correct===total?' — Perfekt! 🎉':correct>=total/2?' — Bra jobbat!':' — Fortsätt träna!'}`;
+  }
+  S.match.t+=total; S.match.c+=correct;
+  updateScoreDisplays();
+}
+
+function checkFill(qid){
+  const q=Q.fill.find(x=>x.id===qid);
+  let correct=0,total=0;
+  q.rows.forEach((r,i)=>{
+    if(r.blank2){
+      // double-blank row uses -a and -b suffixes
+      const inpA=document.getElementById(`fi-${qid}-${i}-a`);
+      const inpB=document.getElementById(`fi-${qid}-${i}-b`);
+      if(inpA){total++;const ok=inpA.value.trim().toLowerCase()===r.blank.toLowerCase();inpA.className='fill-input '+(ok?'correct':'wrong');inpA.disabled=true;if(ok)correct++;else inpA.placeholder='✓ '+r.blank;}
+      if(inpB){total++;const ok=inpB.value.trim().toLowerCase()===r.blank2.toLowerCase();inpB.className='fill-input '+(ok?'correct':'wrong');inpB.disabled=true;if(ok)correct++;else inpB.placeholder='✓ '+r.blank2;}
+    } else {
+      const inp=document.getElementById(`fi-${qid}-${i}`);
+      if(inp){
+        total++;
+        const ok=inp.value.trim().toLowerCase()===r.blank.toLowerCase();
+        inp.className='fill-input '+(ok?'correct':'wrong');
+        inp.disabled=true;
+        if(ok) correct++;
+        else inp.placeholder='✓ '+r.blank;
+      }
+    }
+  });
+  const res=document.getElementById(`fr-${qid}`);
+  if(res){
+    res.className='fill-result show '+(correct===total?'good':'bad');
+    res.textContent=`${correct} av ${total} rätt${correct===total?' — Utmärkt!':''}`; 
+  }
+  S.fill.t+=total; S.fill.c+=correct;
+  updateScoreDisplays();
+}
+
+function showReveal(id){
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle('show');
+  if(el.classList.contains('show')){S.openShown++;updateScoreDisplays();}
+}
+
+function resetCard(qid,n){
+  for(let i=0;i<n;i++){
+    const b=document.getElementById(`cho-${qid}-${i}`);
+    if(b){b.className='cho';b.disabled=false;}
+  }
+  const fb=document.getElementById(`fb-${qid}`);
+  if(fb){fb.className='fb-msg';fb.textContent='';}
+  delete S.done[qid];
+}
+
+function resetTFCard(qid,n){
+  for(let i=0;i<n;i++){
+    const y=document.getElementById(`tf-${qid}-${i}-y`);
+    const nn=document.getElementById(`tf-${qid}-${i}-n`);
+    const e=document.getElementById(`tf-exp-${qid}-${i}`);
+    if(y){y.className='tf-row-btn';y.disabled=false;}
+    if(nn){nn.className='tf-row-btn';nn.disabled=false;}
+    if(e) e.textContent='';
+    delete S.done[`${qid}-${i}`];
+  }
+}
+
+function resetMatch(qid,n){
+  for(let i=0;i<n;i++){
+    const s=document.getElementById(`ms-${qid}-${i}`);
+    if(s){s.className='match-sel';s.disabled=false;s.value='-1';}
+    const e=document.getElementById(`mexp-${qid}-${i}`);
+    if(e) e.innerHTML='';
+  }
+  const r=document.getElementById(`mr-${qid}`);
+  if(r){r.className='match-result';r.textContent='';}
+}
+
+function resetFill(qid){
+  const q=Q.fill.find(x=>x.id===qid);
+  q.rows.forEach((_,i)=>{
+    ['','-a','-b'].forEach(suf=>{
+      const inp=document.getElementById(`fi-${qid}-${i}${suf}`);
+      if(inp){inp.className='fill-input';inp.disabled=false;inp.value='';}
+    });
+  });
+  const r=document.getElementById(`fr-${qid}`);
+  if(r){r.className='fill-result';r.textContent='';}
+}
+
+// ═══════════════════════════════════════════════════════
+// SCORE & HISTORY
+// ═══════════════════════════════════════════════════════
+function pushHist(text,ok,year,type){
+  S.hist.unshift({text,ok,year,type});
+  if(S.hist.length>30) S.hist.pop();
+  renderHist();
+}
+
+function renderHist(){
+  const el=document.getElementById('hist-list');
+  if(!el) return;
+  if(!S.hist.length){el.innerHTML='<p style="font-size:13px;color:var(--muted);font-style:italic;">Inga svar ännu.</p>';return;}
+  el.innerHTML=S.hist.map(h=>`<div class="score-item">
+    <span class="score-label">${h.year} – ${h.text}</span>
+    <span class="score-val" style="color:${h.ok?'var(--green)':'var(--red)'}">${h.ok?'✓ Rätt':'✗ Fel'}</span>
+  </div>`).join('');
+}
+
+function updateScoreDisplays(){
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  const setW=(id,p)=>{const e=document.getElementById(id);if(e)e.style.width=p+'%';};
+  set('hdr-mc',`${S.mc.c}/${S.mc.t}`);
+  set('hdr-tf',`${S.tf.c}/${S.tf.t}`);
+  set('pg-mc',S.mc.c); set('pg-mc-s',`av ${S.mc.t} försök`);
+  set('pg-tf',S.tf.c); set('pg-tf-s',`av ${S.tf.t} försök`);
+  set('pg-match',S.match.c); set('pg-match-s',`av ${S.match.t} försök`);
+  set('pg-fill',S.fill.c); set('pg-fill-s',`av ${S.fill.t} försök`);
+  set('pg-open',S.openShown);
+  if(S.mc.t) setW('pg-mc-b',Math.round(S.mc.c/S.mc.t*100));
+  if(S.tf.t) setW('pg-tf-b',Math.round(S.tf.c/S.tf.t*100));
+  if(S.match.t) setW('pg-match-b',Math.round(S.match.c/S.match.t*100));
+  if(S.fill.t) setW('pg-fill-b',Math.round(S.fill.c/S.fill.t*100));
+}
+
+// ═══════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════
+function topicLabel(t){
+  return {ekon:'Ekonomi',polit:'Politik',rattigh:'Rättigheter',media:'Media/Källor',sam:'Samhälle'}[t]||t;
+}
+
+function showPanel(name,tabEl){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(tabEl) tabEl.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function filterCards(chip,topic,containerId){
+  document.querySelectorAll(`#${containerId} .chip`).forEach(c=>c.classList.remove('on'));
+  chip.classList.add('on');
+  document.querySelectorAll(`#${containerId} .qcard`).forEach(card=>{
+    card.style.display=(topic==='alla'||card.dataset.topic===topic)?'':'none';
+  });
+  document.querySelectorAll(`#${containerId} .year-sep`).forEach(sep=>{
+    let n=sep.nextElementSibling,has=false;
+    while(n&&!n.classList.contains('year-sep')){if(n.style.display!=='none'){has=true;break;}n=n.nextElementSibling;}
+    sep.style.display=has?'':'none';
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// THEME TOGGLE
+// ═══════════════════════════════════════════════════════
+function toggleTheme(){
+  const isLight=document.documentElement.classList.toggle('light');
+  document.getElementById('theme-btn').textContent=isLight?'🌑':'🌙';
+  try{localStorage.setItem('sh-theme',isLight?'light':'dark');}catch(e){}
+}
+(function(){
+  try{
+    if(localStorage.getItem('sh-theme')==='light'){
+      document.documentElement.classList.add('light');
+      document.addEventListener('DOMContentLoaded',()=>{
+        const btn=document.getElementById('theme-btn');
+        if(btn) btn.textContent='🌑';
+      });
+    }
+  }catch(e){}
+})();
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+renderAll();
+</script>
+</body>
+</html>
