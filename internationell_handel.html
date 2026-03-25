@@ -1,0 +1,3135 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internationell handel – SO-Portalen</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ocean: #0a1628;
+  --deep: #060e1c;
+  --wave: #0d2240;
+  --teal: #00c4b4;
+  --amber: #f59e0b;
+  --coral: #ef4444;
+  --gold: #fbbf24;
+  --steel: #94a3b8;
+  --fog: #cbd5e1;
+  --white: #f8fafc;
+  --container-red: #dc2626;
+  --container-blue: #2563eb;
+  --container-yellow: #d97706;
+  --container-green: #059669;
+  --glow: rgba(0, 196, 180, 0.3);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: var(--deep);
+  color: var(--fog);
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  background: linear-gradient(180deg, var(--deep) 0%, var(--ocean) 60%, #0a2a40 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.ocean-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0,196,180,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,196,180,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(60px); }
+}
+
+.ship-lane {
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,196,180,0.2), transparent);
+}
+.ship-lane:nth-child(1) { top: 30%; }
+.ship-lane:nth-child(2) { top: 55%; }
+.ship-lane:nth-child(3) { top: 75%; }
+
+.ship {
+  position: absolute;
+  font-size: 2rem;
+  animation: sailShip linear infinite;
+  opacity: 0.7;
+}
+.ship:nth-child(4) { top: 28%; animation-duration: 25s; animation-delay: 0s; }
+.ship:nth-child(5) { top: 53%; animation-duration: 18s; animation-delay: -8s; font-size: 1.5rem; }
+.ship:nth-child(6) { top: 73%; animation-duration: 30s; animation-delay: -15s; font-size: 1.2rem; }
+
+@keyframes sailShip {
+  0% { left: -5%; }
+  100% { left: 105%; }
+}
+
+.hero-badge {
+  background: rgba(0,196,180,0.1);
+  border: 1px solid rgba(0,196,180,0.4);
+  color: var(--teal);
+  padding: 0.4rem 1.2rem;
+  border-radius: 2rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.8s ease;
+}
+
+.hero-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 800;
+  color: var(--white);
+  text-align: center;
+  line-height: 0.95;
+  margin-bottom: 1rem;
+  animation: fadeInUp 1s ease;
+}
+
+.hero-title span {
+  color: var(--teal);
+  display: block;
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--steel);
+  max-width: 500px;
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  animation: fadeInUp 1.2s ease;
+}
+
+.ticker-wrap {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(0,0,0,0.4);
+  border: 1px solid rgba(0,196,180,0.2);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  padding: 0.6rem 0;
+  animation: fadeIn 1.5s ease;
+}
+
+.ticker-inner {
+  display: flex;
+  gap: 4rem;
+  animation: ticker 30s linear infinite;
+  white-space: nowrap;
+}
+
+.ticker-item {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ticker-item .label { color: var(--steel); }
+.ticker-item .up { color: #22c55e; }
+.ticker-item .down { color: var(--coral); }
+.ticker-item .symbol { color: var(--teal); font-weight: 500; }
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--steel);
+  font-size: 0.75rem;
+  animation: bounce 2s ease infinite;
+}
+
+.scroll-hint .arrow { font-size: 1.5rem; }
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== NAV ===== */
+#sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(6,14,28,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0,196,180,0.15);
+  padding: 0 2rem;
+}
+
+.nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-inner::-webkit-scrollbar { display: none; }
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--steel);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 500;
+  padding: 1rem 1.2rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+  position: relative;
+}
+
+.nav-btn:hover { color: var(--white); }
+.nav-btn.active {
+  color: var(--teal);
+  border-bottom-color: var(--teal);
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  display: none;
+  min-height: 60vh;
+  padding: 4rem 2rem;
+}
+
+.section.active { display: block; }
+
+.section-wrap {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===== SECTION HEADERS ===== */
+.section-header {
+  margin-bottom: 3rem;
+}
+
+.sec-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--teal);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.sec-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.1;
+}
+
+.sec-title em {
+  color: var(--teal);
+  font-style: normal;
+}
+
+.sec-desc {
+  margin-top: 1rem;
+  color: var(--steel);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  max-width: 650px;
+}
+
+/* ===== PROSE ===== */
+.prose {
+  background: var(--wave);
+  border: 1px solid rgba(0,196,180,0.1);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  line-height: 1.8;
+  font-size: 1rem;
+}
+
+.prose h3 {
+  font-family: 'Syne', sans-serif;
+  color: var(--teal);
+  font-size: 1.2rem;
+  margin: 1.5rem 0 0.75rem;
+}
+.prose h3:first-child { margin-top: 0; }
+
+.prose p { margin-bottom: 1rem; }
+.prose p:last-child { margin-bottom: 0; }
+
+.prose strong { color: var(--gold); }
+
+.highlight-box {
+  background: rgba(0,196,180,0.08);
+  border-left: 3px solid var(--teal);
+  padding: 1rem 1.25rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+  color: var(--fog);
+}
+
+/* ===== STAT CARDS ===== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--wave);
+  border: 1px solid rgba(0,196,180,0.15);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s;
+  cursor: default;
+}
+
+.stat-card:hover {
+  border-color: var(--teal);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,196,180,0.1);
+}
+
+.stat-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+
+.stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--teal);
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--steel);
+  margin-top: 0.25rem;
+}
+
+/* ===== INTERACTIVE: VALUTA SIMULATOR ===== */
+.currency-sim {
+  background: var(--wave);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.currency-sim h3 {
+  font-family: 'Syne', sans-serif;
+  color: var(--amber);
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sim-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 600px) { .sim-controls { grid-template-columns: 1fr; } }
+
+.sim-group label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--steel);
+  margin-bottom: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.sim-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  background: rgba(0,196,180,0.2);
+  border-radius: 3px;
+  outline: none;
+  margin-bottom: 0.5rem;
+}
+
+.sim-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--amber);
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(245,158,11,0.5);
+}
+
+.sim-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  color: var(--amber);
+}
+
+.sim-result {
+  background: rgba(0,0,0,0.3);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.result-item {
+  text-align: center;
+}
+
+.result-item .r-label {
+  font-size: 0.75rem;
+  color: var(--steel);
+  margin-bottom: 0.3rem;
+}
+
+.result-item .r-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+.result-item .r-val.pos { color: #22c55e; }
+.result-item .r-val.neg { color: var(--coral); }
+.result-item .r-val.neu { color: var(--fog); }
+
+.sim-story {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(245,158,11,0.08);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--fog);
+  line-height: 1.6;
+}
+
+/* ===== CONTAINER SORT GAME ===== */
+.container-game {
+  background: var(--wave);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.container-game h3 {
+  font-family: 'Syne', sans-serif;
+  color: var(--coral);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.game-sub { color: var(--steel); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+.cargo-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  min-height: 80px;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 0.75rem;
+  border: 2px dashed rgba(255,255,255,0.1);
+}
+
+.cargo-item {
+  background: var(--wave);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  cursor: grab;
+  user-select: none;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.cargo-item:hover {
+  border-color: var(--teal);
+  transform: scale(1.05);
+}
+
+.cargo-item.dragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
+.drop-zones {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 500px) { .drop-zones { grid-template-columns: 1fr; } }
+
+.drop-zone {
+  min-height: 120px;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  border: 2px dashed;
+  transition: all 0.2s;
+}
+
+.drop-zone.export-zone {
+  border-color: rgba(34,197,94,0.4);
+  background: rgba(34,197,94,0.05);
+}
+
+.drop-zone.import-zone {
+  border-color: rgba(239,68,68,0.4);
+  background: rgba(239,68,68,0.05);
+}
+
+.drop-zone.drag-over {
+  border-style: solid;
+  transform: scale(1.02);
+}
+
+.drop-zone.export-zone.drag-over { border-color: #22c55e; background: rgba(34,197,94,0.1); }
+.drop-zone.import-zone.drag-over { border-color: var(--coral); background: rgba(239,68,68,0.1); }
+
+.zone-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.export-zone .zone-title { color: #22c55e; }
+.import-zone .zone-title { color: var(--coral); }
+
+.zone-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  min-height: 50px;
+}
+
+.zone-item {
+  font-size: 0.8rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.4rem;
+  color: var(--white);
+}
+
+.export-zone .zone-item { background: rgba(34,197,94,0.2); border: 1px solid rgba(34,197,94,0.3); }
+.import-zone .zone-item { background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.3); }
+
+.check-btn {
+  margin-top: 1.5rem;
+  padding: 0.75rem 2rem;
+  background: transparent;
+  border: 2px solid var(--teal);
+  color: var(--teal);
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.check-btn:hover {
+  background: var(--teal);
+  color: var(--deep);
+}
+
+.game-feedback {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  display: none;
+}
+
+.game-feedback.show { display: block; }
+.game-feedback.correct { background: rgba(34,197,94,0.1); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.game-feedback.wrong { background: rgba(239,68,68,0.1); color: var(--coral); border: 1px solid rgba(239,68,68,0.3); }
+
+/* ===== WTO QUIZ GAME ===== */
+.quiz-section {
+  background: var(--wave);
+  border: 1px solid rgba(251,191,36,0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.quiz-section h3 {
+  font-family: 'Syne', sans-serif;
+  color: var(--gold);
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quiz-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quiz-progress-bar {
+  flex: 1;
+  min-width: 200px;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.quiz-score-display {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--steel);
+}
+
+.quiz-score-display span { color: var(--gold); font-weight: 500; }
+
+.quiz-q-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--steel);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.75rem;
+}
+
+.quiz-question {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) { .quiz-options { grid-template-columns: 1fr; } }
+
+.quiz-opt {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.9rem;
+  color: var(--fog);
+  text-align: left;
+  transition: all 0.2s;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.quiz-opt:hover {
+  border-color: var(--gold);
+  background: rgba(251,191,36,0.05);
+}
+
+.quiz-opt.correct {
+  border-color: #22c55e !important;
+  background: rgba(34,197,94,0.1) !important;
+  color: #22c55e !important;
+}
+
+.quiz-opt.wrong {
+  border-color: var(--coral) !important;
+  background: rgba(239,68,68,0.1) !important;
+  color: var(--coral) !important;
+}
+
+.quiz-opt.disabled { cursor: default; }
+
+.opt-letter {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  font-family: 'JetBrains Mono', monospace;
+  flex-shrink: 0;
+}
+
+.quiz-explanation {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--fog);
+  line-height: 1.6;
+  display: none;
+}
+
+.quiz-explanation.show { display: block; }
+
+.quiz-next-btn {
+  margin-top: 1rem;
+  padding: 0.65rem 1.75rem;
+  background: var(--gold);
+  color: var(--deep);
+  border: none;
+  border-radius: 0.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s;
+}
+
+.quiz-next-btn:hover { background: var(--amber); }
+.quiz-next-btn.show { display: inline-block; }
+
+.quiz-result {
+  text-align: center;
+  padding: 2rem;
+  display: none;
+}
+
+.quiz-result.show { display: block; }
+
+.quiz-result .big-score {
+  font-family: 'Syne', sans-serif;
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.quiz-result .score-msg {
+  font-size: 1.1rem;
+  color: var(--fog);
+  margin: 0.5rem 0 1.5rem;
+}
+
+.quiz-restart {
+  padding: 0.75rem 2rem;
+  background: var(--gold);
+  color: var(--deep);
+  border: none;
+  border-radius: 0.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+/* ===== FLASHCARDS ===== */
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.flashcard {
+  height: 160px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.75rem;
+  backface-visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.flashcard-front {
+  background: var(--wave);
+  border: 1px solid rgba(0,196,180,0.2);
+}
+
+.flashcard-back {
+  background: rgba(0,196,180,0.1);
+  border: 1px solid rgba(0,196,180,0.4);
+  transform: rotateY(180deg);
+}
+
+.flashcard-front .fc-term {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--white);
+}
+
+.flashcard-front .fc-hint {
+  font-size: 0.75rem;
+  color: var(--steel);
+  margin-top: 0.5rem;
+}
+
+.flashcard-back .fc-def {
+  font-size: 0.88rem;
+  color: var(--fog);
+  line-height: 1.5;
+}
+
+/* ===== PROTECTIONISM METER ===== */
+.protect-meter {
+  background: var(--wave);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.protect-meter h3 {
+  font-family: 'Syne', sans-serif;
+  color: var(--amber);
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.country-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.country-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 0.5rem;
+  color: var(--fog);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.country-btn:hover { border-color: var(--amber); color: var(--amber); }
+.country-btn.selected { background: rgba(245,158,11,0.15); border-color: var(--amber); color: var(--amber); }
+
+.pm-display {
+  background: rgba(0,0,0,0.3);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.pm-name {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.4rem;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+}
+
+.pm-flag { font-size: 2rem; margin-right: 0.5rem; }
+
+.pm-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.pm-bar-label { font-size: 0.8rem; color: var(--steel); width: 80px; flex-shrink: 0; }
+
+.pm-bar {
+  flex: 1;
+  height: 12px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.pm-bar-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease;
+}
+
+.pm-bar-fill.tull { background: linear-gradient(90deg, #22c55e, var(--coral)); }
+.pm-bar-fill.frihandel { background: linear-gradient(90deg, var(--coral), #22c55e); }
+.pm-bar-fill.handel { background: linear-gradient(90deg, var(--teal), var(--amber)); }
+
+.pm-bar-pct {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--gold);
+  width: 45px;
+  text-align: right;
+}
+
+.pm-desc {
+  font-size: 0.88rem;
+  color: var(--fog);
+  line-height: 1.6;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ===== TRADE WAR SIMULATOR ===== */
+.twar-sim {
+  background: var(--wave);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.twar-sim h3 {
+  font-family: 'Syne', sans-serif;
+  color: var(--coral);
+  font-size: 1.3rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.twar-countries {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.twar-country {
+  background: rgba(0,0,0,0.3);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  text-align: center;
+}
+
+.twar-flag { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.twar-cname { font-family: 'Syne', sans-serif; font-size: 1.1rem; color: var(--white); margin-bottom: 1rem; }
+
+.tull-control label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--steel);
+  margin-bottom: 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.tull-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  height: 6px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 3px;
+  outline: none;
+  margin-bottom: 0.3rem;
+}
+
+.tull-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--coral);
+  cursor: pointer;
+}
+
+.tull-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem;
+  color: var(--coral);
+}
+
+.twar-vs {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--coral);
+  text-align: center;
+}
+
+.twar-result {
+  background: rgba(0,0,0,0.3);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.twar-tension {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.tension-label { font-size: 0.85rem; color: var(--steel); }
+
+.tension-bar-wrap {
+  flex: 1;
+  margin: 0 1rem;
+  height: 10px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.tension-fill {
+  height: 100%;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #22c55e, var(--amber), var(--coral));
+  transition: width 0.5s ease;
+}
+
+.tension-level {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.twar-effects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.effect-item {
+  text-align: center;
+  padding: 0.75rem;
+  background: rgba(0,0,0,0.2);
+  border-radius: 0.5rem;
+}
+
+.effect-icon { font-size: 1.5rem; margin-bottom: 0.3rem; }
+.effect-label { font-size: 0.75rem; color: var(--steel); }
+.effect-val { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+
+/* ===== TIMELINE ===== */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin-bottom: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--teal), transparent);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: 2rem;
+  padding-left: 1.5rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2.4rem;
+  top: 0.35rem;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 3px rgba(0,196,180,0.2);
+}
+
+.timeline-year {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.25rem;
+}
+
+.timeline-event {
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 0.25rem;
+}
+
+.timeline-desc {
+  font-size: 0.88rem;
+  color: var(--steel);
+  line-height: 1.5;
+}
+
+/* ===== UKRAINE CASE ===== */
+.case-study {
+  background: linear-gradient(135deg, rgba(13,34,64,0.8), rgba(220,38,38,0.1));
+  border: 1px solid rgba(239,68,68,0.3);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.case-study h3 {
+  font-family: 'Syne', sans-serif;
+  color: var(--white);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.case-study h3 span { color: var(--coral); }
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.impact-card {
+  background: rgba(0,0,0,0.3);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  text-align: center;
+  border-top: 3px solid;
+}
+
+.impact-card.loser { border-color: var(--coral); }
+.impact-card.winner { border-color: #22c55e; }
+.impact-card.mixed { border-color: var(--amber); }
+
+.impact-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+.impact-title { font-weight: 600; color: var(--white); font-size: 0.9rem; }
+.impact-desc { font-size: 0.78rem; color: var(--steel); margin-top: 0.3rem; line-height: 1.4; }
+
+.discussion-prompt {
+  background: rgba(239,68,68,0.08);
+  border-left: 3px solid var(--coral);
+  padding: 1rem 1.25rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin-top: 1rem;
+}
+
+.discussion-prompt .dp-label {
+  font-size: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--coral);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.discussion-prompt p {
+  font-size: 0.9rem;
+  color: var(--fog);
+  line-height: 1.6;
+}
+
+/* ===== SCENARIO LAB ===== */
+.scenario-intro {
+  background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(239,68,68,0.06));
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 1rem;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2.5rem;
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+.scenario-intro .si-icon { font-size: 2.5rem; flex-shrink: 0; }
+.scenario-intro h4 { font-family:'Syne',sans-serif; color:var(--gold); font-size:1.05rem; margin-bottom:0.4rem; }
+.scenario-intro p { font-size:0.88rem; color:var(--steel); line-height:1.6; }
+.scenario-tabs { display:flex; gap:0.5rem; margin-bottom:2rem; flex-wrap:wrap; }
+.sc-tab {
+  padding:0.55rem 1.1rem; border-radius:0.5rem;
+  border:1px solid rgba(255,255,255,0.1); background:rgba(0,0,0,0.3);
+  color:var(--steel); font-family:'Space Grotesk',sans-serif;
+  font-size:0.82rem; font-weight:500; cursor:pointer; transition:all 0.2s;
+  display:flex; align-items:center; gap:0.4rem;
+}
+.sc-tab:hover { border-color:var(--amber); color:var(--amber); }
+.sc-tab.active { background:rgba(245,158,11,0.12); border-color:var(--amber); color:var(--amber); }
+.sc-tab .sc-tab-num {
+  width:20px; height:20px; border-radius:50%;
+  background:rgba(245,158,11,0.2); color:var(--amber);
+  font-size:0.7rem; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.scenario-panel { display:none; }
+.scenario-panel.active { display:block; }
+.sc-card { border-radius:1rem; overflow:hidden; margin-bottom:2rem; border:1px solid rgba(255,255,255,0.08); }
+.sc-header { padding:1.75rem 2rem 1.5rem; position:relative; }
+.sc-tag { font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase; margin-bottom:0.6rem; display:flex; align-items:center; gap:0.4rem; }
+.sc-title { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--white); margin-bottom:0.5rem; }
+.sc-preamble { font-size:0.92rem; line-height:1.65; max-width:680px; }
+.sc-meta { display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap; }
+.sc-meta-item { display:flex; align-items:center; gap:0.4rem; background:rgba(0,0,0,0.25); border-radius:0.4rem; padding:0.35rem 0.75rem; font-size:0.78rem; }
+.sc-meta-item .mi-label { color:var(--steel); }
+.sc-meta-item .mi-val { font-weight:600; }
+.sc-steps { padding:0 2rem 2rem; background:var(--wave); }
+.sc-step { border-bottom:1px solid rgba(255,255,255,0.05); padding:1.75rem 0; }
+.sc-step:last-child { border-bottom:none; }
+.sc-step-num { font-family:'JetBrains Mono',monospace; font-size:0.68rem; color:var(--teal); letter-spacing:0.12em; text-transform:uppercase; margin-bottom:0.5rem; }
+.sc-step-q { font-size:1.05rem; font-weight:600; color:var(--white); margin-bottom:1rem; line-height:1.4; }
+.sc-choices { display:grid; gap:0.6rem; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); }
+.sc-choice {
+  background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1);
+  border-radius:0.6rem; padding:0.85rem 1rem;
+  cursor:pointer; transition:all 0.2s; text-align:left;
+  font-family:'Space Grotesk',sans-serif; font-size:0.88rem; color:var(--fog);
+  display:flex; align-items:flex-start; gap:0.6rem; width:100%;
+}
+.sc-choice:hover:not(.locked) { border-color:var(--amber); transform:translateX(3px); }
+.sc-choice.chosen { border-color:var(--teal); background:rgba(0,196,180,0.08); color:var(--white); }
+.sc-choice.chosen .sc-choice-icon { background:var(--teal); color:var(--deep); }
+.sc-choice.correct-reveal { border-color:#22c55e !important; background:rgba(34,197,94,0.06) !important; }
+.sc-choice.wrong-reveal { border-color:var(--coral) !important; opacity:0.55; }
+.sc-choice.locked { cursor:default; }
+.sc-choice-icon { width:22px; height:22px; border-radius:50%; flex-shrink:0; background:rgba(255,255,255,0.08); font-size:0.7rem; font-weight:700; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; transition:all 0.2s; }
+.sc-choice-text { line-height:1.45; }
+.consequence-chain { margin-top:1rem; display:none; }
+.consequence-chain.show { display:block; }
+.cc-item { display:flex; align-items:flex-start; gap:0.75rem; margin-bottom:0.75rem; animation:slideInRight 0.35s ease both; }
+@keyframes slideInRight { from{opacity:0;transform:translateX(-15px);} to{opacity:1;transform:translateX(0);} }
+.cc-arrow { color:var(--teal); font-size:1.1rem; flex-shrink:0; margin-top:0.1rem; }
+.cc-text { font-size:0.88rem; color:var(--fog); line-height:1.5; }
+.cc-text strong { color:var(--gold); }
+.perspective-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:0.75rem; margin-top:0.75rem; }
+.persp-card { border-radius:0.6rem; padding:1rem; font-size:0.83rem; line-height:1.5; }
+.persp-card .p-title { font-weight:700; margin-bottom:0.3rem; font-size:0.82rem; }
+.persp-card.win { background:rgba(34,197,94,0.07); border:1px solid rgba(34,197,94,0.25); }
+.persp-card.win .p-title { color:#22c55e; }
+.persp-card.lose { background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.25); }
+.persp-card.lose .p-title { color:var(--coral); }
+.persp-card.mixed { background:rgba(245,158,11,0.07); border:1px solid rgba(245,158,11,0.25); }
+.persp-card.mixed .p-title { color:var(--amber); }
+.sc-verdict { margin-top:1.5rem; border-radius:0.75rem; padding:1.25rem 1.5rem; display:none; animation:fadeInUp 0.4s ease; }
+.sc-verdict.show { display:block; }
+.sc-verdict.v-good { background:rgba(34,197,94,0.08); border:1px solid rgba(34,197,94,0.3); }
+.sc-verdict.v-bad { background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); }
+.sc-verdict.v-mixed { background:rgba(245,158,11,0.08); border:1px solid rgba(245,158,11,0.3); }
+.sc-verdict .vd-head { font-weight:700; margin-bottom:0.5rem; font-size:1rem; }
+.sc-verdict.v-good .vd-head { color:#22c55e; }
+.sc-verdict.v-bad .vd-head { color:var(--coral); }
+.sc-verdict.v-mixed .vd-head { color:var(--amber); }
+.sc-verdict p { font-size:0.88rem; color:var(--fog); line-height:1.6; }
+.sc-debate-box { margin-top:0.75rem; }
+.sc-debate-box textarea { width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.1); border-radius:0.5rem; padding:0.85rem 1rem; color:var(--fog); font-family:'Space Grotesk',sans-serif; font-size:0.88rem; line-height:1.5; resize:vertical; min-height:90px; transition:border-color 0.2s; }
+.sc-debate-box textarea:focus { outline:none; border-color:var(--teal); }
+.sc-debate-box textarea::placeholder { color:var(--steel); }
+.sc-reveal-btn { margin-top:0.6rem; padding:0.55rem 1.4rem; background:transparent; border:1px solid var(--teal); color:var(--teal); border-radius:0.4rem; font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:0.82rem; cursor:pointer; transition:all 0.2s; }
+.sc-reveal-btn:hover { background:var(--teal); color:var(--deep); }
+.sc-progress { display:flex; align-items:center; gap:0.75rem; margin-bottom:2rem; }
+.sc-dot { width:10px; height:10px; border-radius:50%; background:rgba(255,255,255,0.15); transition:all 0.3s; }
+.sc-dot.done { background:var(--teal); box-shadow:0 0 6px rgba(0,196,180,0.5); }
+.sc-dot.current { background:var(--amber); box-shadow:0 0 6px rgba(245,158,11,0.5); }
+.sc-prog-label { font-size:0.78rem; color:var(--steel); font-family:'JetBrains Mono',monospace; }
+.sc-complete-banner { background:linear-gradient(135deg,rgba(0,196,180,0.12),rgba(34,197,94,0.08)); border:1px solid rgba(0,196,180,0.3); border-radius:1rem; padding:2rem; text-align:center; margin-top:1.5rem; display:none; }
+.sc-complete-banner.show { display:block; animation:fadeInUp 0.5s ease; }
+.scb-emoji { font-size:3rem; margin-bottom:0.75rem; }
+.scb-title { font-family:'Syne',sans-serif; font-size:1.4rem; font-weight:800; color:var(--white); margin-bottom:0.5rem; }
+.scb-desc { font-size:0.9rem; color:var(--steel); line-height:1.6; }
+
+/* ===== GLOSSARY ===== */
+.glossary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.glossary-card {
+  background: var(--wave);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: border-color 0.2s;
+}
+
+.glossary-card:hover { border-color: rgba(0,196,180,0.3); }
+
+.glossary-term {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--teal);
+  margin-bottom: 0.5rem;
+}
+
+.glossary-def {
+  font-size: 0.85rem;
+  color: var(--steel);
+  line-height: 1.5;
+}
+
+/* ===== POINTS / SCORE ===== */
+#points-bar {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: rgba(6,14,28,0.95);
+  border: 1px solid rgba(0,196,180,0.3);
+  border-radius: 1rem;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  z-index: 200;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s;
+}
+
+#points-bar:hover { transform: scale(1.05); }
+
+.pts-icon { font-size: 1.2rem; }
+.pts-label { font-size: 0.75rem; color: var(--steel); }
+.pts-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--teal);
+}
+
+/* ===== CONFETTI ===== */
+.confetti-piece {
+  position: fixed;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+  animation: confettiFall 2s ease forwards;
+  z-index: 9999;
+  border-radius: 2px;
+}
+
+@keyframes confettiFall {
+  0% { opacity: 1; transform: translateY(-10px) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+}
+
+/* ===== UTIL ===== */
+.btn-primary {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background: var(--teal);
+  color: var(--deep);
+  border: none;
+  border-radius: 0.5rem;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background: #00d4c3;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,196,180,0.3);
+}
+
+.points-flash {
+  position: fixed;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  color: var(--gold);
+  font-size: 1.5rem;
+  pointer-events: none;
+  z-index: 9998;
+  animation: ptsFly 1.2s ease forwards;
+}
+
+@keyframes ptsFly {
+  0% { opacity: 1; transform: scale(1) translateY(0); }
+  100% { opacity: 0; transform: scale(1.5) translateY(-80px); }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="ocean-grid"></div>
+  <div class="ship-lane"></div>
+  <div class="ship-lane"></div>
+  <div class="ship-lane"></div>
+  <div class="ship">🚢</div>
+  <div class="ship">🛳️</div>
+  <div class="ship">⛴️</div>
+
+  <div class="hero-badge">SO-Portalen · Ekonomi</div>
+  <h1 class="hero-title">
+    Handel mellan
+    <span>länder</span>
+  </h1>
+  <p class="hero-sub">Export, import, tullar och handelskrig – så funkar världsekonomin, och varför det spelar roll för dig.</p>
+
+  <div class="ticker-wrap">
+    <div class="ticker-inner">
+      <div class="ticker-item"><span class="symbol">EXPORT</span> <span class="label">Sverige → världen</span> <span class="up">▲ +3.2%</span></div>
+      <div class="ticker-item"><span class="symbol">WTO</span> <span class="label">164 länder</span> <span class="up">✓</span></div>
+      <div class="ticker-item"><span class="symbol">USD/SEK</span> <span class="label">valutakurs</span> <span class="down">▼ -1.1%</span></div>
+      <div class="ticker-item"><span class="symbol">TULL</span> <span class="label">USA–Kina</span> <span class="down">▲ Handelskrig</span></div>
+      <div class="ticker-item"><span class="symbol">EU</span> <span class="label">Tullunion</span> <span class="up">✓ Frihandel</span></div>
+      <div class="ticker-item"><span class="symbol">VETE</span> <span class="label">Global kris</span> <span class="down">▼ Ukraina</span></div>
+      <div class="ticker-item"><span class="symbol">EXPORT</span> <span class="label">Sverige → världen</span> <span class="up">▲ +3.2%</span></div>
+      <div class="ticker-item"><span class="symbol">WTO</span> <span class="label">164 länder</span> <span class="up">✓</span></div>
+      <div class="ticker-item"><span class="symbol">USD/SEK</span> <span class="label">valutakurs</span> <span class="down">▼ -1.1%</span></div>
+      <div class="ticker-item"><span class="symbol">TULL</span> <span class="label">USA–Kina</span> <span class="down">▲ Handelskrig</span></div>
+      <div class="ticker-item"><span class="symbol">EU</span> <span class="label">Tullunion</span> <span class="up">✓ Frihandel</span></div>
+      <div class="ticker-item"><span class="symbol">VETE</span> <span class="label">Global kris</span> <span class="down">▼ Ukraina</span></div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scrolla ner</span>
+    <span class="arrow">↓</span>
+  </div>
+</section>
+
+<!-- ===== NAV ===== -->
+<nav id="sticky-nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="showSection('s1', this)">📦 Varför handlar länder?</button>
+    <button class="nav-btn" onclick="showSection('s2', this)">💱 Valutor</button>
+    <button class="nav-btn" onclick="showSection('s3', this)">🛡️ Protektionism & tullar</button>
+    <button class="nav-btn" onclick="showSection('s4', this)">🇸🇪 Sveriges handel</button>
+    <button class="nav-btn" onclick="showSection('s5', this)">🌾 Ukraina-krisen</button>
+    <button class="nav-btn" onclick="showSection('s8', this)">🧪 Scenariolabbet</button>
+    <button class="nav-btn" onclick="showSection('s6', this)">🎯 Quiz</button>
+    <button class="nav-btn" onclick="showSection('s7', this)">🗂️ Begrepp</button>
+  </div>
+</nav>
+
+<!-- ===== S1: VARFÖR HANDLAR LÄNDER ===== -->
+<section id="s1" class="section active">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 1 · Grunderna</div>
+      <h2 class="sec-title">Varför handlar<br><em>länder med varandra?</em></h2>
+      <p class="sec-desc">Handel har existerat i tusentals år – men aldrig i den skala vi ser idag. Vad driver egentligen länder att köpa och sälja av varandra?</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🌍</div>
+        <div class="stat-num">164</div>
+        <div class="stat-label">WTO-medlemmar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-num">~50%</div>
+        <div class="stat-label">Världshandel / BNP</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🚢</div>
+        <div class="stat-num">80%</div>
+        <div class="stat-label">Av varor fraktas med fartyg</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🇸🇪</div>
+        <div class="stat-num">2 000 mdr</div>
+        <div class="stat-label">Svenska importens värde</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Ingen klarar sig ensam</h3>
+      <p>Handel över nationsgränser är ingenting nytt. Det är för många länder en <strong>nödvändighet</strong> – för att ta del av varor och tjänster man inte kan producera själv. Världens länder är mer sammanlänkade med varandra än någonsin tidigare, dels genom internet, dels genom lägre transportkostnader.</p>
+
+      <h3>Två grundskäl till handel</h3>
+      <p><strong>1. Tillgång och brist:</strong> Länder exporterar det som finns eller tillverkas hos dem, och importerar det de saknar. Export ger ett land utländsk valuta – som sedan används för att betala för importen.</p>
+      <p><strong>2. Specialisering och effektivitet:</strong> Varor kan vara billigare att producera på andra ställen. Länder specialiserar sig utifrån vilka naturtillgångar, kunskaper och resurser de har. Effektiviteten beror på faktorer som klimat, tillgång till billig eller högutbildad arbetskraft, infrastruktur och lagar.</p>
+
+      <div class="highlight-box">
+        💡 <strong>Frihandelsavtal</strong> under de senaste 30 åren har starkt bidragit till att världshandeln exploderat. WTO bildades 1995 för att hålla ihop systemet.
+      </div>
+
+      <h3>WTO – världens handelsdomstol</h3>
+      <p>WTO, <strong>Världshandelsorganisationen</strong>, bildades 1995 med målet att världshandeln ska fungera så smidigt som möjligt. De förhandlar om regler, bevakar att de efterlevs och försöker pressa ned tullnivåerna globalt. Att förhandla fram ett nytt globalt avtal tar år – vilket gör att många länder istället sluter egna bilaterala frihandelsavtal.</p>
+    </div>
+
+    <!-- CONTAINER DRAG GAME -->
+    <div class="container-game">
+      <h3>📦 Sortera Sverigevarorna!</h3>
+      <p class="game-sub">Dra varorna till rätt kategori – vad exporterar Sverige och vad importerar vi? Rätt svar ger poäng! 🎯</p>
+
+      <div class="cargo-items" id="cargo-pool">
+        <div class="cargo-item" draggable="true" data-item="bilar" data-type="both">🚗 Bilar</div>
+        <div class="cargo-item" draggable="true" data-item="apelsiner" data-type="import">🍊 Apelsiner</div>
+        <div class="cargo-item" draggable="true" data-item="maskiner" data-type="export">⚙️ Maskiner</div>
+        <div class="cargo-item" draggable="true" data-item="olja" data-type="import">🛢️ Olja</div>
+        <div class="cargo-item" draggable="true" data-item="lastbilar" data-type="export">🚛 Lastbilar</div>
+        <div class="cargo-item" draggable="true" data-item="kläder" data-type="import">👕 Kläder</div>
+        <div class="cargo-item" draggable="true" data-item="teknik" data-type="export">💻 Teknik</div>
+        <div class="cargo-item" draggable="true" data-item="livsmedel" data-type="import">🥩 Livsmedel</div>
+      </div>
+
+      <div class="drop-zones">
+        <div class="drop-zone export-zone" id="export-zone">
+          <div class="zone-title">✈️ Export från Sverige</div>
+          <div class="zone-items" id="export-items"></div>
+        </div>
+        <div class="drop-zone import-zone" id="import-zone">
+          <div class="zone-title">📥 Import till Sverige</div>
+          <div class="zone-items" id="import-items"></div>
+        </div>
+      </div>
+
+      <button class="check-btn" onclick="checkCargo()">Kontrollera svar ✓</button>
+      <div class="game-feedback" id="cargo-feedback"></div>
+    </div>
+
+    <!-- FLASHCARDS DEL 1 -->
+    <h3 style="font-family:'Syne',sans-serif; color:var(--teal); margin-bottom:1rem; font-size:1.1rem;">🃏 Flashkort – klicka för definition</h3>
+    <div class="flashcard-grid">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Export</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Varor och tjänster som säljs från det egna landet till andra länder. Sverige exporterar bl.a. fordon och maskiner.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Import</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Varor och tjänster som köps in från andra länder. Sverige importerar t.ex. olja, kläder och livsmedel.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">WTO</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Världshandelsorganisationen. Bildades 1995. Förhandlar om handelsregler och har 164 medlemsländer.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Frihandelsavtal</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Avtal mellan länder som tar bort eller sänker tullar och handelshinder för att förenkla handel länderna emellan.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S2: VALUTOR ===== -->
+<section id="s2" class="section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 2 · Ekonomi</div>
+      <h2 class="sec-title">Valutor och<br><em>valutakurser</em></h2>
+      <p class="sec-desc">Hur mycket din semester kostar, och om Volvo tjänar pengar – allt hänger på valutakursen. Testa simulatorn nedan!</p>
+    </div>
+
+    <div class="prose">
+      <h3>Vad är en valuta?</h3>
+      <p>Varje land (eller valutazon) har sin <strong>valuta</strong>. Valutornas värde förändras ständigt – det kallas valutakurs. Vad påverkar värdet? Landets tillväxt, räntenivå och omvärldens förtroende för landets ekonomi.</p>
+      <p>Ett exempel på stabil valuta är <strong>schweizerfrancen</strong>. Schweiz har konstant stabil tillväxt, stabil finans- och penningpolitik. När det är oro i världen köper investerare guld, dollar och schweizerfranc – för att det historiskt behållit sitt värde.</p>
+
+      <div class="highlight-box">
+        💡 EU bildade valutaunionen och <strong>euron</strong> delvis för att ge stabilare handel. ECB, europeiska centralbanken, sätter räntan och påverkar eurons värde.
+      </div>
+
+      <h3>Kronan och exporten</h3>
+      <p>Sverige är starkt beroende av export, vilket gör oss känsliga för valutaförändringar. En <strong>svag krona</strong> gör svenska varor billigare för utlandet (bra för exporten) men dyrare att importera råvaror och maskiner (sämre för industrin). En <strong>stark krona</strong> gör importen billigare men exportvarorna dyrare.</p>
+    </div>
+
+    <!-- VALUTA SIMULATOR -->
+    <div class="currency-sim">
+      <h3>💱 Valutasimulator – prova konsekvenserna</h3>
+
+      <div class="sim-controls">
+        <div class="sim-group">
+          <label>KRONANS FÖRÄNDRING</label>
+          <input type="range" class="sim-slider" id="krona-slider" min="-25" max="25" value="0" oninput="updateCurrencySim()">
+          <div class="sim-val" id="krona-val">±0%</div>
+        </div>
+        <div class="sim-group">
+          <label>EXPORTVÄRDE (miljarder kr)</label>
+          <input type="range" class="sim-slider" id="export-slider" min="100" max="2000" value="1000" oninput="updateCurrencySim()">
+          <div class="sim-val" id="export-val">1 000 mdr</div>
+        </div>
+      </div>
+
+      <div class="sim-result">
+        <div class="result-item">
+          <div class="r-label">Export (för utländsk köpare)</div>
+          <div class="r-val" id="sim-export">–</div>
+        </div>
+        <div class="result-item">
+          <div class="r-label">Import (kostnad för Sverige)</div>
+          <div class="r-val" id="sim-import">–</div>
+        </div>
+        <div class="result-item">
+          <div class="r-label">Din semester i EU</div>
+          <div class="r-val" id="sim-semester">–</div>
+        </div>
+      </div>
+
+      <div class="sim-story" id="sim-story">
+        Justera reglagen för att se vad som händer med ekonomin 👆
+      </div>
+    </div>
+
+    <!-- FLASHCARDS DEL 2 -->
+    <h3 style="font-family:'Syne',sans-serif; color:var(--teal); margin-bottom:1rem; font-size:1.1rem;">🃏 Flashkort – valutor</h3>
+    <div class="flashcard-grid">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Valutakurs</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Priset på en valuta uttryckt i en annan. T.ex. hur många kronor ett euro kostar. Förändras ständigt.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">ECB</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Europeiska centralbanken. Sätter räntan för euroländerna och ansvarar för penningpolitiken inom euroområdet.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Svag krona</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">När kronans värde faller mot andra valutor. Gör export billigare men import dyrare. Turister väljer att stanna i Sverige.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Valutaunion</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Flera länder delar samma valuta. EU:s valutaunion använder euron – underlättar handel och ger mer stabil valuta.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S3: PROTEKTIONISM ===== -->
+<section id="s3" class="section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 3 · Handelshinder</div>
+      <h2 class="sec-title">Protektionism<br><em>& tullar</em></h2>
+      <p class="sec-desc">Frihandel låter bra i teorin – men länder vill ibland skydda sin egen produktion. Här är verktygen och priset.</p>
+    </div>
+
+    <div class="prose">
+      <h3>Vad är protektionism?</h3>
+      <p>Protektionism handlar om att <strong>skydda det egna landets produktion</strong> av vissa varor. Det sker genom tullar på importvaror, eller genom att begränsa hur mycket av en viss vara som får importeras.</p>
+
+      <h3>Vad är en tull?</h3>
+      <p>En <strong>tull</strong> är en skatt som betalas till staten när man för in en vara i landet (och ibland ut). Storlek på tullen beror på varans värde, vikt – eller båda. Köper du skor från Kina online? Då betalar du tull. I Sverige ansvarar <strong>Tullverket</strong> för detta.</p>
+
+      <h3>EU:s tullunion</h3>
+      <p>EU är en gemensam tullunion: man handlar <strong>tullfritt</strong> inom EU, men har gemensamma tullar mot länder utanför. Handlar du från Italien? Ingen tull. Från Kina? Tull krävs.</p>
+
+      <h3>Tekniska handelshinder</h3>
+      <p>Inte alla handelshinder är avsiktliga. <strong>Miljölagar och hälsokrav</strong> på produkter kan fungera som hinder, även om avsikten var en annan.</p>
+
+      <div class="highlight-box">
+        ⚠️ <strong>Handelskrig USA–Kina:</strong> Länderna höjer kontinuerligt sina tullar mot varandra – ett klassiskt handelskrig som påverkar hela världsekonomin.
+      </div>
+    </div>
+
+    <!-- PROTEKTIONISMSMÄTAREN -->
+    <div class="protect-meter">
+      <h3>🌍 Protektionismsmätaren</h3>
+      <p style="color:var(--steel); font-size:0.9rem; margin-bottom:1.5rem;">Välj ett land och se hur öppet eller stängt det är för handel</p>
+
+      <div class="country-buttons">
+        <button class="country-btn selected" onclick="selectCountry('se', this)">🇸🇪 Sverige</button>
+        <button class="country-btn" onclick="selectCountry('us', this)">🇺🇸 USA</button>
+        <button class="country-btn" onclick="selectCountry('cn', this)">🇨🇳 Kina</button>
+        <button class="country-btn" onclick="selectCountry('de', this)">🇩🇪 Tyskland</button>
+        <button class="country-btn" onclick="selectCountry('br', this)">🇧🇷 Brasilien</button>
+        <button class="country-btn" onclick="selectCountry('ch', this)">🇨🇭 Schweiz</button>
+      </div>
+
+      <div class="pm-display" id="pm-display">
+        <!-- filled by JS -->
+      </div>
+    </div>
+
+    <!-- HANDELSKRIG SIMULATOR -->
+    <div class="twar-sim">
+      <h3>⚔️ Handelskrigssimulator</h3>
+
+      <div class="twar-countries">
+        <div class="twar-country">
+          <div class="twar-flag">🇺🇸</div>
+          <div class="twar-cname">USA</div>
+          <div class="tull-control">
+            <label>TULL PÅ KINA-VAROR</label>
+            <input type="range" class="tull-slider" id="usa-tull" min="0" max="100" value="25" oninput="updateTradeWar()">
+            <div class="tull-val" id="usa-tull-val">25%</div>
+          </div>
+        </div>
+
+        <div class="twar-vs">⚔️</div>
+
+        <div class="twar-country">
+          <div class="twar-flag">🇨🇳</div>
+          <div class="twar-cname">Kina</div>
+          <div class="tull-control">
+            <label>TULL PÅ USA-VAROR</label>
+            <input type="range" class="tull-slider" id="cn-tull" min="0" max="100" value="25" oninput="updateTradeWar()">
+            <div class="tull-val" id="cn-tull-val">25%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="twar-result">
+        <div class="twar-tension">
+          <span class="tension-label">Spänningsnivå</span>
+          <div class="tension-bar-wrap"><div class="tension-fill" id="tension-fill" style="width:40%"></div></div>
+          <span class="tension-level" id="tension-level" style="color:var(--amber)">Spänd</span>
+        </div>
+
+        <div class="twar-effects">
+          <div class="effect-item">
+            <div class="effect-icon">📈</div>
+            <div class="effect-label">Priser i butik</div>
+            <div class="effect-val" id="tw-priser">+12%</div>
+          </div>
+          <div class="effect-item">
+            <div class="effect-icon">🏭</div>
+            <div class="effect-label">Industriproduktion</div>
+            <div class="effect-val" id="tw-industri">-8%</div>
+          </div>
+          <div class="effect-item">
+            <div class="effect-icon">🌍</div>
+            <div class="effect-label">Effekt på resten av världen</div>
+            <div class="effect-val" id="tw-world">Måttlig</div>
+          </div>
+          <div class="effect-item">
+            <div class="effect-icon">😤</div>
+            <div class="effect-label">Politisk situation</div>
+            <div class="effect-val" id="tw-pol">Instabil</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FLASHCARDS DEL 3 -->
+    <h3 style="font-family:'Syne',sans-serif; color:var(--teal); margin-bottom:1rem; font-size:1.1rem;">🃏 Flashkort – handelshinder</h3>
+    <div class="flashcard-grid">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Tull</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">En skatt man betalar till staten när man för in en vara i landet. Storleken baseras på varans värde eller vikt.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Protektionism</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Politik som skyddar det egna landets produktion genom tullar och importbegränsningar. Motsatsen till frihandel.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Tullunion</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Länder som handlar tullfritt med varandra och har gemensamma tullar mot omvärlden. EU är ett exempel.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Handelshinder</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Allt som försvårar frihandel: tullar, importkvoter, tekniska krav. Kan vara avsiktliga eller ett biprodukt av t.ex. miljölagar.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S4: SVERIGES HANDEL ===== -->
+<section id="s4" class="section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 4 · Sverige</div>
+      <h2 class="sec-title">Sveriges handel<br><em>med världen</em></h2>
+      <p class="sec-desc">Sverige är litet men mäktigt på exportmarknaden – tack vare avancerad industri, teknikbolag och tjänstesektor.</p>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🚗</div>
+        <div class="stat-num">70%</div>
+        <div class="stat-label">Av exporten är varor</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🇩🇪</div>
+        <div class="stat-num">#1</div>
+        <div class="stat-label">Exportmarknad = Tyskland</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🇳🇴</div>
+        <div class="stat-num">#1</div>
+        <div class="stat-label">Tjänsteexport = Norge</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🛢️</div>
+        <div class="stat-num">80%+</div>
+        <div class="stat-label">Av import från EU</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Export – vad säljer Sverige?</h3>
+      <p>De senaste 30 åren har den svenska exportens andel av BNP ökat kraftigt. Majoriteten av vår varuexport går till <strong>Tyskland, Norge, Finland och Danmark</strong>. Asienexporten har gått om Amerikaexporten.</p>
+      <p>Svensk varuexport domineras av <strong>högteknologiska industrivaror</strong> – fordon, maskiner och telekommunikation. En Volvolastbil från Göteborg innehåller komponenter från dussintals länder – ändå kallas den "svensk".</p>
+      <p>Den <strong>tjänsteexporten</strong> har vuxit snabbast procentuellt de senaste 20 åren. Den består av teknik-, data- och informationstjänster samt resor och transport.</p>
+
+      <h3>Import – vad köper vi?</h3>
+      <p>En av våra viktigaste importvaror är <strong>olja</strong> – även om beroendet minskat. Vi importerar också bilar, el- och teleprodukter och livsmedel. Vi importerar för <strong>2 000 miljarder kronor</strong> om året – men exporterar mer.</p>
+
+      <div class="highlight-box">
+        📊 <strong>Handelsbalans:</strong> Sveriges export har de senaste 20 åren varit större än importen – det är det som gör att Sveriges ekonomi växer!
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <h3 style="font-family:'Syne',sans-serif; color:var(--teal); margin-bottom:1.5rem; font-size:1.1rem;">📅 Tidslinje – handelns utveckling</h3>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">1947</div>
+        <div class="timeline-event">GATT grundas</div>
+        <div class="timeline-desc">General Agreement on Tariffs and Trade – föregångaren till WTO. Målet: sänka tullar globalt.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1957</div>
+        <div class="timeline-event">EEG bildas – Europeisk fri marknad</div>
+        <div class="timeline-desc">Romfördraget lägger grunden till EU:s inre marknad och tullunion.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1994</div>
+        <div class="timeline-event">Sverige röstar ja till EU</div>
+        <div class="timeline-desc">Sverige går med i EU 1995 och får tillgång till den europeiska tullunionen och den inre marknaden.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">1995</div>
+        <div class="timeline-event">WTO grundas</div>
+        <div class="timeline-desc">Världshandelsorganisationen ersätter GATT med 164 länder som medlemmar och starkare förhandlingsmandat.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2001</div>
+        <div class="timeline-event">Kina går med i WTO</div>
+        <div class="timeline-desc">Explosionsartad tillväxt i globala värdekedjor. Kina blir världens fabrik.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2018–</div>
+        <div class="timeline-event">Handelskrig USA–Kina</div>
+        <div class="timeline-desc">USA och Kina eskalerar tullar mot varandra – ett handelskrig som fortfarande skakar om världsekonomin.</div>
+      </div>
+    </div>
+
+    <div class="flashcard-grid">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Handelsbalans</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Skillnaden mellan export och import. Sverige har positiv handelsbalans (exporterar mer än vi importerar).</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Global värdekedja</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">När en produkt innehåller komponenter från många länder. En "svensk" Volvo har delar från dussintals länder.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Tjänsteexport</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Export av immateriella tjänster som teknik, data, transporter och forskning. Snabbast växande del av svensk export.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S5: UKRAINA ===== -->
+<section id="s5" class="section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 5 · Fallstudie</div>
+      <h2 class="sec-title">Kriget och<br><em>spannmålskrisen</em></h2>
+      <p class="sec-desc">Hur Rysslands invasion av Ukraina skapade en global livsmedelskris – och vad det säger om handelns sårbarhet.</p>
+    </div>
+
+    <div class="prose">
+      <h3>Ukraina som spannmålsexportör</h3>
+      <p>År 2020 var Ukraina världens <strong>näst största exportör av spannmål</strong> – framförallt vete och majs. År 2021 odlade ukrainska bönder grödor på en yta större än Österrike och Tjeckien tillsammans.</p>
+      <p>Efter Rysslands invasion 2022 minskade exporten drastiskt. Jordbruksarealen som brukas minskade med nästan Belgiens storlek. Sådden 2022 minskade med <strong>22 procent</strong>.</p>
+
+      <h3>Svarta havet-avtalet</h3>
+      <p>I juli 2022 slöts ett avtal mellan FN, Ryssland och Turkiet – Ukraina fick fortsätta frakta spannmål via Svarta havet trots kriget. I juli 2023 <strong>bröt Ryssland avtalet</strong>.</p>
+
+      <div class="highlight-box">
+        🌍 FN:s livsmedelsprogram (WFP) köpte stora mängder spannmål från Ukraina och delade ut mat i Jemen, Afghanistan och Etiopien. Konsekvenserna av kriget nådde världens fattigaste.
+      </div>
+    </div>
+
+    <div class="case-study">
+      <h3>🌾 <span>Vinnare och förlorare</span></h3>
+      <p style="color:var(--steel); font-size:0.9rem;">Kriget skapade ett komplext nät av konsekvenser för olika aktörer</p>
+
+      <div class="impact-grid">
+        <div class="impact-card loser">
+          <div class="impact-icon">🇾🇪</div>
+          <div class="impact-title">Jemen, Etiopien, Afghanistan</div>
+          <div class="impact-desc">Beroende av spannmålsimport. Prisökningar slog hårt mot redan svältdrabbade befolkningar.</div>
+        </div>
+        <div class="impact-card loser">
+          <div class="impact-icon">🇺🇦</div>
+          <div class="impact-title">Ukrainska bönder</div>
+          <div class="impact-desc">Förlorade mark, maskiner och möjligheten att exportera. Ekonomisk katastrof.</div>
+        </div>
+        <div class="impact-card mixed">
+          <div class="impact-icon">🌍</div>
+          <div class="impact-title">Globala matpriser</div>
+          <div class="impact-desc">Världsmarknadspriserna på spannmål steg – drabbar fattiga länder hårdast.</div>
+        </div>
+        <div class="impact-card winner">
+          <div class="impact-icon">🇦🇺</div>
+          <div class="impact-title">Andra spannmålsexportörer</div>
+          <div class="impact-desc">Australien, USA och Kanada fick ökad efterfrågan och höjda priser på sin spannmål.</div>
+        </div>
+      </div>
+
+      <div class="discussion-prompt">
+        <div class="dp-label">🗣️ Diskussionsfråga</div>
+        <p>Hur har Rysslands invasion drabbat olika grupper? Tänk på stater, individer och grupper. Vilka har blivit vinnare och vilka förlorare? Hur kan man lösa problemen och vems ansvar är det?</p>
+      </div>
+    </div>
+
+    <div class="flashcard-grid">
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">WFP</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">FN:s livsmedelsprogram. Köper och distribuerar mat till katastrofdrabbade länder. Beroende av import från bl.a. Ukraina.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Spannmålskris</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">När Ryssland invaderade Ukraina 2022 föll spannmålsexporten drastiskt, vilket höjde världsmarknadspriser och skapade svält i fattiga länder.</div></div>
+        </div>
+      </div>
+      <div class="flashcard" onclick="this.classList.toggle('flipped')">
+        <div class="flashcard-inner">
+          <div class="flashcard-front"><div><div class="fc-term">Handelssårbarhet</div><div class="fc-hint">Klicka för svar</div></div></div>
+          <div class="flashcard-back"><div class="fc-def">Hur beroende ett land är av handel, och hur känsligt det är för störningar i leveranskedjor eller konflikter.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S8: SCENARIOLABBET ===== -->
+<section id="s8" class="section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 8 · Verkligheten</div>
+      <h2 class="sec-title">Scenariolabbet –<br><em>Vad händer om…?</em></h2>
+      <p class="sec-desc">Tre verkliga handelspolitiska scenarion. Analysera konsekvenserna, välj rätt svar och bygg ditt resonemang steg för steg.</p>
+    </div>
+
+    <div class="scenario-intro">
+      <div class="si-icon">🧪</div>
+      <div>
+        <h4>Hur använder du labbet?</h4>
+        <p>Varje scenario presenterar ett verkligt läge – ett beslut, ett hot eller ett skeende. Du resonerar dig igenom konsekvenserna med hjälp av flervalsfrågor, konsekvenskedjor och perspektivanalyser. Det finns inga "superlätta" rätta svar – syftet är att träna ditt analytiska tänkande.</p>
+      </div>
+    </div>
+
+    <div class="scenario-tabs">
+      <button class="sc-tab active" onclick="showScenario(1, this)"><span class="sc-tab-num">1</span> 🇺🇸 Trumps tullar</button>
+      <button class="sc-tab" onclick="showScenario(2, this)"><span class="sc-tab-num">2</span> 💸 Kronkrasch</button>
+      <button class="sc-tab" onclick="showScenario(3, this)"><span class="sc-tab-num">3</span> 🌾 Blockad i Röda havet</button>
+    </div>
+
+    <!-- ===== SCENARIO 1: TRUMP TULLAR ===== -->
+    <div class="scenario-panel active" id="sc-panel-1">
+      <div class="sc-card">
+        <div class="sc-header" style="background:linear-gradient(135deg, rgba(239,68,68,0.12), rgba(13,34,64,0.8));">
+          <div class="sc-tag" style="color:var(--coral);">🇺🇸 Scenario 1 · Handelspolitik</div>
+          <div class="sc-title">Trump hotar med 25 % tull på EU-varor</div>
+          <p class="sc-preamble" style="color:var(--fog);">USA:s president Donald Trump meddelar att han planerar att införa en generell tull på <strong style="color:var(--coral);">25 %</strong> på alla varor från EU – inklusive svenska bilar, maskiner och telekomutrustning. Han motiverar det med att USA har ett underskott i handeln med EU och att han vill skydda amerikanska jobb. EU svarar att man "studerar alla alternativ".</p>
+          <div class="sc-meta">
+            <div class="sc-meta-item"><span class="mi-label">Berörda länder</span><span class="mi-val" style="color:var(--coral);">🇺🇸 USA · 🇪🇺 EU · 🇸🇪 Sverige</span></div>
+            <div class="sc-meta-item"><span class="mi-label">Typ</span><span class="mi-val">Handelspolitik / Protektionism</span></div>
+            <div class="sc-meta-item"><span class="mi-label">Svårighetsgrad</span><span class="mi-val" style="color:var(--amber);">★★★☆☆</span></div>
+          </div>
+        </div>
+
+        <div class="sc-steps">
+
+          <!-- Steg 1 -->
+          <div class="sc-step" id="sc1-s1">
+            <div class="sc-step-num">Steg 1 · Direkt konsekvens</div>
+            <div class="sc-step-q">En 25 %-ig tull på svenska Volvobilar som säljs i USA – vad händer DIREKT med Volvo?</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(1,1,'A')" id="sc1-s1-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">Volvo tvingas sänka sina priser för att vara konkurrenskraftiga – intäkterna minskar</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,1,'B')" id="sc1-s1-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">Tullen betalas av USA-kunden, vilket gör bilen 25 % dyrare – färre köper Volvo i USA</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,1,'C')" id="sc1-s1-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">Ingenting händer – Volvo säljer ändå, folk i USA köper alltid Volvo</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,1,'D')" id="sc1-s1-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">Volvo får betala tillbaka pengar till svenska staten som kompensation</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc1-s1-chain">
+              <div class="cc-item" style="animation-delay:0.1s">
+                <span class="cc-arrow">→</span>
+                <span class="cc-text">Tullen läggs på <strong>importpriset</strong> – det är antingen USA-importören eller slutkunden som betalar. I praktiken delar de ofta på kostnaden.</span>
+              </div>
+              <div class="cc-item" style="animation-delay:0.3s">
+                <span class="cc-arrow">→</span>
+                <span class="cc-text">En Volvo som kostar 500 000 kr i USA kostar nu <strong>625 000 kr</strong>. Konkurrenter som Ford eller Toyota (tillverkade i USA) behöver inte betala tullen.</span>
+              </div>
+              <div class="cc-item" style="animation-delay:0.5s">
+                <span class="cc-arrow">→</span>
+                <span class="cc-text">Volvo säljer <strong>färre bilar</strong> i USA. Det kan leda till permitteringar i Göteborg och Skövde.</span>
+              </div>
+            </div>
+            <div class="sc-verdict" id="sc1-s1-verdict"></div>
+          </div>
+
+          <!-- Steg 2 -->
+          <div class="sc-step" id="sc1-s2">
+            <div class="sc-step-num">Steg 2 · EU:s svar</div>
+            <div class="sc-step-q">EU ska svara på Trumps tullhot. Vilket av dessa svar är BÄST ur ett handelspolitiskt perspektiv?</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(1,2,'A')" id="sc1-s2-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">EU inför omedelbart 50 % tull på alla amerikanska varor för att visa styrka</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,2,'B')" id="sc1-s2-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">EU erbjuder att köpa mer USA-varor (t.ex. LNG-gas) och inleder förhandlingar för att undvika eskalering</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,2,'C')" id="sc1-s2-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">EU gör ingenting och hoppas att hotet blåser över</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,2,'D')" id="sc1-s2-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">EU lämnar WTO och deklarerar att man inte längre följer några handelsregler</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc1-s2-chain"></div>
+            <div class="sc-verdict" id="sc1-s2-verdict"></div>
+          </div>
+
+          <!-- Steg 3 -->
+          <div class="sc-step" id="sc1-s3">
+            <div class="sc-step-num">Steg 3 · Perspektivanalys</div>
+            <div class="sc-step-q">Handelskriget eskalerar. Vem vinner och vem förlorar? Välj det mest korrekta påståendet:</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(1,3,'A')" id="sc1-s3-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">USA vinner klart – mer tullintäkter och starkare inhemsk industri</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,3,'B')" id="sc1-s3-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">EU vinner – europeiska varor är bättre och folk köper dem ändå</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,3,'C')" id="sc1-s3-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">Ingen vinner egentligen – konsumenter i båda länder betalar mer och handeln minskar</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(1,3,'D')" id="sc1-s3-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">Kina vinner – de kan ta EU:s marknadsandelar i USA när EU-varor blir dyrare</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc1-s3-chain"></div>
+            <div class="sc-verdict" id="sc1-s3-verdict"></div>
+          </div>
+
+          <!-- Steg 4: perspektiv -->
+          <div class="sc-step" id="sc1-s4" style="display:none">
+            <div class="sc-step-num">Steg 4 · Vinnare &amp; Förlorare</div>
+            <div class="sc-step-q">Se hur handelskriget drabbar olika grupper:</div>
+            <div class="perspective-grid">
+              <div class="persp-card lose">
+                <div class="p-title">😤 Förlorar: Svensk exportindustri</div>
+                Volvo, SSAB och Ericsson tappar marknadsandelar i USA. Varslar kan följa.
+              </div>
+              <div class="persp-card lose">
+                <div class="p-title">💸 Förlorar: Amerikanska konsumenter</div>
+                Varor från Europa och Kina blir dyrare. Priserna stiger i butikerna.
+              </div>
+              <div class="persp-card win">
+                <div class="p-title">✅ Vinner: Amerikansk inhemsk industri</div>
+                Ford, GM och inhemska ståltillverkare kan ta marknadsandelar när import dyrare.
+              </div>
+              <div class="persp-card mixed">
+                <div class="p-title">🤔 Osäkert: Kina</div>
+                Kan fylla tomrummet EU lämnar – men riskerar egna tullar om de utnyttjar det.
+              </div>
+              <div class="persp-card lose">
+                <div class="p-title">📉 Förlorar: Världshandeln</div>
+                WTO undergrävs. Handelskrig skapar osäkerhet som dämpar investeringar globalt.
+              </div>
+              <div class="persp-card mixed">
+                <div class="p-title">🇸🇪 Sverige: Dubbelt</div>
+                Exportberoende = hårt drabbat. Men svagare krona gör oss mer konkurrenskraftiga på andra marknader.
+              </div>
+            </div>
+            <div class="sc-complete-banner show" id="sc1-complete">
+              <div class="scb-emoji">🏆</div>
+              <div class="scb-title">Scenario 1 klart!</div>
+              <div class="scb-desc">Du har analyserat Trumps tullhot från tre vinklar: direkteffekt, politisk respons och perspektivanalys. Bra jobbat! Testa scenario 2 👉</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SCENARIO 2: KRONKRASCH ===== -->
+    <div class="scenario-panel" id="sc-panel-2">
+      <div class="sc-card">
+        <div class="sc-header" style="background:linear-gradient(135deg, rgba(245,158,11,0.12), rgba(13,34,64,0.8));">
+          <div class="sc-tag" style="color:var(--amber);">💸 Scenario 2 · Valutakris</div>
+          <div class="sc-title">Kronan rasar – 15 % på en vecka</div>
+          <p class="sc-preamble" style="color:var(--fog);">Riksbanken meddelar oväntat att Sverige sänker räntan kraftigt för att stimulera ekonomin. Utländska investerare tappar förtroendet och säljer svenska tillgångar i panik. På sju dagar har kronan förlorat <strong style="color:var(--amber);">15 % av sitt värde</strong> mot euron och dollarn. Det är den kraftigaste kronförsvagningen sedan 1992 års valutakris.</p>
+          <div class="sc-meta">
+            <div class="sc-meta-item"><span class="mi-label">Berörda</span><span class="mi-val" style="color:var(--amber);">🇸🇪 Sverige · 🇪🇺 EU</span></div>
+            <div class="sc-meta-item"><span class="mi-label">Typ</span><span class="mi-val">Valutakris · Makroekonomi</span></div>
+            <div class="sc-meta-item"><span class="mi-label">Svårighetsgrad</span><span class="mi-val" style="color:var(--coral);">★★★★☆</span></div>
+          </div>
+        </div>
+
+        <div class="sc-steps">
+
+          <div class="sc-step">
+            <div class="sc-step-num">Steg 1 · Exporteffekten</div>
+            <div class="sc-step-q">Kronan har försvagats 15 % mot euron. Vad händer med Scania som exporterar lastbilar till Tyskland?</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(2,1,'A')" id="sc2-s1-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">Scanias lastbilar blir 15 % dyrare för tyska köpare – exporten minskar</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,1,'B')" id="sc2-s1-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">Scanias lastbilar blir 15 % billigare för tyska köpare – exporten ökar</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,1,'C')" id="sc2-s1-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">Ingenting händer med exporten – valutan påverkar bara turister</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,1,'D')" id="sc2-s1-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">Scania måste sälja lastbilarna i kronor istället, vilket ökar deras vinst</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc2-s1-chain"></div>
+            <div class="sc-verdict" id="sc2-s1-verdict"></div>
+          </div>
+
+          <div class="sc-step">
+            <div class="sc-step-num">Steg 2 · Importeffekten</div>
+            <div class="sc-step-q">Sverige importerar 200 miljarder kronors värde av olja varje år från länder som tar betalt i dollar. Kronan har försvagats 15 %. Vad händer?</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(2,2,'A')" id="sc2-s2-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">Oljan kostar fortfarande 200 miljarder – oljan handlas ju i kronor</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,2,'B')" id="sc2-s2-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">Oljan kostar nu 230 miljarder – 30 miljarder mer på grund av svagare krona</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,2,'C')" id="sc2-s2-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">Oljan kostar 170 miljarder – Sverige tjänar på svagare krona vid import</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,2,'D')" id="sc2-s2-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">Det beror på om oljan är förnyelsebart eller ej</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc2-s2-chain"></div>
+            <div class="sc-verdict" id="sc2-s2-verdict"></div>
+          </div>
+
+          <div class="sc-step">
+            <div class="sc-step-num">Steg 3 · Helhetsbedömning</div>
+            <div class="sc-step-q">Kronan har rasat 15 %. Hur påverkas den genomsnittliga svenska hushållskostnaden?</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(2,3,'A')" id="sc2-s3-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">Priserna sjunker – svagare krona gynnar alltid hushållen</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,3,'B')" id="sc2-s3-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">Priser stiger på importerade varor (mat, elektronik, kläder, bensin) – köpkraften minskar</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,3,'C')" id="sc2-s3-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">Hushållen påverkas inte – det är bara företagen som märker valutaförändringar</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(2,3,'D')" id="sc2-s3-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">Priserna ökar lite grann på lyxvaror men inte på vardagsvaror</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc2-s3-chain"></div>
+            <div class="sc-verdict" id="sc2-s3-verdict"></div>
+            <div class="sc-complete-banner" id="sc2-complete">
+              <div class="scb-emoji">💸</div>
+              <div class="scb-title">Scenario 2 klart!</div>
+              <div class="scb-desc">Valutakurser är ett av ekonomins mest komplexa fenomen. Du har nu förstått hur en kronkrasch slår igenom på export, import och hushållen. Testa sista scenariot! 👉</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SCENARIO 3: RÖDA HAVET ===== -->
+    <div class="scenario-panel" id="sc-panel-3">
+      <div class="sc-card">
+        <div class="sc-header" style="background:linear-gradient(135deg, rgba(0,196,180,0.1), rgba(13,34,64,0.8));">
+          <div class="sc-tag" style="color:var(--teal);">🌊 Scenario 3 · Leveranskedja</div>
+          <div class="sc-title">Huthiattacker blockerar Röda havet</div>
+          <p class="sc-preamble" style="color:var(--fog);">Huthirebeller i Jemen har börjat attackera handelsfartyg i Röda havet och Suezkanalen – en av världens viktigaste sjövägar. <strong style="color:var(--teal);">15 % av all världshandel</strong> passerar normalt här. Rederier väljer nu att ta den långa omvägen runt Afrika – vilket tar tre veckor extra och kostar miljontals kronor per fartyg. IKEA, H&amp;M och Volvo är bland de svenska företag som påverkas direkt.</p>
+          <div class="sc-meta">
+            <div class="sc-meta-item"><span class="mi-label">Berörda</span><span class="mi-val" style="color:var(--teal);">🌍 Global handel</span></div>
+            <div class="sc-meta-item"><span class="mi-label">Typ</span><span class="mi-val">Leveranskedjor · Geopolitik</span></div>
+            <div class="sc-meta-item"><span class="mi-label">Svårighetsgrad</span><span class="mi-val" style="color:var(--coral);">★★★★★</span></div>
+          </div>
+        </div>
+
+        <div class="sc-steps">
+
+          <div class="sc-step">
+            <div class="sc-step-num">Steg 1 · Direkteffekt</div>
+            <div class="sc-step-q">H&M:s kläder produceras i Bangladesh och ska fraktas till Sverige via Röda havet. Nu måste fartygen ta omvägen runt Afrika. Vad händer?</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(3,1,'A')" id="sc3-s1-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">Ingenting – H&M flyger hem varorna istället, utan extra kostnad</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,1,'B')" id="sc3-s1-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">Kläderna anländer tre veckor försenat och med högre fraktkostnad – H&M höjer priserna</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,1,'C')" id="sc3-s1-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">H&M väljer att tillverka kläderna i Sverige istället för Bangladesh</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,1,'D')" id="sc3-s1-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">Röda havet-krisen påverkar bara oljepriset, inte kläder</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc3-s1-chain"></div>
+            <div class="sc-verdict" id="sc3-s1-verdict"></div>
+          </div>
+
+          <div class="sc-step">
+            <div class="sc-step-num">Steg 2 · Kaskadeffekten</div>
+            <div class="sc-step-q">Försenade leveranser drabbar Volvo som väntar på komponenter från Asien. Deras fabrik i Göteborg tvingas pausa produktionen. Vilket begrepp beskriver bäst det här problemet?</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(3,2,'A')" id="sc3-s2-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">Valutakursrisk – Volvo räknade fel på kronans värde</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,2,'B')" id="sc3-s2-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">Sårbarhet i globala värdekedjor – när ett länk brister stannar hela kedjan</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,2,'C')" id="sc3-s2-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">Handelshinder – Jemen har infört tull på svenska bilar</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,2,'D')" id="sc3-s2-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">Frihandelsbrott – Volvos avtal med WTO har brutits</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc3-s2-chain"></div>
+            <div class="sc-verdict" id="sc3-s2-verdict"></div>
+          </div>
+
+          <div class="sc-step">
+            <div class="sc-step-num">Steg 3 · Lärdomen</div>
+            <div class="sc-step-q">Krisen varar i månader. Vilket av dessa är den bästa LÅNGSIKTIGA lärdomen för svenska företag?</div>
+            <div class="sc-choices">
+              <button class="sc-choice" onclick="scAnswer(3,3,'A')" id="sc3-s3-A">
+                <span class="sc-choice-icon">A</span>
+                <span class="sc-choice-text">Aldrig handla med länder utanför Europa – för osäkert</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,3,'B')" id="sc3-s3-B">
+                <span class="sc-choice-icon">B</span>
+                <span class="sc-choice-text">Diversifiera leverantörer, bygg lager av kritiska komponenter och sprid riskerna geografiskt</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,3,'C')" id="sc3-s3-C">
+                <span class="sc-choice-icon">C</span>
+                <span class="sc-choice-text">Sverige bör militärt ingripa för att säkra Röda havet-rutten</span>
+              </button>
+              <button class="sc-choice" onclick="scAnswer(3,3,'D')" id="sc3-s3-D">
+                <span class="sc-choice-icon">D</span>
+                <span class="sc-choice-text">Byta till enbart flygtransporter – säkrare men lite dyrare</span>
+              </button>
+            </div>
+            <div class="consequence-chain" id="sc3-s3-chain"></div>
+            <div class="sc-verdict" id="sc3-s3-verdict"></div>
+            <div class="sc-complete-banner" id="sc3-complete">
+              <div class="scb-emoji">🌊</div>
+              <div class="scb-title">Alla tre scenarion klara!</div>
+              <div class="scb-desc">Du har analyserat Trumps tullar, en kronkrasch och en sjövägsblockad. Det är precis dessa händelser som präglar världshandeln just nu. Riktigt bra jobbat – du tänker som en nationalekonom! 🎉</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== S6: QUIZ ===== -->
+<section id="s6" class="section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 6 · Testa dig</div>
+      <h2 class="sec-title">Quiz –<br><em>Vad kan du?</em></h2>
+      <p class="sec-desc">16 frågor om internationell handel. Varje rätt svar ger 10 poäng!</p>
+    </div>
+
+    <div class="quiz-section">
+      <h3>🎯 Handelsquiz</h3>
+
+      <div id="quiz-active">
+        <div class="quiz-meta">
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="quiz-prog-fill" style="width:6.25%"></div>
+          </div>
+          <div class="quiz-score-display">Poäng: <span id="quiz-score-display">0</span></div>
+        </div>
+
+        <div class="quiz-q-num" id="quiz-q-num">FRÅGA 1 / 16</div>
+        <div class="quiz-question" id="quiz-question"></div>
+
+        <div class="quiz-options" id="quiz-options"></div>
+
+        <div class="quiz-explanation" id="quiz-explanation"></div>
+        <button class="quiz-next-btn" id="quiz-next" onclick="nextQuestion()">Nästa fråga →</button>
+      </div>
+
+      <div class="quiz-result" id="quiz-result">
+        <div class="big-score" id="quiz-final-score">0</div>
+        <div class="score-msg" id="quiz-result-msg"></div>
+        <button class="quiz-restart" onclick="restartQuiz()">🔄 Kör igen</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== S7: BEGREPP ===== -->
+<section id="s7" class="section">
+  <div class="section-wrap">
+    <div class="section-header">
+      <div class="sec-tag">Del 7 · Ordlista</div>
+      <h2 class="sec-title">Viktiga<br><em>begrepp</em></h2>
+      <p class="sec-desc">Alla nyckelbegrepp samlade på ett ställe.</p>
+    </div>
+
+    <div class="glossary-grid">
+      <div class="glossary-card"><div class="glossary-term">Export</div><div class="glossary-def">Varor och tjänster som säljs från det egna landet till utlandet.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Import</div><div class="glossary-def">Varor och tjänster som köps in från andra länder.</div></div>
+      <div class="glossary-card"><div class="glossary-term">WTO</div><div class="glossary-def">Världshandelsorganisationen. Förhandlar handelsregler sedan 1995. 164 medlemmar.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Frihandelsavtal</div><div class="glossary-def">Avtal som tar bort tullar och handelshinder mellan länder.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Tull</div><div class="glossary-def">Skatt på importerade varor. Betalas till staten vid gränsen.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Protektionism</div><div class="glossary-def">Politik som skyddar inhemsk produktion via tullar och kvoter.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Tullunion</div><div class="glossary-def">Länder med gemensam tullpolitik mot omvärlden. EU är en tullunion.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Valutakurs</div><div class="glossary-def">Priset på en valuta i förhållande till en annan.</div></div>
+      <div class="glossary-card"><div class="glossary-term">ECB</div><div class="glossary-def">Europeiska centralbanken – sätter räntan för euroländerna.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Handelsbalans</div><div class="glossary-def">Skillnaden mellan vad ett land exporterar och importerar.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Global värdekedja</div><div class="glossary-def">Produktion som sprids över flera länder – varje land gör en del.</div></div>
+      <div class="glossary-card"><div class="glossary-term">BNP</div><div class="glossary-def">Bruttonationalprodukt – värdet av allt som produceras i ett land under ett år.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Handelskrig</div><div class="glossary-def">När länder höjer tullar mot varandra i ett eskalerande mönster.</div></div>
+      <div class="glossary-card"><div class="glossary-term">WFP</div><div class="glossary-def">FN:s livsmedelsprogram – distribuerar mat i katastrofer.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Tekniska handelshinder</div><div class="glossary-def">Lagar och regler (t.ex. miljökrav) som indirekt försvårar import.</div></div>
+      <div class="glossary-card"><div class="glossary-term">Specialisering</div><div class="glossary-def">Länder producerar det de är bäst på och handlar för resten.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- POINTS BAR -->
+<div id="points-bar">
+  <span class="pts-icon">⭐</span>
+  <div>
+    <div class="pts-label">Poäng</div>
+    <div class="pts-num" id="total-points">0</div>
+  </div>
+</div>
+
+<script>
+// ===== QUIZ DATA (balanced A/B/C/D distribution) =====
+const quizData = [
+  {
+    q: "Vilket år grundades WTO – Världshandelsorganisationen?",
+    opts: ["A) 1945", "B) 1975", "C) 1995", "D) 2005"],
+    correct: 2,
+    exp: "WTO grundades 1995 och ersatte GATT. Organisationen förhandlar om handelsregler och har 164 medlemsländer."
+  },
+  {
+    q: "Vad innebär protektionism?",
+    opts: ["A) Frihandel utan tullar", "B) Skydd av inhemsk produktion via tullar", "C) En typ av valutaunion", "D) Avtal om miljöstandarder"],
+    correct: 1,
+    exp: "Protektionism handlar om att skydda det egna landets produktion, t.ex. genom tullar på importerade varor."
+  },
+  {
+    q: "Vad är en tull?",
+    opts: ["A) En typ av statslån", "B) En central bank i EU", "C) En handelsgräns mellan stater", "D) En skatt på importerade varor"],
+    correct: 3,
+    exp: "En tull är en skatt som betalas till staten när man för in en vara i landet. I Sverige hanterar Tullverket detta."
+  },
+  {
+    q: "Vilket land är Sveriges viktigaste exportmarknad för varor?",
+    opts: ["A) USA", "B) Norge", "C) Kina", "D) Tyskland"],
+    correct: 3,
+    exp: "En majoritet av Sveriges varuexport går till Tyskland, som är EU:s och en av världens största ekonomier."
+  },
+  {
+    q: "Vad menas med en svag krona?",
+    opts: ["A) Kronan köps inte av utländska banker", "B) Kronans värde sjunker jämfört med andra valutor", "C) Riksbanken sänker räntan kraftigt", "D) Sverige exporterar mer guld än vanligt"],
+    correct: 1,
+    exp: "En svag krona innebär att kronans värde faller mot andra valutor. Det gör export billigare men import dyrare."
+  },
+  {
+    q: "Hur stor andel av Sveriges import kommer från andra EU-länder?",
+    opts: ["A) Mer än 80 procent", "B) Ungefär 50 procent", "C) Cirka 30 procent", "D) Mindre än 20 procent"],
+    correct: 0,
+    exp: "Mer än 80 procent av importen till Sverige kommer från andra EU-länder, tack vare tullunionen och den inre marknaden."
+  },
+  {
+    q: "Vilket var Ukrainas exportranking för spannmål år 2020?",
+    opts: ["A) Fjärde störst i världen", "B) Sjunde störst i Europa", "C) Näst störst i världen", "D) Störst i Europa"],
+    correct: 2,
+    exp: "År 2020 var Ukraina världens näst största spannmålsexportör, med stora mängder vete och majs."
+  },
+  {
+    q: "Vad kallas ECB och vad gör den?",
+    opts: ["A) En EU-fond för jordbruksstöd", "B) Europeiska centralbanken – sätter räntan för euroländerna", "C) En europeisk tullmyndighet", "D) En frihandelsorganisation inom Europa"],
+    correct: 1,
+    exp: "ECB, Europeiska centralbanken, sätter räntan och ansvarar för penningpolitiken inom euroområdet."
+  },
+  {
+    q: "Vilken typ av handelshinder kan uppstå utan avsikt?",
+    opts: ["A) Importkvoter", "B) Valutadevalvering", "C) Tekniska handelshinder", "D) Statliga subventioner"],
+    correct: 2,
+    exp: "Tekniska handelshinder, som miljölagar och hälsokrav på produkter, kan försvåra import utan att det var avsikten."
+  },
+  {
+    q: "Varför bildades EU:s valutaunion?",
+    opts: ["A) För att minska skatter inom unionen", "B) För att ge EU-länder en gemensam central bank", "C) För enklare och stabilare handel", "D) För att ersätta Riksbanken i alla länder"],
+    correct: 2,
+    exp: "En viktig anledning var att få stabilare och enklare handel mellan EU-länderna, utan valutarisker."
+  },
+  {
+    q: "Vad händer med ett lands export om kronan försvagas med 10 procent?",
+    opts: ["A) Exporten minskar eftersom utlandet betalar mer", "B) Ingen förändring – kronan påverkar bara importen", "C) Exporten blir billigare och mer konkurrenskraftig utomlands", "D) Exportpriserna höjs automatiskt med 10 procent"],
+    correct: 2,
+    exp: "En svagare krona gör svenska varor billigare för utländska köpare, vilket ökar konkurrenskraften och exporten."
+  },
+  {
+    q: "Vilket lands handel påverkas mest av att kronan försvagar sig?",
+    opts: ["A) Länder i Asien och Amerika", "B) Sverige, som är starkt exportberoende", "C) Enbart länder utan frihandelsavtal med Sverige", "D) Länder som importerar mer än de exporterar"],
+    correct: 1,
+    exp: "Sverige är starkt exportberoende och därför extra känsligt för valutaförändringar – en liten kursrörelse gör stor skillnad."
+  },
+  {
+    q: "I juli 2023 bröt Ryssland ett avtal om spannmålstransport. Vad innebar det?",
+    opts: ["A) Att Ukraina fick utöka sin export via Östersjön", "B) Att FN:s livsmedelsprogram stängdes ner", "C) Att Turkiet övertog Ukrainas exportkvot", "D) Att Ukrainas export via Svarta havet stoppades igen"],
+    correct: 3,
+    exp: "Ryssland bröt det avtal som möjliggjort spannmålsexport via Svarta havet, vilket ytterligare minskade Ukrainas export."
+  },
+  {
+    q: "Vad är en global värdekedja?",
+    opts: ["A) En börsindex för råvarupriser", "B) Ett FN-program för handel", "C) WTO:s system för tullkvoter", "D) Produktion fördelad över flera länder i steg"],
+    correct: 3,
+    exp: "En global värdekedja innebär att en produkt tillverkas i steg i flera länder – en 'svensk' Volvo har delar från dussintals länder."
+  },
+  {
+    q: "Generellt sett – vilket samband finns mellan frihandel och välstånd?",
+    opts: ["A) Frihandel leder alltid till lägre välstånd", "B) Länder med öppen handel tenderar att ha högre välstånd", "C) Det finns inget samband mellan frihandel och välstånd", "D) Välstånd beror enbart på landets naturresurser"],
+    correct: 1,
+    exp: "Länder som är öppna för frihandel tenderar att ha högre välstånd – men det krävs även teknisk utveckling och utbildning."
+  },
+  {
+    q: "Vilken är en fördel med frihandelsavtal?",
+    opts: ["A) De eliminerar all handel med länder utanför avtalen", "B) De gör handel enklare och billigare", "C) De ger alla länder lika tullar oavsett storlek", "D) De garanterar stabila valutakurser"],
+    correct: 1,
+    exp: "Frihandelsavtal förenklar handel och gör den billigare genom att ta bort tullar och minska regelbördan."
+  }
+];
+
+// ===== QUIZ STATE =====
+let qIdx = 0;
+let qScore = 0;
+let totalPoints = 0;
+let answered = false;
+
+function initQuiz() {
+  qIdx = 0;
+  qScore = 0;
+  answered = false;
+  renderQuestion();
+  document.getElementById('quiz-active').style.display = 'block';
+  document.getElementById('quiz-result').classList.remove('show');
+}
+
+function renderQuestion() {
+  const q = quizData[qIdx];
+  document.getElementById('quiz-q-num').textContent = `FRÅGA ${qIdx+1} / ${quizData.length}`;
+  document.getElementById('quiz-question').textContent = q.q;
+  document.getElementById('quiz-prog-fill').style.width = `${((qIdx+1)/quizData.length)*100}%`;
+  document.getElementById('quiz-score-display').textContent = qScore;
+
+  const optsEl = document.getElementById('quiz-options');
+  optsEl.innerHTML = '';
+  q.opts.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    const letter = ['A','B','C','D'][i];
+    btn.innerHTML = `<span class="opt-letter">${letter}</span><span>${opt.substring(3)}</span>`;
+    btn.onclick = () => answerQuestion(i, btn);
+    optsEl.appendChild(btn);
+  });
+
+  document.getElementById('quiz-explanation').classList.remove('show');
+  document.getElementById('quiz-explanation').textContent = '';
+  document.getElementById('quiz-next').classList.remove('show');
+  answered = false;
+}
+
+function answerQuestion(i, btn) {
+  if (answered) return;
+  answered = true;
+  const q = quizData[qIdx];
+  const btns = document.querySelectorAll('.quiz-opt');
+  btns.forEach(b => b.classList.add('disabled'));
+
+  if (i === q.correct) {
+    btn.classList.add('correct');
+    qScore += 10;
+    addPoints(10);
+    document.getElementById('quiz-score-display').textContent = qScore;
+  } else {
+    btn.classList.add('wrong');
+    btns[q.correct].classList.add('correct');
+  }
+
+  const expEl = document.getElementById('quiz-explanation');
+  expEl.textContent = q.exp;
+  expEl.classList.add('show');
+  document.getElementById('quiz-next').classList.add('show');
+}
+
+function nextQuestion() {
+  qIdx++;
+  if (qIdx >= quizData.length) {
+    showQuizResult();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showQuizResult() {
+  document.getElementById('quiz-active').style.display = 'none';
+  const res = document.getElementById('quiz-result');
+  res.classList.add('show');
+  const pct = Math.round((qScore / (quizData.length * 10)) * 100);
+  document.getElementById('quiz-final-score').textContent = `${qScore}/${quizData.length*10}`;
+  const msgs = [
+    [0, 40, "Fortsätt plugga – du har mer att lära! 📚"],
+    [41, 70, "Bra jobbat! Du kan grunderna. 👍"],
+    [71, 90, "Imponerande! Du har koll på handeln. 🌍"],
+    [91, 100, "PERFEKT! Du är en handelsekonom! 🏆🎉"]
+  ];
+  const msg = msgs.find(m => pct >= m[0] && pct <= m[1]);
+  document.getElementById('quiz-result-msg').textContent = msg ? msg[2] : '';
+  if (pct >= 90) confetti(50);
+}
+
+function restartQuiz() {
+  initQuiz();
+}
+
+// ===== SECTION NAV =====
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 's6') initQuiz();
+}
+
+// ===== CURRENCY SIM =====
+function updateCurrencySim() {
+  const kChange = parseInt(document.getElementById('krona-slider').value);
+  const exportBase = parseInt(document.getElementById('export-slider').value);
+
+  document.getElementById('krona-val').textContent = kChange >= 0 ? `+${kChange}%` : `${kChange}%`;
+  document.getElementById('export-val').textContent = `${exportBase.toLocaleString('sv-SE')} mdr`;
+
+  const multiplier = 1 + kChange / 100;
+  const exportEffect = kChange < 0 ? '+' + Math.abs(Math.round(kChange * 0.6)) + '% konkurrenskraft' :
+    kChange > 0 ? '-' + Math.round(kChange * 0.6) + '% konkurrenskraft' : 'Oförändrad';
+  const importEffect = kChange < 0 ? '+' + Math.abs(kChange) + '% dyrare' :
+    kChange > 0 ? '-' + kChange + '% billigare' : 'Oförändrad';
+  const semesterEffect = kChange < 0 ? '+' + Math.abs(kChange) + '% dyrare' :
+    kChange > 0 ? '-' + kChange + '% billigare' : 'Oförändrad';
+
+  const expEl = document.getElementById('sim-export');
+  const impEl = document.getElementById('sim-import');
+  const semEl = document.getElementById('sim-semester');
+
+  expEl.textContent = exportEffect;
+  expEl.className = 'r-val ' + (kChange < 0 ? 'pos' : kChange > 0 ? 'neg' : 'neu');
+  impEl.textContent = importEffect;
+  impEl.className = 'r-val ' + (kChange < 0 ? 'neg' : kChange > 0 ? 'pos' : 'neu');
+  semEl.textContent = semesterEffect;
+  semEl.className = 'r-val ' + (kChange < 0 ? 'neg' : kChange > 0 ? 'pos' : 'neu');
+
+  let story = '';
+  if (kChange < -10) story = `Kronan har försvagats kraftigt. Svenska varor är nu mycket billigare att köpa för utländska kunder – bra för export! Men din resa till Paris blir dyrare. Volvo jublar, turisten suckar.`;
+  else if (kChange < 0) story = `Kronan är svagare. Exporten gynnas något, men importpriserna stiger. En robot från Tyskland kostar mer – vilket på sikt gör produktionen dyrare.`;
+  else if (kChange > 10) story = `Stark krona! Din semester i Spanien blir billigare. Men svenska exportföretag tappar konkurrenskraft – utländska kunder väljer hellre tyska eller franska alternativ.`;
+  else if (kChange > 0) story = `Kronan stärks lite. Importen blir något billigare, men exportörerna mister lite mark på världsmarknaden.`;
+  else story = `Stabil valuta – varken vinst eller förlust för tillfället. I verkliga livet förändras valutan varje sekund på valutamarknaden.`;
+
+  document.getElementById('sim-story').textContent = story;
+}
+updateCurrencySim();
+
+// ===== PROTEKTIONISM METER =====
+const countryData = {
+  se: {
+    name: 'Sverige',
+    flag: '🇸🇪',
+    tull: 18,
+    frihandel: 85,
+    handel: 80,
+    desc: 'Sverige är ett av världens mest frihandelsvänliga länder. Som EU-medlem handlar vi tullfritt med 26 länder och har låga tullar mot omvärlden. Exportberoende gör att vi gynnas av öppen handel.'
+  },
+  us: {
+    name: 'USA',
+    flag: '🇺🇸',
+    tull: 62,
+    frihandel: 55,
+    handel: 70,
+    desc: 'USA har historiskt förespråkat frihandel men genomfört kraftiga tullhöjningar mot Kina sedan 2018. "America First"-politik har lett till ökad protektionism, särskilt inom stål, aluminium och teknologi.'
+  },
+  cn: {
+    name: 'Kina',
+    flag: '🇨🇳',
+    tull: 70,
+    frihandel: 45,
+    handel: 90,
+    desc: 'Kina kombinerar hög handelsvolym med selektivt skydd av strategiska industrier. Staten styr mycket av handeln och använder tullar, kvoter och subventioner för att skydda inhemsk produktion.'
+  },
+  de: {
+    name: 'Tyskland',
+    flag: '🇩🇪',
+    tull: 12,
+    frihandel: 90,
+    handel: 88,
+    desc: 'Tyskland är EU:s och en av världens mest exportberoende ekonomier. Tack vare EU-tullunionen och starka frihandelsavtal är Tyskland starkt frihandelsförespråkande. Exportmotorn i Europa.'
+  },
+  br: {
+    name: 'Brasilien',
+    flag: '🇧🇷',
+    tull: 65,
+    frihandel: 40,
+    handel: 55,
+    desc: 'Brasilien är historiskt ett av de mest protektionistiska länderna bland tillväxtekonomier. Höga tullar och komplexa regler skyddar inhemsk industri. Pågående förhandlingar om ett EU–Mercosur-avtal.'
+  },
+  ch: {
+    name: 'Schweiz',
+    flag: '🇨🇭',
+    tull: 10,
+    frihandel: 92,
+    handel: 75,
+    desc: 'Schweiz är känt för frihandel och stabil ekonomi. Trots att man inte är EU-medlem har man ett bilataralt avtal med EU och är en av världens mest öppna ekonomier. Starkt varumärke för stabilitet.'
+  }
+};
+
+function selectCountry(code, btn) {
+  document.querySelectorAll('.country-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const d = countryData[code];
+  document.getElementById('pm-display').innerHTML = `
+    <div class="pm-name"><span class="pm-flag">${d.flag}</span>${d.name}</div>
+    <div class="pm-bar-wrap">
+      <div class="pm-bar-label">Tullnivå</div>
+      <div class="pm-bar"><div class="pm-bar-fill tull" style="width:${d.tull}%"></div></div>
+      <div class="pm-bar-pct">${d.tull}%</div>
+    </div>
+    <div class="pm-bar-wrap">
+      <div class="pm-bar-label">Frihandel</div>
+      <div class="pm-bar"><div class="pm-bar-fill frihandel" style="width:${d.frihandel}%"></div></div>
+      <div class="pm-bar-pct">${d.frihandel}%</div>
+    </div>
+    <div class="pm-bar-wrap">
+      <div class="pm-bar-label">Handelsvolym</div>
+      <div class="pm-bar"><div class="pm-bar-fill handel" style="width:${d.handel}%"></div></div>
+      <div class="pm-bar-pct">${d.handel}%</div>
+    </div>
+    <div class="pm-desc">${d.desc}</div>
+  `;
+}
+selectCountry('se', document.querySelector('.country-btn'));
+
+// ===== TRADE WAR SIM =====
+function updateTradeWar() {
+  const usa = parseInt(document.getElementById('usa-tull').value);
+  const cn = parseInt(document.getElementById('cn-tull').value);
+  document.getElementById('usa-tull-val').textContent = usa + '%';
+  document.getElementById('cn-tull-val').textContent = cn + '%';
+
+  const tension = Math.min(100, Math.round((usa + cn) / 2));
+  document.getElementById('tension-fill').style.width = tension + '%';
+
+  const levels = tension < 20 ? ['Låg', '#22c55e'] : tension < 40 ? ['Måttlig', 'var(--amber)'] : tension < 65 ? ['Spänd', 'var(--amber)'] : tension < 85 ? ['Kritisk', 'var(--coral)'] : ['Handelskrig', '#dc2626'];
+  document.getElementById('tension-level').textContent = levels[0];
+  document.getElementById('tension-level').style.color = levels[1];
+
+  const priser = '+' + Math.round((usa + cn) / 4) + '%';
+  const industri = '-' + Math.round((usa + cn) / 6) + '%';
+  const world = tension < 30 ? 'Liten' : tension < 60 ? 'Måttlig' : tension < 85 ? 'Stor' : 'Enorm';
+  const pol = tension < 25 ? 'Stabil' : tension < 50 ? 'Spänd' : tension < 75 ? 'Instabil' : 'Kris';
+
+  document.getElementById('tw-priser').textContent = priser;
+  document.getElementById('tw-priser').style.color = tension > 50 ? 'var(--coral)' : 'var(--fog)';
+  document.getElementById('tw-industri').textContent = industri;
+  document.getElementById('tw-industri').style.color = tension > 40 ? 'var(--coral)' : 'var(--fog)';
+  document.getElementById('tw-world').textContent = world;
+  document.getElementById('tw-pol').textContent = pol;
+}
+updateTradeWar();
+
+// ===== DRAG & DROP GAME =====
+let draggedItem = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  setupDragDrop();
+});
+
+function setupDragDrop() {
+  document.querySelectorAll('.cargo-item').forEach(item => {
+    item.addEventListener('dragstart', e => {
+      draggedItem = item;
+      item.classList.add('dragging');
+    });
+    item.addEventListener('dragend', () => {
+      item.classList.remove('dragging');
+    });
+  });
+
+  ['export-zone','import-zone'].forEach(zoneId => {
+    const zone = document.getElementById(zoneId);
+    zone.addEventListener('dragover', e => {
+      e.preventDefault();
+      zone.classList.add('drag-over');
+    });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      if (!draggedItem) return;
+      const itemsContainer = zone.querySelector('.zone-items');
+      const newEl = document.createElement('div');
+      newEl.className = 'zone-item';
+      newEl.textContent = draggedItem.textContent;
+      newEl.dataset.item = draggedItem.dataset.item;
+      newEl.dataset.type = draggedItem.dataset.type;
+      itemsContainer.appendChild(newEl);
+      draggedItem.remove();
+    });
+  });
+}
+
+function checkCargo() {
+  const exportItems = document.querySelectorAll('#export-items .zone-item');
+  const importItems = document.querySelectorAll('#import-items .zone-item');
+
+  let correct = 0, total = exportItems.length + importItems.length;
+
+  exportItems.forEach(item => {
+    if (item.dataset.type === 'export' || item.dataset.type === 'both') correct++;
+  });
+  importItems.forEach(item => {
+    if (item.dataset.type === 'import' || item.dataset.type === 'both') correct++;
+  });
+
+  const fb = document.getElementById('cargo-feedback');
+  fb.classList.add('show');
+
+  if (total === 0) {
+    fb.className = 'game-feedback show wrong';
+    fb.textContent = '⚠️ Dra några varor till zonerna först!';
+    return;
+  }
+
+  const pct = Math.round((correct / total) * 100);
+
+  if (pct >= 80) {
+    fb.className = 'game-feedback show correct';
+    fb.textContent = `✅ Bra jobbat! ${correct}/${total} rätt (${pct}%)! Sveriges stärkta exportvaror är maskiner, fordon och teknik. Vi importerar bl.a. olja, kläder och livsmedel.`;
+    addPoints(correct * 5);
+    if (pct === 100) confetti(30);
+  } else {
+    fb.className = 'game-feedback show wrong';
+    fb.textContent = `❌ ${correct}/${total} rätt. Tips: Sverige exporterar högteknologiska produkter som maskiner och lastbilar, och importerar råvaror och konsumtionsvaror.`;
+  }
+}
+
+// ===== POINTS =====
+function addPoints(pts) {
+  totalPoints += pts;
+  document.getElementById('total-points').textContent = totalPoints;
+  const flash = document.createElement('div');
+  flash.className = 'points-flash';
+  flash.textContent = `+${pts}`;
+  flash.style.left = (Math.random() * 60 + 20) + '%';
+  flash.style.top = '50%';
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 1200);
+}
+
+// ===== CONFETTI =====
+function confetti(count) {
+  const colors = ['#00c4b4', '#f59e0b', '#ef4444', '#22c55e', '#3b82f6', '#fbbf24'];
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const c = document.createElement('div');
+      c.className = 'confetti-piece';
+      c.style.left = Math.random() * 100 + 'vw';
+      c.style.top = '-20px';
+      c.style.background = colors[Math.floor(Math.random() * colors.length)];
+      c.style.transform = `rotate(${Math.random() * 360}deg)`;
+      c.style.width = (Math.random() * 8 + 5) + 'px';
+      c.style.height = (Math.random() * 8 + 5) + 'px';
+      document.body.appendChild(c);
+      setTimeout(() => c.remove(), 2200);
+    }, i * 40);
+  }
+}
+
+// ===== SCENARIO LAB =====
+const scData = {
+  // scenario 1
+  '1-1': {
+    correct: 'B',
+    chain: {
+      B: [
+        "Tullen läggs på <strong>importpriset</strong> – det är antingen USA-importören eller slutkunden som betalar. I praktiken delar de ofta på kostnaden.",
+        "En Volvo som kostar 500 000 kr i USA kostar nu <strong>625 000 kr</strong>. Konkurrenter som Ford eller Toyota (tillverkade i USA) behöver inte betala tullen.",
+        "Volvo säljer <strong>färre bilar</strong> i USA. Det kan leda till varslar i Göteborg och Skövde."
+      ],
+      A: ["Delvis rätt – Volvo kan välja att sänka sina priser för att behålla konkurrenskraften, men det innebär lägre marginaler. Effekten är i slutändan ändå att <strong>lönsamheten och/eller volymen sjunker</strong>."],
+      C: ["Fel. En 25 % prisökning är enorm i bilindustrin – det är skillnaden mellan att köpa en bil eller inte."],
+      D: ["Fel. Tullintäkterna går till <strong>USA:s statskassa</strong>, inte till Sverige."]
+    },
+    verdict: { B: ['v-good','✅ Rätt!','Tullen betalas av den som importerar – i slutändan hamnar kostnaden hos konsumenten. Volvo tappar konkurrenskraft gentemot inhemska märken.'], A: ['v-mixed','🤔 Delvis!','Sant att Volvo kan sänka priset – men det ger lägre vinst. Rätta svaret är B, eftersom tullen i grunden gör produkten dyrare för köparen.'], default: ['v-bad','❌ Inte riktigt.','Tullar är en verklig kostnad som alltid slår på priset och/eller marginalen. Svaret är B.'] }
+  },
+  '1-2': {
+    correct: 'B',
+    chain: {
+      B: [
+        "Att <strong>erbjuda något</strong> visar goodwill och skapar förhandlingsutrymme. Att köpa mer USA-gas löser Trumps underskottsproblem delvis.",
+        "WTO ger EU en plattform att driva tvisten <strong>formellt och regelbaserat</strong> – undviker eskalering.",
+        "Historien visar att handelskrig nästan alltid löses i förhandlingar. Obama-eran, Biden-eran och TTIP-förhandlingarna är alla exempel."
+      ],
+      A: ["<strong>Eskalering</strong> lockar – men det skärper konflikten. USA och EU är varandras största handelspartners. Ingen tjänar på ett fullskaligt handelskrig."],
+      C: ["Passivitet är farlig – Trump tolkar tystnad som svaghet och kan skärpa tullarna ytterligare."],
+      D: ["Att lämna WTO skulle isolera EU globalt och underminera de handelsregler EU byggt upp i 30 år."]
+    },
+    verdict: { B: ['v-good','✅ Rätt!','Diplomati och motanbud är den klassiska lösningen. EU visar att man tar USA:s handelsunderskott på allvar utan att eskalera.'], default: ['v-bad','❌ Inte riktigt.','Svaret är B – förhandling och erbjudanden är effektivare än eskalering eller passivitet.'] }
+  },
+  '1-3': {
+    correct: 'C',
+    chain: {
+      C: [
+        "Historiska handelskrig (USA-Kina 2018–, Smoot-Hawley 1930) visar att <strong>båda sidor förlorar</strong> på sikt.",
+        "USA-konsumenter betalar mer för importvaror. EU:s exportindustri tappar marknadsandelar. <strong>Ingen ren vinnare</strong>.",
+        "Kina (D) kan vinna på kort sikt – men riskerar att dras in i ett eget handelskrig med USA."
+      ],
+      A: ["USA får tullintäkter men konsumenterna betalar mer. Inhemsk industri skyddas kortvarigt men tappar effektivitet utan konkurrens."],
+      B: ["EU:s varor kan vara bra – men en 25 % prischock är svår att ignorera för konsumenter."],
+      D: ["Kina kan delvis vinna – men det är <strong>mer nyanserat</strong> än C. Handelskrig skadar verkligen alla parter."]
+    },
+    verdict: { C: ['v-good','✅ Rätt!','Handelskrig skadar alltid båda parter – historien är tydlig på det. Konsumenter på båda sidor betalar mer.'], D: ['v-mixed','🤔 Delvis!','Kina kan vinna kortvarigt, men det bästa svaret är C – att ingen egentligen vinner ett handelskrig.'], default: ['v-bad','❌ Inte riktigt.','Rätt svar är C. Handelskrig skadar alla inblandade – konsumenter och industri på båda sidor.'] }
+  },
+  '2-1': {
+    correct: 'B',
+    chain: {
+      B: [
+        "Med svagare krona behöver tyska köpare <strong>färre euro</strong> för att köpa en Scania – priset i euro sjunker med 15 %.",
+        "En Scania som kostar 100 euro kostar nu som om den kostat <strong>85 euro</strong> – mer attraktivt!",
+        "Svag krona är faktiskt <strong>bra för exporten</strong> på kort sikt – men dyrare för importen."
+      ],
+      A: ["Fel – det är tvärtom! Svag krona gör SVENSKA varor billigare UTOMLANDS."],
+      C: ["Fel. Valutan påverkar alla prissatta transaktioner internationellt – inte bara turism."],
+      D: ["Scania fakturerar i euro eller kronor beroende på avtal – men valutaeffekten finns oavsett."]
+    },
+    verdict: { B: ['v-good','✅ Rätt!','Svag krona = billigare svenska varor utomlands = ökad exportkonkurrenskraft. Det är nyckellogiken!'], A: ['v-bad','❌ Bakvänt!','Det är precis tvärtom – svag krona gör svenska varor BILLIGARE för utländska köpare.'], default: ['v-bad','❌ Inte riktigt.','Rätt svar är B. Svag krona är bra för export, dåligt för import.'] }
+  },
+  '2-2': {
+    correct: 'B',
+    chain: {
+      B: [
+        "Olja handlas i <strong>dollar</strong>. Med 15 % svagare krona behöver Sverige betala 15 % fler kronor per barrel.",
+        "200 miljarder × 1,15 = <strong>230 miljarder kronor</strong> – 30 miljarder extra.",
+        "Det är direkt <strong>inflationsdrivande</strong> – energipriset höjs, vilket drar upp priser på nästan allt."
+      ],
+      A: ["Fel. Olja handlas i dollar, inte kronor."],
+      C: ["Fel – import blir DYRARE, inte billigare, när kronan försvagas."],
+      D: ["Energikälla spelar ingen roll för valutaeffekten – det handlar om vilken valuta affären görs i."]
+    },
+    verdict: { B: ['v-good','✅ Rätt!','Oljepriset i dollar är konstant – men Sverige måste betala mer kronor för samma dollarbelopp. Det driver upp kostnader i hela ekonomin.'], default: ['v-bad','❌ Inte riktigt.','Svaret är B. Svag krona gör all dollarprisad import (olja, råvaror) dyrare i kronor.'] }
+  },
+  '2-3': {
+    correct: 'B',
+    chain: {
+      B: [
+        "Sverige importerar <strong>kläder, elektronik, livsmedel och energi</strong> – allt prissatt i utländsk valuta.",
+        "Med 15 % svagare krona stiger dessa priser – ett genomslag på <strong>3–7 % på konsumentprisindex</strong> är realistiskt.",
+        "Det kallas <strong>importerad inflation</strong> och är ett av de stora problemen med kronsvaghet."
+      ],
+      A: ["Fel. Svag krona är bra för exportföretag men dåligt för hushållens köpkraft."],
+      C: ["Fel. Hushållen märker det tydligt – bensinpriset, matkostnaden och elektronikpriserna påverkas alla."],
+      D: ["Fel. Vardagsvaror som mat och energi påverkas <strong>mer</strong> än lyxvaror, eftersom de importeras i stor utsträckning."]
+    },
+    verdict: { B: ['v-good','✅ Rätt!','Importerad inflation är en av de mest omedelbara konsekvenserna av kronsvaghet – hushållen märker det i kassan.'], default: ['v-bad','❌ Inte riktigt.','Rätt svar är B. Kronsvaghet slår direkt mot hushållens köpkraft via stigande importpriser.'] }
+  },
+  '3-1': {
+    correct: 'B',
+    chain: {
+      B: [
+        "Omvägen runt Afrika lägger till <strong>10–14 dagar</strong> till leveranstiden och ökar fraktkostnaden med 3–5 gånger.",
+        "H&M:s planeringsmodell bygger på just-in-time leveranser – förseningar skapar <strong>tomma hyllor eller överlager</strong>.",
+        "Ökade fraktkostnader övervältras till slut på <strong>konsumenterna</strong> – högre priser i butik."
+      ],
+      A: ["Fel. Flyg kostar 10–20 gånger mer än sjöfrakt och funkar inte för stora volymvaror."],
+      C: ["Fel. Att flytta produktion tar år och är inte möjligt på kort sikt."],
+      D: ["Fel. Röda havet-rutten används för all containerhandel, inte bara råvaror."]
+    },
+    verdict: { B: ['v-good','✅ Rätt!','Försenad och dyrare frakt är den direkta konsekvensen. Konsumenterna märker det i slutändan i priserna.'], default: ['v-bad','❌ Inte riktigt.','Svaret är B – längre transittid och högre fraktkostnad är de omedelbara effekterna.'] }
+  },
+  '3-2': {
+    correct: 'B',
+    chain: {
+      B: [
+        "Volvo har byggt sin produktion på <strong>just-in-time</strong> – komponenter levereras precis när de behövs, utan stora lager.",
+        "När en enda länk – t.ex. ett chip eller en sensor från Kina – uteblir, stannar <strong>hela monteringslinjen</strong>.",
+        "Covid-19 visade samma sårbarhet 2020–2021 när halvledarbrist stoppade biltillverkning världen över."
+      ],
+      A: ["Nej – valutarisk handlar om kronans kurs, inte leveranskedjor."],
+      C: ["Jemen har inte infört tull – det är ett geopolitiskt konfliktscenarion."],
+      D: ["WTO-avtal handlar om tullar och handelsregler, inte leveranslogistik."]
+    },
+    verdict: { B: ['v-good','✅ Rätt!','Globala värdekedjors sårbarhet är en av de viktigaste lärdomarna från 2020-talet – en bruten länk stannar hela systemet.'], default: ['v-bad','❌ Inte riktigt.','Svaret är B – sårbarhet i globala värdekedjor är kärnproblemet.'] }
+  },
+  '3-3': {
+    correct: 'B',
+    chain: {
+      B: [
+        "Diversifiering innebär att <strong>inte ha alla ägg i en korg</strong> – flera leverantörers i olika länder och regioner.",
+        "Buffertlager av kritiska komponenter ger tid att reagera vid störningar – Volvo och Ericsson bygger nu sådana.",
+        "Geografisk spridning minskar risken att en enda politisk kris (Röda havet, Taiwan-sundet, pandemi) slår ut leveransen."
+      ],
+      A: ["Fel. Att stoppa all handel utanför Europa är varken möjligt eller önskvärt – Sverige är extremt exportberoende."],
+      C: ["Fel. Militära insatser är en politisk fråga och beslutas av stater, inte enskilda företag."],
+      D: ["Flyg löser inte problemet strukturellt – det är 10–20 gånger dyrare och fungerar inte för stora volymer."]
+    },
+    verdict: { B: ['v-good','✅ Rätt!','Diversifiering och resiliens är 2020-talets stora lärdom från Covid och geopolitiska kriser. Just-in-time har bytts mot just-in-case.'], default: ['v-bad','❌ Inte riktigt.','Svaret är B – bygga resiliens genom diversifierade leverantörer och buffertar är den smarta lärdomen.'] }
+  }
+};
+
+// Track step completion per scenario
+const scProgress = { 1: 0, 2: 0, 3: 0 };
+
+function showScenario(n, btn) {
+  document.querySelectorAll('.sc-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.scenario-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('sc-panel-' + n).classList.add('active');
+}
+
+function scAnswer(scenario, step, choice) {
+  const key = `${scenario}-${step}`;
+  const data = scData[key];
+  if (!data) return;
+
+  // Lock all buttons in this step
+  const btns = document.querySelectorAll(`#sc${scenario}-s${step}-A, #sc${scenario}-s${step}-B, #sc${scenario}-s${step}-C, #sc${scenario}-s${step}-D`);
+  btns.forEach(b => b.classList.add('locked'));
+
+  // Highlight correct/wrong
+  btns.forEach(b => {
+    const bChoice = b.id.slice(-1);
+    if (bChoice === data.correct) b.classList.add('correct-reveal');
+    else if (bChoice === choice && choice !== data.correct) b.classList.add('wrong-reveal');
+  });
+
+  // Mark chosen
+  const chosenBtn = document.getElementById(`sc${scenario}-s${step}-${choice}`);
+  if (chosenBtn) chosenBtn.classList.add('chosen');
+
+  // Show consequence chain
+  const chainEl = document.getElementById(`sc${scenario}-s${step}-chain`);
+  if (chainEl) {
+    chainEl.classList.add('show');
+    const chainItems = data.chain[choice] || data.chain[data.correct];
+    chainEl.innerHTML = chainItems.map((txt, i) =>
+      `<div class="cc-item" style="animation-delay:${i*0.18}s"><span class="cc-arrow">→</span><span class="cc-text">${txt}</span></div>`
+    ).join('');
+  }
+
+  // Show verdict
+  const verdictEl = document.getElementById(`sc${scenario}-s${step}-verdict`);
+  if (verdictEl) {
+    const vData = data.verdict[choice] || data.verdict.default;
+    verdictEl.className = `sc-verdict show ${vData[0]}`;
+    verdictEl.innerHTML = `<div class="vd-head">${vData[1]}</div><p>${vData[2]}</p>`;
+    if (choice === data.correct) addPoints(15);
+    else addPoints(5);
+  }
+
+  // Track progress & maybe show next step / complete banner
+  scProgress[scenario] = Math.max(scProgress[scenario], step);
+  
+  // Reveal step 4 for scenario 1 after step 3
+  if (scenario === 1 && step === 3) {
+    setTimeout(() => {
+      const s4 = document.getElementById('sc1-s4');
+      if (s4) { s4.style.display = 'block'; s4.style.animation = 'fadeInUp 0.5s ease'; }
+    }, 600);
+  }
+
+  // Show complete banner for sc2 and sc3
+  if ((scenario === 2 && step === 3) || (scenario === 3 && step === 3)) {
+    setTimeout(() => {
+      const banner = document.getElementById(`sc${scenario}-complete`);
+      if (banner) banner.classList.add('show');
+      confetti(25);
+    }, 800);
+  }
+  if (scenario === 1 && step === 3) {
+    setTimeout(() => confetti(25), 1200);
+  }
+}
+
+// ===== INIT =====
+initQuiz();
+
+// Re-init quiz when tab is clicked (already handled in showSection)
+</script>
+</body>
+</html>
