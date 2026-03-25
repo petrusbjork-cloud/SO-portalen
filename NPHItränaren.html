@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Historia NP-Tränaren – Åk 9</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{
+  --ink:#1a1612;--parchment:#f4efe4;--warm:#faf7f2;--sepia:#8b6a3e;
+  --red:#c0392b;--gold:#c9960a;--dark:#231e16;--mid:#5a4a3a;
+  --light:#e5d9c5;--green:#2d6a4f;--blue:#1a3a5c;
+  --ge:#c0392b;--gc:#b07d00;--ga:#2d6a4f;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--parchment);color:var(--ink);min-height:100vh;}
+
+/* HEADER */
+header{background:var(--dark);color:var(--parchment);padding:32px 24px 24px;position:relative;overflow:hidden;}
+header::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(-45deg,transparent,transparent 38px,rgba(201,150,10,.04) 38px,rgba(201,150,10,.04) 39px);}
+.hdr{max-width:1000px;margin:0 auto;position:relative;z-index:1;}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;line-height:1.1;color:#faf7f2;margin-bottom:6px;}
+header h1 em{color:var(--gold);font-style:italic;}
+.subline{font-size:14px;color:rgba(245,240,232,.6);font-style:italic;margin-bottom:20px;}
+.stats{display:flex;gap:24px;flex-wrap:wrap;}
+.stat-n{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);}
+.stat-l{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,240,232,.4);}
+
+/* NAV */
+.nav-bar{background:var(--dark);border-bottom:2px solid var(--gold);position:sticky;top:0;z-index:100;}
+.nav-inner{max-width:1000px;margin:0 auto;display:flex;overflow-x:auto;scrollbar-width:none;}
+.nav-inner::-webkit-scrollbar{display:none;}
+.tab{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:13px 16px;color:rgba(245,240,232,.45);cursor:pointer;white-space:nowrap;background:none;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;}
+.tab:hover{color:var(--parchment);}
+.tab.active{color:var(--gold);border-bottom-color:var(--gold);}
+
+/* MAIN */
+.main{max-width:1000px;margin:0 auto;padding:28px 20px;}
+.panel{display:none;animation:fadeUp .3s ease;}
+.panel.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+/* FILTER */
+.fbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid var(--light);}
+.chip{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;padding:7px 13px;border:1.5px solid var(--light);border-radius:100px;background:var(--warm);color:var(--mid);cursor:pointer;transition:all .15s;}
+.chip:hover{border-color:var(--sepia);color:var(--ink);}
+.chip.on{background:var(--dark);color:var(--gold);border-color:var(--dark);}
+
+/* CARD */
+.qcard{background:var(--warm);border:1px solid var(--light);border-radius:4px;margin-bottom:22px;overflow:hidden;box-shadow:0 2px 10px rgba(26,22,18,.05);transition:box-shadow .2s;}
+.qcard:hover{box-shadow:0 4px 20px rgba(26,22,18,.09);}
+.qhdr{background:var(--dark);padding:11px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+.qmeta{display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.badge{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:2px;}
+.b-year{background:rgba(201,150,10,.18);color:var(--gold);border:1px solid rgba(201,150,10,.28);}
+.b-open{background:rgba(44,106,79,.22);color:#7ed4a0;border:1px solid rgba(44,106,79,.28);}
+.b-mc{background:rgba(26,58,92,.28);color:#7eb8f5;border:1px solid rgba(26,58,92,.32);}
+.b-src{background:rgba(139,106,62,.22);color:#e8c07a;border:1px solid rgba(139,106,62,.28);}
+.b-con{background:rgba(90,35,90,.22);color:#d4a0e8;border:1px solid rgba(90,35,90,.28);}
+.b-tf{background:rgba(45,90,45,.22);color:#a0e8a0;border:1px solid rgba(45,90,45,.28);}
+.b-match{background:rgba(180,80,20,.22);color:#f0b87a;border:1px solid rgba(180,80,20,.28);}
+.qtitle{font-family:'Playfair Display',serif;font-size:10px;color:rgba(245,240,232,.4);font-style:italic;}
+.qbody{padding:20px;}
+
+/* SOURCE */
+.src{background:var(--parchment);border-left:3px solid var(--gold);padding:12px 16px;margin-bottom:16px;border-radius:0 4px 4px 0;}
+.src-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sepia);margin-bottom:5px;}
+.src p,.src-text{font-size:13.5px;line-height:1.7;color:var(--mid);font-style:italic;}
+
+/* QUESTION */
+.qtxt{font-size:15px;line-height:1.6;font-weight:600;margin-bottom:14px;}
+.qsub{font-size:13.5px;line-height:1.6;margin-bottom:12px;color:var(--mid);}
+.qsub ul{margin:5px 0 5px 16px;}
+.qsub li{margin-bottom:4px;}
+
+/* CHOICES */
+.choices{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.cho{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;background:var(--parchment);border:1.5px solid var(--light);border-radius:4px;cursor:pointer;transition:all .15s;text-align:left;font-family:'Source Serif 4',serif;font-size:13.5px;line-height:1.5;color:var(--ink);}
+.cho:hover:not(:disabled){border-color:var(--sepia);background:var(--warm);box-shadow:inset 3px 0 0 var(--sepia);}
+.cho-ltr{font-family:'Playfair Display',serif;font-weight:700;font-size:14px;color:var(--sepia);min-width:18px;padding-top:1px;flex-shrink:0;}
+.cho.correct{border-color:var(--green);background:rgba(44,106,79,.07);box-shadow:inset 3px 0 0 var(--green);}
+.cho.correct .cho-ltr{color:var(--green);}
+.cho.wrong{border-color:var(--red);background:rgba(192,57,43,.05);box-shadow:inset 3px 0 0 var(--red);opacity:.65;}
+.cho.wrong .cho-ltr{color:var(--red);}
+.cho:disabled{cursor:default;}
+.fb-msg{display:none;margin-top:9px;padding:11px 14px;border-radius:4px;font-size:13px;line-height:1.55;font-weight:600;}
+.fb-msg.c{background:rgba(44,106,79,.08);color:var(--green);border:1px solid rgba(44,106,79,.2);display:block;}
+.fb-msg.w{background:rgba(192,57,43,.07);color:var(--red);border:1px solid rgba(192,57,43,.18);display:block;}
+
+/* TRUE/FALSE TABLE */
+.tf-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13.5px;}
+.tf-table th{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:8px 10px;border-bottom:1.5px solid var(--light);color:var(--sepia);text-align:left;}
+.tf-table th:nth-child(2),.tf-table th:nth-child(3){text-align:center;min-width:70px;}
+.tf-table td{padding:10px 10px;border-bottom:1px solid rgba(229,217,197,.6);vertical-align:top;line-height:1.5;}
+.tf-table td:nth-child(2),.tf-table td:nth-child(3){text-align:center;}
+.tf-row-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--light);background:var(--parchment);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;transition:all .15s;}
+.tf-row-btn:hover:not(:disabled){border-color:var(--sepia);}
+.tf-row-btn.sel-yes{background:rgba(44,106,79,.15);border-color:var(--green);color:var(--green);}
+.tf-row-btn.sel-no{background:rgba(192,57,43,.1);border-color:var(--red);color:var(--red);}
+.tf-row-btn.right-yes{background:rgba(44,106,79,.2);border-color:var(--green);color:var(--green);}
+.tf-row-btn.right-no{background:rgba(192,57,43,.15);border-color:var(--red);color:var(--red);}
+.tf-row-btn.wrong-sel{background:rgba(255,165,0,.15);border-color:orange;color:orange;}
+.tf-row-btn:disabled{cursor:default;}
+
+/* MATCH TABLE */
+.match-table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:13.5px;}
+.match-table th{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:8px 10px;border-bottom:1.5px solid var(--light);color:var(--sepia);text-align:left;}
+.match-table td{padding:9px 10px;border-bottom:1px solid rgba(229,217,197,.6);vertical-align:middle;}
+.match-sel{font-family:'Source Serif 4',serif;font-size:13px;padding:5px 8px;border:1.5px solid var(--light);border-radius:3px;background:var(--parchment);color:var(--ink);cursor:pointer;min-width:140px;}
+.match-sel:focus{outline:none;border-color:var(--sepia);}
+.match-sel.correct-sel{border-color:var(--green);background:rgba(44,106,79,.07);}
+.match-sel.wrong-sel-s{border-color:var(--red);background:rgba(192,57,43,.05);}
+.match-check-btn{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 16px;background:var(--dark);color:var(--gold);border:1px solid var(--sepia);border-radius:2px;cursor:pointer;margin-top:10px;}
+.match-check-btn:hover{background:var(--sepia);color:var(--warm);}
+.match-result{margin-top:10px;padding:10px 14px;border-radius:4px;font-size:13px;display:none;}
+.match-result.show{display:block;}
+.match-result.good{background:rgba(44,106,79,.08);border:1px solid rgba(44,106,79,.2);color:var(--green);}
+.match-result.bad{background:rgba(192,57,43,.06);border:1px solid rgba(192,57,43,.15);color:var(--mid);}
+
+/* OPEN */
+.area{width:100%;min-height:100px;padding:11px 13px;font-family:'Source Serif 4',serif;font-size:14px;line-height:1.6;border:1.5px solid var(--light);border-radius:4px;background:var(--parchment);color:var(--ink);resize:vertical;transition:border-color .15s;margin-bottom:11px;}
+.area:focus{outline:none;border-color:var(--sepia);}
+.area::placeholder{color:rgba(90,74,58,.35);font-style:italic;}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:8px 16px;border:none;border-radius:2px;cursor:pointer;transition:all .15s;font-weight:500;}
+.btn-p{background:var(--dark);color:var(--gold);border:1px solid var(--sepia);}
+.btn-p:hover{background:var(--sepia);color:var(--warm);}
+.btn-s{background:transparent;color:var(--sepia);border:1px solid var(--light);}
+.btn-s:hover{border-color:var(--sepia);}
+
+/* REVEAL */
+.reveal{display:none;background:var(--parchment);border:1.5px solid var(--light);border-radius:4px;padding:16px;margin-top:11px;}
+.reveal.show{display:block;animation:fadeUp .25s ease;}
+.rev-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sepia);margin-bottom:12px;}
+.grade-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+.gi{flex:1;min-width:130px;padding:11px 13px;border-radius:3px;border-left:3px solid;}
+.gi.e{border-color:var(--ge);background:rgba(192,57,43,.04);}
+.gi.c{border-color:var(--gc);background:rgba(176,125,0,.04);}
+.gi.a{border-color:var(--ga);background:rgba(44,106,79,.04);}
+.gi .gl{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;margin-bottom:4px;}
+.gi.e .gl{color:var(--ge);}
+.gi.c .gl{color:var(--gc);}
+.gi.a .gl{color:var(--ga);}
+.gi p{font-size:12.5px;line-height:1.5;color:var(--mid);}
+.eg{background:rgba(139,106,62,.06);border-left:3px solid var(--sepia);padding:11px 13px;border-radius:0 3px 3px 0;margin-top:9px;}
+.eg-lbl{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sepia);margin-bottom:5px;}
+.eg p{font-size:12.5px;line-height:1.55;color:var(--mid);}
+
+/* SCORE BAR */
+.score-bar{background:var(--dark);border-radius:4px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:8px;}
+.score-bar span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:rgba(245,240,232,.5);}
+.score-bar strong{font-family:'Playfair Display',serif;font-size:20px;color:var(--gold);}
+.reset-btn{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;padding:6px 12px;background:transparent;color:rgba(245,240,232,.4);border:1px solid rgba(245,240,232,.18);border-radius:2px;cursor:pointer;transition:all .15s;}
+.reset-btn:hover{color:var(--parchment);border-color:rgba(245,240,232,.5);}
+
+/* YEAR SEP */
+.year-sep{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--sepia);letter-spacing:1px;display:flex;align-items:center;gap:10px;margin:26px 0 14px;}
+.year-sep::before,.year-sep::after{content:'';flex:1;height:1px;background:var(--light);}
+
+/* PROGRESS */
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:24px;}
+.pgcard{background:var(--warm);border:1px solid var(--light);border-radius:4px;padding:16px;}
+.pgcard h3{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--sepia);margin-bottom:7px;}
+.pgbig{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;color:var(--ink);line-height:1;}
+.pgsub{font-size:12px;color:var(--mid);margin-top:3px;font-style:italic;}
+.bartrack{height:4px;background:var(--light);border-radius:3px;margin-top:7px;overflow:hidden;}
+.barfill{height:100%;background:linear-gradient(90deg,var(--sepia),var(--gold));border-radius:3px;transition:width .5s;}
+.score-list h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:10px;}
+.score-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--light);font-size:13px;}
+.score-item:last-child{border-bottom:none;}
+.score-label{color:var(--mid);}
+.score-val{font-family:'JetBrains Mono',monospace;font-size:11px;}
+
+/* SECTION HEADER */
+.shdr{margin-bottom:20px;}
+.shdr h2{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:4px;}
+.shdr p{font-size:13.5px;color:var(--mid);font-style:italic;}
+
+/* TIPS */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;}
+.tipcard{background:var(--warm);border:1px solid var(--light);border-radius:4px;padding:20px;}
+.tipcard .icon{font-size:24px;margin-bottom:7px;}
+.tipcard h3{font-family:'Playfair Display',serif;font-size:1.02rem;font-weight:700;margin-bottom:8px;}
+.tipcard p,.tipcard li{font-size:13px;line-height:1.65;color:var(--mid);}
+.tipcard ul{margin-left:15px;}
+.tipcard li{margin-bottom:4px;}
+.tg{display:inline-block;font-family:'Playfair Display',serif;font-size:12px;font-weight:700;padding:1px 7px;border-radius:2px;margin-right:3px;}
+.tg-e{background:rgba(192,57,43,.1);color:var(--ge);}
+.tg-c{background:rgba(176,125,0,.1);color:var(--gc);}
+.tg-a{background:rgba(44,106,79,.1);color:var(--ga);}
+
+@media(max-width:600px){
+  header{padding:22px 14px 18px;}
+  .main{padding:16px 12px;}
+  .qbody{padding:14px;}
+  .grade-row{flex-direction:column;}
+  .stats{gap:14px;}
+}
+
+/* TIPS BUTTON & PANEL */
+.btn-tips {
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;
+  text-transform:uppercase;padding:8px 16px;
+  background:rgba(201,150,10,.1);color:var(--gold);
+  border:1.5px solid rgba(201,150,10,.35);border-radius:2px;
+  cursor:pointer;transition:all .2s;font-weight:500;
+  margin-bottom:12px;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-tips:hover { background:rgba(201,150,10,.18); border-color:var(--gold); }
+.btn-tips.btn-tips-open { background:rgba(201,150,10,.18); border-color:var(--gold); }
+
+.tips-panel {
+  display:none;
+  background:linear-gradient(135deg,rgba(201,150,10,.06),rgba(139,106,62,.04));
+  border:1.5px solid rgba(201,150,10,.25);
+  border-radius:4px;padding:16px 18px;margin-bottom:14px;
+}
+.tips-panel.show { display:block; animation:fadeUp .25s ease; }
+
+.tips-panel-title {
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;
+  text-transform:uppercase;color:var(--gold);margin-bottom:14px;
+  padding-bottom:8px;border-bottom:1px solid rgba(201,150,10,.2);
+}
+
+.tip-item {
+  margin-bottom:12px;padding-bottom:12px;
+  border-bottom:1px solid rgba(229,217,197,.5);
+}
+.tip-item:last-child { margin-bottom:0;padding-bottom:0;border-bottom:none; }
+
+.tip-icon-head {
+  display:flex;align-items:center;gap:8px;margin-bottom:4px;
+}
+.tip-ico { font-size:15px; flex-shrink:0; }
+.tip-icon-head strong {
+  font-family:'Source Serif 4',serif;font-size:13.5px;
+  font-weight:600;color:var(--ink);
+}
+.tip-item p {
+  font-size:13px;line-height:1.6;color:var(--mid);
+  padding-left:23px;
+}
+
+.tip-content {
+  background:rgba(201,150,10,.06);
+  border-left:3px solid rgba(201,150,10,.5);
+  padding:12px 14px !important;
+  border-radius:0 3px 3px 0;
+  margin-bottom:14px !important;
+  padding-bottom:14px !important;
+  border-bottom:1.5px solid rgba(201,150,10,.2) !important;
+}
+
+.tip-points {
+  margin:8px 0 0 22px;
+  display:flex;flex-direction:column;gap:5px;
+}
+
+.tip-points li {
+  font-size:13px;line-height:1.55;color:var(--mid);
+  padding-left:2px;
+}
+
+.tip-points li::marker {
+  color:var(--gold);
+  font-size:11px;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="eyebrow">Nationellt prov · Historia · Åk 9</div>
+    <h1>Historia <em>NP-Tränaren</em></h1>
+    <div class="subline">Alla frågetyper från riktiga nationella prov 2014–2019 · Komplett träning</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="total-q-count">100+</div><div class="stat-l">Frågor</div></div>
+      <div class="stat"><div class="stat-n">7</div><div class="stat-l">Frågetyper</div></div>
+      <div class="stat"><div class="stat-n">6</div><div class="stat-l">Provår</div></div>
+    </div>
+  </div>
+</header>
+
+<div class="nav-bar">
+  <div class="nav-inner">
+    <button class="tab active" onclick="showPanel('alla',this)">Alla frågor</button>
+    <button class="tab" onclick="showPanel('mc',this)">Flerval</button>
+    <button class="tab" onclick="showPanel('tf',this)">Stämmer/Stämmer inte</button>
+    <button class="tab" onclick="showPanel('match',this)">Matcha & Kronologi</button>
+    <button class="tab" onclick="showPanel('src',this)">Källkritik</button>
+    <button class="tab" onclick="showPanel('open',this)">Öppna frågor</button>
+    <button class="tab" onclick="showPanel('progress',this)">Framsteg</button>
+    <button class="tab" onclick="showPanel('tips',this)">Provtips</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ALL -->
+<div id="panel-alla" class="panel active">
+  <div class="shdr"><h2>Alla frågor</h2><p>Träna på alla uppgiftstyper blandade – precis som i det riktiga provet.</p></div>
+  <div class="fbar">
+    <div class="chip on" onclick="filterCards(this,'alla','alla-q')">Alla</div>
+    <div class="chip" onclick="filterCards(this,'antiken','alla-q')">Antiken</div>
+    <div class="chip" onclick="filterCards(this,'revolution','alla-q')">Revolutioner</div>
+    <div class="chip" onclick="filterCards(this,'imperialism','alla-q')">Kolonialism</div>
+    <div class="chip" onclick="filterCards(this,'krig','alla-q')">Världskrigen</div>
+    <div class="chip" onclick="filterCards(this,'forintelsen','alla-q')">Förintelsen</div>
+    <div class="chip" onclick="filterCards(this,'kalla','alla-q')">Kalla kriget</div>
+    <div class="chip" onclick="filterCards(this,'demokrati','alla-q')">Demokrati & Historia</div>
+    <div class="chip" onclick="filterCards(this,'levnad','alla-q')">Levnadsvillkor</div>
+  </div>
+  <div id="alla-q"></div>
+</div>
+
+<!-- MC -->
+<div id="panel-mc" class="panel">
+  <div class="shdr"><h2>Flervalsfrågor</h2><p>Välj rätt alternativ – snabb faktakunskapsträning.</p></div>
+  <div class="score-bar"><span>Rätt svar</span><strong id="mc-score">0 / 0</strong><button class="reset-btn" onclick="resetType('mc')">Börja om</button></div>
+  <div id="mc-q"></div>
+</div>
+
+<!-- TRUE/FALSE -->
+<div id="panel-tf" class="panel">
+  <div class="shdr"><h2>Stämmer / Stämmer inte</h2><p>Bedöm påståenden som källslutsatser, orsaker och historiska fakta.</p></div>
+  <div class="score-bar"><span>Rätt svar</span><strong id="tf-score">0 / 0</strong><button class="reset-btn" onclick="resetType('tf')">Börja om</button></div>
+  <div id="tf-q"></div>
+</div>
+
+<!-- MATCH -->
+<div id="panel-match" class="panel">
+  <div class="shdr"><h2>Matcha &amp; Kronologi</h2><p>Para ihop tidsperioder, personer, händelser och begrepp.</p></div>
+  <div id="match-q"></div>
+</div>
+
+<!-- SOURCE CRITICISM -->
+<div id="panel-src" class="panel">
+  <div class="shdr"><h2>Källkritik</h2><p>Analysera, tolka och värdera historiska källor.</p></div>
+  <div class="score-bar"><span>Rätt svar</span><strong id="src-score">0 / 0</strong><button class="reset-btn" onclick="resetType('src')">Börja om</button></div>
+  <div id="src-q"></div>
+</div>
+
+<!-- OPEN -->
+<div id="panel-open" class="panel">
+  <div class="shdr"><h2>Öppna frågor</h2><p>Resonera och argumentera – jämför med bedömningsmallar och exempelsvar.</p></div>
+  <div id="open-q"></div>
+</div>
+
+<!-- PROGRESS -->
+<div id="panel-progress" class="panel">
+  <div class="shdr"><h2>Min framsteg</h2><p>Håll koll på hur du utvecklas.</p></div>
+  <div class="prog-grid">
+    <div class="pgcard"><h3>Flerval – rätt</h3><div class="pgbig" id="pg-mc">0</div><div class="pgsub" id="pg-mc-s">av 0 försök</div><div class="bartrack"><div class="barfill" id="pg-mc-b" style="width:0%"></div></div></div>
+    <div class="pgcard"><h3>Sant/Falskt – rätt</h3><div class="pgbig" id="pg-tf">0</div><div class="pgsub" id="pg-tf-s">av 0 försök</div><div class="bartrack"><div class="barfill" id="pg-tf-b" style="width:0%"></div></div></div>
+    <div class="pgcard"><h3>Källkritik – rätt</h3><div class="pgbig" id="pg-src">0</div><div class="pgsub" id="pg-src-s">av 0 försök</div><div class="bartrack"><div class="barfill" id="pg-src-b" style="width:0%"></div></div></div>
+    <div class="pgcard"><h3>Öppna svar visade</h3><div class="pgbig" id="pg-open">0</div><div class="pgsub">bedömningsmallar öppnade</div></div>
+  </div>
+  <div class="score-list">
+    <h3>Senaste svar</h3>
+    <div id="hist-list"><p style="font-size:13px;color:var(--mid);font-style:italic;">Inga svar ännu – börja träna!</p></div>
+  </div>
+</div>
+
+<!-- TIPS -->
+<div id="panel-tips" class="panel">
+  <div class="shdr"><h2>Provtips</h2><p>Strategier för att klara NP i historia på bästa sätt.</p></div>
+  <div class="tips-grid">
+    <div class="tipcard"><div class="icon">🏛️</div><h3>Betygskriterierna</h3><p>Varje uppgift bedöms <span class="tg tg-e">E</span><span class="tg tg-c">C</span><span class="tg tg-a">A</span>.</p><ul style="margin-top:8px"><li><b>E</b> – Grundläggande förståelse, ange orsaker</li><li><b>C</b> – Resonera med flera exempel, visa samband</li><li><b>A</b> – Förklara hur orsaker hänger ihop, nyansera, minst två typer</li></ul></div>
+    <div class="tipcard"><div class="icon">🔍</div><h3>Källkritikens kriterier</h3><ul><li><b>Äkthet</b> – Är källan förfalskad?</li><li><b>Tidssamband</b> – Hur nära i tid?</li><li><b>Beroende</b> – Bygger den på en annan källa?</li><li><b>Tendens</b> – Har den ett syfte (propaganda)?</li><li><b>Relevans</b> – Svarar källan på rätt fråga?</li></ul></div>
+    <div class="tipcard"><div class="icon">⚖️</div><h3>Öppna frågor – struktur</h3><ul style="margin-top:8px"><li>Ange en <b>orsak/konsekvens</b></li><li>Ge ett <b>historiskt exempel</b></li><li>Förklara <b>hur de hänger ihop</b></li><li>Nämn <b>minst två typer</b> (pol./ekon./soc./ideol.)</li><li>En kortvarig <b>och</b> en långvarig konsekvens för A</li></ul></div>
+    <div class="tipcard"><div class="icon">🕐</div><h3>Kontinuitet &amp; Förändring</h3><ul style="margin-top:8px"><li><b>Kontinuitet</b> = vad som förblev detsamma</li><li><b>Förändring</b> = vad som var annorlunda</li><li>Hänvisa alltid till <b>specifika tidsperioder</b></li><li>Använd <b>båda begreppen</b> för C och A</li></ul></div>
+    <div class="tipcard"><div class="icon">📜</div><h3>Historia &amp; Identitet</h3><ul style="margin-top:8px"><li>Vem <b>använder</b> historien och varför?</li><li>Vad vill de <b>uppnå</b>?</li><li>Finns det <b>motståndare</b> till detta historiebruk?</li><li>Ge alltid konkreta <b>historiska exempel</b></li></ul></div>
+    <div class="tipcard"><div class="icon">💡</div><h3>Vanliga teman i NP</h3><ul><li>Förintelsen – orsaker och typer</li><li>Franska/amerikanska/ryska revolutionen</li><li>Kolonialism &amp; imperialism</li><li>Industriella revolutionen</li><li>Kalla kriget</li><li>Demokrati &amp; mänskliga rättigheter</li><li>Migration &amp; levnadsvillkor</li><li>Antiken – samband med nutiden</li></ul></div>
+    <div class="tipcard"><div class="icon">🎯</div><h3>Slutna uppgifter – tips</h3><ul style="margin-top:8px"><li>Bara <b>ETT kryss</b> per rad om inget annat sägs</li><li>Fel antal kryss = <b>ogiltigt svar</b></li><li>Läs alla alternativ innan du kryssar</li><li>Hoppa inte på den du tror är rätt direkt</li></ul></div>
+    <div class="tipcard"><div class="icon">📊</div><h3>Provbetyg – hur det räknas</h3><p>Betyget baseras på antal "belägg" totalt och hur många som är på C/A-nivå:</p><ul style="margin-top:6px"><li><b>E</b> – 15 belägg, alla förmågor</li><li><b>C</b> – 30 belägg, 8+ på C/A</li><li><b>A</b> – 47 belägg, 25+ på C/A, 6+ på A</li></ul></div>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// QUESTION DATABASE
+// ═══════════════════════════════════════════════════════
+const Q = {
+
+// ── MULTIPLE CHOICE ──────────────────────────────────
+mc: [
+  {id:'mc1',year:2018,topic:'antiken',title:'Antiken – kopplingar till nutiden',
+   q:'Vad säger man ofta att demokratin har sina rötter i?',
+   opts:['Egypten','Grekland','Rom','Mesopotamien'],ans:1,
+   exp:'Demokrati som styrelseskick uppstod i det antika Grekland, framför allt i Aten under 400-talet f.Kr. under statsmannen Kleisthenes och Perikles.'},
+
+  {id:'mc2',year:2018,topic:'antiken',title:'Antiken – kopplingar till nutiden',
+   q:'Namnen på planeterna Jupiter och Mars härstammar från vilket folk?',
+   opts:['Greker','Egyptier','Romare','Babylonier'],ans:2,
+   exp:'Jupiter (gudarnas konung) och Mars (krigsguden) är namn från den romerska mytologin. Romarna döpte planeterna efter sina gudar.'},
+
+  {id:'mc3',year:2019,topic:'antiken',title:'Antiken – kopplingar till nutiden',
+   q:'Maratonloppet springer man till minne av ett slag. Var stod slaget?',
+   opts:['Rom','Sparta','Egypten','Grekland (Marathon)'],ans:3,
+   exp:'Slaget vid Marathon (490 f.Kr.) stod mellan en persisk armé och atenska soldater. Enligt legenden sprang en budbärare drygt 40 km till Aten för att meddela segern – därav maratonloppet.'},
+
+  {id:'mc4',year:2019,topic:'antiken',title:'Antiken – kopplingar till nutiden',
+   q:'Pyramiderna finns i vilket land?',
+   opts:['Irak','Grekland','Egypten','Israel'],ans:2,
+   exp:'Pyramiderna byggdes i det antika Egypten, framför allt i Giza. De äldsta stora pyramiderna byggdes ca 2560 f.Kr. under farao Khufu (Keops).'},
+
+  {id:'mc5',year:2019,topic:'antiken',title:'Antiken – kopplingar till nutiden',
+   q:'Talesättet "Alla vägar bär till ___" – vilket folk syftar det på?',
+   opts:['Egypten','Grekland','Rom','Persien'],ans:2,
+   exp:'Romarna byggde ett enormt vägnät som sträckte sig över hela imperiet, med Rom som nav. Vägarna var avgörande för militär rörlighet och handel.'},
+
+  {id:'mc6',year:2016,topic:'antiken',title:'Det romerska riket – historiska förklaringar',
+   q:'"År 476 störtade germanen Odovakar den siste västromerske kejsaren. Därför ..." – välj rätt slutsats.',
+   opts:['...gick det romerska riket under vid ett visst tillfälle','...var rikets undergång ett skeende under lång tid','...finns det spår kvar av riket idag','...grundades det bysantinska riket'],ans:0,
+   exp:'År 476 e.Kr. är det datum som brukar markera västromerska rikets fall – en specifik händelse (Romulus Augustulus avsätts) som markerar ett definitivt slut.'},
+
+  {id:'mc7',year:2016,topic:'antiken',title:'Det romerska riket – historiska förklaringar',
+   q:'"Romarna förde många och dyra krig, vilket försämrade ekonomin. Därför ..."',
+   opts:['...gick riket under vid ett visst tillfälle','...var undergången ett skeende under lång tid','...finns det spår kvar av riket idag','...uppstod det bysantinska riket'],ans:1,
+   exp:'De dyra krigen var en av MÅNGA faktorer som gradvis försvagade riket under lång tid – en process som pågick i hundratals år.'},
+
+  {id:'mc8',year:2016,topic:'antiken',title:'Det romerska riket – historiska förklaringar',
+   q:'"Många europeiska lagar bygger på romerska lagar. Därför ..."',
+   opts:['...gick riket under vid ett visst tillfälle','...var undergången ett skeende under lång tid','...finns det spår kvar av riket idag','...påbörjades den europeiska integrationen'],ans:2,
+   exp:'Romersk rätt (ius romanum) är grunden för många europeiska rättssystem än idag – ett tydligt spår av romarriket som lever kvar.'},
+
+  {id:'mc9',year:2019,topic:'revolution',title:'Den franska revolutionen',
+   q:'Vilken händelse den 14 juli 1789 symboliserar inledningen till den franska revolutionen?',
+   opts:['Stormningen av Vinterpalatset','Stormningen av Bastiljen','Stormningen av Versailles','Avrättningen av kungen'],ans:1,
+   exp:'Den 14 juli 1789 stormade folkmassan fängelset Bastiljen i Paris. Det ses som startskottet för revolutionen och Frankrike firar sin nationaldag detta datum.'},
+
+  {id:'mc10',year:2019,topic:'revolution',title:'Den franska revolutionen',
+   q:'Vad hette den franska drottningen under revolutionen?',
+   opts:['Isabelle','Josefine','Marie Antoinette','Catherine'],ans:2,
+   exp:'Marie Antoinette var gift med kung Ludvig XVI. De avrättades båda i guillotinen under revolutionens skräckvälde 1793.'},
+
+  {id:'mc11',year:2017,topic:'revolution',title:'Revolutioner – samband till nutiden',
+   q:'Trikoloren (flaggan med tre ränder) härstammar från vilken revolution?',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Den haitiska revolutionen'],ans:1,
+   exp:'Frankrikes blå-vit-röda flagga blev en symbol för den franska revolutionen och inspirerade många länders flaggor.'},
+
+  {id:'mc12',year:2017,topic:'revolution',title:'Revolutioner – samband till nutiden',
+   q:'Leninmausoleet i Moskva byggdes för att hedra Lenin. Vilken revolution ledde han?',
+   opts:['Den amerikanska','Den franska','Den ryska','Den kinesiska'],ans:2,
+   exp:'Lenin ledde oktoberrevolutionen 1917 som störtade tsaren och lade grunden för Sovjetunionen.'},
+
+  {id:'mc13',year:2017,topic:'revolution',title:'Revolutioner – samband till nutiden',
+   q:'I vilket land firas nationaldagen den 4 juli pga. självständighetsförklaringen?',
+   opts:['Frankrike','Mexiko','USA','Kanada'],ans:2,
+   exp:'USA:s självständighetsförklaring skrevs den 4 juli 1776 under frihetskriget mot Storbritannien.'},
+
+  {id:'mc14',year:2017,topic:'revolution',title:'Revolutioner – samband till nutiden',
+   q:'Slagordet "frihet, jämlikhet och broderskap" ropades första gången under ...',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Den kubanska revolutionen'],ans:1,
+   exp:'"Liberté, Égalité, Fraternité" är ett motto från den franska revolutionen och är fortfarande Frankrikes valspråk.'},
+
+  {id:'mc15',year:2017,topic:'revolution',title:'Revolutioner – samband till nutiden',
+   q:'En politisk rörelse idag kallas Tea Party-rörelsen. Händelsen den anknyter till var under ...',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Den engelska revolutionen'],ans:0,
+   exp:'"Boston Tea Party" 1773 var en protestaktion mot brittiska skatter – ett viktigt förspel till den amerikanska revolutionen. Tea Party-rörelsen (2009–) hänvisar till detta.'},
+
+  {id:'mc16',year:2016,topic:'krig',title:'Andra världskriget – orsaker och konsekvenser',
+   q:'Vad var en ORSAK till andra världskriget?',
+   opts:['Frankrike ville ha revansch för tidigare förluster','Tysklands ledare ville göra Tyskland större','Sovjetunionen försökte stänga av Västberlin','Frankrike ville minska Preussens makt'],ans:1,
+   exp:'Hitlers nazistiska Tysklands expansionspolitik och "Lebensraum"-ideologi var en central orsak. Versaillesfredens ödmjukande villkor och ekonomisk kris gav grogrund.'},
+
+  {id:'mc17',year:2016,topic:'krig',title:'Andra världskriget – orsaker och konsekvenser',
+   q:'Vad var en direkt KONSEKVENS av andra världskriget?',
+   opts:['Sovjet upplöstes och nya stater bildades','Frankrike gick från kejsardöme till republik','Efter folkomröstningar bildades nya stater','Tyskland delades i fyra zoner av segrarmakterna'],ans:3,
+   exp:'Efter kriget delades Tyskland in i fyra ockupationszoner av USA, Sovjet, Storbritannien och Frankrike – vilket senare ledde till uppdelningen i Väst- och Östtyskland.'},
+
+  {id:'mc18',year:2019,topic:'krig',title:'Aktörer under andra världskriget',
+   q:'Vilket land var Josef Stalin ledare för under andra världskriget?',
+   opts:['Polen','Sovjet','Jugoslavien','Ungern'],ans:1,
+   exp:'Josef Stalin var generalsekreterare i det kommunistiska partiet och de facto diktator i Sovjetunionen från 1920-talet till sin död 1953.'},
+
+  {id:'mc19',year:2019,topic:'krig',title:'Aktörer under andra världskriget',
+   q:'Vem var Storbritanniens ledare 1939?',
+   opts:['Truman','Roosevelt','Chamberlain','Churchill'],ans:2,
+   exp:'Neville Chamberlain var Storbritanniens premiärminister 1937–1940. Han är känd för sin "appeasement"-politik gentemot Hitler. Churchill tog över 1940.'},
+
+  {id:'mc20',year:2019,topic:'krig',title:'Aktörer under andra världskriget',
+   q:'Vem var Italiens ledare 1939?',
+   opts:['Mussolini','Garibaldi','Franco','de Gaulle'],ans:0,
+   exp:'Benito Mussolini var Italiens fascistiske diktator (Il Duce) 1922–1943. Han ingick axelmaktsallians med Hitler 1936.'},
+
+  {id:'mc21',year:2019,topic:'krig',title:'Orsaker till andra världskriget',
+   q:'Vilken av dessa var INTE en orsak till andra världskriget?',
+   opts:['Cubakrisen ökade motsättningarna','Hitler ville utöka det tyska livsrummet','Hitler och Stalin slöt en icke-aggressionspakt','Versaillesfreden ödmjukade Tyskland'],ans:0,
+   exp:'Cubakrisen 1962 hörde till KALLA KRIGET, inte andra världskrigets orsaker. De övriga alternativen var verkliga orsaker till kriget.'},
+
+  {id:'mc22',year:2019,topic:'krig',title:'USA och Japan – atombomben',
+   q:'Varför släppte USA atombomber över Japan 1945? En av orsakerna:',
+   opts:['USA ville visa sin militära makt för Sovjet','USA ville visa sin makt för Tyskland','USA ville visa sin makt för Storbritannien','USA ville hämnas Pearl Harbor'],ans:0,
+   exp:'USA ville dels tvinga Japan till snabb kapitulation, dels visa sin militära överlägsenhet för Sovjet inför det begynnande kalla kriget.'},
+
+  {id:'mc23',year:2018,topic:'kalla',title:'Samband med krigen – nutida kopplingar',
+   q:'NATO bildades under vilken period?',
+   opts:['Första världskriget','Andra världskriget','Kalla kriget','Koreakriget'],ans:2,
+   exp:'NATO (Nordatlantiska fördragsorganisationen) grundades 1949 som ett västligt försvarsförbund i början av kalla kriget.'},
+
+  {id:'mc24',year:2018,topic:'kalla',title:'Samband med krigen – nutida kopplingar',
+   q:'Berlinmurens gatstenar markerar idag var den stod. Muren byggdes under ...',
+   opts:['Första världskriget','Andra världskriget','Kalla kriget','Mellankrigstiden'],ans:2,
+   exp:'Berlinmuren byggdes 1961 av Östtyskland för att hindra flykt till Västberlin. Den föll 1989 och symboliserade kalla krigets slut.'},
+
+  {id:'mc25',year:2018,topic:'kalla',title:'Samband med krigen – nutida kopplingar',
+   q:'Vietnamkriget pågick under ...',
+   opts:['Första världskriget','Andra världskriget','Kalla kriget','Mellankrigstiden'],ans:2,
+   exp:'Vietnamkriget (ca 1955–1975) var ett av de stora "proxykrigen" under kalla kriget, med USA på Sydvietnams sida och Sovjet/Kina som stöd till Nordvietnam.'},
+
+  {id:'mc26',year:2018,topic:'imperialism',title:'Kopplingar till nutiden – kolonialism',
+   q:'Djungelboken handlar om Storbritanniens viktigaste koloni under 1800-talet. I vilket land utspelar sig boken?',
+   opts:['Indien','Sydafrika','Egypten','Australien'],ans:0,
+   exp:'Indien kallades "Kronans juvel" och var Storbritanniens mest värdefulla koloni. Djungelboken av Rudyard Kipling utspelar sig i ett kolonialt Indien.'},
+
+  {id:'mc27',year:2019,topic:'imperialism',title:'Kolonialism – beslut om Afrikas gränser',
+   q:'Vilka tre länder hade störst betydelse för besluten om Afrikas nuvarande gränser på 1880-talet?',
+   opts:['Japan, Nederländerna och Sverige','USA, Ryssland och Osmanska riket','Storbritannien, Frankrike och Tyskland','Spanien, Portugal och Belgien'],ans:2,
+   exp:'Vid Berlinkonferensen 1884–1885 delade de europeiska stormakterna, framför allt Storbritannien, Frankrike och Tyskland, upp Afrika utan hänsyn till befintliga folk och gränser.'},
+
+  {id:'mc28',year:2019,topic:'imperialism',title:'1800-talets historia – samband',
+   q:'Vad brukar slavhandeln över Atlanten kallas?',
+   opts:['Kolonialhandeln','Frihandeln','Triangelhandeln','Imperialhandeln'],ans:2,
+   exp:'Triangelhandeln syftar på de tre benen: Europa exporterade varor till Afrika, slavarna skeppades till Amerika, och varor (socker, tobak, bomull) skickades tillbaka till Europa.'},
+
+  {id:'mc29',year:2019,topic:'levnad',title:'1800-talets historia – samband',
+   q:'Vilken rättighet fick svenska KVINNOR under 1800-talet?',
+   opts:['Alla kvinnor fick rösträtt','Alla ogifta kvinnor blev myndiga','Alla fick rätt till fri abort','Alla fick rätt att studera vid universitetet'],ans:1,
+   exp:'År 1863 fick ogifta myndiga kvinnor rätt att bedriva handel och näring. Rösträtten kom inte förrän 1921.'},
+
+  {id:'mc30',year:2019,topic:'levnad',title:'1800-talets historia – samband',
+   q:'Vilken ideologi förknippas med Karl Marx?',
+   opts:['Kommunism','Konservatism','Liberalism','Fascism'],ans:0,
+   exp:'Karl Marx (1818–1883) var filosofen och ekonomen som, tillsammans med Friedrich Engels, formulerade den vetenskapliga socialismen/kommunismen i "Det kommunistiska manifestet" (1848).'},
+
+  {id:'mc31',year:2016,topic:'levnad',title:'Åderlåtning – förklara historiska beteenden',
+   q:'Varför använde man åderlåtning förr i tiden?',
+   opts:['Läkare trodde att det hjälpte mot sjukdomar','Det hjälpte faktiskt mot sjukdomar','Man levde hälsosammare förr, därför hjälpte det','Det var billigare än andra behandlingar'],ans:0,
+   exp:'Åderlåtning (att tappa blod) baserades på den antika humorteorin – att sjukdom berodde på obalans mellan kroppsvätskor. Metoden användes i 2000 år trots att den inte hjälpte.'},
+
+  {id:'mc32',year:2016,topic:'levnad',title:'Välfärdssamhällets uppbyggnad',
+   q:'Den svenska industrin saknade arbetskraft på 1960-talet. Vad gjorde den?',
+   opts:['Ökade arbetstiden','Anställde barn','Anställde arbetskraft från andra länder','Höjde pensionsåldern'],ans:2,
+   exp:'Under 1960-talets högkonjunktur rekryterades aktivt "gästarbetare" från Finland, Italien, Jugoslavien m.fl. länder till den svenska industrin.'},
+
+  {id:'mc33',year:2019,topic:'levnad',title:'Välfärdssamhällets orsaker och konsekvenser',
+   q:'Vilket påstående beskriver en KONSEKVENS av välfärdssamhällets uppbyggnad 1945–1970?',
+   opts:['Bättre ekonomi eftersom skatterna sänktes','Ekonomiska skillnader minskades via ökade bidrag','Produktionen ökade pga. längre veckoarbetstid','Industrin rekryterades till jordbruket'],ans:1,
+   exp:'Utbyggnaden av välfärdssystemet (sjukvård, utbildning, socialbidrag) minskade de ekonomiska klyftorna markant i Sverige under efterkrigstiden.'},
+
+  {id:'mc34',year:2018,topic:'levnad',title:'Välfärdssamhällets uppbyggnad – orsaker',
+   q:'Vilka produkter spred sig snabbt tack vare den ekonomiska tillväxten på 1960-talet?',
+   opts:['Hemdator och mobil','Bilen och TV:n','Mikrovågsugn och kylskåp','Radio och grammofon'],ans:1,
+   exp:'Under 1960-talets välstånd blev bilen och TV:n massprodukter i svenska hem – symboler för det moderna konsumtionssamhället.'},
+
+  {id:'mc35',year:2018,topic:'levnad',title:'Slöjd – normer och värderingar',
+   q:'Fram till 1962 hade pojkar träslöjd och flickor syslöjd. Varför?',
+   opts:['Det var billigare','Det var samhällets könsroller som styrde','Flickor var bättre på att sy','Lärarna valde det'],ans:1,
+   exp:'Könsuppdelad slöjd speglade dåtidens normer: männen förväntades arbeta med hantverk och industri, kvinnorna med hemarbete och textil.'},
+
+  // ── REVOLUTIONER – SAMBAND MED NUTIDEN (2016, 2017) ──
+  {id:'mc36',year:2016,topic:'revolution',title:'Revolutioner – samband med nutiden',
+   q:'"Hammaren och skäran" är symbol för en politisk ideologi. Den kommer från ...',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Den kubanska revolutionen'],ans:2,
+   exp:'Hammaren (för industriarbetare) och skäran (för bönder) är symbolen för kommunismen/Sovjetunionen, och härstammar från den ryska revolutionen 1917.'},
+
+  {id:'mc37',year:2016,topic:'revolution',title:'Revolutioner – samband med nutiden',
+   q:'Marseljäsen är en känd nationalsång. Den sjöngs första gången under ...',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Den engelska revolutionen'],ans:1,
+   exp:'La Marseillaise skrevs 1792 och sjöngs av frivilliga från Marseille på väg till Paris – den franska revolutionens mest kända sång, nu Frankrikes nationalsång.'},
+
+  {id:'mc38',year:2016,topic:'revolution',title:'Revolutioner – samband med nutiden',
+   q:'USA styrs av en senat och ett representanthus. Att landet skulle styras så bestämdes efter ...',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Den brittiska revolutionen'],ans:0,
+   exp:'Konstitutionen som grundade USA:s representantiska demokrati med senat och representanthus skapades direkt efter den amerikanska revolutionen och självständighetsförklaringen 1776.'},
+
+  {id:'mc39',year:2017,topic:'revolution',title:'Revolutioner – samband med nutiden',
+   q:'Giljotinen började användas i Frankrike under ...',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Napoleontiden'],ans:1,
+   exp:'Giljotinen användes under Skräckväldet 1793–94 för massavrättningar under den franska revolutionen – bl.a. avrättades kung Ludvig XVI och Marie Antoinette.'},
+
+  {id:'mc40',year:2017,topic:'revolution',title:'Revolutioner – samband med nutiden',
+   q:'Metersystemet skapades genom ...',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Industriella revolutionen'],ans:1,
+   exp:'Det metriska systemet (meter, kilo) uppfanns under den franska revolutionen på 1790-talet som en del av revolutionens rationalistiska reformer.'},
+
+  {id:'mc41',year:2017,topic:'revolution',title:'Revolutioner – samband med nutiden',
+   q:'Finlands självständighet idag har ett samband med händelser under ...',
+   opts:['Den amerikanska revolutionen','Den franska revolutionen','Den ryska revolutionen','Första världskriget'],ans:2,
+   exp:'Finland utropade sin självständighet den 6 december 1917 – samma år som den ryska revolutionen störtade tsaren och försvagade det ryska imperiet, vilket gav Finland möjligheten.'},
+
+  // ── IDEOLOGIER & VÄLFÄRDSSTAT ──
+  {id:'mc42',year:2018,topic:'levnad',title:'1800-talets politiska ideologier',
+   q:'Grupp A kräver: allmän rösträtt, jämlika löner, statlig utbildning. Vilken ideologi?',
+   opts:['Konservatism','Liberalism','Socialism','Fascism'],ans:2,
+   exp:'Socialism fokuserade på arbetarklassens intressen: jämlikhet i lön, rösträtt för alla och statlig utbildning. Grunden för det socialdemokratiska partiet i Sverige.'},
+
+  {id:'mc43',year:2018,topic:'levnad',title:'1800-talets politiska ideologier',
+   q:'Grupp B kräver: yttrandefrihet, religionsfrihet, minska kungens makt. Vilken ideologi?',
+   opts:['Konservatism','Liberalism','Socialism','Nationalism'],ans:1,
+   exp:'Liberalismen kämpade för individuella friheter (yttrande- och religionsfrihet) och begränsning av monarkens makt – typiska 1800-talskrav från borgerskapet.'},
+
+  {id:'mc44',year:2018,topic:'levnad',title:'1800-talets politiska ideologier – samhällsgrupper',
+   q:'Vilken ideologi förknippas med ADELN på 1800-talet?',
+   opts:['Socialism','Konservatism','Liberalism','Nationalism'],ans:1,
+   exp:'Adeln stödde konservatismen som värnade om att bevara det bestående samhällssystemet – med adel, kyrka och kung i toppen. De fruktade förändringar som hotade deras privilegier.'},
+
+  {id:'mc45',year:2018,topic:'levnad',title:'1800-talets politiska ideologier – samhällsgrupper',
+   q:'Vilken ideologi förknippas med BORGARE (handelsmän, fabriksägare) på 1800-talet?',
+   opts:['Socialism','Konservatism','Liberalism','Fascism'],ans:2,
+   exp:'Borgerskapet stödde liberalismen som förespråkade fri marknad, individuella rättigheter och begränsad statlig inblandning – vilket gynnade deras handel och industri.'},
+
+  // ── USA OCH JAPAN WWII ──
+  {id:'mc46',year:2019,topic:'krig',title:'USA och Japan under andra världskriget',
+   q:'Vilka var USA:s allierade under andra världskriget?',
+   opts:['Storbritannien och Italien','Storbritannien och Sovjet','Storbritannien och Japan','Frankrike och Japan'],ans:1,
+   exp:'De fyra segrarmakterna var USA, Sovjet, Storbritannien och Frankrike. Dessa fyra delade sedan upp det besegrade Tyskland i ockupationszoner.'},
+
+  {id:'mc47',year:2019,topic:'krig',title:'USA och Japan under andra världskriget',
+   q:'Vilka var Japans allierade under andra världskriget?',
+   opts:['Tyskland och Kina','Tyskland och Italien','Tyskland och Storbritannien','Sovjet och Italien'],ans:1,
+   exp:'Axelmakterna bestod av Tyskland, Italien och Japan (Tripartitpakten 1940). De stred mot de allierades koalition.'},
+
+  {id:'mc48',year:2019,topic:'krig',title:'USA och Japan under andra världskriget',
+   q:'Det amerikanska folket ville inte att USA skulle delta i kriget. Vad fick landet att gå in 1941?',
+   opts:['Japan anföll USA (Pearl Harbor)','Sovjet anföll USA','Tyskland anföll USA','Frankrike bad om hjälp'],ans:0,
+   exp:'Japans överraskningsanfall mot den amerikanska flottbasen Pearl Harbor på Hawaii den 7 december 1941 ("a date which will live in infamy") drog in USA i kriget.'},
+
+  // ── MIGRATION ──
+  {id:'mc49',year:2019,topic:'levnad',title:'Migration – samband med nutiden',
+   q:'TV-programmet "Allt för Sverige" om svensk-amerikaner. Varför emigrerade många svenskar till USA under 1800-talet?',
+   opts:['Krigen i Sverige','Bristen på jordbruksmark i Sverige','Förföljelse av etniska minoriteter','Industrialiseringen lockade'],ans:1,
+   exp:'Under 1800-talets svältår (framför allt 1867–69) emigrerade ca 1,3 miljoner svenskar till USA för att undkomma fattigdom och brist på odlingsbar mark.'},
+
+  {id:'mc50',year:2019,topic:'levnad',title:'Migration – samband med nutiden',
+   q:'Varför är 1800-talet en viktig period för många sydamerikanska länder?',
+   opts:['Länderna blev självständiga','Länderna blev koloniserade','Länderna förenades i en union','Länderna industrialiserades'],ans:0,
+   exp:'Under 1800-talet fick de flesta latinamerikanska länderna sin självständighet från Spanien och Portugal – Simón Bolívar och José de San Martín är centrala frihetskämpar.'},
+
+  {id:'mc51',year:2019,topic:'levnad',title:'Migration och 1800-talets historia',
+   q:'"Första maj" demonstrationerna har kopplingar till ...',
+   opts:['Den franska revolutionen','Industrialiseringens arbetarrörelse','Den amerikanska frihetsdagen','Socialismens grundande'],ans:1,
+   exp:'Första maj är arbetarnas internationella kampdag, kopplad till Haymarket-massakern i Chicago 1886 och kampen för 8-timmarsdagen under industrialiseringen.'},
+
+  {id:'mc52',year:2018,topic:'levnad',title:'Skolmatsedlar – globalisering',
+   q:'Från 1985 och framåt syns rätten "chili con carne" på svenska skolmatsedlar. Vad visar detta?',
+   opts:['Att Sverige blev rikare','Att globaliseringen påverkade Sverige','Att klimatet förändrades','Att befolkningen ökade'],ans:1,
+   exp:'Internationella maträtter som chili con carne (mexikanskt ursprung) på svenska skolor illustrerar globaliseringen – ökad migration och kulturutbyte under 1900-talets andra hälft.'},
+
+  // ── KALLA KRIGET MER ──
+  {id:'mc53',year:2018,topic:'kalla',title:'Samband med krigen',
+   q:'Spåren efter skyttegravarna i Somme och Verdun syns fortfarande idag. Skyttegravarna grävdes under ...',
+   opts:['Första världskriget','Andra världskriget','Kalla kriget','Napoleonkrigen'],ans:0,
+   exp:'Slaget vid Somme (1916) och Verdun (1916) var de blodigaste slagen under första världskriget. Skyttegravarna på västfronten präglar fortfarande landskapet i norra Frankrike.'},
+
+  {id:'mc54',year:2019,topic:'kalla',title:'Samband med krigen',
+   q:'"Julfreden" – soldater slutade skjuta och spelade fotboll – var under ...',
+   opts:['Första världskriget','Andra världskriget','Kalla kriget','Koreakriget'],ans:0,
+   exp:'Julfredspausen 1914 på västfronten är en känd episod ur första världskriget, där tyska och brittiska soldater spontant slutade skjuta och minglade i ingenmansland.'},
+
+  {id:'mc55',year:2018,topic:'kalla',title:'Samband med krigen',
+   q:'Bunkrarna längs Blekinge-kusten byggdes för att skydda mot ett anfall från ...',
+   opts:['Ryssland','Japan','Tyskland','England'],ans:2,
+   exp:'De svenska kustbefästningarna (bunkrar, pjäsplatser) längs sydkusten byggdes under andra världskriget som skydd mot ett möjligt tyskt anfall – Tyskland ockuperade grannländerna Danmark och Norge 1940.'},
+
+  // ── DEMOKRATI & HISTORIA ──
+  {id:'mc56',year:2019,topic:'demokrati',title:'Politiker använder historia',
+   q:'Victoria Woodhull höll 1871 ett tal om att män förtryckte kvinnor "på samma sätt som kungen förtryckte kolonierna". Vad ville hon uppnå?',
+   opts:['Självständighet för de amerikanska kolonierna','Rösträtt för alla myndiga kvinnor i USA','Rättigheter för urbefolkningen','Avskaffande av slaveriet'],ans:1,
+   exp:'Victoria Woodhull var den första kvinnliga presidentkandidaten i USA (1872). Hon använde jämförelsen med kolonialrevolutionen för att argumentera för kvinnlig rösträtt.'},
+
+  {id:'mc57',year:2019,topic:'demokrati',title:'Politiker använder historia',
+   q:'Vilken historisk händelse hänvisade Victoria Woodhull till i sitt tal om kvinnors rättigheter?',
+   opts:['Det amerikanska inbördeskriget','Det amerikanska frihetskriget','Franska revolutionen','Borgerättrörelsen'],ans:1,
+   exp:'Woodhull jämförde kvinnors situation med kolonisternas situation under brittiskt förtryck – och hänvisade till den amerikanska revolutionen/frihetskriget 1776 som ett föredöme för kamp mot förtryck.'},
+
+  {id:'mc58',year:2019,topic:'demokrati',title:'Politiker använder historia – Bush 2001',
+   q:'Vilken aktuell händelse fick president George W. Bush att hålla ett tal 2001 om att "frihetens fiender attackerat"?',
+   opts:['Kriget i Irak','Cubakrisen','Attacken mot World Trade Center','Bomningen av Afghanistan'],ans:2,
+   exp:'Terrorattackerna den 11 september 2001 mot World Trade Center i New York och Pentagon var den händelse Bush hänvisade till när han talade om krig mot terrorismen.'},
+
+  // ── KOLUMBUSDAGEN & HISTORIEANVÄNDNING ──
+  {id:'mc59',year:2016,topic:'demokrati',title:'Columbusdagen – historieanvändning',
+   q:'Colombusdagen firas den 12 oktober till minne av att Columbus kom till Amerika 1492. En rimlig anledning för URSPRUNGSBEFOLKNINGEN att protestera mot firandet är ...',
+   opts:['Columbus tog med sig guld hem','Columbus erövrade och förstörde ursprungsbefolkningens kulturer','Columbus dog fattig','Columbus hittade inte guld'],ans:1,
+   exp:'Columbus "upptäckt" av Amerika 1492 inledde en period av europeisk kolonisering som ledde till massiva förluster av land, kultur och liv för ursprungsbefolkningarna.'},
+
+  // ── GRÄNSER SOM KONSEKVENSER ──
+  {id:'mc60',year:2017,topic:'krig',title:'Gränser som konsekvenser av historiska händelser',
+   q:'Gränsen mellan Nordkorea och Sydkorea är en konsekvens av händelser ...',
+   opts:['Före världskrigen (före 1914)','Under världskrigens tid (1914–1945)','Efter världskrigen (efter 1945)','Under kalla kriget (1950-talet)'],ans:2,
+   exp:'Korea delades längs den 38:e breddgraden 1945 efter Japans nederlag i WWII. Koreakriget 1950–53 befäste gränsen, som fortfarande är världens hårdast bevakade.'},
+
+  {id:'mc61',year:2017,topic:'krig',title:'Gränser som konsekvenser',
+   q:'Suezkanalen i Egypten byggdes under 1800-talet och ägdes fram till 1950-talet av ...',
+   opts:['Portugal och Italien','Tyskland och Spanien','Storbritannien och Frankrike','USA och Sovjet'],ans:2,
+   exp:'Suezkanalen byggdes 1869 och kontrollerades av ett brittisk-franskt bolag. Egyptens president Nasser nationaliserade kanalen 1956, vilket utlöste Suezkrisen.'},
+
+  // ── KALLA KRIGET – DAILY MAIL 2015 ──
+  {id:'mc62',year:2015,topic:'kalla',title:'Kalla kriget kommer tillbaka?',
+   q:'En brittisk tidning påstod 2014 att "kalla kriget är tillbaka". Vilken är en RIMLIG anledning till detta påstående?',
+   opts:['Det är en rubrik som lockar läsare','Under kalla kriget hade stormakterna ubåtar beväpnade med kärnvapen','Det vill få Sverige att förklara krig mot Ryssland','Det finns inga likheter med kalla kriget'],ans:1,
+   exp:'En FAKTAMÄSSIG anledning: Under kalla kriget hade stormakterna kärnvapenbeväpnade ubåtar i världshaven – och 2014 jagade Sverige en misstänkt rysk ubåt. Det påminde om kalla krigets spioneri och ubåtskränkningar.'},
+
+  // ── HISTORISKA MIGRATIONER ──
+  {id:'mc63',year:2016,topic:'levnad',title:'Historiska migrationer – konsekvenser',
+   q:'Migration från Afrika till Nordamerika (1600–1800) ledde till ...',
+   opts:['Nya stadsstater','Allmän rösträtt','Slaveri och plantager','Nya sjukdomar drabbade européer'],ans:2,
+   exp:'Triangelhandeln (ca 1600–1800) förde ca 12 miljoner afrikaner till Amerika som slavar för att arbeta på sockersockerplantager och bomullsodlingar.'},
+
+  {id:'mc64',year:2016,topic:'levnad',title:'Historiska migrationer – konsekvenser',
+   q:'Migration från Europa till Sydamerika (1500–1800) ledde till ...',
+   opts:['Nya stadsstater','Allmän och lika rösträtt','Nybyggare och industriarbetare','Nya sjukdomar drabbade ursprungsbefolkningen'],ans:3,
+   exp:'Europeiska sjukdomar (smålkoppor, mässling) till vilka ursprungsbefolkningen saknade immunitet dödade uppskattningsvis 50–90% av befolkningen i Amerika efter kontakt med européerna.'},
+
+  {id:'mc65',year:2016,topic:'antiken',title:'Historiska migrationer – antiken',
+   q:'Migration från Grekland till kusterna runt Medelhavet (900–400 f.Kr.) ledde till ...',
+   opts:['Slaveri och plantager','Allmän rösträtt','Nybyggare och industriarbetare','Nya stadsstater'],ans:3,
+   exp:'Under den arkadiska och klassiska perioden grundade greker kolonier (nya poleis) längs Medelhavets och Svarta havets kuster – från Spanien till Krimhalvön.'},
+
+  // ── AZTEKERNA (2018) ──
+  {id:'mc66',year:2018,topic:'imperialism',title:'Aztekerna – USA använder historia',
+   q:'USA:s kongressbyggnad Kapitolium tog sin förebild från vilken historisk tidsperiod?',
+   opts:['Medeltiden','Kalla kriget','Antiken','Renässansen'],ans:2,
+   exp:'Kapitoliumbyggnaden i Washington D.C. är designad med inspiration från antikens Grekland och Rom – med pelare, kupol och det romerska namnet Capitolium. USA ville koppla sig till demokratins rötter.'},
+
+  // ── IMPERIER ──
+  {id:'mc67',year:2018,topic:'imperialism',title:'Orsaker till imperier – Brittiska imperiet',
+   q:'Vilken var en militär orsak till att Brittiska imperiet kunde bli ett imperium?',
+   opts:['Brittiska böcker spreds i världen','Britterna hade industriella vapen som skepp och gevär med överlägsen teknologi','Brittiska lagar var rättvisa','Britterna pratade franska'],ans:1,
+   exp:'Industriella revolutionen gav Britannien en militärteknologisk överlägsenhet – ångdrivna skepp, järnvägar och moderna gevär möjliggjorde erövring av länder vars befolkning saknade motvapen.'},
+
+  {id:'mc68',year:2018,topic:'imperialism',title:'Orsaker till imperier – Mongoliska imperiet',
+   q:'Vilket av dessa var en orsak till att det Mongoliska imperiet under Djingis Khan kunde bli ett imperium?',
+   opts:['Mongol hade den mest avancerade skriftspråket','Mongol kavalleriet var extremt rörligt och effektivt i strid','Mongol hade flest invånare','Mongol låg vid handelsvägar'],ans:1,
+   exp:'Det mongoliska kavalleriet – ryttare på stäpphästar som kombinerade rörlighet, pilbågskonst och taktik – var militärt överlägset och möjliggjorde snabba erövringståg från Kina till Europa.'},
+
+  // ── BARNAGA (2014) ──
+  {id:'mc69',year:2014,topic:'levnad',title:'Barnaga – vad är rimligt att säga för 100 år sedan?',
+   q:'En man ser en kvinna slå ett barn. Barnaga förbjöds i Sverige 1979. Vilken pratbubbla är mest rimlig för mannen att säga för 100 år sedan (ca 1914)?\n1: "Det är bra! Det är för barnets bästa."\n2: "Sluta! Alla vet väl att man inte ska slå barn!"\n3: "Varför gör du så? Tänk om någon polisanmäler oss!"',
+   opts:['Pratbubbla 1 – "Det är bra! Det är för barnets bästa."','Pratbubbla 2 – "Sluta! Alla vet väl att man inte ska slå barn!"','Pratbubbla 3 – "Varför gör du så? Tänk om någon polisanmäler oss!"','Ingen av dem är rimlig'],ans:0,
+   exp:'För 100 år sedan var barnaga lagligt och socialt accepterat – det sågs som ett normalt uppfostringsverktyg. Pratbubbla 1 ("för barnets bästa") speglar dåtidens normer och värderingar. Pratbubbla 3 är fel eftersom barnaga inte var olagligt då.'},
+
+  // ── HISTORISK PERIOD / KALLA KRIGET (2014 B12) ──
+  {id:'mc70',year:2014,topic:'kalla',title:'Känna igen historisk period',
+   q:'Texten beskriver: "En konflikt mellan USA och Sovjet. Den började när andra världskriget var slut 1945 och slutade ca 1990. De två supermakterna ledde var sitt block." Vilken historisk period?',
+   opts:['Antiken','Kalla kriget','Mellankrigstiden','Medeltiden'],ans:1,
+   exp:'Kalla kriget (1945–1991) var den ideologiska och geopolitiska konflikten mellan USA:s demokratisk-kapitalistiska block och Sovjet:s kommunistiska block, utan direkt krig mellan supermakterna.'},
+
+  // ── SPÅR AV ANTIKEN – VILKEN BYGGNAD (2017) ──
+  {id:'mc71',year:2017,topic:'antiken',title:'Spår av tidsperioden antiken',
+   q:'Vilken typ av byggnad är ett typiskt spår från ANTIKEN som fortfarande syns idag?',
+   opts:['En gotisk katedral med höga spetsiga torn','Ett tempel med pelare och triangelformat tak (t.ex. Parthenon)','En medeltida borg med torn och vallgrav','En renässanspalats med kupol som i Florens'],ans:1,
+   exp:'Det grekisk-romerska templet med pelare och triangulär frontongiebel (t.ex. Parthenon i Aten, Pantheon i Rom) är det mest ikoniska arkitektoniska spåret från antiken – kopierat i bl.a. USA:s Kapitolium och Riksdagshuset.'},
+
+  // ── DEN FJÄRDE JULI – FÖRÄNDRING (2016) ──
+  {id:'mc72',year:2016,topic:'revolution',title:'Den fjärde juli – vad förändrades efter USA:s självständighet?',
+   q:'Vad förändrades efter att USA blev självständigt 1776?',
+   opts:['Det fanns ett stort slaveri i USA i början av 1800-talet','USA var en republik med president i början av 1800-talet','Kvinnor hade ingen rösträtt i USA i början av 1800-talet','Det var fred med Storbritannien direkt efter'],ans:1,
+   exp:'USA blev en republik styrd av en folkvald president – en direkt förändring från att ha styrts av den brittiske kungen. Slaveriet och bristen på kvinnlig rösträtt var däremot kontinuitet (ingen förändring).'},
+
+  // ── REKLAM DÅ OCH NU (2017) ──
+  {id:'mc73',year:2017,topic:'levnad',title:'Reklam då och nu – varför rökte folk på reklambilder 1953?',
+   q:'En reklambild från 1953 visar män som röker i ett flygplan. Varför var rökning vanligt i reklam vid den tiden?',
+   opts:['Man visste att rökning var nyttigt','Man visste inte att rökning var farligt','Det var billigare att röka än att inte röka','Reklam fick bara visa rökning då'],ans:1,
+   exp:'Fram till 1950–60-talen var sambandet mellan rökning och cancer inte allmänt känt eller accepterat. Rökning kopplades till modernitet, frihet och glamour – därav reklamen. Denna uppgift handlar om hur människors värderingar påverkas av sin tid.'},
+
+  // ── PENNFABRIKEN (2017) ──
+  {id:'mc74',year:2017,topic:'demokrati',title:'Pennfabriken – historieanvändning i reklam',
+   q:'Pennfabriken skriver i sin reklam: "Bästa pennorna sedan 1880". Varför använder de historien i sin reklam?',
+   opts:['För att visa att deras pennor är gamla och dåliga','För att visa att de är ett välbeprövat och pålitligt företag','För att 1880 var ett speciellt år i historien','För att lagen kräver att man skriver startår'],ans:1,
+   exp:'Företag använder historia för att signalera trovärdighet och kvalitet – "vi har funnits länge, vi måste vara bra". Det är ett vanligt historieanvändningsmönster: historia som legitimering och marknadsföring.'},
+
+  // ── HARRIET TUBMAN (2019) ──
+  {id:'mc75',year:2019,topic:'demokrati',title:'Harriet Tubman på dollarsedeln – historieanvändning',
+   q:'Amerikanska politiker vill byta ut Andrew Jackson mot Harriet Tubman på 20-dollarsedeln. Tubman var slav men lyckades fly och kämpade mot slaveriet. Jackson ägde slavar. Vilken är en rimlig anledning till bytet?',
+   opts:['Jackson är en bättre historiker än Tubman','Man vill hedra kampen mot slaveriet och visa att USA tar slaveriets historia på allvar','Tubman är mer känd utomlands','Sedlar ska bara visa presidenter'],ans:1,
+   exp:'Att byta Jackson (slavägare) mot Tubman (slavbefriare) är ett symboliskt historiepolitiskt ställningstagande – USA erkänner att slaveriet var orättfärdigt och hedrar motståndet mot det. Det är ett tydligt exempel på hur historia används politiskt idag.'},
+
+  // ── NATO-DISKUSSIONEN – STÄMMER PÅSTÅENDENA (2016/2017) ──
+  {id:'mc76',year:2017,topic:'demokrati',title:'NATO-diskussion – vem säger vad?',
+   q:'Person A: "Nu måste vi gå med i NATO – vi kan inte lita på att andra skyddar oss." Person B: "Neutraliteten i 200 år har skyddat oss – vi blev inte indragna i världskrigen." Stämmer påståendet med A, B, eller båda: "Vad som hände under andra världskriget har betydelse för om vi ska gå med i NATO"?',
+   opts:['Bara person A','Bara person B','Båda personerna','Ingen av dem'],ans:2,
+   exp:'Båda personerna använder andra världskrigets historia för att stödja sina olika åsikter – person A menar att kriget visar att vi behöver militärt stöd, person B menar att neutraliteten under kriget bevisar att den fungerar.'},
+
+  // ── SKOLMATSEDLAR (2018) ──
+  {id:'mc77',year:2018,topic:'levnad',title:'Skolmatsedlar – rimliga slutsatser',
+   q:'Skolmatsedeln från 1938 innehåller: havrevälling, blomkålsstuvning, morotspuré. Sedeln från 1985 innehåller: chili con carne, hamburgare, pizza. Vilken slutsats är RIMLIG att dra?',
+   opts:['Från 1985 och framåt serveras mer internationell mat i svenska skolor','1938 var maten godare i svenska skolor','Skolmaten blev dyrare från 1985','1938 var det vegetarisk mat i alla skolor'],ans:0,
+   exp:'Övergången från traditionell husmanskost (välling, stuvning) till internationella rätter (chili, hamburgare, pizza) illustrerar globaliseringens påverkan på Sverige – kulturmöten via matvanor.'},
+
+  // ── AKTÖRER WWII – LE RIRE (2019) ──
+  {id:'mc78',year:2019,topic:'krig',title:'Aktörer under andra världskriget – Le Rire',
+   q:'En fransk skämttidning från oktober 1939 visar Stalin och Hitler som "stridskamrater". Varför avbildas de vänskapligt hösten 1939?',
+   opts:['De var gamla vänner från skolan','De hade just ingått Molotov–Ribbentrop-pakten om icke-angrepp','Frankrike gillade båda ledarna','Det var en kritik av kommunismen'],ans:1,
+   exp:'I augusti 1939 ingick Nazityskland och Sovjet den sk. Molotov–Ribbentrop-pakten – en icke-aggressionspakt. Det var chockerande för omvärlden att de ideologiska fienderna ingick allians. Pakten möjliggjorde Tysklands invasion av Polen i september 1939.'},
+
+  // ── BUSH 11 SEPTEMBER (2019) ──
+  {id:'mc79',year:2019,topic:'demokrati',title:'George W. Bush använder historia – 11 september',
+   q:'Bush sa 2001: "Amerikaner är vana vid krig men de senaste 136 åren har krigen förts utanför vårt land, med undantag för en söndag år 1941." Vilken händelse syftar han på med "en söndag år 1941"?',
+   opts:['D-dagen i Normandie','Japans attack mot Pearl Harbor','USA:s inträde i Koreakriget','Bombardemanget av London'],ans:1,
+   exp:'Den 7 december 1941 – en söndag – anföll Japan överraskande den amerikanska flottbasen Pearl Harbor på Hawaii. President Roosevelt kallade det "a date which will live in infamy". Det drog in USA i andra världskriget.'},
+],
+
+// ── TRUE/FALSE ────────────────────────────────────────
+tf: [
+  {id:'tf1',year:2019,topic:'antiken',title:'Högkulturer i Mesopotamien och Egypten',
+   intro:'Vilka påståenden om högkulturerna i Mesopotamien och Egypten STÄMMER?',
+   rows:[
+     {stmt:'I högkulturerna byggde man städer.',ans:true,exp:'Ja – städer som Babylon (Mesopotamien) och Memphis (Egypten) var centra för de tidiga högkulturerna.'},
+     {stmt:'Högkulturerna växte fram vid floder.',ans:true,exp:'Ja – Mesopotamien vid Tigris och Eufrat, Egypten vid Nilen. Floderna gav vatten för jordbruk och möjliggjorde befolkningstillväxt.'},
+     {stmt:'I högkulturerna hade alla en möjlighet att nå en hög position i samhället.',ans:false,exp:'Nej – samhällena var starkt hierarkiska med farao/kung, präster och ämbetsmän i toppen. Slavar och bönder hade minimala möjligheter att klättra socialt.'},
+     {stmt:'I högkulturerna ledde jordbrukets utveckling till att alla måste arbeta som bönder.',ans:false,exp:'Nej – tvärtom möjliggjorde jordbrukets överskott specialisering, så att en del kunde bli hantverkare, soldater, präster eller ämbetsmän.'},
+     {stmt:'I högkulturerna fanns byggnader avsedda för religiösa ändamål.',ans:true,exp:'Ja – tempel och religiösa monument (som pyramiderna) var centrala för dessa samhällen.'},
+   ]},
+
+  {id:'tf2',year:2016,topic:'krig',title:'Orsaker till första världskriget – rimliga eller orimliga?',
+   intro:'Vilka påståenden är RIMLIGA orsaker till första världskriget?',
+   rows:[
+     {stmt:'Det fanns en stark nationalism på många håll i Europa i början av 1900-talet.',ans:true,exp:'Orsak – nationalismen skapade spänningar och rivalitet mellan stormakterna, och uppmuntrade till krav på egna statsbildningar på Balkan.'},
+     {stmt:'Stormakterna i Europa var misstänksamma mot varandra och rustade upp sig militärt.',ans:true,exp:'Orsak – kapprustningen och allianserna (Trippelententen mot Trippelaliansen) skapade en situation där ett litet gnistor kunde utlösa storkrig.'},
+     {stmt:'Balkanhalvön var ett oroligt område efter att Osmanska rikets makt minskat.',ans:true,exp:'Orsak – "Balkankriserna" i början av 1900-talet och mordet på kronprins Franz Ferdinand i Sarajevo var direkta utlösande faktorer.'},
+     {stmt:'Frankrike ville ta revansch på Tyskland sedan de förlorade kriget 1871.',ans:true,exp:'Orsak – Frankrikes förlust i det fransk-tyska kriget 1870–71 och förlusten av Alsace-Lorraine skapade bitterhet som bidrog till spänningarna.'},
+     {stmt:'Soldaterna i skyttegravarna fick sjukdomar pga. dålig hygien.',ans:false,exp:'INTE en orsak – detta är en konsekvens/förhållande under kriget, inte en orsak till att det bröt ut.'},
+     {stmt:'USA, Kanada och Storbritannien ingick ett försvarsförbund.',ans:false,exp:'INTE en orsak – NATO bildades 1949, långt efter första världskriget. Det var inget sådant förbund 1914.'},
+   ]},
+
+  {id:'tf3',year:2019,topic:'krig',title:'Orsaker till andra världskriget',
+   intro:'Vilka påståenden är ORSAKER till andra världskriget?',
+   rows:[
+     {stmt:'Cubakrisen ökade motsättningarna mellan stormakterna.',ans:false,exp:'INTE en orsak – Cubakrisen 1962 hörde till kalla kriget, inte till orsakerna till andra världskriget (1939).'},
+     {stmt:'Hitler ville utöka det tyska livsrummet (Lebensraum).',ans:true,exp:'Orsak – Hitlers ideologi om tyskt "Lebensraum" i Östeuropa var en central drivkraft bakom expansionspolitiken.'},
+     {stmt:'USA släppte atombomber på Hiroshima och Nagasaki.',ans:false,exp:'INTE en orsak – atombomberna 1945 var en konsekvens/händelse under kriget (och bidrog till dess slut), inte en orsak till att kriget startade.'},
+     {stmt:'Hitler och Stalin slöt en icke-aggressionspakt (Molotov-Ribbentrop).',ans:true,exp:'Orsak – pakten 1939 möjliggjorde Tysklands angrepp på Polen utan risk för krig på två fronter.'},
+     {stmt:'Frankrike och Storbritannien lovade att hjälpa Polen om det angreps.',ans:true,exp:'Bidragande till krigets utbrott – Storbritanniens och Frankrikes krigsförklaring mot Tyskland 1939 omvandlade det polska kriget till ett europeiskt storkrig.'},
+   ]},
+
+  {id:'tf4',year:2016,topic:'levnad',title:'Bouppteckningar som historiska källor',
+   intro:'Sven Persson (1876): köksbord, stolar, säng, soffa, 3 skjortor, byxor, tröja, skor. 5 riksdaler, 2 riksdaler skuld. Danuta Nowak (2016): bil, TV, dator, mobil, stereo, matbord m.m. Vilka slutsatser är RIMLIGA att dra?',
+   rows:[
+     {stmt:'Redan 1876 fanns det människor som arbetade i fabriker.',ans:true,exp:'JA – Sven Persson yrke anges som fabriksarbetare, vilket bekräftar att fabriksarbetare existerade 1876.'},
+     {stmt:'År 1876 gick fabriksarbetare och la sig tidigt och behövde inga lampor.',ans:false,exp:'NEJ – detta KAN INTE utläsas ur bouppteckningen. Frånvaron av lampor kan ha många förklaringar.'},
+     {stmt:'I början av 2000-talet kunde en fabriksarbetare äga saker som krävde stora resurser att producera.',ans:true,exp:'JA – bil, dator och TV kräver komplex industriell produktion. Danuta Nowak ägde dessa trots att hon var pensionerad fabriksarbetare.'},
+     {stmt:'I bouppteckningarna finns exempel på att levnadsvillkoren var olika för Sven och Danuta.',ans:true,exp:'JA – skillnaden i ägodelar (5 riksdaler mot bil och elektronik) visar tydligt att levnadsvillkoren förändrats drastiskt.'},
+     {stmt:'Det fanns bilar år 1876.',ans:false,exp:'NEJ – bilen uppfanns 1885 av Carl Benz. 1876 fanns inga bilar.'},
+   ]},
+
+  {id:'tf5',year:2018,topic:'demokrati',title:'Brexit och andra världskriget – historieanvändning',
+   intro:'I Brexit-debatten 2016 använde både "Lämna" och "Stanna"-gruppen historia om andra världskriget. Stämmer påståendena med gruppen "Lämna", "Stanna" eller Båda?',
+   rows:[
+     {stmt:'"Vad som hände under andra världskriget har betydelse för om vi ska gå med i EU eller inte" – stämmer det med LÄMNA-gruppen?',ans:true,exp:'Ja – Lämna-gruppen använde erfarenheterna från andra världskriget för att argumentera för brittisk självständighet från ett europeiskt supranationellt projekt.'},
+     {stmt:'"Vi måste samarbeta med Europa för att undvika ett nytt krig" – stämmer det med STANNA-gruppen?',ans:true,exp:'Ja – Stanna-gruppen betonade att EU-samarbetet bygger på lärdomar från andra världskriget och att det är en fredsskapande konstruktion.'},
+     {stmt:'Historien om andra världskriget kan användas på OLIKA sätt för att stödja OLIKA åsikter.',ans:true,exp:'Ja – detta är ett bra exempel på hur samma historiska händelse kan "användas" för olika syften och leda till olika slutsatser i samtida debatter.'},
+   ]},
+
+  {id:'tf6',year:2019,topic:'krig',title:'Samband med krigen – Versaillesfreden',
+   intro:'Slottet i Versailles är ett känt turistmål. I spegelsalen undertecknades ett fördrag 1919. Vilket krig avslutade detta fördrag?',
+   rows:[
+     {stmt:'Versaillesfreden avslutade FÖRSTA världskriget.',ans:true,exp:'JA – Versaillesfreden (28 juni 1919) avslutade formellt första världskriget och lade tunga villkor på Tyskland.'},
+     {stmt:'Versaillesfreden avslutade ANDRA världskriget.',ans:false,exp:'NEJ – andra världskriget avslutades 1945 med andra fördrag (Potsdamkonferensen m.fl.).'},
+   ]},
+
+  {id:'tf7',year:2016,topic:'levnad',title:'Källkritik – trovärdighetsbedömning',
+   intro:'Avgör om varje information gör källan MER trovärdig, MINDRE trovärdig, eller har INGEN BETYDELSE.',
+   rows:[
+     {stmt:'En text är förfalskad → gör den MINDRE trovärdig',ans:true,exp:'JA – en förfalskad text är inte äkta och saknar källvärde som historisk källa.'},
+     {stmt:'En karta är från 2016 → gör den MINDRE trovärdig för att studera 1800-talets Europa',ans:true,exp:'JA – en modern karta är inte RELEVANT för att studera 1800-talets gränser (relevansproblemet).'},
+     {stmt:'En affisch är en tysk propagandaaffisch från andra världskriget → gör den MER trovärdig om man vill förstå nazisternas budskap',ans:true,exp:'JA – om man vill studera nazisternas propaganda är en riktig propagandaaffisch en utmärkt källa (relevant och äkta).'},
+     {stmt:'En text är skriven på ett språk som historikern inte förstår → gör den MINDRE trovärdig',ans:false,exp:'NEJ – att historikern inte förstår språket påverkar inte källans trovärdighet i sig, bara hennes förmåga att använda den. Källans trovärdighet beror på vem som skrev den.'},
+     {stmt:'Innehållet i en text stämmer med flera andra oberoende källor → gör den MER trovärdig',ans:true,exp:'JA – om en källa bekräftas av oberoende källor (källkorrelation) ökar trovärdigheten markant.'},
+   ]},
+
+  {id:'tf8',year:2016,topic:'levnad',title:'Källkritik – ytterligare bedömning (2016)',
+   intro:'Historikern Anita ska skriva en bok om andra världskriget. Hur påverkar informationen trovärdigheten?',
+   rows:[
+     {stmt:'En text är skriven av ett barn → gör den MER trovärdig som ögonvittne',ans:true,exp:'JA – ett barn som direkt upplevde händelserna är ett förstahandsvittne. Barnets perspektiv kan vara naivt men äkta och trovärdig som primärkälla.'},
+     {stmt:'Innehållet i en text stämmer INTE med en annan källa → gör den MINDRE trovärdig',ans:true,exp:'JA – om källan motsägs av en annan källa väcker det frågor om källans tillförlitlighet. Det kräver vidare undersökning.'},
+     {stmt:'En text är en avskrift av ett brev som försvunnit → gör den MINDRE trovärdig',ans:true,exp:'JA – en avskrift är beroende av att avskrivaren var noggrann och ärlig. Vi kan inte kontrollera originalet, vilket minskar trovärdigheten.'},
+     {stmt:'Ett fotografi är taget av en soldat under en strid → gör det MER trovärdig som historisk källa',ans:true,exp:'JA – ett samtida fotografi är en primärkälla med stort källvärde. Fotografen var på plats (tidsnärhet) vilket ger det hög trovärdighet.'},
+     {stmt:'En dagbok är troligen förfalskad → gör den MINDRE trovärdig',ans:true,exp:'JA – om det finns skäl att tro att dagboken är förfalskad minskar trovärdigheten drastiskt. Äkthet är grundläggande.'},
+   ]},
+
+  {id:'tf9',year:2015,topic:'kalla',title:'Kalla kriget – stämmer det?',
+   intro:'Påståendena handlar om kalla kriget. Stämmer de?',
+   rows:[
+     {stmt:'Under kalla kriget tvingade USA bort sovjetiska kärnvapen från Kuba.',ans:true,exp:'JA – under Kubakrisen 1962 krävde Kennedy att Sovjet avlägsnade kärnvapenmissilerna från Kuba. Chrusjtjov gick med på detta, vilket avvärjde ett kärnvapenkrig.'},
+     {stmt:'Under kalla kriget talade man om en järnridå mellan Väst- och Östeuropa.',ans:true,exp:'JA – "Järnridån" var Churchill uttryck (1946) för den ideologiska och militära gränsen som delade demokratiska Västeuropa från kommunistiska Östeuropa.'},
+     {stmt:'Under kalla kriget hade stormakterna ubåtar beväpnade med kärnvapen.',ans:true,exp:'JA – ballistiska missiler ombord på kärnvapenubåtar (SSBN) var ett centralt inslag i kärnvapenavskräckningen under kalla kriget.'},
+   ]},
+
+  {id:'tf10',year:2019,topic:'revolution',title:'Franska revolutionen – orsaker och konsekvenser',
+   intro:'Matcha: Är påståendet en ORSAK (till franska revolutionen) eller en KONSEKVENS (av den)?',
+   rows:[
+     {stmt:'Kung Ludvig XVI samlade riksdagen pga. Frankrikes dåliga ekonomi → ORSAK',ans:true,exp:'JA – Orsak: Frankrikes statsfinanser var katastrofala pga. stöd till USA:s frihetskrig och adelns skattefrihet. Kungen tvingades kalla in riksdagen (Generalständerna) 1789.'},
+     {stmt:'Tusentals människor avrättades i giljotin → ORSAK',ans:false,exp:'NEJ – detta är en KONSEKVENS, inte en orsak. Skräckväldet med massavrättningar 1793–94 var ett resultat av revolutionens radikalisering.'},
+     {stmt:'Napoleon Bonaparte erövrade stora delar av Europa → KONSEKVENS',ans:true,exp:'JA – Konsekvens: Revolutionen skapade kaos som Napoleon utnyttjade. Hans krig (1803–1815) var en direkt konsekvens av revolutionen och de demokratiska/nationalistiska idéer den spred.'},
+     {stmt:'Konflikten mellan adel och borgare om skatter → ORSAK',ans:true,exp:'JA – Orsak: Det franska samhällets tre stånd (adel, präster och folket/tredje ståndet) hade djupt orättvisa skattevillkor. Borgerskapet och bönderna bar hela skattebördan.'},
+     {stmt:'Demokratiska idéer spreds till andra länder → KONSEKVENS',ans:true,exp:'JA – Konsekvens: Revolutionens idéer om frihet, jämlikhet och broderskap (liberalism, nationalism, demokrati) spreds via Napoleons erövringskrig och inspirerade revolutioner runt om i världen.'},
+   ]},
+
+  {id:'tf11',year:2017,topic:'levnad',title:'Migration – slutsatser från diagram',
+   intro:'Sara studerar ett diagram om migration till och från Sverige 1885–2015. Kan hennes slutsatser stödjas av ett migrationsdiagram?',
+   rows:[
+     {stmt:'Sverige i slutet av 1800-talet var ett land som folk LÄMNADE – idag ett land folk KOMMER TILL.',ans:true,exp:'JA – kan stödjas. Diagrammet visar att fler utvandrade än invandrade på 1880-talet (emigrationsvågen till USA), medan invandringen idag överstiger utvandringen.'},
+     {stmt:'Diagrammet visar att hög invandring har VARIT BRA för Sveriges ekonomi.',ans:false,exp:'NEJ – kan INTE stödjas. Ett diagram som visar antal immigranter och emigranter kan inte visa ekonomiska effekter. Det saknar ekonomisk data.'},
+     {stmt:'Diagrammet visar att sedan 1957 behöver nordiska medborgare inte uppehållstillstånd i Sverige.',ans:false,exp:'NEJ – kan INTE stödjas. Lagstiftningsinformation kan inte utläsas ur ett diagram som bara visar antal immigranter och emigranter per år.'},
+     {stmt:'Antalet invandrare till Sverige har ökat från 1885 till 2015.',ans:true,exp:'JA – kan stödjas. Trenden i ett sådant diagram visar tydligt att invandringen ökat dramatiskt, framför allt från 1970-talet och framåt.'},
+   ]},
+
+  {id:'tf12',year:2015,topic:'levnad',title:'Kvinnors levnadsvillkor i antikens Grekland',
+   intro:'Tre källor om antikens Grekland: (1) Xenophon ca 370 f.Kr. – "Gudarna skapade kvinnan för hushållsgöromål". (2) Demosthenes ca 350 f.Kr. – "Vi har fruar för äkta söner och prostituerade för nöje". (3) Aristoteles ca 330 f.Kr. – "En bra fru ska ha kontroll på barn och hem". Stämmer slutsatserna?',
+   rows:[
+     {stmt:'I det antika Grekland hade man och kvinnor OLIKA uppgifter.',ans:true,exp:'JA – kan stödjas av alla tre källorna. Xenophon: kvinnan för hushållsarbete, mannen för utomhusuppgifter. Aristoteles: kvinnan styr hemmet. Demosthenes: fruar för äkta barn.'},
+     {stmt:'I det antika Grekland var många kvinnor BEGRÄNSADE till hemmet.',ans:true,exp:'JA – stöds av Xenophon och Aristoteles. Kvinnans roll definierades av hemmet och barnuppfostran, inte av offentligt liv.'},
+     {stmt:'I det antika Grekland fick kvinnorna BESTÄMMA ÖVER HEMMET och männen om det utanför.',ans:true,exp:'JA – delvis: Aristoteles beskriver att fruar har kontroll på hemmet. Det är dock en begränsad "makt" inom en patriarkal struktur.'},
+     {stmt:'I det antika Grekland hade männen FLERA fruar.',ans:false,exp:'NEJ – kan INTE stödjas. Källorna nämner "fruar" (pluralis i Demosthenes), men det handlar om kategorier av kvinnor (hustru, konkubin), inte om officiellt flergifte.'},
+   ]},
+
+  // ── NATO – STÄMMER PÅSTÅENDENA (2016 och 2017) ──
+  {id:'tf13',year:2016,topic:'demokrati',title:'NATO-diskussion – vem säger vad?',
+   intro:'Person A vill gå med i NATO: "Nu måste vi gå med i NATO. Vi kan inte lita på att andra länder skyddar oss." Person B vill INTE: "Neutraliteten är en politik vi haft i 200 år. Vi blev inte indragna i första eller andra världskriget." Stämmer påståendena med A, B, eller Båda?',
+   rows:[
+     {stmt:'"Det är bra att titta på vad som hände förr när vi ska fatta beslut om framtiden" – stämmer detta med BÅDA?',ans:true,exp:'JA – Båda använder historien för att motivera sin ståndpunkt. A ser historien som ett varningsexempel; B ser den som ett bevis för att neutralitet fungerat.'},
+     {stmt:'"Eftersom Sverige inte blev indraget i WWII är neutralitet bra i framtiden" – stämmer detta bara med PERSON B?',ans:true,exp:'JA – Person B argumenterar specifikt att neutralitetens framgång under världskrigen är ett skäl att behålla den.'},
+     {stmt:'"Vad som hände under WWII har betydelse för om vi ska gå med i NATO" – stämmer med BÅDA?',ans:true,exp:'JA – Båda hänvisar till andra världskriget, men drar olika slutsatser: A ser det som bevis för att vi behöver skydd, B som bevis för att neutralitet fungerar.'},
+   ]},
+
+  // ── PUTIN SOM HITLER (2016) ──
+  {id:'tf14',year:2016,topic:'demokrati',title:'Putin som Hitler – vem stärker vems argument?',
+   intro:'Sara tycker det ÄR bra att jämföra Putin med Hitler. Isak tycker det INTE är bra. Stämmer påståendena med Sara, Isak, eller Stärker varken Saras eller Isaks resonemang?',
+   rows:[
+     {stmt:'"Putin är mot minoritetsgrupper, precis som Hitler var" – stärker SARAS resonemang.',ans:true,exp:'JA – detta är ett historiskt argument för att jämförelsen är giltig: en konkret likhet som motiverar jämförelsen.'},
+     {stmt:'"Man kan inte jämföra hur det är nu med hur det var förr" – stärker ISAKS resonemang.',ans:true,exp:'JA – detta är Isaks principiella argument: att historiska jämförelser alltid är förenklade och vilseledande.'},
+     {stmt:'"Att jämföra Putin med Hitler gör Hitlers brott mindre allvarliga" – stärker ISAKS resonemang.',ans:true,exp:'JA – Isak kan hävda att trivialisering av Förintelsen/nazismen sker när man jämför nutida politiker med Hitler utan exakt jämförbara brott.'},
+     {stmt:'"Putin har startat krig och tagit land från andra nationer" – stärker SARAS resonemang.',ans:true,exp:'JA – ett faktaargument som stöder jämförelsen: Hitlers expansion vs Putins annektering av Krim/invasion av Ukraina.'},
+   ]},
+
+  // ── BEGREPP I EMIGRATIONSEXEMPEL (2018) ──
+  {id:'tf15',year:2018,topic:'levnad',title:'Känner du igen begreppen? Emigration till/från USA',
+   intro:'Fyra historiska begrepp: Kontinuitet, Förändring, Källkritik, Identitet. Vilket begrepp förklarar bäst varje påstående?',
+   rows:[
+     {stmt:'"Från 1600-talet till idag har det funnits människor från Sverige i USA" – KONTINUITET',ans:true,exp:'JA – det beskriver något som har bestått över tid = kontinuitet.'},
+     {stmt:'"År 1890 gjordes en folkräkning i USA som visade 800 000 svenskar. Ingen svensk folkräkning stärker siffran" – KÄLLKRITIK',ans:true,exp:'JA – att ifrågasätta en källas tillförlitlighet och kontrollera mot andra källor = källkritik.'},
+     {stmt:'"På grund av jordbrukskris på 1880-talet flyttade många européer till USA" – FÖRÄNDRING',ans:true,exp:'JA – det beskriver en tydlig förändring i migrationsmönster orsakad av en specifik händelse.'},
+     {stmt:'"Många svensk-amerikaners identitet är kopplad till att deras förfäder emigrerade till USA" – IDENTITET',ans:true,exp:'JA – hur historiska händelser formar en persons eller grupps självbild och tillhörighet = identitet.'},
+   ]},
+
+  // ── SKOLMATSEDLAR – JA/NEJ SLUTSATSER (2018) ──
+  {id:'tf16',year:2018,topic:'levnad',title:'Skolmatsedlar som historiska källor – rimliga slutsatser?',
+   intro:'En historiker studerar fem skolmatsedlar (1938, 1956, 1985, 2000, 2017) för att se hur globaliseringen påverkat Sverige. Kan dessa slutsatser stödjas av källorna?',
+   rows:[
+     {stmt:'Från 1985 och framåt serveras mer internationell mat i svenska skolor.',ans:true,exp:'JA – chili con carne (1985) och hamburgare, pizza är internationella rätter som saknas på 1938/1956-menyn. Globaliseringens påverkan syns tydligt.'},
+     {stmt:'Skolmaten var nyttigare år 1938 än idag.',ans:false,exp:'NEJ – detta kan INTE stödjas av matsedlarna enbart. Att bedöma "nyttighet" kräver näringsvärdesanalys som inte finns i källorna.'},
+     {stmt:'År 2017 finns det vegetariska alternativ i svenska skolor.',ans:true,exp:'JA – matsedeln från 2017 har uttrycklig "Vegetarisk variant" varje dag, vilket man kan utläsa direkt från källan.'},
+     {stmt:'Globalisering har påverkat svenska matvanor under de senaste 80 åren.',ans:true,exp:'JA – källornas relevans för frågan om globalisering är hög: de visar tydligt hur internationella maträtter ersatt traditionell husmanskost.'},
+   ]},
+],
+
+// ── MATCHING / KRONOLOGI ─────────────────────────────
+match: [
+  {id:'m1',year:2018,topic:'levnad',title:'Historiska begrepp – tidsperioder, personer, händelser',
+   intro:'Matcha varje tidsperiod med rätt PERSONER. En grupp blir över.',
+   type:'dropdown',
+   items:[
+     {period:'Antiken',opts:['A: Sophie Scholl, Göring, Montgomery','B: Hatshepsut, Sokrates, Kleopatra','C: Thatcher, Kennedy, Chrusjtjov','D: Chaplin, Krupskaja, Henry Ford','E: Princip, Hitler, Sophie Scholl'],ans:1,ansText:'B: Hatshepsut, Sokrates, Kleopatra',exp:'Hatshepsut var egyptisk farao, Sokrates var en atensk filosof, Kleopatra var den siste farao av det ptolemaiska dynastiet.'},
+     {period:'Mellankrigstiden (1918–1939)',opts:['A: Sophie Scholl, Göring, Montgomery','B: Hatshepsut, Sokrates, Kleopatra','C: Thatcher, Kennedy, Chrusjtjov','D: Chaplin, Krupskaja, Henry Ford','E: Princip, Hitler, Sophie Scholl'],ans:3,ansText:'D: Chaplin, Krupskaja, Henry Ford',exp:'Charlie Chaplin (film), Nadezjda Krupskaja (Lenins fru) och Henry Ford (bilindustri) levde och verkade under mellankrigstiden.'},
+     {period:'Andra världskriget (1939–1945)',opts:['A: Sophie Scholl, Göring, Montgomery','B: Hatshepsut, Sokrates, Kleopatra','C: Thatcher, Kennedy, Chrusjtjov','D: Chaplin, Krupskaja, Henry Ford','E: Princip, Hitler, Sophie Scholl'],ans:0,ansText:'A: Sophie Scholl, Göring, Montgomery',exp:'Sophie Scholl (Vita rosen-motståndsrörelsen), Hermann Göring (nazistisk ledare) och Bernard Montgomery (brittisk fältmarskalk) var alla aktiva under andra världskriget.'},
+     {period:'Kalla kriget (1945–1990)',opts:['A: Sophie Scholl, Göring, Montgomery','B: Hatshepsut, Sokrates, Kleopatra','C: Thatcher, Kennedy, Chrusjtjov','D: Chaplin, Krupskaja, Henry Ford','E: Princip, Hitler, Sophie Scholl'],ans:2,ansText:'C: Thatcher, Kennedy, Chrusjtjov',exp:'Margaret Thatcher (brittisk PM), John F. Kennedy (USA:s president) och Nikita Chrusjtjov (Sovjet) var nyckelgestalter under kalla kriget.'},
+   ]},
+
+  {id:'m2',year:2019,topic:'antiken',title:'Personer från forntiden och antiken',
+   intro:'Para ihop personerna med rätt beskrivning.',
+   type:'dropdown',
+   items:[
+     {period:'Var diktator i romarriket',opts:['Julius Caesar','Sokrates','Tutankhamun','Alexander den store','Homeros','Kleopatra'],ans:0,ansText:'Julius Caesar',exp:'Julius Caesar var romersk general och statsman som fick diktatorisk makt 49 f.Kr. Han mördades 44 f.Kr. på ides of March.'},
+     {period:'Är mest känd för en guldfylld grav',opts:['Julius Caesar','Sokrates','Tutankhamun','Alexander den store','Homeros','Kleopatra'],ans:2,ansText:'Tutankhamun',exp:'Tutankhamuns grav, hittad 1922 av Howard Carter, var nästan intakt och innehöll tusentals guldföremål – ett av arkeologins största fynd.'},
+     {period:'Var en berömd filosof',opts:['Julius Caesar','Sokrates','Tutankhamun','Alexander den store','Homeros','Kleopatra'],ans:1,ansText:'Sokrates',exp:'Sokrates (469–399 f.Kr.) var en atensk filosof vars tankemetoder (sokratisk metod) lade grunden för västerländsk filosofi.'},
+     {period:'Besegrade perserna',opts:['Julius Caesar','Sokrates','Tutankhamun','Alexander den store','Homeros','Kleopatra'],ans:3,ansText:'Alexander den store',exp:'Alexander den store (356–323 f.Kr.) besegrade det persiska riket under Darius III och skapade ett imperium som sträckte sig från Makedonien till Indien.'},
+     {period:'Var en berömd grekisk författare/poet',opts:['Julius Caesar','Sokrates','Tutankhamun','Alexander den store','Homeros','Kleopatra'],ans:4,ansText:'Homeros',exp:'Homeros är den episke poeten som tillskrivs Iliaden och Odyssén – grundläggande verk för den västerländska litteraturtraditionen.'},
+     {period:'Var den siste självständige härskaren i antikens Egypten',opts:['Julius Caesar','Sokrates','Tutankhamun','Alexander den store','Homeros','Kleopatra'],ans:5,ansText:'Kleopatra',exp:'Kleopatra VII (69–30 f.Kr.) var den siste farao i ptolemaiska dynastiet. Efter nederlaget mot Rom begick hon självmord och Egypten blev en romersk provins.'},
+   ]},
+
+  {id:'m3',year:2019,topic:'antiken',title:'Tre områden runt Medelhavet – matcha begreppen',
+   intro:'Hör begreppet ihop med Antikens Grekland, Romarriket, Arabiska väldet, eller ALLA TRE?',
+   type:'dropdown',
+   items:[
+     {period:'Slaveri',opts:['Antikens Grekland','Romarriket','Arabiska väldet','Alla tre'],ans:3,ansText:'Alla tre',exp:'Slaveri förekom i alla tre civilisationerna, om än i olika former och utsträckning.'},
+     {period:'Kalifat',opts:['Antikens Grekland','Romarriket','Arabiska väldet','Alla tre'],ans:2,ansText:'Arabiska väldet',exp:'Kalif = "Profetens efterträdare" – en politisk-religiös titel specifik för den islamiska världen.'},
+     {period:'Senat',opts:['Antikens Grekland','Romarriket','Arabiska väldet','Alla tre'],ans:1,ansText:'Romarriket',exp:'Senaten var Roms styrande råd. USA:s senat är direkt inspirerad av den romerska modellen.'},
+     {period:'Akropolis',opts:['Antikens Grekland','Romarriket','Arabiska väldet','Alla tre'],ans:0,ansText:'Antikens Grekland',exp:'Akropolis är den klipphöjd i Aten där Parthenon och andra viktiga tempel byggdes under 400-talet f.Kr.'},
+     {period:'Olympiska spel',opts:['Antikens Grekland','Romarriket','Arabiska väldet','Alla tre'],ans:0,ansText:'Antikens Grekland',exp:'De olympiska spelen startade 776 f.Kr. i Olympia, Grekland, och hölls vart fjärde år till 394 e.Kr.'},
+     {period:'Handel',opts:['Antikens Grekland','Romarriket','Arabiska väldet','Alla tre'],ans:3,ansText:'Alla tre',exp:'Handel var fundamental för alla tre civilisationerna. Det arabiska väldet kontrollerade handelsvägar mellan Asien och Europa.'},
+     {period:'Islam',opts:['Antikens Grekland','Romarriket','Arabiska väldet','Alla tre'],ans:2,ansText:'Arabiska väldet',exp:'Islam grundades av Muhammed ca 610 e.Kr. och spreds med det arabiska väldet från 600-talet och framåt.'},
+   ]},
+
+  {id:'m4',year:2017,topic:'levnad',title:'Tidsperioder – matcha händelser',
+   intro:'Matcha varje tidsperiod med rätt HÄNDELSE. En händelse blir över.',
+   type:'dropdown',
+   items:[
+     {period:'Antiken',opts:['A: Kubakrisen','B: Byggandet av pyramider','C: Stormningen av Bastiljen','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:1,ansText:'B: Byggandet av pyramider',exp:'Pyramiderna byggdes i det antika Egypten, ca 2560 f.Kr. under farao Khufu.'},
+     {period:'Franska revolutionen/Napoleontiden',opts:['A: Kubakrisen','B: Byggandet av pyramider','C: Stormningen av Bastiljen','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:2,ansText:'C: Stormningen av Bastiljen',exp:'Stormningen av Bastiljen den 14 juli 1789 var startskottet för den franska revolutionen.'},
+     {period:'Mellankrigstiden',opts:['A: Kubakrisen','B: Byggandet av pyramider','C: Stormningen av Bastiljen','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:4,ansText:'E: Börskraschen på Wall Street',exp:'Börskraschen 1929 (Black Thursday) utlöste den stora depressionen som präglade mellankrigstiden.'},
+     {period:'Första världskriget',opts:['A: Kubakrisen','B: Byggandet av pyramider','C: Stormningen av Bastiljen','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:5,ansText:'F: Skyttegravskriget',exp:'Skyttegravskriget på västfronten 1914–1918 kostade miljoner liv och präglar bilden av första världskriget.'},
+     {period:'Kalla kriget',opts:['A: Kubakrisen','B: Byggandet av pyramider','C: Stormningen av Bastiljen','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:0,ansText:'A: Kubakrisen',exp:'Kubakrisen 1962 var det närmaste världen kom ett kärnvapenkrig – en höjdpunkt av kalla krigets spänningar.'},
+   ]},
+  {id:'m5',year:2019,topic:'levnad',title:'Historia under 1700- och 1800-talen – orsaker, konsekvenser, personer',
+   intro:'Matcha varje historisk händelse med rätt ORSAKER. En bokstav blir över.',
+   type:'dropdown',
+   items:[
+     {period:'Industriella revolutionen',opts:['A: Brittiska koloniers höga skatter, inget inflytande','B: Jordbruket effektivare, stenkol, järnmalm, kapital','C: Nationalismen växer, stark ledare vill ena nationen','D: Nationerna hade ideologiska oenigheter om slaveriet'],ans:1,ansText:'B: Jordbruket effektivare, stenkol, järnmalm, kapital',exp:'De tre grundförutsättningarna för industrialiseringen i Storbritannien: agrar revolution (effektivare jordbruk frigjorde arbetskraft), tillgång till stenkol och järnmalm, samt kapital från kolonialhandeln.'},
+     {period:'Amerikanska frihetskriget/revolutionen',opts:['A: Brittiska koloniers höga skatter, inget inflytande','B: Jordbruket effektivare, stenkol, järnmalm, kapital','C: Nationalismen växer, stark ledare vill ena nationen','D: Nationerna hade ideologiska oenigheter om slaveriet'],ans:0,ansText:'A: Brittiska koloniers höga skatter, inget inflytande',exp:'"No taxation without representation" – koloniernas krav. Brittiska skatter (t.ex. Stamp Act 1765) utan politisk representation i Westminster utlöste revolten.'},
+     {period:'Tysklands enande',opts:['A: Brittiska koloniers höga skatter, inget inflytande','B: Jordbruket effektivare, stenkol, järnmalm, kapital','C: Nationalismen växer, stark ledare vill ena nationen','D: Nationerna hade ideologiska oenigheter om slaveriet'],ans:2,ansText:'C: Nationalismen växer, stark ledare vill ena nationen',exp:'Tyska nationalismen under 1800-talet och Bismarck som "Järnkansler" – som med krigsdiplomati enade de tyska statsbildningarna till ett rike 1871.'},
+   ]},
+
+  {id:'m6',year:2019,topic:'levnad',title:'Historia under 1700- och 1800-talen – KONSEKVENSER',
+   intro:'Matcha varje historisk händelse med rätt KONSEKVENSER.',
+   type:'dropdown',
+   items:[
+     {period:'Industriella revolutionen',opts:['A: Ny stat, maktdelning, konflikter med urbefolkning','B: Arbetarklassen växer, urbanisering, barnarbete','C: Inbördeskrig, kommunism, oliktänkare straffas','D: Demokratiska idéer sprids, religionsfrihet, meter','E: Slaveriet ökar, plantager, Afrikas befolkning minskar','F: Maktbalansen i Europa förändras'],ans:1,ansText:'B: Arbetarklassen växer, urbanisering, barnarbete',exp:'Industrialiseringen skapade en urban arbetarklass, massflytt till städerna och fruktansvärda arbetsvillkor med barnarbete i gruvor och fabriker.'},
+     {period:'Franska revolutionen',opts:['A: Ny stat, maktdelning, konflikter med urbefolkning','B: Arbetarklassen växer, urbanisering, barnarbete','C: Inbördeskrig, kommunism, oliktänkare straffas','D: Demokratiska idéer sprids, religionsfrihet, meter','E: Slaveriet ökar, plantager, Afrikas befolkning minskar','F: Maktbalansen i Europa förändras'],ans:3,ansText:'D: Demokratiska idéer sprids, religionsfrihet, meter',exp:'Franska revolutionens export av liberala idéer (människorätter, demokrati, religionsfrihet) och det rationalistiska metersystemet påverkade hela världen.'},
+     {period:'Triangelhandeln',opts:['A: Ny stat, maktdelning, konflikter med urbefolkning','B: Arbetarklassen växer, urbanisering, barnarbete','C: Inbördeskrig, kommunism, oliktänkare straffas','D: Demokratiska idéer sprids, religionsfrihet, meter','E: Slaveriet ökar, plantager, Afrikas befolkning minskar','F: Maktbalansen i Europa förändras'],ans:4,ansText:'E: Slaveriet ökar, plantager, Afrikas befolkning minskar',exp:'Triangelhandeln med ca 12 miljoner afrikaner som slavar ökade slaveriet i Amerika enormt, etablerade plantagesystemet och decimerade befolkningen i delar av Afrika.'},
+   ]},
+
+  {id:'m7',year:2018,topic:'krig',title:'Historiska begrepp – tidsperioder 2018',
+   intro:'Matcha tidsperiod med rätt HÄNDELSE. En händelse blir över.',
+   type:'dropdown',
+   items:[
+     {period:'Antiken',opts:['A: Caesars intåg i Rom','B: Stormningen av Bastiljen','C: Slaget vid Stalingrad','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:0,ansText:'A: Caesars intåg i Rom',exp:'Julius Caesar korsar Rubicon-floden 49 f.Kr. och marscherar in i Rom, vilket inleder inbördeskriget och hans diktatur – en avgörande händelse för det sena romarriket.'},
+     {period:'Mellankrigstiden',opts:['A: Caesars intåg i Rom','B: Stormningen av Bastiljen','C: Slaget vid Stalingrad','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:4,ansText:'E: Börskraschen på Wall Street',exp:'Börskraschen 1929 utlöste den stora depressionen och präglade mellankrigstiden med massarbetslöshet, diktaturens framväxt och grogrund för extremism.'},
+     {period:'Andra världskriget',opts:['A: Caesars intåg i Rom','B: Stormningen av Bastiljen','C: Slaget vid Stalingrad','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:2,ansText:'C: Slaget vid Stalingrad',exp:'Slaget vid Stalingrad (1942–43) var krigets vändpunkt – Tysklands förlust markerade slutet på den tyska offensiven på östfronten och inledde Tykslands tillbakagång.'},
+     {period:'Kalla kriget',opts:['A: Caesars intåg i Rom','B: Stormningen av Bastiljen','C: Slaget vid Stalingrad','D: Vietnamkriget','E: Börskraschen på Wall Street','F: Skyttegravskriget'],ans:3,ansText:'D: Vietnamkriget',exp:'Vietnamkriget (1955–75) var ett av kalla krigets stora proxykrig, där USA stred mot kommunistiska nordvietnamesen stödda av Sovjet och Kina.'},
+   ]},
+
+  {id:'m8',year:2018,topic:'krig',title:'Historiska begrepp – sammanfattning av perioden',
+   intro:'Matcha varje tidsperiod med rätt SAMMANFATTNING.',
+   type:'dropdown',
+   items:[
+     {period:'Antiken',opts:['A: Maktkamp USA–Sovjet','B: Storhetsperiod för de grekiska stadsstaterna','C: Uppgång för diktaturer i Europa','D: Upplysning, revolution och republik','E: Storbritannien m.fl. mot Tyskland och Österrike-Ungern','F: Storbritannien, Sovjet, USA, Frankrike mot Tyskland, Japan, Italien'],ans:1,ansText:'B: Storhetsperiod för de grekiska stadsstaterna',exp:'Den klassiska antikens höjdpunkt (ca 500–300 f.Kr.) var de grekiska stadsstaternas blomstringstid – demokrati i Aten, filosofi, konst och Perserkrigen.'},
+     {period:'Mellankrigstiden',opts:['A: Maktkamp USA–Sovjet','B: Storhetsperiod för de grekiska stadsstaterna','C: Uppgång för diktaturer i Europa','D: Upplysning, revolution och republik','E: Storbritannien m.fl. mot Tyskland och Österrike-Ungern','F: Storbritannien, Sovjet, USA, Frankrike mot Tyskland, Japan, Italien'],ans:2,ansText:'C: Uppgång för diktaturer i Europa',exp:'Mellankrigstiden (1918–39) präglades av Mussolinis fascism i Italien (1922), Hitlers nazism i Tyskland (1933) och Stalins terror i Sovjet.'},
+     {period:'Andra världskriget',opts:['A: Maktkamp USA–Sovjet','B: Storhetsperiod för de grekiska stadsstaterna','C: Uppgång för diktaturer i Europa','D: Upplysning, revolution och republik','E: Storbritannien m.fl. mot Tyskland och Österrike-Ungern','F: Storbritannien, Sovjet, USA, Frankrike mot Tyskland, Japan, Italien'],ans:5,ansText:'F: Storbritannien, Sovjet, USA, Frankrike mot Tyskland, Japan, Italien',exp:'De allierade (Storbrittannien, Sovjet, USA, Frankrike) stred mot axelmakterna (Tyskland, Japan, Italien) i ett globalt krig 1939–45.'},
+     {period:'Kalla kriget',opts:['A: Maktkamp USA–Sovjet','B: Storhetsperiod för de grekiska stadsstaterna','C: Uppgång för diktaturer i Europa','D: Upplysning, revolution och republik','E: Storbritannien m.fl. mot Tyskland och Österrike-Ungern','F: Storbritannien, Sovjet, USA, Frankrike mot Tyskland, Japan, Italien'],ans:0,ansText:'A: Maktkamp USA–Sovjet',exp:'Kalla kriget (1945–91) var en ideologisk och geopolitisk maktkamp mellan USA:s kapitalistiska demokrati och Sovjet:s kommunism – utan direkt krig mellan supermakterna.'},
+   ]},
+
+  {id:'m9',year:2018,topic:'krig',title:'Historiska begrepp – tidsperioder, PERSONER 2018',
+   intro:'Matcha tidsperiod med rätt grupp av PERSONER. En grupp blir över.',
+   type:'dropdown',
+   items:[
+     {period:'Antiken',opts:['A: Sophie Scholl, Göring, Montgomery','B: Augustus, Sokrates, Kleopatra','C: Thatcher, Kennedy, Chrusjtjov','D: Kronprins Ferdinand, kejsar Vilhelm II, tsar Nikolaj II','E: Robespierre, Ludvig XVI, Marie Antoinette','F: Chaplin, Greta Garbo, Henry Ford'],ans:1,ansText:'B: Augustus, Sokrates, Kleopatra',exp:'Augustus (Roms förste kejsare), Sokrates (atensk filosof) och Kleopatra (egyptisk farao) är alla gestalter från antiken.'},
+     {period:'Första världskriget',opts:['A: Sophie Scholl, Göring, Montgomery','B: Augustus, Sokrates, Kleopatra','C: Thatcher, Kennedy, Chrusjtjov','D: Kronprins Ferdinand, kejsar Vilhelm II, tsar Nikolaj II','E: Robespierre, Ludvig XVI, Marie Antoinette','F: Chaplin, Greta Garbo, Henry Ford'],ans:3,ansText:'D: Kronprins Ferdinand, kejsar Vilhelm II, tsar Nikolaj II',exp:'Mördandet av Kronprins Franz Ferdinand utlöste kriget 1914. Kejsar Vilhelm II (Tyskland) och Tsar Nikolaj II (Ryssland) var de centrala ledarna under kriget.'},
+     {period:'Mellankrigstiden',opts:['A: Sophie Scholl, Göring, Montgomery','B: Augustus, Sokrates, Kleopatra','C: Thatcher, Kennedy, Chrusjtjov','D: Kronprins Ferdinand, kejsar Vilhelm II, tsar Nikolaj II','E: Robespierre, Ludvig XVI, Marie Antoinette','F: Chaplin, Greta Garbo, Henry Ford'],ans:5,ansText:'F: Chaplin, Greta Garbo, Henry Ford',exp:'Charlie Chaplin (stumfilmslegend), Greta Garbo (Hollywood-stjärna) och Henry Ford (bilindustrialisten med T-Forden) var alla ikoner under mellankrigstiden.'},
+   ]},
+
+  {id:'m10',year:2017,topic:'levnad',title:'Tidsperioder – kolonialism, industrialism m.m.',
+   intro:'Matcha tidsperiod med rätt STARTÅR, PERSON och HÄNDELSE (2017-provet).',
+   type:'dropdown',
+   items:[
+     {period:'Det antika Egypten – startår',opts:['A: 3000 f.Kr.','B: 1200-talet','C: 1400-talet','D: 1700-talet','E: 1914','F: 1946'],ans:0,ansText:'A: 3000 f.Kr.',exp:'Det antika Egyptens historia börjar ca 3100 f.Kr. när farao Narmer enade Övre och Nedre Egypten.'},
+     {period:'Den europeiska kolonialismen – startår',opts:['A: 3000 f.Kr.','B: 1200-talet','C: 1400-talet','D: 1700-talet','E: 1914','F: 1946'],ans:2,ansText:'C: 1400-talet',exp:'Den europeiska kolonialismens era börjar med portugisernas och spanjorernas upptäcktsfärder på 1400-talet (Columbus 1492, Vasco da Gama 1498).'},
+     {period:'Industriella revolutionen – person',opts:['A: James Watt, Mary Wollstonecraft, Stephenson','B: Kleopatra, Hatschepsut, Tutankhamon','C: Palme, Thatcher, Indira Gandhi','D: Columbus, Isabella I, Vasco Da Gama','E: Princip, Hitler, Sophie Scholl'],ans:0,ansText:'A: James Watt, Mary Wollstonecraft, Stephenson',exp:'James Watt (ångmaskinen), George Stephenson (ångloket) och Mary Wollstonecraft (tidig feminist) levde alla under industrialiseringen i slutet av 1700-/tidigt 1800-tal.'},
+     {period:'Den europeiska kolonialismen – person',opts:['A: James Watt, Mary Wollstonecraft, Stephenson','B: Kleopatra, Hatschepsut, Tutankhamon','C: Palme, Thatcher, Indira Gandhi','D: Columbus, Isabella I, Vasco Da Gama','E: Princip, Hitler, Sophie Scholl'],ans:3,ansText:'D: Columbus, Isabella I, Vasco Da Gama',exp:'Christopher Columbus (spansk-italiensk upptäcktsresande), Isabella I av Kastilien (finansierade Columbus) och Vasco Da Gama (portugisisk sjöfarare, nådde Indien) var alla centrala under kolonialismens tidiga fas.'},
+   ]},
+],
+src: [
+  {id:'s1',year:2018,topic:'kalla',title:'Källkritik – Kalla kriget',
+   intro:'Källor om amerikaner under kalla kriget:\n• Källa A: Serietidning, 1947 – "Är detta framtiden – Amerika under kommunismen!"\n• Källa B: Fotografi på amerikanskt skyddsrum, 1957\n• Källa C: Intervjuer från 2000-tal med amerikaner som upplevde kalla kriget\n• Källa D: Diagram om vapenkapplöpningens kostnader',
+   q:'Slutsats 1: Amerikaner var RÄDDA för kommunister under kalla kriget. Vilka källan stödjer denna slutsats bäst?',
+   opts:['Bara källa A','Källa A och C','Källa A, B och C','Alla fyra källorna'],ans:2,
+   exp:'Källa A (propaganda om kommunisthotet) visar rädslan som spreds. Källa B (privat skyddsrum) visar att folk faktiskt vidtog åtgärder. Källa C (intervjuer) ger direkta vittnesmål om rädsla. Källa D handlar om kostnader, inte om folkets rädsla.'},
+
+  {id:'s2',year:2017,topic:'krig',title:'Källkritik – finska krigsbarn',
+   intro:'Källor om finska krigsbarn i Sverige under andra världskriget:\n• Källa A: Bild 1944 – Finska barn tas om hand av Lottakårens kvinnor\n• Källa B: Brev från en finsk flicka på väg mot Sverige, 1944\n• Källa C: Minnesboken "Ensam utan mamma", 1995\n• Källa D: Uttalande från Röda Korset\n• Källa E: Statistik om engelska barn från London',
+   q:'Slutsats 1: Kvinnor tog hand om de finska krigsbarnen. Vilka källan kan Anita ha använt?',
+   opts:['Bara källa A','Källa A och D','Källa A, C och D','Alla källorna utom E'],ans:1,
+   exp:'Källa A visar direkt att Lottakårens kvinnor tog hand om barnen. Källa D (Röda Korset) kan ha dokumenterat vem som hjälpte. Källa E är om engelska barn och är inte relevant.'},
+
+  {id:'s3',year:2017,topic:'krig',title:'Källkritik – finska krigsbarn',
+   intro:'Samma som ovan.',
+   q:'Slutsats 2: Resan var JOBBIG för de finska krigsbarnen. Vilka källan stödjer detta?',
+   opts:['Källa A och B','Källa B och C','Källa B, C och D','Alla källorna'],ans:1,
+   exp:'Källa B (flickans eget brev) och Källa C (minnesbok om upplevelserna) ger direkta vittnesmål om hur jobbig resan och separationen var. Källa A (foton av mottagning) och D (Röda Korset) ger inte lika direkt information om resans påfrestningar.'},
+
+  {id:'s4',year:2019,topic:'krig',title:'Källkritik – Förintelsen',
+   intro:'Källor om Förintelsen:\n• Källa A: Teckning från 1943 som visar koncentrationsläger\n• Källa B: Rapport av nazistisk officer om lägerdrift\n• Källa C: Vittnesbörd av överlevande, insamlat 1995\n• Källa D: Rekord från Röda Korset, samtida',
+   q:'Vilken källa är MINST trovärdig för att förstå judarnas upplevelser i lägren?',
+   opts:['Källa A','Källa B','Källa C','Källa D'],ans:1,
+   exp:'Källa B (rapport av en nazistisk officer) har stark tendens – den är skriven ur förövarens perspektiv och troligen präglad av eufemismer, förringande eller propagandistiska syften. Offrets vittnesbörd (C), samtida dokumentation (D) och konstnärlig representation (A) ger mer pålitliga perspektiv på upplevelserna.'},
+
+  {id:'s5',year:2016,topic:'levnad',title:'Källkritik – barnarbete 1800-tal',
+   intro:'Historikern Anita studerar barn som arbetade under 1800-talet:\n• Källa A: Teckning, 1801 – "Utnyttjande av barn i England"\n• Källa B: Brittisk rapport om barnarbete, 1800-tal\n• Källa C: Blogginlägg om barnarbete idag (2010)\n• Källa D: Barnets eget vittnesmål (inspektorsrapport)',
+   q:'Slutsats: Barn behandlades ILLA. Vilken källa kan Anita INTE använda för att studera 1800-talets barnarbete?',
+   opts:['Källa A','Källa B','Källa C','Källa D'],ans:2,
+   exp:'Källa C handlar om barnarbete idag (2010), inte om 1800-talet – den är inte från den period Anita studerar och är därmed inte relevant.'},
+
+  {id:'s6',year:2016,topic:'levnad',title:'Källkritik – varför stärker källorna varandra?',
+   intro:'Källa B (brittisk rapport från 1800-tal) och Källa D (barnets vittnesmål) om barnarbete.',
+   q:'Varför stärker Källa B och D varandra som bevis för dåliga arbetsförhållanden?',
+   opts:['De är båda propaganda','De berättar samma sak från olika perspektiv','De är skrivna av samma person','De är båda from 1900-talet'],ans:1,
+   exp:'Källkorrelation innebär att oberoende källor som bekräftar varandra ökar trovärdigheten. Källa B (officiell rapport) och D (barnets eget ord) är oberoende men berättar samma sak – det stärker slutsatsen.'},
+  {id:'s7',year:2019,topic:'levnad',title:'Källkritik – folkskolan i Sverige 1800-talet',
+   intro:'Historikern studerar källor om folkskolan (1842 införd):\n• Källa A: Beslut från 1858 om att bönder får slå drängar under 18 år och pigor under 16 år\n• Källa B: Folkskollärare berättar om bybors åsikter: "Böndernas barn ska väl inte bli lärare?"\n• Källa C: Brev från en fogde 1841 som anser att undervisning gör fattiga folk olydigare\n• Källa D: Illustration ur lärobok ca 1850 som visar barn i klassrum',
+   q:'Slutsats 1: Det fanns motstånd mot folkskolan bland befolkningen. Vilka källan kan användas för att dra denna slutsats?',
+   opts:['Bara källa B','Källa B och C','Källa A, B och C','Alla fyra källorna'],ans:1,
+   exp:'Källa B (läraren berättar om bybors negativa åsikter) och Källa C (fogdens brev mot undervisning) ger direkt belägg för motstånd. Källa A handlar om arbetsvillkor, inte om folkskolan. Källa D (illustration av skolbarn) visar skolan men inte motståndet mot den.'},
+
+  {id:'s8',year:2018,topic:'imperialism',title:'Källkritik – aztekerna (Uppgift 2, 2018)',
+   intro:'Historikern Anita studerar aztekerna 1500-tal med dessa källor:\n• Källa A: Bild ur Codex Mendoza (gjord av azteker ca 20 år efter spansk erövring, beställd av spanjorer) – visar uppfostran av pojkar och flickor\n• Källa B: Brev från Hernán Cortéz till kejsar Karl V, 1520\n• Källa C: Från boken "Cortez the Killer" av rockartisten Neil Young, 1975\n• Källa D: Bok av spansk munk Bernardino de Sahagún om aztekernas liv, från 1529',
+   q:'Slutsats 1: Män och kvinnor hade olika roller i det aztekiska samhället. Vilken källa KAN INTE Anita använda för att dra denna slutsats?',
+   opts:['Källa A','Källa B','Källa C','Källa D'],ans:2,
+   exp:'Källa C (Neil Youngs rocklåt från 1975) är inte från den tid Anita studerar (1500-talets azteksamhälle). Det är ett konstnärligt verk från 1900-talet utan historisk källstatus om aztekernas faktiska samhälle. Källa A (Codex Mendoza), B (Cortéz brev) och D (munkens bok) är alla samtida källor.'},
+
+  {id:'s9',year:2019,topic:'levnad',title:'Källkritik – kvinnors levnadsvillkor 1900–1940',
+   intro:'Historikern studerar kvinnors levnadsvillkor i Sverige 1900–1940:\n• Källa A: Annons, 1900 – "Fru Nathalie Lindhs hem, för blivande ogifta mödrar"\n• Källa B: Text från föredrag "Kärlek utan barn", 1910 – om preventivmedel och ogifta mödrar\n• Källa C: Brev från 1912 – ogift mamma som lämnat sin dotter till fostermamma\n• Källa D: Statistik från Socialstyrelsen om ogifta mödrar 1900–1940',
+   q:'Historikerns slutsats: Ogifta mödrar hade svåra levnadsvillkor i Sverige 1900–1940. Vilken källa kan historikern INTE använda för att stödja denna slutsats?',
+   opts:['Källa A','Källa B','Källa C','Ingen – alla källorna kan användas'],ans:3,
+   exp:'Alla fyra källorna kan faktiskt användas: Källa A (annonsen för hemmet för ogifta mödrar) visar att det var ett samhällsproblem. Källa B (föredrag om preventivmedel) visar kamp för kvinnors rätt. Källa C (brevet) ger ett personligt vittnesmål. Källa D (statistik) ger kvantitativa belägg. Samtliga är relevanta och samtida.'},
+],
+open: [
+  {id:'o1',year:2014,topic:'forintelsen',title:'Förintelsen – orsaker',
+   q:'Resonera om orsaker till Förintelsen med hjälp av historiska exempel.',
+   hint:'Tänk på: Olika typer av orsaker kan vara ideologiska, politiska, psykologiska och ekonomiska. Orsaker kan bero på enskilda människor, organisationer och landets styrelseform.',
+   crit:{e:'Anger två orsaker med hjälp av historiska exempel.',c:'Anger flera orsaker och förklarar hur några hänger ihop.',a:'Minst tre orsaker, hur minst tre hänger ihop, minst två TYPER (t.ex. ideologiska + politiska).'},
+   ex:'Nazisternas antisemitiska ideologi (ideologisk orsak) möjliggjordes av Weimarrepublikens instabilitet och Tysklands ekonomiska kris efter första världskriget (ekonomisk/politisk orsak). Krisen skapade grogrund för extremistiska rörelser. Dessa hänger ihop: ekonomisk förtvivlan + politisk förnedring (Versaillesfreden) → folk sökte syndabockar → nazistisk propaganda utnyttjade antisemitismen. Den psykologiska "dolkstötslegenden" – att judarna "förrådde" Tyskland i WWI – gav "legitimitet" åt förföljelserna.'},
+
+  {id:'o2',year:2017,topic:'imperialism',title:'Kolonialism – konsekvenser',
+   q:'Skriv och resonera om konsekvenserna av kolonialismen med hjälp av historiska exempel. Nämn minst två typer.',
+   hint:'Typer: politiska, ekonomiska, religiösa/kulturella, sociala. En kortvarig och en långvarig konsekvens för A-nivå.',
+   crit:{e:'Två konsekvenser.',c:'Tre konsekvenser, minst två typer.',a:'Tre+ konsekvenser, en kortvarig och en långvarig (med motivering av varför den varade).'},
+   ex:'Ekonomisk konsekvens: Koloniserade länder plundrades på råvaror – Kongo på gummi, Indien på textilier – vilket berikade Europa men utarmade kolonierna. Politisk konsekvens: Berlinkonferensen 1884–85 delade Afrika längs artificiella linjer utan hänsyn till folkgrupper → konflikter i Rwanda, Sudan och Kongo idag är LÅNGVARIGA konsekvenser (varar än idag = A-nivå). Kulturell konsekvens: Missionärer förstörde inhemska kulturer och religioner. Motivering för långvarighet: De konstgjorda gränserna skapade stater med rivaliserande folkgrupper som aldrig valt att leva ihop, vilket skapar konflikter generationer senare.'},
+
+  {id:'o3',year:2017,topic:'imperialism',title:'Industriella revolutionen – konsekvenser',
+   q:'Skriv och resonera om konsekvenser av den industriella revolutionen med hjälp av historiska exempel.',
+   hint:'Tänk på sociala, ekonomiska och politiska konsekvenser. En kortvarig och en långvarig för A-nivå.',
+   crit:{e:'Två konsekvenser.',c:'Tre konsekvenser, minst två typer.',a:'Tre+ konsekvenser, en kortvarig och en långvarig (motiverad).'},
+   ex:'Social konsekvens: Urbanisering – folk strömmade till industristäder med fruktansvärda arbetsvillkor (barnarbete, 14 timmars arbetsdag). Ekonomisk konsekvens: Massproduktion sänkte priserna och skapade en borgarklass av fabriksägare. Politisk konsekvens (LÅNGVARIG): Framväxten av fackföreningsrörelsen och socialdemokratin – dessa rörelser ledde till välfärdsstatens uppbyggnad under 1900-talet, en konsekvens som varar än idag i form av arbetsrätt och arbetarskydd.'},
+
+  {id:'o4',year:2018,topic:'levnad',title:'Fritidsvanor – kontinuitet och förändring',
+   source:'Tre texter från olika tidsperioder om vuxnas syn på ungdomars fritid:\n• Text 1812: Edvard oroar sig för att unga kvinnor läser för mycket romaner och "mognar för fort".\n• Text 1940: Filmrecensent oroar sig för att ungdomar ser för mycket film.\n• Text 2013: Psykolog oroar sig för att ungdomar spenderar för mycket tid med smartphones.',
+   q:'Resonera om kontinuitet och förändring i vuxnas syn på ungdomars fritidsvanor. Använd begreppen.',
+   crit:{e:'Ett av begreppen, hänvisning till minst en text.',c:'Båda begreppen, hänvisningar till minst två texter.',a:'Båda begreppen med exempel ur ALLA tre texter.'},
+   ex:'Kontinuitet: Vuxna oroar sig i ALLA tre tidsperioderna för ungdomars fritid och det nya mediet – romaner 1812, film 1940, smartphones 2013. Oron om negativ påverkan och att ungdomar "mognar för fort" eller "fastnar" är konstant. Förändring: De specifika medierna och orsakerna till oron har förändrats drastiskt. 1812 handlade det specifikt om flickor och deras "rena tankar". 2013 gäller oron alla ungdomar och handlar om beroende och social isolering. Samhällskontexten är helt annorlunda.'},
+
+  {id:'o5',year:2014,topic:'demokrati',title:'Historia i en demokratitävling – använda historia',
+   q:'Ange en historisk person (som inte längre lever) som passar på en demokratiaffisch. Förklara varför med historiska exempel.',
+   hint:'Tänk på: Vilka historiska exempel stödjer valet? Kan någon tycka annorlunda om personen som demokratisk förebild?',
+   crit:{e:'En person och minst ett historiskt exempel varför hen är en demokratisk förebild.',c:'En person och minst tre historiska exempel.',a:'Tre+ exempel + personens historiska sammanhang + ta upp varför NÅGON skulle kunna tycka ANNORLUNDA.'},
+   ex:'Nelson Mandela (1918–2013): (1) Grundade ANC:s ungdomsförbund och kämpade mot apartheid – ett rasistiskt system där 80% av befolkningen saknade politiska rättigheter. (2) Fängslas i 27 år men vägrar ge upp demokratiska principer. (3) Leder Sydafrika till fria val 1994 – landets första demokratiska val. Sammanhang: Apartheid (1948–94) var internationellt fördömt som brott mot mänskligheten. Möjlig invändning (A-nivå): Mandela och ANC godkände väpnad kamp under 1960-talet. Somliga (t.ex. den vita sydafrikanska höger) uppfattade honom som terrorist snarare än demokrat, vilket komplicerar bilden av honom som förebild.'},
+
+  {id:'o6',year:2016,topic:'demokrati',title:'Kontinuitet och förändring – homosexualitet i Sverige',
+   source:'Tidslinje om synen på homosexualitet i Sverige:\n• 1300-tal: Kyrkan ser det som en synd\n• 1600-tal: Det är ett brott (dödsstraff)\n• 1800-tal: Det ses som en sjukdom\n• 1944: Avkriminaliserat men fortfarande sjukdomsklassat\n• 1979: Avklassat som sjukdom av Socialstyrelsen\n• 1995: Partnerskapslag\n• 2009: Äktenskapslag (könsneutral)',
+   q:'Resonera om kontinuitet och förändring i synen på homosexualitet i Sverige.',
+   crit:{e:'Något av begreppen med hänvisning till minst en period.',c:'Båda begreppen, hänvisningar till minst två perioder.',a:'Båda begreppen med tydliga exempel ur flera perioder, visar både kontinuitet och förändring.'},
+   ex:'Kontinuitet: Synen var negativ – synd (1300-tal), brott (1600-tal), sjukdom (1800–1979) – under i princip 700 år. Den negativa synen på homosexualitet som "onaturlig" eller "farlig" är kontinuerlig från medeltiden till 1979. Förändring: 1979 markerar ett tydligt brott med kontinuiteten – homosexualitet är inte längre en sjukdom. 1995–2009 sker snabb förändring mot lagliga rättigheter. Den legala och sociala statusen har förändrats radikalt under de senaste 50 åren jämfört med de föregående 700 åren.'},
+
+  {id:'o7',year:2018,topic:'demokrati',title:'Historiskan – historia ur kvinnligt perspektiv',
+   source:'2015 startade tidningen Historiskan som skriver om historia ur kvinnors perspektiv.',
+   q:'Vad finns det för anledning till att tidningen använder historia ur ett kvinnligt perspektiv? Och vilka konsekvenser kan det få?',
+   crit:{e:'En rimlig anledning med ett exempel.',c:'Motiverat exempel + en rimlig konsekvens.',a:'Välmotiverad anledning kopplad till historisk underrepresentation + konsekvens kopplad till nutiden.'},
+   ex:'Anledning: Traditionell historieskrivning har fokuserat på männens perspektiv – krig, kungar och politiska ledare. Kvinnors roller (t.ex. de miljoner som drev hem och jordbruk, de som startade arbetsrättsrörelser) har osynliggjorts. Historiskan ger dessa berättelser utrymme. Konsekvens: Folk kan börja ifrågasätta ensidiga historieberättelser och kräva mer inkluderande historieskrivning. Det kan leda till att historiker söker fler "underifrånperspektiv" och att undervisning i skolan inkluderar fler röster – vilket ger en mer komplett och rättvisande historisk förståelse.'},
+
+  {id:'o8',year:2017,topic:'demokrati',title:'Nazisterna använder historia – Romarriket',
+   source:'Nazisterna använde standar (flaggor) som liknade den romerska arméns under andra världskriget.',
+   q:'Resonera om varför nazisterna ville efterlikna den romerska armén/riket med hjälp av historiska exempel.',
+   crit:{e:'En rimlig anledning med ett historiskt exempel.',c:'Minst två anledningar med exempel.',a:'Minst tre anledningar, förklarar hur exemplen underbygger anledningarna.'},
+   ex:'(1) Romarriket var ett starkt, enat imperium som erövrade Europa – nazisterna ville legitimera sitt eget imperieprojekt ("Tredje riket") genom att koppla det till antikens storhet. (2) Romarna var kända för militär disciplin och organisation – egenskaper nazisterna ville förknippas med. (3) Att efterlikna antiken gav nazisternas ideologi en "historisk kontinuitet" och koppling till europeisk storhetstid. Konkreta exempel: "Heil Hitler" imiterar den romerska saluten "Ave Caesar". Örnen som rikssymbol är hämtad från Roms örnenstandar. Hitler kallade sitt rike "Tredje riket" – det första var det antika romarriket.'},
+
+  {id:'o9',year:2019,topic:'forintelsen',title:'Förintelsen – orsaker (2019)',
+   q:'Skriv och resonera om orsaker till Förintelsen med hjälp av historiska exempel. Minst två typer av orsaker.',
+   hint:'Typer: ideologiska, politiska, psykologiska, ekonomiska. Orsaker kan bero på enskilda personer, organisationer och styrelseform.',
+   crit:{e:'Två orsaker.',c:'Minst två orsaker, hur två av dem hänger ihop.',a:'Minst tre orsaker, hur tre hänger ihop, minst två typer.'},
+   ex:'Dolkstötslegenden och judehat (ideologisk+psykologisk) hör ihop: Nazisterna skyllde Tysklands kapitulation i WWI på judarna → detta ledde till antisemitism som "förklaring" på Tysklands ekonomiska kris (inflation, 6 miljoners arbetslöshet). Den ekonomiska krisen (ekonomisk orsak) efter WWI gjorde folk mottagliga för enkla "syndabockar" → nazisternas propaganda fick genomslag. Politisk orsak: Hitlers maktövertagande 1933 och diktatoriska system eliminerade politisk opposition som kunde ha stoppat Förintelsen. Dessa tre orsaker hänger ihop i en ond spiral.'},
+
+  {id:'o10',year:2019,topic:'demokrati',title:'Framtiden – kärnvapen',
+   source:'Samira tror att kärnvapen kommer att användas i framtiden. Gustav tror det INTE.',
+   q:'Hur kan Samira och Gustav motivera sina åsikter med ett historiskt och ett nutida exempel var?',
+   crit:{e:'En rimlig anledning med ett historiskt exempel.',c:'Rimliga historiska exempel för båda.',a:'Historiska + nutida exempel för båda, tydliga motiveringar.'},
+   ex:'Samiras historiska exempel: USA använde atombomber mot Japan 1945 (Hiroshima/Nagasaki), vilket visar att kärnvapen faktiskt har använts i krig när stormakter ansett det nödvändigt. Samiras nutida exempel: Flera länder (Nordkorea, Ryssland) hotar med kärnvapen i moderna konflikter. Gustavs historiska exempel: Under kalla krigets värsta kris (Kubakrisen 1962) valde båda supermakterna att backa snarare än använda kärnvapen – avskräckning fungerade. Gustavs nutida exempel: Kärnavtalet NPT och internationella normer mot kärnvapensanvändning håller fortfarande.'},
+
+  {id:'o11',year:2019,topic:'revolution',title:'Franska revolutionen – för och emot att fira',
+   source:'Frankrikes nationaldag är den 14 juli – minnet av stormningen av Bastiljen 1789. Michelle tycker det är BRA att fira franska revolutionen. Amir tycker det är DÅLIGT.',
+   q:'Hur kan Michelle och Amir motivera sina åsikter? Ge dem två historiska exempel var.',
+   crit:{e:'Ett rimligt historiskt exempel för Michelle eller Amir.',c:'Rimliga historiska exempel för båda.',a:'Tydliga, specifika historiska exempel för båda med förklaring.'},
+   ex:'Michelle: (1) Revolutionen avskaffade kungamakten och skapade folkrepresentationen – Frankrike blev en demokrati där folket bestämmer, inte kungen. (2) Revolutionen förklarade "Människors och medborgarnas rättigheter" 1789 – en grundsten för moderna mänskliga rättigheter och demokratiska konstitutioner världen över. Amir: (1) Revolutionens Skräckvälde (1793–94) ledde till tusentals avrättningar, inklusive oskyldiga – revolutionen skapade sitt eget tyranni. (2) Revolutionens idéer legitimerade Napoleons erövringskrig som spred krig, lidande och förstörelse över hela Europa. Man kan ifrågasätta om detta verkligen förtjänar ett firande.'},
+
+  {id:'o12',year:2014,topic:'revolution',title:'Orsaker och konsekvenser av franska revolutionen',
+   q:'Resonera om orsaker till och konsekvenser av den franska revolutionen. Använd begrepp som "konsekvens" och "orsak" i ditt resonemang.',
+   hint:'Tänk på: ekonomiska, politiska och sociala orsaker. Kortvariga och långvariga konsekvenser.',
+   crit:{e:'Minst en orsak och en konsekvens.',c:'Flera orsaker och konsekvenser, förklarar samband.',a:'Förklarar hur orsaker hänger ihop. En kortvarig och en långvarig konsekvens, motiverad.'},
+   ex:'Orsaker: (1) Ekonomisk kris – Frankrike var nära bankrutt efter att ha stött USA:s frihetskrig och adelns skattefrihet. (2) Social ojämlikhet – tredje ståndet (bönder + borgare) bar hela skattetrycket men hade inget politiskt inflytande. (3) Upplysningsidéer – filosofer som Rousseau och Voltaire spred idéer om frihet, jämlikhet och folkstyre. Konsekvenser: Kortvarig: Kungamaktens avskaffande och skräckväldet (tusentals avrättade). Långvarig (A-nivå): Demokratiska och nationalistiska idéer spreds till hela världen via Napoleonkrigen – hela 1800-talets revolutioner i Europa och Latinamerika inspirerades av den franska revolutionen.'},
+
+  {id:'o13',year:2015,topic:'demokrati',title:'Ebola och historia – hur journalister använde historia',
+   source:'2014 jämförde tidningar Ebola-utbrottet med historiska epidemier:\n• Aftonbladet: "Dödssmittan ebola – hotet mot hela mänskligheten" (jämförde med pesten/digerdöden)\n• Svenska Dagbladet: "Ebola kan bli vår tids digerdöd"',
+   q:'Resonera om varför journalisterna använde historiska epidemier. Värdera om det var ett BRA eller DÅLIGT sätt att använda historia.',
+   crit:{e:'En orsak till att journalisterna använde historiska epidemier.',c:'Minst två orsaker + förklaring av kopplingen historia–nutid.',a:'Minst två orsaker + värdering (bra eller dåligt) med motivering.'},
+   ex:'Orsaker: (1) För att ge kontext och allvar – läsare förstår bättre hotet om de kan jämföra med välkänd historia som digerdöden (som dödade en tredjedel av Europa). (2) För att skapa dramatik och sälja lösnummer – historiska jämförelser fångar uppmärksamhet. Värdering: Delvis DÅLIGT historieanvändande – digerdöden dödade 30–50 miljoner européer medan Ebolaepidemin 2014 orsakade ca 11 000 dödsfall. Jämförelsen är oproportionerlig och skapar onödig panik. Bra: Historiska jämförelser kan hjälpa beslutsfattare att ta epidemier på allvar och dra lärdomar från historiens svar på epidemier.'},
+
+  {id:'o14',year:2016,topic:'demokrati',title:'Columbusdagen – historieanvändning',
+   q:'Skriv hur grupperna kan motivera sina olika uppfattningar om att fira Columbusdagen. Ge varje grupp två historiska exempel.',
+   hint:'Grupp 1 tycker det är BRA att fira. Grupp 2 (ursprungsbefolkningen) tycker det är DÅLIGT.',
+   crit:{e:'En rimlig motivering med ett historiskt exempel för varje grupp.',c:'Rimliga motiveringar med två historiska exempel per grupp.',a:'Välmotiverade resonemang som visar hur historia kan användas för olika syften.'},
+   ex:'För firandet: (1) Columbus "upptäckt" öppnade kontakten mellan Europa och Amerika, vilket lade grunden för handel, kulturmöten och till slut USA:s bildande. (2) Columbus bevisade att Atlanthaven kunde korsas och möjliggjorde europeisk navigation och expansion – en milstolpe i sjöfartshistorien. Mot firandet: (1) Columbus ankomst 1492 inledde en period av europeisk kolonisering som ledde till massmord, slaveri och utrotning av ursprungsbefolkningens kulturer. (2) Det spanska conquistadorssystemet (conquistadorerna efter Columbus) förstörde högkulturer som Aztekernas och Inkaernas rike – civilisationer med avancerade samhällen och vetenskap.'},
+
+  {id:'o15',year:2018,topic:'imperialism',title:'Orsaker till att det har funnits imperier',
+   q:'Välj ett historiskt imperium (t.ex. Romerska riket, Brittiska imperiet, Osmanska riket, Mongoliska imperiet). Resonera om varför det imperiet kunde bli ett imperium.',
+   hint:'Tänk på: militära, ekonomiska, politiska och geografiska orsaker. Koppla alltid till det specifika imperiets historia.',
+   crit:{e:'En orsak kopplad till ditt valda imperium.',c:'Två orsaker, minst två typer (t.ex. militär + ekonomisk).',a:'Tre+ orsaker, minst tre typer, tydligt kopplade till historiska exempel från det valda imperiet.'},
+   ex:'Valda imperiet: Brittiska imperiet. (1) Militär orsak: Industrialiseringen gav Britannien militärteknologisk överlägsenhet – ångfartyg, järnvägar och moderna gevär möjliggjorde erövring av länder vars befolkning saknade motmedel. (2) Ekonomisk orsak: Koloniernas råvaror (bomull från Indien, socker från Karibien) drev den brittiska industrialiseringen och skapade en positiv spiral av rikedom → militär → fler kolonier. (3) Politisk orsak: Den brittiska statens stöd (Royal Navy, East India Company) gav handelsbolag möjlighet att erövra och styra territorier med statens välsignelse. Dessa hänger ihop: ekonomisk motivation → politiskt stöd → militär erövring.'},
+
+  {id:'o16',year:2019,topic:'demokrati',title:'Sameblod – historia om nationella minoriteter',
+   source:'Filmen Sameblod (2016) handlar om samiska flickor som behandlas rasistiskt i Sverige på 1930-talet.',
+   q:'Vilka anledningar kan det finnas till att historia om samer används i filmen? Vilka konsekvenser kan det få?',
+   crit:{e:'En rimlig anledning med ett exempel.',c:'Två anledningar + en konsekvens.',a:'Välmotiverade anledningar kopplade till historisk underrepresentation + nutida konsekvenser.'},
+   ex:'Anledning: Samernas historia är underrepresenterad i officiell historieskrivning. Filmen ger synlighet åt en grupp vars förtryck (t.ex. tvångsförflyttningar, förbud mot samiska språket, rasbiologiska "mätningar") länge osynliggjorts. Anledning 2: Att belysa ett historiskt orättvist system kan skapa förståelse för nutidens konflikter om samernas rättigheter (renbetesmark, gruvdrift i Sápmi). Konsekvens: Ökad medvetenhet om samernas situation kan leda till politisk handling – t.ex. starkare skydd för samiska rättigheter i lagstiftningen. En annan möjlig konsekvens: Kontroverser eller motstånd från de som inte identifierar sig med bilden av Sverige som rasistiskt.'},
+
+  {id:'o17',year:2018,topic:'krig',title:'Konsekvenser av första världskriget (2014)',
+   q:'Resonera om konsekvenser av första världskriget. Använd begreppen kontinuitet och förändring.',
+   hint:'Vad förändrades direkt efter kriget? Vad förblev sig likt? Vilka konsekvenser varade länge?',
+   crit:{e:'Minst en konsekvens + ett av begreppen.',c:'Flera konsekvenser + båda begreppen med exempel.',a:'Förklarar hur konsekvenser hänger ihop, ett exempel på kortvarig och ett på långvarig konsekvens.'},
+   ex:'Förändring: Versaillesfreden 1919 ritade om Europas karta – Österrike-Ungern och Osmanska riket upplöstes, nya nationer som Polen, Tjeckoslovakien och Ungern bildades. Förändring 2: Det europeiska kartbilden förändrades fundamentalt – fyra kejsardömen (Tyskland, Österrike-Ungern, Ryssland, Osmanska riket) försvann. Kontinuitet: Nationalismens krafter fortsatte att vara lika starka – faktiskt stärktes de av Versaillesfredens "orättvisa" behandling av Tyskland. Denna kontinuitet av nationalism + ekonomisk kris lade grunden för Hitlers uppstigning. Långvarig konsekvens: Versaillesfredens ödmjukelse av Tyskland skapade missnöje som direkt bidrog till andra världskrigets utbrott 1939 – en konsekvens av WWI som varade i 20 år.'},
+
+  {id:'o18',year:2016,topic:'demokrati',title:'Tarantino och Förintelsen – historieanvändning',
+   source:'Regissören Quentin Tarantino jämförde i en intervju om filmen Django Unchained slavhandeln med Förintelsen: "Det finns två förintelser i Amerika – slavhandeln och vad som hände med indianerna."',
+   q:'Resonera om Tarantinos användning av historia med hjälp av historiska exempel.',
+   crit:{e:'En rimlig anledning till att Tarantino jämför slavhandeln med Förintelsen.',c:'Två anledningar + ett historiskt exempel på likhet.',a:'Tre anledningar, med historiska exempel + eventuell kritik av jämförelsen.'},
+   ex:'(1) Tarantino vill uppmärksamma att slavhandeln – precis som Förintelsen – innebar systematisk förnedring och dödande av en folkgrupp baserat på etnicitet. Exempel: Slavskeppens överfartsförhållanden (Middle Passage) är jämförbara med deportationstransporten av judar i tåg. (2) Han vill säga att slavhandeln fått mycket MINDRE uppmärksamhet i historieböcker och film än Förintelsen, trots liknande systematik. (3) Filmen vill ge handlingskraft till offer – Django hämnas som en gestalt för motstånd. Möjlig kritik (A-nivå): Förintelsen hade ett industriellt och statsstyrt utrotningssyfte (Endlösung) medan slavhandeln primärt drevs av ekonomisk vinning – det finns viktiga skillnader som riskerar att suddas ut av jämförelsen.'},
+
+  // ── SAKNADE ÖPPNA FRÅGOR ──
+  {id:'o19',year:2014,topic:'demokrati',title:'Keops pyramid – historiebruk (Uppgift 1, 2014)',
+   source:'Låttexten "Keops pyramid" av Mikael Wiehe handlar om slavar som bygger pyramiden åt kungen, och avslutar: "…i varje tid och i alla sorters folk finns några som vill skapa pyramider, där dom själva sitter överst och har makten i sin hand, medan dom som lever nedanför, dom lyder."',
+   q:'Vilka likheter ser Wiehe mellan det forntida Egypten och Sverige idag? Varför använder han historia om just det forntida Egypten?',
+   crit:{e:'Du beskriver någon likhet som Wiehe vill att vi ska uppfatta mellan forntida Egypten och Sverige idag.',c:'Du beskriver en likhet och tar också upp varför han använder just det forntida Egypten för att göra detta.'},
+   ex:'Wiehe ser en likhet i maktstrukturen: i det forntida Egypten byggde slavar pyramider åt en kung som satt på toppen, precis som han menar att det i det moderna Sverige finns grupper "högst upp" som har makt och grupper "nedanför" som lyder. Han väljer det forntida Egypten eftersom pyramiden är en universellt känd och tydlig symbol för hierarki och klassamhälle – alla förstår bilden av kungen längst upp och slavar längst ner. Det gör budskapet om moderna orättvisor omedelbart begripligt.'},
+
+  {id:'o20',year:2014,topic:'demokrati',title:'Raoul Wallenberg Airport – historieanvändning (Uppgift 11, 2014)',
+   source:'Sommaren 2013 kom ett förslag om att byta namn på Arlanda flygplats till Raoul Wallenberg Airport. Wallenberg räddade under andra världskrigets slutskede livet på tusentals judar i Ungern som annars skulle ha skickats till förintelselägren.',
+   q:'Resonera om orsaker till att man vill byta namn på flygplatsen till just Raoul Wallenberg Airport.',
+   crit:{e:'Du resonerar om orsaker till att man vill ge flygplatsen just detta namn.',c:'Du beskriver med hjälp av exempel från nutiden och historien hur man vill koppla Wallenbergs gärning till dagens Sverige.',a:'Samma som C + du resonerar om potentiella invändningar mot namnbytet.'},
+   ex:'En orsak är att man vill hedra Wallenbergs humanistiska mod – att sätta sitt eget liv på spel för att rädda andra under Förintelsen. En annan orsak är att koppla Sverige och en svensk hjälte till universella värden om mänsklighet och motstånd mot förtryck. Flygplatsen är en port mot världen, och namnvalet vill signalera att Sverige är ett land som värnar dessa värden. En möjlig invändning: Wallenbergs öde är oklart (han greps av Sovjet 1945 och dog troligen i fängelset) – somliga menar att det är märkligt att namnge något efter en person vars öde aldrig klarlagts.'},
+
+  {id:'o21',year:2014,topic:'krig',title:'Gulag – orsaker (Uppgift 9B, 2014)',
+   q:'Resonera om orsaker till Gulag med hjälp av historiska exempel.',
+   hint:'Gulag = de sovjetiska arbetslägren dit miljoner sändes under Stalin. Tänk på ideologiska, politiska, psykologiska och ekonomiska orsaker.',
+   crit:{e:'Anger några orsaker med historiska exempel.',c:'Anger flera orsaker med historiska exempel, förklarar hur några hänger ihop.',a:'Anger minst tre orsaker som hänger ihop, av minst två olika typer.'},
+   ex:'Ideologisk orsak: Kommunismens idé om att samhällets fiender måste isoleras för att revolutionen ska lyckas. Politisk orsak: Stalins diktatur och partiets totala kontroll – alla som hotade makten, verkliga eller inbillade, förpassades till lägren. Ekonomisk orsak: Lägrens fångar användes som gratisarbetskraft för industrialiseringen av Sovjet – bygge av kanaler, järnvägar och gruvdrift i Sibirien. Psykologisk orsak: terror som politiskt verktyg – vetskapen om lägren skapade rädsla och lydnad hos befolkningen. Dessa hänger ihop: ideologi + diktatur → lägrens upprättande; ekonomiska behov förstärkte systemet.'},
+
+  {id:'o22',year:2014,topic:'imperialism',title:'Slavhandeln över Atlanten – orsaker (Uppgift 9C, 2014)',
+   q:'Resonera om orsaker till slavhandeln över Atlanten med hjälp av historiska exempel.',
+   hint:'Tänk på ekonomiska, politiska, tekniska och ideologiska orsaker. Orsaker kan bero på tekniska möjligheter.',
+   crit:{e:'Anger några orsaker med historiska exempel.',c:'Anger flera orsaker med historiska exempel, förklarar hur några hänger ihop.',a:'Anger minst tre orsaker av minst två typer, förklarar samband.'},
+   ex:'Ekonomisk orsak: Plantageekonomin i Amerika krävde massiv billig arbetskraft för socker, tobak och bomull – slavarna var lönsamma. Teknisk orsak: Europeiska navigationsframsteg (kompass, karavellan) möjliggjorde Atlantöverfarter. Ideologisk/religiös orsak: Rasideologi och religiösa argument användes för att rättfärdiga slaveriet – afrikaner ansågs "lägre stående". Politisk orsak: Europeiska stater (Portugal, Spanien, England) stödde och reglerade slavhandeln aktivt för att gynna sina kolonier. Dessa hänger ihop: tekniska möjligheter + ekonomiska incitament → slavhandeln startades; ideologin skapades i efterhand för att rättfärdiga den.'},
+
+  {id:'o23',year:2018,topic:'levnad',title:'Den svenska demokratin i framtiden – Samira och Gustav',
+   source:'Samira tror att den svenska demokratin kommer att STÄRKAS i framtiden. Gustav tror att den kommer att FÖRSVAGAS.',
+   q:'Skriv hur Samira och Gustav kan motivera sina åsikter. Ge dem ett historiskt och ett nutida exempel var.',
+   crit:{e:'En rimlig anledning med ett historiskt exempel för en av dem.',c:'Rimliga historiska och nutida exempel för båda.',a:'Tydliga, motiverade historiska + nutida exempel för båda.'},
+   ex:'Samira – historiskt exempel: Sverige byggde ett stabilt demokratiskt system under 1900-talet, klarade sig från fascismen och kommunismen, och välfärdsstaten stärktes demokratiskt underifrån genom fackföreningar och folkrörelser. Samiras nutida exempel: Högt valdeltagande och starkt civilsamhälle i Sverige idag. Gustav – historiskt exempel: Under 1930-talets depression och nationalsocialismens uppgång tappade folk tron på demokratin i hela Europa – liknande ekonomisk oro kan hota demokratin. Gustav: Nutida exempel: Populistiska rörelser och "fake news" skapar polarisering och misstro mot demokratiska institutioner i Sverige och Europa idag.'},
+
+  {id:'o24',year:2018,topic:'demokrati',title:'Att använda historia om en historisk händelse i demokratikamp (Uppgift 18, 2018)',
+   q:'Välj en historisk händelse som har varit viktig i kampen för demokrati. Förklara varför händelsen är ett bra exempel med historiska exempel. Förslag: Berlinmurens fall, franska revolutionen, kvinnlig rösträtt, medborgarrättsrörelsen, amerikanska frihetskriget.',
+   hint:'Kampen för demokrati kan handla om: mänskliga rättigheter, demokratiskt styrelsesätt, motstånd mot rasism och fascism, rösträtt.',
+   crit:{e:'En händelse + ett historiskt exempel varför den är viktig för demokrati.',c:'En händelse + två-tre historiska exempel, tydlig koppling till demokrati.',a:'Tre+ historiska exempel, ev. potentiella invändningar.'},
+   ex:'Händelse: Introduktionen av kvinnlig rösträtt (Sverige 1921). (1) Före 1921 saknade halva befolkningen politisk röst – demokratin var per definition ofullständig. Att inkludera kvinnor var därför en fundamental utvidgning av demokratins räckvidd. (2) Kampen leddes av pionjärer som Signe Bergman och Elin Wägner – ett exempel på demokratisk kamp underifrån. (3) Sverige var ett tidigt land jämfört med Frankrike (1944) och Schweiz (1971) – ett demokratiskt föredöme. Möjlig invändning: Det tog ytterligare decennier innan kvinnor fick reell politisk representation trots formell rösträtt – formell demokrati och reell demokrati är inte samma sak.'},
+
+  {id:'o25',year:2019,topic:'demokrati',title:'Att använda historia om slaveriet – Harriet Tubman (Uppgift 8, 2019)',
+   source:'År 2016 beslutade amerikanska politiker att byta ut Andrew Jackson mot Harriet Tubman på 20-dollarsedeln. Tubman flydde från slaveriet och kämpade hela sitt liv mot det. Jackson var USA:s president och ägde slavar.',
+   q:'Varför vill politiker byta ut bilden? Vilka reaktioner kan det väcka hos den amerikanska befolkningen?',
+   crit:{e:'En rimlig anledning till bytet + en reaktion.',c:'Två anledningar + två reaktioner med motivering.',a:'Välmotiverade anledningar + nutida konsekvenser tydligt kopplade till historien.'},
+   ex:'Anledning 1: Man vill erkänna och hedra kampen mot slaveriet – Tubman representerar frihet och motstånd mot förtryck, värden som USA officiellt säger sig stå för. Anledning 2: Jackson ägde slavar och var känd för "Indian Removal Act" som tvångsförflyttade ursprungsbefolkningen – att ha honom på en sedel kan uppfattas som att staten hedrar slaveriet. Reaktion (positiv): Afroamerikaner och antirasister kan se bytet som ett erkännande av slaveriets orättfärdighet och ett steg mot historisk upprättelse. Reaktion (negativ): Konservativa kan se det som att man "raderar" historia eller angriper en grundarfader, vilket väcker identitetspolitisk konflikt om vilken historia som ska hedras.'},
+],
+
+}; // end Q
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+const S = {mc:{c:0,t:0},tf:{c:0,t:0},src:{c:0,t:0},openShown:0,hist:[],done:{}};
+
+// ═══════════════════════════════════════════════════════
+// RENDER ENGINE
+// ═══════════════════════════════════════════════════════
+const L = ['A','B','C','D','E','F','G','H'];
+
+function renderMCCard(q){
+  const btns = q.opts.map((o,i)=>
+    `<button class="cho" id="cho-${q.id}-${i}" data-qid="${q.id}" data-idx="${i}" onclick="doMC(this.dataset.qid,+this.dataset.idx)">
+      <span class="cho-ltr">${L[i]}</span><span>${o}</span>
+    </button>`).join('');
+  return body(q,`<div class="choices">${btns}</div><div class="fb-msg" id="fb-${q.id}"></div>`);
+}
+
+function renderTFCard(q){
+  const rows = q.rows.map((r,i)=>`
+    <tr>
+      <td>${r.stmt}</td>
+      <td><button class="tf-row-btn" id="tf-${q.id}-${i}-y" data-qid="${q.id}" data-idx="${i}" data-val="true" onclick="doTF(this.dataset.qid,+this.dataset.idx,true)">JA</button></td>
+      <td><button class="tf-row-btn" id="tf-${q.id}-${i}-n" data-qid="${q.id}" data-idx="${i}" data-val="false" onclick="doTF(this.dataset.qid,+this.dataset.idx,false)">NEJ</button></td>
+      <td style="font-size:12px;" id="tf-exp-${q.id}-${i}"></td>
+    </tr>`).join('');
+  return body(q,`<table class="tf-table"><thead><tr><th>Påstående</th><th>JA</th><th>NEJ</th><th></th></tr></thead><tbody>${rows}</tbody></table>`);
+}
+
+function renderMatchCard(q){
+  const rows = q.items.map((item,i)=>{
+    const opts = item.opts.map((o,j)=>`<option value="${j}" ${j===0?'':''}>-- välj --</option>`);
+    const optsFull = [`<option value="-1">-- välj --</option>`, ...item.opts.map((o,j)=>`<option value="${j}">${o}</option>`)].join('');
+    return `<tr>
+      <td style="font-size:13.5px;font-weight:600;padding-right:12px;">${item.period}</td>
+      <td><select class="match-sel" id="ms-${q.id}-${i}">${optsFull}</select></td>
+      <td style="font-size:12px;color:var(--mid);" id="mexp-${q.id}-${i}"></td>
+    </tr>`;
+  }).join('');
+  return body(q,`<table class="match-table"><thead><tr><th>Tidsperiod/Begrepp</th><th>Ditt svar</th><th></th></tr></thead><tbody>${rows}</tbody></table>
+    <button class="match-check-btn" data-qid="${q.id}" onclick="checkMatch(this.dataset.qid)">Kontrollera svar</button>
+    <div class="match-result" id="mr-${q.id}"></div>`);
+}
+
+function renderSrcCard(q){
+  const btns = q.opts.map((o,i)=>
+    `<button class="cho" id="cho-${q.id}-${i}" data-qid="${q.id}" data-idx="${i}" onclick="doSrc(this.dataset.qid,+this.dataset.idx)">
+      <span class="cho-ltr">${L[i]}</span><span>${o}</span>
+    </button>`).join('');
+  return body(q,`<div class="choices">${btns}</div><div class="fb-msg" id="fb-${q.id}"></div>`);
+}
+
+// Per-question content suggestions keyed by question id
+const CONTENT_TIPS = {
+  o1: {
+    head:'Vad kan du ta upp om Förintelsens orsaker?',
+    points:[
+      'Nazisternas antisemitiska rasideologi – judarna pekades ut som mindervärdiga redan i Mein Kampf (1925)',
+      'Tyslands ekonomiska kris efter WWI – inflation, massarbetslöshet, folk sökte syndabockar',
+      'Versaillesfredens ödmjukelse – "dolkstötslegenden" om att judarna förråde Tyskland 1918',
+      'Hitlers politiska maktövertagande 1933 – Riksdagen brann, undantagslagar, oppositioner förbjöds',
+      'Nürnberglagarna 1935 – judarna berövades medborgarrätt genom lag',
+      'Kristallnatten 1938 – organiserat pogrompogram, sista steget mot Förintelsen',
+      'Wannseekonferensen 1942 – byråkratisk planering av utrotningen ("Endlösung")',
+    ]
+  },
+  o9: {
+    head:'Vad kan du ta upp om Förintelsens orsaker?',
+    points:[
+      'Ideologisk orsak: nazistisk rasideologi och antisemitism, förankrad i Mein Kampf',
+      'Ekonomisk orsak: 1930-talets depression, 6 miljoner arbetslösa i Tyskland, judarna som syndabockar',
+      'Politisk orsak: Hitlers diktatoriska makt – inga demokratiska spärrar kvar efter 1933',
+      'Psykologisk orsak: "dolkstötslegenden" – folk trodde judarna orsakat Tysklands nederlag i WWI',
+      'Hur de hänger ihop: ekonomisk kris → folk mottagliga för enkla förklaringar → nazistisk propaganda → politisk makt → lagar → folkmord',
+    ]
+  },
+  o2: {
+    head:'Vad kan du ta upp om kolonialismens konsekvenser?',
+    points:[
+      'Ekonomisk: råvaror plundrades – gummi från Kongo, bomull och kryddor från Indien, guld/diamanter från Afrika',
+      'Ekonomisk: slavhandeln berikade Europa men utarmade Afrika på befolkning och resurser',
+      'Politisk: Berlinkonferensen 1884–85 delade Afrika längs konstgjorda gränser – konflikter idag i Rwanda, Sudan, Nigeria',
+      'Kulturell/religiös: missionärer förstörde inhemska kulturer, språk och religioner tvingades bort',
+      'Social: rasistiska hierarkier skapades, apartheid i Sydafrika som direkt konsekvens',
+      'Långvarig: artificiella gränser orsakar konflikter in i vår tid (långvarig = A-nivå!)',
+    ]
+  },
+  o3: {
+    head:'Vad kan du ta upp om industriella revolutionens konsekvenser?',
+    points:[
+      'Social: urbanisering – folk strömmade till städer som Manchester, Göteborg; usla bostäder, barnarbete',
+      'Ekonomisk: massproduktion → billigare varor → konsumtionssamhälle; ny borgarklass av fabriksägare',
+      'Politisk: fackföreningsrörelsen och socialdemokratin växte fram som svar på eländiga arbetsvillkor',
+      'Miljö: industriell förorening, kolkraft, långsiktiga klimateffekter (långvarig konsekvens!)',
+      'Global: Europa fick ett industriellt försprång som möjliggjorde kolonialism',
+      'Långvarig: välfärdsstaten med arbetsrätt och 8-timmarsdag – direkta arv från industrialismens kamp',
+    ]
+  },
+  o4: {
+    head:'Vad kan du ta upp om fritidsvanor och kontinuitet/förändring?',
+    points:[
+      'Kontinuitet: vuxna OROAR SIG i alla tre texterna – 1812, 1940, 2013 – för ungdomarnas fritid',
+      'Kontinuitet: oro för att media "tar över" och påverkar negativt gäller i alla tre perioderna',
+      'Förändring: mediet förändras – romaner → film → smartphones',
+      'Förändring: 1812 handlade det om flickor specifikt, 2013 om alla ungdomar',
+      'Förändring: synen på vad som är "lämplig" fritid har förändrats med samhällsnormer',
+      'Tips: nämn alla TRE texterna för A – en per tidsperiod',
+    ]
+  },
+  o5: {
+    head:'Vilka demokratiska förebilder kan du ta upp?',
+    points:[
+      'Nelson Mandela – kämpade mot apartheid i Sydafrika, satt fängslad 27 år, ledde till fria val 1994',
+      'Martin Luther King – ledde medborgarrättsrörelsen i USA, "I have a dream" 1963, kämpade mot raslagar',
+      'Mahatma Gandhi – ledde Indiens självständighetskamp med ickevåld mot brittiskt kolonialstyre',
+      'Olympe de Gouges – skrev "Kvinnans rättighetsförklaring" 1791 under franska revolutionen',
+      'Emmeline Pankhurst – ledde suffragettröresen i Storbritannien för kvinnlig rösträtt',
+      'Abraham Lincoln – avskaffade slaveriet i USA 1863, kämpade för union och frihet',
+      'A-nivå: ta upp att NÅGON kan tycka annorlunda om din person – ingen historisk gestalt är okontroversiell!',
+    ]
+  },
+  o6: {
+    head:'Vad kan du ta upp om homosexualitetens historia i Sverige?',
+    points:[
+      'Kontinuitet: negativ syn i 700 år – synd (1300-tal) → brott (1600-tal) → sjukdom (1800-tal) → fortfarande sjukdom (1944)',
+      'Förändring: 1979 avklassat som sjukdom av Socialstyrelsen – stor förändring',
+      'Förändring: 1995 partnerskapslag, 2009 könsneutral äktenskapslag',
+      'Förändring: från dödsstraff till laglig rättighet på 400 år',
+      'Kontinuitet: hatbrott mot sexuell läggning är 2008–2015 det MEST anmälda hatbrottet – trots lagliga rättigheter finns fortfarande fördomar',
+    ]
+  },
+  o7: {
+    head:'Vad kan du ta upp om Historiskan?',
+    points:[
+      'Anledning: traditionell historia har fokuserat på männen – krig, kungar, politik – och utelämnat kvinnors perspektiv',
+      'Anledning: att lyfta historiska orättvisor mot kvinnor kan belysa nutida ojämlikhet',
+      'Konsekvens: folk börjar ifrågasätta ensidiga historieberättelser och kräver mer inkluderande historieskrivning',
+      'Konsekvens: historiker och journalister kan börja söka fler "underifrånperspektiv" i arkiven',
+      'Konsekvens: kan leda till debatt och motreaktioner – inte alla välkomnar ett feministiskt historiebruk',
+    ]
+  },
+  o8: {
+    head:'Vad kan du ta upp om nazisternas kopiering av romarriket?',
+    points:[
+      'Romarriket var ett MÄKTIGT imperium som enade Europa – nazisterna ville koppla sitt "Tredje rike" till denna storhet',
+      'Romarna var kända för militär disciplin och organisation – egenskaper nazisterna ville förknippas med',
+      'Konkreta symboler: "Heil Hitler" imiterar den romerska "Ave Caesar"-hälsningen',
+      'Örnen som rikssymbol är hämtad direkt från Roms örnenstandar',
+      'Begreppet "Tredje riket" – det första var det romerska, det andra det heliga romerska riket',
+      'Att koppla sig till antiken gav nazisternas ideologi en "historisk legitimitet" hos befolkningen',
+    ]
+  },
+  o10: {
+    head:'Vad kan du ta upp om kärnvapens framtid?',
+    points:[
+      'Samira (kärnvapen KOMMER användas): USA använde atombomber 1945 i Hiroshima/Nagasaki – det har hänt förut',
+      'Samira: Nordkorea och Ryssland hotar aktivt med kärnvapen idag – avskräckning kanske inte håller',
+      'Samira: fler länder har idag kärnvapen än under kalla kriget – risken för misstag ökar',
+      'Gustav (kärnvapen KOMMER INTE användas): Kubakrisen 1962 – båda supermakterna backade trots maxspänning',
+      'Gustav: ingen kärnvapenmakt har använt kärnvapen mot en annan kärnvapenmakt (MAD-doktrinen)',
+      'Gustav: NPT-avtalet och internationella normer skapar stark press mot användning',
+    ]
+  },
+  o11: {
+    head:'Vad kan Michelle och Amir ta upp om franska revolutionen?',
+    points:[
+      'Michelle (bra att fira): revolutionen avskaffade kungamakten och skapade folkrepresentationen',
+      'Michelle: "Människors och medborgarnas rättighetsförklaring" 1789 – grundsten för mänskliga rättigheter',
+      'Michelle: demokratiska idéer spreds till hela världen och inspirerade kommande revolutioner',
+      'Michelle: religionsfrihet och pressfriheten grundades i revolutionens idéarv',
+      'Amir (dåligt att fira): Skräckväldet 1793–94 – tusentals oskyldiga avrättades i giljotin',
+      'Amir: revolutionen skapade kaos som Napoleon utnyttjade – hans erövringskrig dödade miljoner',
+      'Amir: slaveriet i de franska kolonierna avskaffades INTE av revolutionen',
+    ]
+  },
+  o12: {
+    head:'Vad kan du ta upp om franska revolutionens orsaker och konsekvenser?',
+    points:[
+      'Orsak – ekonomisk: Frankrike nära bankrutt efter stöd till USA:s frihetskrig + adelns skattefrihet',
+      'Orsak – social: tredje ståndet (bönder + borgare) bar hela skattetrycket men hade inget politiskt inflytande',
+      'Orsak – ideologisk: upplysningstidens idéer (Rousseau, Voltaire) om folkstyre och naturliga rättigheter',
+      'Konsekvens – kortvarig: Skräckväldet, avrättningar av kungen och adeln, kaos',
+      'Konsekvens – långvarig: demokratiska och nationalistiska idéer spreds via Napoleonkrigen till hela världen',
+      'Konsekvens – långvarig: 1800-talets revolutioner i Europa och Latinamerika inspirerades direkt av den franska',
+    ]
+  },
+  o13: {
+    head:'Vad kan du ta upp om Ebola och historiebruk?',
+    points:[
+      'Orsak 1 till jämförelsen: ge läsare historisk kontext – digerdöden är välkänd och visar att epidemier kan vara enormt dödliga',
+      'Orsak 2: skapa dramatik och uppmärksamhet – "vår tids digerdöd" säljer fler lösnummer',
+      'Orsak 3: ge beslutsfattare allvar – historiska jämförelser kan mobilisera resurser snabbare',
+      'Kritik – DÅLIGT bruk: digerdöden dödade 30–50 miljoner i Europa; Ebolaepidemin 2014 ≈ 11 000 dödsfall. Oproportionerlig jämförelse skapar onödig panik',
+      'Kritik – DÅLIGT bruk: smittvägar och behandlingsmöjligheter är helt olika – jämförelsen är vilseledande',
+      'Försvar – BRA bruk: historien visar att epidemier kan vara ett existentiellt hot – bra att ta på allvar',
+    ]
+  },
+  o14: {
+    head:'Vad kan grupperna ta upp om Columbusdagen?',
+    points:[
+      'FÖR firandet: Columbus "upptäckt" öppnade kontakten mellan Europa och Amerika – lade grunden för handel, kulturmöten, USA:s bildande',
+      'FÖR firandet: Columbus bevisade att Atlanten kunde korsas – ett sjöfartshistoriskt genombrott',
+      'FÖR firandet: Columbus var en modig navigatör som utmanade sin tids gränser',
+      'MOT firandet: Conquistadorerna efter Columbus utrotade Aztekernas och Inkaernas rika civilisationer',
+      'MOT firandet: Europeiska sjukdomar dödade 50–90% av ursprungsbefolkningen i Amerika',
+      'MOT firandet: slaveriet – triangelhandeln som följde Columbus dödade miljoner afrikaner',
+      'MOT firandet: Columbus personligen misshandlade och förslavade ursprungsbefolkningen på Hispaniola',
+    ]
+  },
+  o15: {
+    head:'Vad kan du ta upp om varför imperier uppstod?',
+    points:[
+      'Brittiska imperiet: industriell militärteknologi (ångfartyg, järnvägar, moderna gevär) gav överlägsenhet',
+      'Brittiska imperiet: ekonomisk motivation – koloniers råvaror drev industrialiseringen',
+      'Brittiska imperiet: East India Company – statssanktionerat handelsbolag som erövrade Indien',
+      'Mongoliska imperiet: ryttarkrigföring – rörligt kavalleri med pilbågar, överlägset i fältslaget',
+      'Mongoliska imperiet: Djingis Khans organisatoriska och strategiska genialitet',
+      'Romerska riket: disciplinerad armé (legioner), välbyggda vägar möjliggjorde snabba truppförflyttningar',
+      'Osmanska riket: strategiskt läge vid korsvägar mellan Europa och Asien, kontroll av handelsvägar',
+      'Kom ihåg: militär + ekonomisk + politisk orsak = minst tre typer för A-nivå!',
+    ]
+  },
+  o16: {
+    head:'Vad kan du ta upp om Sameblod och historieanvändning?',
+    points:[
+      'Anledning 1: samernas historia är underrepresenterad – filmen ger synlighet åt en grupp vars förtryck osynliggjorts',
+      'Anledning 2: att belysa historisk rasism kan skapa förståelse för nutida konflikter om samiska rättigheter (renbetesmark, gruvdrift)',
+      'Anledning 3: Sverige har en officiell bild som "tolerant nation" – filmen utmanar den självbilden',
+      'Konsekvens: ökad medvetenhet kan leda till politisk handling – starkare skydd för samiska rättigheter',
+      'Konsekvens: filmer om förtryckta minoriteter kan väcka debatt och motreaktioner',
+      'Konsekvens: historielärare och skolor kan använda filmen som undervisningsmaterial',
+    ]
+  },
+  o17: {
+    head:'Vad kan du ta upp om WWI:s konsekvenser?',
+    points:[
+      'Förändring – Versaillesfreden 1919 ritade om Europas karta: Österrike-Ungern, Osmanska riket och Tyska kejsardömet upplöstes',
+      'Förändring – nya nationer bildades: Polen, Tjeckoslovakien, Jugoslavien, Ungern, Österrike m.fl.',
+      'Förändring – ryska revolutionen 1917 och Sovjet bildades – direkt konsekvens av kriget',
+      'Kontinuitet – nationalismens krafter förblev starka, stärktes av Versaillesfredens orättvisor',
+      'Kontinuitet – militarism och revanschlust i Tyskland fortsatte – ledde till Hitler och WWII',
+      'Långvarig konsekvens (A!): Versaillesfredens ödmjukelse av Tyskland lade grunden för Hitlers uppgång och WWII – en konsekvens som varade i 20 år',
+    ]
+  },
+  o19: {
+    head:'Vad kan du ta upp om Keops pyramid och Wiehe?',
+    points:[
+      'Likhet 1: I det forntida Egypten hade kungen makt och slavar lydde – Wiehe menar att det finns en liknande hierarki i Sverige idag',
+      'Likhet 2: De som "sitter överst" har makten, de "nedanför" lyder – ett klassamhälle som återkommer i alla tider',
+      'Varför just forntida Egypten: pyramiden är en universellt igenkänd symbol för hierarki och makt – alla förstår bilden omedelbart',
+      'Varför just Egypten: historiska avstånd gör det lättare att se orättvisor tydligt – vi kan erkänna att slaveri var fel, vilket får oss att reflektera kring nutiden',
+    ]
+  },
+  o20: {
+    head:'Vad kan du ta upp om Raoul Wallenberg Airport?',
+    points:[
+      'Wallenberg räddade ca 100 000 judars liv i Ungern 1944 med svenska skyddspass',
+      'Man vill koppla Sverige till humanitära värden och modet att handla rätt mot orättvisa – via en internationell flygplats',
+      'Historisk koppling: andra världskriget och Förintelsen – Wallenberg som motpol till nazisternas brott',
+      'Nutida koppling: Sverige som humanitärt land – namnvalet är en politisk signal',
+      'Möjlig invändning: Wallenberg greps av Sovjet 1945 – hans öde är fortfarande oklart, ingen vet exakt hur han dog',
+    ]
+  },
+  o21: {
+    head:'Vad kan du ta upp om Gulags orsaker?',
+    points:[
+      'Politisk orsak: Stalins diktatur – alla potentiella motståndare förpassades till lägren (kulakerna, trotskister, konstnärer)',
+      'Ideologisk orsak: kommunismen krävde att "klassfiender" isoleras för att revolutionen ska lyckas',
+      'Ekonomisk orsak: lägrens fångar var gratis arbetskraft – de byggde Vita havet-kanalen, järnvägar i Sibirien',
+      'Psykologisk orsak: terrorn mot befolkningen skapade rädsla och lydnad – alla visste att man kunde hamna i läger',
+      'Hur de hänger ihop: politisk paranoia + ideologi → lägrens upprättande; ekonomisk nytta förstärkte systemet ytterligare',
+    ]
+  },
+  o22: {
+    head:'Vad kan du ta upp om slavhandelns orsaker?',
+    points:[
+      'Ekonomisk orsak: plantageekonomin krävde massiv billig arbetskraft – socker, tobak, bomull var enormt lönsamt',
+      'Teknisk orsak: europeiska navigationsframsteg (karavellen, kompassen) möjliggjorde Atlantöverfarten',
+      'Politisk orsak: europeiska stater stödde och reglerade slavhandeln aktivt via kungliga privilegiebolag',
+      'Ideologisk orsak: rasideologi användes för att rättfärdiga slaveriet – afrikaners "underlägsenhet" påstods legitimera det',
+      'Hur de hänger ihop: teknik + ekonomi → slavhandeln startade; ideologin konstruerades i efterhand för att rättfärdiga vad som redan var lönsamt',
+    ]
+  },
+  o23: {
+    head:'Vad kan du ta upp om Sveriges demokrati i framtiden?',
+    points:[
+      'Samira (stärks): Sverige bygget av välfärdsstaten 1950–70-talet är ett stabilt demokratiskt arv',
+      'Samira: Sverige klarade sig från fascism och kommunism under 1900-talets kriser – demokratin är motståndskraftig',
+      'Samira: Högt valdeltagande och starkt civilsamhälle idag',
+      'Gustav (försvagas): Under 1930-talets depression tappade folk tron på demokratin i hela Europa – liknande oro kan hända igen',
+      'Gustav: Populistiska rörelser och erodering av institutioner (media, domstolar) i länder som Ungern och Polen visar att demokratier kan försvagas',
+      'Gustav: Lågt förtroende för politiker och "fake news" skapar polarisering',
+    ]
+  },
+  o24: {
+    head:'Vad kan du ta upp om demokratikampens historiska händelser?',
+    points:[
+      'Berlinmurens fall 1989: symboliserade frihetens seger över kommunistdiktaturen, möjliggjorde demokratisering av Östeuropa',
+      'Franska revolutionen 1789: avskaffade kungamakten och proklamerade folkstyre och mänskliga rättigheter',
+      'Kvinnlig rösträtt (Sverige 1921): utvidgade demokratin till halva befolkningen – före dess var demokratin ofullständig',
+      'Medborgarrättsrörelsen i USA (1960-tal): avskaffade raslagarna i södern och utvidgade demokratin till afroamerikaner',
+      'Amerikanska frihetskriget 1776: grundade en ny demokratisk nation baserad på folkets självstyre',
+      'Tips: välj en händelse och ge 2–3 SPECIFIKA exempel från just den händelsens historia',
+    ]
+  },
+  o25: {
+    head:'Vad kan du ta upp om Harriet Tubman-sedeln?',
+    points:[
+      'Anledning 1: Tubman representerar kampen mot slaveriet – att ha henne på sedeln hedrar detta motstånd',
+      'Anledning 2: Jackson ägde slavar och tvångsförflyttade ursprungsbefolkningen – att ha honom på sedeln kan ses som att staten hedrar slaveriet',
+      'Anledning 3: Symboltikens makt – vem vi väljer att visa på sedlar säger något om vilka värden vi värdesätter som nation',
+      'Positiv reaktion: afroamerikaner kan se bytet som ett erkännande och historisk upprättelse',
+      'Negativ reaktion: konservativa kan se det som att man "raderar" historia eller utmålar grundarfäder som skurkar',
+      'Nutida kontext: Black Lives Matter-rörelsen och debatten om statyer/symboler i USA kopplar direkt till detta historiepolitiska beslut',
+    ]
+  },
+  o18: {
+    head:'Vad kan du ta upp om Tarantinos historieanvändning?',
+    points:[
+      'Likhet 1: oskyldiga greps och transporterades mot sin vilja till en okänd plats (slavskepp / deportationståg)',
+      'Likhet 2: i båda fallen betraktades offren som icke-mänskliga, utan rättigheter',
+      'Likhet 3: Tarantino menar att slavhandeln fått MYCKET mindre uppmärksamhet i film och böcker än Förintelsen',
+      'Anledning till jämförelsen: ge filmens handling en moralisk tyngd och historisk legitimitet',
+      'Anledning: visa att USA:s historia innehåller ett eget "förintelsetrauma" som fortfarande påverkar landet',
+      'Kritik (A-nivå!): Förintelsen hade ett statsstyrt utrotningssyfte; slavhandeln drevs primärt av ekonomisk vinning – viktiga skillnader riskerar suddas ut',
+    ]
+  },
+};
+
+function getTips(q){
+  const contentTip = CONTENT_TIPS[q.id];
+  const contentHtml = contentTip
+    ? `<div class="tip-item tip-content">
+        <div class="tip-icon-head"><span class="tip-ico">✏️</span><strong>${contentTip.head}</strong></div>
+        <ul class="tip-points">${contentTip.points.map(p => `<li>${p}</li>`).join('')}</ul>
+      </div>`
+    : '';
+
+  const qText = (q.q + ' ' + (q.hint||'')).toLowerCase();
+
+  const structural = [];
+  if(qText.includes('kontinuitet') || qText.includes('förändring')){
+    structural.push({icon:'🕐',head:'Använd BÅDA begreppen',body:'För C/A krävs att du nämner både "kontinuitet" och "förändring" och kopplar varje begrepp till en specifik tidsperiod. Börja t.ex.: "Det som förblev likt (kontinuitet) var… Det som förändrades var…"'});
+    structural.push({icon:'📅',head:'Hänvisa till alla tidsperioder',body:'Nämn varje tidsperiod konkret: "Under 1812…", "På 1940-talet…", "Idag 2013…". Vaga formuleringar som "förr i tiden" ger lägre betyg.'});
+  }
+  if(qText.includes('orsak') && !qText.includes('konsekvens')){
+    structural.push({icon:'💡',head:'Minst 3 orsaker + 2 typer för A',body:'För A: ta upp minst tre orsaker och se till att de täcker minst två typer (t.ex. ideologisk + ekonomisk). Förklara hur minst tre av orsakerna hänger ihop.'});
+  }
+  if(qText.includes('konsekvens') && !qText.includes('orsak')){
+    structural.push({icon:'⏳',head:'Kortvarig OCH långvarig (för A)',body:'Nämn en sak som hände direkt och en vars effekter lever kvar idag. Motivera: "Denna konsekvens varar än idag eftersom…"'});
+  }
+  if(qText.includes('historia') && (qText.includes('använder') || qText.includes('använda'))){
+    structural.push({icon:'🎯',head:'Tre frågor om historieanvändning',body:'(1) VEM använder historien? (2) VARFÖR – vilket syfte har de? (3) Finns det KRITIK – är den rättvisande eller vinklad?'});
+  }
+  if(qText.includes('imperium') || qText.includes('imperier')){
+    structural.push({icon:'🏰',head:'Koppla alltid till ditt valda imperium',body:'"De hade en stark armé" ger E. "Det Brittiska imperiet använde ångfartyg och moderna gevär för att erövra…" ger C/A. Varje orsak ska ha ett konkret historiskt exempel.'});
+  }
+
+  const generic = [
+    {icon:'📌',head:'Var konkret från första meningen',body:'Skriv direkt: "En orsak var att…" eller "En konsekvens blev att…". Undvik inledningar som "I detta svar ska jag…"'},
+    {icon:'📚',head:'Nämn alltid en specifik händelse, person eller år',body:'"Under Nürnberglagarna 1935…" är starkare än "lagarna mot judar". Detaljer visar att du kan ditt ämne.'},
+    {icon:'🔗',head:'Koppla ihop med bindeord',body:'Använd: "detta ledde till att…", "vilket i sin tur…", "dessa hänger ihop eftersom…". Det är kopplingen som skiljer C från E.'},
+    {icon:'📊',head:'Nämn minst två TYPER (för A)',body:'Ideologiska, politiska, ekonomiska, psykologiska, sociala, militära – en orsak av varje typ ger bredare resonemang.'},
+  ];
+
+  const allStructural = [...structural, ...generic];
+
+  return `
+    ${contentHtml}
+    ${allStructural.map(t => `
+    <div class="tip-item">
+      <div class="tip-icon-head"><span class="tip-ico">${t.icon}</span><strong>${t.head}</strong></div>
+      <p>${t.body}</p>
+    </div>`).join('')}
+  `;
+}
+
+function showTips(id){
+  document.querySelectorAll(`[id="tips-panel-${id}"]`).forEach(el=>{
+    const open = el.classList.toggle('show');
+    document.querySelectorAll(`[id="tips-btn-${id}"]`).forEach(btn=>{
+      btn.textContent = open ? '💡 Dölj tips' : '💡 Tips – hur skriver jag?';
+      btn.classList.toggle('btn-tips-open', open);
+    });
+  });
+}
+
+function renderOpenCard(q){
+  const src = q.source ? `<div class="src"><div class="src-lbl">Material</div><p>${q.source.replace(/\n/g,'<br>')}</p></div>` : '';
+  const hint = q.hint ? `<div class="qsub">${q.hint}</div>` : '';
+  const tipsHtml = getTips(q);
+  return `<div class="qcard" id="card-${q.id}" data-topic="${q.topic}">
+    <div class="qhdr"><div class="qmeta">
+      <span class="badge b-year">${q.year}</span>
+      <span class="badge b-open">Öppen fråga</span>
+      <span class="badge" style="background:rgba(245,240,232,.08);color:rgba(245,240,232,.45);border:1px solid rgba(245,240,232,.1);">${topicLabel(q.topic)}</span>
+    </div><span class="qtitle">${q.title}</span></div>
+    <div class="qbody">
+      ${src}
+      <div class="qtxt">${q.q}</div>
+      ${hint}
+      <button class="btn-tips" id="tips-btn-${q.id}" data-qid="${q.id}" onclick="showTips(this.dataset.qid)">💡 Tips – hur skriver jag?</button>
+      <div class="tips-panel" id="tips-panel-${q.id}">
+        <div class="tips-panel-title">Skrivtips för den här frågan</div>
+        ${tipsHtml}
+      </div>
+      <textarea class="area" id="ans-${q.id}" placeholder="Skriv ditt svar här…"></textarea>
+      <div class="btn-row">
+        <button class="btn btn-p" data-qid="${q.id}" onclick="showReveal(this.dataset.qid)">Visa bedömningsmall</button>
+        <button class="btn btn-s" onclick="document.getElementById('ans-${q.id}').value='';document.getElementById('reveal-${q.id}').classList.remove('show')">Rensa</button>
+      </div>
+      <div class="reveal" id="reveal-${q.id}">
+        <div class="rev-title">Bedömningsmall – NP ${q.year}</div>
+        <div class="grade-row">
+          <div class="gi e"><div class="gl">E</div><p>${q.crit.e}</p></div>
+          <div class="gi c"><div class="gl">C</div><p>${q.crit.c}</p></div>
+          <div class="gi a"><div class="gl">A</div><p>${q.crit.a}</p></div>
+        </div>
+        <div class="eg"><div class="eg-lbl">Exempelsvar (C/A-nivå)</div><p>${q.ex.replace(/\n/g,'<br>')}</p></div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function body(q, innerHtml){
+  const typeCls = {mc:'b-mc',tf:'b-tf',match:'b-match',src:'b-src'}[q.type] || 'b-open';
+  const typeLabel2 = {mc:'Flerval',tf:'Sant/Falskt',match:'Matcha',src:'Källkritik'}[q.type||'mc'];
+  const intro = q.intro ? `<div class="src"><div class="src-lbl">Bakgrund / Källor</div><p class="src-text">${q.intro.replace(/\n/g,'<br>')}</p></div>` : '';
+  return `<div class="qcard" id="card-${q.id}" data-topic="${q.topic}">
+    <div class="qhdr"><div class="qmeta">
+      <span class="badge b-year">${q.year}</span>
+      <span class="badge ${typeCls}">${typeLabel2}</span>
+      <span class="badge" style="background:rgba(245,240,232,.08);color:rgba(245,240,232,.45);border:1px solid rgba(245,240,232,.1);">${topicLabel(q.topic)}</span>
+    </div><span class="qtitle">${q.title}</span></div>
+    <div class="qbody">${intro}<div class="qtxt">${q.q}</div>${innerHtml}</div>
+  </div>`;
+}
+
+function topicLabel(t){
+  return {antiken:'Antiken',revolution:'Revolutioner',forintelsen:'Förintelsen',krig:'Världskrigen',kalla:'Kalla kriget',imperialism:'Kolonialism',demokrati:'Demokrati & Historia',levnad:'Levnadsvillkor'}[t]||t;
+}
+
+function yearSep(y){
+  return `<div class="year-sep">Nationella provet ${y}</div>`;
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER PANELS
+// ═══════════════════════════════════════════════════════
+function renderAll(){
+  // Assign types to ALL question arrays
+  Q.mc.forEach(q=>{q.type='mc';});
+  Q.tf.forEach(q=>{q.type='tf';});
+  Q.match.forEach(q=>{q.type='match';});
+  Q.src.forEach(q=>{q.type='src';});
+  Q.open.forEach(q=>{q.type='open';});
+
+  function renderQ(q){ 
+    if(q.type==='mc')    return renderMCCard(q);
+    if(q.type==='tf')    return renderTFCard(q);
+    if(q.type==='match') return renderMatchCard(q);
+    if(q.type==='src')   return renderSrcCard(q);
+    if(q.type==='open')  return renderOpenCard(q);
+    return '';
+  }
+
+  function buildHtml(arr){
+    let html='', lastY=null;
+    arr.forEach(q=>{
+      if(q.year!==lastY){html+=yearSep(q.year);lastY=q.year;}
+      html+=renderQ(q);
+    });
+    return html;
+  }
+
+  document.getElementById('mc-q').innerHTML    = buildHtml(Q.mc);
+  document.getElementById('tf-q').innerHTML    = buildHtml(Q.tf);
+  document.getElementById('match-q').innerHTML = buildHtml(Q.match);
+  document.getElementById('src-q').innerHTML   = buildHtml(Q.src);
+  document.getElementById('open-q').innerHTML  = buildHtml(Q.open);
+
+  // All panel – sorted by year
+  const allQ = [...Q.mc,...Q.tf,...Q.match,...Q.src,...Q.open].sort((a,b)=>a.year-b.year||0);
+  document.getElementById('alla-q').innerHTML = buildHtml(allQ);
+
+  document.getElementById('total-q-count').textContent =
+    (Q.mc.length+Q.tf.length+Q.match.length+Q.src.length+Q.open.length)+'+';
+  updateScoreDisplays();
+}
+
+// ═══════════════════════════════════════════════════════
+// INTERACTION
+// ═══════════════════════════════════════════════════════
+function doMC(qid,chosen){
+  const q = Q.mc.find(x=>x.id===qid);
+  if(!q) return;
+  if(S.done[qid]) return;
+  const ok = chosen===q.ans;
+
+  document.querySelectorAll(`[data-qid="${qid}"][data-idx]`).forEach(btn=>{
+    btn.disabled=true;
+    const idx = +btn.dataset.idx;
+    if(idx===q.ans) btn.classList.add('correct');
+    else if(idx===chosen&&!ok) btn.classList.add('wrong');
+  });
+
+  document.querySelectorAll(`[id="fb-${qid}"]`).forEach(fb=>{
+    fb.className='fb-msg '+(ok?'c':'w');
+    fb.innerHTML = ok
+      ? `<strong style="color:var(--green)">✓ Rätt!</strong> ${q.exp}`
+      : `<strong style="color:var(--red)">✗ Fel.</strong> Rätt svar: <strong>${L[q.ans]}. ${q.opts[q.ans]}</strong>. ${q.exp}`;
+  });
+
+  S.mc.t++; if(ok) S.mc.c++;
+  S.done[qid]=ok;
+  pushHist(q.q.substring(0,50)+'…',ok,q.year);
+  updateScoreDisplays();
+}
+
+function doTF(qid,rowIdx,isYes){
+  const q = Q.tf.find(x=>x.id===qid);
+  if(!q) return;
+  const row = q.rows[rowIdx];
+  if(S.done[`${qid}-${rowIdx}`]) return;
+  S.done[`${qid}-${rowIdx}`]=true;
+
+  const ok = (isYes===row.ans);
+  // Update all instances (multiple panels may show same question)
+  document.querySelectorAll(`[id^="tf-${qid}-${rowIdx}-"]`).forEach(btn=>{
+    btn.disabled=true;
+    const isY = btn.id.endsWith('-y');
+    if(row.ans && isY)   btn.className='tf-row-btn right-yes';
+    if(!row.ans && !isY) btn.className='tf-row-btn right-no';
+    if(!ok){
+      if(isYes && isY)   btn.className='tf-row-btn wrong-sel';
+      if(!isYes && !isY) btn.className='tf-row-btn wrong-sel';
+    }
+  });
+  document.querySelectorAll(`[id="tf-exp-${qid}-${rowIdx}"]`).forEach(expEl=>{
+    expEl.innerHTML = ok
+      ? `<span style="color:var(--green);font-weight:600">✓ Rätt!</span> <span style="color:var(--mid);font-size:11.5px">${row.exp}</span>`
+      : `<span style="color:var(--red);font-weight:600">✗ Rätt svar: ${row.ans?'JA':'NEJ'}</span> <span style="color:var(--mid);font-size:11.5px">${row.exp}</span>`;
+  });
+  S.tf.t++; if(ok) S.tf.c++;
+  pushHist(row.stmt.substring(0,50)+'…',ok,q.year);
+  updateScoreDisplays();
+}
+
+function checkMatch(qid){
+  const q = Q.match.find(x=>x.id===qid);
+  if(!q) return;
+  let correct=0, total=q.items.length;
+
+  q.items.forEach((item,i)=>{
+    // Get all selects with this id (may be in multiple panels)
+    const sels = document.querySelectorAll(`[id="ms-${qid}-${i}"]`);
+    // Find the visible one (closest visible ancestor)
+    let activeSel = null;
+    sels.forEach(sel=>{
+      if(sel.offsetParent !== null) activeSel = sel; // offsetParent is null for hidden elements
+    });
+    if(!activeSel) activeSel = sels[0]; // fallback
+
+    const val = parseInt(activeSel ? activeSel.value : -1);
+    const ok = val === item.ans;
+    if(ok) correct++;
+
+    // Update all instances visually
+    sels.forEach(sel=>{
+      sel.disabled = true;
+      sel.className = 'match-sel ' + (ok ? 'correct-sel' : 'wrong-sel-s');
+    });
+    document.querySelectorAll(`[id="mexp-${qid}-${i}"]`).forEach(expEl=>{
+      expEl.innerHTML = ok
+        ? `<span style="color:var(--green);font-weight:600">✓</span> <small style="color:var(--mid)">${item.exp}</small>`
+        : `<span style="color:var(--red);font-weight:600">✗ Rätt: ${item.ansText}</span><br><small style="color:var(--mid)">${item.exp}</small>`;
+    });
+  });
+
+  document.querySelectorAll(`[id="mr-${qid}"]`).forEach(res=>{
+    res.className = 'match-result show ' + (correct===total ? 'good' : 'bad');
+    res.textContent = `${correct} av ${total} rätt${correct===total?' – Perfekt! 🎉':correct>=total/2?' – Bra jobbat!':' – Fortsätt träna!'}`;
+  });
+
+  if(!S.done['match-'+qid]){
+    S.done['match-'+qid] = true;
+    for(let i=0; i<total; i++){
+      const sels = document.querySelectorAll(`[id="ms-${qid}-${i}"]`);
+      let activeSel = null;
+      sels.forEach(sel=>{ if(sel.offsetParent !== null) activeSel = sel; });
+      if(!activeSel) activeSel = sels[0];
+      const ok = activeSel && parseInt(activeSel.value) === q.items[i].ans;
+      S.tf.t++; if(ok) S.tf.c++;
+    }
+    updateScoreDisplays();
+  }
+}
+
+function doSrc(qid,chosen){
+  if(S.done[qid]) return;
+  const q=Q.src.find(x=>x.id===qid);
+  if(!q) return;
+  const ok=chosen===q.ans;
+  document.querySelectorAll(`[data-qid="${qid}"][data-idx]`).forEach(btn=>{
+    btn.disabled=true;
+    const idx=+btn.dataset.idx;
+    if(idx===q.ans) btn.classList.add('correct');
+    else if(idx===chosen&&!ok) btn.classList.add('wrong');
+  });
+  document.querySelectorAll(`[id="fb-${qid}"]`).forEach(fb=>{
+    fb.className='fb-msg '+(ok?'c':'w');
+    fb.innerHTML = ok
+      ? `<strong style="color:var(--green)">✓ Rätt!</strong> ${q.exp}`
+      : `<strong style="color:var(--red)">✗ Fel.</strong> Rätt svar: <strong>${L[q.ans]}. ${q.opts[q.ans]}</strong>. ${q.exp}`;
+  });
+  S.done[qid]=ok; pushHist(q.q.substring(0,50)+'…',ok,q.year);
+  updateScoreDisplays();
+}
+
+function showReveal(qid){
+  document.querySelectorAll(`[id="reveal-${qid}"]`).forEach(el=>{
+    el.classList.toggle('show');
+  });
+  S.openShown++;
+  updateScoreDisplays();
+}
+
+function pushHist(text,ok,year){
+  S.hist.unshift({text,ok,year});
+  if(S.hist.length>25) S.hist.pop();
+  renderHist();
+}
+
+function renderHist(){
+  const el=document.getElementById('hist-list');
+  if(!el) return;
+  if(!S.hist.length){el.innerHTML='<p style="font-size:13px;color:var(--mid);font-style:italic;">Inga svar ännu.</p>';return;}
+  el.innerHTML=S.hist.map(h=>`<div class="score-item">
+    <span class="score-label">${h.year} – ${h.text}</span>
+    <span class="score-val" style="color:${h.ok?'var(--green)':'var(--red)'}">${h.ok?'✓ Rätt':'✗ Fel'}</span>
+  </div>`).join('');
+}
+
+function updateScoreDisplays(){
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  const setW=(id,p)=>{const e=document.getElementById(id);if(e)e.style.width=p+'%';};
+  set('mc-score',`${S.mc.c} / ${S.mc.t}`);
+  set('tf-score',`${S.tf.c} / ${S.tf.t}`);
+  set('src-score',`${S.src.c} / ${S.src.t}`);
+  set('pg-mc',S.mc.c); set('pg-mc-s',`av ${S.mc.t} försök`);
+  set('pg-tf',S.tf.c); set('pg-tf-s',`av ${S.tf.t} försök`);
+  set('pg-src',S.src.c); set('pg-src-s',`av ${S.src.t} försök`);
+  set('pg-open',S.openShown);
+  if(S.mc.t) setW('pg-mc-b',Math.round(S.mc.c/S.mc.t*100));
+  if(S.tf.t) setW('pg-tf-b',Math.round(S.tf.c/S.tf.t*100));
+  if(S.src.t) setW('pg-src-b',Math.round(S.src.c/S.src.t*100));
+}
+
+function resetType(type){
+  if(type==='mc'){
+    S.mc={c:0,t:0};
+    Q.mc.forEach(q=>{
+      delete S.done[q.id];
+      document.querySelectorAll(`[data-qid="${q.id}"][data-idx]`).forEach(b=>{b.className='cho';b.disabled=false;});
+      document.querySelectorAll(`[id="fb-${q.id}"]`).forEach(fb=>{fb.className='fb-msg';fb.textContent='';});
+    });
+  }
+  if(type==='tf'){
+    S.tf={c:0,t:0};
+    Q.tf.forEach(q=>{
+      q.rows.forEach((_,i)=>{
+        delete S.done[`${q.id}-${i}`];
+        document.querySelectorAll(`[id^="tf-${q.id}-${i}-"]`).forEach(b=>{b.className='tf-row-btn';b.disabled=false;});
+        document.querySelectorAll(`[id="tf-exp-${q.id}-${i}"]`).forEach(e=>{e.textContent='';});
+      });
+    });
+  }
+  if(type==='src'){
+    S.src={c:0,t:0};
+    Q.src.forEach(q=>{
+      delete S.done[q.id];
+      document.querySelectorAll(`[data-qid="${q.id}"][data-idx]`).forEach(b=>{b.className='cho';b.disabled=false;});
+      document.querySelectorAll(`[id="fb-${q.id}"]`).forEach(fb=>{fb.className='fb-msg';fb.textContent='';});
+    });
+  }
+  updateScoreDisplays();
+}
+
+// ═══════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════
+function showPanel(name, tabEl){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(tabEl) tabEl.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function filterCards(chip,topic,containerId){
+  document.querySelectorAll(`#${containerId} .chip`).forEach(c=>c.classList.remove('on'));
+  chip.classList.add('on');
+  document.querySelectorAll(`#${containerId} .qcard`).forEach(card=>{
+    card.style.display=(topic==='alla'||card.dataset.topic===topic)?'':'none';
+  });
+  document.querySelectorAll(`#${containerId} .year-sep`).forEach(sep=>{
+    let n=sep.nextElementSibling,has=false;
+    while(n&&!n.classList.contains('year-sep')){if(n.style.display!=='none'){has=true;break;}n=n.nextElementSibling;}
+    sep.style.display=has?'':'none';
+  });
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+renderAll();
+</script>
+</body>
+</html>
