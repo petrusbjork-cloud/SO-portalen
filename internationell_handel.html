@@ -196,35 +196,43 @@ body {
   background: rgba(6,14,28,0.97);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0,196,180,0.15);
-  padding: 0 1.5rem;
 }
 
 .nav-inner {
   max-width: 1100px;
   margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
 }
 
 .nav-row {
   display: flex;
-  flex-wrap: wrap;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
+  align-items: stretch;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .nav-row:last-child { border-bottom: none; }
 
 .nav-row-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--steel);
-  padding: 0.55rem 0.75rem 0;
-  opacity: 0.6;
+  opacity: 0.5;
   white-space: nowrap;
-  align-self: center;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  min-width: 80px;
 }
+
+.nav-row-buttons {
+  display: flex;
+  flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav-row-buttons::-webkit-scrollbar { display: none; }
 
 .nav-btn {
   background: none;
@@ -233,24 +241,32 @@ body {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 0.8rem;
   font-weight: 500;
-  padding: 0.75rem 1rem;
+  padding: 0.7rem 1.1rem;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
   border-bottom: 2px solid transparent;
   position: relative;
+  flex-shrink: 0;
 }
 
-.nav-btn:hover { color: var(--white); }
+.nav-btn:hover { color: var(--white); background: rgba(255,255,255,0.03); }
 .nav-btn.active {
   color: var(--teal);
   border-bottom-color: var(--teal);
+  background: rgba(0,196,180,0.04);
+}
+
+/* Row 2 active tint in amber to differentiate */
+.nav-row:last-child .nav-btn.active {
+  color: #a78bfa;
+  border-bottom-color: #a78bfa;
+  background: rgba(167,139,250,0.04);
 }
 
 @media (max-width: 700px) {
-  .nav-inner { grid-template-columns: 1fr; }
-  .nav-row { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-  .nav-row::-webkit-scrollbar { display: none; }
+  .nav-row-label { display: none; }
+  .nav-row-buttons { overflow-x: auto; }
 }
 
 /* ===== SECTIONS ===== */
@@ -1511,6 +1527,14 @@ body {
   cursor: pointer; transition: all 0.2s;
 }
 .btn-clear-writing:hover { border-color: var(--coral); color: var(--coral); }
+.btn-copy-writing {
+  padding: 0.65rem 1.2rem;
+  background: transparent; border: 1px solid rgba(0,196,180,0.25); color: var(--teal);
+  border-radius: 0.5rem; font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem;
+  cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.4rem;
+}
+.btn-copy-writing:hover { background: rgba(0,196,180,0.08); border-color: var(--teal); }
+.btn-copy-writing.copied { background: rgba(0,196,180,0.12); color: #34d399; border-color: #34d399; }
 
 /* Keyword chips */
 .keyword-chips {
@@ -1759,17 +1783,23 @@ body {
 <nav id="sticky-nav">
   <div class="nav-inner">
     <div class="nav-row">
-      <button class="nav-btn active" onclick="showSection('s1', this)">📦 Varför handlar länder?</button>
-      <button class="nav-btn" onclick="showSection('s2', this)">💱 Valutor</button>
-      <button class="nav-btn" onclick="showSection('s3', this)">🛡️ Protektionism</button>
-      <button class="nav-btn" onclick="showSection('s4', this)">🇸🇪 Sveriges handel</button>
-      <button class="nav-btn" onclick="showSection('s5', this)">🌾 Ukraina-krisen</button>
+      <span class="nav-row-label">Läs</span>
+      <div class="nav-row-buttons">
+        <button class="nav-btn active" onclick="showSection('s1', this)">📦 Varför handlar länder?</button>
+        <button class="nav-btn" onclick="showSection('s2', this)">💱 Valutor</button>
+        <button class="nav-btn" onclick="showSection('s3', this)">🛡️ Protektionism</button>
+        <button class="nav-btn" onclick="showSection('s4', this)">🇸🇪 Sveriges handel</button>
+        <button class="nav-btn" onclick="showSection('s5', this)">🌾 Ukraina-krisen</button>
+      </div>
     </div>
     <div class="nav-row">
-      <button class="nav-btn" onclick="showSection('s8', this)">🧪 Scenariolabbet</button>
-      <button class="nav-btn" onclick="showSection('s9', this)">✍️ Skriv & Resonera</button>
-      <button class="nav-btn" onclick="showSection('s6', this)">🎯 Quiz</button>
-      <button class="nav-btn" onclick="showSection('s7', this)">🗂️ Begrepp</button>
+      <span class="nav-row-label">Öva</span>
+      <div class="nav-row-buttons">
+        <button class="nav-btn" onclick="showSection('s8', this)">🧪 Scenariolabbet</button>
+        <button class="nav-btn" onclick="showSection('s9', this)">✍️ Skriv & Resonera</button>
+        <button class="nav-btn" onclick="showSection('s6', this)">🎯 Quiz</button>
+        <button class="nav-btn" onclick="showSection('s7', this)">🗂️ Begrepp</button>
+      </div>
     </div>
   </div>
 </nav>
@@ -2314,7 +2344,6 @@ body {
       <button class="sc-tab active" onclick="showScenario(1, this)"><span class="sc-tab-num">1</span> 🇺🇸 Trumps tullar</button>
       <button class="sc-tab" onclick="showScenario(2, this)"><span class="sc-tab-num">2</span> 💸 Kronkrasch</button>
       <button class="sc-tab" onclick="showScenario(3, this)"><span class="sc-tab-num">3</span> 🌾 Blockad i Röda havet</button>
-      <button class="sc-tab" onclick="showScenario('write', this)"><span class="sc-tab-num" style="background:rgba(167,139,250,0.2);color:#a78bfa;">✍️</span> Skriv &amp; Resonera</button>
     </div>
 
     <!-- ===== SCENARIO 1: TRUMP TULLAR ===== -->
@@ -2739,6 +2768,7 @@ body {
             <div class="word-progress-bar"><div class="word-progress-fill" id="wp-bar-1" style="width:0%"></div></div>
             <div class="write-actions">
               <button class="btn-check-writing" onclick="showSelfAssess(1)" id="btn-feedback-1">✅ Självbedömning</button>
+              <button class="btn-copy-writing" onclick="copyWriting(1)" id="btn-copy-1">📋 Kopiera text</button>
               <button class="btn-clear-writing" onclick="clearWriting(1)">Rensa</button>
             </div>
           </div>
@@ -2811,6 +2841,7 @@ body {
             <div class="word-progress-bar"><div class="word-progress-fill" id="wp-bar-2" style="width:0%"></div></div>
             <div class="write-actions">
               <button class="btn-check-writing" onclick="showSelfAssess(2)" id="btn-feedback-2">✅ Självbedömning</button>
+              <button class="btn-copy-writing" onclick="copyWriting(2)" id="btn-copy-2">📋 Kopiera text</button>
               <button class="btn-clear-writing" onclick="clearWriting(2)">Rensa</button>
             </div>
           </div>
@@ -2883,6 +2914,7 @@ body {
             <div class="word-progress-bar"><div class="word-progress-fill" id="wp-bar-3" style="width:0%"></div></div>
             <div class="write-actions">
               <button class="btn-check-writing" onclick="showSelfAssess(3)" id="btn-feedback-3">✅ Självbedömning</button>
+              <button class="btn-copy-writing" onclick="copyWriting(3)" id="btn-copy-3">📋 Kopiera text</button>
               <button class="btn-clear-writing" onclick="clearWriting(3)">Rensa</button>
             </div>
           </div>
@@ -3191,6 +3223,17 @@ function showSection(id, btn) {
   document.getElementById(id).classList.add('active');
   btn.classList.add('active');
   if (id === 's6') initQuiz();
+}
+
+function copyWriting(task) {
+  const text = document.getElementById(`write-area-${task}`).value.trim();
+  const btn = document.getElementById(`btn-copy-${task}`);
+  if (!text) { btn.textContent = '⚠️ Inget att kopiera'; setTimeout(() => { btn.innerHTML = '📋 Kopiera text'; }, 1500); return; }
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.innerHTML = '✓ Kopierat!';
+    setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = '📋 Kopiera text'; }, 2000);
+  });
 }
 
 // ===== CURRENCY SIM =====
