@@ -1,0 +1,1732 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Religion NP-Tränaren – Åk 9</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #0f0e0c;
+  --surface: #181612;
+  --card: #1e1b17;
+  --border: #2e2923;
+  --text: #f0e8d8;
+  --muted: #8a7e6b;
+  --subtle: #4a4236;
+  --gold: #c9a84c;
+  --gold-dim: #3d2e10;
+  --gold-glow: rgba(201,168,76,.12);
+  --amber: #e8a444;
+  --green: #5cb87a;
+  --green-dim: #0d2b18;
+  --red: #e07070;
+  --red-dim: #2d1212;
+  --blue: #7da8cc;
+  --blue-dim: #0f2235;
+  --purple: #b08fda;
+  --teal: #5bbfb0;
+  --rose: #d4748a;
+}
+html.light {
+  --bg: #f7f3ec;
+  --surface: #ffffff;
+  --card: #ffffff;
+  --border: #e0d8c8;
+  --text: #1c1810;
+  --muted: #6b5e48;
+  --subtle: #c8bc9e;
+  --gold: #8b6914;
+  --gold-dim: #fdf4dc;
+  --gold-glow: rgba(139,105,20,.07);
+  --green: #2d7a49;
+  --green-dim: #e6f5ec;
+  --red: #b83232;
+  --red-dim: #fde8e8;
+  --blue: #2a6496;
+  --blue-dim: #e0ecf8;
+  --purple: #6d40b8;
+  --teal: #2a8077;
+  --rose: #9c3652;
+}
+html.light header { background: linear-gradient(135deg,#1a0a00 0%,#3d2000 50%,#1a0d00 100%) !important; }
+html.light .nav-bar { background: rgba(255,255,255,.95); }
+html.light .tab { color: var(--muted); }
+html.light .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+html.light .cho { background: #faf6ee; }
+html.light .cho:hover:not(:disabled) { background: var(--gold-dim); }
+html.light .reveal { background: #faf6ee; }
+html.light .score-box { background: #fff; }
+html.light .stat { background: rgba(139,105,20,.05); border-color: #d4c49a; }
+html.light .stat-n { color: var(--gold); }
+html.light .year-sep { color: #9aa3bc; }
+
+.theme-toggle {
+  position: fixed; bottom: 24px; right: 24px; z-index: 200;
+  width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--border); cursor: pointer;
+  background: var(--card); box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; transition: transform .2s, box-shadow .2s, background .3s;
+}
+.theme-toggle:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(0,0,0,.5); }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Source Serif 4', Georgia, serif;
+  background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.65;
+  transition: background .3s, color .3s;
+}
+
+/* ═══ HEADER ═══ */
+header {
+  background: linear-gradient(135deg,#0a0600 0%,#1a0e00 50%,#0a0800 100%);
+  padding: 44px 24px 36px; border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+header::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 15% -5%, rgba(201,168,76,.14) 0%, transparent 60%),
+              radial-gradient(ellipse 60% 50% at 85% 110%, rgba(91,191,176,.07) 0%, transparent 60%);
+}
+header::after {
+  content: ''; position: absolute; inset: 0; opacity: 0.4;
+  background-image: repeating-linear-gradient(
+    0deg, transparent, transparent 60px, rgba(201,168,76,.03) 60px, rgba(201,168,76,.03) 61px
+  ), repeating-linear-gradient(
+    90deg, transparent, transparent 60px, rgba(201,168,76,.03) 60px, rgba(201,168,76,.03) 61px
+  );
+}
+.hdr { max-width: 1060px; margin: 0 auto; position: relative; z-index: 1; }
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: '✦'; font-size: 8px; }
+header h1 {
+  font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.4rem);
+  font-weight: 800; line-height: 1.05; color: #f0e8d8; margin-bottom: 10px; letter-spacing: -0.5px;
+}
+header h1 em {
+  font-style: italic;
+  background: linear-gradient(135deg, var(--gold), var(--amber));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.subline { font-size: 14px; color: var(--muted); margin-bottom: 28px; font-style: italic; }
+.stats { display: flex; gap: 16px; flex-wrap: wrap; }
+.stat {
+  background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 8px; padding: 10px 18px;
+  transition: background .3s;
+}
+.stat-n {
+  font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: var(--gold);
+  line-height: 1;
+}
+.stat-l { font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+
+/* ═══ NAV ═══ */
+.nav-bar {
+  background: rgba(15,14,12,.95); border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);
+  transition: background .3s;
+}
+.nav-inner { max-width: 1060px; margin: 0 auto; display: flex; gap: 0; overflow-x: auto; padding: 0 8px; }
+.tab {
+  padding: 14px 20px; font-size: 13px; font-weight: 500; cursor: pointer;
+  color: var(--muted); border: none; background: none; border-bottom: 2px solid transparent;
+  white-space: nowrap; transition: color .2s, border-color .2s;
+  font-family: 'Source Serif 4', serif; letter-spacing: .3px;
+}
+.tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+.tab:hover:not(.active) { color: var(--text); }
+
+/* ═══ SECTIONS ═══ */
+.section { display: none; }
+.section.active { display: block; }
+.content { max-width: 1060px; margin: 0 auto; padding: 36px 24px 60px; }
+
+/* ═══ SECTION HEADER ═══ */
+.sec-hdr { margin-bottom: 28px; }
+.sec-hdr h2 {
+  font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700;
+  color: var(--text); margin-bottom: 6px;
+}
+.sec-hdr p { font-size: 14px; color: var(--muted); font-style: italic; }
+.divider {
+  height: 1px; background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 16px 0 28px; opacity: 0.4;
+}
+
+/* ═══ YEAR BADGE ═══ */
+.year-sep {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--muted); margin: 32px 0 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.year-sep::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ═══ TOPIC BADGE ═══ */
+.b-rel { background: rgba(201,168,76,.12); color: var(--gold); }
+.b-eth { background: rgba(176,143,218,.12); color: var(--purple); }
+.b-lf { background: rgba(91,191,176,.12); color: var(--teal); }
+.b-src { background: rgba(125,168,204,.12); color: var(--blue); }
+.b-mix { background: rgba(212,116,138,.12); color: var(--rose); }
+.badge {
+  display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 9px;
+  letter-spacing: 2px; text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
+  margin-bottom: 10px;
+}
+
+/* ═══ QUESTION CARD ═══ */
+.qcard {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px 28px; margin-bottom: 20px;
+  transition: border-color .2s, box-shadow .2s, background .3s;
+}
+.qcard:hover { border-color: var(--subtle); }
+.qcard.answered { border-color: transparent; }
+.qcard.correct { border-color: var(--green); box-shadow: 0 0 0 1px var(--green), inset 0 0 32px rgba(92,184,122,.04); }
+.qcard.wrong { border-color: var(--red); box-shadow: 0 0 0 1px var(--red), inset 0 0 32px rgba(224,112,112,.04); }
+.qno {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+.qtxt {
+  font-size: 15.5px; line-height: 1.6; color: var(--text); margin-bottom: 18px;
+  font-family: 'Source Serif 4', serif;
+}
+.qsrc {
+  font-size: 13px; font-style: italic; color: var(--muted);
+  background: var(--surface); border-left: 2px solid var(--gold); padding: 12px 16px;
+  border-radius: 0 6px 6px 0; margin-bottom: 16px; line-height: 1.5;
+}
+
+/* Multiple choice */
+.choices { display: flex; flex-direction: column; gap: 8px; }
+.cho {
+  padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer; font-size: 14.5px; text-align: left; background: var(--surface);
+  color: var(--text); transition: background .15s, border-color .15s, transform .1s;
+  font-family: 'Source Serif 4', serif; line-height: 1.4;
+}
+.cho:hover:not(:disabled) { background: var(--gold-glow); border-color: var(--gold); transform: translateX(3px); }
+.cho:disabled { cursor: default; }
+.cho.correct-ans { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.cho.wrong-ans { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+.cho.reveal-ans { background: rgba(92,184,122,.08); border-color: var(--green); color: var(--green); }
+
+/* True/False */
+.tf-row { display: flex; gap: 10px; margin-bottom: 8px; align-items: flex-start; }
+.tf-stmt { flex: 1; font-size: 14px; line-height: 1.5; font-family: 'Source Serif 4', serif; }
+.tf-btns { display: flex; gap: 6px; flex-shrink: 0; }
+.tf-btn {
+  padding: 6px 14px; border: 1px solid var(--border); border-radius: 6px;
+  cursor: pointer; font-size: 12px; font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 1px; background: var(--surface); color: var(--muted);
+  transition: all .15s;
+}
+.tf-btn:hover:not(:disabled) { border-color: var(--gold); color: var(--gold); }
+.tf-btn:disabled { cursor: default; }
+.tf-btn.correct-ans { background: var(--green-dim); border-color: var(--green); color: var(--green); }
+.tf-btn.wrong-ans { background: var(--red-dim); border-color: var(--red); color: var(--red); }
+.tf-btn.reveal-ans { background: rgba(92,184,122,.08); border-color: var(--green); color: var(--green); }
+
+/* Matching */
+.match-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.match-item { display: flex; gap: 10px; align-items: center; }
+.match-label { font-size: 14px; font-family: 'Source Serif 4', serif; flex: 1; }
+.match-sel {
+  padding: 7px 10px; border: 1px solid var(--border); border-radius: 6px;
+  background: var(--surface); color: var(--text); font-size: 13px;
+  cursor: pointer; min-width: 160px; font-family: 'Source Serif 4', serif;
+}
+.match-sel:disabled { opacity: .7; cursor: default; }
+.match-correct { border-color: var(--green) !important; color: var(--green) !important; }
+.match-wrong { border-color: var(--red) !important; color: var(--red) !important; }
+
+/* Explanation */
+.reveal {
+  margin-top: 14px; padding: 14px 18px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--border); font-size: 14px;
+  color: var(--muted); line-height: 1.6; display: none; font-style: italic;
+}
+.reveal.show { display: block; animation: fadeIn .3s ease; }
+.reveal strong { color: var(--text); font-style: normal; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* Check btn */
+.chk-btn {
+  margin-top: 16px; padding: 10px 22px; border: 1px solid var(--gold);
+  border-radius: 8px; cursor: pointer; font-size: 13px;
+  background: rgba(201,168,76,.08); color: var(--gold);
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 1px;
+  transition: background .15s, transform .1s;
+}
+.chk-btn:hover { background: rgba(201,168,76,.18); transform: translateY(-1px); }
+.chk-btn:disabled { opacity: .4; cursor: default; transform: none; }
+
+/* Essay */
+.essay-prompt {
+  font-size: 15px; color: var(--text); margin-bottom: 16px; line-height: 1.65;
+  font-family: 'Source Serif 4', serif;
+}
+.essay-bullet { display: flex; gap: 8px; margin-bottom: 8px; }
+.essay-bullet::before { content: '✦'; color: var(--gold); font-size: 10px; margin-top: 5px; flex-shrink: 0; }
+.criteria-box {
+  margin-top: 18px; padding: 16px 20px; border-radius: 8px;
+  background: var(--surface); border: 1px solid var(--border);
+}
+.criteria-box h4 {
+  font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700;
+  color: var(--gold); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;
+}
+.criteria-level { margin-bottom: 8px; }
+.criteria-lbl {
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--muted);
+}
+.criteria-txt { font-size: 13px; color: var(--text); line-height: 1.5; margin-top: 3px; }
+
+/* Score section */
+.score-box {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 32px; text-align: center; margin-bottom: 28px;
+}
+.score-ring {
+  width: 120px; height: 120px; border-radius: 50%; margin: 0 auto 16px;
+  border: 3px solid var(--border); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; position: relative;
+  background: var(--surface);
+}
+.score-pct {
+  font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 800;
+  line-height: 1; color: var(--gold);
+}
+.score-of { font-size: 11px; color: var(--muted); font-family: 'JetBrains Mono', monospace; }
+.score-msg { font-size: 16px; color: var(--text); font-style: italic; font-family: 'Playfair Display', serif; }
+.reset-btn {
+  margin-top: 20px; padding: 12px 28px; border: 1px solid var(--gold);
+  border-radius: 8px; cursor: pointer; font-size: 13px;
+  background: rgba(201,168,76,.08); color: var(--gold);
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 1px;
+  transition: background .15s; display: inline-block;
+}
+.reset-btn:hover { background: rgba(201,168,76,.2); }
+
+/* Progress bar */
+.progress-wrap { background: var(--surface); border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; border: 1px solid var(--border); }
+.progress-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.progress-bar-bg { height: 4px; background: var(--border); border-radius: 2px; }
+.progress-bar-fill { height: 4px; background: linear-gradient(90deg, var(--gold), var(--amber)); border-radius: 2px; transition: width .4s ease; }
+
+/* Flashcard section */
+.flashcard-wrap { perspective: 1000px; max-width: 560px; margin: 0 auto 32px; }
+.flashcard {
+  width: 100%; min-height: 260px; position: relative; cursor: pointer;
+  transform-style: preserve-3d; transition: transform .6s cubic-bezier(.4,0,.2,1);
+}
+.flashcard.flipped { transform: rotateY(180deg); }
+.card-face {
+  position: absolute; width: 100%; min-height: 260px; backface-visibility: hidden;
+  border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: var(--card); text-align: center;
+}
+.card-front { background: linear-gradient(135deg, var(--card), rgba(201,168,76,.04)); }
+.card-back { transform: rotateY(180deg); background: linear-gradient(135deg, var(--card), rgba(91,191,176,.04)); }
+.card-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+}
+.card-question { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; color: var(--text); line-height: 1.4; }
+.card-answer { font-family: 'Source Serif 4', serif; font-size: 15px; color: var(--text); line-height: 1.6; }
+.fc-hint { font-size: 12px; color: var(--muted); margin-top: 20px; font-style: italic; }
+.fc-nav { display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.fc-btn {
+  padding: 10px 20px; border: 1px solid var(--border); border-radius: 8px;
+  cursor: pointer; font-size: 13px; background: var(--card); color: var(--text);
+  font-family: 'Source Serif 4', serif; transition: all .15s;
+}
+.fc-btn:hover { border-color: var(--gold); color: var(--gold); }
+.fc-btn.knew { border-color: var(--green); color: var(--green); background: var(--green-dim); }
+.fc-btn.didnt { border-color: var(--red); color: var(--red); background: var(--red-dim); }
+.fc-counter { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--muted); }
+
+/* Essay textarea */
+.essay-area {
+  width: 100%; min-height: 200px; padding: 16px 18px;
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--surface); color: var(--text);
+  font-family: 'Source Serif 4', serif; font-size: 15px; line-height: 1.75;
+  resize: vertical; outline: none; transition: border-color .2s, box-shadow .2s;
+  margin-top: 14px;
+}
+.essay-area:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,.1);
+}
+.essay-area::placeholder { color: var(--subtle); font-style: italic; }
+.essay-meta {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: 6px; font-family: 'JetBrains Mono', monospace;
+  font-size: 10px; letter-spacing: 1px; color: var(--muted);
+}
+.word-count { transition: color .2s; }
+.word-count.has-text { color: var(--gold); }
+
+/* Collapsible hint/criteria toggle */
+.collapsible-btn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; padding: 10px 14px; margin-top: 14px;
+  border: 1px solid var(--border); border-radius: 8px;
+  background: var(--surface); color: var(--muted); cursor: pointer;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px;
+  letter-spacing: 2px; text-transform: uppercase;
+  transition: border-color .2s, color .2s, background .2s;
+  text-align: left;
+}
+.collapsible-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
+.collapsible-btn.open { border-color: var(--gold); color: var(--gold); background: var(--gold-glow); }
+.collapsible-btn .cb-arrow {
+  margin-left: auto; font-size: 12px; transition: transform .3s ease;
+}
+.collapsible-btn.open .cb-arrow { transform: rotate(180deg); }
+.collapsible-content {
+  overflow: hidden; max-height: 0;
+  transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease;
+  opacity: 0;
+}
+.collapsible-content.open { max-height: 1200px; opacity: 1; }
+.collapsible-inner { padding: 14px 0 4px; }
+
+/* Responsive */
+@media (max-width: 640px) {
+  .match-grid { grid-template-columns: 1fr; }
+  .nav-inner { gap: 0; }
+  .tab { padding: 12px 14px; font-size: 12px; }
+  .qcard { padding: 18px 16px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="eyebrow">Nationellt prov — Åk 9 — Religion</div>
+    <h1>Religion<em>stränaren</em></h1>
+    <p class="subline">Träna på autentiska provuppgifter från 2016 &amp; 2017 — med förklaringar och bedömning</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-n" id="hdr-total">65</div><div class="stat-l">Frågor totalt</div></div>
+      <div class="stat"><div class="stat-n" id="hdr-answered">0</div><div class="stat-l">Besvarade</div></div>
+      <div class="stat"><div class="stat-n" id="hdr-correct">0</div><div class="stat-l">Rätta svar</div></div>
+      <div class="stat"><div class="stat-n" id="hdr-pct">–</div><div class="stat-l">Rätt %</div></div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav-bar">
+  <div class="nav-inner">
+    <button class="tab active" onclick="showTab('mc')">Flerval &amp; Sant/Falskt</button>
+    <button class="tab" onclick="showTab('match')">Para ihop</button>
+    <button class="tab" onclick="showTab('essay')">Resonemang</button>
+    <button class="tab" onclick="showTab('flash')">Flashkort</button>
+    <button class="tab" onclick="showTab('score')">Resultat</button>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     TAB 1: FLERVAL & SANT/FALSKT
+════════════════════════════════════════════ -->
+<div class="section active" id="sec-mc">
+<div class="content">
+  <div class="sec-hdr">
+    <h2>Flerval &amp; Sant/Falskt</h2>
+    <p>Klicka på ditt svar. Förklaringen visas direkt.</p>
+  </div>
+  <div class="divider"></div>
+
+  <div class="progress-wrap">
+    <div class="progress-label">Framsteg i detta avsnitt</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="mc-progress" style="width:0%"></div></div>
+  </div>
+
+  <div id="mc-container"></div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TAB 2: PARA IHOP
+════════════════════════════════════════════ -->
+<div class="section" id="sec-match">
+<div class="content">
+  <div class="sec-hdr">
+    <h2>Para ihop</h2>
+    <p>Välj rätt alternativ i varje rullgardinsmeny och klicka "Kontrollera".</p>
+  </div>
+  <div class="divider"></div>
+  <div id="match-container"></div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TAB 3: RESONEMANG
+════════════════════════════════════════════ -->
+<div class="section" id="sec-essay">
+<div class="content">
+  <div class="sec-hdr">
+    <h2>Resonemang &amp; Skrivuppgifter</h2>
+    <p>Här tränar du på de längre, öppna frågorna. Läs bedömningskriterierna noggrant.</p>
+  </div>
+  <div class="divider"></div>
+  <div id="essay-container"></div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TAB 4: FLASHKORT
+════════════════════════════════════════════ -->
+<div class="section" id="sec-flash">
+<div class="content">
+  <div class="sec-hdr">
+    <h2>Flashkort</h2>
+    <p>Klicka på kortet för att avslöja svaret. Markera om du kunde det eller inte.</p>
+  </div>
+  <div class="divider"></div>
+  <div class="progress-wrap">
+    <div class="progress-label">Kort kvar <span id="fc-left">0</span> / <span id="fc-total-lbl">0</span></div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="fc-progress" style="width:0%"></div></div>
+  </div>
+  <div class="flashcard-wrap">
+    <div class="flashcard" id="fc-card" onclick="flipCard()">
+      <div class="card-face card-front">
+        <div class="card-label">Fråga</div>
+        <div class="card-question" id="fc-q">Laddar...</div>
+        <div class="fc-hint">Klicka för att se svaret ↓</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-label">Svar</div>
+        <div class="card-answer" id="fc-a"></div>
+      </div>
+    </div>
+  </div>
+  <div class="fc-nav" id="fc-nav" style="display:none">
+    <button class="fc-btn knew" onclick="fcAnswer(true)">✓ Kunde det</button>
+    <div class="fc-counter"><span id="fc-idx">1</span> / <span id="fc-total">0</span></div>
+    <button class="fc-btn didnt" onclick="fcAnswer(false)">✗ Visste inte</button>
+  </div>
+  <div id="fc-done" style="display:none; text-align:center; padding:32px 0">
+    <div style="font-family:'Playfair Display',serif; font-size:1.5rem; margin-bottom:8px;">Alla kort klara! 🎉</div>
+    <div style="color:var(--muted); font-size:14px; margin-bottom:20px;">Du klarade <span id="fc-score"></span> av <span id="fc-total2"></span> kort.</div>
+    <button class="reset-btn" onclick="resetFlash()">Kör igen</button>
+  </div>
+</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     TAB 5: RESULTAT
+════════════════════════════════════════════ -->
+<div class="section" id="sec-score">
+<div class="content">
+  <div class="sec-hdr">
+    <h2>Ditt resultat</h2>
+    <p>Sammanfattning av dina svar på interaktiva uppgifter.</p>
+  </div>
+  <div class="divider"></div>
+  <div class="score-box">
+    <div class="score-ring">
+      <div class="score-pct" id="res-pct">–</div>
+      <div class="score-of" id="res-of">%</div>
+    </div>
+    <div class="score-msg" id="res-msg">Svara på frågor för att se ditt resultat</div>
+    <br>
+    <div style="color:var(--muted); font-size:14px;" id="res-detail"></div>
+    <br>
+    <button class="reset-btn" onclick="resetAll()">Börja om från början</button>
+  </div>
+
+  <div style="margin-top:32px; padding:24px; background:var(--card); border:1px solid var(--border); border-radius:12px;">
+    <h3 style="font-family:'Playfair Display',serif; font-size:1.2rem; margin-bottom:12px; color:var(--gold);">Om provet</h3>
+    <p style="font-size:14px; color:var(--muted); line-height:1.7;">
+      Frågorna är hämtade från Skolverkets nationella prov i Religionskunskap för åk 9 (2016/2017). 
+      Provet består av två delprov (A och B) och mäter kunskaper om världsreligioner, etik, livsåskådningar och källkritik.
+      Betygskriterierna är E, C och A.
+    </p>
+  </div>
+</div>
+</div>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Byt tema">🕯️</button>
+
+<script>
+// ════════════════════════════════════════════
+// DATA — FRÅGEBANKEN
+// ════════════════════════════════════════════
+
+const MC_QUESTIONS = [
+  // ── VÄRLDSRELIGIONER / GUDSTRO ──
+  {
+    id:'mc1', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Vilket uttryck används vanligtvis inom islam i samband med bönen?',
+    opts:['Halleluja','Allahu Akbar','Shema Israel','Namaste'],
+    ans:1,
+    exp:'<strong>Allahu Akbar</strong> ("Gud är störst") är ett centralt uttryck i islams böner och används dagligen vid de fem bönerna.'
+  },
+  {
+    id:'mc2', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Inom vilken religion tror man att Brahma är guden som skapade världen?',
+    opts:['Buddhism','Islam','Hinduism','Judendom'],
+    ans:2,
+    exp:'<strong>Brahma</strong> är skaparguden i hinduismen. De tre viktigaste hinduistiska gudarna är Brahma (skaparen), Vishnu (bevararen) och Shiva (förstöraren).'
+  },
+  {
+    id:'mc3', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Vilken religion/livsåskådning kan kallas BÅDE monoteistisk OCH polyteistisk?',
+    opts:['Islam','Hinduism','Buddhism','Sekulär humanism'],
+    ans:1,
+    exp:'<strong>Hinduismen</strong> är unik — den kan ses som monoteistisk (Brahman är den enda verkliga gudomligheten) men också polyteistisk (med miljontals gudar och gudinnor).'
+  },
+  {
+    id:'mc4', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Inom vilken religion/livsåskådning anses FN:s deklaration om mänskliga rättigheter viktigare än religiösa texter?',
+    opts:['Kristendom','Islam','Hinduism','Sekulär humanism'],
+    ans:3,
+    exp:'<strong>Sekulär humanism</strong> är inte religiös och grundar sig på förnuft, vetenskap och mänskliga rättigheter snarare än religiösa texter.'
+  },
+  {
+    id:'mc5', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Inom vilken religion kan Gud uppenbara sig som den Heliga Anden?',
+    opts:['Judendom','Islam','Kristendom','Buddhism'],
+    ans:2,
+    exp:'<strong>Kristendomen</strong> lär om treenigheten: Fadern, Sonen (Jesus) och den Heliga Anden är tre personer i en Gud.'
+  },
+  {
+    id:'mc6', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Inom vilken religion säger man ofta "Herren" för att undvika att uttala Guds namn?',
+    opts:['Islam','Kristendom','Judendom','Hinduism'],
+    ans:2,
+    exp:'<strong>Judendomen</strong> lär att Guds namn (JHVH, Jahve) är så heligt att man undviker att uttala det. Istället säger man "Herren" (Adonai på hebreiska).'
+  },
+  {
+    id:'mc7', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Den heliga texten inom islam ska helst inte översättas från arabiska. Vad heter denna text?',
+    opts:['Bibeln','Torahn','Koranen','Vedaskrifterna'],
+    ans:2,
+    exp:'<strong>Koranen</strong> anses vara Guds egna ord, uppenbarade för Muhammed på arabiska. Traditionellt anses en översättning inte vara den "äkta" Koranen.'
+  },
+  {
+    id:'mc8', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Inom vilken religion tror man att Gud/gudar har tagit mänsklig form (avatar)?',
+    opts:['Islam','Judendom','Sekulär humanism','Hinduism'],
+    ans:3,
+    exp:'<strong>Hinduismen</strong> lär om avatarer — gudomliga uppenbarelser i mänsklig form. Vishnu anses ha kommit till jorden som bl.a. Rama och Krishna.'
+  },
+  {
+    id:'mc9', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Vilket är det rätta antalet dagliga böner för muslimer enligt sunni-islam?',
+    opts:['3 gånger','5 gånger','7 gånger','1 gång'],
+    ans:1,
+    exp:'<strong>Fem böner</strong> per dag (Fajr, Dhuhr, Asr, Maghrib, Isha) är ett av islams fem pelare. Shiamuslimer kan slå ihop vissa böner till tre tillfällen.'
+  },
+  {
+    id:'mc10', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Vad kallas det när Gud tar mänsklig form inom hinduismen?',
+    opts:['Karma','Avatar','Nirvana','Dharma'],
+    ans:1,
+    exp:'<strong>Avatar</strong> (avatara på sanskrit) betyder "nedstigning" och syftar på en guds inkarnation i mänsklig eller djurisk form, t.ex. Vishnus avatar Krishna.'
+  },
+
+  // ── KRISTENDOM ──
+  {
+    id:'mc11', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Vad skiljer den katolska kyrkan från den protestantiska?',
+    opts:['Katoliker tror inte på Jesus','Påven är den högste religiöse ledaren inom katolicismen','Protestanter har sju sakrament','Katoliker firar jul'],
+    ans:1,
+    exp:'<strong>Påven</strong> i Rom är den katolska kyrkans överhuvud. Protestantiska kyrkor (t.ex. Svenska kyrkan) har ingen påve — de reformerades av bl.a. Martin Luther på 1500-talet.'
+  },
+  {
+    id:'mc12', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Hur många sakrament har den katolska kyrkan?',
+    opts:['2','3','5','7'],
+    ans:3,
+    exp:'Den katolska kyrkan har <strong>sju sakrament</strong>: dop, konfirmation, eukaristin, bikten, de sjukas smörjelse, vigsel och prästvigning. Protestanterna brukar bara räkna med 2 (dop och nattvard).'
+  },
+  {
+    id:'mc13', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Martin Luther kritiserade kyrkan på 1500-talet. Vad var hans huvudkritik?',
+    opts:['Att kyrkan inte firade påsk','Att kyrkan hade för stort fokus på handlingar (avlat) istället för tro','Att Bibeln inte fick läsas på latin','Att det fanns för många präster'],
+    ans:1,
+    exp:'<strong>Martin Luther</strong> menade att man frälses genom tro (sola fide), inte genom goda gärningar eller köp av avlatsbrev. Hans 95 teser (1517) utlöste reformationen.'
+  },
+  {
+    id:'mc14', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Till vilken kristen inriktning tillhör Svenska kyrkan?',
+    opts:['Katolicismen','Ortodoxa kyrkan','Protestantismen','Koptiska kyrkan'],
+    ans:2,
+    exp:'<strong>Svenska kyrkan</strong> är luthersk och tillhör protestantismen. Den bröt med den katolska kyrkan under Gustav Vasa på 1500-talet.'
+  },
+  {
+    id:'mc15', year:'2016', topic:'rel', badge:'b-rel',
+    q:'I vilken kristen kyrka finns en skiljevägg med ikoner (ikonostas)?',
+    opts:['Katolska kyrkan','Protestantiska kyrkan','Ortodoxa kyrkan','Baptistkyrkan'],
+    ans:2,
+    exp:'<strong>Ortodoxa kyrkan</strong> (t.ex. Rysk-ortodoxa, Grek-ortodoxa) har en ikonostas — en vägg med religiösa bilder (ikoner) som skiljer altaret från övriga kyrkorummet.'
+  },
+
+  // ── ISLAM & JUDENDOM ──
+  {
+    id:'mc16', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Vad stämmer om Muhammed enligt islamsk tradition?',
+    opts:['Han nådde Nirvana','Han var profet och fick uppdraget att sprida Guds ord','Han var Guds son','Han befriade judarna från slaveri i Egypten'],
+    ans:1,
+    exp:'<strong>Muhammed</strong> (570–632 e.Kr.) är islams profet. Han tog emot Koranen av ärkeängeln Gabriel och fick uppdraget att sprida Guds ord. Han är inte Guds son — det avvisas bestämt inom islam.'
+  },
+  {
+    id:'mc17', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Muhammed utvandrade till en stad som kallas en viktig händelse i islamsk historia. Vilken stad?',
+    opts:['Mecka','Medina','Jerusalem','Bagdad'],
+    ans:1,
+    exp:'<strong>Medina</strong> — Muhammeds utvandring (hijra) från Mecka till Medina år 622 e.Kr. markerar startpunkten för den islamska tideräkningen.'
+  },
+  {
+    id:'mc18', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Vad stämmer om Mose enligt judisk tradition?',
+    opts:['Han levde på 600-talet e.Kr.','Han befriade det judiska folket från slaveri i Egypten och mottog de tio budorden','Han var Guds son','Han grundade buddhismen'],
+    ans:1,
+    exp:'<strong>Mose</strong> är en av judendomens viktigaste profeter. Enligt Torahn befriade han israeliterna från faraos slaveri och fick av Gud de tio budorden på berget Sinai.'
+  },
+  {
+    id:'mc19', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Var föds Muhammed enligt islamsk tradition?',
+    opts:['Medina','Jerusalem','Mecka','Bagdad'],
+    ans:2,
+    exp:'<strong>Mecka</strong> i nuvarande Saudiarabien är Muhammeds födelsestad. Det är också den heligaste staden inom islam och målet för vallfärden (hajj).'
+  },
+  {
+    id:'mc20', year:'2016', topic:'rel', badge:'b-rel',
+    q:'Vilken högtid firas inom islam för att markera att fastan (ramadan) är slut?',
+    opts:['Id al-Adha','Id al-Fitr','Chanukka','Diwali'],
+    ans:1,
+    exp:'<strong>Id al-Fitr</strong> ("fastbrytandets högtid") firas i tre dagar direkt efter ramadans slut. Det är en av islams viktigaste högtider med böner, gåvor och festmåltider.'
+  },
+
+  // ── LIVSÅSKÅDNINGAR / RELIGIONERNAS URSPRUNG ──
+  {
+    id:'mc21', year:'2016', topic:'lf', badge:'b-lf',
+    q:'Vilken livsåskådning grundar sig mer på vetenskap och förnuft än på religiös tro?',
+    opts:['Kristendom','Islam','Sekulär humanism','Hinduism'],
+    ans:2,
+    exp:'<strong>Sekulär humanism</strong> är en icke-religiös livsåskådning som betonar vetenskap, kritiskt tänkande och mänskliga rättigheter framför övernaturliga förklaringar.'
+  },
+  {
+    id:'mc22', year:'2016', topic:'lf', badge:'b-lf',
+    q:'Budismen har sitt ursprung i Asien och de flesta anhängare är koncentrerade till ett land. SANT eller FALSKT?',
+    tf: true,
+    stmt:'De allra flesta buddhister i världen är koncentrerade till ett enda land.',
+    ans: false,
+    exp:'<strong>FALSKT.</strong> Buddhism är spridd över hela Sydostasien och Östasien — Thailand, Japan, Kina, Sri Lanka, Myanmar m.fl. Ingen enskild nation dominerar. (Hinduism är däremot mer koncentrerad till Indien.)'
+  },
+  {
+    id:'mc23', year:'2016', topic:'lf', badge:'b-lf',
+    q:'Vilken religion/livsåskådning har en välkänd ledare som är från Tibet?',
+    opts:['Buddhism','Hinduism','Islam','Kristendom'],
+    ans:0,
+    exp:'<strong>Dalai Lama</strong> är den andlige ledaren för tibetansk buddhism. Nuvarande Dalai Lama (Tenzin Gyatso) är ursprungligen från Tibet men bor nu i exil i Indien.'
+  },
+  {
+    id:'mc24', year:'2016', topic:'lf', badge:'b-lf',
+    q:'Kristendomen spreds snabbt i Sydamerika. Hur spreds den dit?',
+    opts:['Genom handelsmän','Genom mission och kolonisering','Genom krig','Via internet'],
+    ans:1,
+    exp:'<strong>Mission</strong> av spanska och portugisiska missionärer under 1500-1700-talen spred kristendomen till Sydamerika i samband med kolonialisering. Idag är Sydamerika ett av världens mest kristna kontinenter.'
+  },
+
+  // ── ETIK ──
+  {
+    id:'mc25', year:'2016', topic:'eth', badge:'b-eth',
+    q:'Vad kallas den etiska modell som bedömer handlingar utifrån deras konsekvenser/resultat?',
+    opts:['Pliktetik','Konsekvensetik','Sinnelagsetik','Dygdetik'],
+    ans:1,
+    exp:'<strong>Konsekvensetik</strong> (även kallad effekt- eller resultatetik) bedömer om en handling är rätt eller fel baserat på dess konsekvenser. En handling är rätt om den leder till mest nytta/lycka.'
+  },
+  {
+    id:'mc26', year:'2016', topic:'eth', badge:'b-eth',
+    q:'Pliktetiken bedömer handlingar utifrån...',
+    opts:['Hur handlingen känns','Vilka regler och plikter som finns','Vilka konsekvenser den får','Vad de flesta tycker'],
+    ans:1,
+    exp:'<strong>Pliktetiken</strong> (regeletik) menar att det finns moraliska regler och plikter som man måste följa oavsett konsekvenserna. Den store filosofen Kant menade att man ska handla som man vill att alla ska handla.'
+  },
+  {
+    id:'mc27', year:'2016', topic:'eth', badge:'b-eth',
+    q:'Rosa Parks vägrade 1955 att ge sin bussplats till en vit man. Hon bröt mot lagen. Vad är ett konsekvensetiskt ARGUMENT FÖR hennes handling?',
+    opts:['Regler ska alltid följas','Handlingen ledde till att USA:s högsta domstol förbjöd diskriminering på bussar','Man ska göra sin plikt som medborgare','Lagen är helig'],
+    ans:1,
+    exp:'<strong>Konsekvensetiskt:</strong> Handlingens resultat var positiv — den utlöste protester och ledde till att rasåtskillnad på bussar förbjöds. Slutresultatet var bättre rättvisa för alla.'
+  },
+  {
+    id:'mc28', year:'2016', topic:'eth', badge:'b-eth',
+    q:'Vilket är ett pliktetiskt ARGUMENT MOT Rosa Parks handling?',
+    opts:['Lagar och regler ska följas oavsett om man tycker de är rättvisa','Hon kunde ha fått folk till att tycka illa om henne','Det ledde till protester','Det var snällt gjort'],
+    ans:0,
+    exp:'<strong>Pliktetiskt:</strong> En pliktetiker kan hävda att man har en plikt att följa lagen oavsett om man anser den orättvis — annars riskerar samhällets ordning att brytas ned.'
+  },
+
+  // ── KÄLLKRITIK ──
+  {
+    id:'mc29', year:'2016', topic:'src', badge:'b-src',
+    q:'Hugo söker information om bön inom islam. Vilken av dessa källor är MEST trovärdig för fakta om islams bönepraxis?',
+    opts:['Mehdis mamma (shiamuslim)','En sida om shiamuslimer i Sverige','Religionskunskapsboken från 2017','En slumpmässig sida på internet'],
+    ans:2,
+    exp:'<strong>Religionskunskapsboken</strong> är granskad och skriven av experter för skolbruk — den är en pålitlig källa för grundfakta om religioner. Kom ihåg: källors syfte, avsändare och datum är viktigt att granska!'
+  },
+  {
+    id:'mc30', year:'2016', topic:'src', badge:'b-src',
+    q:'Nikes källkritiska observation om shia-böner är värdefull. Varför?',
+    opts:['Hon hittar en ny internetsida','Hon förklarar varför antalet böner kan vara tre istället för fem inom shia-islam','Hon ber Mehdi att fråga sin mamma','Hon kollar Wikipedia'],
+    ans:1,
+    exp:'<strong>Nike</strong> hittar en faktabaserad förklaring: shiamuslimer kan slå ihop böner så att det totalt blir tre tillfällen. Det förklarar varför Mehdis mamma ber tre gånger — det är korrekt för hennes inriktning.'
+  },
+  {
+    id:'mc31', year:'2016', topic:'src', badge:'b-src',
+    q:'Vad är viktigt att tänka på när man källkritiskt granskar en internetsida?',
+    opts:[
+      'Att sidan ser snygg ut',
+      'Vem som är avsändaren, syftet med sidan och när den senast uppdaterades',
+      'Att sidan har många bilder',
+      'Att sidan är lång'
+    ],
+    ans:1,
+    exp:'<strong>Källkritiska kriterier:</strong> Avsändare (vem skriver?), syfte (varför?), aktualitet (när?) och trovärdighet (stöds det av andra källor?) är centrala frågor vid källkritisk granskning.'
+  },
+
+  // ── WORLD RELIGIONS FACTS ──
+  {
+    id:'mc32', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Vad är Nirvana inom buddhismen?',
+    opts:['En bön','Befrielse från lidande och återfödelse — upplysning','En helig skrift','Guds paradis'],
+    ans:1,
+    exp:'<strong>Nirvana</strong> är buddhismens mål — ett tillstånd av fullständig frihet från lidande, begär och återfödelse (samsara). Det nås genom att följa den åttafaldiga vägen.'
+  },
+  {
+    id:'mc33', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Vad är den åttafaldiga vägen?',
+    opts:['Åtta heliga städer inom islam','Buddhas väg till upplysning med åtta steg för rätt liv och tanke','Åtta buddhistiska gudar','De åtta budorden i hinduismen'],
+    ans:1,
+    exp:'<strong>Den åttafaldiga vägen</strong> är Buddhas lära om hur man uppnår Nirvana: rätt förståelse, rätt intention, rätt tal, rätt handling, rätt livsuppehälle, rätt ansträngning, rätt medvetenhet och rätt koncentration.'
+  },
+  {
+    id:'mc34', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Vad är Chanukka?',
+    opts:['En islamsk fasteperiod','En judisk ljusfest som firas i åtta dagar','En kristen advent','En hinduistisk festival'],
+    ans:1,
+    exp:'<strong>Chanukka</strong> (Ljusfesten) är en judisk högtid som firas i åtta dagar. Man tänder ett ljus på chanukkan (ljusstaken) varje kväll och minns återinvigningen av templet i Jerusalem.'
+  },
+  {
+    id:'mc35', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Vad innebär vallfärden Hajj inom islam?',
+    opts:['Man fastar i 30 dagar','Man besöker den heliga byggnaden Kaba i Mecka','Man ger pengar till de fattiga','Man läser Koranen fem gånger om dagen'],
+    ans:1,
+    exp:'<strong>Hajj</strong> är pilgrimsfärden till Mecka, ett av islams fem pelare. Varje muslim som har ekonomisk och fysisk möjlighet ska utföra hajj minst en gång i livet.'
+  },
+  {
+    id:'mc36', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Vad innebär karma inom hinduismen och buddhismen?',
+    opts:['En bön till Vishnu','Principen om orsak och verkan — goda/onda handlingar påverkar nästa liv','En helig flod','Guds vilja'],
+    ans:1,
+    exp:'<strong>Karma</strong> (sanskrit: "handling") är principen om orsak och verkan. Dina handlingar i detta liv påverkar din återfödelse (reinkarnation) i nästa liv.'
+  },
+  {
+    id:'mc37', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Vad är Ganesha?',
+    opts:['En islamsk ängel','En buddhistisk munk','En hinduistisk gud med elefanthuvud','En judisk profet'],
+    ans:2,
+    exp:'<strong>Ganesha</strong> är en av hinduismens mest älskade gudar. Han avbildas med ett elefanthuvud och anropas för att övervinna hinder. Han är son till Shiva och Parvati.'
+  },
+  {
+    id:'mc38', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Konfirmation sker inom vilken religion?',
+    opts:['Islam','Judendom','Hinduism','Kristendom'],
+    ans:3,
+    exp:'<strong>Konfirmation</strong> är en kristen högtid där ungdomar bekräftar sitt dop och sin tro. I Svenska kyrkan sker den vanligtvis i 15-årsåldern.'
+  },
+  {
+    id:'mc39', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Floden Ganges är helig inom hinduismen. Varför badar hinduer i den?',
+    opts:['För att bli friska från sjukdomar','För att rena sig från synd och befrias från karma','För att uppmärksamma en gudinnas födelsedag','För att be om regn'],
+    ans:1,
+    exp:'<strong>Ganges</strong> anses vara en gudinnas (Ganga Matas) heliga kropp. Att bada i floden tros rena själen, utplåna dålig karma och förbereda för en bättre återfödelse.'
+  },
+  {
+    id:'mc40', year:'2017', topic:'rel', badge:'b-rel',
+    q:'Vilken religion grundades av Siddharta Gautama (Buddha)?',
+    opts:['Hinduism','Judendom','Buddhism','Islam'],
+    ans:2,
+    exp:'<strong>Buddhism</strong> grundades av Siddharta Gautama på 500-talet f.Kr. i nutidens Nepal/Indien. Han uppnådde upplysning (Nirvana) under ett fikonträd och fick titeln "Buddha" (den upplyste).'
+  },
+
+  // ── 2018 CONTENT ──
+  {
+    id:'mc41', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vilken helig skrift innehåller 114 suror?',
+    opts:['Bibeln / Nya testamentet','Torahn','Koranen','Vedaskrifterna'],
+    ans:2,
+    exp:'<strong>Koranen</strong> är uppdelad i 114 kapitel som kallas suror. De är ordnade ungefär efter längd (de längsta surorerna kommer tidigt). Koranen är islams heliga skrift.'
+  },
+  {
+    id:'mc42', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vilken helig skrift kan förvaras ihoprullad i en ark?',
+    opts:['Nya testamentet','Torahn','Koranen','Bibeln'],
+    ans:1,
+    exp:'<strong>Torahn</strong> (de fem Moseböckerna) skrivs för hand på pergamentrulle och förvaras ihoprullad i en ark (hebreiska: aron ha-kodesh) i synagogan. Den rullas fram vid gudstjänsten.'
+  },
+  {
+    id:'mc43', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vilka heliga skrifter innehåller berättelser om Abraham/Ibrahim och Ismael?',
+    opts:['Bara Koranen','Bara Torahn','Nya testamentet och Koranen','Torahn och Koranen'],
+    ans:3,
+    exp:'<strong>Torahn och Koranen</strong> innehåller båda berättelser om Abraham (Ibrahim) och hans söner — Isak (central i judendomen) och Ismael (central i islam som stamfader för araberna). Abraham är en nyckelfigur i båda religionerna.'
+  },
+  {
+    id:'mc44', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vad är Bar mitzva?',
+    opts:['En islamsk högtid','En judisk rite-de-passage när en pojke fyller 13 och blir religiöst myndig','En hinduistisk festival','En kristen konfirmation'],
+    ans:1,
+    exp:'<strong>Bar mitzva</strong> (hebreiska: "budets son") firas när en judisk pojke fyller 13 år. Han läser ur Torahn offentligt och tar på sig religiöst ansvar. Motsvarigheten för flickor kallas Bat mitzva.'
+  },
+  {
+    id:'mc45', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vad är Puja?',
+    opts:['En islamsk bön','En judisk högtid','En hinduistisk gudsdyrkan med offergåvor och böner','En buddhistisk meditation'],
+    ans:2,
+    exp:'<strong>Puja</strong> är den hinduistiska gudsdyrkan som sker hemma eller i templet. Man ger gåvor (mat, blommor, ljus) till gudarnas bilder och ber. Det är hinduismens vanligaste religiösa handling.'
+  },
+  {
+    id:'mc46', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vad är Holi?',
+    opts:['En islamsk fastemånad','En judisk soningsdag','En hinduistisk vårfestival där man kastar färgpulver på varandra','En buddhistisk meditationsreträtt'],
+    ans:2,
+    exp:'<strong>Holi</strong> är hinduismens färgfestival som firas på våren. Man kastar färgat pulver och vatten på varandra för att fira kärleksguden Krishnas lekfullhet och vårens ankomst.'
+  },
+  {
+    id:'mc47', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vilka religioner praktiserar omskärelse av pojkar?',
+    opts:['Bara islam','Bara judendom','Islam och judendom','Kristendom och islam'],
+    ans:2,
+    exp:'<strong>Islam och judendom</strong> praktiserar båda omskärelse av pojkar. Inom judendomen sker det på 8:e dagen (brit milah). Inom islam är det vanligt men tidpunkten varierar. Det är ett tecken på förbundet med Gud.'
+  },
+  {
+    id:'mc48', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vad är Yom Kippur?',
+    opts:['En islamsk fastedag','Den judiska försoningsdagen — årets heligaste dag inom judendomen','En hinduistisk högtid','En kristen soningsgudstjänst'],
+    ans:1,
+    exp:'<strong>Yom Kippur</strong> ("försoningsdagen") är den heligaste dagen i den judiska kalendern. Man fastar i 25 timmar, ber och ber om förlåtelse för sina synder under det gångna året.'
+  },
+  {
+    id:'mc49', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vad är Moksha inom hinduismen?',
+    opts:['En helig flod','Befrielse från återfödelsecykeln (samsara) och förening av atman med brahman','En viktig hinduistisk gud','Dödens gud'],
+    ans:1,
+    exp:'<strong>Moksha</strong> är hinduismens ultimata mål — befrielse från samsara (återfödelsecykeln). Det nås när atman (den individuella själen) förenas med brahman (det universella). Liknar buddhismens Nirvana men är teologiskt annorlunda.'
+  },
+  {
+    id:'mc50', year:'2018', topic:'rel', badge:'b-rel',
+    q:'Vilken religion grundades av Siddharta Gautama, som TIDIGARE tillhörde en annan världsreligion?',
+    opts:['Islam','Kristendom','Buddhism','Sikhism'],
+    ans:2,
+    exp:'<strong>Buddhism</strong> — Siddharta Gautama var hinduist (från en kshatriya-kast) innan han övergav sitt liv som prins och sökte upplysning. Han bildade sedan buddhismen, en ny religion skild från hinduismen.'
+  },
+];
+
+// TRUE/FALSE QUESTIONS
+const TF_QUESTIONS = [
+  {
+    id:'tf1', year:'2016', topic:'rel', badge:'b-rel',
+    title:'Påståenden om Mose och Muhammed',
+    hint:'Ringa in rätt svar för varje påstående.',
+    items:[
+      { stmt:'Mose mottog de tio budorden av Gud (ur ett judiskt perspektiv).', ans:true, exp:'Sant — Mose fick de tio budorden på Sinai berg enligt Torahn.' },
+      { stmt:'Muhammed nådde Nirvana (ur ett muslimskt perspektiv).', ans:false, exp:'Falskt — Nirvana är ett buddhistiskt begrepp. Muhammed är islams profet, inte en buddhistisk figur.' },
+      { stmt:'Muhammed levde på 600-talet e.Kr. (ur ett muslimskt perspektiv).', ans:true, exp:'Sant — Muhammed levde ca 570–632 e.Kr.' },
+      { stmt:'Muhammed utvandrade till Medina (hijra).', ans:true, exp:'Sant — Hijran (utvandringen till Medina) år 622 e.Kr. markerar islams kalenders startpunkt.' },
+      { stmt:'Mose tog på sig alla människors synder (ur ett judiskt perspektiv).', ans:false, exp:'Falskt — Det är Jesus i kristendomen som anses ha tagit på sig mänsklighetens synder, inte Mose.' },
+      { stmt:'Mose befriade sitt folk från slaveriet i Egypten (ur ett judiskt perspektiv).', ans:true, exp:'Sant — Exodus (uttåget ur Egypten) är en av judendomens grundläggande berättelser.' },
+      { stmt:'Muhammed var Guds son (ur ett muslimskt perspektiv).', ans:false, exp:'Falskt — Inom islam är Muhammed en profet, inte Guds son. Att kalla Muhammed Guds son anses vara hädelse.' },
+      { stmt:'Mose var en profet (ur ett judiskt perspektiv).', ans:true, exp:'Sant — Mose är judendomens störste profet och ledde israeliterna.' },
+    ]
+  },
+  {
+    id:'tf2', year:'2016', topic:'rel', badge:'b-rel',
+    title:'Kristna inriktningar — Sant eller Falskt?',
+    items:[
+      { stmt:'Påven är den högste religiöse ledaren inom den PROTESTANTISKA kyrkan.', ans:false, exp:'Falskt — Påven är den katolska kyrkans ledare. Protestantiska kyrkor har ingen påve.' },
+      { stmt:'Den svenska kyrkan tillhör protestantismen.', ans:true, exp:'Sant — Svenska kyrkan är luthersk och därmed protestantisk.' },
+      { stmt:'Präster inom den katolska kyrkan ska leva i celibat (inte gifta sig).', ans:true, exp:'Sant — Celibat är ett krav för präster inom katolicismen (med undantag för vissa östliga riktningar).' },
+      { stmt:'Martin Luther reformerade den katolska kyrkan på 1500-talet.', ans:true, exp:'Sant — Luthers 95 teser (1517) utlöste reformationen och skapade protestantismen.' },
+      { stmt:'Treenigheten (Fadern, Sonen, Heliga Anden) är viktig inom katolicismen men INTE inom protestantismen.', ans:false, exp:'Falskt — Treenigheten är central för BÅDA inriktningarna.' },
+      { stmt:'Konfirmation förekommer inom den protestantiska kyrkan.', ans:true, exp:'Sant — Konfirmation förekommer i t.ex. Svenska kyrkan där ungdomar bekräftar sitt dop.' },
+    ]
+  },
+  {
+    id:'tf3', year:'2016', topic:'rel', badge:'b-rel',
+    title:'Delprov B 2016/17 — Hinduism-mejlet: Sant eller Faktafel?',
+    hint:'Williams mejl innehåller flera faktafel om hinduism. Markera SANT om påståendet är korrekt om hinduism, FALSKT om det är ett faktafel.',
+    items:[
+      { stmt:'En av de populäraste gudarna inom hinduismen är Buddha.', ans:false, exp:'Faktafel — Buddha är grundaren av buddhismen, inte en hinduistisk gud. Populära hinduistiska gudar är Ganesha, Vishnu och Shiva.' },
+      { stmt:'Grisen är ett heligt djur inom hinduismen.', ans:false, exp:'Faktafel — Ko (kon) är det heliga djuret inom hinduismen. Grisen är förbjuden mat inom islam och judendomen.' },
+      { stmt:'Den viktigaste heliga byggnaden i Indien är synagogan.', ans:false, exp:'Faktafel — Synagogan är judendomens gudshus. Hinduers heliga byggnader är tempel (mandir). Koranen läses i moskén (islamsk byggnad), inte i hinduistiska tempel.' },
+      { stmt:'Många hinduer är vegetarianer.', ans:true, exp:'Sant — Det stämmer att många hinduer är vegetarianer av religiösa skäl, bl.a. p.g.a. principen om ahimsa (icke-våld).' },
+      { stmt:'Hinduer kan be till många olika gudar.', ans:true, exp:'Sant — Hinduismen är polyteistisk och man kan be till hundratals eller tusentals gudar beroende på tradition och region.' },
+      { stmt:'Hinduer kan ha egna altaren hemma.', ans:true, exp:'Sant — Det är vanligt att hinduer har ett hem-altare (mandir) där de ber dagligen, ofta med bilder eller statyer av gudar.' },
+    ]
+  },
+  {
+    id:'tf4', year:'2018', topic:'rel', badge:'b-rel',
+    title:'Delprov B 2018 — Islam-mejlet: Sant eller Faktafel?',
+    hint:'Irmas mejl om besöket hos Ibrahim innehåller faktafel om islam. Markera SANT om det är korrekt fakta om islam, FALSKT om det är ett faktafel.',
+    items:[
+      { stmt:'Ibrahim firar sabbat med sin familj.', ans:false, exp:'Faktafel — Sabbat är en judisk tradition (veckans vilodags från fredag kväll). Muslimer firar inte sabbat. Fredagsbönen (Jumu\'ah) är islamsk tradition.' },
+      { stmt:'Ibrahim äter koshermat.', ans:false, exp:'Faktafel — Koshermat är judisk matlagstiftning. Muslimer följer halal-regler, inte kosher. Båda förbuden liknar varandra men de är inte samma sak.' },
+      { stmt:'Onsdagsbönen är den viktigaste bönen i veckan inom islam.', ans:false, exp:'Faktafel — Fredagsbönen (Jumu\'ah) är veckans viktigaste bön inom islam, inte onsdagsbönen.' },
+      { stmt:'Ibrahim dricker vin till middagen.', ans:false, exp:'Faktafel — Alkohol (inklusive vin) är förbjudet (haram) inom islam. Det är ett tydligt faktafel i Irmas mejl.' },
+      { stmt:'Ibrahim ber fem gånger varje dag.', ans:true, exp:'Sant — Att be fem gånger om dagen (Fajr, Dhuhr, Asr, Maghrib, Isha) är ett av islams fem pelare. Irmas observation om detta stämmer.' },
+      { stmt:'Moskéns minaret syns på långt håll.', ans:true, exp:'Sant — Minareten är tornet på en moské varifrån böneropet (adhan) ljuder. Det är korrekt fakta i Irmas mejl.' },
+    ]
+  },
+  {
+    id:'tf5', year:'2018', topic:'rel', badge:'b-rel',
+    title:'2018 — Centrala tankegångar: Sant eller Falskt?',
+    items:[
+      { stmt:'Inom kristendomen tror man att Guds son tog på sig människornas synder när han dog.', ans:true, exp:'Sant — Jesu försoningsdöd på korset är ett centralt kristet trosinnehåll. Han anses ha offrat sig för mänsklighetens synder.' },
+      { stmt:'Man tror på reinkarnation (återfödelse) inom hinduism men inte inom buddhism.', ans:false, exp:'Falskt — Reinkarnation (återfödelse) finns inom BÅDA religionerna, men uttryckt på olika sätt. Inom hinduism återföds atman (själen), inom buddhism finns ingen fast själ men medvetandet återföds.' },
+      { stmt:'Inom buddhismen befrias man från återfödelsen genom att följa den åttafaldiga vägen.', ans:true, exp:'Sant — Den åttafaldiga vägen leder till Nirvana — befrielse från lidande och återfödelse (samsara).' },
+      { stmt:'Alla människor som dör inom kristendomen blir automatiskt frälsta.', ans:false, exp:'Falskt — Frälsning är inte automatisk. Inom kristendomen handlar frälsning om tro på Jesus Kristus och/eller goda gärningar (beroende på inriktning). Det är ett teologiskt komplext område.' },
+      { stmt:'Inom hinduismen vill många att kroppen ska brännas och askan spridas i floden Ganges.', ans:true, exp:'Sant — Kremering och spridning av askan i Ganges är en viktig hinduisk begravningstradition. Det tros hjälpa själen att nå moksha (befrielse).' },
+      { stmt:'Inom buddhismen spekulerar man mycket om vad som händer efter döden.', ans:false, exp:'Falskt — Buddha avvisade ofta spekulationer om livet efter döden som meningslösa. Fokus ligger på att leva rätt och nå Nirvana, inte på att spekulera kring dödsriket.' },
+    ]
+  },
+];
+
+// MATCHING QUESTIONS
+const MATCH_QUESTIONS = [
+  {
+    id:'match1', year:'2016', topic:'rel', badge:'b-rel',
+    title:'Para ihop: Religiösa handlingar och deras förklaringar',
+    desc:'Dra/välj rätt förklaring till varje religiös handling.',
+    pairs:[
+      { term:'Inom islam vallfärdar man till Mecka...', ans:'...för att besöka den heliga byggnaden Kaba.' },
+      { term:'Inom kristendomen konfirmeras man...', ans:'...för att bekräfta sin tro.' },
+      { term:'Inom islam firar man id al-fitr...', ans:'...för att fastan (ramadan) upphör.' },
+      { term:'Inom hinduismen badar man i floden Ganges...', ans:'...för att rena själen.' },
+      { term:'Inom judendom firar man chanukka...', ans:'...för att uppmärksamma återuppbyggnaden av det heliga templet i Jerusalem.' },
+      { term:'Inom buddhismen följer man den åttafaldiga vägen...', ans:'...för att slippa lidandet och nå upplysning (Nirvana).' },
+      { term:'Inom kristendomen firar man påsk...', ans:'...för att minnas Jesu död och återuppståndelse.' },
+    ]
+  },
+  {
+    id:'match2', year:'2016', topic:'rel', badge:'b-rel',
+    title:'Para ihop: Religion och begrepp',
+    pairs:[
+      { term:'Koranen', ans:'Islam' },
+      { term:'Bibeln / Gamla testamentet', ans:'Kristendom och Judendom' },
+      { term:'Torahn (De fem Moseböckerna)', ans:'Judendom' },
+      { term:'Vedaskrifterna', ans:'Hinduism' },
+      { term:'Tipitaka (Buddhas läror)', ans:'Buddhism' },
+      { term:'Nirvana', ans:'Buddhism' },
+      { term:'Karma', ans:'Hinduism och Buddhism' },
+      { term:'Hajj (vallfärd)', ans:'Islam' },
+      { term:'Chanukka', ans:'Judendom' },
+    ]
+  },
+  {
+    id:'match3', year:'2016', topic:'lf', badge:'b-lf',
+    title:'Para ihop: Person och religion/livsåskådning',
+    desc:'Matcha personens beskrivning med rätt religion eller livsåskådning.',
+    pairs:[
+      { term:'Diana — religion uppstod i Asien, funnits >2200 år, har välkänd grundare som tillhörde annan religion', ans:'Buddhism' },
+      { term:'Kim — religion uppstod i Asien, de flesta är koncentrerade till ett land, funnits >2200 år', ans:'Hinduism' },
+      { term:'John — religion uppstod i Asien, tog emot Koranen av Gud', ans:'Islam' },
+      { term:'Mikael — är emot religiösa förklaringar, grundar sig mer på vetenskap, inte religiös', ans:'Sekulär humanism' },
+      { term:'Nadja — spreds snabbt i Sydamerika via mission, Jesus är central', ans:'Kristendom' },
+    ]
+  },
+  {
+    id:'match4', year:'2018', topic:'rel', badge:'b-rel',
+    title:'2018: Para ihop — Religiösa samband',
+    desc:'Matcha varje religiös handling med rätt religion.',
+    pairs:[
+      { term:'Inom... ... firar man Eid al-Fitr för att...', ans:'islam' },
+      { term:'Inom... ... skall man följa den åttafaldiga vägen för att...', ans:'buddhism' },
+      { term:'Inom... ... brukar man fira Yom-Kippur för att...', ans:'judendom' },
+      { term:'Inom... ... är de flesta vegetarianer för att...', ans:'hinduism' },
+      { term:'Inom... ... biktar många sig för att...', ans:'kristendom' },
+      { term:'Inom... ... besöker man Medina under vallfärden för att...', ans:'islam' },
+    ]
+  },
+  {
+    id:'match5', year:'2018', topic:'rel', badge:'b-rel',
+    title:'2018: Para ihop — Heliga skrifter',
+    desc:'Välj vilken helig skrift varje påstående stämmer med.',
+    pairs:[
+      { term:'Muhammed tog emot innehållet av Gud via ängeln Gabriel/Jibril', ans:'Koranen (islam)' },
+      { term:'Innehåller berättelser om Jesus/Isa', ans:'Nya testamentet (kristendom) och Koranen (islam)' },
+      { term:'Innehåller de fem Moseböckerna', ans:'Torah (judendom)' },
+      { term:'Innehåller 114 suror', ans:'Koranen (islam)' },
+      { term:'Texten är från början skriven på arabiska', ans:'Koranen (islam)' },
+      { term:'Innehåller brev från Paulus', ans:'Nya testamentet (kristendom)' },
+      { term:'Innehåller fyra evangelier', ans:'Nya testamentet (kristendom)' },
+      { term:'Kan förvaras ihoprullad i en ark', ans:'Torah (judendom)' },
+    ]
+  },
+  {
+    id:'match6', year:'2018', topic:'rel', badge:'b-rel',
+    title:'2018: Para ihop — Riter, högtider och handlingar',
+    desc:'Matcha varje rit/högtid/handling med rätt religion.',
+    pairs:[
+      { term:'Bar mitzva', ans:'judendom' },
+      { term:'Ramadan', ans:'islam' },
+      { term:'De sjukas smörjelse', ans:'kristendom' },
+      { term:'Dopets sakrament', ans:'kristendom' },
+      { term:'Puja (gudsdyrkan med offergåvor)', ans:'hinduism' },
+      { term:'Böneutrop (adhan)', ans:'islam' },
+      { term:'Holi (färgfestivalen)', ans:'hinduism' },
+      { term:'Sabbat med start fredag kväll', ans:'judendom' },
+    ]
+  },
+];
+
+// ESSAY QUESTIONS
+const ESSAY_QUESTIONS = [
+  {
+    id:'essay1', year:'2016', topic:'rel', badge:'b-rel',
+    title:'Världsreligioner — synen på gud/gudar',
+    prompt:'Resonera om <strong>två likheter</strong> och <strong>två skillnader</strong> vad gäller synen på gud/gudar mellan <em>hinduism</em> och en valfri religion. Förtydliga med exempel och förklaringar.',
+    hints:[
+      'Finns det en gud eller flera gudar i de två religionerna?',
+      'Vilka egenskaper har guden/gudarna?',
+      'Hur kontaktar människor guden/gudarna (bön, ritual, meditation)?',
+      'Hur märks guden/gudarna i människors vardagsliv?',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven anger minst två likheter ELLER två skillnader med enklare förklaringar.' },
+      { lvl:'C', txt:'Eleven anger minst två likheter OCH två skillnader, förtydligade med exempel eller förklaringar.' },
+      { lvl:'A', txt:'Eleven anger minst två likheter och två skillnader, förtydligade med tydliga och nyanserade exempel/konsekvenser. Jämförelsen är välutvecklad och problematiserar komplexiteten.' },
+    ],
+    example:'Hinduismen och kristendomen: Likhet 1 — båda tror på en skapargud. Skillnad 1 — hinduismen är polyteistisk (många gudar som Vishnu och Shiva) medan kristendomen är strikt monoteistisk (en Gud i treenigheten)...'
+  },
+  {
+    id:'essay2', year:'2016', topic:'eth', badge:'b-eth',
+    title:'Etik — Snowden: ansvarsfullt eller oansvarigt?',
+    context:'Edward Snowden avslöjade 2013 att USA:s NSA hade spionerat på privatpersoner och politiker världen över. Han lämnade hemliga dokument till en journalist och lever nu i landsflykt i Ryssland.',
+    prompt:'Argumentera för att Snowdens handling kan vara <strong>både ansvarsfullt och oansvarigt</strong>. Förtydliga argumenten med exempel, förklaringar eller konsekvenser.',
+    hints:[
+      'Det Snowden gjorde var ansvarsfullt för att...',
+      'Det Snowden gjorde var oansvarigt för att...',
+      'Problematisera — visa på svårigheterna att ta ställning.',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven ger ett argument för att det är ansvarsfullt och ett för att det är oansvarigt.' },
+      { lvl:'C', txt:'Argumenten förtydligas med exempel, förklaringar eller konsekvenser. Eleven visar på svårigheten att ta ställning.' },
+      { lvl:'A', txt:'Välformulerade och nyanserade argument på BÅDA sidor. Eleven problematiserar på ett välutvecklat sätt och visar förståelse för etiska dilemman.' },
+    ],
+  },
+  {
+    id:'essay3', year:'2016', topic:'eth', badge:'b-eth',
+    title:'Etiska modeller — Rosa Parks',
+    context:'Rosa Parks vägrade 1955 att ge sin bussplats till en vit man i södra USA, trots att lagen krävde det. Hon greps av polisen. Händelsen utlöste stora protester och ledde till att USA:s högsta domstol förbjöd rasåtskillnad på bussar.',
+    prompt:'Argumentera med hjälp av <strong>två etiska modeller</strong> (pliktetik, konsekvensetik eller sinnelagsetik) om Rosa Parks gjorde rätt och/eller fel. Förtydliga varje argument med exempel, förklaringar eller konsekvenser.',
+    hints:[
+      'Pliktetik: Handlar om regler och plikter — man ska följa/inte följa lagar oavsett konsekvenser.',
+      'Konsekvensetik: Handlar om resultatet — ledde handlingen till mest nytta?',
+      'Sinnelagsetik: Handlar om avsikten — varför handlade Rosa Parks som hon gjorde?',
+      'Visa hur SAMMA modell kan ge argument BÅDE för och emot hennes handling.',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven nämner och tillämpar minst en etisk modell med enklare argument.' },
+      { lvl:'C', txt:'Eleven tillämpar två etiska modeller korrekt och förtydligar med exempel/konsekvenser.' },
+      { lvl:'A', txt:'Eleven tillämpar två modeller nyanserat, visar hur samma modell kan ge argument åt båda håll, och problematiserar etiska dilemman på ett välutvecklat sätt.' },
+    ],
+  },
+  {
+    id:'essay4', year:'2016', topic:'src', badge:'b-src',
+    title:'Källkritik — bön inom islam',
+    context:'Hugo hittar motstridiga uppgifter om antal böner inom islam (5 eller 3 gånger om dagen). Han har fyra källor: (1) Religionskunskapsboken från 2017, (2) Mehdis mamma, (3) Internetsida för shiamuslimer i Sverige, (4) Dokumentär på SVT Play från 2017.',
+    prompt:'Välj <strong>tre av källorna</strong> ovan. Resonera källkritiskt om varje källas <strong>fördelar och nackdelar</strong> vad gäller trovärdigheten. Ge <strong>två fördelar och två nackdelar</strong> för varje källa.',
+    hints:[
+      'Tänk på: Avsändare (vem?), Syfte (varför?), Aktualitet (när?), Trovärdighet (stöds det?)',
+      'Religionskunskapsboken: granskad av experter, men kan vara förenklad',
+      'Mehdis mamma: personlig erfarenhet, men representerar bara en persons syn',
+      'SVT Play-dokumentären: professionell journalistik, men kan ge en generell bild',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven väljer tre källor och anger enklare fördelar/nackdelar för varje källa.' },
+      { lvl:'C', txt:'Eleven anger minst två fördelar och två nackdelar för varje källa och kopplar dem till trovärdighet.' },
+      { lvl:'A', txt:'Eleven analyserar källorna på ett nyanserat sätt och jämför deras trovärdighet i förhållande till varandra. Resonemangen är välmotiverade och problematiserar källkritiska svårigheter.' },
+    ],
+  },
+  {
+    id:'essay5', year:'2016', topic:'lf', badge:'b-lf',
+    title:'Livsfrågor — döden i populärkulturen och i verkligheten',
+    prompt:'Resonera om hur döden beskrivs i <strong>två olika medier</strong> (t.ex. romaner, barnböcker, film, TV-serier, data-/TV-spel eller musik) och <strong>jämför med hur det är i verkligheten</strong>. Ge tre exempel fördelade på de två medier du väljer.',
+    hints:[
+      'Jämförelse ska innehålla både likheter och skillnader.',
+      'Problematisera — inom en och samma medieform kan det finnas olika skildringar (t.ex. actionfilm vs. drama).',
+      '"Jag tycker att beskrivningar av döden i ............ stämmer/stämmer inte överens med verkligheten för att..."',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven beskriver hur döden framställs i ett medium och ger ett exempel. Enklare jämförelse med verkligheten.' },
+      { lvl:'C', txt:'Eleven väljer två medier, ger tre exempel och resonerar om likheter och skillnader med verkligheten.' },
+      { lvl:'A', txt:'Eleven väljer två medier, ger minst tre exempel och för ett nyanserat resonemang som problematiserar variationer inom medierna. Jämförelsen är välutvecklad.' },
+    ],
+  },
+  {
+    id:'essay6', year:'2016', topic:'lf', badge:'b-lf',
+    title:'Livsfrågor — utanförskap (Delprov B, uppg. 13)',
+    context:'Zlatan Ibrahimovic berättar i boken "Jag är Zlatan" om hur han under sin uppväxt var del av gemenskapen i förorten Rosengård, men i andra sammanhang kände sig utanför och inte passade in.',
+    prompt:'<strong>Resonera</strong> om varför människor kan uppleva utanförskap och om hur deras liv på olika sätt kan påverkas <strong>negativt och i vissa fall positivt</strong> av utanförskap. Ange exempel/förklaringar och <strong>fyra konsekvenser</strong> i ditt resonemang. Utgå från <strong>två</strong> av orden: <em>etnicitet, sexuell läggning, religion, ekonomi</em>.',
+    hints:[
+      'Varför kan en person uppleva utanförskap på grund av etnicitet? Religion? Ekonomi? Sexuell läggning?',
+      'Vilka negativa konsekvenser kan utanförskap leda till (t.ex. ensamhet, diskriminering, psykisk ohälsa)?',
+      'Kan utanförskap ibland ha positiva effekter (t.ex. stärkt identitet, skapar gemenskap inom gruppen)?',
+      'Ge konkreta exempel som förtydligar varje konsekvens.',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven resonerar om utanförskap utifrån ett av orden och anger minst en konsekvens med ett förtydligande.' },
+      { lvl:'C', txt:'Eleven resonerar utifrån två ord och anger minst tre konsekvenser (varav minst en positiv), förtydligade med exempel eller förklaringar.' },
+      { lvl:'A', txt:'Eleven resonerar nyanserat utifrån två ord, anger fyra konsekvenser (positiva och negativa), förtydligar med exempel/förklaringar och problematiserar — t.ex. att utanförskap kan upplevas olika beroende på sammanhang.' },
+    ],
+  },
+  {
+    id:'essay7', year:'2018', topic:'eth', badge:'b-eth',
+    title:'Etiska modeller — Fatimas pappa (2018, Delprov A uppg. 5)',
+    context:'Fatimas pappa körde för fort och bröt mot trafikregler på väg till sjukhuset efter att Fatima skadat sig och han trodde att armen var bruten. Han ville få henne till sjukhuset så snabbt som möjligt.',
+    prompt:'Argumentera med hjälp av <strong>två etiska modeller</strong> kring olika sätt att se på om Fatimas pappa gjorde rätt och/eller fel när han bröt mot trafikreglerna. Förtydliga varje argument med <strong>två exempel, förklaringar eller konsekvenser</strong>.',
+    hints:[
+      'Pliktetik: Ska man följa lagen oavsett omständigheter?',
+      'Konsekvensetik: Vad blev resultatet — för Fatima? För andra trafikanter?',
+      'Sinnelagsetik: Vad var hans avsikt/motiv?',
+      'Visa hur SAMMA modell kan ge argument åt BÅDA håll (rätt och fel).',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven använder en korrekt etisk modell och anger ett relevant argument förtydligat med ett exempel/förklaring/konsekvens.' },
+      { lvl:'C', txt:'Eleven använder två etiska modeller korrekt och anger minst två relevanta argument, varav minst ett förtydligas med två exempel/förklaringar/konsekvenser.' },
+      { lvl:'A', txt:'Eleven använder två etiska modeller, anger minst två argument med minst två förtydliganden vardera, och problematiserar genom att visa att en modell kan ge argument åt båda håll.' },
+    ],
+  },
+  {
+    id:'essay8', year:'2018', topic:'eth', badge:'b-eth',
+    title:'Etiska begrepp — ta ansvar eller svika? (2018, Delprov B uppg. 13)',
+    context:'Gustavs bästa kompis Antonio vet att Gustav under lång tid spelat bort pengar på nätet och tvingats låna pengar för att täcka sina skulder. Gustav vill inte att Antonio ska berätta för någon om hans problem, men en kväll ringer Antonio upp Gustavs föräldrar och berättar.',
+    prompt:'Ange <strong>två argument för att Antonio tar ansvar</strong> och <strong>två argument för att han sviker Gustav</strong>, när Antonio berättar för Gustavs föräldrar att han spelar bort pengar. Förtydliga varje argument med ett exempel, en förklaring eller en konsekvens.',
+    hints:[
+      'Argument för ansvar: Vad kan hända om ingen ingriper? Varför är det bra för Gustav på lång sikt?',
+      'Argument för svek: Vad lovar man en vän? Vad händer med vänskapen och förtroendet?',
+      'Problematisera: Är det svårt att ta ställning? Kan man se det som att Antonio gör fel oavsett hur han handlar?',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven anger minst ett relevant argument (för ansvar eller svek), förtydligat med ett exempel/förklaring/konsekvens.' },
+      { lvl:'C', txt:'Eleven anger minst tre relevanta argument (varav minst ett för ansvar och ett för svek), och två av argumenten förtydligas med ett förtydligande.' },
+      { lvl:'A', txt:'Eleven anger två argument för ansvar och två för svek, alla fyra förtydligade, och problematiserar — t.ex. att det är svårt att veta vad som är rätt oavsett vilket val Antonio gör.' },
+    ],
+  },
+  {
+    id:'essay9', year:'2018', topic:'lf', badge:'b-lf',
+    title:'Identitet — religionens påverkan på en tonåring (2018, Delprov B uppg. 18)',
+    prompt:'Hur kan identiteten hos en tonåring påverkas på olika sätt av en religion? Välj en religion att utgå ifrån (ej buddhism). <strong>Resonera.</strong>',
+    hints:[
+      'Konkreta områden: Klädsel (t.ex. hijab, kippa), mat (halal, kosher, vegetarism), traditioner, böner och handlingar.',
+      'Abstrakta områden: Trygghet (Gud finns alltid med), gemenskap (församling, umgängeskrets), utanförskap (majoritet/minoritet).',
+      'Problematisera: Kan religionen påverka identiteten olika beroende på kön, sexuell läggning, eller om man tillhör en majoritet eller minoritet?',
+      'Ge konkreta exempel ur den religion du valt.',
+    ],
+    criteria:[
+      { lvl:'E', txt:'Eleven resonerar kring hur identitet kan kopplas till minst ett konkret eller abstrakt område med koppling till religion, utan att kopplingen behöver vara tydligt uttryckt.' },
+      { lvl:'C', txt:'Eleven resonerar kring minst två konkreta ELLER två abstrakta områden (eller ett av varje), med tydlig koppling till identitet och religion.' },
+      { lvl:'A', txt:'Eleven resonerar kring minst två konkreta OCH två abstrakta områden med tydliga kopplingar, och problematiserar utifrån olika perspektiv (t.ex. kön, sexuell läggning, majoritet/minoritet).' },
+    ],
+  },
+];
+
+// FLASHCARDS
+const FLASHCARDS = [
+  { q:'Vad är de fem pelarna inom islam?', a:'1. Trosbekännelsen (Shahadah)\n2. Bönen (Salah) – 5 gånger/dag\n3. Fastan (Sawm) under Ramadan\n4. Allmosor (Zakat)\n5. Pilgrimsfärd till Mecka (Hajj)' },
+  { q:'Vad är de tio budorden och var finns de?', a:'Guds budord till Mose på Sinai berg. De finns i Torahn (Exodus/2 Mosebok). De handlar om att inte ha andra gudar, inte döda, inte stjäla, m.m.' },
+  { q:'Vad är karma?', a:'Principen om orsak och verkan inom hinduism och buddhism. Goda handlingar ger god karma → bättre återfödelse. Onda handlingar ger dålig karma.' },
+  { q:'Vad är Nirvana?', a:'Buddhismens mål — ett tillstånd av total frihet från lidande, begär och återfödelse (samsara). Man uppnår det genom att följa den åttafaldiga vägen.' },
+  { q:'Vad är treenigheten inom kristendomen?', a:'Läran om att Gud är tre personer i ett: Fadern, Sonen (Jesus Kristus) och den Heliga Anden.' },
+  { q:'Vad är hijra?', a:'Muhammeds utvandring från Mecka till Medina år 622 e.Kr. Markerar startpunkten för den islamska kalendern.' },
+  { q:'Vad är dharma?', a:'Inom hinduism och buddhism: den kosmiska ordningen/lagen, men också ens plikt eller rätta levnadssätt.' },
+  { q:'Vad är den åttafaldiga vägen?', a:'Buddhas lära om vägen till Nirvana med åtta steg: rätt förståelse, intention, tal, handling, livsuppehälle, ansträngning, medvetenhet och koncentration.' },
+  { q:'Vad kallas de tre etiska modellerna på provet?', a:'1. Pliktetik (regeletik) — följ regler/plikter\n2. Konsekvensetik (effektetik) — bedöm konsekvenserna\n3. Sinnelagsetik (avsiktsetik) — bedöm avsikten/motivet' },
+  { q:'Vad är skillnaden mellan sunni- och shiaislam?', a:'Sunni (majoriteten ~85%): Muhammeds efterträdare valdes av gemenskapen.\nShia (~15%): Muhammeds svärson Ali var den rättmätige efterträdaren. Teologiska och praktiska skillnader finns.' },
+  { q:'Vad är de fyra ädla sanningarna inom buddhismen?', a:'1. Livet innebär lidande (dukkha)\n2. Lidandets orsak är begär/åtrå\n3. Lidandet kan upphöra (Nirvana)\n4. Vägen är den åttafaldiga vägen' },
+  { q:'Vad är skillnaden mellan katolicism och protestantism?', a:'Katolicism: Påven är ledare, 7 sakrament, celibat för präster, Maria dyrkas.\nProtestantism (Luther): Ingen påve, 2 sakrament (dop+nattvard), präster får gifta sig, fokus på Bibelns ord.' },
+  { q:'Vad är Torahn?', a:'Judendomens heliga text — de fem Moseböckerna (Genesis, Exodus, Leviticus, Numeri, Deuteronomium). Innehåller Guds lagar och judisk historia.' },
+  { q:'Vad är reinkarnation?', a:'Tron på att själen (eller medvetandet) återföds i ett nytt liv efter döden. Vanligt inom hinduism och buddhism. Ens nästa liv påverkas av karma.' },
+  { q:'Vad är Messias?', a:'Den väntade frälsaren/räddaren. Inom judendom väntas Messias fortfarande. Inom kristendom anses Jesus vara Messias som redan kommit.' },
+  { q:'Vad är Kaba?', a:'Den heliga byggnaden i Mecka som muslimer vänder sig mot under bönen och vallfärdar till under Hajj. Anses vara den första platsen skapad för Guds dyrkan.' },
+  { q:'Vad är Shema Israel?', a:'Judendomens viktigaste bön och trosbekännelse: "Hör, Israel, Herren är vår Gud, Herren är en." (5 Mosebok 6:4)' },
+  { q:'Vad är de tre viktigaste hinduistiska gudarna?', a:'1. Brahma — skaparguden\n2. Vishnu — bevararen (avatarer: Rama, Krishna)\n3. Shiva — förstöraren/förnyelsearen\n(Trimurti = de tre gudinornas enhet)' },
+  { q:'Vad är sekulär humanism?', a:'En icke-religiös livsåskådning som betonar förnuft, vetenskap, mänskliga rättigheter och etik utan övernaturliga förklaringar. Moral grundas på mänsklig erfarenhet, inte gudomliga bud.' },
+  { q:'Vad är Ramadan?', a:'Islams heliga fastande månad — den nionde månaden i den islamska kalendern. Muslimer fastar från gryning till solnedgång. Avslutas med Id al-Fitr.' },
+  { q:'Vad är källkritik?', a:'Metod för att bedöma en källas trovärdighet. Viktiga frågor: Vem är avsändaren? Vad är syftet? När publicerades det? Kan det bekräftas av andra källor?' },
+  { q:'Vad skiljer profeten från Messias?', a:'En profet talar Guds ord och leder folket. Messias är en frälsarfigur som ska rädda folket. Muhammed är en profet. Jesus anses av kristna vara Messias (och Guds son). Judar väntar fortfarande på Messias.' },
+  { q:'Vad är Bar mitzva?', a:'Judisk rite-de-passage när en pojke fyller 13 år och tar på sig religiöst ansvar. Han läser ur Torahn offentligt. Flickors motsvarighet kallas Bat mitzva.' },
+  { q:'Vad är Yom Kippur?', a:'Judendomens heligaste dag — "Försoningsdagen". Man fastar i 25 timmar och ber om förlåtelse för årets synder. Infaller 10 dagar efter Rosch Haschana (judiskt nyår).' },
+  { q:'Vad är Puja?', a:'Hinduistisk gudsdyrkan där man ger offergåvor (mat, blommor, ljus) till gudarnas bilder och ber. Kan ske hemma vid ett altare eller i templet (mandir).' },
+  { q:'Vad är Holi?', a:'Hinduistisk vårfestival där man kastar färgat pulver och vatten på varandra. Firas till minne av guden Krishnas lekfullhet och för att välkomna våren.' },
+  { q:'Vad är Moksha?', a:'Hinduismens mål — befrielse från samsara (återfödelsecykeln). Nås när atman (individens själ) förenas med brahman (det universella/absoluta). Liknar buddhismens Nirvana.' },
+  { q:'Vad är Atman och Brahman?', a:'Atman = den individuella själen inom hinduismen. Brahman = det universella, gudomliga medvetandet eller den absoluta verkligheten. Moksha nås när atman förenas med brahman.' },
+  { q:'Vad är Omskärelse och i vilka religioner förekommer det?', a:'Kirurgiskt ingrepp på pojkars förhud. Förekommer inom judendomen (brit milah på 8:e dagen) och islam (vanligt men tidpunkten varierar). Tecken på förbundet med Gud.' },
+  { q:'Vad är Ahimsa?', a:'Principen om icke-våld inom hinduism, buddhism och jainism. Betyder att inte skada levande varelser. Det är en av anledningarna till att många hinduer och buddhister är vegetarianer.' },
+  { q:'Vad är skillnaden mellan Halal och Kosher?', a:'Halal = islamska matregler (inga grisar, inga alkohol, djur ska slaktas på ett speciellt sätt). Kosher = judiska matregler (inga grisar, inga skaldjur, kött och mejeri inte ihop). Liknar varandra men är inte identiska.' },
+  { q:'Vad är Pliktetik, Konsekvensetik och Sinnelagsetik?', a:'Pliktetik (regeletik): Man ska följa regler/lagar oavsett konsekvenser.\nKonsekvensetik (effektetik): Bedöm handlingens konsekvenser — maximal nytta.\nSinnelagsetik (avsiktsetik): Bedöm personens avsikt/motiv — var meningen god?' },
+  { q:'Vad är Fembönen (Salah) och Fredagsbönen?', a:'Salah = de fem dagliga bönerna som är en av islams fem pelare. Fredagsbönen (Jumu\'ah) är veckans viktigaste bön för muslimer — en gemensam middag-bön på fredag i moskén.' },
+  { q:'Vad är Sabbat?', a:'Judisk vilodag — från fredag kväll till lördag kväll. Man vilar från arbete, tänder Sabbatsljus, äter speciell mat och ber. Grundat i skapelseberättelsen: Gud vilade på 7:e dagen.' },
+];
+
+// ════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════
+let state = {
+  answered: new Set(),
+  correct: new Set(),
+  tfAnswered: {},  // {qId: {itemIdx: 'true'|'false'}}
+  matchChecked: new Set(),
+  fcIdx: 0,
+  fcKnew: new Set(),
+  fcDone: false,
+  fcCards: [...FLASHCARDS].map((_, i) => i),
+};
+
+// ════════════════════════════════════════════
+// RENDER FUNCTIONS
+// ════════════════════════════════════════════
+
+function renderMC() {
+  const cont = document.getElementById('mc-container');
+  let html = '';
+  let yearGroup = '';
+
+  const allQ = [...MC_QUESTIONS];
+
+  allQ.forEach((q, qIdx) => {
+    if (q.year !== yearGroup) {
+      yearGroup = q.year;
+      const label = q.year === '2016' ? '2016/2017 — Delprov A' : '2017 — Delprov B';
+      html += `<div class="year-sep">Prov ${label}</div>`;
+    }
+
+    if (q.tf) {
+      // True/False single statement
+      const done = state.answered.has(q.id);
+      const wasCorrect = state.correct.has(q.id);
+      html += `<div class="qcard${done ? (wasCorrect ? ' correct' : ' wrong') : ''}" id="qcard-${q.id}">
+        <div class="qno"><span class="badge ${q.badge}">${q.topic.toUpperCase()}</span> &nbsp; Uppgift ${qIdx+1}</div>
+        <div class="qtxt">${q.q}</div>
+        <div class="tf-row">
+          <div class="tf-stmt">${q.stmt}</div>
+          <div class="tf-btns">
+            <button class="tf-btn${done&&q.ans===true?(wasCorrect?' correct-ans':' wrong-ans'):''}" 
+              id="${q.id}-true" onclick="answerTF('${q.id}', true, ${q.ans})" ${done?'disabled':''}>SANT</button>
+            <button class="tf-btn${done&&q.ans===false?(wasCorrect?' correct-ans':' wrong-ans'):''}" 
+              id="${q.id}-false" onclick="answerTF('${q.id}', false, ${q.ans})" ${done?'disabled':''}>FALSKT</button>
+          </div>
+        </div>
+        ${done && !wasCorrect ? `<div class="tf-btn reveal-ans" style="display:inline-block;margin-top:8px;cursor:default">${q.ans?'SANT':'FALSKT'} ← Rätt svar</div>` : ''}
+        <div class="reveal${done?' show':''}" id="rev-${q.id}">${q.exp}</div>
+      </div>`;
+    } else {
+      // Multiple choice
+      const done = state.answered.has(q.id);
+      const wasCorrect = state.correct.has(q.id);
+      let optsHtml = q.opts.map((o, i) => {
+        let cls = '';
+        if (done) {
+          if (i === q.ans) cls = 'reveal-ans';
+          // We don't know which the user picked, we track correct/wrong on card
+        }
+        return `<button class="cho ${cls}" onclick="answerMC('${q.id}',${i},${q.ans})" ${done?'disabled':''}>${o}</button>`;
+      }).join('');
+      html += `<div class="qcard${done ? (wasCorrect ? ' correct' : ' wrong') : ''}" id="qcard-${q.id}">
+        <div class="qno"><span class="badge ${q.badge}">${q.topic.toUpperCase()}</span> &nbsp; Uppgift ${qIdx+1}</div>
+        <div class="qtxt">${q.q}</div>
+        <div class="choices">${optsHtml}</div>
+        <div class="reveal${done?' show':''}" id="rev-${q.id}">${q.exp}</div>
+      </div>`;
+    }
+  });
+
+  cont.innerHTML = html;
+  updateMCProgress();
+}
+
+function renderTF() {
+  let html = '';
+  TF_QUESTIONS.forEach((tq, qi) => {
+    html += `<div class="qcard" id="tfcard-${tq.id}">
+      <div class="qno"><span class="badge ${tq.badge}">${tq.topic.toUpperCase()}</span> &nbsp; Uppgift TF${qi+1}</div>
+      <div class="qtxt">${tq.title}</div>
+      ${tq.desc ? `<div class="qsrc">${tq.desc}</div>` : ''}`;
+    tq.items.forEach((item, idx) => {
+      const answered = state.tfAnswered[tq.id]?.[idx] !== undefined;
+      const chosen = state.tfAnswered[tq.id]?.[idx];
+      const correct = answered && (chosen === item.ans);
+      const wrong = answered && !correct;
+      html += `<div class="tf-row" style="border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:10px">
+        <div class="tf-stmt">${item.stmt}</div>
+        <div class="tf-btns">
+          <button class="tf-btn ${answered&&item.ans===true?'reveal-ans':''} ${answered&&chosen===true&&!correct?'wrong-ans':''}"
+            id="tf-${tq.id}-${idx}-true"
+            onclick="answerTFItem('${tq.id}',${idx},true,${item.ans})"
+            ${answered?'disabled':''}>SANT</button>
+          <button class="tf-btn ${answered&&item.ans===false?'reveal-ans':''} ${answered&&chosen===false&&!correct?'wrong-ans':''}"
+            id="tf-${tq.id}-${idx}-false"
+            onclick="answerTFItem('${tq.id}',${idx},false,${item.ans})"
+            ${answered?'disabled':''}>FALSKT</button>
+        </div>
+      </div>
+      <div class="reveal${answered?' show':''}" id="tfrev-${tq.id}-${idx}">${item.exp}</div>`;
+    });
+    html += '</div>';
+  });
+  return html;
+}
+
+function renderMatch() {
+  const cont = document.getElementById('match-container');
+  let html = '';
+  MATCH_QUESTIONS.forEach((mq, qi) => {
+    const done = state.matchChecked.has(mq.id);
+    html += `<div class="qcard${done ? ' answered' : ''}" id="matchcard-${mq.id}">
+      <div class="qno"><span class="badge ${mq.badge}">${mq.topic.toUpperCase()}</span> &nbsp; Para ihop ${qi+1}</div>
+      <div class="qtxt">${mq.title}</div>
+      ${mq.desc ? `<div class="qsrc">${mq.desc}</div>` : ''}
+      <div class="match-grid">`;
+    const answers = [...mq.pairs.map(p => p.ans)].sort(() => Math.random() - 0.5);
+    mq.pairs.forEach((pair, idx) => {
+      const selId = `match-${mq.id}-${idx}`;
+      html += `<div class="match-item">
+        <div class="match-label">${pair.term}</div>
+        <select class="match-sel" id="${selId}" ${done?'disabled':''}>
+          <option value="">– välj –</option>
+          ${answers.map(a => `<option value="${a}" ${done && document.getElementById(selId)?.value === a ? 'selected' : ''}>${a}</option>`).join('')}
+        </select>
+      </div>`;
+    });
+    html += `</div>
+      <button class="chk-btn" onclick="checkMatch('${mq.id}')" ${done?'disabled':''}>Kontrollera</button>
+      <div class="reveal" id="matchrev-${mq.id}"></div>
+    </div>`;
+  });
+  cont.innerHTML = html;
+}
+
+function renderEssay() {
+  const cont = document.getElementById('essay-container');
+  let html = '';
+  ESSAY_QUESTIONS.forEach((eq, qi) => {
+    const hintId = `hints-${eq.id}`;
+    const critId = `crit-${eq.id}`;
+    const areaId = `area-${eq.id}`;
+    const wcId   = `wc-${eq.id}`;
+    html += `<div class="qcard" id="essaycard-${eq.id}">
+      <div class="qno"><span class="badge ${eq.badge}">${eq.topic.toUpperCase()}</span> &nbsp; Resonemang ${qi+1} — ${eq.year}</div>
+      <div class="qtxt" style="font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; margin-bottom:8px;">${eq.title}</div>
+      ${eq.context ? `<div class="qsrc">${eq.context}</div>` : ''}
+      <div class="essay-prompt">${eq.prompt}</div>
+
+      <textarea class="essay-area" id="${areaId}"
+        placeholder="Skriv ditt svar här…"
+        oninput="updateWordCount('${areaId}','${wcId}')"></textarea>
+      <div class="essay-meta">
+        <span>Skriv så utförligt du kan — precis som på det riktiga provet.</span>
+        <span class="word-count" id="${wcId}">0 ord</span>
+      </div>
+
+      <button class="collapsible-btn" id="btn-${hintId}" onclick="toggleCollapsible('${hintId}','btn-${hintId}')">
+        ✦ Tänk på — tips &amp; hjälp <span class="cb-arrow">▼</span>
+      </button>
+      <div class="collapsible-content" id="${hintId}">
+        <div class="collapsible-inner">
+          ${eq.hints.map(h => `<div class="essay-bullet"><span>${h}</span></div>`).join('')}
+          ${eq.example ? `<div class="qsrc" style="margin-top:14px"><strong>Exempel på inledning:</strong><br>${eq.example}</div>` : ''}
+        </div>
+      </div>
+
+      <button class="collapsible-btn" id="btn-${critId}" onclick="toggleCollapsible('${critId}','btn-${critId}')">
+        ✦ Bedömningskriterier (E / C / A) <span class="cb-arrow">▼</span>
+      </button>
+      <div class="collapsible-content" id="${critId}">
+        <div class="collapsible-inner">
+          <div class="criteria-box" style="margin-top:0; border-top:none;">
+            <h4 style="margin-bottom:12px;">Bedömningskriterier</h4>
+            ${eq.criteria.map(c => `<div class="criteria-level">
+              <div class="criteria-lbl">Betyg ${c.lvl}</div>
+              <div class="criteria-txt">${c.txt}</div>
+            </div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  });
+  cont.innerHTML = html;
+}
+
+function toggleCollapsible(contentId, btnId) {
+  const content = document.getElementById(contentId);
+  const btn = document.getElementById(btnId);
+  const isOpen = content.classList.contains('open');
+  content.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+function updateWordCount(areaId, wcId) {
+  const text = document.getElementById(areaId).value.trim();
+  const words = text ? text.split(/\s+/).length : 0;
+  const el = document.getElementById(wcId);
+  el.textContent = words + (words === 1 ? ' ord' : ' ord');
+  el.classList.toggle('has-text', words > 0);
+}
+
+// Append TF to MC section
+function appendTFToMC() {
+  const cont = document.getElementById('mc-container');
+  cont.innerHTML += '<div class="year-sep">Sant eller Falskt</div>' + renderTF();
+}
+
+// ════════════════════════════════════════════
+// ANSWER HANDLERS
+// ════════════════════════════════════════════
+
+function answerMC(id, chosen, correct) {
+  if (state.answered.has(id)) return;
+  state.answered.add(id);
+  const isCorrect = chosen === correct;
+  if (isCorrect) state.correct.add(id);
+
+  const card = document.getElementById('qcard-' + id);
+  card.classList.add('answered', isCorrect ? 'correct' : 'wrong');
+
+  // Disable all buttons, highlight
+  card.querySelectorAll('.cho').forEach((btn, i) => {
+    btn.disabled = true;
+    if (i === correct) btn.classList.add('reveal-ans');
+    if (i === chosen && !isCorrect) btn.classList.add('wrong-ans');
+  });
+
+  document.getElementById('rev-' + id).classList.add('show');
+  updateStats();
+  updateMCProgress();
+}
+
+function answerTF(id, chosen, correct) {
+  if (state.answered.has(id)) return;
+  state.answered.add(id);
+  const isCorrect = chosen === correct;
+  if (isCorrect) state.correct.add(id);
+
+  const card = document.getElementById('qcard-' + id);
+  card.classList.add('answered', isCorrect ? 'correct' : 'wrong');
+  card.querySelectorAll('.tf-btn').forEach(btn => btn.disabled = true);
+
+  const t = document.getElementById(id + '-true');
+  const f = document.getElementById(id + '-false');
+  if (correct) t.classList.add('correct-ans'); else f.classList.add('correct-ans');
+  if (!isCorrect) { if (chosen) t.classList.add('wrong-ans'); else f.classList.add('wrong-ans'); }
+
+  document.getElementById('rev-' + id).classList.add('show');
+  updateStats();
+}
+
+function answerTFItem(qid, idx, chosen, correct) {
+  if (!state.tfAnswered[qid]) state.tfAnswered[qid] = {};
+  if (state.tfAnswered[qid][idx] !== undefined) return;
+  state.tfAnswered[qid][idx] = chosen;
+
+  const isCorrect = chosen === correct;
+  const tBtn = document.getElementById(`tf-${qid}-${idx}-true`);
+  const fBtn = document.getElementById(`tf-${qid}-${idx}-false`);
+  tBtn.disabled = true; fBtn.disabled = true;
+  if (correct) tBtn.classList.add('reveal-ans'); else fBtn.classList.add('reveal-ans');
+  if (!isCorrect) { if (chosen) tBtn.classList.add('wrong-ans'); else fBtn.classList.add('wrong-ans'); }
+  document.getElementById(`tfrev-${qid}-${idx}`).classList.add('show');
+}
+
+function checkMatch(id) {
+  const mq = MATCH_QUESTIONS.find(m => m.id === id);
+  state.matchChecked.add(id);
+  let allOk = true;
+  let resultHtml = '<strong>Facit:</strong><br>';
+
+  mq.pairs.forEach((pair, idx) => {
+    const sel = document.getElementById(`match-${id}-${idx}`);
+    sel.disabled = true;
+    const val = sel.value;
+    const ok = val === pair.ans;
+    if (!ok) allOk = false;
+    sel.classList.add(ok ? 'match-correct' : 'match-wrong');
+    resultHtml += `<div style="margin:4px 0; font-size:13px; color:${ok?'var(--green)':'var(--red)'}">
+      ${ok ? '✓' : '✗'} ${pair.term.substring(0,40)}... → <strong>${pair.ans}</strong></div>`;
+  });
+
+  const card = document.getElementById('matchcard-' + id);
+  card.classList.add('answered', allOk ? 'correct' : 'wrong');
+
+  const rev = document.getElementById('matchrev-' + id);
+  rev.innerHTML = resultHtml;
+  rev.classList.add('show');
+
+  document.querySelector(`#matchcard-${id} .chk-btn`).disabled = true;
+}
+
+// ════════════════════════════════════════════
+// FLASHCARDS
+// ════════════════════════════════════════════
+
+function initFlash() {
+  state.fcCards = [...Array(FLASHCARDS.length).keys()];
+  shuffle(state.fcCards);
+  state.fcIdx = 0;
+  state.fcKnew = new Set();
+  state.fcDone = false;
+  updateFlashCard();
+}
+
+function updateFlashCard() {
+  const total = state.fcCards.length;
+  const idx = state.fcIdx;
+  const card = document.getElementById('fc-card');
+  const nav = document.getElementById('fc-nav');
+  const done = document.getElementById('fc-done');
+
+  if (idx >= total) {
+    card.style.display = 'none';
+    nav.style.display = 'none';
+    done.style.display = 'block';
+    document.getElementById('fc-score').textContent = state.fcKnew.size;
+    document.getElementById('fc-total2').textContent = total;
+    return;
+  }
+
+  card.style.display = 'block';
+  nav.style.display = 'flex';
+  done.style.display = 'none';
+  card.classList.remove('flipped');
+
+  const fc = FLASHCARDS[state.fcCards[idx]];
+  document.getElementById('fc-q').textContent = fc.q;
+  document.getElementById('fc-a').textContent = fc.a;
+  document.getElementById('fc-idx').textContent = idx + 1;
+  document.getElementById('fc-total').textContent = total;
+  document.getElementById('fc-left').textContent = total - idx;
+  document.getElementById('fc-total-lbl').textContent = total;
+  document.getElementById('fc-progress').style.width = ((idx / total) * 100) + '%';
+}
+
+function flipCard() {
+  document.getElementById('fc-card').classList.toggle('flipped');
+}
+
+function fcAnswer(knew) {
+  if (knew) state.fcKnew.add(state.fcIdx);
+  state.fcIdx++;
+  updateFlashCard();
+}
+
+function resetFlash() {
+  initFlash();
+}
+
+// ════════════════════════════════════════════
+// STATS / PROGRESS
+// ════════════════════════════════════════════
+
+function updateStats() {
+  const total = MC_QUESTIONS.length;
+  const answered = state.answered.size;
+  const correct = state.correct.size;
+  const pct = answered > 0 ? Math.round((correct / answered) * 100) : null;
+
+  document.getElementById('hdr-answered').textContent = answered;
+  document.getElementById('hdr-correct').textContent = correct;
+  document.getElementById('hdr-pct').textContent = pct !== null ? pct + '%' : '–';
+
+  // Update results tab
+  document.getElementById('res-pct').textContent = pct !== null ? pct : '–';
+  document.getElementById('res-of').textContent = pct !== null ? '%' : '';
+  document.getElementById('res-detail').textContent = `${correct} rätt av ${answered} besvarade (${total} totalt)`;
+
+  let msg = '–';
+  if (pct !== null) {
+    if (pct >= 85) msg = 'Utmärkt! Du behärskar ämnet riktigt bra! 🌟';
+    else if (pct >= 65) msg = 'Bra jobbat! Fortsätt öva på det du missar. 📚';
+    else if (pct >= 45) msg = 'Hygglig start! Det finns mer att lära sig. 💪';
+    else msg = 'Fortsätt träna — det händer mycket! 🔄';
+  }
+  document.getElementById('res-msg').textContent = msg;
+}
+
+function updateMCProgress() {
+  const total = MC_QUESTIONS.length;
+  const answered = state.answered.size;
+  document.getElementById('mc-progress').style.width = ((answered / total) * 100) + '%';
+}
+
+// ════════════════════════════════════════════
+// NAVIGATION
+// ════════════════════════════════════════════
+
+function showTab(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleTheme() {
+  document.documentElement.classList.toggle('light');
+  const btn = document.querySelector('.theme-toggle');
+  btn.textContent = document.documentElement.classList.contains('light') ? '🌙' : '🕯️';
+}
+
+function resetAll() {
+  state.answered = new Set();
+  state.correct = new Set();
+  state.tfAnswered = {};
+  state.matchChecked = new Set();
+  renderMC();
+  appendTFToMC();
+  renderMatch();
+  updateStats();
+  updateMCProgress();
+  showTab('mc');
+  document.querySelectorAll('.tab')[0].click();
+}
+
+// ════════════════════════════════════════════
+// UTILS
+// ════════════════════════════════════════════
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════
+
+document.getElementById('hdr-total').textContent = MC_QUESTIONS.length + TF_QUESTIONS.reduce((sum, tq) => sum + tq.items.length, 0);
+renderMC();
+appendTFToMC();
+renderMatch();
+renderEssay();
+initFlash();
+updateStats();
+</script>
+</body>
+</html>
