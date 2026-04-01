@@ -536,7 +536,31 @@ function copyAll() {
   });
   const ref = document.getElementById('reflectionText').value.trim();
   out += `${'─'.repeat(50)}\nEgen reflektion:\n${ref || '(inget svar)'}`;
-  navigator.clipboard.writeText(out).then(() => showToast('✓ Alla svar kopierade!'));
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(out)
+      .then(() => showToast('✓ Alla svar kopierade!'))
+      .catch(() => fallbackCopy(out));
+  } else {
+    fallbackCopy(out);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.focus();
+  ta.select();
+  try {
+    document.execCommand('copy');
+    showToast('✓ Alla svar kopierade!');
+  } catch {
+    showToast('Kunde inte kopiera – prova att skriva ut istället.');
+  }
+  document.body.removeChild(ta);
 }
 
 function showToast(msg) {
