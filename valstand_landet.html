@@ -572,7 +572,30 @@
     padding: 6px 14px;
     color: var(--muted);
     white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s;
+    user-select: none;
   }
+  .example-chip:hover { border-color: var(--accent); color: var(--accent); }
+  .example-chip.active { background: rgba(200,245,90,0.08); border-color: var(--accent); color: var(--accent); }
+
+  .chip-popup {
+    position: fixed;
+    z-index: 9999;
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 14px 18px;
+    max-width: 260px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.18s, transform 0.18s;
+  }
+  .chip-popup.visible { opacity: 1; transform: translateY(0); }
+  .chip-popup-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 5px; }
+  .chip-popup-desc { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text); line-height: 1.6; }
 
   /* HELPER */
   .info-box {
@@ -601,6 +624,7 @@
 </style>
 </head>
 <body>
+<div class="chip-popup" id="chip-popup"><div class="chip-popup-title" id="chip-popup-title"></div><div class="chip-popup-desc" id="chip-popup-desc"></div></div>
 
 <header>
   <div class="header-left">
@@ -680,24 +704,24 @@
     <div class="card" style="margin-bottom:24px;">
       <div class="card-label">Exempel på mätpunkter — välj egna, låt er inspireras</div>
       <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
-        <span class="example-chip">Medellivslängd</span>
-        <span class="example-chip">Tillgång till sjukvård</span>
-        <span class="example-chip">Utbildningsnivå</span>
-        <span class="example-chip">Inkomstskillnader</span>
-        <span class="example-chip">Arbetslöshet</span>
-        <span class="example-chip">Luftkvalitet</span>
-        <span class="example-chip">Tillgång till rent vatten</span>
-        <span class="example-chip">Brottslighet</span>
-        <span class="example-chip">Pressfrihhet</span>
-        <span class="example-chip">Lycka &amp; välmående</span>
-        <span class="example-chip">Tillgång till internet</span>
-        <span class="example-chip">Kulturell mångfald</span>
-        <span class="example-chip">Jämställdhet</span>
-        <span class="example-chip">Tillgång till natur</span>
-        <span class="example-chip">Valdeltagande</span>
-        <span class="example-chip">Barnfattigdom</span>
-        <span class="example-chip">Koldioxidutsläpp</span>
-        <span class="example-chip">Socialt förtroende</span>
+        <span class="example-chip" data-desc="Hur länge lever människor i genomsnitt? Speglar sjukvård, kost och levnadsvillkor.">Medellivslängd</span>
+        <span class="example-chip" data-desc="Har alla råd att gå till läkaren? Mäter om sjukvård är tillgänglig för alla — inte bara de rika.">Tillgång till sjukvård</span>
+        <span class="example-chip" data-desc="Hur många går i skolan och hur länge? Hög utbildning brukar leda till bättre jobb och ett starkare samhälle.">Utbildningsnivå</span>
+        <span class="example-chip" data-desc="Hur stor är skillnaden mellan rika och fattiga? Stora klyftor kan skapa oro och orättvisor i samhället.">Inkomstskillnader</span>
+        <span class="example-chip" data-desc="Hur stor andel av befolkningen saknar jobb? Hög arbetslöshet påverkar både ekonomi och välmående.">Arbetslöshet</span>
+        <span class="example-chip" data-desc="Hur ren är luften att andas? Dålig luftkvalitet orsakar sjukdomar och försämrar livskvaliteten.">Luftkvalitet</span>
+        <span class="example-chip" data-desc="Har alla tillgång till dricksvatten? Rent vatten är ett grundläggande mänskligt behov.">Tillgång till rent vatten</span>
+        <span class="example-chip" data-desc="Hur säkert är det att leva i landet? Hög brottslighet påverkar trygghet och livskvalitet negativt.">Brottslighet</span>
+        <span class="example-chip" data-desc="Får journalister rapportera fritt? Pressfrihet är ett tecken på ett öppet och demokratiskt samhälle.">Pressfrihet</span>
+        <span class="example-chip" data-desc="Mår folk bra och känner sig lyckliga? Kan mätas genom enkäter om hur nöjda invånarna är med sina liv.">Lycka &amp; välmående</span>
+        <span class="example-chip" data-desc="Kan alla koppla upp sig mot internet? Viktigt för utbildning, arbete och delaktighet i samhället.">Tillgång till internet</span>
+        <span class="example-chip" data-desc="Finns det plats för olika kulturer, språk och traditioner? Mångfald kan stärka kreativitet och sammanhållning.">Kulturell mångfald</span>
+        <span class="example-chip" data-desc="Har män och kvinnor samma rättigheter och möjligheter? Länder med hög jämställdhet mår oftast bättre generellt.">Jämställdhet</span>
+        <span class="example-chip" data-desc="Finns det skog, parker och grönområden? Natur är viktigt för hälsa, biologisk mångfald och välmående.">Tillgång till natur</span>
+        <span class="example-chip" data-desc="Hur många röstar i val? Högt valdeltagande tyder på ett engagerat och fungerande demokratiskt samhälle.">Valdeltagande</span>
+        <span class="example-chip" data-desc="Hur många barn lever i fattigdom? Barnfattigdom påverkar hälsa, utbildning och framtidsutsikter.">Barnfattigdom</span>
+        <span class="example-chip" data-desc="Hur mycket växthusgaser släpper landet ut? Höga utsläpp skadar klimatet och framtida generationer.">Koldioxidutsläpp</span>
+        <span class="example-chip" data-desc="Litar folk på varandra och på samhällets institutioner? Högt förtroende gör att samhället fungerar bättre.">Socialt förtroende</span>
       </div>
     </div>
 
@@ -1005,6 +1029,41 @@ Motivering: ${finalAns}`;
     selectedSystem = '';
     goToPhase(1);
   }
+
+  // CHIP POPUPS
+  document.addEventListener('DOMContentLoaded', function() {
+    const popup = document.getElementById('chip-popup');
+    const popupTitle = document.getElementById('chip-popup-title');
+    const popupDesc = document.getElementById('chip-popup-desc');
+    let activeChip = null;
+
+    document.addEventListener('click', function(e) {
+      const chip = e.target.closest('.example-chip');
+      if (chip) {
+        if (activeChip === chip) {
+          chip.classList.remove('active');
+          popup.classList.remove('visible');
+          activeChip = null;
+          return;
+        }
+        if (activeChip) activeChip.classList.remove('active');
+        activeChip = chip;
+        chip.classList.add('active');
+        popupTitle.textContent = chip.textContent.trim();
+        popupDesc.textContent = chip.dataset.desc;
+        const rect = chip.getBoundingClientRect();
+        popup.style.left = Math.min(rect.left, window.innerWidth - 280) + 'px';
+        popup.style.top = (rect.bottom + 8) + 'px';
+        popup.classList.add('visible');
+      } else if (popup && !popup.contains(e.target)) {
+        if (activeChip) activeChip.classList.remove('active');
+        activeChip = null;
+        popup.classList.remove('visible');
+      }
+    });
+  });
+
 </script>
+
 </body>
 </html>
