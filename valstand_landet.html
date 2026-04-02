@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Välståndsrapporten</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0e;
+    --surface: #161616;
+    --surface2: #1f1f1f;
+    --border: #2a2a2a;
+    --accent: #c8f55a;
+    --accent2: #5af5c8;
+    --accent3: #f55a8c;
+    --text: #f0ede6;
+    --muted: #888;
+    --radius: 12px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Instrument Serif', serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NOISE TEXTURE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* HEADER */
+  header {
+    padding: 48px 40px 32px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .header-left {}
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(200, 245, 90, 0.08);
+    border: 1px solid rgba(200, 245, 90, 0.2);
+    padding: 4px 12px;
+    border-radius: 99px;
+    display: inline-block;
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+  }
+
+  h1 span {
+    color: var(--accent);
+    font-style: italic;
+    font-family: 'Instrument Serif', serif;
+  }
+
+  .subtitle {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 420px;
+    line-height: 1.5;
+  }
+
+  .progress-tracker {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .phase-indicators {
+    display: flex;
+    gap: 6px;
+  }
+
+  .phase-dot {
+    width: 32px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--border);
+    transition: background 0.4s;
+    cursor: pointer;
+  }
+
+  .phase-dot.active { background: var(--accent); }
+  .phase-dot.done { background: rgba(200,245,90,0.4); }
+
+  .phase-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* MAIN */
+  main {
+    padding: 0 40px 80px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  /* PHASE PANELS */
+  .phase {
+    display: none;
+    animation: fadeUp 0.5s ease both;
+  }
+  .phase.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .phase-header {
+    padding: 48px 0 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .phase-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 80px;
+    font-weight: 800;
+    color: var(--border);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    min-width: 90px;
+  }
+
+  .phase-title-block {}
+  .phase-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .phase-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+    margin-bottom: 16px;
+  }
+
+  .card-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .card h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .card p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* INPUTS */
+  input[type="text"], textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text);
+    font-family: 'Instrument Serif', serif;
+    font-size: 16px;
+    padding: 14px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    resize: vertical;
+    margin-top: 8px;
+  }
+
+  input[type="text"]:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+
+  input[type="text"]::placeholder, textarea::placeholder {
+    color: #444;
+  }
+
+  /* GRID */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* MEASUREMENT SLOTS */
+  .measurements-grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .measure-slot {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0 16px;
+    align-items: start;
+    transition: border-color 0.2s;
+  }
+
+  .measure-slot:focus-within {
+    border-color: var(--accent);
+  }
+
+  .measure-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    color: var(--border);
+    line-height: 1;
+    padding-top: 8px;
+    transition: color 0.3s;
+  }
+
+  .measure-slot:focus-within .measure-num {
+    color: var(--accent);
+  }
+
+  .measure-fields { display: flex; flex-direction: column; gap: 8px; }
+
+  .measure-fields input {
+    margin-top: 0;
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+
+  .measure-why {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #444;
+    margin-bottom: 2px;
+  }
+
+  /* PHASE 4 */
+  .system-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .system-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+
+  .system-card:hover { border-color: #444; }
+
+  .system-card.selected {
+    border-color: var(--accent);
+    background: rgba(200,245,90,0.05);
+  }
+
+  .system-card .system-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+
+  .system-card .system-full {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    line-height: 1.4;
+  }
+
+  .system-card .check {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    transition: all 0.2s;
+  }
+
+  .system-card.selected .check {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #000;
+  }
+
+  /* FINAL ANSWER */
+  .final-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 32px;
+  }
+
+  .final-question {
+    font-family: 'Syne', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .final-sub {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  /* NAVIGATION */
+  .nav-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 0 0;
+    gap: 16px;
+  }
+
+  .btn {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+    padding: 14px 28px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #000;
+  }
+  .btn-primary:hover { background: #d4ff66; transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { color: var(--text); border-color: #444; }
+
+  .btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  /* SUMMARY SCREEN */
+  #summary {
+    display: none;
+    animation: fadeUp 0.5s ease both;
+  }
+
+  .summary-header {
+    padding: 48px 0 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+
+  .summary-header h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .summary-header h2 span { color: var(--accent); }
+
+  .summary-section {
+    margin-bottom: 32px;
+  }
+
+  .summary-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .summary-country-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .summary-facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .fact-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .fact-chip .fc-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4px;
+  }
+
+  .fact-chip .fc-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .measure-summary-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .measure-summary-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px 20px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .msn {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    color: var(--accent);
+    min-width: 30px;
+    line-height: 1;
+    padding-top: 2px;
+  }
+
+  .ms-content .ms-what {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+
+  .ms-content .ms-why {
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .system-selected-display {
+    background: rgba(200,245,90,0.06);
+    border: 1px solid rgba(200,245,90,0.2);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 12px;
+  }
+
+  .ssd-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 24px;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .ssd-reason {
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* COPY BTN */
+  .copy-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+
+  .btn-copy {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-copy:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  .btn-mail {
+    background: var(--surface2);
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  .btn-mail:hover { border-color: var(--accent); color: var(--accent); }
+
+  .example-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 6px 14px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* HELPER */
+  .info-box {
+    background: rgba(90, 245, 200, 0.05);
+    border: 1px solid rgba(90, 245, 200, 0.15);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    font-size: 14px;
+    color: var(--accent2);
+    line-height: 1.6;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 32px 0;
+  }
+
+  @media (max-width: 600px) {
+    header, main { padding-left: 20px; padding-right: 20px; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .summary-facts { grid-template-columns: 1fr 1fr; }
+    .system-cards { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="tag">Samhällskunskap · Välstånd</div>
+    <h1>Välstånds<br><span>rapporten</span></h1>
+    <p class="subtitle">Designa ett land. Bestäm vad som mäts. Försvara era val.</p>
+  </div>
+  <div class="progress-tracker">
+    <div class="phase-indicators">
+      <div class="phase-dot active" id="dot-1" onclick="goToPhase(1)"></div>
+      <div class="phase-dot" id="dot-2" onclick="goToPhase(2)"></div>
+      <div class="phase-dot" id="dot-3" onclick="goToPhase(3)"></div>
+    </div>
+    <div class="phase-label" id="phase-label">FAS 1 AV 3</div>
+  </div>
+</header>
+
+<main>
+
+  <!-- FAS 1 -->
+  <div class="phase active" id="phase-1">
+    <div class="phase-header">
+      <div class="phase-number">01</div>
+      <div class="phase-title-block">
+        <div class="phase-name">Fas ett</div>
+        <div class="phase-title">Bygg ert land</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      ✦ Välj ett namn, bestäm vad landet är känt för och vad invånarna är stolta över. Det tar max 10 minuter — men gör det ordentligt, ni ska leva med det här landet ett tag.
+    </div>
+
+    <div class="card">
+      <div class="card-label">Landets namn</div>
+      <input type="text" id="country-name" placeholder="Vad heter ert land?" maxlength="60">
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-label">Känt för</div>
+        <p>Vad utmärker landet? (natur, industri, kultur, sport…)</p>
+        <textarea id="country-known" rows="3" placeholder="T.ex. enorma skogar och fiskeindustri…"></textarea>
+      </div>
+      <div class="card">
+        <div class="card-label">Största problem</div>
+        <p>Vad kämpar landet med just nu?</p>
+        <textarea id="country-problem" rows="3" placeholder="T.ex. hög arbetslöshet bland unga…"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-label">Invånarna är mest stolta över</div>
+      <textarea id="country-proud" rows="2" placeholder="T.ex. en stark skolsystem och att alla har tillgång till sjukvård…"></textarea>
+    </div>
+
+    <div class="nav-row">
+      <div></div>
+      <button class="btn btn-primary" onclick="goToPhase(2)">Nästa: Välj mätpunkter →</button>
+    </div>
+  </div>
+
+  <!-- FAS 2 -->
+  <div class="phase" id="phase-2">
+    <div class="phase-header">
+      <div class="phase-number">02</div>
+      <div class="phase-title-block">
+        <div class="phase-name">Fas två</div>
+        <div class="phase-title">Välj era 5 mätpunkter</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      ✦ Ni får välja <strong>exakt 5 saker</strong> att mäta för att avgöra om ert land är bra att leva i. Skriv vad ni mäter och <em>varför</em> just det spelar roll. Begränsningen är poängen — diskutera och prioritera.
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-label">Exempel på mätpunkter — välj egna, låt er inspireras</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+        <span class="example-chip">Medellivslängd</span>
+        <span class="example-chip">Tillgång till sjukvård</span>
+        <span class="example-chip">Utbildningsnivå</span>
+        <span class="example-chip">Inkomstskillnader</span>
+        <span class="example-chip">Arbetslöshet</span>
+        <span class="example-chip">Luftkvalitet</span>
+        <span class="example-chip">Tillgång till rent vatten</span>
+        <span class="example-chip">Brottslighet</span>
+        <span class="example-chip">Pressfrihhet</span>
+        <span class="example-chip">Lycka &amp; välmående</span>
+        <span class="example-chip">Tillgång till internet</span>
+        <span class="example-chip">Kulturell mångfald</span>
+        <span class="example-chip">Jämställdhet</span>
+        <span class="example-chip">Tillgång till natur</span>
+        <span class="example-chip">Valdeltagande</span>
+        <span class="example-chip">Barnfattigdom</span>
+        <span class="example-chip">Koldioxidutsläpp</span>
+        <span class="example-chip">Socialt förtroende</span>
+      </div>
+    </div>
+
+    <div class="measurements-grid" id="measurements-grid">
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goToPhase(1)">← Tillbaka</button>
+      <div style="display:flex;gap:12px;">
+        <button class="btn btn-copy" id="copy-btn-p2" onclick="copyMeasures()">📋 Kopiera mätpunkter</button>
+        <button class="btn btn-primary" onclick="goToPhase(3)">Nästa: Koppla till verkligheten →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAS 3 -->
+  <div class="phase" id="phase-3">
+    <div class="phase-header">
+      <div class="phase-number">03</div>
+      <div class="phase-title-block">
+        <div class="phase-name">Fas tre</div>
+        <div class="phase-title">Koppla till verkligheten</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      ✦ Titta på era mätpunkter igen. Vilket av dessa riktiga system liknar ert mest? Tänk på vad varje system faktiskt mäter.
+    </div>
+
+    <div class="card" style="margin-bottom:24px;">
+      <div class="card-label">De fyra systemen</div>
+
+      <div style="display:grid;gap:10px;margin-top:4px;">
+        <div style="padding:14px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);">
+          <strong style="font-family:'Syne',sans-serif;">BNP per capita</strong>
+          <span style="color:var(--muted);font-size:13px;margin-left:8px;">Bruttonationalprodukt per person</span>
+          <p style="color:var(--muted);font-size:13px;margin-top:4px;">Mäter ekonomisk produktion i kronor och ören. Säger inget om hur pengarna fördelas.</p>
+        </div>
+        <div style="padding:14px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);">
+          <strong style="font-family:'Syne',sans-serif;">HDI</strong>
+          <span style="color:var(--muted);font-size:13px;margin-left:8px;">Human Development Index</span>
+          <p style="color:var(--muted);font-size:13px;margin-top:4px;">Kombinerar BNP per capita, förväntad livslängd och utbildningsnivå.</p>
+        </div>
+        <div style="padding:14px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);">
+          <strong style="font-family:'Syne',sans-serif;">LSF</strong>
+          <span style="color:var(--muted);font-size:13px;margin-left:8px;">Living Standards Framework · Nya Zeeland</span>
+          <p style="color:var(--muted);font-size:13px;margin-top:4px;">Mäter socialt, mänskligt, naturligt och finansiellt kapital — en bredare bild av välmående.</p>
+        </div>
+        <div style="padding:14px 16px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);">
+          <strong style="font-family:'Syne',sans-serif;">GNH</strong>
+          <span style="color:var(--muted);font-size:13px;margin-left:8px;">Gross National Happiness · Bhutan</span>
+          <p style="color:var(--muted);font-size:13px;margin-top:4px;">Mäter lycka och välmående: levnadsstandard, hälsa, utbildning och kulturell mångfald.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-label">Välj det system som liknar ert mest</div>
+      <div class="system-cards" id="system-cards">
+        <div class="system-card" data-sys="BNP" onclick="selectSystem(this)">
+          <div class="check">✓</div>
+          <div class="system-name">BNP</div>
+          <div class="system-full">per capita</div>
+        </div>
+        <div class="system-card" data-sys="HDI" onclick="selectSystem(this)">
+          <div class="check">✓</div>
+          <div class="system-name">HDI</div>
+          <div class="system-full">Human Development Index</div>
+        </div>
+        <div class="system-card" data-sys="LSF" onclick="selectSystem(this)">
+          <div class="check">✓</div>
+          <div class="system-name">LSF</div>
+          <div class="system-full">Living Standards Framework</div>
+        </div>
+        <div class="system-card" data-sys="GNH" onclick="selectSystem(this)">
+          <div class="check">✓</div>
+          <div class="system-name">GNH</div>
+          <div class="system-full">Gross National Happiness</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="final-box">
+      <div class="final-question">Motivera ert val</div>
+      <div class="final-sub">Vilket av de verkliga mätsystemen passar bäst för ert land — och varför? Vad fångade ni upp som inget riktigt system mäter? Vad missade ni?</div>
+      <textarea id="final-answer" rows="5" placeholder="Skriv er motivering här…"></textarea>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goToPhase(2)">← Tillbaka</button>
+      <button class="btn btn-primary" onclick="showSummary()">Se er rapport →</button>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <div id="summary">
+    <div class="summary-header">
+      <div class="tag">Välståndsrapport</div>
+      <h2>Landet <span id="sum-country-name">–</span></h2>
+    </div>
+
+    <div class="summary-section">
+      <div class="summary-label">Landets profil</div>
+      <div class="summary-facts" id="sum-facts"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="summary-section">
+      <div class="summary-label">Era 5 mätpunkter</div>
+      <div class="measure-summary-list" id="sum-measures"></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="summary-section">
+      <div class="summary-label">Koppling till verkligheten</div>
+      <div class="system-selected-display">
+        <div class="ssd-name" id="sum-system">–</div>
+        <div class="ssd-reason" id="sum-reason">–</div>
+      </div>
+    </div>
+
+    <div class="copy-row">
+      <button class="btn btn-copy" onclick="copyReport()">📋 Kopiera rapport</button>
+      <button class="btn btn-mail" onclick="mailReport()">✉ Skicka till läraren</button>
+      <button class="btn btn-secondary" onclick="resetAll()">Börja om</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  let currentPhase = 1;
+  let selectedSystem = '';
+
+  // Build measurement slots
+  function buildMeasurements() {
+    const grid = document.getElementById('measurements-grid');
+    grid.innerHTML = '';
+    for (let i = 1; i <= 5; i++) {
+      grid.innerHTML += `
+        <div class="measure-slot">
+          <div class="measure-num">${i}</div>
+          <div class="measure-fields">
+            <input type="text" id="m${i}-what" placeholder="Vad mäter ni?" maxlength="80">
+            <div class="measure-why">Varför är detta viktigt?</div>
+            <input type="text" id="m${i}-why" placeholder="Motivering…" maxlength="120">
+          </div>
+        </div>`;
+    }
+  }
+  buildMeasurements();
+
+  function goToPhase(n) {
+    document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+    document.getElementById('summary').style.display = 'none';
+    document.getElementById(`phase-${n}`).classList.add('active');
+    currentPhase = n;
+    updateDots();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateDots() {
+    for (let i = 1; i <= 3; i++) {
+      const dot = document.getElementById(`dot-${i}`);
+      dot.classList.remove('active', 'done');
+      if (i === currentPhase) dot.classList.add('active');
+      else if (i < currentPhase) dot.classList.add('done');
+    }
+    document.getElementById('phase-label').textContent = `FAS ${currentPhase} AV 3`;
+  }
+
+  function selectSystem(el) {
+    document.querySelectorAll('.system-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedSystem = el.dataset.sys;
+  }
+
+  function showSummary() {
+    const name = document.getElementById('country-name').value || 'Namnlöst land';
+    const known = document.getElementById('country-known').value || '–';
+    const problem = document.getElementById('country-problem').value || '–';
+    const proud = document.getElementById('country-proud').value || '–';
+    const finalAns = document.getElementById('final-answer').value || '–';
+
+    document.getElementById('sum-country-name').textContent = name;
+
+    document.getElementById('sum-facts').innerHTML = `
+      <div class="fact-chip"><div class="fc-label">Känt för</div><div class="fc-val">${known}</div></div>
+      <div class="fact-chip"><div class="fc-label">Största problem</div><div class="fc-val">${problem}</div></div>
+      <div class="fact-chip"><div class="fc-label">Stolt över</div><div class="fc-val">${proud}</div></div>`;
+
+    let measuresHtml = '';
+    for (let i = 1; i <= 5; i++) {
+      const what = document.getElementById(`m${i}-what`).value;
+      const why = document.getElementById(`m${i}-why`).value;
+      if (what) {
+        measuresHtml += `
+          <div class="measure-summary-item">
+            <div class="msn">${i}</div>
+            <div class="ms-content">
+              <div class="ms-what">${what}</div>
+              ${why ? `<div class="ms-why">${why}</div>` : ''}
+            </div>
+          </div>`;
+      }
+    }
+    document.getElementById('sum-measures').innerHTML = measuresHtml || '<p style="color:var(--muted)">Inga mätpunkter ifyllda.</p>';
+
+    document.getElementById('sum-system').textContent = selectedSystem || 'Inget valt';
+    document.getElementById('sum-reason').textContent = finalAns;
+
+    document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+    const summary = document.getElementById('summary');
+    summary.style.display = 'block';
+    summary.style.animation = 'none';
+    summary.offsetHeight;
+    summary.style.animation = '';
+
+    // update dots
+    for (let i = 1; i <= 3; i++) {
+      const dot = document.getElementById(`dot-${i}`);
+      dot.classList.remove('active','done');
+      dot.classList.add('done');
+    }
+    document.getElementById('phase-label').textContent = 'RAPPORT KLAR';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function buildReportText() {
+    const name = document.getElementById('country-name').value || 'Namnlöst land';
+    const known = document.getElementById('country-known').value || '–';
+    const problem = document.getElementById('country-problem').value || '–';
+    const proud = document.getElementById('country-proud').value || '–';
+    const finalAns = document.getElementById('final-answer').value || '–';
+
+    let measures = '';
+    for (let i = 1; i <= 5; i++) {
+      const what = document.getElementById(`m${i}-what`).value;
+      const why = document.getElementById(`m${i}-why`).value;
+      if (what) measures += `\n  ${i}. ${what}${why ? ' — ' + why : ''}`;
+    }
+
+    return `VÄLSTÅNDSRAPPORT: ${name}
+==============================
+Känt för: ${known}
+Största problem: ${problem}
+Stolt över: ${proud}
+
+MÄTPUNKTER:${measures}
+
+KOPPLING TILL VERKLIGHETEN:
+Liknar mest: ${selectedSystem || 'Inget valt'}
+Motivering: ${finalAns}`;
+  }
+
+  function copyToClipboard(text, btn, label) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta);
+    if (btn) { btn.textContent = '✓ Kopierat!'; setTimeout(() => btn.textContent = label, 2000); }
+  }
+
+  function copyMeasures() {
+    const name = document.getElementById('country-name').value || 'Namnlöst land';
+    let text = `MÄTPUNKTER — ${name}\n${'='.repeat(30)}`;
+    for (let i = 1; i <= 5; i++) {
+      const what = document.getElementById(`m${i}-what`).value;
+      const why = document.getElementById(`m${i}-why`).value;
+      if (what) text += `\n${i}. ${what}${why ? '\n   → ' + why : ''}`;
+    }
+    copyToClipboard(text, document.getElementById('copy-btn-p2'), '📋 Kopiera mätpunkter');
+  }
+
+  function copyReport() {
+    const btn = document.querySelector('.btn-copy');
+    copyToClipboard(buildReportText(), btn, '📋 Kopiera rapport');
+  }
+
+  function mailReport() {
+    const subject = encodeURIComponent('Välståndsrapport: ' + (document.getElementById('country-name').value || 'Namnlöst land'));
+    const body = encodeURIComponent(buildReportText());
+    window.location.href = `mailto:petrus.soportalen@gmail.com?subject=${subject}&body=${body}`;
+  }
+
+  function resetAll() {
+    if (!confirm('Är ni säkra? All data raderas.')) return;
+    document.getElementById('country-name').value = '';
+    document.getElementById('country-known').value = '';
+    document.getElementById('country-problem').value = '';
+    document.getElementById('country-proud').value = '';
+    document.getElementById('final-answer').value = '';
+    for (let i = 1; i <= 5; i++) {
+      document.getElementById(`m${i}-what`).value = '';
+      document.getElementById(`m${i}-why`).value = '';
+    }
+    document.querySelectorAll('.system-card').forEach(c => c.classList.remove('selected'));
+    selectedSystem = '';
+    goToPhase(1);
+  }
+</script>
+</body>
+</html>
